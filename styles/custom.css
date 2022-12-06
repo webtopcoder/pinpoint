@@ -1,0 +1,130 @@
+.login-form {
+    padding: 40px;
+    background: #2F2F2F;
+    border-radius: 20px;
+}
+
+.login-form form button {
+    background-color: var(--blueColor);
+}
+
+.logo-center {
+    text-align: center;
+}
+
+.authen-text-attr {
+    color: var(--whiteColor);
+}
+
+.login-form form .remember-me-wrap .form-check {
+    color: var(--paragraphColor);
+}
+
+.auth-social-btn {
+    padding: 6px 17px !important;
+    background-color: var(--whiteColor) !important;
+    color: var(--blackColor) !important;
+}
+
+.auth-social-btn:hover {
+    background-color: var(--graylightColor) !important;
+}
+
+.auth-social-text {
+    float: left;
+    text-align: left;
+    margin-top: 8px;
+}
+
+.auth-social-img {
+    float: right;
+}
+
+.auth-divider {
+    margin-top: 21px;
+    border: 2px solid var(--blackColor);
+}
+
+.account-desc {
+    margin: 25px auto 0;
+    display: table;
+    font-weight: 600;
+    color: var(--whiteColor);
+}
+
+.account-desc-custom {
+    margin: 5px auto 5px;
+    display: table;
+    font-weight: 600;
+    color: var(--whiteColor);
+}
+
+.account-desc a {
+    color: var(--redLightColor);
+}
+
+.account-desc a:hover {
+    color: var(--blueColor);
+}
+
+.profile-authentication-area {
+    background-color: var(--blackColor);
+}
+
+.page-title-content .sub-title {
+    color: var(--whiteColor);
+    font-size: 20px;
+}
+
+.login-form form .lost-your-password-wrap a {
+    color: var(--redLightColor);
+    font-style: italic;
+}
+
+.login-dashboard-button {
+    margin-top: 0px !important;
+    border-radius: 35px !important;
+    font-size: 30px !important;
+    background-color: var(--graylightColor) !important;
+    color: var(--graydarkColor) !important;
+    font-weight: bolder !important;
+}
+
+.login-dashboard-button:hover {
+    background-color: var(--blueColor) !important;
+    color: var(--graylightColor) !important;
+}
+
+.login-dashboard-button-subcaption {
+    font-style: italic;
+    color: var(--whiteColor);
+}
+
+.login-dashboard-a-color {
+    color: var(--blueColor) !important;
+    font-weight: 700;
+}
+
+.login-dashboard-a-color:hover {
+    color: var(--redLightColor) !important;
+    font-weight: 700;
+}
+
+.auth-space {
+    height: 21px;
+}
+
+.thank-you-area{
+    background-color: var(--blackColor);
+}
+
+.thank-you-content{
+    background-color: var(--darkWhiteColor);
+    max-width: 470px;
+    border-radius: 20px;
+    border: 9px solid var(--graydarkColor)
+}
+
+.thank-you-content p{
+    color: var(--graydarkColor);
+}
