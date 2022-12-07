@@ -1,25 +1,37 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { connect } from 'react-redux';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "../LoginForm.module.css";
 import { useRegisterFormValidator } from "./hooks/partner-Register-validator";
+import { registerUser } from '@/redux/User/actions';
+import { getCategory } from '@/redux/User/actions';
 
-const partnerRegister = () => {
+const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 
+	const router = useRouter()
 
 	const [form, setForm] = useState({
 
-		ownerfirstName: "",
-		ownerlastName: "",
-		legalName: "",
+		usertype: "partner",
+		firstName: "",
+		lastName: "",
+		userName: "",
 		address: "",
 		city: "",
 		state: "",
+		category: "",
 		email: "",
 		password: "",
 		confirmPassword: ""
+
 	});
+
+	useEffect(() => {
+		ongetCateogry();
+	}, [])
 
 	const [startDate, setStartDate] = useState(new Date());
 
@@ -32,8 +44,9 @@ const partnerRegister = () => {
 			...form,
 			[field]: e.target.value,
 		};
-		
+
 		setForm(nextFormState);
+
 		if (errors[field].dirty)
 			validateForm({
 				form: nextFormState,
@@ -43,12 +56,18 @@ const partnerRegister = () => {
 	};
 
 	const onSubmitForm = e => {
-		e.preventDefault();
-		alert(JSON.stringify(form, null, 2));
 
+		e.preventDefault();
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
-		alert(JSON.stringify(form, null, 2));
+
+		onRegisterUser(form, res => {
+			if (res.success) {
+				localStorage.setItem('thankyou_id', 'Partner');
+				router.push('/authentication/thank-you')
+			}
+		});
+
 	};
 
 	return (
@@ -70,14 +89,14 @@ const partnerRegister = () => {
 								<input
 									type="text"
 									className="form-control"
-									name="legalName"
-									value={form.legalName}
+									name="userName"
+									value={form.userName}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									placeholder="Business Legal Name:"
 								/>
-								{errors.legalName.dirty && errors.legalName.error ? (
-									<p className={styles.formFieldErrorMessage}>{errors.legalName.message}</p>
+								{errors.userName.dirty && errors.userName.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.userName.message}</p>
 								) : null}
 							</div>
 						</div>
@@ -87,13 +106,14 @@ const partnerRegister = () => {
 								<input
 									type="text"
 									className="form-control"
-									value={form.ownerfirstName}
+									name="firstName"
+									value={form.firstName}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									placeholder="Owner First Name"
 								/>
-								{errors.ownerfirstName.dirty && errors.ownerfirstName.error ? (
-									<p className={styles.formFieldErrorMessage}>{errors.ownerfirstName.message}</p>
+								{errors.firstName.dirty && errors.firstName.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.firstName.message}</p>
 								) : null}
 							</div>
 						</div>
@@ -103,13 +123,14 @@ const partnerRegister = () => {
 								<input
 									type="text"
 									className="form-control"
-									value={form.ownerlastName}
+									name="lastName"
+									value={form.lastName}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									placeholder="Owner Last Name:"
 								/>
-								{errors.ownerlastName.dirty && errors.ownerlastName.error ? (
-									<p className={styles.formFieldErrorMessage}>{errors.ownerlastName.message}</p>
+								{errors.lastName.dirty && errors.lastName.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.lastName.message}</p>
 								) : null}
 							</div>
 						</div>
@@ -119,6 +140,7 @@ const partnerRegister = () => {
 								<input
 									type="text"
 									className="form-control"
+									name="address"
 									value={form.address}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
@@ -177,6 +199,26 @@ const partnerRegister = () => {
 						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-group">
+								<label className="authen-text-attr">Category:</label>
+								<select
+									name="category"
+									className="form-control"
+									value={form.category}
+									onChange={onUpdateField}
+									onBlur={onBlurField}
+								>
+									<option value="0">Select Category</option>
+									{categoryInfo.map((option, index) =>
+										<option key={index} value={option.content.value}>{option.content.label}</option>
+									)}
+								</select>
+								{errors.category.dirty && errors.category.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.category.message}</p>
+								) : null}
+							</div>
+						</div>
+						<div className="col-lg-12 col-md-12">
+							<div className="form-group">
 								<label className="authen-text-attr">Email:</label>
 								<input
 									type="Email"
@@ -230,42 +272,12 @@ const partnerRegister = () => {
 					<div className="row">
 						<div className="col-lg-2"></div>
 						<div className="col-lg-8">
-							<button type="submit">Create Account</button>
+							<button type="submit">REQUEST ACCESS</button>
 						</div>
 						<div className="col-lg-2"></div>
 
 					</div>
 					<div className="row auth-divider"></div>
-					<div className="row">
-						<div className="col-lg-2"></div>
-						<div className="col-lg-8 col-md-4 col-sm-12">
-							<div className="col-lg-12">
-								<button className="auth-social-btn" type="submit">
-									<span className="auth-social-text">Login with Facebook</span>
-									<img className="auth-social-img" src="https://img.icons8.com/color/40/000000/facebook-logo.png" />						</button>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-2"></div>
-						<div className="col-lg-8 col-md-4 col-sm-12">
-							<div className="col-lg-12">
-								<button className="auth-social-btn" type="submit">
-									<span className="auth-social-text">Login with Facebook</span>
-									<img className="auth-social-img" src="https://img.icons8.com/color/40/000000/google-logo.png" />						</button>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-2"></div>
-						<div className="col-lg-8 col-md-4 col-sm-12">
-							<div className="col-lg-12">
-								<button className="auth-social-btn" type="submit">
-									<span className="auth-social-text">Login with Twitter</span>
-									<img className="auth-social-img" src="https://img.icons8.com/color/40/000000/twitter-logo.png" />						</button>
-							</div>
-						</div>
-					</div>
 					<div className="col-12">
 						<p className="account-desc">
 							Already have an account? Login <Link href="/authentication/partner/login"><a>HERE</a></Link> for free!
@@ -282,4 +294,13 @@ const partnerRegister = () => {
 	);
 }
 
-export default partnerRegister;
+const mapStateToProps = ({ user }) => ({
+	categoryInfo: user.partnerCategory.categories
+})
+
+const mapDispatchToProps = dispatch => ({
+	onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
+	ongetCateogry: () => dispatch(getCategory()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(partnerRegister);

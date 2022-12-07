@@ -1,12 +1,13 @@
 import { useState } from "react";
 
 import {
-    OwnerFirstNameValidator,
-    OwnerLastNameValidator,
-    OwnerLegalNameValidator,
+    FirstNameValidator,
+    LastNameValidator,
+    LegalNameValidator,
     AddressValidator,
     CityValidator,
     StateValidator,
+    CategoryValidator,
     emailValidator,
     passwordValidator,
     confirmPasswordValidator
@@ -25,17 +26,17 @@ const touchErrors = errors => {
 export const useRegisterFormValidator = form => {
     const [errors, setErrors] = useState({
         
-        ownerfirstName: {
+        firstName: {
             dirty: false,
             error: false,
             message: "",
         },
-        ownerlastName: {
+        lastName: {
             dirty: false,
             error: false,
             message: "",
         },
-        legalName: {
+        userName: {
             dirty: false,
             error: false,
             message: "",
@@ -51,6 +52,11 @@ export const useRegisterFormValidator = form => {
             message: "",
         },
         state: {
+            dirty: false,
+            error: false,
+            message: "",
+        },
+        category: {
             dirty: false,
             error: false,
             message: "",
@@ -83,26 +89,26 @@ export const useRegisterFormValidator = form => {
             nextErrors = touchErrors(errors);
         }
 
-        const { ownerfirstName, ownerlastName, legalName, address, city, state, email, password, confirmPassword } = form;
+        const { firstName, lastName, userName, address, city, state, category, email, password, confirmPassword } = form;
 
-        if (nextErrors.ownerfirstName.dirty && (field ? field === "ownerfirstName" : true)) {
-            const ownerfirstNameMessage = OwnerFirstNameValidator(ownerfirstName, form);
-            nextErrors.ownerfirstName.error = !!ownerfirstNameMessage;
-            nextErrors.ownerfirstName.message = ownerfirstNameMessage;
+        if (nextErrors.firstName.dirty && (field ? field === "firstName" : true)) {
+            const ownerfirstNameMessage = FirstNameValidator(firstName, form);
+            nextErrors.firstName.error = !!ownerfirstNameMessage;
+            nextErrors.firstName.message = ownerfirstNameMessage;
             if (!!ownerfirstNameMessage) isValid = false;
         }
 
-        if (nextErrors.ownerlastName.dirty && (field ? field === "ownerlastName" : true)) {
-            const ownerlastNameMessage = OwnerLastNameValidator(ownerlastName, form);
-            nextErrors.ownerlastName.error = !!ownerlastNameMessage;
-            nextErrors.ownerlastName.message = ownerlastNameMessage;
+        if (nextErrors.lastName.dirty && (field ? field === "lastName" : true)) {
+            const ownerlastNameMessage = LastNameValidator(lastName, form);
+            nextErrors.lastName.error = !!ownerlastNameMessage;
+            nextErrors.lastName.message = ownerlastNameMessage;
             if (!!ownerlastNameMessage) isValid = false;
         }
 
-        if (nextErrors.legalName.dirty && (field ? field === "legalName" : true)) {
-            const legalNameMessage = OwnerLegalNameValidator(legalName, form);
-            nextErrors.legalName.error = !!legalNameMessage;
-            nextErrors.legalName.message = legalNameMessage;
+        if (nextErrors.userName.dirty && (field ? field === "userName" : true)) {
+            const legalNameMessage = LegalNameValidator(userName, form);
+            nextErrors.userName.error = !!legalNameMessage;
+            nextErrors.userName.message = legalNameMessage;
             if (!!legalNameMessage) isValid = false;
         }
 
@@ -132,6 +138,13 @@ export const useRegisterFormValidator = form => {
             nextErrors.state.error = !!stateMessage;
             nextErrors.state.message = stateMessage;
             if (!!stateMessage) isValid = false;
+        }
+
+        if (nextErrors.category.dirty && (field ? field === "category" : true)) {
+            const categoryMessage = CategoryValidator(category, form);
+            nextErrors.category.error = !!categoryMessage;
+            nextErrors.category.message = categoryMessage;
+            if (!!categoryMessage) isValid = false;
         }
 
         if (nextErrors.password.dirty && (field ? field === "password" : true)) {

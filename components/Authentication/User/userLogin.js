@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useCallback } from "react";
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
@@ -6,11 +6,19 @@ import Image from "next/image";
 import styles from "../LoginForm.module.css";
 import { loginUser } from '@/redux/User/actions';
 import { useLoginFormValidator } from "./hooks/user-Login-validator";
+import toast from "@/components/Toast";
 
 const userLogin = ({
 	onLoginUser,
-	token
 }) => {
+
+	const notify = useCallback((type, message) => {
+        toast({ type, message });
+    }, []);
+
+    const dismiss = useCallback(() => {
+        toast.dismiss();
+    }, []);
 
 	const [form, setForm] = useState({
 		userInfo: "",
@@ -39,7 +47,10 @@ const userLogin = ({
 		e.preventDefault();
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
-		onLoginUser(form);
+		onLoginUser(form, res => {
+			notify("success", 'success');
+
+		});
 	};
 
 	return (
@@ -68,6 +79,7 @@ const userLogin = ({
 						{errors.userInfo.dirty && errors.userInfo.error ? (
 							<p className={styles.formFieldErrorMessage}>{errors.userInfo.message}</p>
 						) : null}
+
 					</div>
 					<div className="form-group">
 						<label className="authen-text-attr">Password *</label>
@@ -85,6 +97,7 @@ const userLogin = ({
 								{errors.password.message}
 							</p>
 						) : null}
+						
 					</div>
 					<div className="row align-items-center">
 						<div className="col-lg-6 col-md-6 remember-me-wrap">
@@ -139,10 +152,12 @@ const userLogin = ({
 };
 
 const mapStateToProps = ({ user }) => ({
-	token: user.token
+	loginInfo: user.loginInfo
 })
 
 const mapDispatchToProps = dispatch => ({
-	onLoginUser: (data) => dispatch(loginUser(data))
+	onLoginUser: (data, cb) => dispatch(loginUser(data, cb))
+
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(userLogin);

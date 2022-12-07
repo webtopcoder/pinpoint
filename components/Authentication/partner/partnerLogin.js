@@ -1,17 +1,27 @@
-import { React, useState } from "react";
+import { React, useState, useCallback } from "react";
+import { connect } from 'react-redux';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "../LoginForm.module.css";
+import { loginUser } from '@/redux/User/actions';
 import { useLoginFormValidator } from "./hooks/partner-Login-validator";
+import toast from "@/components/Toast";
 
 
-const partnerLogin = () => {
+const partnerLogin = ({ onLoginUser }) => {
+
+	const notify = useCallback((type, message) => {
+		toast({ type, message });
+	}, []);
+
+	const dismiss = useCallback(() => {
+		toast.dismiss();
+	}, []);
 
 	const [form, setForm] = useState({
-		email: "",
+		userInfo: "",
 		password: "",
-		confirmPassword: ""
 	});
 
 	const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
@@ -36,7 +46,10 @@ const partnerLogin = () => {
 		e.preventDefault();
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
-		alert(JSON.stringify(form, null, 2));
+		onLoginUser(form, res => {
+			notify("success", 'success');
+
+		});
 	};
 
 	return (
@@ -55,15 +68,15 @@ const partnerLogin = () => {
 						<label className="authen-text-attr">Username or email *</label>
 						<input
 							type="text"
-							name="email"
+							name="userInfo"
 							className="form-control"
-							value={form.username}
+							value={form.userInfo}
 							onChange={onUpdateField}
 							placeholder="Username or email"
 							onBlur={onBlurField}
 						/>
-						{errors.email.dirty && errors.email.error ? (
-							<p className={styles.formFieldErrorMessage}>{errors.email.message}</p>
+						{errors.userInfo.dirty && errors.userInfo.error ? (
+							<p className={styles.formFieldErrorMessage}>{errors.userInfo.message}</p>
 						) : null}
 					</div>
 					<div className="form-group">
@@ -118,36 +131,6 @@ const partnerLogin = () => {
 
 					</div>
 					<div className="row auth-divider"></div>
-					<div className="row">
-						<div className="col-lg-2"></div>
-						<div className="col-lg-8 col-md-4 col-sm-12">
-							<div className="col-lg-12">
-								<button className="auth-social-btn" type="submit">
-									<span className="auth-social-text">Login with Facebook</span>
-									<img className="auth-social-img" src="https://img.icons8.com/color/40/000000/facebook-logo.png" />						</button>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-2"></div>
-						<div className="col-lg-8 col-md-4 col-sm-12">
-							<div className="col-lg-12">
-								<button className="auth-social-btn" type="submit">
-									<span className="auth-social-text">Login with Facebook</span>
-									<img className="auth-social-img" src="https://img.icons8.com/color/40/000000/google-logo.png" />						</button>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-2"></div>
-						<div className="col-lg-8 col-md-4 col-sm-12">
-							<div className="col-lg-12">
-								<button className="auth-social-btn" type="submit">
-									<span className="auth-social-text">Login with Twitter</span>
-									<img className="auth-social-img" src="https://img.icons8.com/color/40/000000/twitter-logo.png" />						</button>
-							</div>
-						</div>
-					</div>
 					<div className="col-12">
 						<p className="account-desc">
 							No Account Yet? Signup <Link href="/authentication/partner/register"><a>HERE</a></Link> for free!
@@ -164,4 +147,13 @@ const partnerLogin = () => {
 	);
 };
 
-export default partnerLogin;
+const mapStateToProps = ({ user }) => ({
+	loginInfo: user.loginInfo
+})
+
+const mapDispatchToProps = dispatch => ({
+	onLoginUser: (data, cb) => dispatch(loginUser(data, cb))
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(partnerLogin);

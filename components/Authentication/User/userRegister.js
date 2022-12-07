@@ -8,7 +8,7 @@ import Image from "next/image";
 import DatePicker from "react-datepicker";
 import styles from "../LoginForm.module.css";
 import { useRegisterFormValidator } from "./hooks/user-Register-validator";
-import { registerUser } from '@/redux/user/actions';
+import { registerUser } from '@/redux/User/actions';
 import 'react-datepicker/dist/react-datepicker.css'
 
 const userRegister = ({
@@ -19,6 +19,7 @@ const userRegister = ({
 
 	const [form, setForm] = useState({
 
+		usertype: "user",
 		firstName: "",
 		lastName: "",
 		userName: "",
@@ -56,9 +57,11 @@ const userRegister = ({
 		e.preventDefault();
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
-		
+
 		onRegisterUser(form, res => {
 			if (res.success) {
+				
+				localStorage.setItem('thankyou_id', 'User');
 				router.push('/authentication/thank-you')
 			}
 		});

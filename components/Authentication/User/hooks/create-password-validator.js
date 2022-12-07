@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import {
-  UserInfoValidator,
   passwordValidator,
-} from "../partner-validator";
+  confirmPasswordValidator
+} from "../user-validator.js";
 
 const touchErrors = errors => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
@@ -15,18 +15,18 @@ const touchErrors = errors => {
   }, {});
 };
 
-export const useLoginFormValidator = form => {
+export const createPasswordFormValidator = form => {
   const [errors, setErrors] = useState({
-    userInfo: {
+    password : {
       dirty: false,
       error: false,
       message: "",
     },
-    password: {
+    confirmPassword : {
       dirty: false,
       error: false,
       message: "",
-    },
+    }
   });
 
   const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
@@ -40,22 +40,27 @@ export const useLoginFormValidator = form => {
       nextErrors = touchErrors(errors);
     }
 
-    const { userInfo, password } = form;
-
-    if (nextErrors.userInfo.dirty && (field ? field === "userInfo" : true)) {
-      const userInfoMessage = UserInfoValidator(userInfo, form);
-      nextErrors.userInfo.error = !!userInfoMessage;
-      nextErrors.userInfo.message = userInfoMessage;
-      if (!!userInfoMessage) isValid = false;
-    }
+    const { password, confirmPassword } = form;
 
     if (nextErrors.password.dirty && (field ? field === "password" : true)) {
       const passwordMessage = passwordValidator(password, form);
       nextErrors.password.error = !!passwordMessage;
       nextErrors.password.message = passwordMessage;
       if (!!passwordMessage) isValid = false;
-    }
+  }
 
+  if (
+      nextErrors.confirmPassword.dirty &&
+      (field ? field === "confirmPassword" : true)
+  ) {
+      const confirmPasswordMessage = confirmPasswordValidator(
+          confirmPassword,
+          form
+      );
+      nextErrors.confirmPassword.error = !!confirmPasswordMessage;
+      nextErrors.confirmPassword.message = confirmPasswordMessage;
+      if (!!confirmPasswordMessage) isValid = false;
+  }
     setErrors(nextErrors);
 
     return {

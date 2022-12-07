@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "@/components/Authentication/Partner/partnerLogin";
 
-const Authentication = () => {
+const partnerLogin = () => {
   return (
     <>    
       <div className="profile-authentication-area ptb-100">
@@ -24,4 +24,4 @@ const Authentication = () => {
   );
 };
 
-export default Authentication;
+export default partnerLogin;

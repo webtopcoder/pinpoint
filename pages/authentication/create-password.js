@@ -1,20 +1,20 @@
 import React from "react";
-import Login from "@/components/Authentication/User/userLogin";
+import PasswordCreate from "@/components/Authentication/create-password";
 
-const userLogin = () => {
+const createPassword = () => {
   return (
     <>    
       <div className="profile-authentication-area ptb-100">
       <div className="container">
           <div className="page-title-content">
-            <span className="sub-title">USER LOGIN</span>
+            <span className="sub-title">CREATE PASSWORD</span>
           </div>
         </div>
         <div className="container">
           <div className="row">
           <div className="col-lg-3 col-md-12">
             </div>
-            <Login />
+            <PasswordCreate />
             <div className="col-lg-3 col-md-12">
             </div>
           </div>
@@ -24,4 +24,4 @@ const userLogin = () => {
   );
 };
 
-export default userLogin;
+export default createPassword;

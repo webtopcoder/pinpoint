@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "@/components/Authentication/lost-password";
 
-const Authentication = () => {
+const lostPassword = () => {
   return (
     <>    
       <div className="profile-authentication-area ptb-100">
@@ -24,4 +24,4 @@ const Authentication = () => {
   );
 };
 
-export default Authentication;
+export default lostPassword;

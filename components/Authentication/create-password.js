@@ -1,31 +1,23 @@
-import { React, useState, useCallback } from "react";
+import { React, useState } from "react";
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./LoginForm.module.css";
 import { recoveryPassword } from '@/redux/User/actions';
-import { lostPasswordFormValidator } from "./User/hooks/lost-password-validator";
-import toast from "@/components/Toast";
+import { createPasswordFormValidator } from "./User/hooks/create-password-validator";
 
 
-const lostPassword = ({
+const createPassword = ({
     onrecoveryPassword
 }) => {
 
-    const notify = useCallback((type, message) => {
-        toast({ type, message });
-    }, []);
-
-    const dismiss = useCallback(() => {
-        toast.dismiss();
-    }, []);
-
     const [form, setForm] = useState({
-        userInfo: "",
+        password: "",
+        confirmPassword:""
     });
 
-    const { errors, validateForm, onBlurField } = lostPasswordFormValidator(form);
+    const { errors, validateForm, onBlurField } = createPasswordFormValidator(form);
     const onUpdateField = e => {
 
         const field = e.target.name;
@@ -42,17 +34,10 @@ const lostPassword = ({
             });
     };
     const onSubmitForm = e => {
-        
         e.preventDefault();
         const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
-        console.log(isValid)
         if (!isValid) return;
-        onrecoveryPassword(form, res => {
-			if (res.success) 
-                notify("success", res.msg);
-			
-            else notify("error", res.msg);
-		});
+        onrecoveryPassword(form);
     };
 
     return (
@@ -71,21 +56,38 @@ const lostPassword = ({
                         Lost your password? Please enter your username or email address.
                         You will receive a link to create a new password via email.
                     </p>
+                   
                     <div className="form-group">
-                        <label className="authen-text-attr">Username or email *</label>
+                        <label className="authen-text-attr">Password</label>
                         <input
-                            type="text"
-                            name="userInfo"
-                            className="form-control"
-                            value={form.userInfo}
+                            type="password"
+                            name="password"
+                            value={form.password}
                             onChange={onUpdateField}
-                            placeholder="Username or email"
                             onBlur={onBlurField}
+                            className="form-control"
+                            placeholder="Password"
                         />
-                        {errors.userInfo.dirty && errors.userInfo.error ? (
-                            <p className={styles.formFieldErrorMessage}>{errors.userInfo.message}</p>
+                        {errors.password.dirty && errors.password.error ? (
+                            <p className={styles.formFieldErrorMessage}>{errors.password.message}</p>
                         ) : null}
                     </div>
+                    <div className="form-group">
+                        <label className="authen-text-attr">Confirm Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            name="confirmPassword"
+                            value={form.confirmPassword}
+                            onChange={onUpdateField}
+                            onBlur={onBlurField}
+                            placeholder="Confirm Password"
+                        />
+                        {errors.confirmPassword.dirty && errors.confirmPassword.error ? (
+                            <p className={styles.formFieldErrorMessage}>{errors.confirmPassword.message}</p>
+                        ) : null}
+                    </div>
+
 
                     <div className="row">
                         <div className="col-lg-2"></div>
@@ -108,14 +110,8 @@ const lostPassword = ({
 };
 
 
-
-const mapStateToProps = ({ user }) => ({
-    resetPasswordInfo: user.resetPasswordInfo
-})
-
 const mapDispatchToProps = dispatch => ({
-    onrecoveryPassword: (data, cb) => dispatch(recoveryPassword(data, cb))
-
+    onrecoveryPassword: (data) => dispatch(recoveryPassword(data))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(lostPassword);
+export default connect(undefined, mapDispatchToProps)(createPassword);

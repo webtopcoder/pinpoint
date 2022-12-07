@@ -1,7 +1,7 @@
 import React from "react";
 import Register from "@/components/Authentication/User/userRegister";
 
-const Authentication = () => {
+const userRegister = () => {
   return (
     <>    
       <div className="profile-authentication-area ptb-100">
@@ -24,4 +24,4 @@ const Authentication = () => {
   );
 };
 
-export default Authentication;
+export default userRegister;

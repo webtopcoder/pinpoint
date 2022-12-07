@@ -2,8 +2,7 @@ import { useState } from "react";
 
 import {
   UserInfoValidator,
-  passwordValidator,
-} from "../partner-validator";
+} from "../user-validator.js";
 
 const touchErrors = errors => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
@@ -15,18 +14,13 @@ const touchErrors = errors => {
   }, {});
 };
 
-export const useLoginFormValidator = form => {
+export const lostPasswordFormValidator = form => {
   const [errors, setErrors] = useState({
     userInfo: {
       dirty: false,
       error: false,
       message: "",
-    },
-    password: {
-      dirty: false,
-      error: false,
-      message: "",
-    },
+    }
   });
 
   const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
@@ -48,14 +42,6 @@ export const useLoginFormValidator = form => {
       nextErrors.userInfo.message = userInfoMessage;
       if (!!userInfoMessage) isValid = false;
     }
-
-    if (nextErrors.password.dirty && (field ? field === "password" : true)) {
-      const passwordMessage = passwordValidator(password, form);
-      nextErrors.password.error = !!passwordMessage;
-      nextErrors.password.message = passwordMessage;
-      if (!!passwordMessage) isValid = false;
-    }
-
     setErrors(nextErrors);
 
     return {
