@@ -20,7 +20,7 @@ const ThankYou = () => {
                   src={thankYouImg}
                   alt="thank-you"
                 />
-                <h3>THANK YOU FOR JOING PINPOINT!</h3>
+                <h3>THANK YOU FOR JOINING PINPOINT!</h3>
                 <p>PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A LINK TO THE EMAIL GIVEN!</p>
 
                 <Link href={`/authentication/${backLogin}/login`}>

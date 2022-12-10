@@ -3,7 +3,7 @@ import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 
-const Login = () => {
+const LoginDashboard = () => {
 	return (
 		<div className="col-lg-6 col-md-12">
 			<div className="login-form">
@@ -21,7 +21,7 @@ const Login = () => {
 						</p>
 					</div>
 					<Link href="/authentication/user/login">
-					<button className="login-dashboard-button">PinPointUser
+					<button className="login-dashboard-button">Pinpoint User
 						<p className="login-dashboard-button-subcaption">*on the prowl looking for mobile vendors?</p>
 					</button>
 					</Link>
@@ -46,4 +46,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default LoginDashboard;

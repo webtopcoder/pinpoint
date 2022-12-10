@@ -48,10 +48,7 @@ const lostPassword = ({
         console.log(isValid)
         if (!isValid) return;
         onrecoveryPassword(form, res => {
-			if (res.success) 
-                notify("success", res.msg);
-			
-            else notify("error", res.msg);
+            res.success? notify("success", res.msg): notify("error", res.msg)
 		});
     };
 

@@ -14,7 +14,7 @@ const createPassword = ({
 
     const [form, setForm] = useState({
         password: "",
-        confirmPassword:""
+        confirmPassword: ""
     });
 
     const { errors, validateForm, onBlurField } = createPasswordFormValidator(form);
@@ -56,7 +56,7 @@ const createPassword = ({
                         Lost your password? Please enter your username or email address.
                         You will receive a link to create a new password via email.
                     </p>
-                   
+
                     <div className="form-group">
                         <label className="authen-text-attr">Password</label>
                         <input
@@ -87,15 +87,12 @@ const createPassword = ({
                             <p className={styles.formFieldErrorMessage}>{errors.confirmPassword.message}</p>
                         ) : null}
                     </div>
-
-
                     <div className="row">
                         <div className="col-lg-2"></div>
                         <div className="col-lg-8">
                             <button type="submit">Reset Password</button>
                         </div>
                         <div className="col-lg-2"></div>
-
                     </div>
                     <div className="row auth-divider"></div>
                     <div className="col-12">

@@ -47,8 +47,7 @@ const partnerLogin = ({ onLoginUser }) => {
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
 		onLoginUser(form, res => {
-			notify("success", 'success');
-
+			res.success? notify("success", res.msg): notify("error", res.msg)
 		});
 	};
 

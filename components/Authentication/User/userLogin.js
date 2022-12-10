@@ -48,8 +48,7 @@ const userLogin = ({
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
 		onLoginUser(form, res => {
-			notify("success", 'success');
-
+			res.success? notify("success", res.msg): notify("error", res.msg)
 		});
 	};
 
@@ -66,14 +65,14 @@ const userLogin = ({
 				<form onSubmit={onSubmitForm}>
 					<div className="auth-space"></div>
 					<div className="form-group">
-						<label className="authen-text-attr">Username or email *</label>
+						<label className="authen-text-attr">Username or Email *</label>
 						<input
 							type="text"
 							name="userInfo"
 							className="form-control"
 							value={form.userInfo}
 							onChange={onUpdateField}
-							placeholder="Username or email"
+							placeholder="Username or Email"
 							onBlur={onBlurField}
 						/>
 						{errors.userInfo.dirty && errors.userInfo.error ? (

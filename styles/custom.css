@@ -128,3 +128,11 @@
 .thank-you-content p{
     color: var(--graydarkColor);
 }
+
+.react-datepicker__navigation.react-datepicker__navigation--next {
+    display: none !important;
+}
+    
+.react-datepicker__navigation.react-datepicker__navigation--previous {
+    display: none !important;
+}

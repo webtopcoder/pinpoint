@@ -3,7 +3,6 @@ import AOS from "aos";
 import { wrapper, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import Router from 'next/router';
-import Script from 'next/script';
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
 import "../node_modules/aos/dist/aos.css";
@@ -26,8 +25,8 @@ import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "@/components/Layout/ScrollToTop";
 
 import Head from 'next/head';
-Router.events.on('routeChangeStart', () => NProgress.start()); 
-Router.events.on('routeChangeComplete', () => NProgress.done()); 
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
@@ -36,7 +35,6 @@ function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <>
-    <Script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"/>
       <Provider store={store}>
         <Head>
           <meta
@@ -49,15 +47,15 @@ function MyApp({ Component, pageProps }) {
         </Head>
         <Component {...pageProps} />
         <ToastContainer
-        position="top-right"
-        autoClose={8000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        draggable={false}
-        pauseOnVisibilityChange
-        closeOnClick
-        pauseOnHover
-      />
+          position="top-right"
+          autoClose={8000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggable={false}
+          pauseOnVisibilityChange
+          closeOnClick
+          pauseOnHover
+        />
         <ScrollToTop />
       </Provider>
 

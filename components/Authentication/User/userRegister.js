@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { useRouter } from "next/router";
 import { connect } from 'react-redux';
-import { Country, State, City } from 'country-state-city';
+import csc from 'country-state-city';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
@@ -11,9 +11,11 @@ import { useRegisterFormValidator } from "./hooks/user-Register-validator";
 import { registerUser } from '@/redux/User/actions';
 import 'react-datepicker/dist/react-datepicker.css'
 
-const userRegister = ({
-	onRegisterUser
-}) => {
+const userRegister = ({ onRegisterUser }) => {
+
+	const countryCode = 'US';
+	const country = csc.getCountryByCode(countryCode);
+	const states = csc.getStatesOfCountry(country.isoCode);
 
 	const router = useRouter()
 
@@ -23,7 +25,7 @@ const userRegister = ({
 		firstName: "",
 		lastName: "",
 		userName: "",
-		birthday: "12/2/2022",
+		birthday: new Date(),
 		city: "",
 		state: "",
 		email: "",
@@ -31,13 +33,24 @@ const userRegister = ({
 		confirmPassword: ""
 	});
 
-	const [birthday, setStartDate] = useState(new Date());
+	const setStartDate = date => {
+		setForm({
+			...form,
+			birthday: date
+		})
+	}
+	const [cityList, setCityList] = useState([]);
 
 	const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
 
 	const onUpdateField = e => {
 
 		const field = e.target.name;
+
+		if (e.target.name == "state") {
+			const citiesbystate = csc.getCitiesOfState(countryCode, e.target.value);
+			setCityList(citiesbystate);
+		}
 		const nextFormState = {
 			...form,
 			[field]: e.target.value,
@@ -60,7 +73,7 @@ const userRegister = ({
 
 		onRegisterUser(form, res => {
 			if (res.success) {
-				
+
 				localStorage.setItem('thankyou_id', 'User');
 				router.push('/authentication/thank-you')
 			}
@@ -82,7 +95,7 @@ const userRegister = ({
 						<div className="auth-space"></div>
 						<div className="col-lg-6 col-md-6">
 							<div className="form-group">
-								<label className="authen-text-attr">First Name:</label>
+								<label className="authen-text-attr">First Name *</label>
 								<input
 									type="text"
 									name="firstName"
@@ -99,7 +112,7 @@ const userRegister = ({
 						</div>
 						<div className="col-lg-6 col-md-6">
 							<div className="form-group">
-								<label className="authen-text-attr">Last Name:</label>
+								<label className="authen-text-attr">Last Name * </label>
 								<input
 									type="text"
 									name="lastName"
@@ -116,7 +129,7 @@ const userRegister = ({
 						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-group">
-								<label className="authen-text-attr">Username:</label>
+								<label className="authen-text-attr">User Name *</label>
 								<input
 									type="text"
 									name="userName"
@@ -124,7 +137,7 @@ const userRegister = ({
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									className="form-control"
-									placeholder="userName:"
+									placeholder="User Name:"
 								/>
 								{errors.userName.dirty && errors.userName.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.userName.message}</p>
@@ -133,13 +146,17 @@ const userRegister = ({
 						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-group">
-								<label className="authen-text-attr">Date of Birth :</label>
+								<label className="authen-text-attr">Date of Birth *</label>
 								<DatePicker
 									name="birthday"
 									className="form-control"
 									onBlur={onBlurField}
 									placeholderText={'dd/mm/yyyy'}
-									selected={birthday}
+									selected={form.birthday}
+									showMonthDropdown
+									showYearDropdown
+									value={form.birthday}
+									dropdownMode="select"
 									onChange={date => setStartDate(date)}
 								/>
 								{errors.birthday.dirty && errors.birthday.error ? (
@@ -147,32 +164,10 @@ const userRegister = ({
 								) : null}
 							</div>
 						</div>
+
 						<div className="col-lg-6 col-md-6">
 							<div className="form-group">
-								<label className="authen-text-attr">City:</label>
-								<select
-									name="city"
-									className="form-control"
-									value={form.city}
-									onChange={onUpdateField}
-									onBlur={onBlurField}
-								>
-									<option value="0">Select City</option>
-									<option value="1">Surgery & Radiology</option>
-									<option value="2">Children Care</option>
-									<option value="3">Orthopedics</option>
-									<option value="4">Nuclear Magnetic</option>
-									<option value="5">Eye Treatment</option>
-									<option value="6">X-Ray</option>
-								</select>
-								{errors.city.dirty && errors.city.error ? (
-									<p className={styles.formFieldErrorMessage}>{errors.city.message}</p>
-								) : null}
-							</div>
-						</div>
-						<div className="col-lg-6 col-md-6">
-							<div className="form-group">
-								<label className="authen-text-attr">State:</label>
+								<label className="authen-text-attr">State *</label>
 								<select
 									name="state"
 									className="form-control"
@@ -181,21 +176,38 @@ const userRegister = ({
 									onBlur={onBlurField}
 								>
 									<option value="0">Select State</option>
-									<option value="1">Surgery & Radiology</option>
-									<option value="2">Children Care</option>
-									<option value="3">Orthopedics</option>
-									<option value="4">Nuclear Magnetic</option>
-									<option value="5">Eye Treatment</option>
-									<option value="6">X-Ray</option>
+									{states.map((option, index) =>
+										<option key={index} value={option.isoCode}>{option.name}</option>
+									)}
 								</select>
 								{errors.state.dirty && errors.state.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.state.message}</p>
 								) : null}
 							</div>
 						</div>
+						<div className="col-lg-6 col-md-6">
+							<div className="form-group">
+								<label className="authen-text-attr">City *</label>
+								<select
+									name="city"
+									className="form-control"
+									value={form.city}
+									onChange={onUpdateField}
+									onBlur={onBlurField}
+								>
+									<option value="0">Select City</option>
+									{cityList.map((option, index) =>
+										<option key={index} value={option.name}>{option.name}</option>
+									)}
+								</select>
+								{errors.city.dirty && errors.city.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.city.message}</p>
+								) : null}
+							</div>
+						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-group">
-								<label className="authen-text-attr">Email:</label>
+								<label className="authen-text-attr">Email *</label>
 								<input
 									type="Email"
 									name="email"
@@ -212,7 +224,7 @@ const userRegister = ({
 						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-group">
-								<label className="authen-text-attr">Password</label>
+								<label className="authen-text-attr">Password *</label>
 								<input
 									type="password"
 									name="password"
@@ -229,7 +241,7 @@ const userRegister = ({
 						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-group">
-								<label className="authen-text-attr">Confirm Password</label>
+								<label className="authen-text-attr">Confirm Password *</label>
 								<input
 									type="password"
 									className="form-control"

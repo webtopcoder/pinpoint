@@ -9,7 +9,7 @@ export const emailValidator = email => {
 
   export const UserInfoValidator = userInfo => {
     if (!userInfo) {
-      return "UserName or Email is required";
+      return "User Name or Email is required";
     } 
     return "";
   };
@@ -17,21 +17,21 @@ export const emailValidator = email => {
 
   export const FirstNameValidator = firstName => {
     if (!firstName) {
-      return "firstName is required";
+      return "First Name is required";
     } 
     return "";
   };
   
   export const LastNameValidator = LastName => {
     if (!LastName) {
-      return "LastName is required";
+      return "Last Name is required";
     } 
     return "";
   };
 
   export const UserNameValidator = userName => {
     if (!userName) {
-      return "UserName is required";
+      return "User Name is required";
     } 
     return "";
   };
@@ -52,7 +52,7 @@ export const emailValidator = email => {
 
   export const StateValidator = state => {
     if (!state) {
-      return "state is required";
+      return "State is required";
     } 
     return "";
   };
@@ -68,9 +68,9 @@ export const emailValidator = email => {
   
   export const confirmPasswordValidator = (confirmPassword, form) => {
     if (!confirmPassword) {
-      return "Confirm password is required";
+      return "Confirm Password is required";
     } else if (confirmPassword.length < 8) {
-      return "Confirm password must have a minimum 8 characters";
+      return "Confirm Password must have a minimum 8 characters";
     } else if (confirmPassword !== form.password) {
       return "Passwords do not match";
     }
