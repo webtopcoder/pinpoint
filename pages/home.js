@@ -15,46 +15,13 @@ import christmas from "@/public/images/landing/christmas.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import fireworks from "@/public/images/landing/fireworks.png";
 import location from "@/public/images/landing/location.png";
-import { animated } from "react-spring";
-import { useAnimation } from "./useAnimation"
 
-const LOCAL_STORAGE_KEY = "isSidebarOpen";
 
-function useSidebar() {
-  const persistedState =
-    typeof window === "undefined"
-      ? false
-      : localStorage.getItem(LOCAL_STORAGE_KEY) === "true";
-
-  const [isOpen, setIsOpen] = React.useState(false);
-  const toggle = () => setIsOpen(value => !value);
-
-  // Persist to localStorage
-  React.useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(isOpen));
-  }, [isOpen]);
-
-  // Rehydrate with persisted data
-  React.useEffect(() => {
-    setIsOpen(persistedState);
-  }, []);
-
-  return { isOpen, toggle };
-}
 const Software = () => {
-
-   const { isOpen, toggle } = useSidebar();
-  const styles = useAnimation(isOpen);
-  console.log(styles);
   return (
     <>
-      <PageTitle page="Landing" />
-      <div className="app">
-        <animated.div className="sidebar" style={styles.sidebar}>
-          Sidebar
-        </animated.div>
-      </div>    
-      <Header onToggle={toggle}/>
+      <PageTitle page="Landing" />   
+      <Header/>
       <div className="software-banner-area">
         <div className="container">
           <div className="row">
