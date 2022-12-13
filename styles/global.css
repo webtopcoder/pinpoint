@@ -100,7 +100,12 @@ p:last-child {
 
 .ptb-100 {
   padding-top: 100px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
+}
+
+.plr-100{
+  padding-right: 100px;
+  padding-left: 100px;
 }
 
 .pt-100 {
@@ -126,6 +131,17 @@ p:last-child {
 
 .bg-f9f9f9 {
   background-color: #f9f9f9;
+}
+
+.bg-dark-gray {
+  background-color: #2F2F2F
+}
+ .bg-black {
+  background-color: #000000;
+ }
+
+.bg-light-gray {
+  background-color: #414141
 }
 
 .bg-1d2b53 {

@@ -26,7 +26,8 @@ export function loginUser(form, cb) {
 
             localStorage.setItem('userInfo', JSON.stringify(res));
             cb(res);
-
+        }).catch(error=>{
+            console.log(error);
         })
 }
 
@@ -65,7 +66,6 @@ export function getCategory() {
 export function recoveryPassword(form, cb) {
     return dispatch => api(`auth/user/lostpassword`, 'post', form).then(
         res => {
-
             dispatch({
                 type: RESET_PASSWORD_REQUEST,
             });
@@ -77,7 +77,6 @@ export function recoveryPassword(form, cb) {
 
             localStorage.setItem('userInfo', JSON.stringify(res));
             cb(res);
-
         })
 }
 

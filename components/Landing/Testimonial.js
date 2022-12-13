@@ -38,7 +38,7 @@ const options = {
   },
 };
 
-const TestimonialSix = () => {
+const Testimonial = () => {
   const [display, setDisplay] = React.useState(false);
 
   React.useEffect(() => {
@@ -135,4 +135,4 @@ const TestimonialSix = () => {
   );
 };
 
-export default TestimonialSix;
+export default Testimonial;

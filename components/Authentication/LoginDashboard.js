@@ -37,7 +37,7 @@ const LoginDashboard = () => {
 					</Link>
 					<div className="col-12">
 						<p className="account-desc">
-							<Link href="/sign-up"><a className="login-dashboard-a-color">Just let me in..</a></Link>
+							<Link href="/home"><a className="login-dashboard-a-color">Just let me in..</a></Link>
 						</p>
 					</div>
 				</form>

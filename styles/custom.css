@@ -114,25 +114,170 @@
     height: 21px;
 }
 
-.thank-you-area{
+.thank-you-area {
     background-color: var(--blackColor);
 }
 
-.thank-you-content{
+.thank-you-content {
     background-color: var(--darkWhiteColor);
     max-width: 470px;
     border-radius: 20px;
     border: 9px solid var(--graydarkColor)
 }
 
-.thank-you-content p{
+.thank-you-content p {
     color: var(--graydarkColor);
 }
 
 .react-datepicker__navigation.react-datepicker__navigation--next {
     display: none !important;
 }
-    
+
 .react-datepicker__navigation.react-datepicker__navigation--previous {
     display: none !important;
+}
+
+.section-landing-title {
+    text-align: center;
+    max-width: 512px;
+    margin-left: 159px;
+    margin-right: auto;
+    margin-bottom: 10px;
+
+}
+
+.section-landing-title .sub-landing-title {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--paragraphColor);
+    font-size: 17px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 39px;
+    color: #E7272D;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.section-title.white-color .sub-title {
+    color: #E7272D !important;
+}
+
+.testimonials-item {
+    background-color: #2F2F2F !important;
+}
+
+.testimonials-item i {
+    color: #E7272D !important;
+}
+
+.testimonials-item p {
+    color: white !important
+}
+
+.testimonials-item .info h3 {
+    color: white !important;
+}
+
+.testimonials-item .info::before {
+    background-color: #E7272D !important
+}
+
+.overview-box .overview-image {
+    text-align: left;
+}
+
+.landing-contact-subtitle h1 {
+    margin-top: -380px !important;
+}
+
+.template-footer-nine {
+    background-image: url('../public/images/footer-bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding-bottom: 50px;
+
+}
+
+.single-footer-widget {
+    text-align: center;
+}
+
+.single-footer-widget p {
+    color: black;
+    font-weight: 600;
+}
+
+.template-footer-nine .single-footer-widget .social-links li a {
+    color: black !important;
+    border: 2px solid black !important;
+}
+
+.template-footer-nine .single-footer-widget .social-links li a:hover {
+    background-color: black;
+    color: white !important;
+}
+
+.view-map-button {
+    margin-top: 48px;
+    padding: 17px 68px 17px 68px;
+    background-color: rgba(0, 0, 0, 0.61) !important;
+}
+
+.template-footer-nine .single-footer-widget .social-links li a {
+    width: 54px;
+    height: 51px;
+    font-size: 32px;
+}
+
+#maps {
+    height: 400px;
+}
+
+.main-banner {
+    position: absolute;
+}
+
+.main-1 {
+    position: absolute;
+    z-index: 10;
+}
+
+.main-2 {
+    position: absolute;
+    z-index: 10;
+
+}
+
+.main-3 {
+    position: absolute;
+    z-index: 10;
+
+}
+
+.main-4 {
+    position: absolute;
+    z-index: 10;
+
+}
+
+/* sidebar */
+.app {
+    min-height: 100vh;
+    height: 100%;
+    position: absolute;
+    z-index: 1000000;
+    right:0;
+}
+
+.sidebar {
+    color: #fff;
+    background: #27ab83;
+    min-height: 100vh;
+    height: 100%;
+    width: 900px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 50px;
 }

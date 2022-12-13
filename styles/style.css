@@ -142,7 +142,7 @@ App Banner Area CSS
   margin-left: 20px;
   color: var(--lightGreenColor);
   -webkit-box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
-          box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
+  box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
 }
 
 .app-banner-content .btn-box .btn-style-one.white-color:hover {
@@ -159,7 +159,7 @@ App Banner Area CSS
 
 .app-banner-image .img:nth-child(1) {
   -webkit-filter: drop-shadow(0px 4px 80px rgba(0, 0, 0, 0.25));
-          filter: drop-shadow(0px 4px 80px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 4px 80px rgba(0, 0, 0, 0.25));
 }
 
 .app-banner-image .img:nth-child(2) {
@@ -167,7 +167,7 @@ App Banner Area CSS
   left: -50px;
   position: absolute;
   -webkit-animation: moveleftbounce 2s linear infinite;
-          animation: moveleftbounce 2s linear infinite;
+  animation: moveleftbounce 2s linear infinite;
 }
 
 .app-banner-image::before {
@@ -180,9 +180,9 @@ App Banner Area CSS
   position: absolute;
   border-radius: 50%;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   -webkit-animation: border-transform 10s linear infinite alternate forwards;
-          animation: border-transform 10s linear infinite alternate forwards;
+  animation: border-transform 10s linear infinite alternate forwards;
   background: linear-gradient(178.9deg, #87f1ff 0.91%, rgba(236, 253, 255, 0.21) 99.06%);
 }
 
@@ -236,7 +236,7 @@ Insurance Banner Area CSS
   margin-left: 20px;
   color: var(--darkGreenColor);
   -webkit-box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
-          box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
+  box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
 }
 
 .insurance-banner-content .btn-box .btn-style-one.white-color:hover {
@@ -323,7 +323,7 @@ Property Banner Area CSS
   margin-right: -260px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
-          box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
 }
 
 .property-banner-content .search-form .form-group {
@@ -505,7 +505,7 @@ Distance Learning Banner Area CSS
 
 .distance-learning-banner-area .single-courses-box {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   margin-bottom: 0;
   max-width: 425px;
@@ -556,7 +556,7 @@ Distance Learning Banner Area CSS
   margin-left: 20px;
   color: var(--yellowColor);
   -webkit-box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
-          box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
+  box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
 }
 
 .distance-learning-banner-content .btn-box .btn-style-one.white-color:hover {
@@ -621,7 +621,7 @@ Chatbot Banner Area CSS
   margin-left: 20px;
   color: var(--purpleColor);
   -webkit-box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
-          box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
+  box-shadow: 0px 0px 33px rgba(0, 179, 204, 0.15);
 }
 
 .chat-bot-banner-content .btn-box .btn-style-one.white-color:hover {
@@ -643,8 +643,8 @@ Software Banner Area CSS
 .software-banner-area {
   z-index: 1;
   position: relative;
-  padding-top: 120px;
-  padding-bottom: 10px;
+  padding-top: 170px;
+  padding-bottom: 60px;
 }
 
 .software-banner-area .container-fluid {
@@ -670,7 +670,7 @@ Software Banner Area CSS
   content: "";
   height: 90%;
   position: absolute;
-  background-image: url(/images/banner/banner-bg5.png);
+  background-color: white;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -704,6 +704,56 @@ Software Banner Area CSS
 .software-banner-image {
   padding-left: 15px;
   text-align: center;
+  margin-left: -193px;
+}
+
+.banner-background {
+  width: 637px;
+  height: 574px;
+  position: absolute;
+  background: #5275993D;
+  border-radius: 50%;
+}
+
+.banner-sub-description {
+  background: #5275993D;
+  margin-top: -208px;
+  padding: 10px 0 10px 65px;
+  border-radius: 0 0 28px 0;
+}
+
+.landing-sub-title {
+  color: white;
+  font-size: 65px;
+  line-height: 0.6;
+  border-bottom: 3px solid #e7272d;
+  font-family: 'Alex brush';
+  text-align: center;
+}
+
+.service-sub-title {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 39px;
+  color: #E7272D;
+}
+
+.overview-content h1 {
+  margin-top: 70px;
+  font-size: 70px;
+  color: #D8D8D8;
+  border-right: 7px solid #D8D8D8;
+}
+
+.landing-sub-title-img {
+  margin: -6px -40px -33px 0;
+}
+
+.landing-sub-description {
+  padding: 35px 4px 28px 41px;
+  margin-top: 46px;
+  font-size: 20px;
+  text-align: left;
 }
 
 /*================================================
@@ -801,7 +851,7 @@ About Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--whiteColor);
   border-radius: 50%;
   position: absolute;
@@ -820,12 +870,12 @@ About Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .about-content .about-list li .link-btn {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--blackColor);
   visibility: hidden;
   position: absolute;
@@ -844,7 +894,7 @@ About Area CSS
 .about-content .about-list li:hover {
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
 }
 
 .about-content .about-list li:hover .icon {
@@ -861,7 +911,7 @@ About Area CSS
 .about-content .about-list li:first-child {
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
 }
 
 .about-content .about-list li:first-child .link-btn {
@@ -888,15 +938,28 @@ Help Desk Area CSS
 
 .single-help-desk-box {
   margin-bottom: 25px;
+  padding: 30px 20px 30px 20px;
+  background: rgba(255, 255, 255, 0.26);
+  box-shadow: 0px 4px 4px 3px rgba(255, 0, 0, 0.39);
+  border-radius: 50px;
+  height: 370px;
 }
 
 .single-help-desk-box .icon {
   margin-bottom: 25px;
+  text-align: center;
 }
 
 .single-help-desk-box h3 {
   font-size: 22px;
   margin-bottom: 15px;
+  text-align: center;
+  color: white;
+}
+
+.single-help-desk-box p {
+
+  text-align: center;
 }
 
 .single-help-desk-box .link-btn {
@@ -910,7 +973,7 @@ Help Desk Area CSS
 
 .single-help-desk-box .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -949,7 +1012,7 @@ Help Desk Area CSS
   margin-left: -5px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-help-desk-item h3 {
@@ -968,7 +1031,7 @@ Help Desk Area CSS
 
 .single-help-desk-item .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -1016,7 +1079,7 @@ Services Area CSS
   margin-top: 2px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-services-box h3 {
@@ -1034,10 +1097,10 @@ Services Area CSS
 
 .single-services-box:hover {
   -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
+  transform: translateY(-5px);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0 30px 80px rgba(0, 57, 110, 0.05);
-          box-shadow: 0 30px 80px rgba(0, 57, 110, 0.05);
+  box-shadow: 0 30px 80px rgba(0, 57, 110, 0.05);
 }
 
 .single-services-box:hover .icon {
@@ -1049,7 +1112,7 @@ Services Area CSS
 .single-services-box.active {
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0 30px 80px rgba(0, 57, 110, 0.05);
-          box-shadow: 0 30px 80px rgba(0, 57, 110, 0.05);
+  box-shadow: 0 30px 80px rgba(0, 57, 110, 0.05);
 }
 
 .single-services-box.active .icon {
@@ -1066,7 +1129,7 @@ Services Area CSS
   transition: var(--transition);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.06);
 }
 
 .single-services-item .icon {
@@ -1129,7 +1192,7 @@ Services Area CSS
 
 .single-services-item .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -1148,7 +1211,7 @@ Services Area CSS
 .single-services-item.style-two {
   text-align: center;
   -webkit-box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.04);
-          box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.04);
 }
 
 .single-services-item.style-two .icon::before {
@@ -1178,7 +1241,7 @@ Services Area CSS
   padding: 70px 70px 70px 195px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
 }
 
 .services-box .icon {
@@ -1203,7 +1266,7 @@ Services Area CSS
   margin-top: 5px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .services-box h3 {
@@ -1230,7 +1293,7 @@ Services Area CSS
 
 .services-box .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -1268,12 +1331,22 @@ Services Area CSS
   padding-bottom: 100px;
 }
 
-.overview-box:nth-child(2) .overview-image, .overview-box:nth-child(4) .overview-image, .overview-box:nth-child(6) .overview-image, .overview-box:nth-child(8) .overview-image, .overview-box:nth-child(10) .overview-image, .overview-box:nth-child(12) .overview-image {
+.overview-box:nth-child(2) .overview-image,
+.overview-box:nth-child(4) .overview-image,
+.overview-box:nth-child(6) .overview-image,
+.overview-box:nth-child(8) .overview-image,
+.overview-box:nth-child(10) .overview-image,
+.overview-box:nth-child(12) .overview-image {
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: 30px;
 }
 
-.overview-box:nth-child(2) .overview-content, .overview-box:nth-child(4) .overview-content, .overview-box:nth-child(6) .overview-content, .overview-box:nth-child(8) .overview-content, .overview-box:nth-child(10) .overview-content, .overview-box:nth-child(12) .overview-content {
+.overview-box:nth-child(2) .overview-content,
+.overview-box:nth-child(4) .overview-content,
+.overview-box:nth-child(6) .overview-content,
+.overview-box:nth-child(8) .overview-content,
+.overview-box:nth-child(10) .overview-content,
+.overview-box:nth-child(12) .overview-content {
   padding-right: 30px;
   padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
@@ -1323,7 +1396,7 @@ Services Area CSS
   padding: 15px 25px 15px 80px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 5px 28px 12px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 5px 28px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 5px 28px 12px rgba(0, 0, 0, 0.06);
   font-size: 22px;
   font-weight: 700;
 }
@@ -1332,7 +1405,7 @@ Services Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   background-color: #f9f9f9;
   color: var(--redLightColor);
   display: inline-block;
@@ -1360,7 +1433,12 @@ Services Area CSS
   color: var(--whiteColor);
 }
 
-.overview-box .overview-content .overview-list li:nth-child(2), .overview-box .overview-content .overview-list li:nth-child(4), .overview-box .overview-content .overview-list li:nth-child(6), .overview-box .overview-content .overview-list li:nth-child(8), .overview-box .overview-content .overview-list li:nth-child(10), .overview-box .overview-content .overview-list li:nth-child(12) {
+.overview-box .overview-content .overview-list li:nth-child(2),
+.overview-box .overview-content .overview-list li:nth-child(4),
+.overview-box .overview-content .overview-list li:nth-child(6),
+.overview-box .overview-content .overview-list li:nth-child(8),
+.overview-box .overview-content .overview-list li:nth-child(10),
+.overview-box .overview-content .overview-list li:nth-child(12) {
   margin-left: 80px;
   margin-right: 0;
 }
@@ -1401,11 +1479,9 @@ Services Area CSS
   position: absolute;
   border-radius: 50%;
   -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
-  -webkit-animation: border-transform 10s linear infinite alternate
- forwards;
-          animation: border-transform 10s linear infinite alternate
- forwards;
+  transform: translateY(-50%) translateX(-50%);
+  -webkit-animation: border-transform 10s linear infinite alternate forwards;
+  animation: border-transform 10s linear infinite alternate forwards;
   background: -webkit-gradient(linear, left top, left bottom, from(#87f1ff), to(rgba(236, 253, 255, 0.21)));
   background: linear-gradient(180deg, #87f1ff 0%, rgba(236, 253, 255, 0.21) 100%);
 }
@@ -1419,7 +1495,7 @@ Services Area CSS
   left: 15px;
   position: absolute;
   -webkit-animation: movebounce 2s linear infinite;
-          animation: movebounce 2s linear infinite;
+  animation: movebounce 2s linear infinite;
 }
 
 .overview-item .overview-image.style-two::before {
@@ -1433,11 +1509,9 @@ Services Area CSS
   position: absolute;
   border-radius: 50%;
   -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
-  -webkit-animation: border-transform 10s linear infinite alternate
- forwards;
-          animation: border-transform 10s linear infinite alternate
- forwards;
+  transform: translateY(-50%) translateX(-50%);
+  -webkit-animation: border-transform 10s linear infinite alternate forwards;
+  animation: border-transform 10s linear infinite alternate forwards;
   background: -webkit-gradient(linear, left top, left bottom, from(#87f1ff), to(rgba(236, 253, 255, 0.21)));
   background: linear-gradient(180deg, #87f1ff 0%, rgba(236, 253, 255, 0.21) 100%);
   margin-left: 80px;
@@ -1479,7 +1553,7 @@ Services Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--whiteColor);
   display: inline-block;
   border-radius: 50%;
@@ -1576,15 +1650,18 @@ Services Area CSS
   color: var(--whiteColor);
 }
 
-.overview-item-style-two .overview-content .overview-list li:nth-child(2) i, .overview-item-style-two .overview-content .overview-list li:nth-child(6) i {
+.overview-item-style-two .overview-content .overview-list li:nth-child(2) i,
+.overview-item-style-two .overview-content .overview-list li:nth-child(6) i {
   background-color: #ff5512;
 }
 
-.overview-item-style-two .overview-content .overview-list li:nth-child(3) i, .overview-item-style-two .overview-content .overview-list li:nth-child(7) i {
+.overview-item-style-two .overview-content .overview-list li:nth-child(3) i,
+.overview-item-style-two .overview-content .overview-list li:nth-child(7) i {
   background-color: #0871f7;
 }
 
-.overview-item-style-two .overview-content .overview-list li:nth-child(4) i, .overview-item-style-two .overview-content .overview-list li:nth-child(8) i {
+.overview-item-style-two .overview-content .overview-list li:nth-child(4) i,
+.overview-item-style-two .overview-content .overview-list li:nth-child(8) i {
   background-color: #ff7d12;
 }
 
@@ -1592,12 +1669,22 @@ Services Area CSS
   margin-bottom: 0;
 }
 
-.overview-item-style-two:nth-child(3) .overview-image, .overview-item-style-two:nth-child(5) .overview-image, .overview-item-style-two:nth-child(7) .overview-image, .overview-item-style-two:nth-child(9) .overview-image, .overview-item-style-two:nth-child(11) .overview-image, .overview-item-style-two:nth-child(13) .overview-image {
+.overview-item-style-two:nth-child(3) .overview-image,
+.overview-item-style-two:nth-child(5) .overview-image,
+.overview-item-style-two:nth-child(7) .overview-image,
+.overview-item-style-two:nth-child(9) .overview-image,
+.overview-item-style-two:nth-child(11) .overview-image,
+.overview-item-style-two:nth-child(13) .overview-image {
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: 35px;
 }
 
-.overview-item-style-two:nth-child(3) .overview-content, .overview-item-style-two:nth-child(5) .overview-content, .overview-item-style-two:nth-child(7) .overview-content, .overview-item-style-two:nth-child(9) .overview-content, .overview-item-style-two:nth-child(11) .overview-content, .overview-item-style-two:nth-child(13) .overview-content {
+.overview-item-style-two:nth-child(3) .overview-content,
+.overview-item-style-two:nth-child(5) .overview-content,
+.overview-item-style-two:nth-child(7) .overview-content,
+.overview-item-style-two:nth-child(9) .overview-content,
+.overview-item-style-two:nth-child(11) .overview-content,
+.overview-item-style-two:nth-child(13) .overview-content {
   padding-right: 35px;
   padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
@@ -1709,7 +1796,7 @@ Services Details Area CSS
   padding: 0;
   border-radius: 0;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   background-color: transparent;
   color: var(--blackColor) !important;
   font-size: 18px;
@@ -1773,7 +1860,7 @@ Features Area CSS
   margin-top: 3px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-features-box h3 {
@@ -1789,13 +1876,15 @@ Features Area CSS
   color: var(--lightGreenColor);
 }
 
-.single-features-box:hover, .single-features-box.active {
+.single-features-box:hover,
+.single-features-box.active {
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
 }
 
-.single-features-box:hover .icon, .single-features-box.active .icon {
+.single-features-box:hover .icon,
+.single-features-box.active .icon {
   color: var(--whiteColor);
   border-color: var(--lightGreenColor);
   background-color: var(--lightGreenColor);
@@ -1829,7 +1918,7 @@ Features Area CSS
   display: block;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-features-item h3 {
@@ -1843,7 +1932,7 @@ Features Area CSS
 
 .single-features-item:hover {
   -webkit-transform: translateY(-10px);
-          transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 
 .single-features-item:hover .icon {
@@ -1893,7 +1982,7 @@ Features Area CSS
   margin-top: 5px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .features-box h3 {
@@ -1948,7 +2037,7 @@ Features Area CSS
   display: block;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .features-item h3 {
@@ -1986,84 +2075,120 @@ Features Area CSS
   opacity: 0.9;
 }
 
-.col-lg-4:nth-child(2) .single-features-item .icon, .col-lg-4:nth-child(5) .single-features-item .icon, .col-lg-4:nth-child(8) .single-features-item .icon {
+.col-lg-4:nth-child(2) .single-features-item .icon,
+.col-lg-4:nth-child(5) .single-features-item .icon,
+.col-lg-4:nth-child(8) .single-features-item .icon {
   color: #d9901c;
   background-color: #fffadd;
 }
 
-.col-lg-4:nth-child(2) .single-features-item:hover .icon, .col-lg-4:nth-child(5) .single-features-item:hover .icon, .col-lg-4:nth-child(8) .single-features-item:hover .icon {
+.col-lg-4:nth-child(2) .single-features-item:hover .icon,
+.col-lg-4:nth-child(5) .single-features-item:hover .icon,
+.col-lg-4:nth-child(8) .single-features-item:hover .icon {
   background-color: #d9901c;
   color: var(--whiteColor);
 }
 
-.col-lg-4:nth-child(2) .single-features-item.style-two .icon, .col-lg-4:nth-child(5) .single-features-item.style-two .icon, .col-lg-4:nth-child(8) .single-features-item.style-two .icon {
+.col-lg-4:nth-child(2) .single-features-item.style-two .icon,
+.col-lg-4:nth-child(5) .single-features-item.style-two .icon,
+.col-lg-4:nth-child(8) .single-features-item.style-two .icon {
   color: #ff4f5a;
   background-color: rgba(255, 79, 90, 0.2);
 }
 
-.col-lg-4:nth-child(2) .single-features-item.style-two:hover .icon, .col-lg-4:nth-child(5) .single-features-item.style-two:hover .icon, .col-lg-4:nth-child(8) .single-features-item.style-two:hover .icon {
+.col-lg-4:nth-child(2) .single-features-item.style-two:hover .icon,
+.col-lg-4:nth-child(5) .single-features-item.style-two:hover .icon,
+.col-lg-4:nth-child(8) .single-features-item.style-two:hover .icon {
   background-color: #ff4f5a;
   color: var(--whiteColor);
 }
 
-.col-lg-4:nth-child(2) .features-box .icon, .col-lg-4:nth-child(5) .features-box .icon, .col-lg-4:nth-child(8) .features-box .icon {
+.col-lg-4:nth-child(2) .features-box .icon,
+.col-lg-4:nth-child(5) .features-box .icon,
+.col-lg-4:nth-child(8) .features-box .icon {
   background-color: #00c6e1;
 }
 
-.col-lg-4:nth-child(2) .features-box.style-two .icon, .col-lg-4:nth-child(5) .features-box.style-two .icon, .col-lg-4:nth-child(8) .features-box.style-two .icon {
+.col-lg-4:nth-child(2) .features-box.style-two .icon,
+.col-lg-4:nth-child(5) .features-box.style-two .icon,
+.col-lg-4:nth-child(8) .features-box.style-two .icon {
   background-color: #ff6395;
 }
 
-.col-lg-4:nth-child(2) .features-item .icon, .col-lg-4:nth-child(5) .features-item .icon, .col-lg-4:nth-child(8) .features-item .icon {
+.col-lg-4:nth-child(2) .features-item .icon,
+.col-lg-4:nth-child(5) .features-item .icon,
+.col-lg-4:nth-child(8) .features-item .icon {
   background-color: #ff5512;
 }
 
-.col-lg-4:nth-child(2) .features-item:hover, .col-lg-4:nth-child(5) .features-item:hover, .col-lg-4:nth-child(8) .features-item:hover {
+.col-lg-4:nth-child(2) .features-item:hover,
+.col-lg-4:nth-child(5) .features-item:hover,
+.col-lg-4:nth-child(8) .features-item:hover {
   background-color: #ff5512;
 }
 
-.col-lg-4:nth-child(2) .features-item:hover .icon, .col-lg-4:nth-child(5) .features-item:hover .icon, .col-lg-4:nth-child(8) .features-item:hover .icon {
+.col-lg-4:nth-child(2) .features-item:hover .icon,
+.col-lg-4:nth-child(5) .features-item:hover .icon,
+.col-lg-4:nth-child(8) .features-item:hover .icon {
   background-color: var(--whiteColor);
   color: #ff5512;
 }
 
-.col-lg-4:nth-child(3) .single-features-item .icon, .col-lg-4:nth-child(6) .single-features-item .icon, .col-lg-4:nth-child(9) .single-features-item .icon {
+.col-lg-4:nth-child(3) .single-features-item .icon,
+.col-lg-4:nth-child(6) .single-features-item .icon,
+.col-lg-4:nth-child(9) .single-features-item .icon {
   color: #2e85a1;
   background-color: #ebfaff;
 }
 
-.col-lg-4:nth-child(3) .single-features-item:hover .icon, .col-lg-4:nth-child(6) .single-features-item:hover .icon, .col-lg-4:nth-child(9) .single-features-item:hover .icon {
+.col-lg-4:nth-child(3) .single-features-item:hover .icon,
+.col-lg-4:nth-child(6) .single-features-item:hover .icon,
+.col-lg-4:nth-child(9) .single-features-item:hover .icon {
   background-color: #2e85a1;
   color: var(--whiteColor);
 }
 
-.col-lg-4:nth-child(3) .single-features-item.style-two .icon, .col-lg-4:nth-child(6) .single-features-item.style-two .icon, .col-lg-4:nth-child(9) .single-features-item.style-two .icon {
+.col-lg-4:nth-child(3) .single-features-item.style-two .icon,
+.col-lg-4:nth-child(6) .single-features-item.style-two .icon,
+.col-lg-4:nth-child(9) .single-features-item.style-two .icon {
   color: #d9a600;
   background-color: rgba(217, 166, 0, 0.2);
 }
 
-.col-lg-4:nth-child(3) .single-features-item.style-two:hover .icon, .col-lg-4:nth-child(6) .single-features-item.style-two:hover .icon, .col-lg-4:nth-child(9) .single-features-item.style-two:hover .icon {
+.col-lg-4:nth-child(3) .single-features-item.style-two:hover .icon,
+.col-lg-4:nth-child(6) .single-features-item.style-two:hover .icon,
+.col-lg-4:nth-child(9) .single-features-item.style-two:hover .icon {
   background-color: #d9a600;
   color: var(--whiteColor);
 }
 
-.col-lg-4:nth-child(3) .features-box .icon, .col-lg-4:nth-child(6) .features-box .icon, .col-lg-4:nth-child(9) .features-box .icon {
+.col-lg-4:nth-child(3) .features-box .icon,
+.col-lg-4:nth-child(6) .features-box .icon,
+.col-lg-4:nth-child(9) .features-box .icon {
   background-color: #ff4e4a;
 }
 
-.col-lg-4:nth-child(3) .features-box.style-two .icon, .col-lg-4:nth-child(6) .features-box.style-two .icon, .col-lg-4:nth-child(9) .features-box.style-two .icon {
+.col-lg-4:nth-child(3) .features-box.style-two .icon,
+.col-lg-4:nth-child(6) .features-box.style-two .icon,
+.col-lg-4:nth-child(9) .features-box.style-two .icon {
   background-color: #711f7f;
 }
 
-.col-lg-4:nth-child(3) .features-item .icon, .col-lg-4:nth-child(6) .features-item .icon, .col-lg-4:nth-child(9) .features-item .icon {
+.col-lg-4:nth-child(3) .features-item .icon,
+.col-lg-4:nth-child(6) .features-item .icon,
+.col-lg-4:nth-child(9) .features-item .icon {
   background-color: #0871f7;
 }
 
-.col-lg-4:nth-child(3) .features-item:hover, .col-lg-4:nth-child(6) .features-item:hover, .col-lg-4:nth-child(9) .features-item:hover {
+.col-lg-4:nth-child(3) .features-item:hover,
+.col-lg-4:nth-child(6) .features-item:hover,
+.col-lg-4:nth-child(9) .features-item:hover {
   background-color: #0871f7;
 }
 
-.col-lg-4:nth-child(3) .features-item:hover .icon, .col-lg-4:nth-child(6) .features-item:hover .icon, .col-lg-4:nth-child(9) .features-item:hover .icon {
+.col-lg-4:nth-child(3) .features-item:hover .icon,
+.col-lg-4:nth-child(6) .features-item:hover .icon,
+.col-lg-4:nth-child(9) .features-item:hover .icon {
   background-color: var(--whiteColor);
   color: #0871f7;
 }
@@ -2077,7 +2202,7 @@ What We Do Area CSS
   border-radius: 10px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.04);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.04);
   padding-top: 70px;
   padding-left: 180px;
   padding-right: 70px;
@@ -2114,7 +2239,7 @@ What We Do Area CSS
 
 .single-what-we-do-box .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -2141,7 +2266,7 @@ What We Do Area CSS
 
 .single-what-we-do-box:hover .icon {
   -webkit-animation: bounce 2s;
-          animation: bounce 2s;
+  animation: bounce 2s;
 }
 
 .single-what-we-do-box:hover::before {
@@ -2164,15 +2289,18 @@ What We Do Area CSS
   background-color: var(--purpleColor);
 }
 
-.col-lg-6:nth-child(2) .single-what-we-do-box::before, .col-lg-6:nth-child(6) .single-what-we-do-box::before {
+.col-lg-6:nth-child(2) .single-what-we-do-box::before,
+.col-lg-6:nth-child(6) .single-what-we-do-box::before {
   background-color: #ffce22;
 }
 
-.col-lg-6:nth-child(3) .single-what-we-do-box::before, .col-lg-6:nth-child(7) .single-what-we-do-box::before {
+.col-lg-6:nth-child(3) .single-what-we-do-box::before,
+.col-lg-6:nth-child(7) .single-what-we-do-box::before {
   background-color: #8f6bf6;
 }
 
-.col-lg-6:nth-child(4) .single-what-we-do-box::before, .col-lg-6:nth-child(8) .single-what-we-do-box::before {
+.col-lg-6:nth-child(4) .single-what-we-do-box::before,
+.col-lg-6:nth-child(8) .single-what-we-do-box::before {
   background-color: #63eaa9;
 }
 
@@ -2206,11 +2334,11 @@ What We Do Area CSS
   display: block;
   position: absolute;
   -webkit-animation: run 7s 0s infinite;
-          animation: run 7s 0s infinite;
+  animation: run 7s 0s infinite;
   -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
   -webkit-animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
-          animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+  animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), color-stop(75%, var(--whiteColor)), to(var(--whiteColor)));
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--whiteColor) 75%, var(--whiteColor) 100%);
 }
@@ -2221,7 +2349,7 @@ What We Do Area CSS
 
 .lines .line:nth-child(1)::after {
   -webkit-animation-delay: 2s;
-          animation-delay: 2s;
+  animation-delay: 2s;
 }
 
 .lines .line:nth-child(3) {
@@ -2230,174 +2358,204 @@ What We Do Area CSS
 
 .lines .line:nth-child(3)::after {
   -webkit-animation-delay: 2.5s;
-          animation-delay: 2.5s;
+  animation-delay: 2.5s;
 }
 
 @-webkit-keyframes bounce {
+
   0%,
   20%,
   53%,
   80%,
   to {
     -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-            animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+    transform: translateZ(0);
   }
+
   40%,
   43% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-            animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
     -webkit-transform: translate3d(0, 30px, 0);
-            transform: translate3d(0, 30px, 0);
+    transform: translate3d(0, 30px, 0);
   }
+
   70% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-            animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
     -webkit-transform: translate3d(0, 15px, 0);
-            transform: translate3d(0, 15px, 0);
+    transform: translate3d(0, 15px, 0);
   }
+
   90% {
     -webkit-transform: translate3d(0, 4px, 0);
-            transform: translate3d(0, 4px, 0);
+    transform: translate3d(0, 4px, 0);
   }
 }
 
 @keyframes bounce {
+
   0%,
   20%,
   53%,
   80%,
   to {
     -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-            animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+    transform: translateZ(0);
   }
+
   40%,
   43% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-            animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
     -webkit-transform: translate3d(0, 30px, 0);
-            transform: translate3d(0, 30px, 0);
+    transform: translate3d(0, 30px, 0);
   }
+
   70% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-            animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
     -webkit-transform: translate3d(0, 15px, 0);
-            transform: translate3d(0, 15px, 0);
+    transform: translate3d(0, 15px, 0);
   }
+
   90% {
     -webkit-transform: translate3d(0, 4px, 0);
-            transform: translate3d(0, 4px, 0);
+    transform: translate3d(0, 4px, 0);
   }
 }
 
 @-webkit-keyframes movebounce {
   0% {
     -webkit-transform: translateY(0px);
-            transform: translateY(0px);
+    transform: translateY(0px);
   }
+
   50% {
     -webkit-transform: translateY(20px);
-            transform: translateY(20px);
+    transform: translateY(20px);
   }
+
   100% {
     -webkit-transform: translateY(0px);
-            transform: translateY(0px);
+    transform: translateY(0px);
   }
 }
 
 @keyframes movebounce {
   0% {
     -webkit-transform: translateY(0px);
-            transform: translateY(0px);
+    transform: translateY(0px);
   }
+
   50% {
     -webkit-transform: translateY(20px);
-            transform: translateY(20px);
+    transform: translateY(20px);
   }
+
   100% {
     -webkit-transform: translateY(0px);
-            transform: translateY(0px);
+    transform: translateY(0px);
   }
 }
 
 @-webkit-keyframes moveleftbounce {
   0% {
     -webkit-transform: translateX(0px);
-            transform: translateX(0px);
+    transform: translateX(0px);
   }
+
   50% {
     -webkit-transform: translateX(20px);
-            transform: translateX(20px);
+    transform: translateX(20px);
   }
+
   100% {
     -webkit-transform: translateX(0px);
-            transform: translateX(0px);
+    transform: translateX(0px);
   }
 }
 
 @keyframes moveleftbounce {
   0% {
     -webkit-transform: translateX(0px);
-            transform: translateX(0px);
+    transform: translateX(0px);
   }
+
   50% {
     -webkit-transform: translateX(20px);
-            transform: translateX(20px);
+    transform: translateX(20px);
   }
+
   100% {
     -webkit-transform: translateX(0px);
-            transform: translateX(0px);
+    transform: translateX(0px);
   }
 }
 
 @-webkit-keyframes border-transform {
+
   0%,
   100% {
     border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
   }
+
   14% {
     border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
   }
+
   28% {
     border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
   }
+
   42% {
     border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
   }
+
   56% {
     border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
   }
+
   70% {
     border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
   }
+
   84% {
     border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
   }
 }
 
 @keyframes border-transform {
+
   0%,
   100% {
     border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
   }
+
   14% {
     border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
   }
+
   28% {
     border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
   }
+
   42% {
     border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
   }
+
   56% {
     border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
   }
+
   70% {
     border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
   }
+
   84% {
     border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
   }
@@ -2406,22 +2564,24 @@ What We Do Area CSS
 @-webkit-keyframes rotate3d {
   0% {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
+
   100% {
     -webkit-transform: rotateY(360deg);
-            transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 
 @keyframes rotate3d {
   0% {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
+
   100% {
     -webkit-transform: rotateY(360deg);
-            transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 
@@ -2474,7 +2634,8 @@ FAQ Area CSS
   background-image: url(/images/faq2.jpg);
 }
 
-.faq-image.style-two img, .faq-image.style-two Image {
+.faq-image.style-two img,
+.faq-image.style-two Image {
   display: none !important;
 }
 
@@ -2608,7 +2769,7 @@ FAQ Area CSS
   margin-bottom: 25px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.04);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.04);
 }
 
 .faq-accordion-content .box:last-child {
@@ -2631,7 +2792,7 @@ FAQ Area CSS
   padding: 0;
   border-radius: 0;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   position: relative;
   background-color: transparent;
   color: var(--blackColor) !important;
@@ -2671,25 +2832,30 @@ FAQ Area CSS
   text-decoration: underline;
 }
 
-.faq-accordion-content .accordion .accordion-item .accordion-body ul li, .faq-accordion-content .accordion .accordion-item .accordion-body ol li {
+.faq-accordion-content .accordion .accordion-item .accordion-body ul li,
+.faq-accordion-content .accordion .accordion-item .accordion-body ol li {
   font-size: 16px;
   margin-bottom: 12px;
   color: var(--paragraphColor);
 }
 
-.faq-accordion-content .accordion .accordion-item .accordion-body ul li a, .faq-accordion-content .accordion .accordion-item .accordion-body ol li a {
+.faq-accordion-content .accordion .accordion-item .accordion-body ul li a,
+.faq-accordion-content .accordion .accordion-item .accordion-body ol li a {
   color: var(--redLightColor);
 }
 
-.faq-accordion-content .accordion .accordion-item .accordion-body ul li a:hover, .faq-accordion-content .accordion .accordion-item .accordion-body ol li a:hover {
+.faq-accordion-content .accordion .accordion-item .accordion-body ul li a:hover,
+.faq-accordion-content .accordion .accordion-item .accordion-body ol li a:hover {
   text-decoration: underline;
 }
 
-.faq-accordion-content .accordion .accordion-item .accordion-body ul li:last-child, .faq-accordion-content .accordion .accordion-item .accordion-body ol li:last-child {
+.faq-accordion-content .accordion .accordion-item .accordion-body ul li:last-child,
+.faq-accordion-content .accordion .accordion-item .accordion-body ol li:last-child {
   margin-bottom: 0;
 }
 
-.faq-accordion-content .accordion .accordion-item .accordion-body ul:last-child, .faq-accordion-content .accordion .accordion-item .accordion-body ol:last-child {
+.faq-accordion-content .accordion .accordion-item .accordion-body ul:last-child,
+.faq-accordion-content .accordion .accordion-item .accordion-body ol:last-child {
   margin-bottom: 0;
 }
 
@@ -2701,7 +2867,7 @@ FAQ Area CSS
   border: 0;
   border-radius: 0;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   margin-bottom: 25px;
 }
 
@@ -2718,7 +2884,7 @@ FAQ Area CSS
   padding: 0;
   border-radius: 0;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   position: relative;
   background-color: transparent;
   color: var(--blackColor) !important;
@@ -2732,12 +2898,12 @@ FAQ Area CSS
   margin-left: 8px;
   margin-top: -5px;
   -webkit-transform: translateY(0) rotate(90deg);
-          transform: translateY(0) rotate(90deg);
+  transform: translateY(0) rotate(90deg);
 }
 
 .faq-accordion-content .faq__question-button.font-weight-bold::after {
   -webkit-transform: translateY(0) rotate(-90deg);
-          transform: translateY(0) rotate(-90deg);
+  transform: translateY(0) rotate(-90deg);
 }
 
 .faq-accordion-content .faq__desc {
@@ -2762,25 +2928,30 @@ FAQ Area CSS
   text-decoration: underline;
 }
 
-.faq-accordion-content .faq__desc ul li, .faq-accordion-content .faq__desc ol li {
+.faq-accordion-content .faq__desc ul li,
+.faq-accordion-content .faq__desc ol li {
   font-size: 16px;
   margin-bottom: 12px;
   color: var(--paragraphColor);
 }
 
-.faq-accordion-content .faq__desc ul li a, .faq-accordion-content .faq__desc ol li a {
+.faq-accordion-content .faq__desc ul li a,
+.faq-accordion-content .faq__desc ol li a {
   color: var(--redLightColor);
 }
 
-.faq-accordion-content .faq__desc ul li a:hover, .faq-accordion-content .faq__desc ol li a:hover {
+.faq-accordion-content .faq__desc ul li a:hover,
+.faq-accordion-content .faq__desc ol li a:hover {
   text-decoration: underline;
 }
 
-.faq-accordion-content .faq__desc ul li:last-child, .faq-accordion-content .faq__desc ol li:last-child {
+.faq-accordion-content .faq__desc ul li:last-child,
+.faq-accordion-content .faq__desc ol li:last-child {
   margin-bottom: 0;
 }
 
-.faq-accordion-content .faq__desc ul:last-child, .faq-accordion-content .faq__desc ol:last-child {
+.faq-accordion-content .faq__desc ul:last-child,
+.faq-accordion-content .faq__desc ol:last-child {
   margin-bottom: 0;
 }
 
@@ -2793,7 +2964,7 @@ FAQ Area CSS
 
 .shape5 img {
   -webkit-animation: moveleftbounce 4s linear infinite;
-          animation: moveleftbounce 4s linear infinite;
+  animation: moveleftbounce 4s linear infinite;
 }
 
 /*================================================
@@ -2888,7 +3059,7 @@ Our Goal Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--whiteColor);
   display: inline-block;
   border-radius: 50%;
@@ -2945,7 +3116,7 @@ Our Goal Area CSS
 
 .goal-text .overview-list li {
   -webkit-box-shadow: 0px 4px 58px rgba(0, 0, 0, 0.08);
-          box-shadow: 0px 4px 58px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 58px rgba(0, 0, 0, 0.08);
   background-color: var(--whiteColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
@@ -3017,7 +3188,7 @@ Our Goal Area CSS
 
 .shape8 img {
   -webkit-animation: movebounce 2s linear infinite;
-          animation: movebounce 2s linear infinite;
+  animation: movebounce 2s linear infinite;
 }
 
 /*================================================
@@ -3133,7 +3304,7 @@ Residence Area CSS
 
 .shape9 img {
   -webkit-animation: movebounce 2s linear infinite;
-          animation: movebounce 2s linear infinite;
+  animation: movebounce 2s linear infinite;
 }
 
 /*================================================
@@ -3167,7 +3338,8 @@ Develop Skill Area CSS
   background-size: cover;
 }
 
-.develop-skill-image img, .develop-skill-image Image {
+.develop-skill-image img,
+.develop-skill-image Image {
   display: none !important;
 }
 
@@ -3218,7 +3390,7 @@ Develop Skill Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--whiteColor);
   border-radius: 50%;
   position: absolute;
@@ -3237,12 +3409,12 @@ Develop Skill Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .develop-skill-content .skill-list li .link-btn {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--blackColor);
   visibility: hidden;
   position: absolute;
@@ -3261,7 +3433,7 @@ Develop Skill Area CSS
 .develop-skill-content .skill-list li:hover {
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
 }
 
 .develop-skill-content .skill-list li:hover .link-btn {
@@ -3273,7 +3445,7 @@ Develop Skill Area CSS
 .develop-skill-content .skill-list li:first-child {
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 29px 13px rgba(0, 0, 0, 0.05);
 }
 
 .develop-skill-content .skill-list li:first-child .link-btn {
@@ -3299,13 +3471,13 @@ Develop Skill Area CSS
 
 .shape14 img {
   -webkit-animation-duration: 20s;
-          animation-duration: 20s;
+  animation-duration: 20s;
   -webkit-animation-name: rotateme;
-          animation-name: rotateme;
+  animation-name: rotateme;
   -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
+  animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 }
 
 /*================================================
@@ -3337,7 +3509,7 @@ Case Studies Area CSS
   margin-bottom: 25px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
 }
 
 .single-case-studies-box .image {
@@ -3380,7 +3552,7 @@ Case Studies Area CSS
   margin-top: 2px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-case-studies-box .content h3 {
@@ -3407,7 +3579,7 @@ Case Studies Area CSS
 
 .single-case-studies-box .content .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -3421,7 +3593,7 @@ Case Studies Area CSS
 
 .single-case-studies-box:hover .image img {
   -webkit-transform: scale(1.08);
-          transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .single-case-studies-box:hover .content .icon {
@@ -3453,13 +3625,13 @@ Case Studies Area CSS
   border-radius: 50%;
   position: absolute;
   -webkit-transform: translateY(-53%);
-          transform: translateY(-53%);
+  transform: translateY(-53%);
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 2px 26px 20px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 2px 26px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 26px 20px rgba(0, 0, 0, 0.05);
 }
 
 .case-studies-slides.owl-theme .owl-nav [class*="owl-"] i {
@@ -3469,7 +3641,7 @@ Case Studies Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .case-studies-slides.owl-theme .owl-nav [class*="owl-"].owl-next {
@@ -3623,7 +3795,7 @@ Testimonials Area CSS
 
 .carousel .thumbs-wrapper .thumbs {
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   padding: 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3638,8 +3810,8 @@ Testimonials Area CSS
   width: 20% !important;
   margin: 0;
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 0;
@@ -3778,11 +3950,13 @@ Testimonials Area CSS
   transition: var(--transition);
 }
 
-.testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span, .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
+.testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--lightGreenColor);
 }
 
-.testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before, .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
+.testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--lightGreenColor);
 }
 
@@ -3820,11 +3994,13 @@ Testimonials Area CSS
   margin-top: 15px !important;
 }
 
-.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span, .testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--darkGreenColor);
 }
 
-.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before, .testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--darkGreenColor);
 }
 
@@ -3865,7 +4041,7 @@ Testimonials Area CSS
 
 .testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-stage-outer {
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
   background: var(--whiteColor);
   border-radius: 10px;
 }
@@ -3877,17 +4053,19 @@ Testimonials Area CSS
   margin-top: 15px !important;
 }
 
-.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span, .testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--greenColor);
 }
 
-.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before, .testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--greenColor);
 }
 
 .testimonials-slides-three .single-testimonials-box {
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
   background-color: var(--whiteColor);
   border-radius: 10px;
   padding: 50px;
@@ -3931,11 +4109,13 @@ Testimonials Area CSS
   transition: var(--transition);
 }
 
-.testimonials-slides-three.owl-theme .owl-dots .owl-dot:hover span, .testimonials-slides-three.owl-theme .owl-dots .owl-dot.active span {
+.testimonials-slides-three.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-slides-three.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--greenColor2);
 }
 
-.testimonials-slides-three.owl-theme .owl-dots .owl-dot:hover span::before, .testimonials-slides-three.owl-theme .owl-dots .owl-dot.active span::before {
+.testimonials-slides-three.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-slides-three.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--greenColor2);
 }
 
@@ -3951,7 +4131,7 @@ Testimonials Area CSS
   padding: 55px 30px 30px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
 }
 
 .testimonials-box .rating {
@@ -3973,7 +4153,8 @@ Testimonials Area CSS
   margin-top: 25px;
 }
 
-.testimonials-box .info .img, .testimonials-box .info img {
+.testimonials-box .info .img,
+.testimonials-box .info img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -4064,7 +4245,8 @@ Testimonials Area CSS
   color: var(--paragraphColor);
 }
 
-.testimonials-item .img, .testimonials-item img {
+.testimonials-item .img,
+.testimonials-item img {
   bottom: -50px;
   height: 120px;
   display: block;
@@ -4106,41 +4288,47 @@ Testimonials Area CSS
   background-color: var(--whiteColor);
 }
 
-.testimonials-slides-four.owl-theme .owl-dots .owl-dot:hover span, .testimonials-slides-four.owl-theme .owl-dots .owl-dot.active span {
+.testimonials-slides-four.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-slides-four.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--purpleColor);
 }
 
-.testimonials-slides-four.owl-theme .owl-dots .owl-dot:hover span::before, .testimonials-slides-four.owl-theme .owl-dots .owl-dot.active span::before {
+.testimonials-slides-four.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-slides-four.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--purpleColor);
 }
 
 @-webkit-keyframes movescale {
   0% {
     -webkit-transform: scale(0.8);
-            transform: scale(0.8);
+    transform: scale(0.8);
   }
+
   50% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
+
   100% {
     -webkit-transform: scale(0.8);
-            transform: scale(0.8);
+    transform: scale(0.8);
   }
 }
 
 @keyframes movescale {
   0% {
     -webkit-transform: scale(0.8);
-            transform: scale(0.8);
+    transform: scale(0.8);
   }
+
   50% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
+
   100% {
     -webkit-transform: scale(0.8);
-            transform: scale(0.8);
+    transform: scale(0.8);
   }
 }
 
@@ -4148,6 +4336,7 @@ Testimonials Area CSS
   0% {
     top: -50%;
   }
+
   100% {
     top: 110%;
   }
@@ -4157,6 +4346,7 @@ Testimonials Area CSS
   0% {
     top: -50%;
   }
+
   100% {
     top: 110%;
   }
@@ -4165,22 +4355,24 @@ Testimonials Area CSS
 @-webkit-keyframes swing {
   0% {
     -webkit-transform: rotate(9deg);
-            transform: rotate(9deg);
+    transform: rotate(9deg);
   }
+
   100% {
     -webkit-transform: rotate(-9deg);
-            transform: rotate(-9deg);
+    transform: rotate(-9deg);
   }
 }
 
 @keyframes swing {
   0% {
     -webkit-transform: rotate(9deg);
-            transform: rotate(9deg);
+    transform: rotate(9deg);
   }
+
   100% {
     -webkit-transform: rotate(-9deg);
-            transform: rotate(-9deg);
+    transform: rotate(-9deg);
   }
 }
 
@@ -4237,7 +4429,7 @@ Resources Area CSS
 
 .single-resources-box .content .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -4251,7 +4443,7 @@ Resources Area CSS
 
 .single-resources-box:hover .image img {
   -webkit-transform: scale(1.07);
-          transform: scale(1.07);
+  transform: scale(1.07);
 }
 
 .single-resources-box.red-light-color .content h3 a:hover {
@@ -4344,7 +4536,7 @@ Portfolio Details Area CSS
 
 .portfolio-details-image .image:hover img {
   -webkit-transform: scale(1.08);
-          transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .portfolio-details-image .col-lg-12:last-child .image {
@@ -4491,7 +4683,7 @@ Funfacts Area CSS
   transition: var(--transition);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.04);
-          box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.04);
   border-radius: 30% 70% 47% 53% / 30% 30% 70% 70%;
   margin-left: auto;
   margin-right: auto;
@@ -4506,7 +4698,7 @@ Funfacts Area CSS
   margin-top: 2px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-funfacts-box h3 {
@@ -4559,7 +4751,7 @@ Funfacts Area CSS
   transition: var(--transition);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
-          box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
 }
 
 .single-funfacts-item .icon i {
@@ -4569,7 +4761,7 @@ Funfacts Area CSS
   margin-top: 3px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-funfacts-item h3 {
@@ -4629,7 +4821,7 @@ Funfacts Area CSS
   color: var(--whiteColor);
   background-color: var(--yellowColor);
   -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
   cursor: pointer;
 }
 
@@ -4640,7 +4832,7 @@ Funfacts Area CSS
   margin-top: 7px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .video-box .video-btn:hover {
@@ -4670,7 +4862,7 @@ Funfacts Area CSS
 
 .shape16 img {
   -webkit-animation: movebounce 2s linear infinite;
-          animation: movebounce 2s linear infinite;
+  animation: movebounce 2s linear infinite;
 }
 
 /*================================================
@@ -4722,7 +4914,8 @@ Team Area CSS
   background-image: url("/images/team/team14.jpg");
 }
 
-.single-team-member img, .single-team-member Image {
+.single-team-member img,
+.single-team-member Image {
   display: none !important;
 }
 
@@ -4780,7 +4973,7 @@ Team Area CSS
   margin-top: 1px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-team-member .content .social li a:hover {
@@ -4858,7 +5051,7 @@ Team Area CSS
 
 .team-member-list ul li img {
   -webkit-filter: drop-shadow(0px 4px 21px rgba(0, 0, 0, 0.23));
-          filter: drop-shadow(0px 4px 21px rgba(0, 0, 0, 0.23));
+  filter: drop-shadow(0px 4px 21px rgba(0, 0, 0, 0.23));
   -webkit-transition: var(--transition);
   transition: var(--transition);
   border-radius: 50%;
@@ -4870,7 +5063,7 @@ Team Area CSS
 
 .team-member-list ul li:hover img {
   -webkit-transform: scale(1.08);
-          transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .team-member-list ul li:nth-child(1) {
@@ -4880,7 +5073,7 @@ Team Area CSS
 
 .team-member-list ul li:nth-child(1) img {
   -webkit-filter: drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.2));
-          filter: drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.2));
 }
 
 .team-member-list ul li:nth-child(2) {
@@ -4913,12 +5106,12 @@ Team Area CSS
 
 .team-member-list ul li.hover {
   -webkit-filter: blur(4px);
-          filter: blur(4px);
+  filter: blur(4px);
 }
 
 .team-member-list ul li.hover:hover {
   -webkit-filter: blur(0);
-          filter: blur(0);
+  filter: blur(0);
 }
 
 .bg-image {
@@ -4936,13 +5129,15 @@ Team Area CSS
   margin-top: 25px;
 }
 
-.team-member-list-style-two .row .col-lg-6:nth-child(3) .single-team-member, .team-member-list-style-two .row .col-lg-6:nth-child(5) .single-team-member, .team-member-list-style-two .row .col-lg-6:nth-child(7) .single-team-member {
+.team-member-list-style-two .row .col-lg-6:nth-child(3) .single-team-member,
+.team-member-list-style-two .row .col-lg-6:nth-child(5) .single-team-member,
+.team-member-list-style-two .row .col-lg-6:nth-child(7) .single-team-member {
   margin-top: -25px;
 }
 
 .shape4 {
   -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   position: absolute;
   z-index: -1;
   left: 50%;
@@ -4951,118 +5146,134 @@ Team Area CSS
 
 .shape4 img {
   -webkit-animation-duration: 20s;
-          animation-duration: 20s;
+  animation-duration: 20s;
   -webkit-animation-name: rotateme;
-          animation-name: rotateme;
+  animation-name: rotateme;
   -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
+  animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 }
 
 @-webkit-keyframes rotateme {
   from {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   to {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 @keyframes rotateme {
   from {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   to {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 @-webkit-keyframes shake-bottom {
+
   0%,
   100% {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
     -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
   }
+
   10% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
+
   20%,
   40%,
   60% {
     -webkit-transform: rotate(-4deg);
-            transform: rotate(-4deg);
+    transform: rotate(-4deg);
   }
+
   30%,
   50%,
   70% {
     -webkit-transform: rotate(4deg);
-            transform: rotate(4deg);
+    transform: rotate(4deg);
   }
+
   80% {
     -webkit-transform: rotate(-2deg);
-            transform: rotate(-2deg);
+    transform: rotate(-2deg);
   }
+
   90% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
 }
 
 @keyframes shake-bottom {
+
   0%,
   100% {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
     -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
   }
+
   10% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
+
   20%,
   40%,
   60% {
     -webkit-transform: rotate(-4deg);
-            transform: rotate(-4deg);
+    transform: rotate(-4deg);
   }
+
   30%,
   50%,
   70% {
     -webkit-transform: rotate(4deg);
-            transform: rotate(4deg);
+    transform: rotate(4deg);
   }
+
   80% {
     -webkit-transform: rotate(-2deg);
-            transform: rotate(-2deg);
+    transform: rotate(-2deg);
   }
+
   90% {
     -webkit-transform: rotate(2deg);
-            transform: rotate(2deg);
+    transform: rotate(2deg);
   }
 }
 
 @-webkit-keyframes ripple {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
+
   75% {
     -webkit-transform: scale(1.75);
-            transform: scale(1.75);
+    transform: scale(1.75);
     opacity: 1;
   }
+
   100% {
     -webkit-transform: scale(2);
-            transform: scale(2);
+    transform: scale(2);
     opacity: 0;
   }
 }
@@ -5070,16 +5281,18 @@ Team Area CSS
 @keyframes ripple {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
+
   75% {
     -webkit-transform: scale(1.75);
-            transform: scale(1.75);
+    transform: scale(1.75);
     opacity: 1;
   }
+
   100% {
     -webkit-transform: scale(2);
-            transform: scale(2);
+    transform: scale(2);
     opacity: 0;
   }
 }
@@ -5216,7 +5429,8 @@ Our Working Process Area CSS
   background-image: url(/images/working-process3.jpg);
 }
 
-.working-process-image img, .working-process-image Image {
+.working-process-image img,
+.working-process-image Image {
   display: none !important;
 }
 
@@ -5307,7 +5521,7 @@ Our Working Process Area CSS
 
 .shape10 img {
   -webkit-animation: moveleftbounce 2s linear infinite;
-          animation: moveleftbounce 2s linear infinite;
+  animation: moveleftbounce 2s linear infinite;
 }
 
 .shape11 {
@@ -5319,7 +5533,7 @@ Our Working Process Area CSS
 
 .shape11 img {
   -webkit-animation: moveleftbounce 2s linear infinite;
-          animation: moveleftbounce 2s linear infinite;
+  animation: moveleftbounce 2s linear infinite;
 }
 
 .shape15 {
@@ -5330,13 +5544,13 @@ Our Working Process Area CSS
 
 .shape15 img {
   -webkit-animation-duration: 20s;
-          animation-duration: 20s;
+  animation-duration: 20s;
   -webkit-animation-name: rotateme;
-          animation-name: rotateme;
+  animation-name: rotateme;
   -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
+  animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 }
 
 /*================================================
@@ -5372,7 +5586,7 @@ Why Choose Us Area CSS
   margin-top: 5px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .single-why-choose-us-box h3 {
@@ -5399,7 +5613,7 @@ Why Choose Us Area CSS
 
 .single-why-choose-us-box .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -5411,9 +5625,10 @@ Why Choose Us Area CSS
   padding-right: 20px;
 }
 
-.single-why-choose-us-box:hover, .single-why-choose-us-box.active {
+.single-why-choose-us-box:hover,
+.single-why-choose-us-box.active {
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
 }
 
 .col-lg-4:nth-child(2) .single-why-choose-us-box .icon {
@@ -5517,7 +5732,8 @@ Courses Area CSS
   list-style-type: none;
 }
 
-.single-courses-box .content .info li .author .img, .single-courses-box .content .info li .author img {
+.single-courses-box .content .info li .author .img,
+.single-courses-box .content .info li .author img {
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -5560,12 +5776,12 @@ Courses Area CSS
 
 .single-courses-box:hover {
   -webkit-box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.15);
-          box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.15);
 }
 
 .single-courses-box:hover .image img {
   -webkit-transform: scale(1.07);
-          transform: scale(1.07);
+  transform: scale(1.07);
 }
 
 /*================================================
@@ -5686,7 +5902,7 @@ Courses Details Area CSS
   position: absolute;
   color: var(--yellowColor);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   -webkit-transition: var(--transition);
   transition: var(--transition);
   background-color: var(--whiteColor);
@@ -5709,12 +5925,12 @@ Courses Details Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .courses-details-image:hover img {
   -webkit-transform: scale(1.08);
-          transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .courses-details-desc .react-tabs__tab-list {
@@ -5750,15 +5966,16 @@ Courses Details Area CSS
   height: 2px;
   position: absolute;
   -webkit-transform: scaleX(0);
-          transform: scaleX(0);
+  transform: scaleX(0);
   -webkit-transition: var(--transition);
   transition: var(--transition);
   background-color: var(--yellowColor);
 }
 
-.courses-details-desc .react-tabs__tab-list .react-tabs__tab:hover::before, .courses-details-desc .react-tabs__tab-list .react-tabs__tab.react-tabs__tab--selected::before {
+.courses-details-desc .react-tabs__tab-list .react-tabs__tab:hover::before,
+.courses-details-desc .react-tabs__tab-list .react-tabs__tab.react-tabs__tab--selected::before {
   -webkit-transform: scaleX(1);
-          transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 .courses-details-desc .react-tabs__tab-list .react-tabs__tab:last-child {
@@ -5875,7 +6092,7 @@ Courses Details Area CSS
 
 .courses-details-desc .courses-curriculum ul li a::before {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--crimsonColor);
   position: absolute;
   margin-top: -1px;
@@ -5945,7 +6162,56 @@ Courses Details Area CSS
   color: var(--yellowColor);
 }
 
-.courses-details-desc .courses-curriculum ul li:nth-child(2) a, .courses-details-desc .courses-curriculum ul li:nth-child(4) a, .courses-details-desc .courses-curriculum ul li:nth-child(6) a, .courses-details-desc .courses-curriculum ul li:nth-child(8) a, .courses-details-desc .courses-curriculum ul li:nth-child(10) a, .courses-details-desc .courses-curriculum ul li:nth-child(12) a, .courses-details-desc .courses-curriculum ul li:nth-child(14) a, .courses-details-desc .courses-curriculum ul li:nth-child(16) a, .courses-details-desc .courses-curriculum ul li:nth-child(18) a, .courses-details-desc .courses-curriculum ul li:nth-child(20) a, .courses-details-desc .courses-curriculum ul li:nth-child(22) a, .courses-details-desc .courses-curriculum ul li:nth-child(24) a, .courses-details-desc .courses-curriculum ul li:nth-child(26) a, .courses-details-desc .courses-curriculum ul li:nth-child(28) a, .courses-details-desc .courses-curriculum ul li:nth-child(30) a, .courses-details-desc .courses-curriculum ul li:nth-child(32) a, .courses-details-desc .courses-curriculum ul li:nth-child(34) a, .courses-details-desc .courses-curriculum ul li:nth-child(36) a, .courses-details-desc .courses-curriculum ul li:nth-child(38) a, .courses-details-desc .courses-curriculum ul li:nth-child(40) a, .courses-details-desc .courses-curriculum ul li:nth-child(42) a, .courses-details-desc .courses-curriculum ul li:nth-child(44) a, .courses-details-desc .courses-curriculum ul li:nth-child(46) a, .courses-details-desc .courses-curriculum ul li:nth-child(48) a, .courses-details-desc .courses-curriculum ul li:nth-child(50) a, .courses-details-desc .courses-curriculum ul li:nth-child(52) a, .courses-details-desc .courses-curriculum ul li:nth-child(54) a, .courses-details-desc .courses-curriculum ul li:nth-child(56) a, .courses-details-desc .courses-curriculum ul li:nth-child(58) a, .courses-details-desc .courses-curriculum ul li:nth-child(60) a, .courses-details-desc .courses-curriculum ul li:nth-child(62) a, .courses-details-desc .courses-curriculum ul li:nth-child(64) a, .courses-details-desc .courses-curriculum ul li:nth-child(66) a, .courses-details-desc .courses-curriculum ul li:nth-child(68) a, .courses-details-desc .courses-curriculum ul li:nth-child(70) a, .courses-details-desc .courses-curriculum ul li:nth-child(72) a, .courses-details-desc .courses-curriculum ul li:nth-child(74) a, .courses-details-desc .courses-curriculum ul li:nth-child(76) a, .courses-details-desc .courses-curriculum ul li:nth-child(78) a, .courses-details-desc .courses-curriculum ul li:nth-child(80) a, .courses-details-desc .courses-curriculum ul li:nth-child(82) a, .courses-details-desc .courses-curriculum ul li:nth-child(84) a, .courses-details-desc .courses-curriculum ul li:nth-child(86) a, .courses-details-desc .courses-curriculum ul li:nth-child(88) a, .courses-details-desc .courses-curriculum ul li:nth-child(90) a, .courses-details-desc .courses-curriculum ul li:nth-child(92) a, .courses-details-desc .courses-curriculum ul li:nth-child(94) a, .courses-details-desc .courses-curriculum ul li:nth-child(96) a, .courses-details-desc .courses-curriculum ul li:nth-child(98) a, .courses-details-desc .courses-curriculum ul li:nth-child(100) a {
+.courses-details-desc .courses-curriculum ul li:nth-child(2) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(4) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(6) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(8) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(10) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(12) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(14) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(16) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(18) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(20) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(22) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(24) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(26) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(28) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(30) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(32) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(34) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(36) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(38) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(40) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(42) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(44) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(46) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(48) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(50) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(52) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(54) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(56) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(58) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(60) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(62) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(64) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(66) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(68) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(70) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(72) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(74) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(76) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(78) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(80) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(82) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(84) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(86) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(88) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(90) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(92) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(94) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(96) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(98) a,
+.courses-details-desc .courses-curriculum ul li:nth-child(100) a {
   background-color: var(--whiteColor);
 }
 
@@ -6138,7 +6404,7 @@ Courses Details Area CSS
   font-size: var(--fontSize);
   color: var(--blackColor);
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   border-radius: 0;
   font-size: 16px;
   height: 50px;
@@ -6226,9 +6492,9 @@ Courses Details Area CSS
   display: none;
 }
 
-.courses-details-desc .review-form-wrapper form .rating input:checked ~ label:before,
-.courses-details-desc .review-form-wrapper form .rating:not(:checked) > label:hover:before,
-.courses-details-desc .review-form-wrapper form .rating:not(:checked) > label:hover ~ label:before {
+.courses-details-desc .review-form-wrapper form .rating input:checked~label:before,
+.courses-details-desc .review-form-wrapper form .rating:not(:checked)>label:hover:before,
+.courses-details-desc .review-form-wrapper form .rating:not(:checked)>label:hover~label:before {
   color: #f6b500;
 }
 
@@ -6250,7 +6516,7 @@ Courses Details Area CSS
 .courses-details-desc .review-form-wrapper form .form-check .form-check-input {
   margin-top: 0.18em;
   -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .courses-details-desc .review-form-wrapper form .form-check .form-check-input[type="checkbox"] {
@@ -6279,7 +6545,7 @@ Courses Details Area CSS
   border-radius: 5px;
   padding: 12px 35px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   margin-top: 20px;
   border: 0;
   font-size: var(--fontSize);
@@ -6432,12 +6698,12 @@ Courses Details Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-48%);
-          transform: translateY(-48%);
+  transform: translateY(-48%);
 }
 
 .courses-details-info .courses-share .share-info .social-link li a:hover {
   -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .courses-details-info .courses-share .share-info .social-link li a.facebook {
@@ -6479,7 +6745,7 @@ Gallery Area CSS
 
 .single-gallery-item:hover img {
   -webkit-transform: scale(1.06);
-          transform: scale(1.06);
+  transform: scale(1.06);
   cursor: -webkit-zoom-in;
   cursor: zoom-in;
 }
@@ -6615,7 +6881,7 @@ Pricing Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--whiteColor);
   margin-top: -1px;
   display: inline-block;
@@ -6659,7 +6925,8 @@ Pricing Area CSS
   background: linear-gradient(180deg, rgba(98, 236, 255, 0.21) 0%, rgba(180, 246, 255, 0.0735) 100%);
 }
 
-.single-pricing-box:hover::before, .single-pricing-box.active::before {
+.single-pricing-box:hover::before,
+.single-pricing-box.active::before {
   opacity: 1;
   visibility: visible;
 }
@@ -6689,7 +6956,7 @@ Blog Area CSS
   border-radius: 10px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 2px 27px 8px rgba(0, 0, 0, 0.08);
-          box-shadow: 0px 2px 27px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 2px 27px 8px rgba(0, 0, 0, 0.08);
 }
 
 .single-blog-post .image {
@@ -6760,7 +7027,7 @@ Blog Area CSS
 
 .single-blog-post:hover .image img {
   -webkit-transform: scale(1.07);
-          transform: scale(1.07);
+  transform: scale(1.07);
 }
 
 .single-blog-post-item {
@@ -6837,7 +7104,7 @@ Blog Area CSS
 
 .single-blog-post-item .content .link-btn i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   font-size: 20px;
   right: -7px;
@@ -6851,7 +7118,7 @@ Blog Area CSS
 
 .single-blog-post-item:hover .image img {
   -webkit-transform: scale(1.07);
-          transform: scale(1.07);
+  transform: scale(1.07);
 }
 
 .single-blog-post-item.green-color .content .meta li i {
@@ -7002,19 +7269,19 @@ Blog Details Area CSS
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   margin-top: 30px;
   padding-top: 30px;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   border-top: 1px solid #eeeeee;
 }
 
 .blog-details-desc .post-footer .post-tags {
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 50%;
-          flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
   max-width: 50%;
   font-size: 16px;
 }
@@ -7053,8 +7320,8 @@ Blog Details Area CSS
 
 .blog-details-desc .post-footer .article-share {
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 50%;
-          flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
   max-width: 50%;
   text-align: end;
 }
@@ -7371,7 +7638,7 @@ blockquote cite,
   font-size: var(--fontSize);
   color: var(--blackColor);
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 15.5px;
   border-radius: 0;
   height: 55px;
@@ -7449,7 +7716,7 @@ blockquote cite,
   cursor: pointer;
   margin-top: 0.18em;
   -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .comments-area .comment-respond .form-check .form-check-input[type="checkbox"] {
@@ -7474,7 +7741,7 @@ blockquote cite,
   border-radius: 5px;
   padding: 12px 30px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   border: 0;
   font-size: var(--fontSize);
   font-weight: 500;
@@ -7558,7 +7825,7 @@ Screenshots Area CSS
 
 .screenshots-tabs .react-tabs__tab-list .react-tabs__tab i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   margin-top: -1px;
   font-size: 24px;
@@ -7586,7 +7853,7 @@ Screenshots Area CSS
 
 .screenshots-tabs .react-tabs__tab-panel img {
   -webkit-filter: drop-shadow(25px 50px 70px rgba(42, 50, 61, 0.15));
-          filter: drop-shadow(25px 50px 70px rgba(42, 50, 61, 0.15));
+  filter: drop-shadow(25px 50px 70px rgba(42, 50, 61, 0.15));
 }
 
 /*================================================
@@ -7894,7 +8161,7 @@ App Download Area CSS
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   -webkit-animation: border-transform 10s linear infinite alternate forwards;
-          animation: border-transform 10s linear infinite alternate forwards;
+  animation: border-transform 10s linear infinite alternate forwards;
 }
 
 .app-download-content {
@@ -7928,7 +8195,7 @@ App Download Area CSS
   color: var(--paragraphColor);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0 7px 18px 0 rgba(107, 124, 147, 0.15);
-          box-shadow: 0 7px 18px 0 rgba(107, 124, 147, 0.15);
+  box-shadow: 0 7px 18px 0 rgba(107, 124, 147, 0.15);
   font-size: 14px;
   font-weight: 500;
   padding-top: 12px;
@@ -7949,7 +8216,7 @@ App Download Area CSS
 
 .app-download-content .btn-box .playstore-btn .img {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   left: 20px;
   top: 50%;
@@ -7958,7 +8225,7 @@ App Download Area CSS
 .app-download-content .btn-box .playstore-btn:hover {
   background-color: var(--blackColor);
   -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
+  transform: translateY(-3px);
   color: var(--whiteColor);
 }
 
@@ -7973,7 +8240,7 @@ App Download Area CSS
   color: var(--paragraphColor);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0 7px 18px 0 rgba(107, 124, 147, 0.15);
-          box-shadow: 0 7px 18px 0 rgba(107, 124, 147, 0.15);
+  box-shadow: 0 7px 18px 0 rgba(107, 124, 147, 0.15);
   font-size: 14px;
   font-weight: 500;
   padding-top: 12px;
@@ -7994,7 +8261,7 @@ App Download Area CSS
 
 .app-download-content .btn-box .applestore-btn .img {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   left: 20px;
   top: 50%;
@@ -8003,7 +8270,7 @@ App Download Area CSS
 .app-download-content .btn-box .applestore-btn:hover {
   background-color: var(--blackColor);
   -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
+  transform: translateY(-3px);
   color: var(--whiteColor);
 }
 
@@ -8023,7 +8290,8 @@ Partner Area CSS
   text-align: center;
 }
 
-.partner-item img, .partner-item Image {
+.partner-item img,
+.partner-item Image {
   width: auto !important;
   display: inline-block !important;
 }
@@ -8088,7 +8356,7 @@ Free Trial Area CSS
 
 .shape12 img {
   -webkit-animation: moveleftbounce 2s linear infinite;
-          animation: moveleftbounce 2s linear infinite;
+  animation: moveleftbounce 2s linear infinite;
 }
 
 .shape13 {
@@ -8100,7 +8368,7 @@ Free Trial Area CSS
 
 .shape13 img {
   -webkit-animation: moveleftbounce 2s linear infinite;
-          animation: moveleftbounce 2s linear infinite;
+  animation: moveleftbounce 2s linear infinite;
 }
 
 /*================================================
@@ -8198,7 +8466,7 @@ Page Title Area CSS
   background-color: var(--whiteColor);
   font-family: var(--secondaryFontFamily);
   -webkit-box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .page-title-content form .input-search::-webkit-input-placeholder {
@@ -8295,7 +8563,7 @@ Page Title Area CSS
   content: "\f13c";
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   color: var(--paragraphColor);
   font-family: flaticon;
   font-size: var(--fontSize);
@@ -8328,11 +8596,11 @@ Pagination Area CSS
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .pagination-area .page-numbers {
@@ -8349,14 +8617,15 @@ Pagination Area CSS
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eaeef3));
   background: linear-gradient(180deg, #ffffff 0%, #eaeef3 100%);
   -webkit-box-shadow: 0 5px 15px 0 rgba(107, 124, 147, 0.15), 0 2px 4px 0 rgba(107, 124, 147, 0.2), inset 0 -2px 0 0 #c2cfde;
-          box-shadow: 0 5px 15px 0 rgba(107, 124, 147, 0.15), 0 2px 4px 0 rgba(107, 124, 147, 0.2), inset 0 -2px 0 0 #c2cfde;
+  box-shadow: 0 5px 15px 0 rgba(107, 124, 147, 0.15), 0 2px 4px 0 rgba(107, 124, 147, 0.2), inset 0 -2px 0 0 #c2cfde;
   font-size: var(----fontSize);
   font-weight: 500;
   margin-left: 8px;
   margin-right: 8px;
 }
 
-.pagination-area .page-numbers::before, .pagination-area .page-numbers::after {
+.pagination-area .page-numbers::before,
+.pagination-area .page-numbers::after {
   top: 0;
   left: 0;
   right: 0;
@@ -8369,17 +8638,17 @@ Pagination Area CSS
   -webkit-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
   -webkit-transform: translateX(-100px);
-          transform: translateX(-100px);
+  transform: translateX(-100px);
   background-image: linear-gradient(135deg, #01579b, #0091ea);
 }
 
 .pagination-area .page-numbers::after {
   content: "click";
   -webkit-transition-delay: 0.25s;
-          transition-delay: 0.25s;
+  transition-delay: 0.25s;
   color: var(--whiteColor);
   -webkit-transform: translateY(100px);
-          transform: translateY(100px);
+  transform: translateY(100px);
   background: linear-gradient(135deg, #093170, #01579b);
 }
 
@@ -8387,9 +8656,10 @@ Pagination Area CSS
   color: var(--redLightColor);
 }
 
-.pagination-area .page-numbers:hover::before, .pagination-area .page-numbers:hover::after {
+.pagination-area .page-numbers:hover::before,
+.pagination-area .page-numbers:hover::after {
   -webkit-transform: translateY(0);
-          transform: translateY(0);
+  transform: translateY(0);
 }
 
 .pagination-area .page-numbers.current {
@@ -8397,16 +8667,19 @@ Pagination Area CSS
   background: var(--whiteColor);
 }
 
-.pagination-area .page-numbers.current:hover::before, .pagination-area .page-numbers.current:hover::after {
+.pagination-area .page-numbers.current:hover::before,
+.pagination-area .page-numbers.current:hover::after {
   display: none;
 }
 
-.pagination-area .page-numbers.next, .pagination-area .page-numbers.prev {
+.pagination-area .page-numbers.next,
+.pagination-area .page-numbers.prev {
   line-height: 42px;
   font-size: 15px;
 }
 
-.pagination-area .page-numbers.next:hover, .pagination-area .page-numbers.prev:hover {
+.pagination-area .page-numbers.next:hover,
+.pagination-area .page-numbers.prev:hover {
   line-height: 45px;
 }
 
@@ -8464,7 +8737,7 @@ Products Area CSS
 
 .single-products-box {
   -webkit-box-shadow: 0 0.5rem 0.937rem rgba(140, 152, 164, 0.1);
-          box-shadow: 0 0.5rem 0.937rem rgba(140, 152, 164, 0.1);
+  box-shadow: 0 0.5rem 0.937rem rgba(140, 152, 164, 0.1);
   background-color: var(--whiteColor);
   border: 1px solid #e7e7ec;
   margin-bottom: 25px;
@@ -8554,7 +8827,7 @@ Products Area CSS
 
 .single-products-box:hover .image img {
   -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .single-products-box:hover .image .btn-style-one {
@@ -8738,11 +9011,13 @@ Products Details Area CSS
   background-color: var(--redLightColor);
 }
 
-.products-details-tabs .nav .nav-item .nav-link:hover, .products-details-tabs .nav .nav-item .nav-link.active {
+.products-details-tabs .nav .nav-item .nav-link:hover,
+.products-details-tabs .nav .nav-item .nav-link.active {
   color: var(--blackColor);
 }
 
-.products-details-tabs .nav .nav-item .nav-link:hover::before, .products-details-tabs .nav .nav-item .nav-link.active::before {
+.products-details-tabs .nav .nav-item .nav-link:hover::before,
+.products-details-tabs .nav .nav-item .nav-link.active::before {
   width: 100%;
 }
 
@@ -8852,7 +9127,7 @@ Products Details Area CSS
   font-size: var(--fontSize);
   color: var(--blackColor);
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   border-radius: 0;
   font-size: 16px;
   height: 50px;
@@ -8940,9 +9215,9 @@ Products Details Area CSS
   display: none;
 }
 
-.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating input:checked ~ label:before,
-.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating:not(:checked) > label:hover:before,
-.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating:not(:checked) > label:hover ~ label:before {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating input:checked~label:before,
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating:not(:checked)>label:hover:before,
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating:not(:checked)>label:hover~label:before {
   color: #f6b500;
 }
 
@@ -8964,7 +9239,7 @@ Products Details Area CSS
 .products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-input {
   margin-top: 0.18em;
   -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-input[type="checkbox"] {
@@ -8993,7 +9268,7 @@ Products Details Area CSS
   border-radius: 5px;
   padding: 12px 35px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   margin-top: 20px;
   border: 0;
   font-size: var(--fontSize);
@@ -9037,9 +9312,9 @@ Products Details Area CSS
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.products-details-tabs .tab-content .tab-pane .table > :not(caption) > * > * {
+.products-details-tabs .tab-content .tab-pane .table> :not(caption)>*>* {
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
 }
 
 /*================================================
@@ -9167,7 +9442,7 @@ Cart Area CSS
   color: var(--blackColor);
 }
 
-.cart-table .table > :not(:first-child) {
+.cart-table .table> :not(:first-child) {
   border-top: none;
 }
 
@@ -9187,7 +9462,7 @@ Cart Area CSS
   padding-left: 20px;
   border-radius: 5px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 16px;
   height: 50px;
   border: 0;
@@ -9308,7 +9583,7 @@ Checkout Area CSS
 =================================================*/
 .user-actions {
   -webkit-box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
-          box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
   border-left: 3px solid var(--redLightColor);
   background: var(--whiteColor);
   margin-bottom: 50px;
@@ -9340,7 +9615,7 @@ Checkout Area CSS
   margin-top: 1px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   background-color: #ebeeee;
 }
 
@@ -9362,7 +9637,7 @@ Checkout Area CSS
   padding-left: 18px;
   border-radius: 5px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 15px;
   height: 55px;
 }
@@ -9440,7 +9715,7 @@ Checkout Area CSS
   display: block;
   font-size: 15px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   padding-left: 18px;
   border-radius: 5px;
   color: var(--blackColor);
@@ -9457,7 +9732,7 @@ Checkout Area CSS
   cursor: pointer;
   margin-top: 0.15em;
   -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .billing-details .form-check .form-check-input[type="checkbox"] {
@@ -9521,19 +9796,23 @@ Checkout Area CSS
   color: var(--redLightColor);
 }
 
-.order-details .order-table table tbody tr td.order-subtotal span, .order-details .order-table table tbody tr td.order-shipping span, .order-details .order-table table tbody tr td.total-price span {
+.order-details .order-table table tbody tr td.order-subtotal span,
+.order-details .order-table table tbody tr td.order-shipping span,
+.order-details .order-table table tbody tr td.total-price span {
   color: var(--blackColor);
   font-weight: 500;
 }
 
-.order-details .order-table table tbody tr td.shipping-price, .order-details .order-table table tbody tr td.order-subtotal-price, .order-details .order-table table tbody tr td.product-subtotal {
+.order-details .order-table table tbody tr td.shipping-price,
+.order-details .order-table table tbody tr td.order-subtotal-price,
+.order-details .order-table table tbody tr td.product-subtotal {
   color: var(--redLightColor);
   font-weight: 500;
 }
 
 .order-details .payment-box {
   -webkit-box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06);
-          box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06);
   background-color: var(--whiteColor);
   margin-top: 30px;
   padding: 40px;
@@ -9547,7 +9826,8 @@ Checkout Area CSS
   padding-bottom: 15px;
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:checked, .order-details .payment-box .payment-method p [type="radio"]:not(:checked) {
+.order-details .payment-box .payment-method p [type="radio"]:checked,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked) {
   display: none;
 }
 
@@ -9564,7 +9844,8 @@ Checkout Area CSS
   margin-bottom: 5px;
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:checked + label, .order-details .payment-box .payment-method p [type="radio"]:not(:checked) + label {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label {
   color: var(--blackColor);
   padding-left: 27px;
   position: relative;
@@ -9574,7 +9855,8 @@ Checkout Area CSS
   display: block;
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:checked + label::before, .order-details .payment-box .payment-method p [type="radio"]:not(:checked) + label::before {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label::before,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label::before {
   left: 0;
   top: 4px;
   content: "";
@@ -9586,7 +9868,8 @@ Checkout Area CSS
   background: var(--whiteColor);
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:checked + label::after, .order-details .payment-box .payment-method p [type="radio"]:not(:checked) + label::after {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label::after,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label::after {
   top: 7px;
   left: 3px;
   content: "";
@@ -9599,18 +9882,18 @@ Checkout Area CSS
   background: var(--redLightColor);
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:not(:checked) + label::after {
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label::after {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0);
-          transform: scale(0);
+  transform: scale(0);
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:checked + label::after {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label::after {
   opacity: 1;
   visibility: visible;
   -webkit-transform: scale(1);
-          transform: scale(1);
+  transform: scale(1);
 }
 
 .order-details .payment-box .payment-method p:first-child {
@@ -9988,7 +10271,7 @@ Profile Authentication Area CSS
   padding-left: 20px;
   border-radius: 5px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 16px;
   height: 55px;
   border: 0;
@@ -10056,7 +10339,7 @@ Profile Authentication Area CSS
 .login-form form .remember-me-wrap .form-check .form-check-input {
   margin-top: 0.17em;
   -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .login-form form .remember-me-wrap .form-check .form-check-input[type="checkbox"] {
@@ -10166,7 +10449,7 @@ Profile Authentication Area CSS
   padding-left: 20px;
   border-radius: 5px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 16px;
   height: 55px;
   border: 0;
@@ -10255,7 +10538,7 @@ Profile Authentication Area CSS
   border-radius: 5px;
   background-color: var(--whiteColor);
   -webkit-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -10276,7 +10559,7 @@ Profile Authentication Area CSS
   padding-left: 20px;
   border-radius: 5px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 16px;
   height: 55px;
 }
@@ -10387,7 +10670,7 @@ Widget Area CSS
   margin-top: 1px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   background-color: #eeeeee;
 }
 
@@ -10478,7 +10761,7 @@ Widget Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .widget-area .widget_search form button:hover {
@@ -10548,10 +10831,10 @@ Widget Area CSS
 .widget-area .widget_posts_thumb .item {
   margin-bottom: 20px;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10560,16 +10843,16 @@ Widget Area CSS
 .widget-area .widget_posts_thumb .item .thumb {
   display: block;
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
   width: 27%;
 }
 
 .widget-area .widget_posts_thumb .item .info {
   padding-left: 15px;
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
   width: 73%;
 }
 
@@ -10613,8 +10896,8 @@ Widget Area CSS
   display: flex;
   color: var(--paragraphColor);
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .widget-area .widget_categories ul li a:hover {
@@ -10717,7 +11000,7 @@ Contact Area CSS
   position: absolute;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .contact-info-inner .single-contact-info-box .icon.bg1 {
@@ -10770,7 +11053,7 @@ Contact Area CSS
   color: var(--blackColor);
   border-radius: 5px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   font-size: 16px;
   height: 55px;
   width: 100%;
@@ -10846,7 +11129,7 @@ Contact Area CSS
 .contact-form .form-check .form-check-input {
   margin-top: 0.22em;
   -webkit-box-shadow: unset !important;
-          box-shadow: unset !important;
+  box-shadow: unset !important;
 }
 
 .contact-form .form-check .form-check-input[type="checkbox"] {
@@ -10926,7 +11209,7 @@ Go Top CSS
   background-color: #fff;
   color: #000;
   -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1) !important;
-          box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1) !important;
   z-index: 4;
   width: 45px;
   text-align: center;
@@ -10960,7 +11243,7 @@ Sidebar Modal CSS
   height: 100%;
   position: fixed;
   -webkit-transform: translate3d(0%, 0, 0);
-          transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
 }
 
 .modal.right .modal-content {
@@ -10980,7 +11263,7 @@ Sidebar Modal CSS
   border: none;
   font-size: 20px;
   -webkit-box-shadow: unset;
-          box-shadow: unset;
+  box-shadow: unset;
   text-shadow: unset;
   position: absolute;
   color: var(--blackColor);
@@ -11084,7 +11367,7 @@ Sidebar Modal CSS
   color: var(--greenColor);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.14);
-          box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.14);
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.14);
 }
 
 .sidebarModal.modal .modal-body .social-links li a i {
@@ -11095,7 +11378,7 @@ Sidebar Modal CSS
   margin-top: 1px;
   position: absolute;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .sidebarModal.modal .modal-body .social-links li a:hover {
@@ -11180,4 +11463,5 @@ Sidebar Modal CSS
   display: block;
   margin-top: 15px;
 }
+
 /*# sourceMappingURL=style.css.map */
