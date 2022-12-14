@@ -164,11 +164,11 @@ const LandingContact = ({ onRegisterUser }) => {
 						<div className="col-lg-12 col-md-12">
 							<div className="form-check form-check-inline">
 								<input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-									<label className="authen-text-attr" for="inlineRadio1">User</label>
+									<label className="authen-text-attr" htmlFor="inlineRadio1">User</label>
 							</div>
 							<div className="form-check form-check-inline">
 								<input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-									<label className="authen-text-attr" for="inlineRadio2">Partner</label>
+									<label className="authen-text-attr" htmlFor="inlineRadio2">Partner</label>
 							</div>
 							
 						</div>

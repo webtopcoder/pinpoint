@@ -17,11 +17,4 @@ module.exports = {
         path: process.env.NODE_ENV === "production" ? 'https://abev-react.envytheme.com' : 'http://192.168.116.129:3000'
     },
     optimizeFonts: false,
-    experimental: {
-        images: {
-            allowFutureImage: true,
-            layoutRaw: true
-
-        }
-    },
 }
