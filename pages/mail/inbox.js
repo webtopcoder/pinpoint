@@ -17,7 +17,7 @@ const Inbox = () => {
             key: 'inbox',
             icon: <Avatar icon={<InboxOutlined />}
                 style={{
-                    backgroundImage: 'linear-gradient(#4f60a7, #2bb2d2);',
+                    backgroundImage: 'linear-gradient(#4f60a7, #2bb2d2)',
                     color: 'white',
                     justifyContent: 'center',
                     alignContent: 'center'
@@ -29,7 +29,7 @@ const Inbox = () => {
             key: 'sent',
             icon: <Avatar icon={<SendOutlined />}
                 style={{
-                    backgroundImage: 'linear-gradient(#61be54, #d7e168);',
+                    backgroundImage: 'linear-gradient(#61be54, #d7e168)',
                     color: 'white',
                     justifyContent: 'center',
                     alignContent: 'center'
@@ -41,7 +41,7 @@ const Inbox = () => {
             key: 'compose',
             icon: <Avatar icon={<FormOutlined />}
                 style={{
-                    backgroundImage: 'linear-gradient(#753ec1, #b753f6);',
+                    backgroundImage: 'linear-gradient(#753ec1, #b753f6)',
                     color: 'white',
                     justifyContent: 'center',
                     alignContent: 'center'
@@ -53,7 +53,7 @@ const Inbox = () => {
             key: 'send_invites',
             icon: <Avatar icon={<SendOutlined />}
                 style={{
-                    backgroundImage: 'linear-gradient(#4f60a7, #2bb2d2);',
+                    backgroundImage: 'linear-gradient(#4f60a7, #2bb2d2)',
                     color: 'white',
                     justifyContent: 'center',
                     alignContent: 'center'
@@ -65,7 +65,7 @@ const Inbox = () => {
             key: 'pending_invites',
             icon: <Avatar icon={<UploadOutlined />}
                 style={{
-                    backgroundImage: 'linear-gradient(#fe624b, #f9c52a);',
+                    backgroundImage: 'linear-gradient(#fe624b, #f9c52a)',
                     color: 'white',
                     justifyContent: 'center',
                     alignContent: 'center'
