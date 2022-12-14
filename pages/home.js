@@ -38,7 +38,6 @@ const Software = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <div className="container-fluid">

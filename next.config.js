@@ -14,14 +14,7 @@ module.exports = {
     },
     images: {
         loader: 'akamai',
-        path: process.env.NODE_ENV === "production" ? 'https://abev-react.envytheme.com' : 'http://192.168.116.129:3000'
+        path: process.env.NODE_ENV === "production" ? 'https://abev-react.envytheme.com' : 'http://192.168.116.126:3000'
     },
     optimizeFonts: false,
-    experimental: {
-        images: {
-            allowFutureImage: true,
-            layoutRaw: true
-
-        }
-    },
 }

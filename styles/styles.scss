@@ -1,0 +1,61 @@
+/*mailbox-banner-area-css*/
+.mailbox-banner-area-css {
+    padding-bottom: 30px;
+    padding-top: 130px;
+    position: relative;
+
+    .mail-container {
+        background-color: #272753;
+        padding-left: 100px;
+        padding-right: 100px;
+        @media only screen and (max-width: 900px) {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .mailbox-container {
+            padding: 20px;
+
+            .menu-bar {
+                background-color: white;
+                border-radius: 10px;
+
+                .row {
+                    padding: 30px;
+
+                    .ant-menu-horizontal {
+                        border-bottom: 0px;
+                    }
+                }
+            }
+
+            .mail-content {
+                margin-top: 30px;
+
+                .mail-inbox {
+                    color: white;
+
+                    th {
+                        background-color: #4fc1e9 !important;
+                        color: white;
+                    }
+                }
+
+                .mail-compose-message {
+                    width: 100%;
+                    background-color: #f7f7f7;
+                    border: 1px solid #f7f7f7;
+                    border-radius: 10px;
+                    padding: 5px;
+                }
+                .title {
+                    border-radius: 10px;
+                    background-color: #f7f7f7;
+                    padding: 20px;
+                    border-left: 5px solid yellow;
+                    width: 100%;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }
+}

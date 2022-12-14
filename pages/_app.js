@@ -20,6 +20,7 @@ import "/styles/header.css";
 import "/styles/footer.css";
 import "/styles/responsive.css";
 import "/styles/custom.css";
+import "/styles/styles.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "@/components/Layout/ScrollToTop";
