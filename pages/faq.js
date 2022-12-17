@@ -1,16 +1,15 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Navbar from "@/components/Layout/Navigations/Navbar1";
 import FaqOne from "@/components/Faq/FaqOne";
-import PartnerStyle1 from "@/components/Partners/PartnerStyle1";
-import FooterOne from "@/components/Layout/Footer/FooterOne";
+import Header from "@/components/Layout/Header";
+import Footer from "@/components/Layout/Footer";
 
 const Faq = () => {
   return (
     <>
       <PageTitle page="Faq" />
-      <Navbar />
-      <div className="page-title-area">
+      <Header/>
+      <div className="page-title-area bg-black">
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Frequently Ask & Question</span>
@@ -30,8 +29,7 @@ const Faq = () => {
         </div>
       </div>
       <FaqOne />
-      <PartnerStyle1 />
-      <FooterOne />
+      <Footer />
     </>
   );
 };

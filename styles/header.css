@@ -5,7 +5,7 @@
   z-index: 99;
   height: auto;
   position: absolute;
-  background-color: transparent;
+  background-color: var(--whiteColor);
   padding-top: 10px;
   padding-bottom: 10px;
 }

@@ -17,7 +17,7 @@ import fireworks from "@/public/images/landing/fireworks.png";
 import location from "@/public/images/landing/location.png";
 
 
-const Software = () => {
+const Home = () => {
   return (
     <>
       <PageTitle page="Landing" />   
@@ -298,4 +298,4 @@ const Software = () => {
   );
 };
 
-export default Software;
+export default Home;
