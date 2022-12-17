@@ -22,6 +22,7 @@ import "/styles/responsive.css";
 import "/styles/custom.css";
 import "/styles/styles.scss";
 import 'react-quill/dist/quill.snow.css'
+import "/styles/sidebar.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "@/components/Layout/ScrollToTop";
@@ -34,6 +35,7 @@ function MyApp({ Component, pageProps }) {
   React.useEffect(() => {
     AOS.init();
   }, []);
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <Provider store={store}>
@@ -46,7 +48,7 @@ function MyApp({ Component, pageProps }) {
             content="width=device-width, initial-scale=1"
           />
         </Head>
-        <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         <ToastContainer
           position="top-right"
           autoClose={8000}

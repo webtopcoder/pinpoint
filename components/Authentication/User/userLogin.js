@@ -1,5 +1,6 @@
 import { React, useState, useCallback } from "react";
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
@@ -11,7 +12,7 @@ import toast from "@/components/Toast";
 const userLogin = ({
 	onLoginUser,
 }) => {
-
+	const router = useRouter();
 	const notify = useCallback((type, message) => {
         toast({ type, message });
     }, []);
@@ -49,6 +50,9 @@ const userLogin = ({
 		if (!isValid) return;
 		onLoginUser(form, res => {
 			res.success? notify("success", res.msg): notify("error", res.msg)
+			if (res.success) {
+				router.push('/home');
+			}
 		});
 	};
 
