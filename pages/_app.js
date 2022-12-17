@@ -23,10 +23,10 @@ import "/styles/responsive.css";
 import "/styles/custom.css";
 import "/styles/styles.scss";
 import "/styles/sidebar.scss";
+import 'react-quill/dist/quill.snow.css'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "@/components/Layout/ScrollToTop";
-
 import Head from 'next/head';
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -64,10 +64,9 @@ function MyApp({ Component, pageProps }) {
         />
         <ScrollToTop />
       </Provider>
-
     </>
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
 

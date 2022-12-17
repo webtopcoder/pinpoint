@@ -2887,7 +2887,7 @@ FAQ Area CSS
   box-shadow: unset;
   position: relative;
   background-color: transparent;
-  color: var(--blackColor) !important;
+  color: var(--blackColor);
   font-size: 19px;
   font-weight: 600;
 }

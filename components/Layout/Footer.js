@@ -16,7 +16,7 @@ const FooterNine = () => {
             <div className="single-footer-widget">
               <Link href="/">
                 <a className="logo">
-                  <Image src={logo} width={600} height={150} alt="logo" />
+                  <Image src={logo} width={500} height={150} alt="logo" />
                 </a>
               </Link>
             </div>
@@ -30,25 +30,18 @@ const FooterNine = () => {
               <p>
                 Stay up to date with Pinpoint!
               </p>
-
-              <div className="input-group mb-3">
-
-                <input
-                  type="text"
-                  className="input-newsletter"
-                  placeholder="Enter your email address"
-                  name="EMAIL"
-                  required
-                  autoComplete="off"
-                />
-                <div className="input-group-append">
-
-                  <button className="btn btn-outline-secondary" style={{
-                    backgroundColor: 'red',
-                    color: 'black'
-                  }} type="button"><i className="bx bx-right-arrow-alt" style={{
-                    fontSize: 41
-                  }}></i></button>
+              <div className="widget-area">
+                <div className="widget widget_search">
+                  <form className="search-form">
+                    <input
+                      type="search"
+                      className="search-field"
+                      placeholder="Enter your email"
+                    />
+                    <button type="submit">
+                      <i className="bx bx-send"></i>
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
