@@ -1,10 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import PageTitle from "@/components/Layout/PageTitle";
-import Header from "@/components/Layout/Header";
 import Testimonial from "@/components/Landing/Testimonial";
 import LandingContact from "@/components/Landing/LandingContact";
-import Footer from "@/components/Layout/Footer";
 import bannerImg from "@/public/images/landing/map-4-points.png";
 import subtitleImg from "@/public/images/landing/title_border.png";
 import food from "@/public/images/landing/food.png";
@@ -15,13 +13,13 @@ import christmas from "@/public/images/landing/christmas.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import fireworks from "@/public/images/landing/fireworks.png";
 import location from "@/public/images/landing/location.png";
+import Layout from '../layout';
 
+const UserHome = (props) => {
 
-const Software = () => {
   return (
     <>
-      <PageTitle page="Landing" />   
-      <Header/>
+      <PageTitle page="Landing" />
       <div className="software-banner-area">
         <div className="container">
           <div className="row">
@@ -293,9 +291,12 @@ const Software = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
 
-export default Software;
+UserHome.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}
+
+export default UserHome;

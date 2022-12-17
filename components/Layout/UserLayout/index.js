@@ -1,0 +1,35 @@
+import React, { useState, useEffect } from 'react';
+import RightSidebar from './RightSidebar';
+import Header from './Header';
+import Footer from './Footer';
+
+const UserLayout = ({ children }) => {
+
+    const [visible, setVisible] = useState(false);
+    const onToggle = () => {
+        setVisible(!visible);
+      }
+      const hideRightbar = event => {
+        var rightbar = document.getElementById("right-bar");
+        //if clicked in inside right bar, then do nothing
+        if (rightbar && rightbar.contains(event.target)) {
+          return;
+        } else {
+          //if clicked in outside of rightbar then fire action for hide rightbar
+          setVisible(false);
+        }
+      }
+      useEffect(() => {
+        document.getElementById('__next').addEventListener("click", hideRightbar, true);
+      }, []);
+    return (
+        <>
+            <Header toggle={onToggle}/>
+            <RightSidebar visible={visible}/>
+            {children}
+            <Footer />
+        </>
+    )
+}
+
+export default UserLayout;

@@ -3,6 +3,7 @@ import AOS from "aos";
 import { wrapper, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import Router from 'next/router';
+import { SessionProvider } from 'next-auth/react';
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
 import "../node_modules/aos/dist/aos.css";
@@ -21,6 +22,7 @@ import "/styles/footer.css";
 import "/styles/responsive.css";
 import "/styles/custom.css";
 import "/styles/styles.scss";
+import "/styles/sidebar.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "@/components/Layout/ScrollToTop";
@@ -34,6 +36,7 @@ function MyApp({ Component, pageProps }) {
   React.useEffect(() => {
     AOS.init();
   }, []);
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <Provider store={store}>
@@ -46,7 +49,9 @@ function MyApp({ Component, pageProps }) {
             content="width=device-width, initial-scale=1"
           />
         </Head>
-        <Component {...pageProps} />
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          {getLayout(<Component {...pageProps} />)}
+        </SessionProvider>
         <ToastContainer
           position="top-right"
           autoClose={8000}
