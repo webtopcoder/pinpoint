@@ -3,9 +3,8 @@ import PageTitle from "@/components/Layout/PageTitle";
 import { Col, InputNumber, Row, Slider, Button, Tooltip, Space } from 'antd';
 import { FullscreenOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Image from "next/image";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import userImg1 from "@/public/images/user/user1.jpg";
+import Layout from '../../../layout';
 
 
 const InteractiveMap = () => {
@@ -18,7 +17,6 @@ const InteractiveMap = () => {
   return (
     <>
       <PageTitle page="Interactive Map" />
-      <Header />
       <div className="page-interactive-area bg-black">
         <div className="container">
           <div className="page-interactive-content">
@@ -145,9 +143,12 @@ const InteractiveMap = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
+
+InteractiveMap.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}
 
 export default InteractiveMap;

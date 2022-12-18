@@ -295,7 +295,6 @@ const UserHome = (props) => {
   );
 };
 
-
 UserHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }

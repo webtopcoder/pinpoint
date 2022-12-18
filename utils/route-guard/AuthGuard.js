@@ -9,9 +9,10 @@ import { useRouter } from 'next/router';
 const whitelist = ['/', '/home'];
 const AuthGuard = ({ children, token }) => {
 
+  console.log(token)
   const router = useRouter();
   useEffect(() => {
-    if (!token || whitelist.indexOf(router.route) === -1) {
+    if ((token === undefined || token === null || token.length === 0) && whitelist.indexOf(router.route) === -1) {
       router.push('/')
     }
   })

@@ -1,22 +1,23 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Header from "@/components/Layout/Header";
 import ProflieEditor from "@/components/User/Profile/profileEdit";
-import Footer from "@/components/Layout/Footer";
+import Layout from '../../../layout';
 
 const Edit = () => {
 	return (
 		<>
 			<PageTitle page="Shout outs" />
-			<Header />
 			<div className="page-pin-area">
 				<div className="pin-profile-section">
 					<ProflieEditor />
 				</div>
 			</div>
-			<Footer />
 		</>
 	);
 };
+
+Edit.getLayout = function getLayout(page) {
+	return <Layout>{page}</Layout>
+}
 
 export default Edit;

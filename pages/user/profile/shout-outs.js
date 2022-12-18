@@ -1,16 +1,14 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Header from "@/components/Layout/Header";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import ProfileShoutout from "@/components/User/Profile/profileShout";
-import Footer from "@/components/Layout/Footer";
+import Layout from '../../../layout';
 
 const Shout = () => {
 	return (
 		<>
 			<PageTitle page="Shout outs" />
-			<Header />
 			<div className="page-pin-area">
 				<Profileheader />
 				<div className="pin-profile-section">
@@ -18,9 +16,11 @@ const Shout = () => {
 					<ProfileShoutout />
 				</div>
 			</div>
-			<Footer />
 		</>
 	);
 };
 
+Shout.getLayout = function getLayout(page) {
+	return <Layout>{page}</Layout>
+}
 export default Shout;

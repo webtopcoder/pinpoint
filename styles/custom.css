@@ -137,6 +137,10 @@
     display: none !important;
 }
 
+#navbar .main-nav .others-option a{
+    cursor: pointer;
+}
+
 .section-landing-title {
     text-align: center;
     max-width: 512px;

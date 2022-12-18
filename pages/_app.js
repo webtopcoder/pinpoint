@@ -23,6 +23,8 @@ import "/styles/custom.css";
 import "/styles/styles.scss";
 import 'react-quill/dist/quill.snow.css'
 import "/styles/sidebar.scss";
+import "/styles/sidebar.scss";
+import 'react-quill/dist/quill.snow.css'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "@/components/Layout/ScrollToTop";
@@ -65,5 +67,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default wrapper.withRedux(MyApp);
-
+export default MyApp;

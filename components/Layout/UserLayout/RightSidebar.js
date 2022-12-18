@@ -1,9 +1,9 @@
 import React from "react";
 import { Col, Row, Badge, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, MailFilled } from '@ant-design/icons';
+
 import Image from "next/image"
 import { connect } from "react-redux";
-
 //SimpleBar
 import SimpleBar from "simplebar-react";
 // Logo
@@ -17,18 +17,18 @@ const RightSidebar = ({ visible }) => {
     <React.Fragment>
       <div className="right-bar" id="right-bar" style={{ display: `${visible ? '' : 'none'}` }}>
         <SimpleBar style={{ height: "900px" }}>
-          <Row style={{paddingLeft: 20, paddingRight: 20, justifyContent: 'center'}}>
+          <Row style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
             <Image src={Logo} alt="logo" width={280} height={80} />
           </Row>
-          <Row style={{marginTop: 20}}>
+          <Row style={{ marginTop: 20 }}>
             <Col md={8} sm={8} xs={8}>
             </Col>
-            <Col md={8} sm={8} xs={8} style={{textAlign: 'center'}}>
-              <Avatar size={100} style={{backgroundColor: 'gray'}} icon={<UserOutlined style={{fontSize: 80}}/>}/>
+            <Col md={8} sm={8} xs={8} style={{ textAlign: 'center' }}>
+              <Avatar size={100} style={{ backgroundColor: 'gray' }} icon={<UserOutlined style={{ fontSize: 80 }} />} />
             </Col>
-            <Col md={8} sm={8} xs={8} style={{textAlign: 'center'}}>
-              <div><Badge dot={true}><Image src={mailIcon} alt="mail" width={60} height={40}/></Badge></div>
-              <div><Badge dot={true}><Image src={LIcon} alt="l" width={30} height={30}/></Badge></div>
+            <Col md={8} sm={8} xs={8} style={{ textAlign: 'center' }}>
+              <div><Badge dot={true}><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge></div>
+              <div><Badge dot={true}><Image src={LIcon} alt="l" width={30} height={30} /></Badge></div>
             </Col>
           </Row>
           <Row>
@@ -65,5 +65,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  
+
 })(RightSidebar);

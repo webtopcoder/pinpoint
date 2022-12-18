@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { InboxOutlined, SendOutlined, FormOutlined, UploadOutlined } from '@ant-design/icons';
 import { Avatar, Menu } from 'antd';
 import PageTitle from "@/components/Layout/PageTitle";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import MailInbox from "@/components/Mail/inbox";
 import MailSent from "@/components/Mail/sent";
 import MailCompose from "@/components/Mail/compose";
 import MailSendInvite from "@/components/Mail/sent_invite";
 import MailPendingInvite from "@/components/Mail/pending_invite";
+import Layout from '../../layout';
 
 const Inbox = () => {
     const items = [
@@ -102,5 +101,9 @@ const Inbox = () => {
         </>
     );
 };
+
+Inbox.getLayout = function getLayout(page) {
+	return <Layout>{page}</Layout>
+}
 
 export default Inbox;

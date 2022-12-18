@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Row, Badge, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined } from '@ant-design/icons';
 import Image from "next/image"
 import { connect } from "react-redux";
 
@@ -27,6 +27,7 @@ const RightSidebar = ({ visible }) => {
               <Avatar size={100} style={{backgroundColor: 'gray'}} icon={<UserOutlined style={{fontSize: 80}}/>}/>
             </Col>
             <Col md={8} sm={8} xs={8} style={{textAlign: 'center'}}>
+                
               <div><Badge dot={true}><Image src={mailIcon} alt="mail" width={60} height={40}/></Badge></div>
               <div><Badge dot={true}><Image src={LIcon} alt="l" width={30} height={30}/></Badge></div>
             </Col>

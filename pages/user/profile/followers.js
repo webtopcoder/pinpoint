@@ -1,10 +1,9 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Header from "@/components/Layout/Header";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import ProfileFollowers from "@/components/User/Profile/profileFollowers";
-import Footer from "@/components/Layout/Footer";
+import Layout from '../../../layout';
 
 const Followers = () => {
 	return (
@@ -22,5 +21,9 @@ const Followers = () => {
 		</>
 	);
 };
+
+Followers.getLayout = function getLayout(page) {
+	return <Layout>{page}</Layout>
+}
 
 export default Followers;

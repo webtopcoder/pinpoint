@@ -1,16 +1,14 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Header from "@/components/Layout/Header";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import ProfileActivity from "@/components/User/Profile/profileActivity";
-import Footer from "@/components/Layout/Footer";
+import Layout from '../../../layout';
 
 const Activity = () => {
 	return (
 		<>
 			<PageTitle page="acitivty" />
-			<Header />
 			<div className="page-pin-area">
 				<Profileheader />
 				<div className="pin-profile-section">
@@ -18,9 +16,12 @@ const Activity = () => {
 					<ProfileActivity />
 				</div>
 			</div>
-			<Footer />
 		</>
 	);
 };
+
+Activity.getLayout = function getLayout(page) {
+	return <Layout>{page}</Layout>
+}
 
 export default Activity;
