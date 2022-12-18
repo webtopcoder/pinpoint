@@ -1,14 +1,13 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import FaqOne from "@/components/Faq/FaqOne";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
+import Layout from '../layout';
+
 
 const Faq = () => {
   return (
     <>
       <PageTitle page="Faq" />
-      <Header/>
       <div className="page-title-area bg-black">
         <div className="container">
           <div className="page-title-content">
@@ -29,9 +28,12 @@ const Faq = () => {
         </div>
       </div>
       <FaqOne />
-      <Footer />
     </>
   );
 };
+
+Faq.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}
 
 export default Faq;

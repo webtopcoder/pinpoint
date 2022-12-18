@@ -196,7 +196,8 @@
 }
 
 .template-footer-nine {
-    background-image: url('../public/images/footer-bg.png');
+    background-image: url('../public/images/footer-bg.jpg');
+    background: linear-gradient(rgb(255 255 255 / 80%), rgb(255 255 255 / 80%)),  url("../public/images/footer-bg.jpg"); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-repeat: no-repeat;
     background-size: 100% 100%;
     padding-bottom: 50px;

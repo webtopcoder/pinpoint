@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // ==============================|| AUTH GUARD ||============================== //
-const whitelist = ['/', '/home'];
+const whitelist = ['/', '/home', '/faq'];
 const AuthGuard = ({ children, token }) => {
 
   console.log(token)

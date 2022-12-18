@@ -1,61 +1,39 @@
 import { React, useState } from "react";
 import { useRouter } from "next/router";
 import { connect } from 'react-redux';
-import csc from 'country-state-city';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
-import styles from "./LoginForm.module.css";
-import { useRegisterFormValidator } from "./hooks/user-Register-validator";
-import { registerUser } from '@/redux/User/actions';
+import styles from "./contact-validator/LoginForm.module.css";
+import { ContactFormValidator } from "./contact-validator/validater-hook";
+import { ContactUser } from '@/redux/Contact/actions';
 
-const LandingContact = ({ onRegisterUser }) => {
-
-	const countryCode = 'US';
-	const country = csc.getCountryByCode(countryCode);
-	const states = csc.getStatesOfCountry(country.isoCode);
+const LandingContact = ({ onContactUser }) => {
 
 	const router = useRouter()
 
 	const [form, setForm] = useState({
 
-		usertype: "user",
+		usertype: "",
 		firstName: "",
 		lastName: "",
-		userName: "",
-		birthday: new Date(),
-		city: "",
-		state: "",
 		email: "",
-		password: "",
-		confirmPassword: ""
+		subject: "",
+		messageContent: ""
+
 	});
 
-	const setStartDate = date => {
-		setForm({
-			...form,
-			birthday: date
-		})
-	}
-	const [cityList, setCityList] = useState([]);
-
-	const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
+	const { errors, validateForm, onBlurField } = ContactFormValidator(form);
 
 	const onUpdateField = e => {
 
 		const field = e.target.name;
-
-		if (e.target.name == "state") {
-			const citiesbystate = csc.getCitiesOfState(countryCode, e.target.value);
-			setCityList(citiesbystate);
-		}
 		const nextFormState = {
 			...form,
 			[field]: e.target.value,
 		};
 
 		setForm(nextFormState);
-
 		if (errors[field].dirty)
 			validateForm({
 				form: nextFormState,
@@ -69,9 +47,8 @@ const LandingContact = ({ onRegisterUser }) => {
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
 
-		onRegisterUser(form, res => {
+		onContactUser(form, res => {
 			if (res.success) {
-
 				localStorage.setItem('thankyou_id', 'User');
 				router.push('/authentication/thank-you')
 			}
@@ -148,42 +125,46 @@ const LandingContact = ({ onRegisterUser }) => {
 							<div className="form-group">
 								<label className="authen-text-attr">Subject</label>
 								<input
-									type="Email"
-									name="email"
-									value={form.email}
+									type="text"
+									name="subject"
+									value={form.subject}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									className="form-control"
 									placeholder="Subject:"
 								/>
-								{errors.email.dirty && errors.email.error ? (
-									<p className={styles.formFieldErrorMessage}>{errors.email.message}</p>
+								{errors.subject.dirty && errors.subject.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.subject.message}</p>
 								) : null}
 							</div>
 						</div>
 						<div className="col-lg-12 col-md-12">
 							<div className="form-check form-check-inline">
-								<input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-									<label className="authen-text-attr" htmlFor="inlineRadio1">User</label>
+								<input className="form-check-input" onChange={onUpdateField} type="radio" name="usertype" id="inlineRadio1" value="user" />
+								<label className="authen-text-attr" htmlFor="inlineRadio1">User</label>
 							</div>
 							<div className="form-check form-check-inline">
-								<input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-									<label className="authen-text-attr" htmlFor="inlineRadio2">Partner</label>
+								<input className="form-check-input" onChange={onUpdateField} type="radio" name="usertype" id="inlineRadio2" value="partner" />
+								<label className="authen-text-attr" htmlFor="inlineRadio2">Partner</label>
 							</div>
-							
+
 						</div>
 						<div className="col-lg-12 col-md-12 col-sm-12">
 							<div className="form-group">
 								<label className="authen-text-attr">Message...</label>
 								<textarea
-									name="text"
+									name="messageContent"
 									cols="30"
 									rows="6"
 									className="form-control"
-									value={form.text}
+									value={form.messageContent}
 									onChange={onUpdateField}
+									onBlur={onBlurField}
 									required
 								></textarea>
+								{errors.messageContent.dirty && errors.messageContent.error ? (
+									<p className={styles.formFieldErrorMessage}>{errors.messageContent.message}</p>
+								) : null}
 							</div>
 						</div>
 					</div>
@@ -193,7 +174,6 @@ const LandingContact = ({ onRegisterUser }) => {
 							<button type="submit">SEND</button>
 						</div>
 						<div className="col-lg-2"></div>
-
 					</div>
 				</form>
 			</div>
@@ -202,6 +182,6 @@ const LandingContact = ({ onRegisterUser }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onRegisterUser: (data, cb) => dispatch(registerUser(data, cb))
+	onRegisterUser: (data, cb) => dispatch(ContactUser(data, cb))
 })
 export default connect(undefined, mapDispatchToProps)(LandingContact);

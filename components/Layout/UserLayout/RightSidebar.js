@@ -5,6 +5,7 @@ import { UserOutlined, MailFilled } from '@ant-design/icons';
 import Image from "next/image"
 import { connect } from "react-redux";
 //SimpleBar
+import Link from "next/link";
 import SimpleBar from "simplebar-react";
 // Logo
 import Logo from "@/public/images/landing/logo.png";
@@ -32,25 +33,44 @@ const RightSidebar = ({ visible }) => {
             </Col>
           </Row>
           <Row>
-            <div className="view-profile">View Profile</div>
+            <div className="view-profile">
+              <Link href="#pinpoint_location">
+                View Profile
+              </Link>
+            </div>
           </Row>
           <Row>
-            <div className="edit-profile">edit profile</div>
+            <Link href="#pinpoint_location">
+              <div className="edit-profile">
+                edit Profile
+              </div>
+            </Link>
+
           </Row>
           <Row className="sidebar-menu-item" onClick={() => alert()}>
-            Home
+            <Link href="/home">
+              Home
+            </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            Interactive Map
+            <Link href="/user/map/interactive-map">
+              Interactive Map
+            </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            Locations
+            <Link href="#pinpoint_location">
+              Locations
+            </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            Contact Us
+            <Link href="#pinpoint_contactus">
+              Contact Us
+            </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            FAQ
+            <Link href="/faq">
+              FAQ
+            </Link>
           </Row>
 
         </SimpleBar>

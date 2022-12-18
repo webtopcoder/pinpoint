@@ -226,7 +226,7 @@ const UserHome = (props) => {
           </div>
         </div>
       </div>
-      <div className="overview-area ptb-100 bg-black">
+      <div id="pinpoint_location" className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">
             <div className="row align-items-center">
@@ -284,7 +284,7 @@ const UserHome = (props) => {
                   paddingTop: 46
                 }}>Whatcha <br />Thinkin?</h1>
               </div>
-              <div className="col-lg-8 col-md-12 overview-image">
+              <div id="pinpoint_contactus" className="col-lg-8 col-md-12 overview-image">
                 <LandingContact />
               </div>
             </div>
