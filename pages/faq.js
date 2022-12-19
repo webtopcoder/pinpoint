@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import FaqOne from "@/components/Faq/FaqOne";
+import FaqOne from "@/components/User/Faq/FaqOne";
 import Layout from '../layout';
 
 

@@ -53,17 +53,17 @@ const RightSidebar = ({ visible }) => {
             </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            <Link href="/user/map/interactive-map">
+            <Link href="/user/map/interactive-map" passHref>
               Interactive Map
             </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            <Link href="#pinpoint_location">
+            <Link href="/home/#pinpoint_location">
               Locations
             </Link>
           </Row>
           <Row className="sidebar-menu-item">
-            <Link href="#pinpoint_contactus">
+            <Link href="/home/#pinpoint_contactus">
               Contact Us
             </Link>
           </Row>
