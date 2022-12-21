@@ -1,20 +1,56 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { connect } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
-import { Row, Card, Col, Form, Input, Switch, Upload, Button } from 'antd';
+import { Row, Card, Col, Form, Input, Upload, Button, message } from 'antd';
+import { mailCompose } from '@/redux/Mail/actions';
+import toast from "@/components/Toast";
 
-const Compose = () => {
+const Compose = ({ onmailCompose }) => {
 
     const [composeForm] = Form.useForm();
+    const [upload_name, setUploadFile] = useState([]);
 
+    const notify = useCallback((type, message) => {
+        toast({ type, message });
+    }, []);
+
+    const dismiss = useCallback(() => {
+        toast.dismiss();
+    }, []);
+
+    const onFinish = (values) => {
+        const form_data = new FormData();
+
+        upload_name.map((file, index) =>
+            form_data.append('files', file.originFileObj)
+        )
+        form_data.append('to', values.name);
+        form_data.append('subject', values.subject);
+        form_data.append('message', values.message);
+
+        onmailCompose(form_data, res => {
+            if (res.success) {
+                composeForm.resetFields();
+                res.success ? notify("success", res.msg) : notify("error", res.msg)
+            }
+        });
+    };
     const props = {
-        name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        headers: {
-            authorization: 'authorization-text',
-        },
+        name: 'upload',
         onChange(info) {
+            console.log(info)
             if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
+                const fileUploadInfo = info.fileList;
+                setUploadFile(fileUploadInfo);
+            }
+
+            if (info.file.status == 'removed') {
+                if (info.fileList.length == 0)
+                    setUploadFile('');
+                else {
+                    const fileUploadInfo = info.fileList;
+                    setUploadFile(fileUploadInfo);
+                }
             }
             if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
@@ -27,22 +63,68 @@ const Compose = () => {
         <Row className='mail-inbox'>
             <Col md={24} sm={24} xs={24}>
                 <Card>
-                    <Form form={composeForm} layout="vertical" autoComplete="off">
-                        <Form.Item name="name" label="Send To (Username or Friend's Name)">
-                            <Input />
-                        </Form.Item>                
+                    <Form form={composeForm} onFinish={onFinish} layout="vertical" autoComplete="off">
+                        <Form.Item
+                            name="name"
+                            label="Send To (Username or Friend's Name)"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your Username!'
+                                },
+                                {
+                                    pattern: new RegExp('^[a-zA-Z0-9 ]*$'),
+                                    message: 'Alphanumeric'
+                                },
+                                {
+                                    whitespace: true,
+                                    message: 'Please input your Username!'
+                                }
+                            ]}>
+                            <Input style={{
+                                width: '50%'
+                            }} />
+                        </Form.Item>
                         <Form.Item name="subject" label="Subject">
-                            <Input />
+                            <Input style={{
+                                width: '50%'
+                            }} />
                         </Form.Item>
-                        <Form.Item name="message" label="Message">
-                            <textarea rows={5} id="message" className="mail-compose-message" />
+                        <Form.Item
+                            name="message"
+                            label="Message"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input Message!'
+                                },
+                                {
+                                    pattern: new RegExp('^[a-zA-Z0-9 ]*$'),
+                                    message: 'Alphanumeric'
+                                },
+                                {
+                                    whitespace: true,
+                                    message: 'Please input Message!'
+                                }
+                            ]}>
+                            <Input.TextArea rows={4} />
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item name="fileupload">
                             <Row>
                                 <Upload {...props}>
-                                    <Button icon={<UploadOutlined />} style={{marginRight: 10}}>Click to Upload</Button>
+                                    <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Click to Upload</Button>
                                 </Upload>
-                                <Button type='primary'>SEND MESSAGE</Button>
+                                <Button
+                                    type='primary'
+                                    htmlType="submit"
+                                    className="btn-submit"
+                                    style={{
+                                        display: 'table',
+                                        justifyContent: 'space-between',
+                                        margin: '0 auto 0',
+                                        padding: '10px 40px',
+                                        height: '100%'
+                                    }}>SEND MESSAGE</Button>
                             </Row>
                         </Form.Item>
                     </Form>
@@ -52,4 +134,8 @@ const Compose = () => {
     )
 }
 
-export default Compose;
+
+const mapDispatchToProps = dispatch => ({
+    onmailCompose: (data, cb) => dispatch(mailCompose(data, cb))
+})
+export default connect(undefined, mapDispatchToProps)(Compose);

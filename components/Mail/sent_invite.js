@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, Card, Form, Input, Button } from 'antd';
+import { sentInvite } from '@/redux/Mail/actions';
+import toast from "@/components/Toast";
 
-const SentInvite = () => {
+const SentInvite = ({ onsentInvite }) => {
+
+    const notify = useCallback((type, message) => {
+        toast({ type, message });
+    }, []);
+
+    const dismiss = useCallback(() => {
+        toast.dismiss();
+    }, []);
 
     const [composeForm] = Form.useForm();
-
+    const onFinish = (values) => {
+        onsentInvite(values, res => {
+            if (res.success) {
+                composeForm.resetFields();
+                res.success ? notify("success", res.msg) : notify("error", res.msg)
+            }
+        });
+    };
     return (
 
         <Row className='mail-inbox'>
@@ -15,15 +33,34 @@ const SentInvite = () => {
                         Upon submission of the form, an email will be sent to the invitee containing a link to accept your invitation.
                         You may also add a custom message to the email.
                     </div>
-                    <Form form={composeForm} layout="vertical" autoComplete="off">
-                        <Form.Item name="name" label="Email address of new user">
+                    <Form form={composeForm} layout="vertical" onFinish={onFinish} autoComplete="off">
+                        <Form.Item
+                            name="email"
+                            label="Email address of new user"
+                            rules={[
+                                {
+                                    type: 'email',
+                                    message: 'The input is not valid E-mail!'
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input Email address!'
+                                },
+                                {
+                                    whitespace: true,
+                                    message: 'Please input Email Address!'
+                                }
+                            ]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item name="content" label="Add a personalized message to the invitation (optional)">
-                            <textarea rows={5} className="mail-compose-message" />
+                        <Form.Item name="message" label="Add a personalized message to the invitation (optional)">
+                            <Input.TextArea rows={4} />
                         </Form.Item>
                         <Form.Item>
-                            <Button type='primary'>Submit</Button>
+                            <Button
+                                type='primary'
+                                htmlType="submit"
+                            >Submit</Button>
                         </Form.Item>
                     </Form>
                 </Card>
@@ -32,4 +69,7 @@ const SentInvite = () => {
     )
 }
 
-export default SentInvite;
+const mapDispatchToProps = dispatch => ({
+    onsentInvite: (data, cb) => dispatch(sentInvite(data, cb))
+})
+export default connect(undefined, mapDispatchToProps)(SentInvite);
