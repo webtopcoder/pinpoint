@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { Col, Row, Badge, Avatar } from 'antd';
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Col, Row, Badge, Avatar, Popconfirm, Button } from 'antd';
+import { UserOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 
 import Image from "next/image"
@@ -38,7 +38,9 @@ const RightSidebar = ({ visible, token, onLogout }) => {
   const handleOriginPageRender = (page) => {
     router.push(page);
   }
-
+  const SignupOrLogin = (path) => {
+    router.push(path);
+  }
   return (
     <React.Fragment>
       <div className="right-bar" id="right-bar" style={{ display: `${visible ? '' : 'none'}` }}>
@@ -47,11 +49,11 @@ const RightSidebar = ({ visible, token, onLogout }) => {
             <Image src={Logo} alt="logo" width={280} height={80} />
           </Row>
           <Row style={{ marginTop: 20 }}>
-            <Col md={8} sm={8} xs={8} style={{ textAlign: 'center', paddingTop: 10 }}>
-              {token && <div>
-                <Link href="/mail/inbox"><Badge dot={true}><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge>
+            <Col md={8} sm={8} xs={8} style={{ textAlign: 'center' }}>
+              {token && <div style={{ marginBottom: 15 }}>
+                <Link href="/mail/inbox"><Badge dot={true} className="mailboxLIcon"><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge>
                 </Link></div>}
-              {token && <div><Badge dot={true}><Image src={LIcon} alt="l" width={30} height={30} /></Badge></div>}
+              {token && <div><Badge dot={true} className="mailboxIcon"><Image src={LIcon} alt="l" width={40} height={40} /></Badge></div>}
             </Col>
             <Col md={8} sm={8} xs={8} style={{ textAlign: 'center' }}>
               <Avatar size={100} style={{ backgroundColor: 'gray' }} icon={<UserOutlined style={{ fontSize: 80 }} />} />
@@ -76,21 +78,32 @@ const RightSidebar = ({ visible, token, onLogout }) => {
             </Row>
           }
           {!token &&
-            <Row>
-              <Link href="/">
-                <div className="view-profile">
-                  Login
-                </div>
-              </Link>
-            </Row>
-          }
-          {!token &&
-            <Row>
-              <Link href="/">
-                <div className="edit-profile">
-                  Signup
-                </div>
-              </Link>
+            <Row  style={{marginRight: 10, marginLeft: 10, marginTop: 20, marginBottom: 30}} gutter={5}>
+              <Col md={12} style={{textAlign: 'right'}}>
+                <Popconfirm
+                  style={{position: 'fixed'}}
+                  title="WHO AM I?"
+                  description="Who are you?"
+                  okText="User"
+                  cancelText="Partner"
+                  onCancel={() => SignupOrLogin('/authentication/partner/login')}
+                  onConfirm={() => SignupOrLogin('/authentication/user/login')}
+                >
+                  <a href="#"><Button shape="round" style={{width: 100}} icon={<LoginOutlined />}>Login</Button></a>
+                </Popconfirm>
+              </Col>
+              <Col md={12} style={{textAlign: 'left'}}>
+                <Popconfirm
+                  title="WHO AM I?"
+                  description="Who are you?"
+                  okText="User"
+                  cancelText="Partner"
+                  onCancel={() => SignupOrLogin('/authentication/partner/register')}
+                  onConfirm={() => SignupOrLogin('/authentication/user/register')}
+                >
+                  <a href="#"><Button shape="round" style={{width: 100}} icon={<UserAddOutlined />}>Sign Up</Button></a>
+                </Popconfirm>
+              </Col>
             </Row>
           }
           <Row className="sidebar-menu-item" onClick={() => handleOriginPageRender('/home')}>

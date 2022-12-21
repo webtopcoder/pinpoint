@@ -4,7 +4,7 @@
     width: 400px;
     height: 100vh;
     background-color: black;
-    z-index: 9999;
+    z-index: 999;
     right: 0px;
     .view-profile {
         margin-top: 25px;
@@ -24,6 +24,7 @@
         justify-content: center;
         text-align: center;
         width: 100%;
+        margin-bottom: 25px;
     }
     .sidebar-menu-item {
         font-family: "Be Vietnam Pro", sans-serif;
@@ -39,9 +40,21 @@
         color: var(--paragraphColor);
     }
     .view-profile:hover {
+        color: #bfbfbf;
         cursor: pointer;
     }
     .edit-profile:hover {
+        color: #bfbfbf;
         cursor: pointer;
+    }
+    .mailboxIcon:hover {
+        cursor: pointer;
+        border-radius: 20px;
+        box-shadow: 0px 0px 4px #bfbfbf;
+    }
+    .mailboxLIcon:hover {
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: 0px 0px 4px #bfbfbf;
     }
 }
