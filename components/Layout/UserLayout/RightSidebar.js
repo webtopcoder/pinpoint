@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Col, Row, Badge, Avatar, Popconfirm, Button } from 'antd';
-import { UserOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
+import { UserOutlined, ExportOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 
 import Image from "next/image"
@@ -60,7 +60,7 @@ const RightSidebar = ({ visible, token, onLogout }) => {
             </Col>
 
             <Col md={8} sm={8} xs={8} style={{ textAlign: 'center', paddingTop: 25 }}>
-              {token && <LogoutOutlined style={{ color: '#686868', fontSize: 40, }} onClick={() => onLogoutHandler()} />}
+              {token && <ExportOutlined style={{ color: '#686868', fontSize: 40, }} onClick={() => onLogoutHandler()} />}
             </Col>
           </Row>
           {token &&

@@ -233,8 +233,8 @@
 
 
 .view-map-button:hover {
-   background-color: var(--blueColor) !important;
-   border-color: var(--blueColor) !important;
+    background-color: var(--blueColor) !important;
+    border-color: var(--blueColor) !important;
 }
 
 
@@ -894,5 +894,75 @@ h4 {
     margin-top: 20px;
 }
 
-/* mailbox */
+/* mail inbox */
+.thread-sender {
+    width: 100%;
+}
 
+.thread-avatar {
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.thread-from {
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.thread-from .from {
+    color: #14a3fc;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.thread-count {
+    color: #18b8ea;
+}
+
+.thread-from .activity {
+    color: #898989;
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+.thread-info .thread-excerpt {
+    color: #898989;
+    display: block;
+    font-size: 13px;
+    margin-top: 10px;
+    line-height: 20px;
+}
+
+.mark-read {
+    background-color: var(--blueColor);
+    padding: 11px 5px 13px 5px;
+    border-radius: 3px;
+}
+
+.eye-style {
+    font-size: 26px !important;
+    width: 35px !important;
+    height: 35px !important;
+    text-align: center;
+    color: var(--whiteColor);
+    line-height: 35px;
+}
+
+.mail-delete {
+    background-color: var(--darkWhiteColor);
+    padding: 11px 5px 13px 5px;
+    border-radius: 3px;
+}
+
+.delete-style {
+    font-size: 26px !important;
+    width: 35px !important;
+    height: 35px !important;
+    text-align: center;
+    color: var(--graydarkColor);
+    line-height: 35px;
+}

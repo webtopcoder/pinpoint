@@ -1,6 +1,7 @@
 import {
     MAIL_COMPOSE_REQUEST,
-    MAIL_COMPOSE_SUCCESS
+    MAIL_COMPOSE_SUCCESS,
+    GET_INBOX_SUCCESS
 } from './types';
 
 const token = '';
@@ -16,7 +17,7 @@ if (typeof window !== 'undefined') {
 const initialState = {
     loading: false,
     status: false,
- 
+    inboxlist: []
 }
 
 const mailReducer = (state = initialState, action) => {
@@ -25,11 +26,20 @@ const mailReducer = (state = initialState, action) => {
             return { ...state, loading: true };
 
         case MAIL_COMPOSE_SUCCESS: {
-        
+
             return {
                 ...state,
             };
         }
+
+        case GET_INBOX_SUCCESS: {
+
+            return {
+                ...state,
+                inboxlist: action.payload,
+            };
+        }
+
 
         default:
             return {
