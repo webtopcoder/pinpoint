@@ -23,19 +23,14 @@ const Compose = () => {
             }
         },
     };
-
     return (
         <Row className='mail-inbox'>
             <Col md={24} sm={24} xs={24}>
-
                 <Card>
                     <Form form={composeForm} layout="vertical" autoComplete="off">
                         <Form.Item name="name" label="Send To (Username or Friend's Name)">
                             <Input />
-                        </Form.Item>
-                        <Form.Item name="notice" label="This is a notice">
-                            <Switch />
-                        </Form.Item>
+                        </Form.Item>                
                         <Form.Item name="subject" label="Subject">
                             <Input />
                         </Form.Item>

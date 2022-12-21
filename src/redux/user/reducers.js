@@ -4,7 +4,6 @@ import {
     USER_LOGIN_FAIL,
     LOGOUT,
     USER_REGISTER_SUCCESS,
-    USER_REGISTER_REQUEST,
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
     CATEGORY_GET_REQUEST,
@@ -79,6 +78,9 @@ const userReducer = (state = initialState, action) => {
             sessionStorage.removeItem('username');
             return {
                 ...state,
+                token: null,
+                role: 0,
+                username: '',
             };
         }
         case USER_REGISTER_SUCCESS: {

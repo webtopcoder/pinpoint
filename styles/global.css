@@ -100,7 +100,7 @@ p:last-child {
 
 .ptb-100 {
   padding-top: 100px;
-  padding-bottom: 50px;
+  padding-bottom: 150px;
 }
 
 .plr-100{
@@ -223,7 +223,7 @@ p:last-child {
   position: relative;
   border-radius: 5px;
   display: inline-block;
-  padding: 12px 45px 12px 30px;
+  padding: 12px 45px 12px 45px;
   -webkit-transition: var(--transition);
   transition: var(--transition);
   border: 1px solid var(--blackColor);

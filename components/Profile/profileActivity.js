@@ -25,7 +25,7 @@ const profileActivity = () => {
                                             src={food}
                                             alt="blog-details"
                                             width={50}
-                                            height={50}
+                                            height={70}
                                         />
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@ const profileActivity = () => {
                                                 <div className="pin-post-logo">
                                                     <button
                                                         type="submit"
-                                                        className="submit-btn"
+                                                        className="btn-style-one red-light-color"
                                                     >
                                                         Post
                                                     </button>

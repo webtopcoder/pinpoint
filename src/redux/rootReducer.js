@@ -7,5 +7,4 @@ const rootReducer = combineReducers({
     contact: contactReducer,
 });
 
-
 export default rootReducer;

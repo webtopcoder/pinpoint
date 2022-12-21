@@ -66,7 +66,7 @@ export const ContactFormValidator = form => {
             nextErrors = touchErrors(errors);
         }
 
-        const { firstName, lastName, email, subject, messageContent } = form;
+        const {usertype, firstName, lastName, email, subject, messageContent } = form;
 
         if (nextErrors.firstName.dirty && (field ? field === "firstName" : true)) {
             const firstNameMessage = FirstNameValidator(firstName, form);

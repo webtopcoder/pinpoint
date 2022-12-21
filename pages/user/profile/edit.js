@@ -6,7 +6,7 @@ import Layout from '../../../layout';
 const Edit = () => {
 	return (
 		<>
-			<PageTitle page="Shout outs" />
+			<PageTitle page="Profile Edit" />
 			<div className="page-pin-area">
 				<div className="pin-profile-section">
 					<ProflieEditor />

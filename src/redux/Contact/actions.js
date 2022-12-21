@@ -1,14 +1,12 @@
 import {
-
     CONTACT_REGISTER_REQUEST,
     CONTACT_REGISTER_SUCCESS,
-   
 } from './types';
 import api from '@/utils/callApi'
 
 
 export function ContactUser(form, cb) {
-    return dispatch => api(`auth/user/register`, 'post', form).then(
+    return dispatch => api(`contact`, 'post', form).then(
         res => {
 
             dispatch({

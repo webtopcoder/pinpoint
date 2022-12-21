@@ -21,7 +21,7 @@ const Header = () => {
                             </div>
                             <div className="avatar-metadata">
                                 <span>
-                                    dennis0303stephens@gmail.com
+                                    @dennis
                                 </span>
                             </div>
                             <div className="avatar-content">

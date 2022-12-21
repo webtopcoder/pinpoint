@@ -78,7 +78,6 @@ const Inbox = () => {
     return (
         <>
             <PageTitle page="Landing" />
-            <Header />
             <div className="mailbox-banner-area-css">
                 <div className="mail-container">
                     <div className="mailbox-container">
@@ -97,7 +96,6 @@ const Inbox = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

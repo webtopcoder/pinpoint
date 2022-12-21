@@ -162,7 +162,6 @@ const UserHome = (props) => {
                 <div className="container" style={{
                   marginLeft: 45
                 }}>
-
                   <div className="row">
 
                     <div
@@ -202,7 +201,7 @@ const UserHome = (props) => {
                         </div>
                         <h3>Pumpkin Patch</h3>
                         <p>
-                          Hay Rides,Family Photos, Pumpkin Carving. Find em’ here!
+                          Hay Rides, Family Photos, Pumpkin Carving. Find em’ here!
                         </p>
                       </div>
                     </div>

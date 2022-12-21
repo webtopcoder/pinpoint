@@ -80,9 +80,9 @@ export function recoveryPassword(form, cb) {
         })
 }
 
-export const logout = () => (dispatch) => {
-    localStorage.removeItem('userInfo');
+export const logout = (cb) => (dispatch) => {
     dispatch({ type: LOGOUT });
+    cb();
 };
 
 

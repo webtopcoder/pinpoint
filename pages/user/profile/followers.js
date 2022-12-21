@@ -8,8 +8,7 @@ import Layout from '../../../layout';
 const Followers = () => {
 	return (
 		<>
-			<PageTitle page="Shout outs" />
-			<Header />
+			<PageTitle page="Followers" />
 			<div className="page-pin-area">
 				<Profileheader />
 				<div className="pin-profile-section">
@@ -17,7 +16,6 @@ const Followers = () => {
 					<ProfileFollowers />
 				</div>
 			</div>
-			<Footer />
 		</>
 	);
 };

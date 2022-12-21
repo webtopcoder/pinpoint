@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import { connect } from 'react-redux';
 import Link from 'next/link';
@@ -7,10 +7,18 @@ import Image from "next/image";
 import styles from "./contact-validator/LoginForm.module.css";
 import { ContactFormValidator } from "./contact-validator/validater-hook";
 import { ContactUser } from '@/redux/Contact/actions';
+import toast from "@/components/Toast";
 
 const LandingContact = ({ onContactUser }) => {
 
 	const router = useRouter()
+	const notify = useCallback((type, message) => {
+		toast({ type, message });
+	}, []);
+
+	const dismiss = useCallback(() => {
+		toast.dismiss();
+	}, []);
 
 	const [form, setForm] = useState({
 
@@ -20,7 +28,6 @@ const LandingContact = ({ onContactUser }) => {
 		email: "",
 		subject: "",
 		messageContent: ""
-
 	});
 
 	const { errors, validateForm, onBlurField } = ContactFormValidator(form);
@@ -49,9 +56,18 @@ const LandingContact = ({ onContactUser }) => {
 
 		onContactUser(form, res => {
 			if (res.success) {
-				localStorage.setItem('thankyou_id', 'User');
-				router.push('/authentication/thank-you')
+				const initialstate = {
+					usertype: "",
+					firstName: "",
+					lastName: "",
+					email: "",
+					subject: "",
+					messageContent: ""
+				};
+				setForm(initialstate);
+				notify("success", res.msg)
 			}
+			else notify("error", res.msg)
 		});
 	};
 
@@ -182,6 +198,6 @@ const LandingContact = ({ onContactUser }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onRegisterUser: (data, cb) => dispatch(ContactUser(data, cb))
+	onContactUser: (data, cb) => dispatch(ContactUser(data, cb))
 })
 export default connect(undefined, mapDispatchToProps)(LandingContact);

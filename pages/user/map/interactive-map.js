@@ -3,7 +3,7 @@ import PageTitle from "@/components/Layout/PageTitle";
 import { Col, InputNumber, Row, Slider, Button, Tooltip, Space } from 'antd';
 import { FullscreenOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Image from "next/image";
-import userImg1 from "@/public/images/user/user1.jpg";
+import food from "@/public/images/landing/food.png";
 import Layout from '../../../layout';
 
 
@@ -28,7 +28,7 @@ const InteractiveMap = () => {
               <div className="shout-author vcard">
                 <div className="avatar">
                   <Image
-                    src={userImg1}
+                    src={food}
                     alt="user"
                     className="shout-radius"
                   />
@@ -119,7 +119,7 @@ const InteractiveMap = () => {
                             height: 70
                           }} icon={<FullscreenOutlined style={{
                             fontSize: 40
-                          }}/>} />
+                          }} />} />
                         </Tooltip>
                       </div>
                     </div>
@@ -132,7 +132,7 @@ const InteractiveMap = () => {
                             height: 70
                           }} icon={<UnorderedListOutlined style={{
                             fontSize: 40
-                          }}/>} />
+                          }} />} />
                         </Tooltip>
                       </div>
                     </div>
@@ -141,7 +141,13 @@ const InteractiveMap = () => {
               </div>
             </div>
           </div>
+          <div className="google-map-area green-color">
+            <div id="interactive-map">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d629806.5608507423!2d-74.14550980308866!3d40.99473892694984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c295001ca56f9f%3A0x313170de6c0e7b75!2sFairview%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1630302531294!5m2!1sen!2sbd"></iframe>
+            </div>
+          </div>
         </div>
+
       </div>
     </>
   );

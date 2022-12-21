@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import RightSidebar from './RightSidebar';
 import Header from './Header';
 import Footer from './Footer';
@@ -32,4 +33,7 @@ const UserLayout = ({ children }) => {
   )
 }
 
-export default UserLayout;
+const mapStateToProps = ({ user }) => ({
+  auth: user.token
+})
+export default connect(mapStateToProps, null)(UserLayout);

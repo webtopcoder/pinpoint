@@ -8,7 +8,7 @@ import Layout from '../../../layout';
 const Favorites = () => {
 	return (
 		<>
-			<PageTitle page="Shout outs" />
+			<PageTitle page="Favorites" />
 			<div className="page-pin-area">
 				<Profileheader />
 				<div className="pin-profile-section">
