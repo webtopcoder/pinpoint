@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import ProflieEditor from "@/components/User/Profile/profileEdit";
+import ProflieEditor from "@/components/User/Profile/profileEdit/index";
 import Layout from '../../../layout';
 
 const Edit = () => {

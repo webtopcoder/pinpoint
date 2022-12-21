@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import ToggleSwitch from "@/components/Switch/ToggleSwitch";
+import ToggleSwitch from "./Switch/ToggleSwitch";
 import dynamic from 'next/dynamic'
-
-window.addEventListener('load', QuillNoSSRWrapper, false);
-// ..... or 
-window.addEventListener('DOMContentLoaded', QuillNoSSRWrapper, false);
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
     ssr: false,

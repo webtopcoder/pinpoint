@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Link from 'next/link';
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
-import styles from "../LoginForm.module.css";
+import styles from "../validate.css";
 import { loginUser } from '@/redux/User/actions';
 import { useLoginFormValidator } from "./hooks/partner-Login-validator";
 import toast from "@/components/Toast";
