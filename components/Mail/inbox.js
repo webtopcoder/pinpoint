@@ -17,7 +17,6 @@ import bpthumicon from "@/public/images/bpthum.png";
 const Inbox = ({ ongetInbox, inboxitems }) => {
 
     const columnes = [
-
         {
             title: 'From',
             align: 'center',
@@ -32,11 +31,11 @@ const Inbox = ({ ongetInbox, inboxitems }) => {
                     </div>
                     <div className="thread-from">
                         <div className="from">
-                            <a href="https://pinpointfoodtruck.com/members/codydixon/">Cody Dixon<i class="fas fa-check youzify-account-verified youzify-small-verified-icon"></i></a>
+                            <a href="https://pinpointfoodtruck.com/members/codydixon/">Cody Dixon<i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i></a>
                             <span className="thread-count">(11)</span>
                             <span className="bp-screen-reader-text">1 unread</span>
                         </div>
-                        <span className="activity">December 4, 2022 at 7:37 pm</span>
+                        <span className="activity">December 4, 2022 atd 7:37 pm</span>
                     </div>
                 </div>
 
@@ -154,7 +153,6 @@ const Inbox = ({ ongetInbox, inboxitems }) => {
                     dataSource={data}
                 />
             </Col>
-
         </Row>
     )
 }

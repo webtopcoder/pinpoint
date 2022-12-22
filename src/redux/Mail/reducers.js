@@ -1,23 +1,16 @@
 import {
     MAIL_COMPOSE_REQUEST,
     MAIL_COMPOSE_SUCCESS,
-    GET_INBOX_SUCCESS
+    GET_INBOX_SUCCESS,
+    GET_SENT_SUCCESS
 } from './types';
 
-const token = '';
-const username = '';
-const role = '';
-
-if (typeof window !== 'undefined') {
-    // Perform localStorage action
-    token = sessionStorage.getItem('token');
-    username = sessionStorage.getItem('username');
-    role = sessionStorage.getItem('role');
-}
 const initialState = {
     loading: false,
     status: false,
-    inboxlist: []
+    inboxlist: [],
+    sentlist: [],
+    senttotal: 0
 }
 
 const mailReducer = (state = initialState, action) => {
@@ -40,6 +33,14 @@ const mailReducer = (state = initialState, action) => {
             };
         }
 
+          case GET_SENT_SUCCESS: {
+
+            return {
+                ...state,
+                sentlist: action.payload.data,
+                senttotal: action.payload.total
+            };
+        }
 
         default:
             return {

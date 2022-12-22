@@ -5,11 +5,17 @@ import {
     SENT_INVITE_SUCCESS,
     GET_INBOX_REQUEST,
     GET_INBOX_SUCCESS,
+    GET_SENT_REQUEST,
+    GET_SENT_SUCCESS,
+    DELETE_SENT_REQUEST,
+    DELETE_SENT_SUCCESS,
+    BULK_SENT_REQUEST,
+    BULK_SENT_SUCCESS
 } from './types';
 import api from '@/utils/callApi'
 
 export function mailCompose(form, cb) {
-    
+
     return dispatch => api(`mail/compose`, 'post', form).then(
         res => {
             dispatch({
@@ -28,12 +34,11 @@ export function mailCompose(form, cb) {
 }
 
 export function sentInvite(form, cb) {
-    
-    console.log(form);
+
     return dispatch => api(`mail/invite`, 'post', form).then(
         res => {
             dispatch({
-                type: GET_INBOX_REQUEST,
+                type: SENT_INVITE_REQUEST,
             });
 
             dispatch({
@@ -48,17 +53,57 @@ export function sentInvite(form, cb) {
 }
 
 export function getInbox() {
-    
+
     return dispatch => api(`mail/inbox`, 'get').then(
         res => {
             dispatch({
-                type: SENT_INVITE_REQUEST,
+                type: GET_INBOX_REQUEST,
             });
 
             dispatch({
                 type: GET_INBOX_SUCCESS,
                 payload: res,
             });
+
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function getSent(tableinfo, cb) {
+
+    return dispatch => api(`mail/sent?page=${tableinfo.pagination.current}&pageSize=${tableinfo.pagination.pageSize}&order= ${tableinfo.order && tableinfo.order=='ascend'? 1: -1}`, 'get').then(
+        res => {
+            dispatch({
+                type: GET_SENT_REQUEST,
+            });
+
+            dispatch({
+                type: GET_SENT_SUCCESS,
+                payload: res,
+            });
+
+            cb(res);
+
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function deleteSent(delete_id, bulkoption, cb) {
+
+    return dispatch => api(`mail/sent`, 'delete', {mailId: delete_id, action: bulkoption}).then(
+        res => {
+            dispatch({
+                type: DELETE_SENT_REQUEST,
+            });
+
+            dispatch({
+                type: DELETE_SENT_SUCCESS,
+                payload: res,
+            });
+
+            cb(res);
 
         }).catch(error => {
             console.log(error);
