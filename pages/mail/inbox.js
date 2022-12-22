@@ -72,12 +72,12 @@ const Inbox = () => {
             />,
         }
     ];
-    const [tab, setTab] = useState('inbox');
 
+    const [tab, setTab] = useState('inbox');
     const onClickTab = e => setTab(e.key);
     return (
         <>
-            <PageTitle page="Landing" />
+            <PageTitle page="Message" />
             <div className="mailbox-banner-area-css">
                 <div className="mail-container">
                     <div className="mailbox-container">
@@ -105,7 +105,6 @@ const Inbox = () => {
                                     ]}
                                 />
                                 <Button onClick={() => bulkaction()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
-
                             </Col>
                         </Row>
                         <Row justify="space-around" vgutter={8}>

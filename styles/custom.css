@@ -1059,3 +1059,7 @@ h4 {
     font-weight: 600;
     color: var(--blueColor)
 }
+
+.anticon{
+    vertical-align: 0;
+}
