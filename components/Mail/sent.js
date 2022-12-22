@@ -7,9 +7,10 @@ import {
     Button,
     Space,
     Tooltip,
+    Modal
 } from 'antd'
 import { connect } from 'react-redux';
-import { EyeOutlined, DeleteFilled } from '@ant-design/icons';
+import { DeleteFilled } from '@ant-design/icons';
 import Image from "next/image";
 import { getSent } from '@/redux/Mail/actions';
 import { deleteSent } from '@/redux/Mail/actions';
@@ -17,6 +18,7 @@ import bpthumicon from "@/public/images/bpthum.png";
 import toast from "@/components/Toast";
 
 const Sent = ({ ongetSent, ondeleteSent }) => {
+    const [open, setOpen] = useState(false);
 
     const notify = useCallback((type, message) => {
         toast({ type, message });
@@ -28,12 +30,13 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
 
     const columnes = [
         {
-            title: ''
+            title: '',
+            width: '1%'
         },
         {
             title: 'From',
-            align: 'left',
-            width: '30%',
+            align: 'center',
+            width: '40%',
             sorter: true,
             render: (_, record) => (
                 <div className='thread-sender'>
@@ -45,13 +48,16 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
                     </div>
                     <div className="thread-from">
                         <div className="from">
-                            <a href="https://pinpointfoodtruck.com/members/codydixon/">{record.to}
-                                <i class="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
+                            <a href="https://pinpointfoodtruck.com/members/codydixon/">{
+                                record.sent[0].to
+                            }
+                                <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                             </a>
-                            <span className="thread-count">(11)</span>
-                            <span className="bp-screen-reader-text">1 unread</span>
+                            <span className="thread-count">&nbsp;({record.count})</span>
                         </div>
-                        <span className="activity">December 4, 2022 at 7:37 pm</span>
+                        <span className="activity">last sent: {
+                            new Date(record.sent[0].createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })
+                        }</span>
                     </div>
                 </div>
             ),
@@ -64,10 +70,9 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
                 <div className='thread-info'>
                     <p>
                         <Tooltip title="View Message" color={'blue'}>
-                            <a>{record.subject}</a>
+                            <a onClick={() => selectedSentinfo(record)}>{record.sent[0].subject}</a>
                         </Tooltip>
                     </p>
-                    <p className="thread-excerpt">{record.message}</p>
                 </div>
             ),
         },
@@ -77,11 +82,6 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
             align: 'center',
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="Mark as Read" color={'blue'}>
-                        <a className='mark-read'>
-                            <EyeOutlined className='eye-style' />
-                        </a>
-                    </Tooltip>
                     <Tooltip title="Are you sure?" color={'blue'}>
                         <a onClick={() => delete_sent(record._id)} className='mail-delete'>
                             <DeleteFilled className='delete-style' />
@@ -92,6 +92,7 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
         }
     ];
 
+    const [record_details, setSaveSentDetail] = useState([]);
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
     const [tableParams, setTableParams] = useState({
@@ -101,6 +102,10 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
         },
     });
 
+    const selectedSentinfo = (recordInfo) => {
+        setSaveSentDetail(recordInfo);
+        setOpen(true);
+    };
     useEffect(() => {
         setLoading(true);
         ongetSent(tableParams, res => {
@@ -123,7 +128,6 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
             ...sorter,
         });
 
-        // `dataSource` is useless since `pageSize` changed
         if (pagination.pageSize !== tableParams.pagination?.pageSize) {
             setData([]);
         }
@@ -199,45 +203,70 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
     };
 
     return (
-        <Row className='mail-inbox'>
-            <Col md={24} sm={24} xs={24} style={{ marginBottom: 10 }}>
-                <Select
-                    defaultValue=""
-                    onChange={(e) => bulkoptionChange(e)}
-                    style={{ width: 120, marginRight: 10 }}
-                    options={[
-                        {
-                            value: 'bluk',
-                            label: 'Bluk Action',
-                        },
-                        {
-                            value: 'mark-read',
-                            label: 'Mark Read',
-                        },
-                        {
-                            value: 'delete',
-                            label: 'Delete',
-                        },
-                    ]}
-                />
-                <Button onClick={() => bulkaction()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
-            </Col>
-            <Col md={24} sm={24} xs={24}>
-                <Table
-                    columns={columnes}
-                    rowSelection={{
-                        type: selectionType,
-                        ...rowSelection,
-                    }}
+        <>
+            <Row className='mail-inbox'>
+                <Col md={24} sm={24} xs={24}>
+                    <Table
+                        columns={columnes}
+                        rowSelection={{
+                            type: selectionType,
+                            ...rowSelection,
+                        }}
+                        dataSource={data}
+                        loading={loading}
+                        rowKey={(rows) => rows._id}
+                        pagination={tableParams.pagination}
+                        onChange={handleTableChange}
+                    />
+                </Col>
+            </Row>
+            <Modal
+                centered
+                open={open}
+                closable={false}
+                keyboard={false}
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+                width={900}
+                footer={[
+                    <Button type="primary" onClick={() => setOpen(false)}>cancel</Button>
+                ]}
+            >   
+                
+                {record_details.sent?.map((record, index) =>
+                    <div id='message-thread'>
+                        <div id="thread-message-9" className="message-box odd sent-by-2 message-not-starred">
+                            <div className="message-metadata">
+                                <Image
+                                    src={bpthumicon}
+                                    alt="user"
+                                    className='avatar'
+                                    width={45}
+                                    height={45}
+                                />
 
-                    dataSource={data}
-                    loading={loading}
-                    rowKey={(rows) => rows._id}
-                    pagination={tableParams.pagination}
-                    onChange={handleTableChange}
-                />
-            </Col>
-        </Row>
+                                <div className='message-metadata-head'>
+                                    <a href="https://pinpointfoodtruck.com/members/codydixon/">{record.to}<i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i></a>
+
+                                    <div className="message-meta">
+                                        <span className="activity">{new Date(record.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })}</span>
+                                    </div>
+                                </div>
+                                <div className="message-star-actions">
+                                    <a className="bp-tooltip message-action-star" href="https://pinpointfoodtruck.com/members/dixoncody5/messages/star/9/b53c97fbaa/"><span className="icon"></span> <span className="bp-screen-reader-text">{record.subject}</span>
+
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="message-content">
+                                <p>{record.message}</p>
+                            </div>
+                            <div className="clear"></div>
+                        </div>
+                    </div>
+                )}
+            </Modal>
+        </>
     )
 }
 

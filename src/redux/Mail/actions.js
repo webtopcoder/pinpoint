@@ -9,8 +9,8 @@ import {
     GET_SENT_SUCCESS,
     DELETE_SENT_REQUEST,
     DELETE_SENT_SUCCESS,
-    BULK_SENT_REQUEST,
-    BULK_SENT_SUCCESS
+    DELETE_INBOX_REQUEST,
+    DELETE_INBOX_SUCCESS
 } from './types';
 import api from '@/utils/callApi'
 
@@ -52,9 +52,9 @@ export function sentInvite(form, cb) {
         })
 }
 
-export function getInbox() {
+export function getInbox(tableinfo, cb) {
 
-    return dispatch => api(`mail/inbox`, 'get').then(
+    return dispatch => api(`mail/inbox?page=${tableinfo.pagination.current}&pageSize=${tableinfo.pagination.pageSize}&order= ${tableinfo.order && tableinfo.order == 'ascend' ? 1 : -1}`, 'get').then(
         res => {
             dispatch({
                 type: GET_INBOX_REQUEST,
@@ -65,6 +65,8 @@ export function getInbox() {
                 payload: res,
             });
 
+            cb(res);
+
         }).catch(error => {
             console.log(error);
         })
@@ -72,7 +74,7 @@ export function getInbox() {
 
 export function getSent(tableinfo, cb) {
 
-    return dispatch => api(`mail/sent?page=${tableinfo.pagination.current}&pageSize=${tableinfo.pagination.pageSize}&order= ${tableinfo.order && tableinfo.order=='ascend'? 1: -1}`, 'get').then(
+    return dispatch => api(`mail/sent?page=${tableinfo.pagination.current}&pageSize=${tableinfo.pagination.pageSize}&order= ${tableinfo.order && tableinfo.order == 'ascend' ? 1 : -1}`, 'get').then(
         res => {
             dispatch({
                 type: GET_SENT_REQUEST,
@@ -92,7 +94,7 @@ export function getSent(tableinfo, cb) {
 
 export function deleteSent(delete_id, bulkoption, cb) {
 
-    return dispatch => api(`mail/sent`, 'delete', {mailId: delete_id, action: bulkoption}).then(
+    return dispatch => api(`mail/sent`, 'delete', { mailId: delete_id, action: bulkoption }).then(
         res => {
             dispatch({
                 type: DELETE_SENT_REQUEST,
@@ -100,6 +102,26 @@ export function deleteSent(delete_id, bulkoption, cb) {
 
             dispatch({
                 type: DELETE_SENT_SUCCESS,
+                payload: res,
+            });
+
+            cb(res);
+
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function deleteInbox(delete_id, bulkoption, cb) {
+
+    return dispatch => api(`mail/sent`, 'delete', { mailId: delete_id, action: bulkoption }).then(
+        res => {
+            dispatch({
+                type: DELETE_INBOX_REQUEST,
+            });
+
+            dispatch({
+                type: DELETE_INBOX_SUCCESS,
                 payload: res,
             });
 

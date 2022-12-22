@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InboxOutlined, SendOutlined, FormOutlined, UploadOutlined } from '@ant-design/icons';
-import { Avatar, Menu } from 'antd';
+import { Avatar, Menu, Row, Col, Select, Button } from 'antd';
 import PageTitle from "@/components/Layout/PageTitle";
 import MailInbox from "@/components/Mail/inbox";
 import MailSent from "@/components/Mail/sent";
@@ -81,18 +81,56 @@ const Inbox = () => {
             <div className="mailbox-banner-area-css">
                 <div className="mail-container">
                     <div className="mailbox-container">
-                        <div className="menu-bar">
-                            <div className="row">
-                                <Menu selectedKeys={[tab]} mode="horizontal" items={items} onClick={onClickTab} />
-                            </div>
-                        </div>
-                        <div className="mail-content">
-                            {tab === 'inbox' && <MailInbox />}
-                            {tab === 'sent' && <MailSent />}
-                            {tab === 'compose' && <MailCompose />}
-                            {tab === 'send_invites' && <MailSendInvite />}
-                            {tab === 'pending_invites' && <MailPendingInvite />}
-                        </div>
+                        <Row justify="space-around" vgutter={8}>
+                            <Col span={6}>
+                            </Col>
+                            <Col span={17}>
+                                <Select
+                                    defaultValue=""
+                                    onChange={(e) => bulkoptionChange(e)}
+                                    style={{ width: 120, marginRight: 10 }}
+                                    options={[
+                                        {
+                                            value: 'bluk',
+                                            label: 'Bluk Action',
+                                        },
+                                        {
+                                            value: 'mark',
+                                            label: 'Mark Read',
+                                        },
+                                        {
+                                            value: 'delete',
+                                            label: 'Delete',
+                                        },
+                                    ]}
+                                />
+                                <Button onClick={() => bulkaction()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
+
+                            </Col>
+                        </Row>
+                        <Row justify="space-around" vgutter={8}>
+                            <Col span={6}>
+                                <Menu
+                                    selectedKeys={[tab]}
+                                    mode="inline"
+                                    items={items}
+                                    onClick={onClickTab}
+                                />
+                            </Col>
+
+                            <Col span={17}>
+                                <div className="mail-content">
+                                    {tab === 'inbox' && <MailInbox />}
+                                    {tab === 'sent' && <MailSent />}
+                                    {tab === 'compose' && <MailCompose />}
+                                    {tab === 'send_invites' && <MailSendInvite />}
+                                    {tab === 'pending_invites' && <MailPendingInvite />}
+                                </div>
+
+                            </Col>
+                        </Row>
+
+
                     </div>
                 </div>
             </div>
@@ -101,7 +139,7 @@ const Inbox = () => {
 };
 
 Inbox.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
+    return <Layout>{page}</Layout>
 }
 
 export default Inbox;

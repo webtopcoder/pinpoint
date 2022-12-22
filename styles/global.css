@@ -33,7 +33,11 @@ body {
   padding: 0;
   color: var(--blackColor);
   font-size: var(--fontSize);
-  font-family: var(--fontFamily);
+  font-family: var(--fontFamily) !important;
+}
+
+.ant-row, .ant-menu, .ant-table, .ant-btn, .ant-form-item-required, label, a, span, p{
+  font-family: var(--fontFamily) !important;
 }
 
 .h1,

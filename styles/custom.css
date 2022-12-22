@@ -937,6 +937,10 @@ h4 {
     line-height: 20px;
 }
 
+.thread-info p{
+    color: var(--blueColor)
+}
+
 .mark-read {
     background-color: var(--blueColor);
     padding: 11px 5px 13px 5px;
@@ -965,4 +969,93 @@ h4 {
     text-align: center;
     color: var(--graydarkColor);
     line-height: 35px;
+}
+
+/* detail modal */
+
+#message-thread .message-box {
+    padding: 25px;
+    margin-bottom: 25px;
+    background-color: var(--whiteColor);
+    -webkit-border-radius: 3px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+#message-thread .message-metadata {
+    position: relative;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #eeeeee;
+}
+
+#message-thread .message-metadata span {
+    vertical-align: middle !important;
+}
+
+#message-thread .message-metadata .avatar {
+    margin-right: 12px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+    height: calc(2.25 * 1rem) !important;
+    min-height: inherit !important;
+    width: calc(2.25 * 1rem) !important;
+}
+
+#message-thread .message-metadata-head {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#message-thread .message-metadata a {
+    color: var(--blueColor);
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+#message-thread .message-metadata .activity {
+    color: var(--graydarkColor);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+#message-thread .message-star-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#message-thread .message-content{
+    padding-top: 5px;
+}
+
+#message-thread .message-content p{
+    color: var(--blackColor);
+    font-size: 14px;
+    line-height: 28px;
+}
+
+#message-thread .message-content p:last-of-type {
+    margin-bottom: 0;
+}
+
+.ant-modal-content{
+    padding: 36px 30px 20px 30px !important;
+}
+
+.ant-row-space-around:first-child{
+    margin-bottom: 10px !important;
+}
+
+.ant-menu{
+    height: 280px;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.ant-menu-title-content{
+    font-weight: 600;
+    color: var(--blueColor)
 }

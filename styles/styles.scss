@@ -5,8 +5,8 @@
 
     .mail-container {
         background-color: #272753;
-        padding-left: 100px;
-        padding-right: 100px;
+        padding-left: 30px;
+        padding-right: 30px;
 
         @media only screen and (max-width: 900px) {
             padding-left: 10px;
@@ -21,7 +21,7 @@
                 border-radius: 10px;
 
                 .row {
-                    padding: 30px;
+                    padding: 10px;
 
                     .ant-menu-horizontal {
                         border-bottom: 0px;
@@ -30,7 +30,6 @@
             }
 
             .mail-content {
-                margin-top: 30px;
 
                 .mail-inbox {
                     color: white;
