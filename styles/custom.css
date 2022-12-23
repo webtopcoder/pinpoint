@@ -938,12 +938,13 @@ h4 {
 }
 
 .thread-info p{
-    color: var(--blueColor)
+    color: var(--blueColor);
+    font-size: 14px;
 }
 
 .mark-read {
     background-color: var(--blueColor);
-    padding: 11px 5px 13px 5px;
+    padding: 11px 5px 11px 5px;
     border-radius: 3px;
 }
 
@@ -1028,7 +1029,13 @@ h4 {
 }
 
 #message-thread .message-content{
-    padding-top: 5px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px
+}
+
+#message-thread .message-content pre{
+    font-size: 15px;
 }
 
 #message-thread .message-content p{
@@ -1042,6 +1049,7 @@ h4 {
 }
 
 .ant-modal-content{
+    background-color: var(--darkWhiteColor) !important;
     padding: 36px 30px 20px 30px !important;
 }
 
@@ -1062,4 +1070,8 @@ h4 {
 
 .anticon{
     vertical-align: 0;
+}
+
+.mail_space{
+    height: 32px !important;
 }

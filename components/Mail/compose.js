@@ -73,10 +73,6 @@ const Compose = ({ onmailCompose }) => {
                                     message: 'Please input your Username!'
                                 },
                                 {
-                                    pattern: new RegExp('^[a-zA-Z0-9 ]*$'),
-                                    message: 'Alphanumeric'
-                                },
-                                {
                                     whitespace: true,
                                     message: 'Please input your Username!'
                                 }
@@ -97,10 +93,6 @@ const Compose = ({ onmailCompose }) => {
                                 {
                                     required: true,
                                     message: 'Please input Message!'
-                                },
-                                {
-                                    pattern: new RegExp('^[a-zA-Z0-9 ]*$'),
-                                    message: 'Alphanumeric'
                                 },
                                 {
                                     whitespace: true,

@@ -10,14 +10,14 @@ import {
     Modal
 } from 'antd'
 import { connect } from 'react-redux';
-import { EyeOutlined, DeleteFilled } from '@ant-design/icons';
+import { EyeOutlined, EyeInvisibleOutlined, DeleteFilled } from '@ant-design/icons';
 import Image from "next/image";
 import { getInbox } from '@/redux/Mail/actions';
-import { deleteInbox } from '@/redux/Mail/actions';
+import { actionInbox } from '@/redux/Mail/actions';
 import bpthumicon from "@/public/images/bpthum.png";
 import toast from "@/components/Toast";
 
-const Inbox = ({ ongetInbox, ondeleteInbox }) => {
+const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
     const [open, setOpen] = useState(false);
 
     const notify = useCallback((type, message) => {
@@ -31,12 +31,12 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
     const columnes = [
         {
             title: '',
-            width: '5%'
+            width: '1%'
         },
         {
             title: 'From',
-            align: 'left',
-            width: '30%',
+            align: 'center',
+            width: '40%',
             sorter: true,
             render: (_, record) => (
                 <div className='thread-sender'>
@@ -49,14 +49,14 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
                     <div className="thread-from">
                         <div className="from">
                             <a href="https://pinpointfoodtruck.com/members/codydixon/">{
-                                record.Inbox[0].to
+                                record.inbox[0].to
                             }
                                 <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                             </a>
                             <span className="thread-count">&nbsp;({record.count})</span>
                         </div>
                         <span className="activity">last received: {
-                            new Date(record.Inbox[0].createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })
+                            new Date(record.inbox[0].createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })
                         }</span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
                 <div className='thread-info'>
                     <p>
                         <Tooltip title="View Message" color={'blue'}>
-                            <a onClick={() => selectedInboxinfo(record)}>{record.Inbox[0].subject}</a>
+                            <a onClick={() => selectedInboxinfo(record)}>{record.inbox[0].subject}</a>
                         </Tooltip>
                     </p>
                 </div>
@@ -82,11 +82,20 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
             align: 'center',
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="Mark as Read" color={'blue'}>
-                        <a onClick={() => mark_Inbox(record._id)} className='mark-read'>
-                            <EyeOutlined className='eye-style' />
-                        </a>
-                    </Tooltip>
+                    {
+                        !record.is_read ?
+                            <Tooltip title="Mark as Read" color={'blue'}>
+                                <a onClick={() => mark_Inbox(record._id, !record.is_read)} className='mark-read'>
+                                    <EyeOutlined className='eye-style' />
+                                </a>
+                            </Tooltip>
+                            :
+                            <Tooltip title="Mark as Read" color={'blue'}>
+                                <a onClick={() => mark_Inbox(record._id, !record.is_read)} className='mark-read'>
+                                    <EyeInvisibleOutlined className='eye-style' />
+                                </a>
+                            </Tooltip>
+                    }
                     <Tooltip title="Are you sure?" color={'blue'}>
                         <a onClick={() => delete_Inbox(record._id)} className='mail-delete'>
                             <DeleteFilled className='delete-style' />
@@ -112,6 +121,8 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
         setOpen(true);
     };
     useEffect(() => {
+
+        childFunc.current = bulkaction;
         setLoading(true);
         ongetInbox(tableParams, res => {
             setData(res.data);
@@ -124,7 +135,7 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
                 },
             });
         });
-    }, [JSON.stringify(tableParams)]);
+    }, []);
 
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
@@ -138,12 +149,16 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
         }
     };
 
-    const mark_Inbox = (mark_id) => {
+    const mark_Inbox = (mark_id, read_status) => {
 
-        const delete_array = [];
-        delete_array.push(mark_id);
-
-        ondeleteInbox(delete_array, 'mark', res => {
+        const mark_array = [];
+        mark_array.push(mark_id);
+        const data = {
+            mailId: mark_array,
+            action: 'mark',
+            is_read: read_status
+        }
+        onactionInbox(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
                 setLoading(true);
@@ -166,8 +181,11 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
 
         const delete_array = [];
         delete_array.push(delete_id);
-
-        ondeleteInbox(delete_array, 'delete', res => {
+        const data = {
+            mailId: delete_array,
+            action: 'delete',
+        }
+        onactionInbox(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
 
@@ -187,12 +205,6 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
         });
     };
     const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
-    const [bulkoptionValue, setBulkoption] = useState([]);
-
-    const bulkoptionChange = (value) => {
-        setBulkoption(value);
-    };
-
     const [selectionType, setSelectionType] = useState('checkbox');
 
     const rowSelection = {
@@ -200,6 +212,7 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
 
             setSelectRowkeys(selectedRowKeys)
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            console.log(selectedRowkeyslist)
         },
         getCheckboxProps: (record) => ({
             disabled: record.name === 'Disabled User',
@@ -209,8 +222,11 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
     };
 
     const bulkaction = () => {
-
-        ondeleteInbox(selectedRowkeyslist, bulkoptionValue, res => {
+        const data = {
+            mailId: selectedRowkeyslist,
+            action: bulkvalue,
+        }
+        onactionInbox(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
                 setLoading(true);
@@ -232,28 +248,6 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
     return (
         <>
             <Row className='mail-inbox'>
-                {/* <Col md={24} sm={24} xs={24} style={{ marginBottom: 10 }}>
-                    <Select
-                        defaultValue=""
-                        onChange={(e) => bulkoptionChange(e)}
-                        style={{ width: 120, marginRight: 10 }}
-                        options={[
-                            {
-                                value: 'bluk',
-                                label: 'Bluk Action',
-                            },
-                            {
-                                value: 'mark',
-                                label: 'Mark Read',
-                            },
-                            {
-                                value: 'delete',
-                                label: 'Delete',
-                            },
-                        ]}
-                    />
-                    <Button onClick={() => bulkaction()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
-                </Col> */}
                 <Col md={24} sm={24} xs={24}>
                     <Table
                         columns={columnes}
@@ -281,9 +275,7 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
                     <Button type="primary" onClick={() => setOpen(false)}>cancel</Button>
                 ]}
             >
-
-                {record_details.Inbox?.map((record, index) =>
-
+                {record_details.inbox?.map((record, index) =>
                     <div id='message-thread'>
                         <div id="thread-message-9" className="message-box odd Inbox-by-2 message-not-starred">
                             <div className="message-metadata">
@@ -294,22 +286,19 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
                                     width={45}
                                     height={45}
                                 />
-
                                 <div className='message-metadata-head'>
                                     <a href="https://pinpointfoodtruck.com/members/codydixon/">{record.to}<i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i></a>
-
                                     <div className="message-meta">
                                         <span className="activity">{new Date(record.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })}</span>
                                     </div>
                                 </div>
                                 <div className="message-star-actions">
                                     <a className="bp-tooltip message-action-star" href="https://pinpointfoodtruck.com/members/dixoncody5/messages/star/9/b53c97fbaa/"><span className="icon"></span> <span className="bp-screen-reader-text">{record.subject}</span>
-
                                     </a>
                                 </div>
                             </div>
                             <div className="message-content">
-                                <p>{record.message}</p>
+                                <pre>{record.message}</pre>
                             </div>
                             <div className="clear"></div>
                         </div>
@@ -322,7 +311,7 @@ const Inbox = ({ ongetInbox, ondeleteInbox }) => {
 
 const mapDispatchToProps = dispatch => ({
     ongetInbox: (tableParams, cb) => dispatch(getInbox(tableParams, cb)),
-    ondeleteInbox: (delete_id, bulkaction, cb) => dispatch(deleteInbox(delete_id, bulkaction, cb)),
+    onactionInbox: (action_id, bulkaction, cb) => dispatch(actionInbox(action_id, bulkaction, cb)),
 })
 
 export default connect(undefined, mapDispatchToProps)(Inbox);

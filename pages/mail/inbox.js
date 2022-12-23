@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { InboxOutlined, SendOutlined, FormOutlined, UploadOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Row, Col, Select, Button } from 'antd';
 import PageTitle from "@/components/Layout/PageTitle";
@@ -10,6 +10,8 @@ import MailPendingInvite from "@/components/Mail/pending_invite";
 import Layout from '../../layout';
 
 const Inbox = () => {
+
+    const childFunc = useRef(null)
     const items = [
         {
             label: 'INBOX',
@@ -72,6 +74,11 @@ const Inbox = () => {
             />,
         }
     ];
+    const [bulkoptionValue, setBulkoption] = useState([]);
+
+    const bulkoptionChange = (value) => {
+        setBulkoption(value);
+    };
 
     const [tab, setTab] = useState('inbox');
     const onClickTab = e => setTab(e.key);
@@ -85,26 +92,40 @@ const Inbox = () => {
                             <Col span={6}>
                             </Col>
                             <Col span={17}>
-                                <Select
-                                    defaultValue=""
+                                {tab === 'inbox' || tab === 'sent' ? <> <Select
+                                    defaultValue="bluk"
                                     onChange={(e) => bulkoptionChange(e)}
                                     style={{ width: 120, marginRight: 10 }}
-                                    options={[
-                                        {
-                                            value: 'bluk',
-                                            label: 'Bluk Action',
-                                        },
-                                        {
-                                            value: 'mark',
-                                            label: 'Mark Read',
-                                        },
-                                        {
-                                            value: 'delete',
-                                            label: 'Delete',
-                                        },
-                                    ]}
+                                    options={
+                                        tab == 'inbox' ?
+                                            [
+                                                {
+                                                    value: 'bluk',
+                                                    label: 'Bluk Action',
+                                                },
+                                                {
+                                                    value: 'mark',
+                                                    label: 'Mark Read',
+                                                },
+                                                {
+                                                    value: 'delete',
+                                                    label: 'Delete',
+                                                },
+                                            ] :
+                                            [
+                                                {
+                                                    value: 'bluk',
+                                                    label: 'Bluk Action',
+                                                },
+                                                {
+                                                    value: 'delete',
+                                                    label: 'Delete',
+                                                },
+                                            ]}
                                 />
-                                <Button onClick={() => bulkaction()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
+                                    <Button onClick={() => childFunc.current()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
+                                </>
+                                    : <div className="mail_space"></div>}
                             </Col>
                         </Row>
                         <Row justify="space-around" vgutter={8}>
@@ -119,8 +140,8 @@ const Inbox = () => {
 
                             <Col span={17}>
                                 <div className="mail-content">
-                                    {tab === 'inbox' && <MailInbox />}
-                                    {tab === 'sent' && <MailSent />}
+                                    {tab === 'inbox' && <MailInbox childFunc={childFunc} bulkvalue={bulkoptionValue} />}
+                                    {tab === 'sent' && <MailSent childFunc={childFunc} bulkvalue={bulkoptionValue} />}
                                     {tab === 'compose' && <MailCompose />}
                                     {tab === 'send_invites' && <MailSendInvite />}
                                     {tab === 'pending_invites' && <MailPendingInvite />}

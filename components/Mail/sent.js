@@ -17,7 +17,7 @@ import { deleteSent } from '@/redux/Mail/actions';
 import bpthumicon from "@/public/images/bpthum.png";
 import toast from "@/components/Toast";
 
-const Sent = ({ ongetSent, ondeleteSent }) => {
+const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
     const [open, setOpen] = useState(false);
 
     const notify = useCallback((type, message) => {
@@ -107,6 +107,8 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
         setOpen(true);
     };
     useEffect(() => {
+
+        childFunc.current = bulkaction;
         setLoading(true);
         ongetSent(tableParams, res => {
             setData(res.data);
@@ -180,9 +182,12 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
     };
 
     const bulkaction = () => {
-
-        console.log(selectedRowkeyslist, bulkoptionValue)
-        ondeleteSent(selectedRowkeyslist, bulkoptionValue, res => {
+        const data = {
+            mailId: selectedRowkeyslist,
+            action: bulkvalue,
+        }
+        
+        ondeleteSent(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
 
@@ -231,8 +236,8 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
                 footer={[
                     <Button type="primary" onClick={() => setOpen(false)}>cancel</Button>
                 ]}
-            >   
-                
+            >
+
                 {record_details.sent?.map((record, index) =>
                     <div id='message-thread'>
                         <div id="thread-message-9" className="message-box odd sent-by-2 message-not-starred">
@@ -253,13 +258,14 @@ const Sent = ({ ongetSent, ondeleteSent }) => {
                                     </div>
                                 </div>
                                 <div className="message-star-actions">
-                                    <a className="bp-tooltip message-action-star" href="https://pinpointfoodtruck.com/members/dixoncody5/messages/star/9/b53c97fbaa/"><span className="icon"></span> <span className="bp-screen-reader-text">{record.subject}</span>
-
+                                    <a className="bp-tooltip message-action-star">
+                                        <span className="icon"></span>
+                                        <span className="bp-screen-reader-text">{record.subject}</span>
                                     </a>
                                 </div>
                             </div>
                             <div className="message-content">
-                                <p>{record.message}</p>
+                                <pre>{record.message}</pre>
                             </div>
                             <div className="clear"></div>
                         </div>

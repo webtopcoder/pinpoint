@@ -94,7 +94,7 @@ export function getSent(tableinfo, cb) {
 
 export function deleteSent(delete_id, bulkoption, cb) {
 
-    return dispatch => api(`mail/sent`, 'delete', { mailId: delete_id, action: bulkoption }).then(
+    return dispatch => api(`mail`, 'put', { mailId: delete_id, action: bulkoption }).then(
         res => {
             dispatch({
                 type: DELETE_SENT_REQUEST,
@@ -112,9 +112,9 @@ export function deleteSent(delete_id, bulkoption, cb) {
         })
 }
 
-export function deleteInbox(delete_id, bulkoption, cb) {
+export function actionInbox(data, cb) {
 
-    return dispatch => api(`mail/sent`, 'delete', { mailId: delete_id, action: bulkoption }).then(
+    return dispatch => api(`mail`, 'put', data).then(
         res => {
             dispatch({
                 type: DELETE_INBOX_REQUEST,
@@ -131,5 +131,6 @@ export function deleteInbox(delete_id, bulkoption, cb) {
             console.log(error);
         })
 }
+
 
 
