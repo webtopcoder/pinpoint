@@ -36,7 +36,14 @@ body {
   font-family: var(--fontFamily) !important;
 }
 
-.ant-row, .ant-menu, .ant-table, .ant-btn, .ant-form-item-required, label, a, span, p{
+.ant-row,
+.ant-menu,
+.ant-table,
+.ant-btn,
+.ant-form-item-required,
+label,
+a,
+span {
   font-family: var(--fontFamily) !important;
 }
 
@@ -107,7 +114,7 @@ p:last-child {
   padding-bottom: 150px;
 }
 
-.plr-100{
+.plr-100 {
   padding-right: 100px;
   padding-left: 100px;
 }
@@ -140,9 +147,10 @@ p:last-child {
 .bg-dark-gray {
   background-color: #2F2F2F
 }
- .bg-black {
+
+.bg-black {
   background-color: #000000;
- }
+}
 
 .bg-light-gray {
   background-color: #414141
@@ -237,7 +245,7 @@ p:last-child {
 
 .btn-style-one i {
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   position: absolute;
   right: 25px;
   top: 50%;
@@ -251,7 +259,7 @@ p:last-child {
 }
 
 .btn-style-one.blue-light-color {
-   background-color: var(--blueColor);
+  background-color: var(--blueColor);
   border-color: var(--blueColor);
   color: var(--whiteColor);
 }
@@ -264,14 +272,14 @@ p:last-child {
 
 .btn-style-one.black-light-color {
   background-color: var(--blackColor);
- border-color: var(--blackColor);
- color: var(--whiteColor);
+  border-color: var(--blackColor);
+  color: var(--whiteColor);
 }
 
 .btn-style-one.black-light-color:hover {
- background-color: var(--graydarkColor);
- border-color: var(--graydarkColor);
- color: var(--whiteColor);
+  background-color: var(--graydarkColor);
+  border-color: var(--graydarkColor);
+  color: var(--whiteColor);
 }
 
 .btn-style-one.red-light-color:hover {
@@ -454,7 +462,8 @@ p:last-child {
   margin-bottom: 0;
 }
 
-.section-title p, .mg-12 {
+.section-title p,
+.mg-12 {
   margin-top: 12px;
 }
 
@@ -488,7 +497,7 @@ p:last-child {
 
 .preloader-area .preloader {
   -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   position: absolute;
   left: 50%;
   top: 50%;
@@ -514,7 +523,7 @@ p:last-child {
   border-radius: 50%;
   border: 2px solid transparent;
   -webkit-animation: rotate linear 3.5s infinite;
-          animation: rotate linear 3.5s infinite;
+  animation: rotate linear 3.5s infinite;
   border-top-color: rgba(101, 92, 151, 0.5);
   border-bottom-color: var(--redLightColor);
 }
@@ -531,26 +540,26 @@ p:last-child {
 .preloader-area .preloader .waviy span {
   position: relative;
   -webkit-animation-delay: 0.1s;
-          animation-delay: 0.1s;
+  animation-delay: 0.1s;
   display: inline-block;
   color: var(--blackColor);
   -webkit-animation: waviy 1s infinite;
-          animation: waviy 1s infinite;
+  animation: waviy 1s infinite;
 }
 
 .preloader-area .preloader .waviy span:nth-child(2) {
   -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s;
+  animation-delay: 0.2s;
 }
 
 .preloader-area .preloader .waviy span:nth-child(3) {
   -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s;
+  animation-delay: 0.3s;
 }
 
 .preloader-area .preloader .waviy span:nth-child(4) {
   -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s;
+  animation-delay: 0.4s;
 }
 
 .preloader-area.deactivate {
@@ -560,56 +569,65 @@ p:last-child {
 @-webkit-keyframes rotate {
   0% {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   50% {
     -webkit-transform: rotate(180deg);
-            transform: rotate(180deg);
+    transform: rotate(180deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 @keyframes rotate {
   0% {
     -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   50% {
     -webkit-transform: rotate(180deg);
-            transform: rotate(180deg);
+    transform: rotate(180deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 @-webkit-keyframes waviy {
+
   0%,
   40%,
   100% {
     -webkit-transform: translateY(0);
-            transform: translateY(0);
+    transform: translateY(0);
   }
+
   20% {
     -webkit-transform: translateY(-20px);
-            transform: translateY(-20px);
+    transform: translateY(-20px);
   }
 }
 
 @keyframes waviy {
+
   0%,
   40%,
   100% {
     -webkit-transform: translateY(0);
-            transform: translateY(0);
+    transform: translateY(0);
   }
+
   20% {
     -webkit-transform: translateY(-20px);
-            transform: translateY(-20px);
+    transform: translateY(-20px);
   }
 }
+
 /*# sourceMappingURL=global.css.map */

@@ -2,16 +2,26 @@ import React, { useState, useRef, useEffect } from "react";
 import { InboxOutlined, SendOutlined, FormOutlined, UploadOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Row, Col, Select, Button } from 'antd';
 import PageTitle from "@/components/Layout/PageTitle";
+import useSWR from "swr";
 import MailInbox from "@/components/Mail/inbox";
 import MailSent from "@/components/Mail/sent";
 import MailCompose from "@/components/Mail/compose";
 import MailSendInvite from "@/components/Mail/sent_invite";
 import MailPendingInvite from "@/components/Mail/pending_invite";
 import Layout from '../../layout';
+import Router from "next/router";
 
+export function useAuthSession() {
+    const { data: user } = useSWR("api/session");
+    useEffect(() => {
+      if (!user) Router.push("/");
+    }, [user]);
+    return user;
+  }
 
 const Inbox = () => {
-
+    const user = useAuthSession();
+    if (!user) return null;
     const childFunc = useRef(null)
     const items = [
         {

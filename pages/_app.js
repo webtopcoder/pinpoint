@@ -3,8 +3,8 @@ import AOS from "aos";
 import { wrapper, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import Router from 'next/router';
-import NProgress from 'nprogress'; //nprogress module
-import 'nprogress/nprogress.css'; //styles of nprogress
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'; 
 import "../node_modules/aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "/styles/flaticon.css";
@@ -27,7 +27,7 @@ import "/styles/sidebar.scss";
 import 'react-quill/dist/quill.snow.css'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { PersistGate } from 'redux-persist/integration/react'
+// import { PersistGate } from 'redux-persist/integration/react'
 import ScrollToTop from "@/components/Layout/ScrollToTop";
 import Head from 'next/head';
 
@@ -35,7 +35,8 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, ...rest }) {
+  const { store, props } = wrapper.useWrappedStore(rest);
   React.useEffect(() => {
     AOS.init();
   }, []);
@@ -52,7 +53,7 @@ function MyApp({ Component, pageProps }) {
             content="width=device-width, initial-scale=1"
           />
         </Head>
-          {getLayout(<Component {...pageProps} />)}
+        {getLayout(<Component {...props.pageProps} />)}
         <ToastContainer
           position="top-right"
           autoClose={8000}
