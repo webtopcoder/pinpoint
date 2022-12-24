@@ -1,30 +1,35 @@
-import React, { useCallback } from "react";
-import { Col, Row, Badge, Avatar, Popconfirm, Button } from 'antd';
-import { UserOutlined, ExportOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from "react";
+import { Row, Badge, Popconfirm, Button } from 'antd';
+import { ExportOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import Image from "next/image"
 import { connect } from "react-redux";
-//SimpleBar
 import Link from "next/link";
-import SimpleBar from "simplebar-react";
-// Logo
 import Logo from "@/public/images/landing/logo.png";
 import mailIcon from '@/public/images/landing/user-mail.png';
 import LIcon from '@/public/images/landing/l.png';
 import { logout } from '@/src/redux/User/actions';
-import toast from "@/components/Toast";
+import 'react-perfect-scrollbar/dist/css/styles.css'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
-const RightSidebar = ({ visible, token, onLogout, user_id }) => {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
+
+const RightSidebar = (props) => {
+  const { visible, onLogout , user_id} = props;
+  const router = useRouter();
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    setToken(sessionStorage.getItem('token'));
   }, []);
 
-  const router = useRouter();
   const onLogoutHandler = () => {
     onLogout(res => {
-      console.log(token)
+      setToken(null);
       router.push('/home');
     })
+  }
+  const SignupOrLogin = (path) => {
+    router.push(path);
   }
   const handlePageRender = (page) => {
     if (token) {
@@ -36,47 +41,45 @@ const RightSidebar = ({ visible, token, onLogout, user_id }) => {
   const handleOriginPageRender = (page) => {
     router.push(page);
   }
-  const SignupOrLogin = (path) => {
-    router.push(path);
-  }
-  return (
-    <React.Fragment>
-      <div className="right-bar" id="right-bar" style={{ display: `${visible ? '' : 'none'}` }}>
 
-        <Row style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
-          <Image src={Logo} alt="logo" width={280} height={80} />
-        </Row>
-        <Row style={{ marginTop: 20 }}>
-          <Col md={8} sm={8} xs={8} style={{ textAlign: 'center' }}>
-            {token && <div style={{ marginBottom: 15 }}>
+  console.log(token);
+  return (
+    <div
+      className={visible ? "right-sidebar show" : "right-sidebar"}
+      role="document"
+      id="right-sidebar"
+    >
+      <PerfectScrollbar>
+        <div className="logo-image">
+          <Image src={Logo} width={280} height={80} />
+        </div>
+        <div className="avatar-panel">
+          <div className="avatar-left">
+            {token && <div style={{ marginBottom: 20 }}>
               <Link href="/mail/inbox">
                 <Badge dot={true} className="mailboxLIcon"><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge>
               </Link>
             </div>}
             {token && <div><Badge dot={true} className="mailboxIcon"><Image src={LIcon} alt="l" width={40} height={40} /></Badge></div>}
-          </Col>
-          <Col md={8} sm={8} xs={8} style={{ textAlign: 'center' }}>
-            <Avatar size={100} style={{ backgroundColor: 'gray' }} icon={<UserOutlined style={{ fontSize: 80 }} />} />
-          </Col>
-          <Col md={8} sm={8} xs={8} style={{ textAlign: 'center', paddingTop: 25 }}>
+          </div>
+          <div className="avatar-center">
+            <div className="rightsidebar-avatar">
+              <span>User Profile<br />Picture</span>
+            </div>
+          </div>
+          <div className="avatar-right">
             {token && <ExportOutlined style={{ color: '#686868', fontSize: 40, }} onClick={() => onLogoutHandler()} />}
-          </Col>
-        </Row>
-        {token && <>
-          <Row>
-            <div className="view-profile-btn" onClick={() => handlePageRender(`/user/${JSON.parse(localStorage.getItem('userInfo')).id}/activity`)}>
-              View Profile
-            </div>
-          </Row>
-          <Row>
-            <div className="edit-profile" onClick={() => handleOriginPageRender('/user/profile/edit')}>
-              edit Profile
-            </div>
-          </Row>
-        </>}
-        {!token &&
-          <Row style={{ marginRight: 10, marginLeft: 10, marginTop: 20, marginBottom: 30 }} gutter={5}>
-            <Col md={12} style={{ textAlign: 'right' }}>
+          </div>
+        </div>
+        {token ? <><div onClick={() => handleOriginPageRender(`/user/${user_id}/activity`)} className="vst-profile">
+          View Profile
+        </div>
+          <div onClick={() => handleOriginPageRender(`/user/${user_id}/edit`)} className="vst-edit-profile">
+            edit profile
+          </div>
+        </> :
+          <div className="login-btn-panel">
+            <div className="login-btn">
               <Popconfirm
                 style={{ position: 'fixed' }}
                 title="WHO AM I?"
@@ -88,8 +91,8 @@ const RightSidebar = ({ visible, token, onLogout, user_id }) => {
               >
                 <a href="#"><Button shape="round" style={{ width: 100 }} icon={<LoginOutlined />}>Login</Button></a>
               </Popconfirm>
-            </Col>
-            <Col md={12} style={{ textAlign: 'left' }}>
+            </div>
+            <div className="signup-btn">
               <Popconfirm
                 title="WHO AM I?"
                 description="Who are you?"
@@ -100,8 +103,8 @@ const RightSidebar = ({ visible, token, onLogout, user_id }) => {
               >
                 <a href="#"><Button shape="round" style={{ width: 100 }} icon={<UserAddOutlined />}>Sign Up</Button></a>
               </Popconfirm>
-            </Col>
-          </Row>
+            </div>
+          </div>
         }
         <Row className="sidebar-menu-item" onClick={() => handleOriginPageRender('/home')}>
           Home
@@ -118,19 +121,16 @@ const RightSidebar = ({ visible, token, onLogout, user_id }) => {
         <Row className="sidebar-menu-item" onClick={() => handleOriginPageRender('/faq')}>
           FAQ
         </Row>
-
-
-      </div>
-      <div className="rightbar-overlay"></div>
-    </React.Fragment>
+      </PerfectScrollbar>
+    </div>
   );
-};
+}
 
 const mapStateToProps = state => {
   return {
     ...state.Layout,
     token: state.user.token,
-    user_id: state.user.loginInfo.id
+    user_id: state.user.user_id
   };
 };
 

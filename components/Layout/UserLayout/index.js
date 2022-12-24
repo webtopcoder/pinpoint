@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import RightSidebar from './RightSidebar';
 import Header from './Header';
 import Footer from './Footer';
+import { useRouter } from 'next/router';
 
 const UserLayout = ({ children }) => {
 
+  const router = useRouter();
   const [visible, setVisible] = useState(false);
   const onToggle = () => {
     setVisible(!visible);
   }
   const hideRightbar = event => {
-    var rightbar = document.getElementById("right-bar");
+    var rightbar = document.getElementById("right-sidebar");
     //if clicked in inside right bar, then do nothing
     if (rightbar && rightbar.contains(event.target)) {
       return;
@@ -21,10 +23,11 @@ const UserLayout = ({ children }) => {
     }
   }
   useEffect(() => {
+    setVisible(false);
     document.getElementById('__next').addEventListener("click", hideRightbar, true);
-  }, []);
+  }, [router.pathname]);
   return (
-    <>
+    < >
       <Header toggle={onToggle} />
       <RightSidebar visible={visible} />
       {children}

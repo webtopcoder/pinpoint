@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ToggleSwitch from "./Switch/ToggleSwitch";
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import { connect, useDispatch } from 'react-redux';
+import { getInfo } from '@/redux/Profile/actions';
+import { updateInfo } from '@/redux/Profile/actions';
+import { editAbout } from '@/redux/Profile/actions';
+import { editSocial } from '@/redux/Profile/actions';
+import { editNotification } from '@/redux/Profile/actions';
+import toast from "@/components/Toast";
+
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
     ssr: false,
@@ -26,10 +34,7 @@ const modules = {
         matchVisual: false,
     },
 }
-/*
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
+
 const formats = [
     'header',
     'font',
@@ -47,21 +52,96 @@ const formats = [
     'video',
 ]
 
-const profileEdit = () => {
+const profileEdit = ({ onupdateInfo, ongetInfo, editinfo }) => {
 
-    let [newsletter, setNewsletter] = useState(false);
-    let [daily, setDaily] = useState(false);
-    let [weekly, setWeekly] = useState(false);
-    let [monthly, setMonthly] = useState(false);
+    const dispatch = useDispatch();
 
-    const onNewsletterChange = (checked) => {
-        setNewsletter(checked);
-        if (!checked) {
-            setDaily(false);
-            setWeekly(false);
-            setMonthly(false);
-        }
+    const notify = useCallback((type, message) => {
+        toast({ type, message });
+    }, []);
+
+    const dismiss = useCallback(() => {
+        toast.dismiss();
+    }, []);
+
+    const [rating, setRating] = useState(false);
+    const [follow, setFollow] = useState(false);
+    const [mention, setMention] = useState(false);
+    const [favorite, setFavorite] = useState(false);
+
+    const onratingChange = (checked) => {
+        setRating(checked);
     };
+
+    const onfollowChange = (checked) => {
+        setFollow(checked);
+    };
+
+    const onmentionChange = (checked) => {
+        setMention(checked);
+    };
+
+    const onfavoriteChange = (checked) => {
+        setFavorite(checked);
+    };
+
+    const [form, setForm] = useState({
+
+        facebook: "",
+        instagram: "",
+        twitter: "",
+        tiktok: "",
+        snapchat: "",
+        website: "",
+    });
+
+    const updateInfo = () => {
+
+        const data = {
+            about: editinfo.about
+        }
+
+        onupdateInfo(data, res => {
+            res.success ? notify("success", res.msg) : notify("error", res.msg)
+        });
+    };
+
+    const changeAbout = (e) => {
+
+        dispatch(editAbout(e));
+    };
+
+    const onUpdateSocialField = e => {
+
+        const field = e.target.name;
+
+        const nextFormState = {
+            ...form,
+            [field]: e.target.value,
+        };
+        setForm(nextFormState);
+    };
+
+    useEffect(() => {
+        dispatch(editSocial(form));
+        dispatch(editNotification(rating, follow, mention, favorite))
+    }, [form, rating, follow, mention, favorite]);
+
+    const onSubmitForm = e => {
+        e.preventDefault();
+        const data = {
+            social: editinfo.social
+        }
+
+        onupdateInfo(data, res => {
+            res.success ? notify("success", res.msg) : notify("error", res.msg)
+        });
+    };
+
+    useEffect(() => {
+        ongetInfo();
+    }, []);
+
     return (
         <div className="blog-details-area">
             <div className="container">
@@ -77,19 +157,25 @@ const profileEdit = () => {
                                             <span id="span-underline">
                                                 About Me
                                             </span>
-                                            <form className="avatar-form mg-12">
+                                            <div className="avatar-form mg-12">
                                                 <div className="row">
                                                     <div className="col-lg-12 col-md-12 col-sm-12">
                                                         <div className="form-group">
-                                                            <QuillNoSSRWrapper modules={modules} formats={formats} theme="snow" />
+                                                            <QuillNoSSRWrapper
+                                                                name="aboutme"
+                                                                modules={modules}
+                                                                formats={formats}
+                                                                theme="snow"
+                                                                value={editinfo.about}
+                                                                onChange={changeAbout} />
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-12 col-md-12 col-sm-12 mg-12">
                                                         <div className="pin-post-footer-section">
                                                             <div className="pin-edit-button-section">
                                                                 <button
-                                                                    type="submit"
                                                                     className="btn-style-one red-light-color"
+                                                                    onClick={updateInfo}
                                                                 >
                                                                     Update Info
                                                                 </button>
@@ -98,7 +184,7 @@ const profileEdit = () => {
 
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -113,7 +199,7 @@ const profileEdit = () => {
                                             <span id="span-underline">
                                                 Social Links
                                             </span>
-                                            <form className="avatar-form">
+                                            <form onSubmit={onSubmitForm} className="avatar-form">
                                                 <div className="row">
                                                     <div className="col-lg-12 col-md-12 col-sm-12">
                                                         <div className="pin-post-footer-section mg-12">
@@ -123,8 +209,10 @@ const profileEdit = () => {
                                                             <div className="pin-social-edit-input">
                                                                 <input
                                                                     type="text"
-                                                                    name="number"
+                                                                    name="facebook"
                                                                     className="form-control"
+                                                                    value={editinfo.social.facebook}
+                                                                    onChange={onUpdateSocialField}
                                                                 />
                                                             </div>
                                                         </div>
@@ -135,8 +223,10 @@ const profileEdit = () => {
                                                             <div className="pin-social-edit-input">
                                                                 <input
                                                                     type="text"
-                                                                    name="number"
+                                                                    name="instagram"
                                                                     className="form-control"
+                                                                    value={editinfo.social.instagram}
+                                                                    onChange={onUpdateSocialField}
                                                                 />
                                                             </div>
                                                         </div>
@@ -147,8 +237,10 @@ const profileEdit = () => {
                                                             <div className="pin-social-edit-input">
                                                                 <input
                                                                     type="text"
-                                                                    name="number"
+                                                                    name="twitter"
                                                                     className="form-control"
+                                                                    value={editinfo.social.twitter}
+                                                                    onChange={onUpdateSocialField}
                                                                 />
                                                             </div>
                                                         </div>
@@ -159,8 +251,10 @@ const profileEdit = () => {
                                                             <div className="pin-social-edit-input">
                                                                 <input
                                                                     type="text"
-                                                                    name="number"
+                                                                    name="tiktok"
                                                                     className="form-control"
+                                                                    value={editinfo.social.tiktok}
+                                                                    onChange={onUpdateSocialField}
                                                                 />
                                                             </div>
                                                         </div>
@@ -171,8 +265,10 @@ const profileEdit = () => {
                                                             <div className="pin-social-edit-input">
                                                                 <input
                                                                     type="text"
-                                                                    name="number"
+                                                                    name="snapchat"
                                                                     className="form-control"
+                                                                    value={editinfo.social.snapchat}
+                                                                    onChange={onUpdateSocialField}
                                                                 />
                                                             </div>
                                                         </div><div className="pin-post-footer-section mg-12">
@@ -182,8 +278,10 @@ const profileEdit = () => {
                                                             <div className="pin-social-edit-input">
                                                                 <input
                                                                     type="text"
-                                                                    name="number"
+                                                                    name="website"
                                                                     className="form-control"
+                                                                    value={editinfo.social.website}
+                                                                    onChange={onUpdateSocialField}
                                                                 />
                                                             </div>
                                                         </div>
@@ -199,7 +297,6 @@ const profileEdit = () => {
                                                                 </button>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </form>
@@ -226,9 +323,9 @@ const profileEdit = () => {
                                                             </div>
                                                             <div className="pin-notification-edit-input">
                                                                 <ToggleSwitch
-                                                                    id="newsletter"
-                                                                    checked={newsletter}
-                                                                    onChange={onNewsletterChange}
+                                                                    id="rating"
+                                                                    checked={editinfo.notification.rating}
+                                                                    onChange={onratingChange}
                                                                 />
                                                             </div>
                                                         </div>
@@ -238,9 +335,9 @@ const profileEdit = () => {
                                                             </div>
                                                             <div className="pin-notification-edit-input">
                                                                 <ToggleSwitch
-                                                                    id="newsletter"
-                                                                    checked={newsletter}
-                                                                    onChange={onNewsletterChange}
+                                                                    id="follow"
+                                                                    checked={editinfo.notification.follow}
+                                                                    onChange={onfollowChange}
                                                                 />
                                                             </div>
                                                         </div>
@@ -250,9 +347,9 @@ const profileEdit = () => {
                                                             </div>
                                                             <div className="pin-notification-edit-input">
                                                                 <ToggleSwitch
-                                                                    id="newsletter"
-                                                                    checked={newsletter}
-                                                                    onChange={onNewsletterChange}
+                                                                    id="mention"
+                                                                    checked={editinfo.notification.mention}
+                                                                    onChange={onmentionChange}
                                                                 />
                                                             </div>
                                                         </div>
@@ -262,9 +359,9 @@ const profileEdit = () => {
                                                             </div>
                                                             <div className="pin-notification-edit-input">
                                                                 <ToggleSwitch
-                                                                    id="newsletter"
-                                                                    checked={newsletter}
-                                                                    onChange={onNewsletterChange}
+                                                                    id="favorite"
+                                                                    checked={editinfo.notification.favorite}
+                                                                    onChange={onfavoriteChange}
                                                                 />
                                                             </div>
                                                         </div>
@@ -273,7 +370,6 @@ const profileEdit = () => {
                                             </form>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -284,4 +380,14 @@ const profileEdit = () => {
     );
 };
 
-export default profileEdit;
+const mapStateToProps = ({ profile }) => {
+    return {
+        editinfo: profile.editInfo
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    ongetInfo: () => dispatch(getInfo()),
+    onupdateInfo: (info, cb) => dispatch(updateInfo(info, cb))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(profileEdit);
