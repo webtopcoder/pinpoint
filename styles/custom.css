@@ -944,7 +944,7 @@ h4 {
 
 .mark-read {
     background-color: var(--blueColor);
-    padding: 11px 5px 11px 5px;
+    padding: 11px 5px 16px 5px;
     border-radius: 3px;
 }
 
@@ -1050,8 +1050,14 @@ h4 {
 
 .ant-modal-content{
     background-color: var(--darkWhiteColor) !important;
-    padding: 36px 30px 20px 30px !important;
+    padding: 10px 10px 5px 10px !important;
 }
+
+.ant-modal-content .ant-modal-body{
+    max-height: 600px;
+    overflow: auto;
+}
+
 
 .ant-row-space-around:first-child{
     margin-bottom: 10px !important;
@@ -1069,9 +1075,16 @@ h4 {
 }
 
 .anticon{
-    vertical-align: 0;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .mail_space{
     height: 32px !important;
+}
+
+.message-subject{
+    font-size: 20px !important;
+    font-weight: bold;
+    margin-bottom: 10px !important;
 }

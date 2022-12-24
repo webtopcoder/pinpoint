@@ -1,8 +1,15 @@
 import React from "react";
 import Image from "next/image";
+import { connect } from 'react-redux';
 import userImg1 from "@/public/images/user/user1.jpg";
+import { getUserInfo } from '@/redux/Profile/actions';
 
-const Header = () => {
+const Header = ({ ongetUserInfo, user_info }) => {
+    ongetUserInfo(user_info, res => {
+        if (res.success) {
+            
+        }
+    });
     return (
         <div className="container">
             <div className="row justify-content-center">
@@ -72,4 +79,7 @@ const Header = () => {
     );
 };
 
-export default Header;
+const mapDispatchToProps = dispatch => ({
+    ongetUserInfo: (data, cb) => dispatch(getUserInfo(data, cb))
+})
+export default connect(undefined, mapDispatchToProps)(Header);

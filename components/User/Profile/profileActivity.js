@@ -1,10 +1,18 @@
 import React from "react";
 import Image from "next/image";
+import { connect } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
 import { Image as Antimage, Button, Upload } from 'antd';
 import food from "@/public/images/landing/food.png";
+import { getActivity } from '@/redux/Profile/actions';
 
-const profileActivity = () => {
+const profileActivity = ({ ongetActivity, user_info }) => {
+
+    ongetActivity(user_info, res => {
+        if (res.success) {
+
+        }
+    })
     return (
         <div className="blog-details-area">
             <div className="container">
@@ -220,4 +228,7 @@ const profileActivity = () => {
     );
 };
 
-export default profileActivity;
+const mapDispatchToProps = dispatch => ({
+    ongetActivity: (data, cb) => dispatch(getActivity(data, cb))
+})
+export default connect(undefined, mapDispatchToProps)(profileActivity);

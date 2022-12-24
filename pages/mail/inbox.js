@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { InboxOutlined, SendOutlined, FormOutlined, UploadOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Row, Col, Select, Button } from 'antd';
 import PageTitle from "@/components/Layout/PageTitle";
@@ -8,6 +8,7 @@ import MailCompose from "@/components/Mail/compose";
 import MailSendInvite from "@/components/Mail/sent_invite";
 import MailPendingInvite from "@/components/Mail/pending_invite";
 import Layout from '../../layout';
+
 
 const Inbox = () => {
 
@@ -80,6 +81,11 @@ const Inbox = () => {
         setBulkoption(value);
     };
 
+    const [selectedlist, setCheckList] = useState([]);
+
+    useEffect(() => console.log("re-render because x changed:", bulkoptionValue), [bulkoptionValue])
+
+
     const [tab, setTab] = useState('inbox');
     const onClickTab = e => setTab(e.key);
     return (
@@ -104,8 +110,12 @@ const Inbox = () => {
                                                     label: 'Bluk Action',
                                                 },
                                                 {
-                                                    value: 'mark',
+                                                    value: 'read',
                                                     label: 'Mark Read',
+                                                },
+                                                {
+                                                    value: 'unread',
+                                                    label: 'Mark Unread',
                                                 },
                                                 {
                                                     value: 'delete',
@@ -123,7 +133,7 @@ const Inbox = () => {
                                                 },
                                             ]}
                                 />
-                                    <Button onClick={() => childFunc.current()} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
+                                    <Button onClick={() => childFunc.current(bulkoptionValue, selectedlist)} style={{ backgroundColor: "#4fc1e9", borderColor: "#4fc1e9", color: "white" }}>Apply</Button>
                                 </>
                                     : <div className="mail_space"></div>}
                             </Col>
@@ -140,8 +150,8 @@ const Inbox = () => {
 
                             <Col span={17}>
                                 <div className="mail-content">
-                                    {tab === 'inbox' && <MailInbox childFunc={childFunc} bulkvalue={bulkoptionValue} />}
-                                    {tab === 'sent' && <MailSent childFunc={childFunc} bulkvalue={bulkoptionValue} />}
+                                    {tab === 'inbox' && <MailInbox childlistfunc={setCheckList} childFunc={childFunc} bulkvalue={bulkoptionValue} />}
+                                    {tab === 'sent' && <MailSent childlistfunc={setCheckList} childFunc={childFunc} bulkvalue={bulkoptionValue} />}
                                     {tab === 'compose' && <MailCompose />}
                                     {tab === 'send_invites' && <MailSendInvite />}
                                     {tab === 'pending_invites' && <MailPendingInvite />}

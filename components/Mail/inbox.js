@@ -3,7 +3,6 @@ import {
     Table,
     Row,
     Col,
-    Select,
     Button,
     Space,
     Tooltip,
@@ -17,13 +16,11 @@ import { actionInbox } from '@/redux/Mail/actions';
 import bpthumicon from "@/public/images/bpthum.png";
 import toast from "@/components/Toast";
 
-const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
+const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue, childlistfunc }) => {
     const [open, setOpen] = useState(false);
-
     const notify = useCallback((type, message) => {
         toast({ type, message });
     }, []);
-
     const dismiss = useCallback(() => {
         toast.dismiss();
     }, []);
@@ -49,7 +46,7 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
                     <div className="thread-from">
                         <div className="from">
                             <a href="https://pinpointfoodtruck.com/members/codydixon/">{
-                                record.inbox[0].to
+                                record.inbox[0].from
                             }
                                 <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                             </a>
@@ -70,7 +67,9 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
                 <div className='thread-info'>
                     <p>
                         <Tooltip title="View Message" color={'blue'}>
-                            <a onClick={() => selectedInboxinfo(record)}>{record.inbox[0].subject}</a>
+                            <a onClick={() => selectedInboxinfo(record)}>{
+                                record.inbox[0].subject.length > 30 ? record.inbox[0].subject.substring(0, 30) + "..." : record.inbox[0].subject
+                            }</a>
                         </Tooltip>
                     </p>
                 </div>
@@ -85,19 +84,19 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
                     {
                         !record.is_read ?
                             <Tooltip title="Mark as Read" color={'blue'}>
-                                <a onClick={() => mark_Inbox(record._id, !record.is_read)} className='mark-read'>
+                                <a onClick={() => mark_Inbox(record.inbox[0].from, !record.is_read)} className='mark-read'>
                                     <EyeOutlined className='eye-style' />
                                 </a>
                             </Tooltip>
                             :
                             <Tooltip title="Mark as Read" color={'blue'}>
-                                <a onClick={() => mark_Inbox(record._id, !record.is_read)} className='mark-read'>
+                                <a onClick={() => mark_Inbox(record.inbox[0].from, !record.is_read)} className='mark-read'>
                                     <EyeInvisibleOutlined className='eye-style' />
                                 </a>
                             </Tooltip>
                     }
                     <Tooltip title="Are you sure?" color={'blue'}>
-                        <a onClick={() => delete_Inbox(record._id)} className='mail-delete'>
+                        <a onClick={() => delete_Inbox(record.inbox[0].from)} className='mail-delete'>
                             <DeleteFilled className='delete-style' />
                         </a>
                     </Tooltip>
@@ -136,6 +135,7 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
             });
         });
     }, []);
+
 
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
@@ -184,7 +184,9 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
         const data = {
             mailId: delete_array,
             action: 'delete',
+            is_read: true
         }
+
         onactionInbox(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
@@ -206,11 +208,13 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
     };
     const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
     const [selectionType, setSelectionType] = useState('checkbox');
+    useEffect(() => {
+        childlistfunc(selectedRowkeyslist);
+    }, [selectedRowkeyslist])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-
-            setSelectRowkeys(selectedRowKeys)
+            setSelectRowkeys(selectedRowKeys);
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             console.log(selectedRowkeyslist)
         },
@@ -221,11 +225,35 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
         }),
     };
 
-    const bulkaction = () => {
-        const data = {
-            mailId: selectedRowkeyslist,
-            action: bulkvalue,
+    const bulkaction = (value, list) => {
+        const actiontype = '';
+        const is_readtype = false;
+
+        if (value === 'bluk') {
+            notify("error", 'Please select Bluk Action');
+            return;
         }
+        else if (value == 'read') {
+            actiontype = 'mark'
+            is_readtype = true
+        }
+
+        else if (value == 'unread') {
+            actiontype = 'mark'
+            is_readtype = false
+        }
+
+        else {
+            actiontype = 'delete'
+            is_readtype = true
+        }
+
+        const data = {
+            mailId: list,
+            action: actiontype,
+            is_read: is_readtype
+        }
+
         onactionInbox(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
@@ -257,7 +285,7 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
                         }}
                         dataSource={data}
                         loading={loading}
-                        rowKey={(rows) => rows._id}
+                        rowKey={(rows) => rows.inbox[0].from}
                         pagination={tableParams.pagination}
                         onChange={handleTableChange}
                     />
@@ -293,11 +321,12 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue }) => {
                                     </div>
                                 </div>
                                 <div className="message-star-actions">
-                                    <a className="bp-tooltip message-action-star" href="https://pinpointfoodtruck.com/members/dixoncody5/messages/star/9/b53c97fbaa/"><span className="icon"></span> <span className="bp-screen-reader-text">{record.subject}</span>
+                                    <a className="bp-tooltip message-action-star" href="https://pinpointfoodtruck.com/members/dixoncody5/messages/star/9/b53c97fbaa/"><span className="icon"></span> <span className="bp-screen-reader-text"></span>
                                     </a>
                                 </div>
                             </div>
                             <div className="message-content">
+                                <p className='message-subject'>{record.subject}</p>
                                 <pre>{record.message}</pre>
                             </div>
                             <div className="clear"></div>

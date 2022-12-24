@@ -17,7 +17,7 @@ import { deleteSent } from '@/redux/Mail/actions';
 import bpthumicon from "@/public/images/bpthum.png";
 import toast from "@/components/Toast";
 
-const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
+const Sent = ({ ongetSent, ondeleteSent, childlistfunc, childFunc }) => {
     const [open, setOpen] = useState(false);
 
     const notify = useCallback((type, message) => {
@@ -70,7 +70,11 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
                 <div className='thread-info'>
                     <p>
                         <Tooltip title="View Message" color={'blue'}>
-                            <a onClick={() => selectedSentinfo(record)}>{record.sent[0].subject}</a>
+                            <a onClick={() => selectedSentinfo(record)}>
+                                {
+                                    record.sent[0].subject.length > 30 ? record.sent[0].subject.substring(0, 30) + "..." : record.sent[0].subject
+                                }
+                            </a>
                         </Tooltip>
                     </p>
                 </div>
@@ -107,7 +111,6 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
         setOpen(true);
     };
     useEffect(() => {
-
         childFunc.current = bulkaction;
         setLoading(true);
         ongetSent(tableParams, res => {
@@ -121,7 +124,7 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
                 },
             });
         });
-    }, [JSON.stringify(tableParams)]);
+    }, []);
 
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
@@ -140,7 +143,13 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
         const delete_array = [];
         delete_array.push(delete_id);
 
-        ondeleteSent(delete_array, 'delete', res => {
+        const data = {
+            mailId: delete_array,
+            action: 'delete',
+            is_read: false
+        }
+
+        ondeleteSent(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
 
@@ -160,18 +169,17 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
         });
     };
     const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
-    const [bulkoptionValue, setBulkoption] = useState([]);
-
-    const bulkoptionChange = (value) => {
-        setBulkoption(value);
-    };
 
     const [selectionType, setSelectionType] = useState('checkbox');
+
+    useEffect(() => {
+        childlistfunc(selectedRowkeyslist);
+    }, [selectedRowkeyslist])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
 
-            setSelectRowkeys(selectedRowKeys)
+            setSelectRowkeys(selectedRowKeys);
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
         getCheckboxProps: (record) => ({
@@ -181,12 +189,13 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
         }),
     };
 
-    const bulkaction = () => {
+    const bulkaction = (value, list) => {
         const data = {
-            mailId: selectedRowkeyslist,
-            action: bulkvalue,
+            mailId: list,
+            action: value,
+            is_read: false
         }
-        
+
         ondeleteSent(data, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)
@@ -237,7 +246,6 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
                     <Button type="primary" onClick={() => setOpen(false)}>cancel</Button>
                 ]}
             >
-
                 {record_details.sent?.map((record, index) =>
                     <div id='message-thread'>
                         <div id="thread-message-9" className="message-box odd sent-by-2 message-not-starred">
@@ -260,11 +268,12 @@ const Sent = ({ ongetSent, ondeleteSent, childFunc, bulkvalue }) => {
                                 <div className="message-star-actions">
                                     <a className="bp-tooltip message-action-star">
                                         <span className="icon"></span>
-                                        <span className="bp-screen-reader-text">{record.subject}</span>
+                                        <span className="bp-screen-reader-text"></span>
                                     </a>
                                 </div>
                             </div>
                             <div className="message-content">
+                                <p className='message-subject'>{record.subject}</p>
                                 <pre>{record.message}</pre>
                             </div>
                             <div className="clear"></div>
@@ -283,7 +292,7 @@ const mapStateToProps = ({ mail }) => ({
 
 const mapDispatchToProps = dispatch => ({
     ongetSent: (tableParams, cb) => dispatch(getSent(tableParams, cb)),
-    ondeleteSent: (delete_id, bulkaction, cb) => dispatch(deleteSent(delete_id, bulkaction, cb)),
+    ondeleteSent: (data, cb) => dispatch(deleteSent(data, cb)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sent);

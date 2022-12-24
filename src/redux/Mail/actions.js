@@ -92,9 +92,9 @@ export function getSent(tableinfo, cb) {
         })
 }
 
-export function deleteSent(delete_id, bulkoption, cb) {
+export function deleteSent(data, cb) {
 
-    return dispatch => api(`mail`, 'put', { mailId: delete_id, action: bulkoption }).then(
+    return dispatch => api(`mail`, 'put', data).then(
         res => {
             dispatch({
                 type: DELETE_SENT_REQUEST,

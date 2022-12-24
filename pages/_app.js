@@ -27,6 +27,7 @@ import "/styles/sidebar.scss";
 import 'react-quill/dist/quill.snow.css'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { PersistGate } from 'redux-persist/integration/react'
 import ScrollToTop from "@/components/Layout/ScrollToTop";
 import Head from 'next/head';
 

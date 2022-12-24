@@ -31,8 +31,9 @@ const Compose = ({ onmailCompose }) => {
         onmailCompose(form_data, res => {
             if (res.success) {
                 composeForm.resetFields();
-                res.success ? notify("success", res.msg) : notify("error", res.msg)
+                notify("success", res.msg)
             }
+            else notify("error", res.msg)
         });
     };
     const props = {
