@@ -6,6 +6,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
 import "../node_modules/aos/dist/aos.css";
+import "/styles/sidebar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "/styles/flaticon.css";
 import "/styles/boxicons.min.css";
@@ -22,8 +23,6 @@ import "/styles/responsive.css";
 import "/styles/custom.css";
 import "/styles/styles.scss";
 import 'react-quill/dist/quill.snow.css'
-import "/styles/sidebar.scss";
-import "/styles/sidebar.scss";
 import 'react-quill/dist/quill.snow.css'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,31 +40,29 @@ function MyApp({ Component, pageProps }) {
   }, []);
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
-    <>
-      <Provider store={store}>
-        <Head>
-          <meta
-            charSet="utf-8"
-          />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-          />
-        </Head>
-          {getLayout(<Component {...pageProps} />)}
-        <ToastContainer
-          position="top-right"
-          autoClose={8000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          draggable={false}
-          pauseOnVisibilityChange
-          closeOnClick
-          pauseOnHover
+    <Provider store={store}>
+      <Head>
+        <meta
+          charSet="utf-8"
         />
-        <ScrollToTop />
-      </Provider>
-    </>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+      </Head>
+        {getLayout(<Component {...pageProps} />)}
+      <ToastContainer
+        position="top-right"
+        autoClose={8000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        draggable={false}
+        pauseOnVisibilityChange
+        closeOnClick
+        pauseOnHover
+      />
+      <ScrollToTop />
+    </Provider>
   );
 }
 

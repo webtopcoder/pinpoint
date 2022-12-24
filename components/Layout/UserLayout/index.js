@@ -11,7 +11,7 @@ const UserLayout = ({ children }) => {
     setVisible(!visible);
   }
   const hideRightbar = event => {
-    var rightbar = document.getElementById("right-bar");
+    var rightbar = document.getElementById("right-sidebar");
     //if clicked in inside right bar, then do nothing
     if (rightbar && rightbar.contains(event.target)) {
       return;
@@ -24,7 +24,7 @@ const UserLayout = ({ children }) => {
     document.getElementById('__next').addEventListener("click", hideRightbar, true);
   }, []);
   return (
-    <>
+    < >
       <Header toggle={onToggle} />
       <RightSidebar visible={visible} />
       {children}
