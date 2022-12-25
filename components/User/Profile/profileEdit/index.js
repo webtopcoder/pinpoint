@@ -159,7 +159,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo }) => {
                                             </span>
                                             <div className="avatar-form mg-12">
                                                 <div className="row">
-                                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                                    <div className="col-lg-8 col-md-8 col-sm-12">
                                                         <div className="form-group">
                                                             <QuillNoSSRWrapper
                                                                 name="aboutme"
