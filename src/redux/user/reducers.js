@@ -22,6 +22,7 @@ if (typeof window !== 'undefined') {
     role = sessionStorage.getItem('role');
     user_id = sessionStorage.getItem('user_id');
 }
+
 const initialState = {
     token: token,
     username: username,

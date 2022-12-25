@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ToggleSwitch from "./Switch/ToggleSwitch";
+import { Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
 import dynamic from 'next/dynamic';
 import { connect, useDispatch } from 'react-redux';
 import { getInfo } from '@/redux/Profile/actions';
@@ -53,6 +55,28 @@ const formats = [
 ]
 
 const profileEdit = ({ onupdateInfo, ongetInfo, editinfo }) => {
+
+
+    const [fileList, setFileList] = useState();
+
+    const onChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
+
+    const onPreview = async (file) => {
+        let src = file.url;
+        if (!src) {
+            src = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj);
+                reader.onload = () => resolve(reader.result);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow?.document.write(image.outerHTML);
+    };
 
     const dispatch = useDispatch();
 
@@ -169,6 +193,18 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo }) => {
                                                                 value={editinfo.about}
                                                                 onChange={changeAbout} />
                                                         </div>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-4">
+                                                        <ImgCrop rotate>
+                                                            <Upload
+                                                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                                                listType="picture-card"
+                                                                onChange={onChange}
+                                                                onPreview={onPreview}
+                                                            >
+                                                                {'+ Upload'}
+                                                            </Upload>
+                                                        </ImgCrop>
                                                     </div>
                                                     <div className="col-lg-12 col-md-12 col-sm-12 mg-12">
                                                         <div className="pin-post-footer-section">

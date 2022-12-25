@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -6,8 +6,11 @@ import thankYouImg from "@/public/images/thank-you.png";
 
 const ThankYou = () => {
 
-  const thankyou_id = localStorage.getItem('thankyou_id');
-  const backLogin = thankyou_id.toLowerCase();
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    let thankyou_id = localStorage.getItem('thankyou_id');
+    let backLogin = thankyou_id.toLowerCase();
+  }
 
   return (
     <>

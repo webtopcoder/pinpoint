@@ -2,11 +2,15 @@ import axios from 'axios';
 import config from './config';
 
 export default async function callAPI(endpoint, method = 'get', data) {
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        const token = sessionStorage.getItem('token')
+      }
     const configs = {
         method,
         url: `http://${config.server}:${config.port}${config.baseURL}/${endpoint}`,
         headers: {
-            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            'Authorization': `Bearer ${token}`
         },
         data
     }
