@@ -9,19 +9,30 @@ import MailCompose from "@/components/Mail/compose";
 import MailSendInvite from "@/components/Mail/sent_invite";
 import MailPendingInvite from "@/components/Mail/pending_invite";
 import Layout from '../../layout';
-import Router from "next/router";
+import {useRouter} from "next/router";
 
-export function useAuthSession() {
-    const { data: user } = useSWR("api/session");
-    useEffect(() => {
-      if (!user) Router.push("/");
-    }, [user]);
-    return user;
-  }
+// export function useAuthSession() {
+    
+//     const { data: user } = useSWR("api/session");
+    
+//     useEffect(() => {
+//       if (!user) Router.push("/");
+//     }, [user]);
+//     return user;
+//   }
 
 const Inbox = () => {
-    const user = useAuthSession();
-    if (!user) return null;
+
+
+    const router = useRouter();
+    let emailID = '';
+    useEffect(() => {
+        if (router.isReady) {
+            emailID = router.query.email;
+            emailID && setTab('compose');
+        }
+    }, [router.isReady]);
+
     const childFunc = useRef(null)
     const items = [
         {
@@ -95,7 +106,7 @@ const Inbox = () => {
 
     useEffect(() => console.log("re-render because x changed:", bulkoptionValue), [bulkoptionValue])
 
-
+        
     const [tab, setTab] = useState('inbox');
     const onClickTab = e => setTab(e.key);
     return (
@@ -162,7 +173,7 @@ const Inbox = () => {
                                 <div className="mail-content">
                                     {tab === 'inbox' && <MailInbox childlistfunc={setCheckList} childFunc={childFunc} bulkvalue={bulkoptionValue} />}
                                     {tab === 'sent' && <MailSent childlistfunc={setCheckList} childFunc={childFunc} bulkvalue={bulkoptionValue} />}
-                                    {tab === 'compose' && <MailCompose />}
+                                    {tab === 'compose' && <MailCompose emailID={router.query.email}/>}
                                     {tab === 'send_invites' && <MailSendInvite />}
                                     {tab === 'pending_invites' && <MailPendingInvite />}
                                 </div>

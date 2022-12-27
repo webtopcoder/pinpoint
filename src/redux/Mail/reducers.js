@@ -2,7 +2,8 @@ import {
     MAIL_COMPOSE_REQUEST,
     MAIL_COMPOSE_SUCCESS,
     GET_INBOX_SUCCESS,
-    GET_SENT_SUCCESS
+    GET_SENT_SUCCESS,
+    DELETE_SENT_SUCCESS
 } from './types';
 
 const initialState = {
@@ -33,12 +34,17 @@ const mailReducer = (state = initialState, action) => {
             };
         }
 
-          case GET_SENT_SUCCESS: {
-
+        case GET_SENT_SUCCESS: {
             return {
                 ...state,
                 sentlist: action.payload.data,
                 senttotal: action.payload.total
+            };
+        }
+
+        case DELETE_SENT_SUCCESS: {
+            return {
+                ...state,
             };
         }
 

@@ -1,6 +1,6 @@
 const baseUrl =
 	process.env.NODE_ENV === "production"
-		? "https://abev-react.envytheme.com"
-		: "http://192.168.116.126:8080";
+		? "http://192.168.116.126:8080"
+		: "http://localhost:3000";
 
 export default baseUrl;

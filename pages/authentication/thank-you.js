@@ -5,11 +5,13 @@ import Image from "next/image";
 import thankYouImg from "@/public/images/thank-you.png";
 
 const ThankYou = () => {
+  let thankyou_id = '';
+  let backLogin = ''
 
   if (typeof window !== 'undefined') {
     // Perform localStorage action
-    let thankyou_id = localStorage.getItem('thankyou_id');
-    let backLogin = thankyou_id.toLowerCase();
+    thankyou_id = localStorage.getItem('thankyou_id');
+    backLogin = thankyou_id.toLowerCase();
   }
 
   return (

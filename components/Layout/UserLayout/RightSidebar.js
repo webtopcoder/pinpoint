@@ -42,7 +42,6 @@ const RightSidebar = (props) => {
     router.push(page);
   }
 
-  console.log(token);
   return (
     <div
       className={visible ? "right-sidebar show" : "right-sidebar"}

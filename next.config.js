@@ -14,7 +14,7 @@ module.exports = {
     },
     images: {
         loader: 'akamai',
-        path: process.env.NODE_ENV === "production" ? 'https://abev-react.envytheme.com' : 'http://127.0.0.1:3000'
+        path: process.env.NODE_ENV === "production" ? 'http://192.168.116.126:8080' : 'http://127.0.0.1:3000'
     },
     optimizeFonts: false,
 }

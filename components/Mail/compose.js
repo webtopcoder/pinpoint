@@ -1,14 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
 import { Row, Card, Col, Form, Input, Upload, Button, message } from 'antd';
 import { mailCompose } from '@/redux/Mail/actions';
 import toast from "@/components/Toast";
 
-const Compose = ({ onmailCompose }) => {
+const Compose = ({ onmailCompose, emailID }) => {
 
     const [composeForm] = Form.useForm();
     const [upload_name, setUploadFile] = useState([]);
+
+    useEffect(() => {
+        if (emailID) {
+            composeForm.setFieldsValue({
+                name: emailID,
+            });
+        }
+    }, []);
 
     const notify = useCallback((type, message) => {
         toast({ type, message });
@@ -39,7 +47,6 @@ const Compose = ({ onmailCompose }) => {
     const props = {
         name: 'upload',
         onChange(info) {
-            console.log(info)
             if (info.file.status !== 'uploading') {
                 const fileUploadInfo = info.fileList;
                 setUploadFile(fileUploadInfo);
@@ -78,9 +85,15 @@ const Compose = ({ onmailCompose }) => {
                                     message: 'Please input your Username!'
                                 }
                             ]}>
-                            <Input style={{
-                                width: '50%'
-                            }} />
+                            {emailID ?
+                                <Input disabled={true} style={{
+                                    width: '50%'
+                                }} />
+                                : <Input style={{
+                                    width: '50%'
+                                }} />
+                            }
+
                         </Form.Item>
                         <Form.Item name="subject" label="Subject">
                             <Input style={{

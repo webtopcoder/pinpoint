@@ -6,18 +6,25 @@ import {
     USERINFO_GET_SUCCESS,
     ABOUT_CHANGE_SUCCESS,
     SOCIAL_CHANGE_SUCCESS,
-    NOTIFICATION_CHANGE_SUCCESS
+    NOTIFICATION_CHANGE_SUCCESS,
+    USER_AVATAR_UPLOAD_SUCCESS,
+    HEADER_GET_SUCCESS,
+    POST_FOLLOWER_SUCCESS,
+    GET_FOLLOWERS_LIST_SUCCESS
 } from './types';
 
 
 const initialState = {
     userinfo: [],
-    useractivity: [],
+    activityInfo: {},
     editInfo: {
         about: '',
+        avatar: '',
         social: {},
         notification: {}
-    }
+    },
+    headerInfo: {},
+    followersInfo: {}
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -38,7 +45,7 @@ const profileReducer = (state = initialState, action) => {
         case USER_ACTIVITY_SUCCESS: {
             return {
                 ...state,
-                useractivity: action.payload,
+                activityInfo: action.payload,
             };
         }
 
@@ -46,6 +53,13 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 editInfo: action.payload,
+            };
+        }
+
+        case HEADER_GET_SUCCESS: {
+            return {
+                ...state,
+                headerInfo: action.payload,
             };
         }
 
@@ -77,6 +91,23 @@ const profileReducer = (state = initialState, action) => {
                     ...state.editInfo,
                     notification: action.payload.notification
                 },
+            };
+        }
+
+        case USER_AVATAR_UPLOAD_SUCCESS: {
+            return {
+                ...state,
+                editInfo: {
+                    ...state.editInfo,
+                    avatar: action.payload.avatar
+                },
+            };
+        }
+
+        case GET_FOLLOWERS_LIST_SUCCESS: {
+            return {
+                ...state,
+                followersInfo: action.payload.data
             };
         }
 

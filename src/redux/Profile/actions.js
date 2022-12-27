@@ -9,7 +9,14 @@ import {
     USERINFO_GET_SUCCESS,
     ABOUT_CHANGE_SUCCESS,
     SOCIAL_CHANGE_SUCCESS,
-    NOTIFICATION_CHANGE_SUCCESS
+    NOTIFICATION_CHANGE_SUCCESS,
+    USER_AVATAR_UPLOAD_SUCCESS,
+    THINK_POST_SUCCESS,
+    HEADER_GET_SUCCESS,
+    POST_FOLLOWER_SUCCESS,
+    GET_FOLLOWERS_LIST_SUCCESS,
+    UN_FRIEND_SUCCESS
+
 } from './types';
 import api from '@/utils/callApi'
 
@@ -32,8 +39,8 @@ export function getUserInfo(user_id, cb) {
         })
 }
 
-export function getActivity(user_id, cb) {
-    return dispatch => api(`auth/user/login`, 'get', user_id).then(
+export function getActivity(view_user_id) {
+    return dispatch => api(`profile/activity/${view_user_id}`, 'get').then(
         res => {
 
             dispatch({
@@ -45,7 +52,6 @@ export function getActivity(user_id, cb) {
                 payload: res,
             });
 
-            cb(res);
         }).catch(error => {
             console.log(error);
         })
@@ -54,13 +60,26 @@ export function getActivity(user_id, cb) {
 export function updateInfo(info, cb) {
     return dispatch => api(`profile/edit`, 'put', info).then(
         res => {
-
             dispatch({
                 type: USER_UPDATE_INFO_REQUEST,
             });
 
             dispatch({
                 type: USER_UPDATE_INFO_SUCCESS,
+                payload: res,
+            });
+
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function uploadAvatar(url, cb) {
+    return dispatch => api(`profile/avatar`, 'put', url).then(
+        res => {
+            dispatch({
+                type: USER_AVATAR_UPLOAD_SUCCESS,
                 payload: res,
             });
 
@@ -98,6 +117,7 @@ export function getInfo() {
                     res.data.social.facebook ? data.social.facebook = res.data.social.facebook : data.social.facebook;
                     res.data.social.twitter ? data.social.twitter = res.data.social.twitter : data.social.twitter;
                     res.data.social.tiktok ? data.social.tiktok = res.data.social.tiktok : data.social.tiktok;
+                    res.data.social.snapchat ? data.social.snapchat = res.data.social.snapchat : data.social.snapchat;
                     res.data.social.website ? data.social.website = res.data.social.website : data.social.website;
                     res.data.social.instagram ? data.social.instagram = res.data.social.instagram : data.social.instagram;
                 }
@@ -158,6 +178,85 @@ export function editNotification(rating, follow, mention, favorite) {
             payload: data,
         })
 }
+
+export function postThink(info, cb) {
+    return dispatch => api(`profile/post`, 'post', info).then(
+        res => {
+            dispatch({
+                type: THINK_POST_SUCCESS,
+                payload: res,
+            });
+
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function getHeader(id) {
+    return dispatch => api(`profile/header/${id}`, 'get').then(
+        res => {
+            dispatch({
+                type: HEADER_GET_SUCCESS,
+                payload: res,
+            });
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+// export function getFollowers(id) {
+//     return dispatch => api(`profile/follower/${id}`, 'get').then(
+//         res => {
+//             dispatch({
+//                 type: HEADER_GET_SUCCESS,
+//                 payload: res,
+//             });
+//         }).catch(error => {
+//             console.log(error);
+//         })
+// }
+
+export function postFollower(id, cb) {
+    return dispatch => api(`profile/follow/${id}`, 'post').then(
+        res => {
+            dispatch({
+                type: POST_FOLLOWER_SUCCESS,
+                payload: res,
+            });
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function getFollowers(id, count, search, cb) {
+    return dispatch => api(`profile/followers/${id}?page=${count}&search=${search}`, 'get').then(
+        res => {
+            dispatch({
+                type: GET_FOLLOWERS_LIST_SUCCESS,
+                payload: res,
+            });
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function unFriend(id, cb) {
+    return dispatch => api(`profile/follow/${id}`, 'delete').then(
+        res => {
+            dispatch({
+                type: UN_FRIEND_SUCCESS,
+                payload: res,
+            });
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+
 
 
 

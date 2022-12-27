@@ -197,7 +197,7 @@
 
 .template-footer-nine {
     background-image: url('../public/images/footer-bg.jpg');
-    background: linear-gradient(rgb(232 232 245 / 80%), rgb(88 76 76 / 80%)), url("../public/images/footer-bg.jpg");
+    background: linear-gradient(rgb(177 161 161 / 19%), rgb(246 239 239 / 27%)), url("../public/images/footer-bg.jpg");
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -330,6 +330,7 @@
 .avatar-area .avatar-author .avatar {
     top: 4px;
     width: 11.5vw;
+    height: 11.5vw;
     left: -13vw;
     position: absolute;
 
@@ -426,7 +427,6 @@ h4 {
 
 .pin-profile-section {
     background-color: var(--blackColor);
-    background-image: url(/images/shape/bg-shape4.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -509,6 +509,7 @@ h4 {
 
 .pin-about-section p {
     color: var(--blackColor);
+    margin-bottom: 1px;
 }
 
 .pin-about-section .social-links li {
@@ -937,7 +938,7 @@ h4 {
     line-height: 20px;
 }
 
-.thread-info p{
+.thread-info p {
     color: var(--blueColor);
     font-size: 14px;
 }
@@ -1028,17 +1029,17 @@ h4 {
     top: 0;
 }
 
-#message-thread .message-content{
+#message-thread .message-content {
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 20px
 }
 
-#message-thread .message-content pre{
+#message-thread .message-content pre {
     font-size: 15px;
 }
 
-#message-thread .message-content p{
+#message-thread .message-content p {
     color: var(--blackColor);
     font-size: 14px;
     line-height: 28px;
@@ -1048,43 +1049,47 @@ h4 {
     margin-bottom: 0;
 }
 
-.ant-modal-content{
+.ant-modal-content {
     background-color: var(--darkWhiteColor) !important;
     padding: 10px 10px 5px 10px !important;
 }
 
-.ant-modal-content .ant-modal-body{
+.ant-modal-content .ant-modal-body {
     max-height: 600px;
     overflow: auto;
 }
 
 
-.ant-row-space-around:first-child{
+.ant-row-space-around:first-child {
     margin-bottom: 10px !important;
 }
 
-.ant-menu{
+.ant-menu {
     height: 280px;
     padding: 16px;
     border-radius: 8px;
 }
 
-.ant-menu-title-content{
+.ant-menu-title-content {
     font-weight: 600;
     color: var(--blueColor)
 }
 
-.anticon{
+.anticon {
     vertical-align: middle;
     display: inline-block;
 }
 
-.mail_space{
+.mail_space {
     height: 32px !important;
 }
 
-.message-subject{
+.message-subject {
     font-size: 20px !important;
     font-weight: bold;
     margin-bottom: 10px !important;
+}
+
+.follower-list {
+    padding: 9px 40px;
 }
