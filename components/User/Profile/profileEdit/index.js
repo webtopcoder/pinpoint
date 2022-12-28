@@ -8,6 +8,7 @@ import { editNotification } from '@/redux/Profile/actions';
 import toast from "@/components/Toast";
 import { message, Upload, Input } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import config from '@/utils/config';
 
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
@@ -52,6 +53,7 @@ const formats = [
     'video',
 ]
 
+
 const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -72,6 +74,16 @@ const beforeUpload = (file) => {
 
 const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
 
+
+    const avatarImg = ''
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        avatarImg = sessionStorage.getItem('avatar')
+    }
+
+    const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+
+
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
     const handleChange = (info) => {
@@ -90,6 +102,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
             });
 
             getBase64(info.file.originFileObj, (url) => {
+                console.log(info.file.originFileObj);
                 setImageUrl(url);
             });
         }
@@ -244,7 +257,14 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                                     }}
                                                                 />
                                                             ) : (
-                                                                uploadButton
+                                                                avatarImg ? <img
+                                                                    src={avatarurl + avatarImg}
+                                                                    alt="avatar"
+                                                                    style={{
+                                                                        width: '100%',
+                                                                    }}
+                                                                /> :
+                                                                    uploadButton
                                                             )}
                                                         </Upload>
                                                     </div>
@@ -296,7 +316,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                                         className="form-control"
                                                                         value={editinfo.social.facebook}
                                                                         onChange={onUpdateSocialField}
-                                                                         />
+                                                                    />
                                                                 </div>
                                                             </div>
                                                         </div>

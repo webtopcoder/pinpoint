@@ -76,6 +76,7 @@ export function updateInfo(info, cb) {
 }
 
 export function uploadAvatar(url, cb) {
+    console.log(url)
     return dispatch => api(`profile/avatar`, 'put', url).then(
         res => {
             dispatch({

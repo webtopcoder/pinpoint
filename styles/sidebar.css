@@ -59,11 +59,9 @@
 }
 
 .rightsidebar-avatar {
-    padding-top: 60px;
     width: 160px;
     height: 160px;
     border-radius: 80px;
-    background-color: #D9D9D9;
     text-align: center;
     margin: auto auto;
 }

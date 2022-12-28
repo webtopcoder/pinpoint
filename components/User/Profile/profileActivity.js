@@ -195,7 +195,9 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
                             <aside className="widget-area">
                                 <div className="avatar-area green-color">
                                     <div className="avatar-respond">
-                                        <div className="pin-post-header-section">
+                                        <div className="pin-post-header-section" style={{
+                                            display: 'block'
+                                        }}>
                                             <div className="pin-about-section">
                                                 <h4 className="comment-notes">
                                                     <span id="email-notes">
@@ -216,7 +218,7 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
                                                 </h4>
                                                 <div className="row">
                                                     <Antimage.PreviewGroup>
-                                                        {activityInfo?.profile?.image && activityInfo.image.map((image, index) =>
+                                                        {activityInfo?.image && activityInfo.image.map((image, index) =>
                                                             <Antimage loader={myLoader} width={'25%'} src={imgurl + '/' + image} />
                                                         )}
                                                     </Antimage.PreviewGroup>

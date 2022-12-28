@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import PageTitle from "@/components/Layout/PageTitle";
 import Testimonial from "@/components/Landing/Testimonial";
@@ -16,7 +16,68 @@ import location from "@/public/images/landing/location.png";
 import Layout from '../layout';
 
 const UserHome = (props) => {
+  function initMap() {
+    window.navigator.geolocation.getCurrentPosition(success, (error) => {
+      console.log(error)
+    });
+  }
 
+  function success(pos) {
+    let map;
+    map = new google.maps.Map(document.getElementById("maps"), {
+      center: { lat: 37.553326, lng: -94.8110983 },
+      zoom: 4
+    });
+    const features = [
+      {
+        position: new google.maps.LatLng(36, -80),
+      },
+      {
+        position: new google.maps.LatLng(39, -87),
+      },
+      {
+        position: new google.maps.LatLng(43, -90),
+      },
+      {
+        position: new google.maps.LatLng(35, -86),
+      },
+      {
+        position: new google.maps.LatLng(35, -110),
+      },
+      {
+        position: new google.maps.LatLng(47, -110),
+      },
+      {
+        position: new google.maps.LatLng(45, -100),
+      },
+    ];
+
+    // Create markers.
+    console.log(new google.maps.Point(0, 0))
+    for (let i = 0; i < features.length; i++) {
+      const marker = new google.maps.Marker({
+        position: features[i].position,
+        icon: {
+          url: 'http://127.0.0.1:8080/favicon.png',
+          scaledSize: new google.maps.Size(30, 50), // scaled size
+          origin: new google.maps.Point(0, 0), // origin
+          anchor: new google.maps.Point(0, 0) // anchor
+        },
+        map: map,
+      });
+    }
+  };
+  useEffect(() => {
+    initMap();
+    // let map;
+
+    // map = new google.maps.Map(document.getElementById("map"), {
+    //   center: new google.maps.LatLng(-33.91722, 151.23064),
+    //   zoom: 16,
+    // });
+
+
+  }, [])
   return (
     <>
       <PageTitle page="Landing" />
@@ -255,7 +316,7 @@ const UserHome = (props) => {
               </div>
               <div className="col-lg-8 col-md-12 overview-image">
                 <div id="maps">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d629806.5608507423!2d-74.14550980308866!3d40.99473892694984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c295001ca56f9f%3A0x313170de6c0e7b75!2sFairview%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1630302531294!5m2!1sen!2sbd"></iframe>
+
                 </div>
               </div>
             </div>
