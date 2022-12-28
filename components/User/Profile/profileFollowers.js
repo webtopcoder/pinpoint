@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Avatar, Button, List, Skeleton, Input } from 'antd';
+import { UserOutlined, MessageFilled, UserDeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { getFollowers } from '@/redux/Profile/actions';
@@ -166,24 +167,35 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
                                 renderItem={(item) => (
                                     <List.Item
                                         actions={[
-                                            <button
-                                                className="btn-style-one blue-light-color"
+                                            <Button
                                                 onClick={() => window.open(baseUrl + '/user/' + item.from._id + '/activity', '_blank')}
-                                            >View Profile&nbsp;
-                                                <i className="bx bx-user"></i>
-                                            </button>,
-                                            <button
+                                                type="primary"
+                                                icon={<UserOutlined />}
+                                                size={'default'}>
+                                                View Profile
+                                            </Button>
+                                            ,
+                                            <Button
                                                 onClick={() => window.open(baseUrl + `/mail/inbox?email=${item.from.email}`, '_blank')}
-                                                className="btn-style-one blue-light-color">
-                                                Message &nbsp;<i className="bx bx-message"></i>
-                                            </button>,
-                                            <button style={user_id == profile ? {
-                                                display: 'none'
-                                            }: {
-                                                display: 'block'
-                                            }} onClick={() => unfriend(item._id)} className="btn-style-one black-light-color">
-                                                Unfriend &nbsp;<i className="bx bx-user-x"></i>
-                                            </button>]}
+                                                type="primary"
+                                                icon={<MessageFilled />}
+                                                size={'default'}>
+                                                Message
+                                            </Button>,
+                                            <Button
+                                                onClick={() => unfriend(item._id)}
+                                                style={user_id == profile ? {
+                                                    display: 'block'
+                                                } : {
+                                                    display: 'none'
+                                                }}
+                                                danger
+                                                type="primary"
+                                                icon={<UserDeleteOutlined />}
+                                                size={'default'}>
+                                                UnFriend
+                                            </Button>,
+                                            ]}
                                     >
                                         <Skeleton avatar title={false} loading={item.loading} active>
                                             <List.Item.Meta

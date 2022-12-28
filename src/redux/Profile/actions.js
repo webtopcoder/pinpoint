@@ -129,6 +129,8 @@ export function getInfo() {
                 }
             }
 
+            console.log(data);
+
             dispatch({
                 type: USERINFO_GET_REQUEST,
             });

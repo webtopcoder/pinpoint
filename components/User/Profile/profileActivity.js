@@ -1,15 +1,21 @@
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import { connect } from 'react-redux';
-import { UploadOutlined } from '@ant-design/icons';
-import { Image as Antimage, Button, Upload, message, Form, Input, Row, Col } from 'antd';
+import { UploadOutlined, LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { Image as Antimage, Button, Upload, message, Form, Input, Row, Col, Avatar, List, Space } from 'antd';
 import food from "@/public/images/landing/food.png";
 import { useRouter } from 'next/router';
 import { postThink } from '@/redux/Profile/actions';
 import toast from "@/components/Toast";
 import config from '@/utils/config';
-import userImg1 from "@/public/images/user/user1.jpg";
+import baseUrl from '@/utils/baseUrl';
 
+const IconText = ({ icon, text }) => (
+    <Space>
+        {React.createElement(icon)}
+        {text}
+    </Space>
+);
 
 const profileActivity = ({ onpostThink, activityInfo }) => {
 
@@ -17,6 +23,7 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
         return src
     }
     const imgurl = `http://${config.server}:${config.port}/post/`;
+    const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
     const notify = useCallback((type, message) => {
         toast({ type, message });
@@ -116,7 +123,7 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
                                                     ]}>
                                                     <Input.TextArea rows={4} />
                                                 </Form.Item>
-                                                <Form.Item listType="picture" name="fileupload">
+                                                <Form.Item name="fileupload">
                                                     <Row>
                                                         <Col span={8}>
                                                             <Upload listType="picture" {...props}>
@@ -149,132 +156,34 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
                                 <div className="avatar-form">
                                     <div className="row">
                                         <div className="col-xl-12 col-lg-12 col-md-12">
-                                            <div className="shout-area green-color">
-                                                <div className="shout-body">
-                                                    <div className="shout-author vcard">
-                                                        <div className="avatar">
-                                                            <Image
-                                                                src={userImg1}
-                                                                alt="user"
-                                                                className="shout-radius"
-                                                            />
-                                                        </div>
-                                                        <b className="fn">Dennis Stephens</b>
-                                                        <div className="shout-target">
-                                                            <span>
-                                                                dennis0303stephens@gmail.com
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="shout-metadata">
-                                                        <span>
-                                                            dennis0303stephens@gmail.com
-                                                        </span>
-                                                    </div>
-
-                                                    <div className="shout-content">
-                                                        <div className="pin-post-label">
-                                                            <p className="comment-notes">
-                                                                <span id="email-notes">
-                                                                    Lorem ipsum dolor sit amet, consectetur
-                                                                    adipisicing elit, sed do eiusmod tempor
-                                                                    incididunt ut labore et dolore magna aliqua. Ut
-                                                                    enim ad minim veniam
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        <div className="pin-post-logo">
-                                                            <p className="comment-notes">
-                                                                <i className="bx bx-like like-icon"></i> &nbsp;150 Likes
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="shout-area green-color">
-                                                <div className="shout-body">
-                                                    <div className="shout-author vcard">
-                                                        <div className="avatar">
-                                                            <Image
-                                                                src={userImg1}
-                                                                alt="user"
-                                                                className="shout-radius"
-                                                            />
-                                                        </div>
-                                                        <b className="fn">Dennis Stephens</b>
-                                                        <div className="shout-target">
-                                                            <span>
-                                                                dennis0303stephens@gmail.com
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="shout-metadata">
-                                                        <span>
-                                                            dennis0303stephens@gmail.com
-                                                        </span>
-                                                    </div>
-
-                                                    <div className="shout-content">
-                                                        <div className="pin-post-label">
-                                                            <p className="comment-notes">
-                                                                <span id="email-notes">
-                                                                    Lorem ipsum dolor sit amet, consectetur
-                                                                    adipisicing elit, sed do eiusmod tempor
-                                                                    incididunt ut labore et dolore magna aliqua. Ut
-                                                                    enim ad minim veniam
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        <div className="pin-post-logo">
-                                                            <p className="comment-notes">
-                                                                <i className="bx bx-like like-icon"></i> &nbsp;150 Likes
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="shout-area green-color">
-                                                <div className="shout-body">
-                                                    <div className="shout-author vcard">
-                                                        <div className="avatar">
-                                                            <Image
-                                                                src={userImg1}
-                                                                alt="user"
-                                                                className="shout-radius"
-                                                            />
-                                                        </div>
-                                                        <b className="fn">Dennis Stephens</b>
-                                                        <div className="shout-target">
-                                                            <span>
-                                                                dennis0303stephens@gmail.com
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="shout-metadata">
-                                                        <span>
-                                                            dennis0303stephens@gmail.com
-                                                        </span>
-                                                    </div>
-
-                                                    <div className="shout-content">
-                                                        <div className="pin-post-label">
-                                                            <p className="comment-notes">
-                                                                <span id="email-notes">
-                                                                    Lorem ipsum dolor sit amet, consectetur
-                                                                    adipisicing elit, sed do eiusmod tempor
-                                                                    incididunt ut labore et dolore magna aliqua. Ut
-                                                                    enim ad minim veniam
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        <div className="pin-post-logo">
-                                                            <p className="comment-notes">
-                                                                <i className="bx bx-like like-icon"></i> &nbsp;150 Likes
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <List
+                                                itemLayout="vertical"
+                                                size="large"
+                                                pagination={{
+                                                    onChange: (page) => {
+                                                        console.log(page);
+                                                    },
+                                                    pageSize: 3,
+                                                }}
+                                                dataSource={activityInfo?.posts}
+                                                renderItem={(item) => (
+                                                    <List.Item
+                                                        key={item._id}
+                                                        actions={[
+                                                            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+                                                            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
+                                                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                                                        ]}
+                                                    >
+                                                        <List.Item.Meta
+                                                            avatar={<Avatar src={avatarurl + item.from_user.avatar} />}
+                                                            title={<a onClick={() =>  window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.username}</a>}
+                                                            description={item?.follow_content}
+                                                        />
+                                                        {item.content}
+                                                    </List.Item>
+                                                )}
+                                            />
                                         </div>
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@ import { getInfo } from '@/redux/Profile/actions';
 import { updateInfo, editAbout, editSocial, uploadAvatar } from '@/redux/Profile/actions';
 import { editNotification } from '@/redux/Profile/actions';
 import toast from "@/components/Toast";
-import { message, Upload } from 'antd';
+import { message, Upload, Input } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 
@@ -135,7 +135,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
     const onmentionChange = (checked) => {
         setMention(checked);
     };
-   
+
     const onfavoriteChange = (checked) => {
         setFavorite(checked);
     };
@@ -284,14 +284,20 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                             <div className="pin-social-edit-title">
                                                                 <p>Facebook:</p>
                                                             </div>
+
                                                             <div className="pin-social-edit-input">
-                                                                <input
-                                                                    type="text"
-                                                                    name="facebook"
-                                                                    className="form-control"
-                                                                    value={editinfo.social.facebook}
-                                                                    onChange={onUpdateSocialField}
-                                                                />
+                                                                <div className="input-group">
+                                                                    <div className="input-group-prepend">
+                                                                        <span className="input-group-text">https://</span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        name="facebook"
+                                                                        className="form-control"
+                                                                        value={editinfo.social.facebook}
+                                                                        onChange={onUpdateSocialField}
+                                                                         />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div className="pin-post-footer-section mg-12">
@@ -299,13 +305,18 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                                 <p>Instagram:</p>
                                                             </div>
                                                             <div className="pin-social-edit-input">
-                                                                <input
-                                                                    type="text"
-                                                                    name="instagram"
-                                                                    className="form-control"
-                                                                    value={editinfo.social.instagram}
-                                                                    onChange={onUpdateSocialField}
-                                                                />
+                                                                <div className="input-group">
+                                                                    <div className="input-group-prepend">
+                                                                        <span className="input-group-text">https://</span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        name="instagram"
+                                                                        className="form-control"
+                                                                        value={editinfo.social.instagram}
+                                                                        onChange={onUpdateSocialField}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div className="pin-post-footer-section mg-12">
@@ -313,13 +324,18 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                                 <p>Twitter:</p>
                                                             </div>
                                                             <div className="pin-social-edit-input">
-                                                                <input
-                                                                    type="text"
-                                                                    name="twitter"
-                                                                    className="form-control"
-                                                                    value={editinfo.social.twitter}
-                                                                    onChange={onUpdateSocialField}
-                                                                />
+                                                                <div className="input-group">
+                                                                    <div className="input-group-prepend">
+                                                                        <span className="input-group-text">https://</span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        name="twitter"
+                                                                        className="form-control"
+                                                                        value={editinfo.social.twitter}
+                                                                        onChange={onUpdateSocialField}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div className="pin-post-footer-section mg-12">
@@ -327,13 +343,18 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                                 <p>TikTok:</p>
                                                             </div>
                                                             <div className="pin-social-edit-input">
-                                                                <input
-                                                                    type="text"
-                                                                    name="tiktok"
-                                                                    className="form-control"
-                                                                    value={editinfo.social.tiktok}
-                                                                    onChange={onUpdateSocialField}
-                                                                />
+                                                                <div className="input-group">
+                                                                    <div className="input-group-prepend">
+                                                                        <span className="input-group-text">https://</span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        name="tiktok"
+                                                                        className="form-control"
+                                                                        value={editinfo.social.tiktok}
+                                                                        onChange={onUpdateSocialField}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div className="pin-post-footer-section mg-12">
@@ -341,26 +362,36 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                                                 <p>Snapchat:</p>
                                                             </div>
                                                             <div className="pin-social-edit-input">
-                                                                <input
-                                                                    type="text"
-                                                                    name="snapchat"
-                                                                    className="form-control"
-                                                                    value={editinfo.social.snapchat}
-                                                                    onChange={onUpdateSocialField}
-                                                                />
+                                                                <div className="input-group">
+                                                                    <div className="input-group-prepend">
+                                                                        <span className="input-group-text">https://</span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        name="snapchat"
+                                                                        className="form-control"
+                                                                        value={editinfo.social.snapchat}
+                                                                        onChange={onUpdateSocialField}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div><div className="pin-post-footer-section mg-12">
                                                             <div className="pin-social-edit-title">
                                                                 <p>Website:</p>
                                                             </div>
                                                             <div className="pin-social-edit-input">
-                                                                <input
-                                                                    type="text"
-                                                                    name="website"
-                                                                    className="form-control"
-                                                                    value={editinfo.social.website}
-                                                                    onChange={onUpdateSocialField}
-                                                                />
+                                                                <div className="input-group">
+                                                                    <div className="input-group-prepend">
+                                                                        <span className="input-group-text">https://</span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        name="website"
+                                                                        className="form-control"
+                                                                        value={editinfo.social.website}
+                                                                        onChange={onUpdateSocialField}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

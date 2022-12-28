@@ -48,6 +48,7 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
                                     <Image
                                         src={avatarurl + '/' + headerInfo?.profile?.avatar}
                                         loader={myLoader}
+                                        unoptimized
                                         layout={'fill'}
                                         alt="user"
                                         className="avatar-radius"

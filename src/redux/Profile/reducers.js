@@ -52,7 +52,12 @@ const profileReducer = (state = initialState, action) => {
         case USERINFO_GET_SUCCESS: {
             return {
                 ...state,
-                editInfo: action.payload,
+                editInfo: {
+                    ...state.editInfo,
+                    about: action.payload.about,
+                    social: action.payload.social,
+                    notification: action.payload.notification
+                },
             };
         }
 
