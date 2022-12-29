@@ -9,12 +9,16 @@ import {
     CATEGORY_GET_SUCCESS,
     LOGOUT,
 } from './types';
+import { S_LOGIN } from '../Socket/types';
 import api from '@/utils/callApi'
 
 export function loginUser(form, cb) {
     return dispatch => api(`auth/user/login`, 'post', form).then(
         res => {
-
+            dispatch({
+                type: S_LOGIN,
+                payload: res.id
+            })
             dispatch({
                 type: USER_LOGIN_REQUEST,
             });
@@ -26,7 +30,7 @@ export function loginUser(form, cb) {
 
             localStorage.setItem('userInfo', JSON.stringify(res));
             cb(res);
-        }).catch(error=>{
+        }).catch(error => {
             console.log(error);
         })
 }
