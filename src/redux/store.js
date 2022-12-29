@@ -1,43 +1,23 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware,combineReducers } from "redux";
 import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { createWrapper } from "next-redux-wrapper";
-import hardSet from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import rootReducer from "./rootReducer";
 
-const composeEnhancers =
-    (process.env.NODE_ENV === 'development' &&
-        global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-    compose;
+// initial states here
+const initalState = {};
 
-const makeStore = ({ isServer }) => {
-    if (isServer) {
-        return createStore(
-            rootReducer,
-            composeEnhancers(applyMiddleware(thunk))
-        )
-    } else {
-        const { persistStore, persistReducer } = require('redux-persist')
-        const storage = require('redux-persist/lib/storage').default
+// middleware
+const middleware = [thunk];
 
-        const persistConfig = {
-            key: 'root',
-            storage,
-            stateReconciler: hardSet
-        }
+// creating store
+export const store = createStore(
+    rootReducer,
+    initalState,
+    composeWithDevTools(applyMiddleware(...middleware))
+);
 
-        const persistedReducer = persistReducer(persistConfig, rootReducer)
+// assigning store to next wrapper
+const makeStore = () => store;
 
-        const store = createStore(
-            persistedReducer,
-            composeEnhancers(applyMiddleware(thunk))
-        )
-
-        store.__persistor = persistStore(store)
-
-        return store
-    }
-}
-
-
-export const wrapper = createWrapper(makeStore, { debug: true })
-
+export const wrapper = createWrapper(makeStore);

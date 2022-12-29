@@ -98,8 +98,6 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
 
     const onLoadMore = () => {
         setCount(count + 1);
-
-
     };
     const loadMore =
         !initLoading && !loading ? (

@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from 'react-redux';
 import { UploadOutlined, LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Image as Antimage, Button, Upload, message, Form, Input, Row, Col, Avatar, List, Space } from 'antd';
+import { Image as Antimage, Button, Upload, message, Form, Input, Row, Col, Avatar, List, Space, Skeleton } from 'antd';
 import food from "@/public/images/landing/food.png";
 import { useRouter } from 'next/router';
+import { getActivity } from '@/redux/Profile/actions';
 import { postThink } from '@/redux/Profile/actions';
 import toast from "@/components/Toast";
 import config from '@/utils/config';
@@ -17,13 +18,117 @@ const IconText = ({ icon, text }) => (
     </Space>
 );
 
-const profileActivity = ({ onpostThink, activityInfo }) => {
+const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
 
     const myLoader = ({ src }) => {
         return src
     }
     const imgurl = `http://${config.server}:${config.port}/post/`;
     const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+
+    const [initLoading, setInitLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [count, setCount] = useState(1);
+    const [data, setData] = useState([]);
+    const [list, setList] = useState([]);
+
+    const router = useRouter();
+
+    useEffect(() => {
+
+        if (router.isReady) {
+            const { profile } = router.query;
+            console.log(profile, 123)
+            ongetActivity(profile, 1, '', res => {
+                if (res.success) {
+                    setInitLoading(false);
+                    setData(res.posts);
+                    setList(res.posts);
+                    window.dispatchEvent(new Event('resize'));
+
+                }
+                else notify("error", res.msg)
+            });
+        }
+    }, [router.isReady]);
+
+    useEffect(() => {
+        setLoading(true);
+        setList(
+            data.concat(
+                [...new Array(10)].map(() => ({
+                    loading: true,
+                    from: {},
+                })),
+            ),
+        );
+
+        if (router.isReady) {
+            const { profile } = router.query;
+            ongetActivity(profile, count, '', res => {
+                if (res.success) {
+                    const newData = data.concat(res.posts);
+                    setData(newData);
+                    setList(newData);
+                    setLoading(false);
+                    window.dispatchEvent(new Event('resize'));
+                }
+                else notify("error", res.msg)
+            });
+        }
+
+
+    }, [count]);
+
+
+    // useEffect(() => {
+    //     window.addEventListener('scroll', scrollmore);
+    // }, []);
+
+    // const scrollmore = () => {
+    //     setCount(count + 1);
+    //     if (window.innerHeight + document.documentElement.scrollTop === document.scrollingElement.scrollHeight) {
+    //         setLoading(true);
+    //         setList(
+    //             data.concat(
+    //                 [...new Array(10)].map(() => ({
+    //                     loading: true,
+    //                     from: {},
+    //                 })),
+    //             ),
+    //         );
+    //         const { profile } = router.query;
+
+    //         ongetActivity(profile, count, '', res => {
+    //             if (res.success) {
+    //                 const newData = data.concat(res.posts);
+    //                 setData(newData);
+    //                 setList(newData);
+    //                 setLoading(false);
+    //                 window.dispatchEvent(new Event('resize'));
+    //             }
+    //             else notify("error", res.msg)
+    //         });
+    //     }
+    // }
+
+    const onLoadMore = () => {
+        setCount(count + 1);
+    };
+
+    const loadMore =
+        !initLoading && !loading ? (
+            <div
+                style={{
+                    textAlign: 'center',
+                    marginTop: 12,
+                    height: 32,
+                    lineHeight: '32px',
+                }}
+            >
+                <Button onClick={onLoadMore}>loading more</Button>
+            </div>
+        ) : null;
 
     const notify = useCallback((type, message) => {
         toast({ type, message });
@@ -32,7 +137,6 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
     const dismiss = useCallback(() => {
         toast.dismiss();
     }, []);
-    const router = useRouter();
     const view_user_id = router.query.profile
 
     const [composeForm] = Form.useForm();
@@ -159,28 +263,28 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
                                             <List
                                                 itemLayout="vertical"
                                                 size="large"
-                                                pagination={{
-                                                    onChange: (page) => {
-                                                        console.log(page);
-                                                    },
-                                                    pageSize: 3,
-                                                }}
-                                                dataSource={activityInfo?.posts}
-                                                renderItem={(item) => (
+                                                loading={initLoading}
+                                                loadMore={loadMore}
+                                                dataSource={list}
+                                                renderItem={(item, index) => (
                                                     <List.Item
-                                                        key={item._id}
+                                                        key={index}
                                                         actions={[
                                                             <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
                                                             <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
                                                             <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
                                                         ]}
                                                     >
-                                                        <List.Item.Meta
-                                                            avatar={<Avatar src={avatarurl + item.from_user.avatar} />}
-                                                            title={<a onClick={() =>  window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.username}</a>}
-                                                            description={item?.follow_content}
-                                                        />
-                                                        {item.content}
+                                                        <Skeleton avatar title={false} loading={item.loading} active>
+
+                                                            <List.Item.Meta
+                                                                avatar={<Avatar src={avatarurl + item?.from_user?.avatar} />}
+                                                                title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.username}</a>}
+                                                                description={item?.follow_content}
+                                                            />
+                                                            {item.content}
+                                                        </Skeleton>
+
                                                     </List.Item>
                                                 )}
                                             />
@@ -321,7 +425,15 @@ const profileActivity = ({ onpostThink, activityInfo }) => {
     );
 };
 
+
+const mapStateToProps = ({ profile }) => {
+    return {
+        activityInfo: profile.activityInfo
+    };
+};
+
 const mapDispatchToProps = dispatch => ({
-    onpostThink: (data, cb) => dispatch(postThink(data, cb))
+    onpostThink: (data, cb) => dispatch(postThink(data, cb)),
+    ongetActivity: (data, count, search, cb) => dispatch(getActivity(data, count, search, cb)),
 })
-export default connect(undefined, mapDispatchToProps)(profileActivity);
+export default connect(mapStateToProps, mapDispatchToProps)(profileActivity);

@@ -39,8 +39,9 @@ export function getUserInfo(user_id, cb) {
         })
 }
 
-export function getActivity(view_user_id) {
-    return dispatch => api(`profile/activity/${view_user_id}`, 'get').then(
+export function getActivity(id, count, search, cb) {
+
+    return dispatch => api(`profile/activity/${id}?page=${count}&search=${search}`, 'get').then(
         res => {
 
             dispatch({
@@ -52,6 +53,7 @@ export function getActivity(view_user_id) {
                 payload: res,
             });
 
+            cb(res);
         }).catch(error => {
             console.log(error);
         })
@@ -129,8 +131,6 @@ export function getInfo() {
                     res.data.notification.favorite ? data.notification.favorite = res.data.notification.favorite : data.notification.favorite;
                 }
             }
-
-            console.log(data);
 
             dispatch({
                 type: USERINFO_GET_REQUEST,

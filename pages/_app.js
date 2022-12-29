@@ -1,6 +1,6 @@
 import React from "react";
 import AOS from "aos";
-import { wrapper, store } from "@/redux/store";
+import { store } from "@/redux/store";
 import { Provider } from "react-redux";
 import Router from 'next/router';
 import NProgress from 'nprogress';
@@ -34,8 +34,7 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, ...rest }) {
-  const { store, props } = wrapper.useWrappedStore(rest);
+function MyApp({ Component, pageProps  }) {
   React.useEffect(() => {
     AOS.init();
   }, []);
@@ -52,7 +51,7 @@ function MyApp({ Component, ...rest }) {
             content="width=device-width, initial-scale=1"
           />
         </Head>
-        {getLayout(<Component {...props.pageProps} />)}
+        {getLayout(<Component {...pageProps} />)}
         <ToastContainer
           position="top-right"
           autoClose={8000}

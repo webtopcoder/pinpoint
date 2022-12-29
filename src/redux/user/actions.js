@@ -7,6 +7,7 @@ import {
     RESET_PASSWORD_SUCCESS,
     CATEGORY_GET_REQUEST,
     CATEGORY_GET_SUCCESS,
+    SUB_CATEGORY_GET_SUCCESS,
     LOGOUT,
 } from './types';
 import api from '@/utils/callApi'
@@ -26,7 +27,7 @@ export function loginUser(form, cb) {
 
             localStorage.setItem('userInfo', JSON.stringify(res));
             cb(res);
-        }).catch(error=>{
+        }).catch(error => {
             console.log(error);
         })
 }
@@ -62,6 +63,18 @@ export function getCategory() {
             });
         })
 }
+
+export function getsubCategory(categoryID, cb) {
+    return dispatch => api(`base/subcategories/${categoryID}`, 'get').then(
+        res => {
+            dispatch({
+                type: SUB_CATEGORY_GET_SUCCESS,
+                payload: res,
+            });
+            cb(res);
+        })
+}
+
 
 export function recoveryPassword(form, cb) {
     return dispatch => api(`auth/user/lostpassword`, 'post', form).then(

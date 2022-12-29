@@ -7,7 +7,8 @@ import {
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
     CATEGORY_GET_REQUEST,
-    CATEGORY_GET_SUCCESS
+    CATEGORY_GET_SUCCESS,
+    SUB_CATEGORY_GET_SUCCESS
 } from './types';
 
 const token = '';
@@ -35,7 +36,8 @@ const initialState = {
     status: false,
     loginInfo: { success: false, msg: {} },
     resetPasswordInfo: { success: false, msg: '' },
-    partnerCategory: { success: false, categories: [] }
+    partnerCategory: { success: false, categories: []},
+    partnersubCategory: { success: false, categories: []},
 }
 
 const userReducer = (state = initialState, action) => {
@@ -76,6 +78,13 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 partnerCategory: action.payload
+            };
+        }
+
+        case SUB_CATEGORY_GET_SUCCESS: {
+            return {
+                ...state,
+                partnersubCategory: action.payload
             };
         }
 

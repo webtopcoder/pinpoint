@@ -13,9 +13,13 @@ import christmas from "@/public/images/landing/christmas.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import fireworks from "@/public/images/landing/fireworks.png";
 import location from "@/public/images/landing/location.png";
+import config from '@/utils/config';
 import Layout from '../layout';
 
 const UserHome = (props) => {
+
+  const faviconUrl = `http://${config.server}:${config.port}/`;
+
   function initMap() {
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
       console.log(error)
@@ -31,41 +35,138 @@ const UserHome = (props) => {
     const features = [
       {
         position: new google.maps.LatLng(36, -80),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
       {
         position: new google.maps.LatLng(39, -87),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
       {
         position: new google.maps.LatLng(43, -90),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
       {
         position: new google.maps.LatLng(35, -86),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
       {
         position: new google.maps.LatLng(35, -110),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
       {
         position: new google.maps.LatLng(47, -110),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
       {
         position: new google.maps.LatLng(45, -100),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
       },
     ];
 
     // Create markers.
-    console.log(new google.maps.Point(0, 0))
     for (let i = 0; i < features.length; i++) {
       const marker = new google.maps.Marker({
         position: features[i].position,
         icon: {
-          url: 'http://127.0.0.1:8080/favicon.png',
+          url: faviconUrl + 'favicon.png',
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0) // anchor
         },
         map: map,
       });
+      const infowindow = new google.maps.InfoWindow({
+        content: features[i].content,
+        ariaLabel: "Food Truck",
+      });
+      marker.addListener("mouseover", () => {
+        infowindow.open({
+          anchor: marker,
+          map,
+        });
+      });
+      marker.addListener("mouseout", () => {
+        infowindow.close();
+      });
     }
+
   };
   useEffect(() => {
     initMap();
