@@ -1,17 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { connect } from 'react-redux';
 import PageTitle from "@/components/Layout/PageTitle";
 import { Col, InputNumber, Row, Slider, Button, Tooltip, Space } from 'antd';
 import { FullscreenOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from '../../../layout';
+import config from '@/utils/config';
+import { getCategory } from '@/redux/User/actions';
+import { getsubCategory } from '@/redux/User/actions';
 
 var cityCircle = null;
 var map;
 const pinpoint = null;
-const InteractiveMap = () => {
+
+const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
+
+  const autoCompleteRef = useRef();
+  const inputRef = useRef();
+
+  const options = {
+    componentRestrictions: { country: "us" },
+    fields: ["address_components", "adr_address", "formatted_address", "geometry", "name"],
+    types: ["establishment"]
+  };
+
+  const [form, setForm] = useState({
+
+    category: '',
+    subcategory: '',
+  });
+
+  const [subcategoryList, setSubcategoryList] = useState([]);
+
+  const onUpdateField = e => {
+
+    const field = e.target.name;
+
+    if (e.target.name == "category") {
+      onsubgetCateogry(e.target.value, res => {
+
+        setSubcategoryList(res.subcategories);
+      });
+    }
+
+    const nextFormState = {
+      ...form,
+      [field]: e.target.value,
+    };
+
+    setForm(nextFormState);
+
+  };
+
+  const faviconUrl = `http://${config.server}:${config.port}/`;
   const formatter = (value) => `${value}mile`;
-  
+
   const [position, setPosition] = useState({
     lat: 37.553326,
     lng: -94.8110983
@@ -21,16 +65,23 @@ const InteractiveMap = () => {
     setInputValue(newValue);
     cityCircle.setRadius(newValue * 1000 * 1.6)
   };
-  function initMap() {
-    window.navigator.geolocation.getCurrentPosition(success, (error) => {
-      console.log(error)
-    });
-  }
+
+  useEffect(() => {
+    function initMap() {
+      window.navigator.geolocation.getCurrentPosition(success, (error) => {
+        console.log(error)
+      });
+    }
+    initMap();
+
+  }, [position]);
+
 
   function success(pos) {
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
       zoom: 5,
+      fullscreenControl: false,
       streetViewControl: false,
       mapTypeControlOptions: {
         mapTypeIds: [
@@ -49,47 +100,72 @@ const InteractiveMap = () => {
       center: position,
       radius: inputValue * 1000 * 1.6,
     });
+
+    let gmarkers = [];
+
+    for (var i = 0; i < pinpoint.length; i++) {
+      var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
+        // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
+        new google.maps.LatLng(position.lat, position.lng),
+        pinpoint[i].position
+      ))?.toFixed(2);
+
+      if (d < inputValue * 1000 * 1.6) {
+        const marker = new google.maps.Marker({
+          position: pinpoint[i].position,
+          icon: {
+            url: faviconUrl + 'favicon.png',
+            scaledSize: new google.maps.Size(30, 50), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+          },
+
+          map: map,
+        });
+
+        gmarkers.push(marker);
+
+        const infowindow = new google.maps.InfoWindow({
+          content: pinpoint[i].content,
+          ariaLabel: "Food Truck",
+        });
+        marker.addListener("mouseover", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+          });
+        });
+        marker.addListener("mouseout", () => {
+          infowindow.close();
+        });
+      }
+    }
+
+
+    function setMapOnAll(map) {
+      for (let i = 0; i < gmarkers.length; i++) {
+        gmarkers[i].setMap(map);
+      }
+    }
+
+    function showMarkers() {
+      setMapOnAll(map);
+    }
+
     map.addListener("click", (e) => {
+
+      // setMapOnAll(null);
+      // gmarkers = [];
       map.setZoom(11);
+      console.log(e.latLng.toJSON());
       // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
-      map.setCenter(new google.maps.LatLng(36, -80))
+      map.setCenter(new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng))
       setPosition(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)));
       // cityCircle.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)));
-      cityCircle.setCenter(new google.maps.LatLng(36, -80));
-      for (var i = 0; i < pinpoint.length; i++) {
-        var d = (google.maps.geometry.spherical.computeDistanceBetween(
-          // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
-          new google.maps.LatLng(36, -80),
-          pinpoint[i].position
-        )).toFixed(2);
-        if (d < inputValue * 1000 * 1.6) {
-          const marker = new google.maps.Marker({
-            position: pinpoint[i].position,
-            icon: {
-              url: 'http://127.0.0.1:8080/favicon.png',
-              scaledSize: new google.maps.Size(30, 50), // scaled size
-              origin: new google.maps.Point(0, 0), // origin
-              anchor: new google.maps.Point(0, 0) // anchor
-            },
-            map: map,
-          });
-          const infowindow = new google.maps.InfoWindow({
-            content: pinpoint[i].content,
-            ariaLabel: "Food Truck",
-          });
-          marker.addListener("mouseover", () => {
-            infowindow.open({
-              anchor: marker,
-              map,
-            });
-          });
-          marker.addListener("mouseout", () => {
-            infowindow.close();
-          });
-        }
-      }
+      cityCircle.setCenter(new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng));
 
     });
+
   };
   const fullScreen = () => {
     const elementToSendFullscreen = map.getDiv().firstChild;
@@ -133,12 +209,25 @@ const InteractiveMap = () => {
     }
   }
   useEffect(() => {
-    initMap();
+
+    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      options
+    );
+
+    autoCompleteRef.current.addListener("place_changed", async function () {
+      const place = await autoCompleteRef.current.getPlace();
+      setPosition({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      })
+    });
+
     pinpoint = [
       {
         position: new google.maps.LatLng(36, -80),
         content: `<div style="width: 100px; height: 100px; background-color: 'white'">
-          <image src="http://127.0.0.1:8080/pin1.png" style="width: 100%; height: 100%"/>
+          <image src=${faviconUrl + 'pin1.png'} style="width: 100%; height: 100%"/>
         </div>`
       },
       {
@@ -232,7 +321,11 @@ const InteractiveMap = () => {
           "</div>"
       }
     ]
+
+    ongetCateogry();
+
   }, [])
+
   return (
     <>
       <PageTitle page="Interactive Map" />
@@ -256,6 +349,7 @@ const InteractiveMap = () => {
                   <input
                     type="search"
                     className="search-field"
+                    ref={inputRef}
                     placeholder="Enter Address or Share Location"
                   />
                   <button type="submit">
@@ -273,7 +367,7 @@ const InteractiveMap = () => {
                         formatter
                       }}
                       min={1}
-                      max={20}
+                      max={300}
                       onChange={onChange}
                       value={typeof inputValue === 'number' ? inputValue : 0}
                     />
@@ -297,18 +391,28 @@ const InteractiveMap = () => {
                 <div className="col-lg-12 col-md-12">
                   <div className="form-group">
                     <select
-                      name="state"
+                      value={form.category}
+                      onChange={onUpdateField}
+                      name="category"
                       className="form-control"
                     >
                       <option value="0">Select Category</option>
+                      {categoryInfo.map((option, index) =>
+                        <option key={index} value={option._id}>{option.content}</option>
+                      )}
                     </select>
                   </div>
                   <div className="form-group">
                     <select
-                      name="state"
+                      value={form.subcategory}
+                      onChange={onUpdateField}
+                      name="subcategory"
                       className="form-control"
                     >
                       <option value="0">Select SubCategory</option>
+                      {subcategoryList && subcategoryList.map((option, index) =>
+                        <option key={index} value={option._id}>{option.content}</option>
+                      )}
                     </select>
                   </div>
                   <div className="form-group">
@@ -363,8 +467,13 @@ const InteractiveMap = () => {
             </div>
           </div>
           <div className="google-map-area green-color">
-            <div id="interactive-map">
 
+            <div id="interactive-map">
+              <div id="floating-panel">
+                <input id="hide-markers" type="button" value="Hide Markers" />
+                <input id="show-markers" type="button" value="Show Markers" />
+                <input id="delete-markers" type="button" value="Delete Markers" />
+              </div>
             </div>
           </div>
         </div>
@@ -378,4 +487,16 @@ InteractiveMap.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }
 
-export default InteractiveMap;
+
+const mapStateToProps = ({ user }) => ({
+  categoryInfo: user.partnerCategory.categories,
+  subcategoryInfo: user.partnerCategory.subcategories
+
+})
+
+const mapDispatchToProps = dispatch => ({
+  ongetCateogry: () => dispatch(getCategory()),
+  onsubgetCateogry: (categoryID, cb) => dispatch(getsubCategory(categoryID, cb)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(InteractiveMap);

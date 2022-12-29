@@ -7,13 +7,15 @@ import {
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
     CATEGORY_GET_REQUEST,
-    CATEGORY_GET_SUCCESS
+    CATEGORY_GET_SUCCESS,
+    SUB_CATEGORY_GET_SUCCESS
 } from './types';
 
 const token = '';
 const username = '';
 const role = '';
 const user_id = '';
+const avatar = '';
 
 if (typeof window !== 'undefined') {
     // Perform localStorage action
@@ -21,6 +23,7 @@ if (typeof window !== 'undefined') {
     username = sessionStorage.getItem('username');
     role = sessionStorage.getItem('role');
     user_id = sessionStorage.getItem('user_id');
+    avatar = sessionStorage.getItem('avatar');
 }
 
 const initialState = {
@@ -28,11 +31,13 @@ const initialState = {
     username: username,
     user_id: user_id,
     role: role,
+    avatar: avatar,
     loading: false,
     status: false,
     loginInfo: { success: false, msg: {} },
     resetPasswordInfo: { success: false, msg: '' },
-    partnerCategory: { success: false, categories: [] }
+    partnerCategory: { success: false, categories: []},
+    partnersubCategory: { success: false, categories: []},
 }
 
 const userReducer = (state = initialState, action) => {
@@ -45,12 +50,14 @@ const userReducer = (state = initialState, action) => {
             sessionStorage.setItem('role', action.payload.role);
             sessionStorage.setItem('username', action.payload.username);
             sessionStorage.setItem('user_id', action.payload.id);
+            sessionStorage.setItem('avatar', action.payload.avatar ? action.payload.avatar : '');
             return {
                 ...state,
                 token: action.payload.token,
                 role: action.payload.role,
                 username: action.payload.username,
-                user_id: action.payload.id                
+                user_id: action.payload.id,
+                avatar: action.payload.avatar
             };
         }
 
@@ -74,6 +81,13 @@ const userReducer = (state = initialState, action) => {
             };
         }
 
+        case SUB_CATEGORY_GET_SUCCESS: {
+            return {
+                ...state,
+                partnersubCategory: action.payload
+            };
+        }
+
         case USER_LOGIN_FAIL:
             return { loading: false, error: action.payload };
 
@@ -81,6 +95,8 @@ const userReducer = (state = initialState, action) => {
             sessionStorage.removeItem('token');
             sessionStorage.removeItem('role');
             sessionStorage.removeItem('username');
+            sessionStorage.removeItem('avatar');
+            sessionStorage.removeItem('user_id');
             return {
                 ...state,
                 token: null,

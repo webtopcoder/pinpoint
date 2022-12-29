@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getHeader } from '@/redux/Profile/actions';
 import { postFollower } from '@/redux/Profile/actions';
 import { useRouter } from 'next/router'
+import binavatar from "@/public/images/landing/avatar.png";
 import config from '@/utils/config';
 
 const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
@@ -17,7 +18,7 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
     if (typeof window !== 'undefined') {
         user_id = sessionStorage.getItem('user_id')
     }
-    
+
     const view_user_id = router.query.profile;
 
     const follow = () => {
@@ -45,14 +46,21 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
                         <div className="avatar-body">
                             <div className="avatar-author vcard">
                                 <div className="avatar">
-                                    <Image
-                                        src={avatarurl + '/' + headerInfo?.profile?.avatar}
-                                        loader={myLoader}
-                                        unoptimized
-                                        layout={'fill'}
-                                        alt="user"
-                                        className="avatar-radius"
-                                    />
+                                    {headerInfo?.profile?.avatar ?
+                                        <Image
+                                            src={avatarurl + '/' + headerInfo?.profile?.avatar}
+                                            loader={myLoader}
+                                            unoptimized
+                                            layout={'fill'}
+                                            alt="user"
+                                            className="avatar-radius"
+                                        /> :
+                                        <Image
+                                            src={binavatar}
+                                            alt="user"
+                                            className="avatar-radius"
+                                        />}
+
                                 </div>
                                 {headerInfo && <b className="fn">{headerInfo?.profile?.fullname}</b>}
                             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Row, Badge, Popconfirm, Button } from 'antd';
-import { ExportOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
+import { Row, Badge, Popconfirm, Button, Avatar } from 'antd';
+import { ExportOutlined, LoginOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import Image from "next/image"
 import { connect } from "react-redux";
@@ -11,12 +11,21 @@ import LIcon from '@/public/images/landing/l.png';
 import { logout } from '@/src/redux/User/actions';
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import config from '@/utils/config';
 
 
 const RightSidebar = (props) => {
-  const { visible, onLogout , user_id} = props;
+
+  const avatarImg = ''
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    avatarImg = sessionStorage.getItem('avatar')
+  }
+
+  const { visible, onLogout, user_id } = props;
   const router = useRouter();
   const [token, setToken] = useState(null);
+  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
   useEffect(() => {
     setToken(sessionStorage.getItem('token'));
@@ -57,7 +66,7 @@ const RightSidebar = (props) => {
             {token && <div style={{ marginBottom: 20 }}>
               <Link href="/mail/inbox">
                 <a>
-                <Badge dot={true} className="mailboxLIcon"><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge>
+                  <Badge dot={true} className="mailboxLIcon"><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge>
                 </a>
               </Link>
             </div>}
@@ -65,7 +74,14 @@ const RightSidebar = (props) => {
           </div>
           <div className="avatar-center">
             <div className="rightsidebar-avatar">
-              <span>User Profile<br />Picture</span>
+              {
+                avatarImg ? <Avatar style={{
+                  border: '3px solid gray'
+                }} size={160} src={avatarurl + avatarImg} /> :
+                  <Avatar style={{
+                    border: '3px solid gray'
+                  }} size={160} icon={<UserOutlined />} />
+              }
             </div>
           </div>
           <div className="avatar-right">

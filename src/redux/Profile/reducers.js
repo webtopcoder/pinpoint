@@ -100,6 +100,8 @@ const profileReducer = (state = initialState, action) => {
         }
 
         case USER_AVATAR_UPLOAD_SUCCESS: {
+            sessionStorage.removeItem('avatar');
+            sessionStorage.setItem('avatar', action.payload.avatar);
             return {
                 ...state,
                 editInfo: {

@@ -7,6 +7,7 @@ import {
     RESET_PASSWORD_SUCCESS,
     CATEGORY_GET_REQUEST,
     CATEGORY_GET_SUCCESS,
+    SUB_CATEGORY_GET_SUCCESS,
     LOGOUT,
 } from './types';
 import { S_LOGIN } from '../Socket/types';
@@ -66,6 +67,18 @@ export function getCategory() {
             });
         })
 }
+
+export function getsubCategory(categoryID, cb) {
+    return dispatch => api(`base/subcategories/${categoryID}`, 'get').then(
+        res => {
+            dispatch({
+                type: SUB_CATEGORY_GET_SUCCESS,
+                payload: res,
+            });
+            cb(res);
+        })
+}
+
 
 export function recoveryPassword(form, cb) {
     return dispatch => api(`auth/user/lostpassword`, 'post', form).then(

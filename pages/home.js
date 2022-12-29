@@ -13,9 +13,13 @@ import christmas from "@/public/images/landing/christmas.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import fireworks from "@/public/images/landing/fireworks.png";
 import location from "@/public/images/landing/location.png";
+import config from '@/utils/config';
 import Layout from '../layout';
 
 const UserHome = (props) => {
+
+  const faviconUrl = `http://${config.server}:${config.port}/`;
+
   function initMap() {
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
       console.log(error)
@@ -141,7 +145,7 @@ const UserHome = (props) => {
       const marker = new google.maps.Marker({
         position: features[i].position,
         icon: {
-          url: 'http://127.0.0.1:8080/favicon.png',
+          url: faviconUrl + 'favicon.png',
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0) // anchor

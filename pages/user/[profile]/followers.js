@@ -10,14 +10,6 @@ import { useRouter } from 'next/router'
 
 const Followers = ({ ongetFollowers, followersInfo }) => {
 
-	const router = useRouter();
-
-	useEffect(() => {
-		if (router.isReady) {
-			const { profile } = router.query;
-			ongetFollowers(profile)
-		}
-	}, [router.isReady]);
 	return (
 		<>
 			<PageTitle page="Followers" />
