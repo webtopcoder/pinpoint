@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import { Col, InputNumber, Row, Slider, Button, Tooltip, Space } from 'antd';
 import { FullscreenOutlined, UnorderedListOutlined } from '@ant-design/icons';
@@ -6,14 +6,233 @@ import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from '../../../layout';
 
-
+var cityCircle = null;
+var map;
+const pinpoint = null;
 const InteractiveMap = () => {
   const formatter = (value) => `${value}mile`;
-
-  const [inputValue, setInputValue] = useState(1);
+  
+  const [position, setPosition] = useState({
+    lat: 37.553326,
+    lng: -94.8110983
+  })
+  const [inputValue, setInputValue] = useState(5);
   const onChange = (newValue) => {
     setInputValue(newValue);
+    cityCircle.setRadius(newValue * 1000 * 1.6)
   };
+  function initMap() {
+    window.navigator.geolocation.getCurrentPosition(success, (error) => {
+      console.log(error)
+    });
+  }
+
+  function success(pos) {
+    map = new google.maps.Map(document.getElementById("interactive-map"), {
+      center: position,
+      zoom: 5,
+      streetViewControl: false,
+      mapTypeControlOptions: {
+        mapTypeIds: [
+          google.maps.MapTypeId.ROADMAP
+        ]
+      }
+    });
+
+    cityCircle = new google.maps.Circle({
+      strokeColor: "#276f85",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "#276f85",
+      fillOpacity: 0.35,
+      map,
+      center: position,
+      radius: inputValue * 1000 * 1.6,
+    });
+    map.addListener("click", (e) => {
+      map.setZoom(11);
+      // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
+      map.setCenter(new google.maps.LatLng(36, -80))
+      setPosition(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)));
+      // cityCircle.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)));
+      cityCircle.setCenter(new google.maps.LatLng(36, -80));
+      for (var i = 0; i < pinpoint.length; i++) {
+        var d = (google.maps.geometry.spherical.computeDistanceBetween(
+          // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
+          new google.maps.LatLng(36, -80),
+          pinpoint[i].position
+        )).toFixed(2);
+        if (d < inputValue * 1000 * 1.6) {
+          const marker = new google.maps.Marker({
+            position: pinpoint[i].position,
+            icon: {
+              url: 'http://127.0.0.1:8080/favicon.png',
+              scaledSize: new google.maps.Size(30, 50), // scaled size
+              origin: new google.maps.Point(0, 0), // origin
+              anchor: new google.maps.Point(0, 0) // anchor
+            },
+            map: map,
+          });
+          const infowindow = new google.maps.InfoWindow({
+            content: pinpoint[i].content,
+            ariaLabel: "Food Truck",
+          });
+          marker.addListener("mouseover", () => {
+            infowindow.open({
+              anchor: marker,
+              map,
+            });
+          });
+          marker.addListener("mouseout", () => {
+            infowindow.close();
+          });
+        }
+      }
+
+    });
+  };
+  const fullScreen = () => {
+    const elementToSendFullscreen = map.getDiv().firstChild;
+    if (isFullscreen(elementToSendFullscreen)) {
+      exitFullscreen();
+    } else {
+      requestFullscreen(elementToSendFullscreen);
+    }
+  }
+
+  function isFullscreen(element) {
+    return (
+      (document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement) == element
+    );
+  }
+
+  function requestFullscreen(element) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullScreen) {
+      element.webkitRequestFullScreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.msRequestFullScreen) {
+      element.msRequestFullScreen();
+    }
+  }
+
+  function exitFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+  useEffect(() => {
+    initMap();
+    pinpoint = [
+      {
+        position: new google.maps.LatLng(36, -80),
+        content: `<div style="width: 100px; height: 100px; background-color: 'white'">
+          <image src="http://127.0.0.1:8080/pin1.png" style="width: 100%; height: 100%"/>
+        </div>`
+      },
+      {
+        position: new google.maps.LatLng(39, -87),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
+      },
+      {
+        position: new google.maps.LatLng(43, -90),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
+      },
+      {
+        position: new google.maps.LatLng(35, -86),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
+      },
+      {
+        position: new google.maps.LatLng(35, -110),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
+      },
+      {
+        position: new google.maps.LatLng(47, -110),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
+      },
+      {
+        position: new google.maps.LatLng(45, -100),
+        content: '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
+          '<div id="bodyContent">' +
+          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+          "sandstone rock formation in the southern part of the " +
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+          "(last visited June 22, 2009).</p>" +
+          "</div>" +
+          "</div>"
+      }
+    ]
+  }, [])
   return (
     <>
       <PageTitle page="Interactive Map" />
@@ -119,7 +338,9 @@ const InteractiveMap = () => {
                             height: 70
                           }} icon={<FullscreenOutlined style={{
                             fontSize: 40
-                          }} />} />
+                          }} />}
+                            onClick={() => fullScreen()}
+                          />
                         </Tooltip>
                       </div>
                     </div>
@@ -143,7 +364,7 @@ const InteractiveMap = () => {
           </div>
           <div className="google-map-area green-color">
             <div id="interactive-map">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d629806.5608507423!2d-74.14550980308866!3d40.99473892694984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c295001ca56f9f%3A0x313170de6c0e7b75!2sFairview%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1630302531294!5m2!1sen!2sbd"></iframe>
+
             </div>
           </div>
         </div>
