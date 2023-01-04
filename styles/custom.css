@@ -1194,3 +1194,7 @@ h4 {
     color: var(--blueColor);
     font-weight: bold;
 }
+
+.ant-input-number-handler-wrap{
+    opacity: 1 !important;
+}

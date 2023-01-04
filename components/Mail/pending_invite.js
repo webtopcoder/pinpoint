@@ -140,6 +140,7 @@ const PendingInvite = ({ ondeleteSent, ongetPending, onresendPending }) => {
 
                 setLoading(true);
                 ongetPending(tableParams, res => {
+                  
                     setData(res.pending);
                     setLoading(false);
                     setTableParams({
@@ -155,7 +156,7 @@ const PendingInvite = ({ ondeleteSent, ongetPending, onresendPending }) => {
     };
 
     const resend_pending = (delete_id) => {
-
+        
         onresendPending(delete_id, res => {
             if (res.success) {
                 res.success ? notify("success", res.msg) : notify("error", res.msg)

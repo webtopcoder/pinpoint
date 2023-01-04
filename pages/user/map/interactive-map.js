@@ -486,7 +486,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                         background: 'white'
                       }}
                       min={1}
-                      max={15}
+                      max={25}
                       onChange={onChange}
                       value={typeof inputValue === 'number' ? inputValue : 0}
                     />
@@ -494,7 +494,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                   <Col span={3}>
                     <InputNumber
                       min={1}
-                      max={15}
+                      max={25}
                       style={{
                         width: 60,
                         margin: '0 16px',
@@ -529,7 +529,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                       style={{
                         width: '100%',
                       }}
-                      placeholder="Select SubCategory"
+                      placeholder="Select Subcategory"
                       options={subcategoryList}
                     />
                    

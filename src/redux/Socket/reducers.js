@@ -13,6 +13,10 @@ const socketReducer = (state = initialState, action) => {
         toast({ type: 'success', message: data.msg });
     })
 
+    state.socket.on('post', (data) => {
+        toast({ type: 'success', message: data.msg });
+    })
+
     switch (action.type) {
     
         case S_LOGIN: {
