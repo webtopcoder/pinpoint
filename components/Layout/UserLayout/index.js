@@ -26,6 +26,9 @@ const UserLayout = ({ children }) => {
     setVisible(false);
     document.getElementById('__next').addEventListener("click", hideRightbar, true);
   }, [router.pathname]);
+  useEffect(() => {
+    
+  }, []);
   return (
     < >
       <Header toggle={onToggle} />
