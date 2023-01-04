@@ -1,24 +1,29 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from 'react-redux';
-import { UploadOutlined, LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Image as Antimage, Button, Upload, message, Form, Input, Row, Col, Avatar, List, Space, Skeleton } from 'antd';
+import { UploadOutlined, LikeOutlined } from '@ant-design/icons';
+import { Image as Antimage, Divider, Button, Upload, message, Form, Row, Col, Avatar, Typography, List, Space, Skeleton, Mentions } from 'antd';
 import food from "@/public/images/landing/food.png";
 import { useRouter } from 'next/router';
 import { getActivity } from '@/redux/Profile/actions';
+import { getmyFollowers } from '@/redux/User/actions';
 import { postThink } from '@/redux/Profile/actions';
+import { recommendPost } from '@/redux/Profile/actions';
 import toast from "@/components/Toast";
 import config from '@/utils/config';
 import baseUrl from '@/utils/baseUrl';
+const { Text, Link } = Typography;
 
-const IconText = ({ icon, text }) => (
-    <Space>
-        {React.createElement(icon)}
-        {text}
-    </Space>
-);
 
-const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
+const profileActivity = ({ onrecommendPost, ongetmyFollowers, ongetActivity, onpostThink, activityInfo, myfollowerList }) => {
+
+    const IconText = ({ postID, text }) => (
+        <Space>
+            <Button type="primary" onClick={() => recommendPost(postID)} shape="circle" icon={<LikeOutlined />} />
+            <Text> {text}</Text>
+        </Space>
+    );
+
 
     const myLoader = ({ src }) => {
         return src
@@ -26,26 +31,72 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
     const imgurl = `http://${config.server}:${config.port}/post/`;
     const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
+    const [prefix, setPrefix] = useState('@');
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(1);
     const [data, setData] = useState([]);
     const [list, setList] = useState([]);
+    const [likeState, setLikesState] = useState();
+
+
+    const updatePosts = (id, updatedMovieObj) => {
+        return likeState.map((item, index) => {
+            if (item._id !== id) {
+                // This isn't the item we care about - keep it as-is
+                return item;
+            }
+            const updatedState = [
+                ...likeState.slice(0, index),
+                updatedMovieObj,
+                ...likeState.slice(index + 1)
+            ];
+
+            return setLikesState(updatedState);
+        });
+    };
 
     const router = useRouter();
 
-    useEffect(() => {
+    const recommendPost = (postID) => {
 
+        const movieObj = likeState.find(x => x._id === postID);
+        const myID = sessionStorage.getItem('user_id');
+        const found = movieObj?.like?.find(element => element == myID);
+
+        if (found !== undefined) {
+            notify("error", 'You already like this post')
+            return false;
+        }
+
+        if (myID == movieObj?.from_user._id) {
+            notify("error", 'You can not like your post')
+            return false;
+        }
+
+        else movieObj?.like?.push(myID);
+        updatePosts(postID, movieObj);
+
+        onrecommendPost(postID, res => {
+            if (res.success) {
+
+                notify("success", res.msg)
+            }
+            else notify("error", res.msg)
+        });
+    }
+
+    useEffect(() => {
         if (router.isReady) {
             const { profile } = router.query;
-            console.log(profile, 123)
+            ongetmyFollowers();
             ongetActivity(profile, 1, '', res => {
                 if (res.success) {
                     setInitLoading(false);
                     setData(res.posts);
                     setList(res.posts);
                     window.dispatchEvent(new Event('resize'));
-
+                    setLikesState(res.posts);
                 }
                 else notify("error", res.msg)
             });
@@ -53,6 +104,7 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
     }, [router.isReady]);
 
     useEffect(() => {
+
         setLoading(true);
         setList(
             data.concat(
@@ -71,14 +123,14 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
                     setData(newData);
                     setList(newData);
                     setLoading(false);
+                    setLikesState(res.posts);
                     window.dispatchEvent(new Event('resize'));
                 }
                 else notify("error", res.msg)
             });
         }
-
-
     }, [count]);
+
 
 
     // useEffect(() => {
@@ -152,11 +204,10 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
         form_data.append('content', values.message);
         form_data.append('userid', view_user_id);
 
-
         onpostThink(form_data, res => {
             if (res.success) {
                 composeForm.resetFields();
-                notify("success", res.msg)
+                notify("success", res.msg);
             }
             else notify("error", res.msg)
         });
@@ -225,7 +276,19 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
                                                             message: 'Please input Message!'
                                                         }
                                                     ]}>
-                                                    <Input.TextArea rows={4} />
+                                                    <Mentions
+                                                        rows={7}
+                                                        style={{
+                                                            width: '100%',
+                                                        }}
+                                                        placeholder="input @ to mention user"
+                                                        prefix={['@']}
+                                                        options={(myfollowerList && myfollowerList[0]?.[prefix] || []).map((value) => ({
+                                                            key: value,
+                                                            value,
+                                                            label: value,
+                                                        }))}
+                                                    />
                                                 </Form.Item>
                                                 <Form.Item name="fileupload">
                                                     <Row>
@@ -270,21 +333,37 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
                                                     <List.Item
                                                         key={index}
                                                         actions={[
-                                                            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                                                            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                                                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                                                            item?.type == 'post' ? <IconText postID={item._id} text={item?.like ? (item.like).length : 0} key="list-vertical-like-o" /> : '',
                                                         ]}
                                                     >
                                                         <Skeleton avatar title={false} loading={item.loading} active>
-
                                                             <List.Item.Meta
-                                                                avatar={<Avatar src={avatarurl + item?.from_user?.avatar} />}
-                                                                title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.username}</a>}
-                                                                description={item?.follow_content}
+                                                                avatar={<Avatar src={avatarurl + item?.from_user?.avatar} size={64} />}
+                                                                // title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.realname?.first + '  ' + item?.from_user?.realname?.last} / @{item?.from_user?.username}</a>}
+                                                                title={<>
+                                                                    <span className="custom-userName">
+                                                                        {item?.from_user?.realname.first + ' ' + item?.from_user?.realname.last} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                                                                    <span className="custom-shoutout-text">{item?.type !== 'post' ? item.other_content : ''}
+                                                                    </span><br />
+                                                                    <a
+                                                                        onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>
+                                                                        @{item?.from_user?.username}
+                                                                    </a>
+                                                                </>}
+                                                                description={new Date(item?.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })}
                                                             />
-                                                            {item.content}
+                                                            <div className="custom-list-content">{item?.type == 'post' ? item?.content : item?.other}</div>
+                                                            {item.image ?
+                                                                (<div className="custom-list-content" style={{
+                                                                    marginTop: 10
+                                                                }}>
+                                                                    <Antimage.PreviewGroup>
+                                                                        {item.image.map((item, index) =>
+                                                                            <Antimage loader={myLoader} width={'25%'} src={imgurl + '/' + item} />
+                                                                        )}
+                                                                    </Antimage.PreviewGroup>
+                                                                </div>) : ''}
                                                         </Skeleton>
-
                                                     </List.Item>
                                                 )}
                                             />
@@ -326,6 +405,11 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
                                                             <Antimage loader={myLoader} width={'25%'} src={imgurl + '/' + image} />
                                                         )}
                                                     </Antimage.PreviewGroup>
+                                                </div>
+                                                <div className="row">
+                                                    <Divider orientation="center" plain>
+                                                        <Button onClick={() => window.open(baseUrl + '/user/' + view_user_id + '/allphotos', '_blank')} type="link">View All Photos</Button>
+                                                    </Divider>
                                                 </div>
                                             </div>
                                         </div>
@@ -426,14 +510,17 @@ const profileActivity = ({ ongetActivity, onpostThink, activityInfo }) => {
 };
 
 
-const mapStateToProps = ({ profile }) => {
+const mapStateToProps = ({ profile, user }) => {
     return {
-        activityInfo: profile.activityInfo
+        activityInfo: profile.activityInfo,
+        myfollowerList: user.myFollowers.followers
     };
 };
 
 const mapDispatchToProps = dispatch => ({
     onpostThink: (data, cb) => dispatch(postThink(data, cb)),
+    onrecommendPost: (id, cb) => dispatch(recommendPost(id, cb)),
     ongetActivity: (data, count, search, cb) => dispatch(getActivity(data, count, search, cb)),
+    ongetmyFollowers: () => dispatch(getmyFollowers()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(profileActivity);

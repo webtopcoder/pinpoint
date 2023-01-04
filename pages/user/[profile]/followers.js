@@ -6,9 +6,8 @@ import ProfileFollowers from "@/components/User/Profile/profileFollowers";
 import { getFollowers } from '@/redux/Profile/actions';
 import Layout from '../../../layout';
 import { connect } from 'react-redux';
-import { useRouter } from 'next/router'
 
-const Followers = ({ ongetFollowers, followersInfo }) => {
+const Followers = ({ followersInfo }) => {
 
 	return (
 		<>

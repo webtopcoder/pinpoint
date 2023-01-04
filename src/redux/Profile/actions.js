@@ -15,7 +15,10 @@ import {
     HEADER_GET_SUCCESS,
     POST_FOLLOWER_SUCCESS,
     GET_FOLLOWERS_LIST_SUCCESS,
-    UN_FRIEND_SUCCESS
+    UN_FRIEND_SUCCESS,
+    GET_SHOOT_OUT_SUCCESS,
+    POST_LIKE_SUCCESS,
+    GET_ALL_PHOTOS_SUCCESS
 
 } from './types';
 import api from '@/utils/callApi'
@@ -50,6 +53,21 @@ export function getActivity(id, count, search, cb) {
 
             dispatch({
                 type: USER_ACTIVITY_SUCCESS,
+                payload: res,
+            });
+
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
+export function getShoutout(id, count, search, cb) {
+
+    return dispatch => api(`profile/shootout/${id}?page=${count}&search=${search}`, 'get').then(
+        res => {
+            dispatch({
+                type: GET_SHOOT_OUT_SUCCESS,
                 payload: res,
             });
 
@@ -196,6 +214,20 @@ export function postThink(info, cb) {
         })
 }
 
+export function recommendPost(id, cb) {
+    return dispatch => api(`profile/like/${id}`, 'put').then(
+
+        res => {
+            dispatch({
+                type: POST_LIKE_SUCCESS,
+                payload: res,
+            });
+            cb(res);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
 export function getHeader(id) {
     return dispatch => api(`profile/header/${id}`, 'get').then(
         res => {
@@ -208,17 +240,18 @@ export function getHeader(id) {
         })
 }
 
-// export function getFollowers(id) {
-//     return dispatch => api(`profile/follower/${id}`, 'get').then(
-//         res => {
-//             dispatch({
-//                 type: HEADER_GET_SUCCESS,
-//                 payload: res,
-//             });
-//         }).catch(error => {
-//             console.log(error);
-//         })
-// }
+export function getAllphotos(id, paginationInfo) {
+    console.log(paginationInfo)
+    return dispatch => api(`profile/image/all/${id}?page=${paginationInfo.pagination.current}&pageSize=${paginationInfo.pagination.pageSize}`, 'get').then(
+        res => {
+            dispatch({
+                type: GET_ALL_PHOTOS_SUCCESS,
+                payload: res,
+            });
+        }).catch(error => {
+            console.log(error);
+        })
+}
 
 export function postFollower(id, cb) {
     return dispatch => api(`profile/follow/${id}`, 'post').then(

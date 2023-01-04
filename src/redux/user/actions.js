@@ -8,6 +8,7 @@ import {
     CATEGORY_GET_REQUEST,
     CATEGORY_GET_SUCCESS,
     SUB_CATEGORY_GET_SUCCESS,
+    GET_MYFOLLOWER_SUCCESS,
     LOGOUT,
 } from './types';
 import api from '@/utils/callApi'
@@ -72,6 +73,16 @@ export function getsubCategory(categoryID, cb) {
                 payload: res,
             });
             cb(res);
+        })
+}
+
+export function getmyFollowers() {
+    return dispatch => api(`base/followers`, 'get').then(
+        res => {
+            dispatch({
+                type: GET_MYFOLLOWER_SUCCESS,
+                payload: res,
+            });
         })
 }
 

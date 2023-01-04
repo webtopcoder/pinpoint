@@ -312,7 +312,6 @@
 }
 
 .avatar-area .avatar-body {
-    border-bottom: 1px dashed #eeeeee;
     color: var(--blackColor);
     padding-bottom: 20px;
     margin-bottom: 20px;
@@ -837,13 +836,17 @@ h4 {
     width: 70%;
 }
 
-.page-interactive-area .shout-area .shout-body .shout-metadata span {
-    color: var(--whiteColor);
+.page-interactive-area .shout-area .shout-body .shout-metadata p {
+    margin-bottom: 0;
 }
 
 .page-interactive-area .shout-area .shout-button-group {
     text-align: center;
     width: 23%;
+}
+
+.page-interactive-area .shout-area .shout-button-group .ant-select-multiple {
+    text-align: left;
 }
 
 .page-interactive-area .shout-area .shout-end-group {
@@ -916,7 +919,6 @@ h4 {
     color: #14a3fc;
     font-size: 13px;
     font-weight: 600;
-    text-transform: capitalize;
 }
 
 .thread-count {
@@ -1080,7 +1082,7 @@ h4 {
     display: inline-block;
 }
 
-.ant-list-item-action{
+.ant-list-item-action {
     text-align: right;
 }
 
@@ -1100,15 +1102,95 @@ h4 {
 
 
 #floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: "Roboto", "sans-serif";
-  line-height: 30px;
-  padding-left: 10px;
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: "Roboto", "sans-serif";
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+.ant-list-item-meta-title {
+    margin-block-end: 4px;
+}
+
+.ant-list-lg .ant-list-item {
+    padding: 23px 24px !important;
+}
+
+.custom-list-content {
+    margin-inline-start: 30px;
+    font-size: 15px;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.avatar-sm {
+    height: 150px;
+    width: 150px;
+}
+
+.rounded-circle {
+    border-radius: 50%;
+}
+
+.me-3 {
+    margin-right: 1rem;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.font-size-14 {
+    font-size: 14px !important;
+}
+
+.mt-1 {
+    margin-top: 0.25rem !important;
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #74788d !important;
+    color: var(--bs-gray-600) !important;
+}
+
+.custom-userName {
+    font-size: 20px;
+    color: var(--blueColor);
+}
+
+.custom-shoutout-text {
+    font-weight: 500;
+}
+
+.custom-touser-text:hover {
+    color: var(--blueColor) !important
+}
+
+.ant-slider-rail {
+    background-color: rgb(255 255 255 / 61%) !important;
+}
+
+.pending_email{
+    color: var(--blueColor);
+    font-weight: bold;
+}
+
+.all-photos{
+    font-size: 30px;
+    color: var(--blueColor);
+    font-weight: bold;
 }

@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import { useRouter } from 'next/router';
 import logo from "@/public/images/logo.png";
 
 const FooterNine = () => {
+
+  const router = useRouter();
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    setToken(sessionStorage.getItem('token'));
+  }, []);
+  const handlePageRender = (page) => {
+    if (token) {
+      router.push(page);
+    } else {
+      notify("error", "Please login")
+    }
+  }
+
   const currentYear = new Date().getFullYear();
   return (
     <div className="template-footer-nine">
@@ -94,7 +109,7 @@ const FooterNine = () => {
           </div>
           <div className="col-lg-4 col-md-6 col-sm-8">
             <div className="single-footer-widget">
-              <button type="submit" className="btn-style-one red-light-color view-map-button">
+              <button onClick={() => handlePageRender('/user/map/interactive-map')} className="btn-style-one red-light-color view-map-button">
                 View Map<i className="bx bx-chevron-right"></i>
               </button>
             </div>

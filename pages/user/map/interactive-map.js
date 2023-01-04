@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux';
 import PageTitle from "@/components/Layout/PageTitle";
-import { Col, InputNumber, Row, Slider, Button, Tooltip, Space } from 'antd';
+import { Col, InputNumber, Row, Slider, Button, Tooltip, Cascader, Select } from 'antd';
 import { FullscreenOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
@@ -9,6 +9,14 @@ import Layout from '../../../layout';
 import config from '@/utils/config';
 import { getCategory } from '@/redux/User/actions';
 import { getsubCategory } from '@/redux/User/actions';
+
+const categoryOptions = [];
+for (let i = 10; i < 36; i++) {
+  categoryOptions.push({
+    value: i.toString(36) + i,
+    label: i.toString(36) + i,
+  });
+}
 
 var cityCircle = null;
 var map;
@@ -39,8 +47,16 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
 
     if (e.target.name == "category") {
       onsubgetCateogry(e.target.value, res => {
+        const subarr = [];
+        res.subcategories?.map((item, index) => {
+          const subitem = {
+            value: item.content,
+            label: item.content,
+          }
+          subarr.push(subitem);
+        })
+        setSubcategoryList(subarr);
 
-        setSubcategoryList(res.subcategories);
       });
     }
 
@@ -59,24 +75,116 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
   const [position, setPosition] = useState({
     lat: 37.553326,
     lng: -94.8110983
-  })
+  });
+  let markers = [];
+
+  function setMapOnAll() {
+    // console.log(markers)
+    for (let i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+  }
+
+  // Removes the markers from the map, but keeps them in the array.
+  function hideMarkers() {
+    // console.log('hide')
+    setMapOnAll();
+  }
   const [inputValue, setInputValue] = useState(5);
   const onChange = (newValue) => {
     setInputValue(newValue);
     cityCircle.setRadius(newValue * 1000 * 1.6)
   };
 
+  function createCenterControl(map) {
+
+    const controlButton = document.createElement("button");
+
+    // Set CSS for the control.
+    controlButton.style.backgroundColor = "#fff";
+    controlButton.style.border = "2px solid #fff";
+    controlButton.style.borderRadius = "3px";
+    controlButton.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+    controlButton.style.color = "rgb(25,25,25)";
+    controlButton.style.cursor = "pointer";
+    controlButton.style.fontFamily = "Roboto,Arial,sans-serif";
+    controlButton.style.fontSize = "16px";
+    controlButton.style.lineHeight = "38px";
+    controlButton.style.margin = "8px 0 22px";
+    controlButton.style.padding = "0 5px";
+    controlButton.style.textAlign = "center";
+    controlButton.textContent = "Show All Active";
+    controlButton.title = "Click to recenter the map";
+    controlButton.type = "button";
+    // Setup the click event listeners: simply set the map to Chicago.
+
+    controlButton.addEventListener("click", () => {
+
+
+
+      controlButton.textContent === "Show All Active" ? controlButton.textContent = "Hide All Active" : controlButton.textContent = "Show All Active"
+      if (controlButton.textContent === "Hide All Active") {
+        for (var i = 0; i < pinpoint.length; i++) {
+
+          const marker = new google.maps.Marker({
+            position: pinpoint[i].position,
+            icon: {
+              url: faviconUrl + 'favicon.png',
+              scaledSize: new google.maps.Size(30, 50), // scaled size
+              origin: new google.maps.Point(0, 0), // origin
+              anchor: new google.maps.Point(0, 0) // anchor
+            },
+
+            map: map,
+          });
+
+          markers.push(marker);
+
+          const infowindow = new google.maps.InfoWindow({
+            content: pinpoint[i].content,
+            ariaLabel: "Food Truck",
+          });
+          marker.addListener("mouseover", () => {
+            infowindow.open({
+              anchor: marker,
+              map,
+            });
+          });
+          marker.addListener("mouseout", () => {
+            infowindow.close();
+          });
+
+        }
+      }
+      else {
+        hideMarkers();
+      }
+    });
+    return controlButton;
+  }
+
+
   useEffect(() => {
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
         console.log(error)
       });
+
     }
     initMap();
 
   }, [position]);
 
 
+  const getResult = () => {
+    function initMap() {
+      window.navigator.geolocation.getCurrentPosition(success, (error) => {
+        console.log(error)
+      });
+
+    }
+    initMap();
+  }
   function success(pos) {
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
@@ -90,6 +198,15 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       }
     });
 
+
+    const centerControlDiv = document.createElement("div");
+    // Create the control.
+    const centerControl = createCenterControl(map);
+
+    // Append the control to the DIV.
+    centerControlDiv.appendChild(centerControl);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv)
+
     cityCircle = new google.maps.Circle({
       strokeColor: "#276f85",
       strokeOpacity: 0.8,
@@ -101,7 +218,11 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       radius: inputValue * 1000 * 1.6,
     });
 
-    let gmarkers = [];
+    new google.maps.Marker({
+      position: position,
+      map,
+      title: "Hello World!",
+    });
 
     for (var i = 0; i < pinpoint.length; i++) {
       var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
@@ -123,8 +244,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           map: map,
         });
 
-        gmarkers.push(marker);
-
         const infowindow = new google.maps.InfoWindow({
           content: pinpoint[i].content,
           ariaLabel: "Food Truck",
@@ -142,12 +261,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     }
 
 
-    function setMapOnAll(map) {
-      for (let i = 0; i < gmarkers.length; i++) {
-        gmarkers[i].setMap(map);
-      }
-    }
-
     function showMarkers() {
       setMapOnAll(map);
     }
@@ -155,7 +268,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     map.addListener("click", (e) => {
 
       // setMapOnAll(null);
-      // gmarkers = [];
       map.setZoom(11);
       console.log(e.latLng.toJSON());
       // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
@@ -359,24 +471,32 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
 
               </div>
               <div className="shout-metadata">
-                <span>Search Radius:</span>
+                <p>Search Radius:</p>
                 <Row>
-                  <Col span={20}>
+                  <Col span={21}>
                     <Slider
                       tooltip={{
                         formatter
                       }}
+
+                      trackStyle={{
+                        background: '#175594',
+                      }}
+                      handleStyle={{
+                        background: 'white'
+                      }}
                       min={1}
-                      max={300}
+                      max={15}
                       onChange={onChange}
                       value={typeof inputValue === 'number' ? inputValue : 0}
                     />
                   </Col>
-                  <Col span={4}>
+                  <Col span={3}>
                     <InputNumber
                       min={1}
-                      max={20}
+                      max={15}
                       style={{
+                        width: 60,
                         margin: '0 16px',
                       }}
                       value={inputValue}
@@ -403,23 +523,22 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                     </select>
                   </div>
                   <div className="form-group">
-                    <select
-                      value={form.subcategory}
-                      onChange={onUpdateField}
-                      name="subcategory"
-                      className="form-control"
-                    >
-                      <option value="0">Select SubCategory</option>
-                      {subcategoryList && subcategoryList.map((option, index) =>
-                        <option key={index} value={option._id}>{option.content}</option>
-                      )}
-                    </select>
+                    <Select
+                      mode="multiple"
+                      allowClear
+                      style={{
+                        width: '100%',
+                      }}
+                      placeholder="Select SubCategory"
+                      options={subcategoryList}
+                    />
+                   
                   </div>
                   <div className="form-group">
                     <div className="pin-post-footer-section">
                       <div className="pin-edit-button-section">
                         <button
-                          type="submit"
+                          onClick={getResult}
                           className="btn-style-one red-light-color"
                         >
                           Pinpoint

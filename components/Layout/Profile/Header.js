@@ -43,6 +43,30 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="avatar-area green-color">
+                        {/* <div class="d-flex mb-4">
+                            {headerInfo?.profile?.avatar ?
+                                <img
+                                    class="d-flex me-3 rounded-circle avatar-sm"
+                                    src={avatarurl + '/' + headerInfo?.profile?.avatar}
+                                    alt="skote">
+                                </img> :
+                                <img
+                                    class="d-flex me-3 rounded-circle avatar-sm"
+                                    src={binavatar}
+                                    alt="skote">
+                                </img>}
+                            <div className="flex-grow-1">
+                                <h5 className="font-size-14 mt-1">{headerInfo?.profile?.fullname}</h5>
+                                <small className="text-muted">@{headerInfo && <b className="fn">{headerInfo?.profile?.username}</b>}</small>
+
+                            </div>
+                            <div className="flex-grow-1">
+                                <button type="submit" className="btn-style-one avatar-message-button">
+                                    Message<i className="bx bx-envelope avatar-icon"></i>
+                                </button>
+                            </div>
+
+                        </div> */}
                         <div className="avatar-body">
                             <div className="avatar-author vcard">
                                 <div className="avatar">
@@ -62,7 +86,9 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
                                         />}
 
                                 </div>
-                                {headerInfo && <b className="fn">{headerInfo?.profile?.fullname}</b>}
+                                {headerInfo && <b style={{
+                                    fontSize: 30
+                                }} className="fn">{headerInfo?.profile?.fullname}</b>}
                             </div>
                             <div className="avatar-metadata">
                                 <span>
@@ -131,7 +157,7 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
 
 const mapStateToProps = ({ profile }) => {
     return {
-        headerInfo: profile.headerInfo
+        headerInfo: profile.headerInfo,
     };
 };
 

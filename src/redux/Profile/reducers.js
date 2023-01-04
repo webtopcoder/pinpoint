@@ -10,7 +10,10 @@ import {
     USER_AVATAR_UPLOAD_SUCCESS,
     HEADER_GET_SUCCESS,
     POST_FOLLOWER_SUCCESS,
-    GET_FOLLOWERS_LIST_SUCCESS
+    GET_FOLLOWERS_LIST_SUCCESS,
+    GET_SHOOT_OUT_SUCCESS,
+    POST_LIKE_SUCCESS,
+    GET_ALL_PHOTOS_SUCCESS
 } from './types';
 
 
@@ -24,7 +27,9 @@ const initialState = {
         notification: {}
     },
     headerInfo: {},
-    followersInfo: {}
+    followersInfo: {},
+    shoutoutInfo: {},
+    allphotosInfo: []
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -115,6 +120,27 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 followersInfo: action.payload.data
+            };
+        }
+
+        case GET_ALL_PHOTOS_SUCCESS: {
+            return {
+                ...state,
+                allphotosInfo: action.payload.image
+            };
+        }
+
+        case POST_LIKE_SUCCESS: {
+            return {
+                ...state,
+
+            };
+        }
+
+        case GET_SHOOT_OUT_SUCCESS: {
+            return {
+                ...state,
+                shoutoutInfo: action.payload
             };
         }
 

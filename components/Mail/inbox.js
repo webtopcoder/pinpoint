@@ -6,17 +6,27 @@ import {
     Button,
     Space,
     Tooltip,
-    Modal
+    Modal,
+    Dropdown
 } from 'antd'
 import { connect } from 'react-redux';
-import { EyeOutlined, EyeInvisibleOutlined, DeleteFilled } from '@ant-design/icons';
+import { EyeOutlined, EyeInvisibleOutlined, DeleteFilled, DownloadOutlined } from '@ant-design/icons';
 import Image from "next/image";
 import { getInbox } from '@/redux/Mail/actions';
 import { actionInbox } from '@/redux/Mail/actions';
-import bpthumicon from "@/public/images/bpthum.png";
 import toast from "@/components/Toast";
+import config from '@/utils/config';
+import baseUrl from '@/utils/baseUrl';
+
+
 
 const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue, childlistfunc }) => {
+
+    const onMenuClick = (e) => {
+        ondownloadFile(e.key);
+        window.open(attachurl + e.key, '_blank')
+    };
+
     const [open, setOpen] = useState(false);
     const notify = useCallback((type, message) => {
         toast({ type, message });
@@ -24,6 +34,7 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue, childlistfunc 
     const dismiss = useCallback(() => {
         toast.dismiss();
     }, []);
+    const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
     const columnes = [
         {
@@ -38,19 +49,25 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue, childlistfunc 
             render: (_, record) => (
                 <div className='thread-sender'>
                     <div className="thread-avatar">
-                        <Image
-                            src={bpthumicon}
+                        <img
+                            src={avatarurl + '/' + record.from_user.avatar}
                             alt="user"
+                            className='avatar'
+                            width={45}
+                            height={45}
                         />
                     </div>
                     <div className="thread-from">
                         <div className="from">
-                            <a href="https://pinpointfoodtruck.com/members/codydixon/">{
-                                record.inbox[0].from
-                            }
-                                <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-                            </a>
-                            <span className="thread-count">&nbsp;({record.count})</span>
+                            <Tooltip title="View Profile" color={'blue'}>
+                                <a
+                                    onClick={() => window.open(baseUrl + '/user/' + record.from_user.id + '/activity', '_blank')}>@{
+                                        record.from_user.username
+                                    }
+                                    <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
+                                </a>
+                            </Tooltip>
+                            <span className="">&nbsp;({record.count})</span>
                         </div>
                         <span className="activity">last received: {
                             new Date(record.inbox[0].createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })
@@ -138,6 +155,7 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue, childlistfunc 
 
 
     const handleTableChange = (pagination, filters, sorter) => {
+
         setTableParams({
             pagination,
             filters,
@@ -307,22 +325,35 @@ const Inbox = ({ ongetInbox, onactionInbox, childFunc, bulkvalue, childlistfunc 
                     <div id='message-thread'>
                         <div id="thread-message-9" className="message-box odd Inbox-by-2 message-not-starred">
                             <div className="message-metadata">
-                                <Image
-                                    src={bpthumicon}
+                                <img
+                                    src={avatarurl + '/' + record.from_user.avatar}
                                     alt="user"
                                     className='avatar'
-                                    width={45}
-                                    height={45}
+                                    width={100}
+                                    height={100}
                                 />
                                 <div className='message-metadata-head'>
-                                    <a href="https://pinpointfoodtruck.com/members/codydixon/">{record.to}<i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i></a>
+                                    <Tooltip title="View Profile" color={'blue'}>
+                                        <a
+                                            onClick={() => window.open(baseUrl + '/user/' + record.from_user.id + '/activity', '_blank')}>@{record.from_user.username}
+                                            <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
+                                        </a>
+                                    </Tooltip>
                                     <div className="message-meta">
                                         <span className="activity">{new Date(record.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true, minute: '2-digit', second: '2-digit' })}</span>
                                     </div>
+
                                 </div>
                                 <div className="message-star-actions">
-                                    <a className="bp-tooltip message-action-star" href="https://pinpointfoodtruck.com/members/dixoncody5/messages/star/9/b53c97fbaa/"><span className="icon"></span> <span className="bp-screen-reader-text"></span>
-                                    </a>
+                                    {(record.files).length !== 0 ? <Dropdown.Button
+                                        menu={{
+                                            items: record.files.map((item, i) => ({ key: item, label: item })),
+                                            onClick: onMenuClick,
+                                        }}
+                                        icon={<DownloadOutlined />}
+                                    >
+                                        Attached Files
+                                    </Dropdown.Button> : ''}
                                 </div>
                             </div>
                             <div className="message-content">

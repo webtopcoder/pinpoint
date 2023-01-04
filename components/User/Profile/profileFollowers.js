@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Avatar, Button, List, Skeleton, Input } from 'antd';
+import { Avatar, Button, List, Skeleton, Input, Mentions } from 'antd';
 import { UserOutlined, MessageFilled, UserDeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
@@ -174,7 +174,7 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
                                             </Button>
                                             ,
                                             <Button
-                                                onClick={() => window.open(baseUrl + `/mail/inbox?email=${item.from.email}`, '_blank')}
+                                                onClick={() => window.open(baseUrl + `/mail/inbox?email=@${item.from.username}`, '_blank')}
                                                 type="primary"
                                                 icon={<MessageFilled />}
                                                 size={'default'}>
@@ -193,7 +193,7 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
                                                 size={'default'}>
                                                 UnFriend
                                             </Button>,
-                                            ]}
+                                        ]}
                                     >
                                         <Skeleton avatar title={false} loading={item.loading} active>
                                             <List.Item.Meta
