@@ -21,15 +21,18 @@ Global CSS
 	--transition: 0.5s;
 	--fontSize: 17px;
 }
+
 body {
 	margin: 0;
 	padding: 0;
 	color: var(--blackColor);
+
 	font: {
 		size: var(--fontSize);
 		family: var(--fontFamily);
 	}
 }
+
 .h1,
 .h2,
 .h3,
@@ -45,6 +48,7 @@ h6 {
 	color: var(--blackColor);
 	font-weight: 700;
 }
+
 a {
 	transition: var(--transition);
 	color: var(--paragraphColor);
@@ -55,9 +59,11 @@ a {
 		text-decoration: none;
 	}
 }
+
 :focus {
 	outline: 0 !important;
 }
+
 .d-table {
 	width: 100%;
 	height: 100%;
@@ -66,10 +72,12 @@ a {
 		vertical-align: middle;
 	}
 }
+
 img {
 	max-width: 100%;
 	height: auto;
 }
+
 p {
 	color: var(--paragraphColor);
 	font-size: var(--fontSize);
@@ -80,81 +88,104 @@ p {
 		margin-bottom: 0;
 	}
 }
+
 .border-tb {
 	border: 1px solid #eee;
 	display: block;
 }
+
 .ptb-100 {
 	padding: {
 		top: 100px;
 		bottom: 100px;
 	}
 }
+
 .pt-100 {
 	padding-top: 100px;
 }
+
 .pb-100 {
 	padding-bottom: 100px;
 }
+
 .ptb-75 {
 	padding: {
 		top: 75px;
 		bottom: 75px;
 	}
 }
+
 .pt-75 {
 	padding-top: 75px;
 }
+
 .pb-75 {
 	padding-bottom: 75px;
 }
+
 .bg-f9f9f9 {
 	background-color: #f9f9f9;
 }
+
 .bg-1d2b53 {
 	background-color: #1d2b53;
 }
+
 .bg-fff4f8 {
 	background-color: #fff4f8;
 }
+
 .bg-f3feff {
 	background-color: #f3feff;
 }
+
 .bg-fffbfb {
 	background-color: #fffbfb;
 }
+
 .bg-263238 {
 	background-color: #263238;
 }
+
 .bg-e8fcff {
 	background-color: #e8fcff;
 }
+
 .bg-dce1d6 {
 	background-color: #dce1d6;
 }
+
 .nunito-font {
 	font-family: var(--nunitoFontFamily);
 }
+
 .br-bottom-100 {
 	border-radius: 0 0 100px 100px;
 }
+
 .bg-13965f {
 	background-color: var(--greenColor2);
 }
+
 .o-hidden {
 	overflow: hidden;
 }
+
 .bg-fff9ee {
 	background-color: #fff9ee;
 }
+
 .bg-711f7f {
 	background-color: #711f7f;
 }
+
 .mt-minus-40 {
 	z-index: 1;
 	margin-top: -40px;
 	position: relative;
 }
+
 .bg-f1f5fd {
 	position: relative;
 	z-index: 1;
@@ -178,11 +209,13 @@ p {
 	display: inline-block;
 	padding: 12px 45px 12px 30px;
 	transition: var(--transition);
-	border: 1px solid var(--blackColor); 
+	border: 1px solid var(--blackColor);
+
 	font: {
 		size: 16px;
 		weight: 500;
 	}
+
 	i {
 		transform: translateY(-50%);
 		position: absolute;
@@ -190,6 +223,7 @@ p {
 		top: 50%;
 		font-size: 23px;
 	}
+
 	&.red-light-color {
 		background-color: var(--redLightColor);
 		border-color: var(--redLightColor);
@@ -201,6 +235,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.blue-dark-color {
 		background-color: var(--blueDarkColor);
 		border-color: var(--blueDarkColor);
@@ -212,6 +247,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.white-color {
 		background-color: var(--whiteColor);
 		border-color: var(--whiteColor);
@@ -223,6 +259,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.light-green-color {
 		background-color: var(--lightGreenColor);
 		border-color: var(--lightGreenColor);
@@ -234,6 +271,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.dark-green-color {
 		background-color: var(--darkGreenColor);
 		border-color: var(--darkGreenColor);
@@ -245,6 +283,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.crimson-color {
 		background-color: var(--crimsonColor);
 		border-color: var(--crimsonColor);
@@ -256,6 +295,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.green-color {
 		background-color: var(--greenColor);
 		border-color: var(--greenColor);
@@ -267,6 +307,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.orange-color {
 		background-color: var(--orangeColor);
 		border-color: var(--orangeColor);
@@ -278,6 +319,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.green-color2 {
 		background-color: var(--greenColor2);
 		border-color: var(--greenColor2);
@@ -289,6 +331,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.yellow-color {
 		background-color: var(--yellowColor);
 		border-color: var(--yellowColor);
@@ -300,6 +343,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.crimson-light-color {
 		background-color: var(--crimsonLightColor);
 		border-color: var(--crimsonLightColor);
@@ -311,6 +355,7 @@ p {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.purple-color {
 		background-color: var(--purpleColor);
 		border-color: var(--purpleColor);
@@ -328,53 +373,67 @@ p {
 .section-title {
 	text-align: center;
 	max-width: 600px;
+
 	margin: {
 		left: auto;
 		right: auto;
 		bottom: 55px;
 	}
+
 	.sub-title {
 		display: block;
 		margin-bottom: 12px;
 		color: var(--paragraphColor);
+
 		font: {
 			size: 17px;
 			weight: 600;
 		}
+
 		&.light-green-color {
 			color: var(--lightGreenColor);
 		}
+
 		&.dark-green-color {
 			color: var(--darkGreenColor);
 		}
+
 		&.green-color {
 			color: var(--greenColor);
 		}
+
 		&.yellow-color {
 			color: var(--yellowColor);
 		}
+
 		&.purple-color {
 			color: var(--purpleColor);
 		}
 	}
+
 	h2 {
 		font-size: 42px;
 		margin-bottom: 0;
 	}
+
 	p {
 		margin-top: 12px;
 	}
+
 	&.white-color {
 		.sub-title {
 			color: var(--whiteColor);
 		}
+
 		h2 {
 			color: var(--whiteColor);
 		}
 	}
+
 	&.text-start {
 		text-align: start;
 		max-width: 545px;
+
 		margin: {
 			left: 0;
 			right: 0;
@@ -404,34 +463,41 @@ p {
 			display: block;
 			height: 150px;
 			width: 150px;
+
 			margin: {
 				left: auto;
 				right: auto;
 			}
+
 			div {
 				height: 100%;
 			}
 		}
+
 		.loader,
 		.loader div {
 			padding: 8px;
 			border-radius: 50%;
 			border: 2px solid transparent;
 			animation: rotate linear 3.5s infinite;
+
 			border: {
 				top-color: rgba(101, 92, 151, 0.5);
 				bottom-color: var(--redLightColor);
 			}
 		}
+
 		.waviy {
 			margin-top: 20px;
 			position: relative;
 			text-align: center;
 			-webkit-box-reflect: below -47px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+
 			font: {
 				size: 60px;
 				weight: 700;
 			}
+
 			span {
 				position: relative;
 				animation-delay: 0.1s;
@@ -442,36 +508,45 @@ p {
 				&:nth-child(2) {
 					animation-delay: 0.2s;
 				}
+
 				&:nth-child(3) {
 					animation-delay: 0.3s;
 				}
+
 				&:nth-child(4) {
 					animation-delay: 0.4s;
 				}
 			}
 		}
 	}
+
 	&.deactivate {
 		display: none;
 	}
 }
+
 @keyframes rotate {
 	0% {
 		transform: rotate(0deg);
 	}
+
 	50% {
 		transform: rotate(180deg);
 	}
+
 	100% {
 		transform: rotate(360deg);
 	}
 }
+
 @keyframes waviy {
+
 	0%,
 	40%,
 	100% {
 		transform: translateY(0);
 	}
+
 	20% {
 		transform: translateY(-20px);
 	}

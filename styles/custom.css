@@ -558,6 +558,11 @@ h4 {
     padding-top: 140px;
 }
 
+.page-partner-area {
+    background-color: #f8fbff;
+    padding-top: 123px;
+}
+
 .shout-area {
     padding-top: 30px;
     margin-top: 10px;
@@ -1066,7 +1071,7 @@ h4 {
     margin-bottom: 10px !important;
 }
 
-.ant-menu {
+.mail-container .ant-menu {
     height: 280px;
     padding: 16px;
     border-radius: 8px;
@@ -1184,17 +1189,65 @@ h4 {
     background-color: rgb(255 255 255 / 61%) !important;
 }
 
-.pending_email{
+.pending_email {
     color: var(--blueColor);
     font-weight: bold;
 }
 
-.all-photos{
+.all-photos {
     font-size: 30px;
     color: var(--blueColor);
     font-weight: bold;
 }
 
-.ant-input-number-handler-wrap{
+.ant-input-number-handler-wrap {
     opacity: 1 !important;
 }
+
+.ant-layout-sider-trigger {
+    position: absolute !important;
+    background: var(--blackColor) !important;
+}
+
+.ant-layout-sider-children .ant-menu-title-content {
+    color: white !important;
+}
+
+.ant-layout-sider-children .ant-menu-sub {
+    background: var(--graydarkColor) !important;
+}
+
+.ant-layout-sider-children .ant-menu-title-content {
+    margin-inline-start: 20px !important;
+}
+
+.dashboard-card-style {
+    text-align: center;
+    font-size: 50px;
+    color: var(--blueColor);
+    font-weight: 800;
+}
+
+.dashboard-imagebutton {
+    position: relative;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.dashboard-imagebutton:hover{
+    opacity: 0.5;
+}
+
+.dashboard-imagebutton .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .dashboard-modal .ant-modal-content{
+    padding: 20px 24px !important;
+  }

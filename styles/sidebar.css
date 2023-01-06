@@ -46,13 +46,34 @@
     padding-bottom: 15px;
 }
 
+.partner-avatar-left {
+    width: 25%;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+
 .avatar-center {
     width: 40%;
     float: left;
 }
 
+.partner-avatar-center {
+    text-align: center;
+    width: 100%;
+    float: left;
+}
+
 .avatar-right {
     width: 30%;
+    float: left;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.partner-avatar-right {
+    width: 25%;
     float: left;
     text-align: center;
     margin-top: 50px;
@@ -87,6 +108,15 @@
     justify-content: center;
 }
 
+.avatar-vst-profile{
+    display: flex;
+    width: 100%;
+    color: white;
+    font-weight: 700;
+    font-size: 24px;
+    margin-top: 10px;
+    justify-content: center;
+}
 .vst-edit-profile {
     color: var(--redLightColor);
     font-size: 24px;

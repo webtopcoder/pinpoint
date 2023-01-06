@@ -40,10 +40,11 @@ body {
 .ant-menu,
 .ant-table,
 .ant-btn,
+.ant-card-head-title,
 .ant-form-item-required,
 label,
 a,
-span {
+span, h2 {
   font-family: var(--fontFamily) !important;
 }
 
