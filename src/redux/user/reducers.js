@@ -15,6 +15,7 @@ import {
 const token = '';
 const username = '';
 const role = '';
+const usertype = '';
 const user_id = '';
 const avatar = '';
 
@@ -25,6 +26,7 @@ if (typeof window !== 'undefined') {
     role = sessionStorage.getItem('role');
     user_id = sessionStorage.getItem('user_id');
     avatar = sessionStorage.getItem('avatar');
+    usertype = sessionStorage.getItem('usertype');
 }
 
 const initialState = {
@@ -32,6 +34,7 @@ const initialState = {
     username: username,
     user_id: user_id,
     role: role,
+    usertype: usertype,
     avatar: avatar,
     loading: false,
     status: false,
@@ -52,6 +55,7 @@ const userReducer = (state = initialState, action) => {
             sessionStorage.setItem('role', action.payload.role);
             sessionStorage.setItem('username', action.payload.username);
             sessionStorage.setItem('user_id', action.payload.id);
+            sessionStorage.setItem('usertype', action.payload.usertype);
             sessionStorage.setItem('avatar', action.payload.avatar ? action.payload.avatar : '');
             return {
                 ...state,
@@ -59,6 +63,7 @@ const userReducer = (state = initialState, action) => {
                 role: action.payload.role,
                 username: action.payload.username,
                 user_id: action.payload.id,
+                usertype: action.payload.usertype,
                 avatar: action.payload.avatar
             };
         }
@@ -106,6 +111,7 @@ const userReducer = (state = initialState, action) => {
             sessionStorage.removeItem('username');
             sessionStorage.removeItem('avatar');
             sessionStorage.removeItem('user_id');
+            sessionStorage.removeItem('usertype');
             return {
                 ...state,
                 token: null,

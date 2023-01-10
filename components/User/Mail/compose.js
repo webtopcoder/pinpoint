@@ -1,11 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { UploadOutlined } from '@ant-design/icons';
-import { Row, Card, Col, Form, Upload, Button, message, Mentions } from 'antd';
+import { Row, Card, Col, Form, Upload, Button, message, Mentions, Input, Select } from 'antd';
 import { mailCompose } from '@/redux/Mail/actions';
 import { getmyFollowers } from '@/redux/User/actions';
 import { useRouter } from 'next/router';
 import toast from "@/components/Toast";
+
+const { TextArea } = Input;
+
+
 
 const Compose = ({ ongetmyFollowers, onmailCompose, emailID, myfollowerList }) => {
 
@@ -14,6 +18,15 @@ const Compose = ({ ongetmyFollowers, onmailCompose, emailID, myfollowerList }) =
     const router = useRouter();
 
     const [prefix, setPrefix] = useState('@');
+
+    const options = [];
+
+    myfollowerList?.[0]?.[prefix].map((list, index) =>
+        options.push({
+            value: list,
+            label: list,
+        })
+    );
 
     useEffect(() => {
         if (emailID) {
@@ -45,8 +58,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, emailID, myfollowerList }) =
             form_data.append('files', file.originFileObj)
         )
 
-        const to_users = ((values.name).replace(/[^a-zA-Z0-9-. ]/g, "")).split(' ');
-        form_data.append('to', to_users);
+        form_data.append('to', values.name);
         form_data.append('subject', values.subject);
         form_data.append('message', values.message);
 
@@ -95,10 +107,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, emailID, myfollowerList }) =
                                     required: true,
                                     message: 'Please input your Username!'
                                 },
-                                {
-                                    whitespace: true,
-                                    message: 'Please input your Username!'
-                                }
+
                             ]}>
                             {/* {emailID ?
                                 <Input disabled={true} style={{
@@ -110,45 +119,29 @@ const Compose = ({ ongetmyFollowers, onmailCompose, emailID, myfollowerList }) =
                             } */}
 
                             {emailID ?
-                                <Mentions
+                                <Input
                                     style={{
                                         width: '50%',
                                     }}
                                     disabled={true}
                                     placeholder="input @ to mention people"
-                                    prefix={['@']}
-                                    options={(myfollowerList && myfollowerList[0][prefix] || []).map((value) => ({
-                                        key: value,
-                                        value,
-                                        label: value,
-                                    }))}
                                 />
-                                : <Mentions
+                                : <Select
+                                    mode="multiple"
+                                    size='middle'
+                                    placeholder="Please select Users"
                                     style={{
                                         width: '50%',
                                     }}
-                                    placeholder="input @ to mention user"
-                                    prefix={['@']}
-                                    options={(myfollowerList && myfollowerList[0][prefix] || []).map((value) => ({
-                                        key: value,
-                                        value,
-                                        label: value,
-                                    }))}
+                                    options={options}
                                 />
                             }
                         </Form.Item>
                         <Form.Item name="subject" label="Subject">
-                            <Mentions
+                            <Input
                                 style={{
                                     width: '50%',
                                 }}
-                                placeholder="input @ to mention user"
-                                prefix={['@']}
-                                options={(myfollowerList && myfollowerList[0][prefix] || []).map((value) => ({
-                                    key: value,
-                                    value,
-                                    label: value,
-                                }))}
                             />
                         </Form.Item>
                         <Form.Item
@@ -164,19 +157,9 @@ const Compose = ({ ongetmyFollowers, onmailCompose, emailID, myfollowerList }) =
                                     message: 'Please input Message!'
                                 }
                             ]}>
-                            <Mentions
-                                rows={3}
-                                style={{
-                                    width: '100%',
-                                }}
-                                placeholder="input @ to mention user"
-                                prefix={['@']}
-                                options={(myfollowerList && myfollowerList[0][prefix] || []).map((value) => ({
-                                    key: value,
-                                    value,
-                                    label: value,
-                                }))}
-                            />
+
+                            <TextArea rows={4} />
+
                         </Form.Item>
                         <Form.Item name="fileupload">
                             <Row>

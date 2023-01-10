@@ -1,6 +1,7 @@
 import { React, useState, useCallback } from "react";
 import { connect } from 'react-redux';
 import Link from 'next/link';
+import { useRouter } from "next/router";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "../validate.module.css";
@@ -23,6 +24,7 @@ const partnerLogin = ({ onLoginUser }) => {
 		userInfo: "",
 		password: "",
 	});
+	const router = useRouter();
 
 	const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
 
@@ -47,7 +49,10 @@ const partnerLogin = ({ onLoginUser }) => {
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
 		onLoginUser(form, res => {
-			res.success? notify("success", res.msg): notify("error", res.msg)
+			res.success ? notify("success", res.msg) : notify("error", res.msg)
+			if (res.success) {
+				router.push('/partner/dashboard');
+			}
 		});
 	};
 

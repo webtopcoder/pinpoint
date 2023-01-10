@@ -1019,7 +1019,6 @@ h4 {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    text-transform: capitalize;
 }
 
 #message-thread .message-metadata .activity {
@@ -1071,7 +1070,7 @@ h4 {
     margin-bottom: 10px !important;
 }
 
-.mail-container .ant-menu {
+.user-message-menu {
     height: 280px;
     padding: 16px;
     border-radius: 8px;
@@ -1228,6 +1227,20 @@ h4 {
     font-weight: 800;
 }
 
+.dashboard-card-quickpost-style {
+    text-align: center;
+    font-size: 50px;
+    color: var(--blueColor);
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.dashboard-card-quickpost-style:hover {
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+
 .dashboard-imagebutton {
     position: relative;
     text-align: center;
@@ -1235,7 +1248,8 @@ h4 {
     cursor: pointer;
 }
 
-.dashboard-imagebutton:hover{
+.dashboard-imagebutton:hover {
+    transition: 0.5s;
     opacity: 0.5;
 }
 
@@ -1246,8 +1260,13 @@ h4 {
     transform: translate(-50%, -50%);
     font-weight: 600;
     font-size: 20px;
-  }
+}
 
-  .dashboard-modal .ant-modal-content{
+.dashboard-modal .ant-modal-content {
     padding: 20px 24px !important;
-  }
+}
+
+.partner-message-menu {
+    padding: 5px;
+    border-radius: 5px;
+}

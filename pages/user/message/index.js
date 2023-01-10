@@ -3,25 +3,25 @@ import { InboxOutlined, SendOutlined, FormOutlined, UploadOutlined } from '@ant-
 import { Avatar, Menu, Row, Col, Select, Button } from 'antd';
 import PageTitle from "@/components/Layout/PageTitle";
 import useSWR from "swr";
-import MailInbox from "@/components/Mail/inbox";
-import MailSent from "@/components/Mail/sent";
-import MailCompose from "@/components/Mail/compose";
-import MailSendInvite from "@/components/Mail/sent_invite";
-import MailPendingInvite from "@/components/Mail/pending_invite";
-import Layout from '../../layout';
-import {useRouter} from "next/router";
+import MailInbox from "@/components/User/Mail/inbox";
+import MailSent from "@/components/User/Mail/sent";
+import MailCompose from "@/components/User/Mail/compose";
+import MailSendInvite from "@/components/User/Mail/sent_invite";
+import MailPendingInvite from "@/components/User/Mail/pending_invite";
+import Layout from '../../../layout';
+import { useRouter } from "next/router";
 
 // export function useAuthSession() {
-    
+
 //     const { data: user } = useSWR("api/session");
-    
+
 //     useEffect(() => {
 //       if (!user) Router.push("/");
 //     }, [user]);
 //     return user;
 //   }
 
-const Inbox = () => {
+const Index = () => {
 
 
     const router = useRouter();
@@ -106,7 +106,7 @@ const Inbox = () => {
 
     useEffect(() => console.log("re-render because x changed:", bulkoptionValue), [bulkoptionValue])
 
-        
+
     const [tab, setTab] = useState('inbox');
     const onClickTab = e => setTab(e.key);
     return (
@@ -162,6 +162,7 @@ const Inbox = () => {
                         <Row justify="space-around" vgutter={8}>
                             <Col span={6}>
                                 <Menu
+                                    className="user-message-menu"
                                     selectedKeys={[tab]}
                                     mode="inline"
                                     items={items}
@@ -173,7 +174,7 @@ const Inbox = () => {
                                 <div className="mail-content">
                                     {tab === 'inbox' && <MailInbox childlistfunc={setCheckList} childFunc={childFunc} bulkvalue={bulkoptionValue} />}
                                     {tab === 'sent' && <MailSent childlistfunc={setCheckList} childFunc={childFunc} bulkvalue={bulkoptionValue} />}
-                                    {tab === 'compose' && <MailCompose emailID={router.query.email}/>}
+                                    {tab === 'compose' && <MailCompose emailID={router.query.email} />}
                                     {tab === 'send_invites' && <MailSendInvite />}
                                     {tab === 'pending_invites' && <MailPendingInvite />}
                                 </div>
@@ -189,8 +190,8 @@ const Inbox = () => {
     );
 };
 
-Inbox.getLayout = function getLayout(page) {
+Index.getLayout = function getLayout(page) {
     return <Layout>{page}</Layout>
 }
 
-export default Inbox;
+export default Index;

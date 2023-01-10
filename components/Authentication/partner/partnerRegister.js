@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useRef } from "react";
+import { React, useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import { connect } from 'react-redux';
 import Link from 'next/link';
@@ -8,8 +8,20 @@ import styles from "../validate.module.css";
 import { useRegisterFormValidator } from "./hooks/partner-Register-validator";
 import { registerUser } from '@/redux/User/actions';
 import { getCategory } from '@/redux/User/actions';
+import toast from "@/components/Toast";
 
 const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
+
+	const itemLocality = '';
+	const itemAddress = '';
+	const itemState = '';
+	const notify = useCallback((type, message) => {
+		toast({ type, message });
+	}, []);
+
+	const dismiss = useCallback(() => {
+		toast.dismiss();
+	}, []);
 
 	const autoCompleteRef = useRef();
 	const inputRef = useRef();
@@ -38,6 +50,12 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 
 	});
 
+	const [addressForm, setaddressForm] = useState({
+		address: "",
+		city: "",
+		state: "",
+	});
+
 	useEffect(() => {
 
 		autoCompleteRef.current = new window.google.maps.places.Autocomplete(
@@ -46,10 +64,10 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 		);
 
 		autoCompleteRef.current.addListener("place_changed", async function () {
-			const place = await autoCompleteRef.current.getPlace();
 
-			const itemLocality = '';
-			const itemState = '';
+			const place = await autoCompleteRef.current.getPlace();
+			itemAddress = place.formatted_address;
+
 
 			place.address_components.map((address_component, i) => {
 
@@ -61,43 +79,71 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 			}
 			)
 
-			setForm({
-				...form,
+			setaddressForm({
+				...addressForm,
 				address: place.formatted_address,
 				state: itemState,
 				city: itemLocality
 			})
 		});
 		ongetCateogry();
+
 	}, [])
 
-	const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
+
+	const { errors, validateForm, onBlurField } = useRegisterFormValidator(form, addressForm);
 
 	const onUpdateField = e => {
 
 		const field = e.target.name;
-		const nextFormState = {
-			...form,
-			[field]: e.target.value,
-		};
+		if (field == 'address') {
+			const nextFormState = {
+				...addressForm,
+				[field]: e.target.value,
+			};
 
-		setForm(nextFormState);
+			setaddressForm(nextFormState);
+			if (errors[field].dirty)
+				validateForm({
+					addressForm: nextFormState,
+					form: form,
+					errors,
+					field,
+				});
+		}
 
-		if (errors[field].dirty)
-			validateForm({
-				form: nextFormState,
-				errors,
-				field,
-			});
+		else {
+			const nextFormState = {
+				...form,
+				[field]: e.target.value,
+			};
+
+			setForm(nextFormState);
+			if (errors[field].dirty)
+				validateForm({
+					form: nextFormState,
+					addressForm: addressForm,
+					errors,
+					field,
+				});
+		}
 	};
 
 	const onSubmitForm = e => {
 
 		e.preventDefault();
-		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
+		form = {
+			...form,
+			address: addressForm.address,
+			city: addressForm.city,
+			state: addressForm.state
+		}
+		const { isValid } = validateForm({ form, addressForm, errors, forceTouchErrors: true });
 		if (!isValid) return;
 
 		onRegisterUser(form, res => {
+			res.success ? notify("success", res.msg) : notify("error", res.msg)
+
 			if (res.success) {
 				localStorage.setItem('thankyou_id', 'Partner');
 				router.push('/authentication/thank-you')
@@ -178,7 +224,7 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										type="text"
 										className="form-control"
 										name="address"
-										value={form.address}
+										value={addressForm.address}
 										onChange={onUpdateField}
 										onBlur={onBlurField}
 										placeholder="address"
@@ -195,16 +241,13 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 									<label className="authen-text-attr">State *</label>
 									<input
 										name="state"
-										value={form.state}
+										value={addressForm.state}
 										onChange={onUpdateField}
-										onBlur={onBlurField}
 										className="form-control"
 										disabled
 										placeholder="State:"
 									/>
-									{errors.state.dirty && errors.state.error ? (
-										<p className={styles.formFieldErrorMessage}>{errors.state.message}</p>
-									) : null}
+
 								</div>
 							</div>
 							<div className="col-lg-6 col-md-6">
@@ -212,16 +255,13 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 									<label className="authen-text-attr">City *</label>
 									<input
 										name="city"
-										value={form.city}
+										value={addressForm.city}
 										onChange={onUpdateField}
-										onBlur={onBlurField}
 										className="form-control"
 										disabled
 										placeholder="Ctate:"
 									/>
-									{errors.city.dirty && errors.city.error ? (
-										<p className={styles.formFieldErrorMessage}>{errors.city.message}</p>
-									) : null}
+
 								</div>
 							</div>
 							<div className="col-lg-12 col-md-12">
@@ -236,7 +276,7 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 									>
 										<option value="0">Select Category</option>
 										{categoryInfo.map((option, index) =>
-											<option key={index} value={option.content.value}>{option.content.label}</option>
+											<option key={index} value={option._id}>{option.content}</option>
 										)}
 									</select>
 									{errors.category.dirty && errors.category.error ? (

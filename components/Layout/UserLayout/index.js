@@ -12,6 +12,7 @@ const UserLayout = ({ children }) => {
   const onToggle = () => {
     setVisible(!visible);
   }
+  
   const hideRightbar = event => {
     var rightbar = document.getElementById("right-sidebar");
     //if clicked in inside right bar, then do nothing
@@ -23,9 +24,12 @@ const UserLayout = ({ children }) => {
     }
   }
   useEffect(() => {
+   
     setVisible(false);
     document.getElementById('__next').addEventListener("click", hideRightbar, true);
+
   }, [router.pathname]);
+  
   useEffect(() => {
     
   }, []);
