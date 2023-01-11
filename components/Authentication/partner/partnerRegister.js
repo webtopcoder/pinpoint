@@ -60,7 +60,7 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 
 		autoCompleteRef.current = new window.google.maps.places.Autocomplete(
 			inputRef.current,
-			options
+			options, 
 		);
 
 		autoCompleteRef.current.addListener("place_changed", async function () {
@@ -176,7 +176,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										value={form.userName}
 										onChange={onUpdateField}
 										onBlur={onBlurField}
-										placeholder="Business Legal Name:"
 									/>
 									{errors.userName.dirty && errors.userName.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.userName.message}</p>
@@ -193,7 +192,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										value={form.firstName}
 										onChange={onUpdateField}
 										onBlur={onBlurField}
-										placeholder="Owner First Name"
 									/>
 									{errors.firstName.dirty && errors.firstName.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.firstName.message}</p>
@@ -210,7 +208,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										value={form.lastName}
 										onChange={onUpdateField}
 										onBlur={onBlurField}
-										placeholder="Owner Last Name:"
 									/>
 									{errors.lastName.dirty && errors.lastName.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.lastName.message}</p>
@@ -227,8 +224,9 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										value={addressForm.address}
 										onChange={onUpdateField}
 										onBlur={onBlurField}
-										placeholder="address"
 										ref={inputRef}
+										placeholder=""
+
 									/>
 									{errors.address.dirty && errors.address.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.address.message}</p>
@@ -245,7 +243,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										onChange={onUpdateField}
 										className="form-control"
 										disabled
-										placeholder="State:"
 									/>
 
 								</div>
@@ -259,7 +256,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										onChange={onUpdateField}
 										className="form-control"
 										disabled
-										placeholder="Ctate:"
 									/>
 
 								</div>
@@ -294,7 +290,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										onChange={onUpdateField}
 										onBlur={onBlurField}
 										className="form-control"
-										placeholder="Email:"
 									/>
 									{errors.email.dirty && errors.email.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.email.message}</p>
@@ -311,7 +306,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										onChange={onUpdateField}
 										onBlur={onBlurField}
 										className="form-control"
-										placeholder="Password"
 									/>
 									{errors.password.dirty && errors.password.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.password.message}</p>
@@ -328,7 +322,6 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 										value={form.confirmPassword}
 										onChange={onUpdateField}
 										onBlur={onBlurField}
-										placeholder="Confirm Password"
 									/>
 									{errors.confirmPassword.dirty && errors.confirmPassword.error ? (
 										<p className={styles.formFieldErrorMessage}>{errors.confirmPassword.message}</p>

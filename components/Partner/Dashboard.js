@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from 'react-redux';
 import { Layout, Upload, Tag, Card, Col, Row, Button, Modal, Typography, DatePicker, Select, message, Form, Input } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
 import food from "@/public/images/landing/food.png";
@@ -136,9 +135,9 @@ const partnerDashboard = () => {
                 footer={null}
             >
                 <Row>
-                    <Col xs={2} sm={4} md={8} lg={8} xl={8}>
+                    <Col xs={0} sm={0} md={8} lg={8} xl={8}>
                     </Col>
-                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
+                    <Col xs={20} sm={20} md={8} lg={8} xl={8} style={{
                         margin: 'auto'
                     }}>
                         <Title style={{
@@ -146,7 +145,7 @@ const partnerDashboard = () => {
                             fontWeight: 900
                         }} level={2}>Arrival</Title>
                     </Col>
-                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
+                    <Col xs={4} sm={4} md={8} lg={8} xl={8} style={{
                         textAlign: 'right'
                     }}>
                         <Image src={food} alt="Snow" width={50} height={70} />
@@ -157,12 +156,12 @@ const partnerDashboard = () => {
                     layout="vertical"
                 >
                     <Row>
-                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
                             <Form.Item label="Departure" required name="requiredMarkValue">
-                                <DatePicker showTime onChange={onChange} onOk={onOk} />
+                                <DatePicker format="DD/MM/YYYY h:mm:ss A" use12Hours showTime onChange={onChange} onOk={onOk} />
                             </Form.Item>
                         </Col>
-                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                        <Col xs={24} sm={24} md={18} lg={16} xl={16}>
                             <Form.Item label="Partner Location" required tooltip="This is a required field">
                                 <Select
                                     size='middle'
@@ -189,17 +188,17 @@ const partnerDashboard = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item label="Let us know what you think!">
                                 <TextArea rows={4} />
                             </Form.Item>
                         </Col>
-                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item name="fileupload">
                                 <Row>
                                     <Col span={8}>
                                         <Upload listType="picture" {...props}>
-                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Click to Upload</Button>
+                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Upload a Photo</Button>
                                         </Upload>
                                     </Col>
                                     <Col span={8} offset={8}>
@@ -231,21 +230,17 @@ const partnerDashboard = () => {
                 footer={null}
             >
                 <Row>
-                    <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                    <Col xs={2} sm={4} md={8} lg={8} xl={8}>
                     </Col>
-                    <Col xs={2} sm={4} md={6} lg={8} xl={10} style={{
+                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
                         margin: 'auto'
                     }}>
-                        <Title
-                            style={{
-                                textAlign: 'center',
-                                fontWeight: 900
-                            }}
-                            level={2}>
-                            Departure
-                        </Title>
+                        <Title style={{
+                            textAlign: 'center',
+                            fontWeight: 900
+                        }} level={2}>Departure</Title>
                     </Col>
-                    <Col xs={2} sm={4} md={6} lg={8} xl={10} style={{
+                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
                         textAlign: 'right'
                     }}>
                         <Image src={food} alt="Snow" width={50} height={70} />
@@ -256,7 +251,7 @@ const partnerDashboard = () => {
                     layout="vertical"
                 >
                     <Row>
-                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item label="Partner Location" required tooltip="This is a required field">
                                 <Select
                                     size='middle'
@@ -291,7 +286,7 @@ const partnerDashboard = () => {
                                 <Col xs={2} sm={4} md={6} lg={8} xl={10}>
 
                                 </Col>
-                                <Col xs={2} sm={4} md={8} lg={8} xl={10} offset={8}>
+                                <Col xs={2} sm={4} md={8} lg={8} xl={14} >
                                     <Button
                                         type='primary'
                                         htmlType="submit"
