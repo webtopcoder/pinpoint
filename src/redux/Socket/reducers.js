@@ -5,18 +5,10 @@ import {
 } from './types';
 
 const initialState = {
-   socket: Socket.connect("http://192.168.116.126:8080")
+   socket: Socket("http://192.168.116.126:8080")
 }
 
 const socketReducer = (state = initialState, action) => {
-    state.socket.on('follow', (data) => {
-        toast({ type: 'success', message: data.msg });
-    })
-
-    state.socket.on('post', (data) => {
-        toast({ type: 'success', message: data.msg });
-    })
-
     switch (action.type) {
     
         case S_LOGIN: {
