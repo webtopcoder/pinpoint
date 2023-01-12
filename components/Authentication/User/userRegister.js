@@ -103,7 +103,6 @@ const userRegister = ({ onRegisterUser }) => {
 									value={form.firstName}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
-									placeholder="First Name"
 								/>
 								{errors.firstName.dirty && errors.firstName.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.firstName.message}</p>
@@ -120,7 +119,6 @@ const userRegister = ({ onRegisterUser }) => {
 									value={form.lastName}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
-									placeholder="Last Name:"
 								/>
 								{errors.lastName.dirty && errors.lastName.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.lastName.message}</p>
@@ -137,7 +135,6 @@ const userRegister = ({ onRegisterUser }) => {
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									className="form-control"
-									placeholder="User Name:"
 								/>
 								{errors.userName.dirty && errors.userName.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.userName.message}</p>
@@ -151,7 +148,6 @@ const userRegister = ({ onRegisterUser }) => {
 									name="birthday"
 									className="form-control"
 									onBlur={onBlurField}
-									placeholderText={'dd/mm/yyyy'}
 									selected={form.birthday}
 									showMonthDropdown
 									showYearDropdown
@@ -215,7 +211,6 @@ const userRegister = ({ onRegisterUser }) => {
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									className="form-control"
-									placeholder="Email:"
 								/>
 								{errors.email.dirty && errors.email.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.email.message}</p>
@@ -232,7 +227,6 @@ const userRegister = ({ onRegisterUser }) => {
 									onChange={onUpdateField}
 									onBlur={onBlurField}
 									className="form-control"
-									placeholder="Password"
 								/>
 								{errors.password.dirty && errors.password.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.password.message}</p>
@@ -249,7 +243,6 @@ const userRegister = ({ onRegisterUser }) => {
 									value={form.confirmPassword}
 									onChange={onUpdateField}
 									onBlur={onBlurField}
-									placeholder="Confirm Password"
 								/>
 								{errors.confirmPassword.dirty && errors.confirmPassword.error ? (
 									<p className={styles.formFieldErrorMessage}>{errors.confirmPassword.message}</p>

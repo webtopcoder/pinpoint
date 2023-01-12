@@ -23,9 +23,9 @@ const touchErrors = errors => {
     }, {});
 };
 
-export const useRegisterFormValidator = form => {
+export const useRegisterFormValidator = (form, addressForm) => {
     const [errors, setErrors] = useState({
-        
+
         firstName: {
             dirty: false,
             error: false,
@@ -78,7 +78,7 @@ export const useRegisterFormValidator = form => {
         },
     });
 
-    const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
+    const validateForm = ({ form, addressForm, field, errors, forceTouchErrors = false }) => {
         let isValid = true;
 
         // Create a deep copy of the errors
@@ -89,7 +89,8 @@ export const useRegisterFormValidator = form => {
             nextErrors = touchErrors(errors);
         }
 
-        const { firstName, lastName, userName, address, city, state, category, email, password, confirmPassword } = form;
+        const { firstName, lastName, userName, category, email, password, confirmPassword } = form;
+        const { address, city, state } = addressForm;
 
         if (nextErrors.firstName.dirty && (field ? field === "firstName" : true)) {
             const ownerfirstNameMessage = FirstNameValidator(firstName, form);
@@ -117,24 +118,24 @@ export const useRegisterFormValidator = form => {
             nextErrors.email.error = !!emailMessage;
             nextErrors.email.message = emailMessage;
             if (!!emailMessage) isValid = false;
-          }
+        }
 
         if (nextErrors.address.dirty && (field ? field === "address" : true)) {
-            const addressMessage = AddressValidator(address, form);
+            const addressMessage = AddressValidator(address, addressForm);
             nextErrors.address.error = !!addressMessage;
             nextErrors.address.message = addressMessage;
             if (!!addressMessage) isValid = false;
         }
 
         if (nextErrors.city.dirty && (field ? field === "city" : true)) {
-            const cityMessage = CityValidator(city, form);
+            const cityMessage = CityValidator(city, addressForm);
             nextErrors.city.error = !!cityMessage;
             nextErrors.city.message = cityMessage;
             if (!!cityMessage) isValid = false;
         }
 
         if (nextErrors.state.dirty && (field ? field === "state" : true)) {
-            const stateMessage = StateValidator(state, form);
+            const stateMessage = StateValidator(state, addressForm);
             nextErrors.state.error = !!stateMessage;
             nextErrors.state.message = stateMessage;
             if (!!stateMessage) isValid = false;
@@ -188,7 +189,7 @@ export const useRegisterFormValidator = form => {
             },
         };
 
-        validateForm({ form, field, errors: updatedErrors });
+        validateForm({ form, addressForm, field, errors: updatedErrors });
     };
 
     return {

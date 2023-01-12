@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Avatar, Button, List, Skeleton, Input, Mentions } from 'antd';
 import { UserOutlined, MessageFilled, UserDeleteOutlined } from '@ant-design/icons';
+import { getmyFollowers } from '@/redux/User/actions';
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { getFollowers } from '@/redux/Profile/actions';
@@ -12,7 +13,7 @@ import baseUrl from '@/utils/baseUrl';
 const { Search } = Input;
 
 
-const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
+const profileFollowers = ({ ongetmyFollowers, ongetFollowers, followersList, onunFriend }) => {
     const notify = useCallback((type, message) => {
         toast({ type, message });
     }, []);
@@ -24,8 +25,10 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
     }, []);
 
     const user_id = '';
+    const username = '';
     if (typeof window !== 'undefined') {
-        user_id = sessionStorage.getItem('user_id')
+        user_id = sessionStorage.getItem('user_id');
+        username = sessionStorage.getItem('username');
     }
     const router = useRouter();
 
@@ -41,7 +44,7 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
     useEffect(() => {
         if (router.isReady) {
             const { profile } = router.query;
-
+            ongetmyFollowers();
             ongetFollowers(profile, 1, search, res => {
                 if (res.success) {
                     setInitLoading(false);
@@ -77,6 +80,13 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
         });
     }, [count]);
 
+    const message_send = (receiver) => {
+        username == receiver ?
+            notify("error", 'You can not send message to you.')
+            :
+            window.open(baseUrl + `/user/message?email=${receiver}`, '_blank')
+
+    }
     const unfriend = (id) => {
         onunFriend(id, res => {
             notify("success", res.msg)
@@ -145,7 +155,6 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
                                     size="large"
                                     onSearch={onSearch}
                                 />
-
                             </div>
                         </div>
                     </div>
@@ -174,7 +183,7 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
                                             </Button>
                                             ,
                                             <Button
-                                                onClick={() => window.open(baseUrl + `/mail/inbox?email=@${item.from.username}`, '_blank')}
+                                                onClick={() => message_send(item.from.username)}
                                                 type="primary"
                                                 icon={<MessageFilled />}
                                                 size={'default'}>
@@ -217,14 +226,16 @@ const profileFollowers = ({ ongetFollowers, followersList, onunFriend }) => {
     );
 };
 
-const mapStateToProps = ({ profile }) => {
+const mapStateToProps = ({ profile, user }) => {
     return {
-        followersList: profile.followersInfo
+        followersList: profile.followersInfo,
+        myfollowerList: user.myFollowers.followers
     };
 };
 
 const mapDispatchToProps = dispatch => ({
     ongetFollowers: (data, count, search, cb) => dispatch(getFollowers(data, count, search, cb)),
     onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
+    ongetmyFollowers: () => dispatch(getmyFollowers()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(profileFollowers);

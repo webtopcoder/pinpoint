@@ -2849,6 +2849,14 @@
   .portfolio-details-desc.pl-15 {
     padding-left: 0;
   }
+
+  .dashboard-card-style{
+    font-size: 35px;
+  }
+
+  .ant-card-head{
+    font-size: 13px;
+  }
 }
 
 /* Max width 575px */

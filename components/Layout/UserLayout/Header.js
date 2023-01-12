@@ -11,6 +11,12 @@ const Header = ({
   const toggleNavbar = () => {
     setMenu(!menu);
   };
+
+  const usertype = '';
+  if (typeof window !== 'undefined') {
+    usertype = sessionStorage.getItem('usertype')
+  }
+
   React.useEffect(() => {
     let elementId = document.getElementById("navbar");
     document.addEventListener("scroll", () => {
@@ -36,7 +42,6 @@ const Header = ({
 
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="col-md-4">
-
             </div>
             <div className="col-md-4 text-center">
               <Link href="/">
@@ -45,31 +50,35 @@ const Header = ({
                 </a>
               </Link>
             </div>
-            <div className="col-md-4 text-right">
-              <div className="others-option">
-                  <a  onClick={toggle}>
-                    <Image
-                      src={rightToggle}
-                      width={80}
-                      height={80}
-                      alt="site logo" />
-                  </a>
-              </div>
-              <button
-                onClick={toggleNavbar}
-                className={classTwo}
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="icon-bar top-bar"></span>
-                <span className="icon-bar middle-bar"></span>
-                <span className="icon-bar bottom-bar"></span>
-              </button>
-            </div>
+            {usertype !== 'partner' ?
+              <>
+                <div className="col-md-4 text-right">
+                  <div className="others-option">
+                    <a onClick={toggle}>
+                      <Image
+                        src={rightToggle}
+                        width={80}
+                        height={80}
+                        alt="site logo" />
+                    </a>
+                  </div>
+                  <button
+                    onClick={toggleNavbar}
+                    className={classTwo}
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span className="icon-bar top-bar"></span>
+                    <span className="icon-bar middle-bar"></span>
+                    <span className="icon-bar bottom-bar"></span>
+                  </button>
+                </div>
+              </> : ''}
+
           </nav>
         </div>
       </div>

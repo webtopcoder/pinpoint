@@ -64,7 +64,7 @@ const RightSidebar = (props) => {
         <div className="avatar-panel">
           <div className="avatar-left">
             {token && <div style={{ marginBottom: 20 }}>
-              <Link href="/mail/inbox">
+              <Link href="/user/message">
                 <a>
                   <Badge dot={true} className="mailboxLIcon"><Image src={mailIcon} alt="mail" width={60} height={40} /></Badge>
                 </a>

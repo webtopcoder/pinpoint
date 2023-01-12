@@ -77,7 +77,6 @@ const userLogin = ({
 							className="form-control"
 							value={form.userInfo}
 							onChange={onUpdateField}
-							placeholder="Username or Email"
 							onBlur={onBlurField}
 						/>
 						{errors.userInfo.dirty && errors.userInfo.error ? (
@@ -93,7 +92,6 @@ const userLogin = ({
 							className="form-control"
 							value={form.password}
 							onChange={onUpdateField}
-							placeholder="Password"
 							onBlur={onBlurField}
 						/>
 						{errors.password.dirty && errors.password.error ? (

@@ -67,55 +67,55 @@ const partnerDashboard = () => {
         }}>
             <Content
                 style={{
-                    margin: '60px 16px',
+                    margin: '60px 40px',
                 }}
             >
                 <div className="site-card-wrapper">
                     <Row gutter={[32, 32]}>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <Card className="dashboard-card-style" title="Partner Locations" bordered={false}>
                                 2
                             </Card>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <Card className="dashboard-card-style" title="Active Locations" bordered={false}>
                                 1
                             </Card>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <Card className="dashboard-card-style" title="Followers" bordered={true}>
                                 155
                             </Card>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={6} xl={6}>
                             <Card className="dashboard-card-style" title="Profile Views" bordered={false}>
                                 75
                             </Card>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <Card className="dashboard-card-style" title="Business Rating" bordered={false}>
                                 4.2
                             </Card>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <Card className="dashboard-card-style" title="Check In's" bordered={false}>
                                 32
                             </Card>
                         </Col>
-                        <Col span={6}>
-                            <Card className="dashboard-card-style" title="Quick Post" bordered={true}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+                            <Card className="dashboard-card-quickpost-style" title="Quick Post" bordered={true}>
                                 +
                             </Card>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <div className="dashboard-imagebutton" onClick={() => setModal2Open(true)}>
                                 <Image className="imagebutton-img" src={quickArrival} alt="Snow" />
                                 <div className="centered">Quick <br /> Arrival</div>
                             </div>
                         </Col>
-                        <Col span={6}>
+                        <Col xs={12} sm={8} md={6} lg={8} xl={6}>
                             <div className="dashboard-imagebutton" onClick={() => setModal1Open(true)}>
                                 <Image className="imagebutton-img" src={quickDeparture} alt="Snow" />
                                 <div className="centered">Quick <br /> Departure</div>
@@ -135,9 +135,9 @@ const partnerDashboard = () => {
                 footer={null}
             >
                 <Row>
-                    <Col span={8}>
+                    <Col xs={0} sm={0} md={8} lg={8} xl={8}>
                     </Col>
-                    <Col span={8} style={{
+                    <Col xs={20} sm={20} md={8} lg={8} xl={8} style={{
                         margin: 'auto'
                     }}>
                         <Title style={{
@@ -145,7 +145,7 @@ const partnerDashboard = () => {
                             fontWeight: 900
                         }} level={2}>Arrival</Title>
                     </Col>
-                    <Col span={8} style={{
+                    <Col xs={4} sm={4} md={8} lg={8} xl={8} style={{
                         textAlign: 'right'
                     }}>
                         <Image src={food} alt="Snow" width={50} height={70} />
@@ -156,12 +156,12 @@ const partnerDashboard = () => {
                     layout="vertical"
                 >
                     <Row>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
                             <Form.Item label="Departure" required name="requiredMarkValue">
-                                <DatePicker showTime onChange={onChange} onOk={onOk} />
+                                <DatePicker format="DD/MM/YYYY h:mm:ss A" use12Hours showTime onChange={onChange} onOk={onOk} />
                             </Form.Item>
                         </Col>
-                        <Col span={16}>
+                        <Col xs={24} sm={24} md={18} lg={16} xl={16}>
                             <Form.Item label="Partner Location" required tooltip="This is a required field">
                                 <Select
                                     size='middle'
@@ -188,17 +188,17 @@ const partnerDashboard = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col span={24}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item label="Let us know what you think!">
                                 <TextArea rows={4} />
                             </Form.Item>
                         </Col>
-                        <Col span={24}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item name="fileupload">
                                 <Row>
                                     <Col span={8}>
                                         <Upload listType="picture" {...props}>
-                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Click to Upload</Button>
+                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Upload a Photo</Button>
                                         </Upload>
                                     </Col>
                                     <Col span={8} offset={8}>
@@ -230,21 +230,17 @@ const partnerDashboard = () => {
                 footer={null}
             >
                 <Row>
-                    <Col span={8}>
+                    <Col xs={2} sm={4} md={8} lg={8} xl={8}>
                     </Col>
-                    <Col span={8} style={{
+                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
                         margin: 'auto'
                     }}>
-                        <Title
-                            style={{
-                                textAlign: 'center',
-                                fontWeight: 900
-                            }}
-                            level={2}>
-                            Departure
-                        </Title>
+                        <Title style={{
+                            textAlign: 'center',
+                            fontWeight: 900
+                        }} level={2}>Departure</Title>
                     </Col>
-                    <Col span={8} style={{
+                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
                         textAlign: 'right'
                     }}>
                         <Image src={food} alt="Snow" width={50} height={70} />
@@ -255,7 +251,7 @@ const partnerDashboard = () => {
                     layout="vertical"
                 >
                     <Row>
-                        <Col span={24}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item label="Partner Location" required tooltip="This is a required field">
                                 <Select
                                     size='middle'
@@ -269,12 +265,14 @@ const partnerDashboard = () => {
                                         display: 'flex'
                                     }} value={1}>Item 1
                                         <Tag style={{
+                                            marginTop: 4,
                                             textAlign: 'right',
                                             float: 'right'
                                         }} color="#87d068">Active</Tag>
                                     </Option>
                                     <Option value={2}>Item 2
                                         <Tag style={{
+                                            marginTop: 4,
                                             textAlign: 'right',
                                             float: 'right'
                                         }} color="#f50">Inactive</Tag>
@@ -283,12 +281,12 @@ const partnerDashboard = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={24}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Row>
-                                <Col span={8}>
+                                <Col xs={2} sm={4} md={6} lg={8} xl={10}>
 
                                 </Col>
-                                <Col span={8} offset={8}>
+                                <Col xs={2} sm={4} md={8} lg={8} xl={14} >
                                     <Button
                                         type='primary'
                                         htmlType="submit"
