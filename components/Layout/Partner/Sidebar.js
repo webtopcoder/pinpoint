@@ -69,7 +69,6 @@ function LeftSidebar({ onLogout }) {
     const [current, setCurrent] = useState(pathurl);
 
     const onClick = (e) => {
-        console.log(e)
         setCurrent(e.key);
         router.push(e.key);
     };
@@ -89,13 +88,17 @@ function LeftSidebar({ onLogout }) {
         getItem('Dashboard', '/partner/dashboard', <DashboardFilled />),
         getItem('Messages', '/partner/message', <MessageFilled />),
         getItem('Followers', `/partner/${user_id}/followers`, <UnorderedListOutlined />),
-        getItem('Settings', `/partner/${user_id}/followers`, <SettingFilled />),
+        getItem('Settings', `/partner/settings`, <SettingFilled />),
         // getItem('Settings', 'sub2', <SettingFilled />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
         getItem('Parter Locations', '9', <EnvironmentFilled />),
         getItem('View Profile', '10', <ProfileFilled />),
         getItem('Contact Pinpoint', '11', <ContactsFilled />),
     ];
-
+    useEffect(() => {
+        if (router.pathname.indexOf('/partner/settings') > -1) {
+            setCurrent(router.pathname)
+        }
+    }, [router.pathname])
     useEffect(() => {
         setToken(sessionStorage.getItem('token'));
         fetch(fakeDataUrl)

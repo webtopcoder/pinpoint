@@ -66,6 +66,7 @@ const partnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 		autoCompleteRef.current.addListener("place_changed", async function () {
 
 			const place = await autoCompleteRef.current.getPlace();
+			console.log(place)
 			itemAddress = place.formatted_address;
 
 
