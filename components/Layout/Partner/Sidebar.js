@@ -9,7 +9,8 @@ import {
     EnvironmentFilled,
     UnorderedListOutlined,
     InfoCircleFilled,
-    ExportOutlined
+    ExportOutlined,
+    GiftOutlined
 } from '@ant-design/icons';
 import { connect } from "react-redux";
 import { useRouter } from 'next/router';
@@ -54,7 +55,7 @@ function LeftSidebar({ onLogout }) {
     const [list, setList] = useState([]);
 
     const router = useRouter()
-    const pathurl = router.pathname;
+    const pathurl = router.asPath;
 
     const showDrawer = () => {
         setOpen(true);
@@ -69,8 +70,6 @@ function LeftSidebar({ onLogout }) {
     const [current, setCurrent] = useState(pathurl);
 
     const onClick = (e) => {
-        console.log(e)
-        setCurrent(e.key);
         router.push(e.key);
     };
 
@@ -86,13 +85,13 @@ function LeftSidebar({ onLogout }) {
     }
 
     const items = [
-        getItem('Dashboard', '/partner/dashboard', <DashboardFilled />),
-        getItem('Messages', '/partner/message', <MessageFilled />),
-        getItem('Followers', `/partner/${user_id}/followers`, <UnorderedListOutlined />),
-        getItem('Settings', `/partner/${user_id}/followers`, <SettingFilled />),
-        // getItem('Settings', 'sub2', <SettingFilled />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-        getItem('Parter Locations', '9', <EnvironmentFilled />),
+        getItem('Dashboard', '/partner/dashboard/', <DashboardFilled />),
+        getItem('Messages', '/partner/message/', <MessageFilled />),
+        getItem('Followers', `/partner/${user_id}/followers/`, <UnorderedListOutlined />),
+        getItem('Settings', `/partner/setting/`, <SettingFilled />),
+        getItem('Parter Locations', '/partner/locations/', <EnvironmentFilled />),
         getItem('View Profile', '10', <ProfileFilled />),
+        getItem('PartnerShip', '/partner/partnership/', <GiftOutlined />),
         getItem('Contact Pinpoint', '11', <ContactsFilled />),
     ];
 

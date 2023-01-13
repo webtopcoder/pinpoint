@@ -1227,6 +1227,13 @@ h4 {
     font-weight: 800;
 }
 
+.dashboard-card-style:hover {
+    text-align: center;
+    font-size: 50px;
+    color: var(--blueColor);
+    font-weight: 800;
+}
+
 .dashboard-card-quickpost-style {
     text-align: center;
     font-size: 50px;
@@ -1269,4 +1276,18 @@ h4 {
 .partner-message-menu {
     padding: 5px;
     border-radius: 5px;
+}
+
+.custom-subcontent{
+    background: var(--graylightColor);
+    padding: 30px 30px 30px 30px;
+    border-radius: 20px;
+}
+
+.partner-locations-card{
+    background: #2F2F2F;
+}
+
+.ant-rate-star-zero .anticon-star {
+    color: var(--darkWhiteColor)
 }
