@@ -346,7 +346,7 @@ const profileActivity = ({ onrecommendPost, ongetmyFollowers, ongetActivity, onp
                                                                     <span className="custom-shoutout-text">{item?.type !== 'post' ? item.other_content : ''}
                                                                     </span><br />
                                                                     <a
-                                                                        onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>
+                                                                        onClick={() => window.open(baseUrl + '/profile/' + item.from_user._id + '/activity', '_blank')}>
                                                                         @{item?.from_user?.username}
                                                                     </a>
                                                                 </>}
@@ -408,7 +408,7 @@ const profileActivity = ({ onrecommendPost, ongetmyFollowers, ongetActivity, onp
                                                 </div>
                                                 <div className="row">
                                                     <Divider orientation="center" plain>
-                                                        <Button onClick={() => window.open(baseUrl + '/user/' + view_user_id + '/allphotos', '_blank')} type="link">View All Photos</Button>
+                                                        <Button onClick={() => window.open(baseUrl + '/profile/' + view_user_id + '/allphotos', '_blank')} type="link">View All Photos</Button>
                                                     </Divider>
                                                 </div>
                                             </div>

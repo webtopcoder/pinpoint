@@ -14,24 +14,24 @@ const Submenu = () => {
                 <div className="user-profile-submenu">
                     <ul>
                         <li>
-                            <Link href={`/user/${view_user_id}/activity`}>
-                                <a className={router.pathname == `/user/[profile]/activity` ? "active" : ""}>Activity</a>
+                            <Link href={`/profile/${view_user_id}/activity`}>
+                                <a className={router.pathname == `/profile/[profile]/activity` ? "active" : ""}>Activity</a>
                             </Link>
                         </li>
 
                         <li>
-                            <Link href={`/user/${view_user_id}/shout-outs`}>
-                                <a className={router.pathname == `/user/[profile]/shout-outs` ? "active" : ""}>Shout outs</a>
+                            <Link href={`/profile/${view_user_id}/shout-outs`}>
+                                <a className={router.pathname == `/profile/[profile]/shout-outs` ? "active" : ""}>Shout outs</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href={`/user/${view_user_id}/followers`}>
-                                <a className={router.pathname == `/user/[profile]/followers` ? "active" : ""}>Followers</a>
+                            <Link href={`/profile/${view_user_id}/followers`}>
+                                <a className={router.pathname == `/profile/[profile]/followers` ? "active" : ""}>Followers</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href={`/user/${view_user_id}/favorites`}>
-                                <a className={router.pathname == `/user/[profile]/favorites` ? "active" : ""}>Favorites</a>
+                            <Link href={`/profile/${view_user_id}/favorites`}>
+                                <a className={router.pathname == `/profile/[profile]/favorites` ? "active" : ""}>Favorites</a>
                             </Link>
 
                         </li>

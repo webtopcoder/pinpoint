@@ -179,12 +179,12 @@ const profileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                                                     <span className="custom-userName">
                                                                         {item?.from_user?.realname.first + ' ' + item?.from_user?.realname.last} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
                                                                     <span className="custom-shoutout-text">shouted out&nbsp;&nbsp;
-                                                                        <a className="custom-touser-text" onClick={() => window.open(baseUrl + '/user/' + item.to_user._id + '/activity', '_blank')}>
+                                                                        <a className="custom-touser-text" onClick={() => window.open(baseUrl + '/profile/' + item.to_user._id + '/activity', '_blank')}>
                                                                             @{item?.to_user?.username}
                                                                         </a>
                                                                     </span><br />
                                                                     <a
-                                                                        onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>
+                                                                        onClick={() => window.open(baseUrl + '/profile/' + item.from_user._id + '/activity', '_blank')}>
                                                                         @{item?.from_user?.username}
                                                                     </a>
                                                                 </>}
