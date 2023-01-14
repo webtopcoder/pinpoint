@@ -9,7 +9,8 @@ import {
     EnvironmentFilled,
     UnorderedListOutlined,
     InfoCircleFilled,
-    ExportOutlined
+    ExportOutlined,
+    GiftOutlined
 } from '@ant-design/icons';
 import { connect } from "react-redux";
 import { useRouter } from 'next/router';
@@ -90,6 +91,7 @@ function LeftSidebar({ onLogout }) {
         getItem('Settings', `/partner/setting/`, <SettingFilled />),
         getItem('Parter Locations', '/partner/locations/', <EnvironmentFilled />),
         getItem('View Profile', '10', <ProfileFilled />),
+        getItem('PartnerShip', '/partner/partnership/', <GiftOutlined />),
         getItem('Contact Pinpoint', '11', <ContactsFilled />),
     ];
 

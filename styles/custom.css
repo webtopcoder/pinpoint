@@ -1227,6 +1227,12 @@ h4 {
     font-weight: 800;
 }
 
+.membership-card-style {
+    text-align: center;
+    font-size: 50px;
+    color: var(--blueColor);
+}
+
 .dashboard-card-style:hover {
     text-align: center;
     font-size: 50px;
@@ -1285,5 +1291,9 @@ h4 {
 }
 
 .partner-locations-card{
-    background: var(--blackColor);
+    background: #2F2F2F;
+}
+
+.ant-rate-star-zero .anticon-star {
+    color: var(--darkWhiteColor)
 }

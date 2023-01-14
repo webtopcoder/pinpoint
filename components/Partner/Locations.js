@@ -1,19 +1,31 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from 'react-redux';
-import { Layout, Upload, Space, Tag, Card, Col, Row, Rate, Divider, Button, List, Modal, Typography, DatePicker, Select, message, Form, Input } from 'antd';
+import { Layout, Upload, Space, Tag, Card, Col, Row, Rate, Divider, Button, Dropdown, List, Modal, Typography, DatePicker, Select, message, Form, Input } from 'antd';
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
 import food from "@/public/images/landing/food.png";
 import {
-    FieldTimeOutlined, EnvironmentFilled, PlusCircleOutlined, UploadOutlined, SettingOutlined, EditOutlined, EllipsisOutlined, MessageOutlined, LikeOutlined
+    FieldTimeOutlined, DownOutlined, EnvironmentFilled, PlusCircleOutlined, UploadOutlined, SettingOutlined, EditOutlined, EllipsisOutlined, MessageOutlined, LikeOutlined
 } from '@ant-design/icons';
+
+const subcategoryList = [];
+for (let i = 10; i < 36; i++) {
+    subcategoryList.push({
+        value: i.toString(36) + i,
+        label: i.toString(36) + i,
+    });
+}
+
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+
+
 
 const { Option } = Select;
 
 const { TextArea } = Input;
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 const { Content } = Layout;
 
@@ -45,6 +57,20 @@ const data = [
 ];
 
 const partnerLocations = () => {
+
+    const items = [
+        {
+            label: <a href="https://www.antgroup.com">View Location Profile</a>,
+            key: '0',
+        },
+        {
+            label: <a onClick={() => setModal1Open(true)}>Modify Location</a>,
+            key: '1',
+        },
+    ];
+
+    const [value, setValue] = useState(3);
+
 
     const [form] = Form.useForm();
     const [upload_name, setUploadFile] = useState([]);
@@ -103,7 +129,7 @@ const partnerLocations = () => {
                             <Col className="gutter-row" span={6} style={{
                                 marginTop: 30
                             }}>
-                                <Button type="primary" icon={<PlusCircleOutlined />}>
+                                <Button type="primary" onClick={() => setModal2Open(true)} icon={<PlusCircleOutlined />}>
                                     Add Location
                                 </Button>
                             </Col>
@@ -136,8 +162,14 @@ const partnerLocations = () => {
                                                 <Button type="link" >
                                                     Departure
                                                 </Button>,
-                                                
-                                                <EllipsisOutlined key="ellipsis" />,
+                                                <Dropdown
+                                                    menu={{
+                                                        items,
+                                                    }}
+                                                    trigger={['click']}
+                                                >
+                                                    <EllipsisOutlined />
+                                                </Dropdown>
                                             ]}
                                             headStyle={{
                                                 color: 'white',
@@ -174,17 +206,18 @@ const partnerLocations = () => {
                                             </Row>
                                             <Divider style={{
                                                 borderColor: 'white'
-                                            }} dashed />
+                                            }} dashed><Tag style={{
+                                            }} color="#87d068">Active</Tag></Divider>
                                             <Row style={{
-                                                marginTop: 20
+                                                marginTop: 20,
+                                                textAlign: 'center'
                                             }}>
                                                 <Col className="gutter-row" span={24}>
                                                     <Space>
                                                         <Text style={{
                                                             color: 'white'
                                                         }}>Jacksonvile, FL</Text>
-                                                        <Tag style={{
-                                                        }} color="#87d068">Active</Tag>
+
                                                     </Space>
                                                     <Space>
                                                         <Text style={{
@@ -192,7 +225,7 @@ const partnerLocations = () => {
                                                         }}>Last See 5 hours ago</Text>
                                                     </Space>
                                                     <Space>
-                                                        <Rate disabled defaultValue={2} />
+                                                        <Rate style={{}} allowHalf disabled defaultValue={2} tooltips={desc} onChange={setValue} value={value} />
                                                     </Space>
                                                 </Col>
                                             </Row>
@@ -215,62 +248,56 @@ const partnerLocations = () => {
                 footer={null}
             >
                 <Row>
-                    <Col xs={0} sm={0} md={8} lg={8} xl={8}>
+                    <Col xs={0} sm={0} md={8} lg={0} xl={0}>
                     </Col>
-                    <Col xs={20} sm={20} md={8} lg={8} xl={8} style={{
-                        margin: 'auto'
+                    <Col xs={20} sm={20} md={8} lg={22} xl={22} style={{
+                        margin: 'auto',
+                        textAlign: 'center'
                     }}>
                         <Title style={{
                             textAlign: 'center',
                             fontWeight: 900
-                        }} level={2}>Arrival</Title>
+                        }} level={2}>Add Location
+                        </Title>
+                        <Paragraph>
+                            A Location is a specific location of a business. <br /> You may have multiple locations and this will act as their individual profile.
+                        </Paragraph>
                     </Col>
-                    <Col xs={4} sm={4} md={8} lg={8} xl={8} style={{
+                    <Col xs={4} sm={4} md={8} lg={2} xl={2} style={{
                         textAlign: 'right'
                     }}>
                         <Image src={food} alt="Snow" width={50} height={70} />
                     </Col>
                 </Row>
+                <Divider style={{
+                }} dashed>
+                </Divider>
                 <Form
                     form={form}
                     layout="vertical"
                 >
                     <Row>
-                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
-                            <Form.Item label="Departure" required name="requiredMarkValue">
-                                <DatePicker format="DD/MM/YYYY h:mm:ss A" use12Hours showTime onChange={onChange} onOk={onOk} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={18} lg={16} xl={16}>
-                            <Form.Item label="Partner Location" required tooltip="This is a required field">
-                                <Select
-                                    size='middle'
-                                    defaultValue="a1"
-                                    onChange={handleChange}
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                >
-                                    <Option style={{
-                                        display: 'flex'
-                                    }} value={1}>Item 1
-                                        <Tag style={{
-                                            textAlign: 'right',
-                                            float: 'right'
-                                        }} color="#87d068">Active</Tag>
-                                    </Option>
-                                    <Option value={2}>Item 2
-                                        <Tag style={{
-                                            textAlign: 'right',
-                                            float: 'right'
-                                        }} color="#f50">Inactive</Tag>
-                                    </Option>
-                                </Select>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <Form.Item label="Location Name" required name="requiredMarkValue">
+                                <Input placeholder="This will be your individual locations name" />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Form.Item label="Let us know what you think!">
-                                <TextArea rows={4} />
+                            <Form.Item label="Partner Location" required tooltip="This is a required field">
+                                <Select
+                                    mode="multiple"
+                                    allowClear
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    placeholder="Select all that apply"
+                                    options={subcategoryList}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <Form.Item label="Location Description">
+                                <TextArea placeholder="Anything you want your customers to know" rows={4} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -278,7 +305,7 @@ const partnerLocations = () => {
                                 <Row>
                                     <Col span={8}>
                                         <Upload listType="picture" {...props}>
-                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Upload a Photo</Button>
+                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Location Image</Button>
                                         </Upload>
                                     </Col>
                                     <Col span={8} offset={8}>
@@ -289,7 +316,7 @@ const partnerLocations = () => {
                                             style={{
                                                 display: 'initial',
                                                 float: 'right',
-                                            }}>Let's Go
+                                            }}>Add Location
                                         </Button>
                                     </Col>
                                 </Row>
@@ -310,74 +337,94 @@ const partnerLocations = () => {
                 footer={null}
             >
                 <Row>
-                    <Col xs={2} sm={4} md={8} lg={8} xl={8}>
+                    <Col xs={0} sm={0} md={8} lg={0} xl={0}>
                     </Col>
-                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
-                        margin: 'auto'
+                    <Col xs={20} sm={20} md={8} lg={22} xl={22} style={{
+                        margin: 'auto',
+                        textAlign: 'center'
                     }}>
                         <Title style={{
                             textAlign: 'center',
                             fontWeight: 900
-                        }} level={2}>Departure</Title>
+                        }} level={2}>Modify Location
+                        </Title>
+                        <Paragraph>
+                            A Location is a specific location of a business. <br /> You may have multiple locations and this will act as their individual profile.
+                        </Paragraph>
                     </Col>
-                    <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{
+                    <Col xs={4} sm={4} md={8} lg={2} xl={2} style={{
                         textAlign: 'right'
                     }}>
                         <Image src={food} alt="Snow" width={50} height={70} />
                     </Col>
                 </Row>
+                <Divider style={{
+                }} dashed>
+                </Divider>
                 <Form
                     form={form}
                     layout="vertical"
                 >
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <Form.Item label="Location Name" required name="requiredMarkValue">
+                                <Input placeholder="This will be your individual locations name" />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item label="Partner Location" required tooltip="This is a required field">
                                 <Select
-                                    size='middle'
-                                    defaultValue="a1"
-                                    onChange={handleChange}
+                                    mode="multiple"
+                                    allowClear
                                     style={{
                                         width: '100%',
                                     }}
-                                >
-                                    <Option style={{
-                                        display: 'flex'
-                                    }} value={1}>Item 1
-                                        <Tag style={{
-                                            marginTop: 4,
-                                            textAlign: 'right',
-                                            float: 'right'
-                                        }} color="#87d068">Active</Tag>
-                                    </Option>
-                                    <Option value={2}>Item 2
-                                        <Tag style={{
-                                            marginTop: 4,
-                                            textAlign: 'right',
-                                            float: 'right'
-                                        }} color="#f50">Inactive</Tag>
-                                    </Option>
-                                </Select>
+                                    placeholder="Select all that apply"
+                                    options={subcategoryList}
+                                />
                             </Form.Item>
                         </Col>
-
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Row>
-                                <Col xs={2} sm={4} md={6} lg={8} xl={10}>
-
-                                </Col>
-                                <Col xs={2} sm={4} md={8} lg={8} xl={14} >
-                                    <Button
-                                        type='primary'
-                                        htmlType="submit"
-                                        className="btn-submit"
-                                        style={{
-                                            display: 'initial',
-                                            float: 'right',
-                                        }}>Depart
-                                    </Button>
-                                </Col>
-                            </Row>
+                            <Form.Item label="Location Description">
+                                <TextArea placeholder="Anything you want your customers to know" rows={4} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <Form.Item name="fileupload">
+                                <Row>
+                                    <Col span={8}>
+                                        <Upload listType="picture" {...props}>
+                                            <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>Location Image</Button>
+                                        </Upload>
+                                    </Col>
+                                    <Col span={16} style={{
+                                        textAlign: 'right'
+                                    }}>
+                                        <Space>
+                                            <Button
+                                                type='primary'
+                                                htmlType="submit"
+                                                className="btn-submit"
+                                                style={{
+                                                    display: 'initial',
+                                                    float: 'right',
+                                                }}
+                                                danger
+                                                >Delete Location
+                                            </Button>
+                                            <Button
+                                                type='primary'
+                                                htmlType="submit"
+                                                className="btn-submit"
+                                                style={{
+                                                    display: 'initial',
+                                                    float: 'right',
+                                                }}>Save Changes
+                                            </Button>
+                                        </Space>
+                                    </Col>
+                                </Row>
+                            </Form.Item>
                         </Col>
                     </Row>
                 </Form>
