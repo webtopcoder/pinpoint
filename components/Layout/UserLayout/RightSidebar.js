@@ -88,10 +88,10 @@ const RightSidebar = (props) => {
             {token && <ExportOutlined style={{ color: '#686868', fontSize: 40, }} onClick={() => onLogoutHandler()} />}
           </div>
         </div>
-        {token ? <><div onClick={() => handleOriginPageRender(`/user/${user_id}/activity`)} className="vst-profile">
+        {token ? <><div onClick={() => handleOriginPageRender(`/profile/${user_id}/activity`)} className="vst-profile">
           View Profile
         </div>
-          <div onClick={() => handleOriginPageRender(`/user/${user_id}/edit`)} className="vst-edit-profile">
+          <div onClick={() => handleOriginPageRender(`/profile/${user_id}/edit`)} className="vst-edit-profile">
             edit profile
           </div>
         </> :

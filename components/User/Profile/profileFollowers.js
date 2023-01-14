@@ -175,7 +175,7 @@ const profileFollowers = ({ ongetmyFollowers, ongetFollowers, followersList, onu
                                     <List.Item
                                         actions={[
                                             <Button
-                                                onClick={() => window.open(baseUrl + '/user/' + item.from._id + '/activity', '_blank')}
+                                                onClick={() => window.open(baseUrl + '/profile/' + item.from._id + '/activity', '_blank')}
                                                 type="primary"
                                                 icon={<UserOutlined />}
                                                 size={'default'}>

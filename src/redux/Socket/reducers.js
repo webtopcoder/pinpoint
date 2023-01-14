@@ -5,7 +5,7 @@ import {
 } from './types';
 
 const initialState = {
-   socket: Socket("http://192.168.116.126:8080")
+   socket: Socket("http://localhost:8080")
 }
 
 const socketReducer = (state = initialState, action) => {
