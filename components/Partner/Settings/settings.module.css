@@ -1,0 +1,169 @@
+.page_title {
+    margin: 10px 10px 10px 10px;
+    color: #D8D8D8;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.setting_container {
+    padding-top: 50px;
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+.list {
+    width: 100%;
+    background-color: #D9D9D9 !important;
+    padding: 20px;
+}
+
+.left_pane {
+    font-size: 20px;
+}
+
+.right_pane {
+    text-align: right;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.list_round {
+    width: 100%;
+    background-color: #D9D9D9;
+    padding: 15px;
+    border-radius: 30px;
+    font-weight: 700;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.list_round:hover {
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgb(60 64 67 / 94%), 0 4px 8px 3px rgb(60 64 67 / 94%);
+}
+
+.role {
+    font-style: italic;
+}
+
+@media only screen and (max-width: 767px) {
+    .setting_container {
+        padding-top: 50px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.modal_title {
+    font-weight: 700;
+    font-size: 30px;
+    justify-content: center;
+    padding: 30px;
+}
+
+.adduser_modal_logo {
+    position: relative;
+    right: 0px;
+    z-index: 3;
+}
+
+.partner_setting_logo {
+    width: 60px;
+    height: 90px;
+    right: 10px;
+    z-index: 2;
+    position: absolute;
+    background-image: url('../../../public/images/landing/food.png');
+    background-size: 100% 100%;
+}
+
+.modalform {
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.role_title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.role_comment {
+    text-align: center;
+}
+
+.business_detail_content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 120px;
+    padding-left: 120px;
+    background-color: #D8D8D8;
+    margin-left: 40px;
+    margin-right: 40px;
+    border: 10px solid #2F2F2F;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.form {
+    max-width: 30rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.formLabel {
+    margin-bottom: 0.25rem;
+}
+
+.formField {
+    padding: 0.5rem;
+}
+
+.formFieldError {
+    border: 1px solid #e11d48;
+}
+
+.formFieldErrorMessage {
+    display: inline-block;
+    margin: 0.25rem 0 0 0;
+    color: #e11d48;
+}
+
+.formFieldSuccessMessage {
+    display: inline-block;
+    margin: 0.25rem 0 0 0;
+    color: var(--blueDarkColor);
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.formSubmitBtn {
+    padding: 0.5rem 0.7rem;
+    min-width: 5rem;
+    background-color: #9333ea;
+    color: #f3e8ff;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.pac-container {
+    background-color: #151515;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.pac-item,
+.pac-item-query {
+    color: #f7f7f7;
+}
+
+.pac-item:hover {
+    background: #6666;
+}

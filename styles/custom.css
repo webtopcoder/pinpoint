@@ -1057,12 +1057,15 @@ h4 {
 
 .ant-modal-content {
     background-color: var(--darkWhiteColor) !important;
-    padding: 10px 10px 5px 10px !important;
+    padding: 10px 10px 10px 10px !important;
 }
 
 .ant-modal-content .ant-modal-body {
     max-height: 600px;
     overflow: auto;
+}
+.settings .ant-modal-content {
+    border: 10px solid #2F2F2F;
 }
 
 

@@ -40,7 +40,6 @@ function MyApp({ Component, pageProps }) {
   var socket = null;
   React.useEffect(() => {
     AOS.init();
-    console.log(store.getState().user.user_id)
     if (store.getState().user.user_id && socket == null) {
       socket = io('http://192.168.116.126:8080')
       socket.emit('login', {
@@ -50,7 +49,6 @@ function MyApp({ Component, pageProps }) {
         localStorage.setItem('roomId', data);
       })
       socket.on('follow', (data) => {
-        console.log(data)
         toast({ type: 'success', message: data.msg });
       })
   
