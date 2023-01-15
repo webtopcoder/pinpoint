@@ -2,9 +2,9 @@ import React from "react";
 import AOS from "aos";
 import { store } from "@/redux/store";
 import { Provider } from "react-redux";
-import Router from 'next/router';
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
+import Router from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 import "../node_modules/aos/dist/aos.css";
 import "/styles/sidebar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,43 +22,45 @@ import "/styles/footer.css";
 import "/styles/responsive.css";
 import "/styles/custom.css";
 import "/styles/styles.scss";
-import 'react-quill/dist/quill.snow.css'
-import 'react-quill/dist/quill.snow.css'
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.snow.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { PersistGate } from 'redux-persist/integration/react'
 import ScrollToTop from "@/components/Layout/ScrollToTop";
-import Head from 'next/head';
-import io from 'socket.io-client';
+import Head from "next/head";
+import io from "socket.io-client";
 import toast from "@/components/Toast";
+import baseUrl from "@/utils/baseUrl";
+import { DOMAIN } from "@/src/redux/constants";
 
-Router.events.on('routeChangeStart', () => NProgress.start());
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   var socket = null;
   React.useEffect(() => {
     AOS.init();
     if (store.getState().user.user_id && socket == null) {
-      socket = io('http://192.168.116.126:8080')
-      socket.emit('login', {
+      socket = io(DOMAIN);
+      socket.emit("login", {
         userid: store.getState().user.user_id,
       });
-      socket.on('roomId', (data) => {
-        localStorage.setItem('roomId', data);
-      })
-      socket.on('follow', (data) => {
-        toast({ type: 'success', message: data.msg });
-      })
-  
-      socket.on('post', (data) => {
-        toast({ type: 'success', message: data.msg });
-      })
+      socket.on("roomId", (data) => {
+        localStorage.setItem("roomId", data);
+      });
+      socket.on("follow", (data) => {
+        toast({ type: "success", message: data.msg });
+      });
+
+      socket.on("post", (data) => {
+        toast({ type: "success", message: data.msg });
+      });
     }
-    
+
     return () => {
-      if (socket !== null) socket.off('New Client');
+      if (socket !== null) socket.off("New Client");
     };
   }, []);
 
@@ -67,13 +69,8 @@ function MyApp({ Component, pageProps }) {
     <>
       <Provider store={store}>
         <Head>
-          <meta
-            charSet="utf-8"
-          />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-          />
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         {getLayout(<Component {...pageProps} />)}
         <ToastContainer

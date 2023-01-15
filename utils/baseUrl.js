@@ -1,6 +1,6 @@
 const baseUrl =
-	process.env.NODE_ENV === "production"
-		? "http://localhost:8080"
-		: "http://localhost:3000";
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_BASE_URL
+    : "http://localhost:3000";
 
 export default baseUrl;

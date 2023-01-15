@@ -1,1 +1,1 @@
-export const DOMAIN = 'http://192.168.116.126:8080';
+export const DOMAIN = process.env.NEXT_PUBLIC_API_BASE_URL;
