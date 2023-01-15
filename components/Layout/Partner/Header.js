@@ -95,55 +95,66 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
                   </b>
                 )}
               </div>
-              <div className="avatar-metadata">
-                <span>
-                  @
-                  {headerInfo && (
-                    <b className="fn">{headerInfo?.profile?.username}</b>
-                  )}
-                </span>
+
+              <div className="avatar-content">
+                <button
+                  type="submit"
+                  className="btn-style-one avatar-message-button ps-3"
+                >
+                  Message<i className="bx bx-envelope avatar-icon"></i>
+                </button>
               </div>
-              {user_id !== view_user_id ? (
-                <>
-                  <div className="avatar-content">
-                    <button
-                      type="submit"
-                      className="btn-style-one avatar-message-button"
-                    >
-                      Message<i className="bx bx-envelope avatar-icon"></i>
-                    </button>
-                  </div>
-                  <div className="avatar-content mg-12">
-                    {headerInfo?.profile?.is_follow ? (
-                      <button
-                        onClick={follow}
-                        className="btn-style-one avatar-message-button"
-                      >
-                        Unfollow<i className="bx bx-user-minus avatar-icon"></i>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={follow}
-                        className="btn-style-one avatar-message-button"
-                      >
-                        Follow<i className="bx bx-user-plus avatar-icon"></i>
-                      </button>
-                    )}
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
+              <div className="avatar-content mg-12">
+                {headerInfo?.profile?.is_follow ? (
+                  <button
+                    onClick={follow}
+                    className="btn-style-one ps-3 avatar-message-button"
+                  >
+                    Unfollow<i className="bx bx-user-minus avatar-icon"></i>
+                  </button>
+                ) : (
+                  <button
+                    onClick={follow}
+                    className="btn-style-one ps-3 avatar-message-button"
+                  >
+                    Follow<i className="bx bx-user-plus avatar-icon"></i>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
         <div className="col-md-6">
           <div className="row justify-content-center">
-            <div className="col-md-4"></div>
             <div className="col-md-3">
               <div data-aos-duration="1200">
                 <div className="avatar-rightside-box">
-                  <h4>Favorites</h4>
+                  <h4>Likes</h4>
+                  <h1>
+                    {headerInfo && (
+                      <b className="fn">{headerInfo?.profile?.favorites}</b>
+                    )}
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div data-aos-duration="1200">
+                <div className="avatar-rightside-box">
+                  <h4>Rating</h4>
+                  <h1>
+                    {headerInfo && (
+                      <b className="fn">{headerInfo?.profile?.favorites}</b>
+                    )}
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div data-aos-duration="1200">
+                <div className="avatar-rightside-box">
+                  <h4>Locations</h4>
                   <h1>
                     {headerInfo && (
                       <b className="fn">{headerInfo?.profile?.favorites}</b>

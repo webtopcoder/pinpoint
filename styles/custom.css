@@ -1300,3 +1300,22 @@ h4 {
 .ant-rate-star-zero .anticon-star {
     color: var(--darkWhiteColor)
 }
+
+.total-votes-count{
+    display: inline-block;
+    margin-left: 30%;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.partner-poll-question{
+    font-style: italic;
+}
+
+.partner-poll-options{
+    margin-top: 1.5rem;
+}
+
+.partner-poll-options .ant-progress{
+    padding: 1rem 0;
+}
