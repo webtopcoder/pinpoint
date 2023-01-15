@@ -14,7 +14,7 @@ module.exports = {
   },
   images: {
     loader: "akamai",
-    path: "http://127.0.0.1:3000",
+    path: "http://localhost:3000",
   },
   optimizeFonts: false,
 };
