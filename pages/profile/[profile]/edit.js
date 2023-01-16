@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import ProflieEditor from "@/components/User/Profile/profileEdit/index";
-import Layout from '../../../layout';
+import BasicLayout from '../../../layout';
+import LeftSidebar from "@/components/Layout/Partner/Sidebar";
+import Edit from "@/components/Partner/Profile/Edit";
+import { Layout } from 'antd';
 
-const Edit = () => {
-	return (
-		<>
-			<PageTitle page="Profile Edit" />
-			<div className="page-pin-area">
-				<div className="pin-profile-section">
-					<ProflieEditor />
-				</div>
-			</div>
-		</>
-	);
+const PartnerEdit = () => {
+  return (
+    <>
+      <PageTitle page="Profile Edit" />
+      <div className="page-partner-area">
+        <Layout
+          style={{
+            minHeight: '130vh',
+          }}
+        >
+          <LeftSidebar />
+          <Edit />
+        </Layout>
+      </div>
+    </>
+  );
 };
 
-Edit.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
+PartnerEdit.getLayout = function getLayout(page) {
+  return <BasicLayout>{page}</BasicLayout>
 }
 
-export default Edit;
+export default PartnerEdit;

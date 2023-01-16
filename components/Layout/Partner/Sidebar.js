@@ -93,7 +93,7 @@ function LeftSidebar({ onLogout }) {
     ),
     getItem("Settings", `/partner/settings/`, <SettingFilled />),
     getItem("Parter Locations", "9", <EnvironmentFilled />),
-    getItem("View Profile", `/partner/${user_id}/activity`, <ProfileFilled />),
+    getItem("View Profile", `/profile/${user_id}/activity`, <ProfileFilled />),
     getItem("PartnerShip", "/partner/partnership/", <GiftOutlined />),
     getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];

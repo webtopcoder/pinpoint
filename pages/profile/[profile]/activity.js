@@ -2,29 +2,27 @@ import React, { useEffect } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import ProfileActivity from "@/components/User/Profile/profileActivity";
-import Layout from '../../../layout';
-import { connect } from 'react-redux';
-
+import ProfileActivity from "@/components/Partner/Profile/profileActivity";
+import Layout from "../../../layout";
+import { connect } from "react-redux";
 
 const Activity = () => {
-
-	return (
-		<>
-			<PageTitle page="Activity" />
-			<div className="page-pin-area">
-				<Profileheader />
-				<div className="pin-profile-section">
-					<Submenu />
-					<ProfileActivity />
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <PageTitle page="Activity" />
+      <div className="page-pin-area">
+        <Profileheader />
+        <div className="pin-profile-section">
+          <Submenu />
+          <ProfileActivity />
+        </div>
+      </div>
+    </>
+  );
 };
 
 Activity.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
-}
+  return <Layout>{page}</Layout>;
+};
 
 export default Activity;

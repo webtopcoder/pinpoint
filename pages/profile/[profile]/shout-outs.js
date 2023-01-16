@@ -3,24 +3,24 @@ import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import ProfileShoutout from "@/components/User/Profile/profileShout";
-import Layout from '../../../layout';
+import Layout from "../../../layout";
 
 const Shout = () => {
-	return (
-		<>
-			<PageTitle page="Shout outs" />
-			<div className="page-pin-area">
-				<Profileheader />
-				<div className="pin-profile-section">
-					<Submenu />
-					<ProfileShoutout />
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <PageTitle page="Shout outs" />
+      <div className="page-pin-area">
+        <Profileheader />
+        <div className="pin-profile-section">
+          <Submenu />
+          <ProfileShoutout />
+        </div>
+      </div>
+    </>
+  );
 };
 
 Shout.getLayout = function getLayout(page) {
-	return <Layout>{page}</Layout>
-}
+  return <Layout>{page}</Layout>;
+};
 export default Shout;
