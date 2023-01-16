@@ -1,7 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { UploadOutlined, LikeOutlined } from "@ant-design/icons";
+import {
+  UploadOutlined,
+  LikeOutlined,
+  StarFilled,
+  EnvironmentFilled,
+} from "@ant-design/icons";
 import {
   Image as Antimage,
   Divider,
@@ -17,7 +22,8 @@ import {
   Space,
   Skeleton,
   Mentions,
-  Progress,
+  Layout,
+  Card,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
@@ -28,6 +34,7 @@ import { recommendPost } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
+import { Content } from "antd/es/layout/layout";
 const { Text } = Typography;
 
 const PartnerLocation = ({
@@ -35,8 +42,8 @@ const PartnerLocation = ({
   ongetmyFollowers,
   ongetActivity,
   onpostThink,
-  activityInfo,
   myfollowerList,
+  location,
 }) => {
   const IconText = ({ postID, text }) => (
     <Space>
@@ -49,27 +56,6 @@ const PartnerLocation = ({
       <Text> {text}</Text>
     </Space>
   );
-  //use totalPollVoteCount, partnerPollQuestion and PartnerPollOptions
-  const totalPollVoteCount = 20;
-  const partnerPollQuestion = "This is a question.";
-  const partnerPollOptions = [
-    {
-      option: "This is option 1.",
-      votePercecnt: "20",
-    },
-    {
-      option: "This is option 2.",
-      votePercecnt: "50",
-    },
-    {
-      option: "This is option 3.",
-      votePercecnt: "10",
-    },
-    {
-      option: "This is option 4.",
-      votePercecnt: "20",
-    },
-  ];
 
   const myLoader = ({ src }) => {
     return src;
@@ -238,222 +224,305 @@ const PartnerLocation = ({
       }
     },
   };
+
   return (
-    <div className="blog-details-area">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-xl-8 col-lg-7 col-md-12">
-            <div className="avatar-area green-color">
-              <div className="avatar-respond">
-                <div className="pin-post-header-section">
-                  <div className="pin-post-label">
-                    <p className="comment-notes">
-                      <span id="email-notes">Let us know what you think!</span>
-                    </p>
-                  </div>
-                  <div className="pin-post-logo">
-                    <Image
-                      src={food}
-                      alt="blog-details"
-                      width={50}
-                      height={70}
-                    />
-                  </div>
-                </div>
-                <div className="avatar-form">
-                  <div className="row">
-                    <div className="col-lg-12 col-md-12 col-sm-12">
-                      <Form
-                        form={composeForm}
-                        onFinish={onFinish}
-                        layout="vertical"
-                        autoComplete="off"
-                      >
-                        <Form.Item
-                          name="message"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please input Message!",
-                            },
-                            {
-                              whitespace: true,
-                              message: "Please input Message!",
-                            },
-                          ]}
-                        >
-                          <Mentions
-                            rows={7}
-                            style={{
-                              width: "100%",
-                            }}
-                            placeholder="input @ to mention user"
-                            prefix={["@"]}
-                            options={(
-                              (myfollowerList && myfollowerList[0]?.[prefix]) ||
-                              []
-                            ).map((value) => ({
-                              key: value,
-                              value,
-                              label: value,
-                            }))}
-                          />
-                        </Form.Item>
-                        <Form.Item name="fileupload">
-                          <Row>
-                            <Col span={8}>
-                              <Upload listType="picture" {...props}>
-                                <Button
-                                  icon={<UploadOutlined />}
-                                  style={{ marginRight: 10 }}
-                                >
-                                  Click to Upload
-                                </Button>
-                              </Upload>
-                            </Col>
-                            <Col span={8} offset={8}>
-                              <Button
-                                type="primary"
-                                htmlType="submit"
-                                className="btn-submit"
-                                style={{
-                                  display: "initial",
-                                  float: "right",
-                                  height: 50,
-                                  padding: "10px 40px",
-                                }}
-                              >
-                                POST
-                              </Button>
-                            </Col>
-                          </Row>
-                        </Form.Item>
-                      </Form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <Layout
+      className="site-layout"
+      style={{
+        background: "#211f1f",
+      }}
+    >
+      <Content>
+        <div className="container">
+          <Card
+            className="banner"
+            style={{
+              backgroundColor: "#2F2F2F",
+              margin: "60px 16px",
+            }}
+            bordered={false}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Row
+                justify={"space-between"}
+                style={{
+                  position: "relative",
+                  height: "100px",
+                }}
+              >
+                <StarFilled style={{ fontSize: "20px", color: "#fff" }} />
+                <Space
+                  direction="vertical"
+                  style={{
+                    top: -60,
+                    left: "50%",
+                    position: "absolute",
+                  }}
+                >
+                  <Avatar
+                    style={{ border: "3px solid black" }}
+                    size={100}
+                    icon={
+                      location.profilePhoto ? (
+                        location.profilePhoto
+                      ) : (
+                        <EnvironmentFilled />
+                      )
+                    }
+                  />
+
+                  <Text
+                    style={{
+                      fontSize: "20px",
+                      color: "#fff",
+                    }}
+                    strong
+                  >
+                    {location.name}
+                  </Text>
+                </Space>
+
+                <Space>
+                  <div
+                    style={{
+                      height: "15px",
+                      width: "15px",
+                      backgroundColor: location.isActive
+                        ? "#05ff00"
+                        : "#ff0000",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <Text style={{ color: "#fff" }}>{location.location}</Text>
+                </Space>
+              </Row>
+              <Text style={{ color: "#fff", textAlign: "center" }}>
+                {location.description ?? "Description of the location"}
+              </Text>
             </div>
-            <div className="avatar-area green-color">
-              <div className="avatar-respond">
-                <div className="avatar-form">
-                  <div className="row">
-                    <div className="col-xl-12 col-lg-12 col-md-12">
-                      <List
-                        itemLayout="vertical"
-                        size="large"
-                        loading={initLoading}
-                        loadMore={loadMore}
-                        dataSource={list}
-                        renderItem={(item, index) => (
-                          <List.Item
-                            key={index}
-                            actions={[
-                              item?.type == "post" ? (
-                                <IconText
-                                  postID={item._id}
-                                  text={item?.like ? item.like.length : 0}
-                                  key="list-vertical-like-o"
-                                />
-                              ) : (
-                                ""
-                              ),
-                            ]}
-                          >
-                            <Skeleton
-                              avatar
-                              title={false}
-                              loading={item.loading}
-                              active
-                            >
-                              <List.Item.Meta
-                                avatar={
-                                  <Avatar
-                                    src={avatarurl + item?.from_user?.avatar}
-                                    size={64}
-                                  />
-                                }
-                                // title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.realname?.first + '  ' + item?.from_user?.realname?.last} / @{item?.from_user?.username}</a>}
-                                title={
-                                  <>
-                                    <span className="custom-userName">
-                                      {item?.from_user?.realname.first +
-                                        " " +
-                                        item?.from_user?.realname.last}{" "}
-                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                    </span>
-                                    <span className="custom-shoutout-text">
-                                      {item?.type !== "post"
-                                        ? item.other_content
-                                        : ""}
-                                    </span>
-                                    <br />
-                                    <a
-                                      onClick={() =>
-                                        window.open(
-                                          baseUrl +
-                                            "/profile/" +
-                                            item.from_user._id +
-                                            "/activity",
-                                          "_blank"
-                                        )
-                                      }
-                                    >
-                                      @{item?.from_user?.username}
-                                    </a>
-                                  </>
-                                }
-                                description={new Date(
-                                  item?.createdAt
-                                ).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                  hour: "numeric",
-                                  hour12: true,
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                })}
-                              />
-                              <div className="custom-list-content">
-                                {item?.type == "post"
-                                  ? item?.content
-                                  : item?.other}
-                              </div>
-                              {item.image ? (
-                                <div
-                                  className="custom-list-content"
-                                  style={{
-                                    marginTop: 10,
-                                  }}
-                                >
-                                  <Antimage.PreviewGroup>
-                                    {item.image.map((item, index) => (
-                                      <Antimage
-                                        key={index}
-                                        loader={myLoader}
-                                        width={"25%"}
-                                        src={imgurl + "/" + item}
-                                      />
-                                    ))}
-                                  </Antimage.PreviewGroup>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </Skeleton>
-                          </List.Item>
-                        )}
+          </Card>
+          <Row justify={"center"}>
+            <div className="col-xl-8 col-lg-7 col-md-12">
+              <div className="avatar-area green-color">
+                <div className="avatar-respond">
+                  <div className="pin-post-header-section">
+                    <div className="pin-post-label">
+                      <p className="comment-notes">
+                        <span id="email-notes">
+                          Let us know what you think!
+                        </span>
+                      </p>
+                    </div>
+                    <div className="pin-post-logo">
+                      <Image
+                        src={food}
+                        alt="blog-details"
+                        width={50}
+                        height={70}
                       />
                     </div>
                   </div>
+                  <div className="avatar-form">
+                    <div className="row">
+                      <div className="col-lg-12 col-md-12 col-sm-12">
+                        <Form
+                          form={composeForm}
+                          onFinish={onFinish}
+                          layout="vertical"
+                          autoComplete="off"
+                        >
+                          <Form.Item
+                            name="message"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Please input Message!",
+                              },
+                              {
+                                whitespace: true,
+                                message: "Please input Message!",
+                              },
+                            ]}
+                          >
+                            <Mentions
+                              rows={7}
+                              style={{
+                                width: "100%",
+                              }}
+                              placeholder="input @ to mention user"
+                              prefix={["@"]}
+                              options={(
+                                (myfollowerList &&
+                                  myfollowerList[0]?.[prefix]) ||
+                                []
+                              ).map((value) => ({
+                                key: value,
+                                value,
+                                label: value,
+                              }))}
+                            />
+                          </Form.Item>
+                          <Form.Item name="fileupload">
+                            <Row>
+                              <Col span={8}>
+                                <Upload listType="picture" {...props}>
+                                  <Button
+                                    icon={<UploadOutlined />}
+                                    style={{ marginRight: 10 }}
+                                  >
+                                    Click to Upload
+                                  </Button>
+                                </Upload>
+                              </Col>
+                              <Col span={8} offset={8}>
+                                <Button
+                                  type="primary"
+                                  htmlType="submit"
+                                  className="btn-submit"
+                                  style={{
+                                    display: "initial",
+                                    float: "right",
+                                    height: 50,
+                                    padding: "10px 40px",
+                                  }}
+                                >
+                                  POST
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Form.Item>
+                        </Form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="avatar-area green-color">
+                <div className="avatar-respond">
+                  <div className="avatar-form">
+                    <div className="row">
+                      <div className="col-xl-12 col-lg-12 col-md-12">
+                        <List
+                          itemLayout="vertical"
+                          size="large"
+                          loading={initLoading}
+                          loadMore={loadMore}
+                          dataSource={list}
+                          renderItem={(item, index) => (
+                            <List.Item
+                              key={index}
+                              actions={[
+                                item?.type == "post" ? (
+                                  <IconText
+                                    postID={item._id}
+                                    text={item?.like ? item.like.length : 0}
+                                    key="list-vertical-like-o"
+                                  />
+                                ) : (
+                                  ""
+                                ),
+                              ]}
+                            >
+                              <Skeleton
+                                avatar
+                                title={false}
+                                loading={item.loading}
+                                active
+                              >
+                                <List.Item.Meta
+                                  avatar={
+                                    <Avatar
+                                      src={avatarurl + item?.from_user?.avatar}
+                                      size={64}
+                                    />
+                                  }
+                                  // title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.realname?.first + '  ' + item?.from_user?.realname?.last} / @{item?.from_user?.username}</a>}
+                                  title={
+                                    <>
+                                      <span className="custom-userName">
+                                        {item?.from_user?.realname.first +
+                                          " " +
+                                          item?.from_user?.realname.last}{" "}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                                      </span>
+                                      <span className="custom-shoutout-text">
+                                        {item?.type !== "post"
+                                          ? item.other_content
+                                          : ""}
+                                      </span>
+                                      <br />
+                                      <a
+                                        onClick={() =>
+                                          window.open(
+                                            baseUrl +
+                                              "/profile/" +
+                                              item.from_user._id +
+                                              "/activity",
+                                            "_blank"
+                                          )
+                                        }
+                                      >
+                                        @{item?.from_user?.username}
+                                      </a>
+                                    </>
+                                  }
+                                  description={new Date(
+                                    item?.createdAt
+                                  ).toLocaleDateString(undefined, {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    hour12: true,
+                                    minute: "2-digit",
+                                    second: "2-digit",
+                                  })}
+                                />
+                                <div className="custom-list-content">
+                                  {item?.type == "post"
+                                    ? item?.content
+                                    : item?.other}
+                                </div>
+                                {item.image ? (
+                                  <div
+                                    className="custom-list-content"
+                                    style={{
+                                      marginTop: 10,
+                                    }}
+                                  >
+                                    <Antimage.PreviewGroup>
+                                      {item.image.map((item, index) => (
+                                        <Antimage
+                                          key={index}
+                                          loader={myLoader}
+                                          width={"25%"}
+                                          src={imgurl + "/" + item}
+                                        />
+                                      ))}
+                                    </Antimage.PreviewGroup>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </Skeleton>
+                            </List.Item>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Row>
         </div>
-      </div>
-    </div>
+      </Content>
+    </Layout>
   );
 };
 
