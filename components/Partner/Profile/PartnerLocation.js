@@ -56,10 +56,11 @@ const PartnerLocation = ({ location }) => {
             style={{
               backgroundColor: "#2F2F2F",
               margin: "60px 16px",
+              marginTop: "100px",
               position: "relative",
             }}
             bodyStyle={{
-              paddingBottom: 0,
+              paddingBottom: "5px",
             }}
             bordered={false}
           >
