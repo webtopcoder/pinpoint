@@ -95,7 +95,7 @@ function LeftSidebar({ onLogout }) {
     getItem("Parter Locations", "/partner/locations/", <EnvironmentFilled />),
     getItem("View Profile", `/profile/${user_id}/activity`, <ProfileFilled />),
     getItem("PartnerShip", "/partner/partnership/", <GiftOutlined />),
-    getItem("Contact Pinpoint", "11", <ContactsFilled />),
+    // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
   useEffect(() => {
     if (router.pathname.indexOf("/partner/settings/") > -1) {
