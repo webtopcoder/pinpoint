@@ -1,11 +1,19 @@
-import React from "react";
+import { getHeader } from "@/src/redux/Profile/actions";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
-const Submenu = () => {
+const Submenu = ({ headerInfo, ongetHeader }) => {
   const router = useRouter();
   const view_user_id = router.query.profile;
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { profile } = router.query;
+      ongetHeader(profile);
+    }
+  }, [router.isReady]);
 
   return (
     <div className="container">
@@ -52,19 +60,35 @@ const Submenu = () => {
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href={`/profile/${view_user_id}/locations`}>
-                <a
-                  className={
-                    router.pathname == `/profile/[profile]/locations`
-                      ? "active"
-                      : ""
-                  }
-                >
-                  Locations
-                </a>
-              </Link>
-            </li>
+            {headerInfo?.profile?.usertype == "partner" ? (
+              <li>
+                <Link href={`/profile/${view_user_id}/locations`}>
+                  <a
+                    className={
+                      router.pathname == `/profile/[profile]/locations`
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    Locations
+                  </a>
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link href={`/profile/${view_user_id}/favorites`}>
+                  <a
+                    className={
+                      router.pathname == `/profile/[profile]/favorites`
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    Favorites
+                  </a>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -72,10 +96,15 @@ const Submenu = () => {
   );
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ profile, user }) => {
   return {
     user_id: user.loginInfo.id,
+    headerInfo: profile.headerInfo,
   };
 };
 
-export default connect(mapStateToProps, undefined)(Submenu);
+const mapDispatchToProps = (dispatch) => ({
+  ongetHeader: (data) => dispatch(getHeader(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Submenu);
