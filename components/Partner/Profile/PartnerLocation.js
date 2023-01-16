@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
 import {
@@ -25,8 +25,8 @@ import {
 } from "antd";
 import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
-import { Content } from "antd/es/layout/layout";
 import baseUrl from "@/utils/baseUrl";
+const { Content } = Layout;
 const { Text } = Typography;
 
 const IconText = ({ text }) => (
@@ -56,6 +56,10 @@ const PartnerLocation = ({ location }) => {
             style={{
               backgroundColor: "#2F2F2F",
               margin: "60px 16px",
+              position: "relative",
+            }}
+            bodyStyle={{
+              paddingBottom: 0,
             }}
             bordered={false}
           >
@@ -68,8 +72,8 @@ const PartnerLocation = ({ location }) => {
               <Row
                 justify={"space-between"}
                 style={{
-                  position: "relative",
                   height: "100px",
+                  marginTop: "20px",
                 }}
               >
                 <Rate
@@ -80,23 +84,6 @@ const PartnerLocation = ({ location }) => {
                   value={location.rating}
                 />
                 <Space direction="vertical">
-                  <Avatar
-                    style={{
-                      top: -83,
-                      left: "47%",
-                      position: "absolute",
-                      border: "3px solid black",
-                    }}
-                    size={100}
-                    icon={
-                      location.profilePhoto ? (
-                        location.profilePhoto
-                      ) : (
-                        <EnvironmentFilled />
-                      )
-                    }
-                  />
-
                   <Text
                     style={{
                       marginTop: "30px",
@@ -109,7 +96,13 @@ const PartnerLocation = ({ location }) => {
                   </Text>
                 </Space>
 
-                <Space>
+                <Space
+                  wrap
+                  style={{
+                    alignItems: "top",
+                    alignSelf: "flex-start",
+                  }}
+                >
                   <div
                     style={{
                       height: "15px",
@@ -120,14 +113,41 @@ const PartnerLocation = ({ location }) => {
                       borderRadius: "50%",
                     }}
                   />
-                  <Text style={{ color: "#fff", alignItems: "top" }}>
-                    {location.location}
-                  </Text>
+                  <Text style={{ color: "#fff" }}>{location.location}</Text>
                 </Space>
               </Row>
+
               <Text style={{ color: "#fff", textAlign: "center" }}>
                 {location.description ?? "Description of the location"}
               </Text>
+
+              <Text
+                strong
+                style={{
+                  color: "#fff",
+                  textAlign: "center",
+                  paddingTop: "20px",
+                }}
+              >
+                Mexican, Pinpoint Favorite, Cheap Eats, Late Night
+              </Text>
+
+              <Avatar
+                style={{
+                  border: "3px solid black",
+                  position: "absolute",
+                  top: "-28%",
+                  right: "45%",
+                }}
+                size={100}
+                icon={
+                  location.profilePhoto ? (
+                    location.profilePhoto
+                  ) : (
+                    <EnvironmentFilled />
+                  )
+                }
+              />
             </div>
           </Card>
           <Row justify={"center"}>
@@ -259,6 +279,7 @@ const PartnerLocation = ({ location }) => {
 };
 
 function PostForm() {
+  const [rating, setRating] = useState(0);
   return (
     <div className="avatar-area green-color">
       <div className="avatar-respond">
@@ -308,7 +329,22 @@ function PostForm() {
                         Click to Upload
                       </Button>
                     </Col>
-                    <Col span={8} offset={8}>
+                    <Col span={5} offset={2}>
+                      <Rate
+                        allowHalf
+                        defaultValue={2}
+                        tooltips={[
+                          "terrible",
+                          "bad",
+                          "normal",
+                          "good",
+                          "wonderful",
+                        ]}
+                        onChange={setRating}
+                        value={rating}
+                      />
+                    </Col>
+                    <Col span={8} offset={1}>
                       <Button
                         type="primary"
                         htmlType="submit"
