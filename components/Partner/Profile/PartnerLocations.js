@@ -43,6 +43,7 @@ const PartnerCard = ({ location }) => {
           cursor: "pointer",
         }}
         headStyle={{
+          color: "white",
           textAlign: "center",
         }}
         title={location.name}
