@@ -38,18 +38,12 @@ const PartnerCard = ({ location }) => {
   return (
     <Link href={`/profile/${profile}/locations/${location._id}`}>
       <Card
-        actions={[
-          <Button type="link">Arrival</Button>,
-          <Button type="link">Departure</Button>,
-        ]}
-        headStyle={{
+        style={{
           color: "white",
-          textAlign: "center",
           cursor: "pointer",
         }}
-        bodyStyle={{
-          color: "white",
-          cursor: "pointer",
+        headStyle={{
+          textAlign: "center",
         }}
         title={location.name}
         className="partner-locations-card"
