@@ -1,9 +1,9 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import PartnerLocation from "@/components/Partner/Profile/PartnerLocation";
+import PartnerLocations from "@/components/Partner/Profile/PartnerLocations";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import Layout from "../../../layout";
+import Layout from "../../../../layout";
 
 const Locations = ({ locations }) => {
   // dummy static data for testing now
@@ -20,7 +20,7 @@ const Locations = ({ locations }) => {
     {
       _id: "2",
       name: "Example1",
-      isActive: true,
+      isActive: false,
       lastSeen: "2 weeks ago",
       rating: 4,
       description: "loerm30",
@@ -29,7 +29,7 @@ const Locations = ({ locations }) => {
     {
       _id: "3",
       name: "Example1",
-      isActive: true,
+      isActive: false,
       lastSeen: "2 weeks ago",
       rating: 4,
       description: "loerm30",
@@ -45,7 +45,7 @@ const Locations = ({ locations }) => {
         <Profileheader />
         <div className="pin-profile-section">
           <Submenu />
-          <PartnerLocation locations={location} />
+          <PartnerLocations locations={location} />
         </div>
       </div>
     </>
