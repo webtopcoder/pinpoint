@@ -10,30 +10,39 @@ const Locations = ({ locations }) => {
   const location = [
     {
       _id: "1",
-      name: "Example1",
+      name: "Example Food Truck #1",
       isActive: true,
       lastSeen: "2 weeks ago",
-      rating: 4,
-      description: "loerm30",
-      location: "lousiana",
+      likeCount: 106,
+      reviewCount: 89,
+      rating: 5,
+      description:
+        "Example Food Truck #1 specializes in authentic Mexican food! Just like your grandma used to make! Come try us out and see for yourselves!",
+      location: "Jacksonville, FL",
     },
     {
       _id: "2",
-      name: "Example1",
-      isActive: false,
+      name: "Example Food Truck #2",
+      isActive: true,
       lastSeen: "2 weeks ago",
-      rating: 4,
-      description: "loerm30",
-      location: "lousiana",
+      likeCount: 16,
+      reviewCount: 60,
+      rating: 3.5,
+      description:
+        "Example Food Truck #2 specializes in authentic Mexican food! Just like your grandma used to make! Come try us out and see for yourselves!",
+      location: "Jacksonville, FL",
     },
     {
       _id: "3",
-      name: "Example1",
+      name: "Example Food Truck #3",
       isActive: false,
       lastSeen: "2 weeks ago",
-      rating: 4,
-      description: "loerm30",
-      location: "lousiana",
+      likeCount: 29,
+      reviewCount: 100,
+      rating: 3,
+      description:
+        "Example Food Truck #3 specializes in authentic Mexican food! Just like your grandma used to make! Come try us out and see for yourselves!",
+      location: "Atlantic Beach, FL",
     },
   ];
 
