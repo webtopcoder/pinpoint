@@ -9,12 +9,40 @@ const Location = ({ location }) => {
   // dummy static data for testing now
   const dummyLocation = {
     _id: "1",
-    name: "Example1",
+    name: "Example Food Truck #1",
     isActive: true,
     lastSeen: "2 weeks ago",
+    likeCount: 106,
+    reviewCount: 89,
     rating: 4,
-    description: "loerm30",
-    location: "lousiana",
+    description:
+      "Example Food Truck #1 specializes in authentic Mexican food! Just like your grandma used to make! Come try us out and see for yourselves!",
+    location: "Jacksonville, FL",
+    reviews: [
+      {
+        from_user: {
+          username: "Sample User",
+          id: "63c402aaac00ac8f14d93942",
+          realname: {
+            first: "Partner",
+            last: "John",
+          },
+        },
+        to_user: {
+          username: "Sample User 2",
+          id: "63c402aaac00ac8f14d93942",
+          realname: {
+            first: "Partner",
+            last: "John",
+          },
+        },
+        image: ["63c402aaac00ac8f14d939421673799684099-undefined.png"],
+        content: "good boi",
+        like: [],
+        _id: "63c42804ac00ac8f14d93e79",
+        createdAt: "2023-01-15T16:21:24.104Z",
+      },
+    ],
   };
   return (
     <>
