@@ -26,6 +26,7 @@ const AddUserModal = ({ modal, onOk, onCancel }) => {
                 <Select style={{ width: '100%' }} defaultValue={'admin'}>
                     <Select.Option value="admin">Admin</Select.Option>
                     <Select.Option value="owner">Owner</Select.Option>
+                    <Select.Option value="owner">Basic</Select.Option>
                 </Select>
             </Row>
             <Row className='mt-3'>

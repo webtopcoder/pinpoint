@@ -20,7 +20,8 @@ import {
     message,
     Form,
     Input,
-    DatePicker
+    DatePicker,
+    TimePicker 
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import {
@@ -119,10 +120,9 @@ const partnerLocations = () => {
         },
     };
 
-    const onChange = (value, dateString) => {
-        console.log('Selected Time: ', value);
-        console.log('Formatted Selected Time: ', dateString);
-    };
+    const onChange = (time, timeString) => {
+        console.log(time, timeString);
+      };
     const onOk = (value) => {
         console.log('onOk: ', value);
     };
@@ -388,7 +388,7 @@ const partnerLocations = () => {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item
-                                label="Partner Location"
+                                label="Location Subcategories"
                                 required
                                 tooltip="This is a required field"
                             >
@@ -618,11 +618,11 @@ const partnerLocations = () => {
                     <Row>
                         <Col xs={24} sm={24} md={6} lg={8} xl={8}>
                             <Form.Item label="Departure" required name="requiredMarkValue">
-                                <DatePicker format="DD/MM/YYYY h:mm:ss A" use12Hours showTime onChange={onChange} onOk={onOk} />
+                            <TimePicker use12Hours onChange={onChange} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={18} lg={16} xl={16}>
-                            <Form.Item label="Partner Location" required tooltip="This is a required field">
+                            <Form.Item label="Location Subcategories" required tooltip="This is a required field">
                                 <Select
                                     size='middle'
                                     defaultValue="a1"
@@ -712,7 +712,7 @@ const partnerLocations = () => {
                 >
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Form.Item label="Partner Location" required tooltip="This is a required field">
+                            <Form.Item label="Location Subcategories" required tooltip="This is a required field">
                                 <Select
                                     size='middle'
                                     defaultValue="a1"

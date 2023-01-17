@@ -128,9 +128,7 @@ const Business = () => {
                         <Col md={12} xs={12} sm={12}>
                             <Button type="primary" shape="round" icon={<DoubleLeftOutlined />} onClick={() => router.push('/partner/settings')}>Go back</Button>
                         </Col>
-                        <Col md={12} xs={12} sm={12} className={styles.right_pane}>
-                            <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={() => setShowModal(true)}>Add User</Button>
-                        </Col>
+
                     </Row>
                     <div className={styles.business_detail_content}>
                         <div className="login-form">
@@ -254,6 +252,14 @@ const Business = () => {
                                             ) : null}
                                         </div>
                                     </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-lg-2"></div>
+                                    <div className="col-lg-8">
+                                        <button type="submit">Update Info</button>
+                                    </div>
+                                    <div className="col-lg-2"></div>
+
                                 </div>
                             </form>
                         </div>

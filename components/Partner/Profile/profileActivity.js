@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { UploadOutlined, LikeOutlined } from "@ant-design/icons";
+import { UploadOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Image as Antimage,
   Divider,
@@ -270,6 +270,18 @@ const profileActivity = ({
       }
     },
   };
+
+  const [percent, setPercent] = useState(0);
+
+  const increase = () => {
+    setPercent((prevPercent) => {
+      const newPercent = prevPercent + 10;
+      if (newPercent > 100) {
+        return 100;
+      }
+      return newPercent;
+    });
+  };
   return (
     <div className="blog-details-area">
       <div className="container">
@@ -339,7 +351,7 @@ const profileActivity = ({
                                   icon={<UploadOutlined />}
                                   style={{ marginRight: 10 }}
                                 >
-                                  Click to Upload
+                                  Upload a Photo
                                 </Button>
                               </Upload>
                             </Col>
@@ -424,9 +436,9 @@ const profileActivity = ({
                                       onClick={() =>
                                         window.open(
                                           baseUrl +
-                                            "/profile/" +
-                                            item.from_user._id +
-                                            "/activity",
+                                          "/profile/" +
+                                          item.from_user._id +
+                                          "/activity",
                                           "_blank"
                                         )
                                       }
@@ -526,15 +538,22 @@ const profileActivity = ({
                         <div className="partner-poll-options">
                           {partnerPollOptions.map((item, index) => {
                             return (
-                              <li key={index}>
-                                {item.option}
+                              <div key={index}>
+                                <Space.Compact block size="small">
+                                  <Text style={{
+                                    width: 'calc(100% - 200px)',
+                                  }}> {item.option}</Text>
+
+                                  <Button onClick={increase} icon={<PlusOutlined />} />
+                                </Space.Compact>
                                 <Progress
                                   percent={item.votePercecnt}
                                   showInfo={false}
                                   strokeColor="#1677FF"
                                   trailColor="black"
                                 />
-                              </li>
+
+                              </div>
                             );
                           })}
                         </div>
@@ -566,9 +585,9 @@ const profileActivity = ({
                               onClick={() =>
                                 window.open(
                                   baseUrl +
-                                    "/profile/" +
-                                    view_user_id +
-                                    "/allphotos",
+                                  "/profile/" +
+                                  view_user_id +
+                                  "/allphotos",
                                   "_blank"
                                 )
                               }
