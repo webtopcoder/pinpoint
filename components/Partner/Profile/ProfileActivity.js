@@ -31,7 +31,7 @@ import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
-const profileActivity = ({
+const ProfileActivity = ({
   onrecommendPost,
   ongetmyFollowers,
   ongetActivity,
@@ -694,4 +694,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getActivity(data, count, search, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(profileActivity);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);

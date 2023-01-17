@@ -15,6 +15,7 @@ import toast from "@/components/Toast";
 import { message, Upload, Input } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
+import Image from "next/image";
 
 const QuillNoSSRWrapper = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -250,7 +251,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                               onChange={handleChange}
                             >
                               {imageUrl ? (
-                                <img
+                                <Image
                                   src={imageUrl}
                                   alt="avatar"
                                   style={{
@@ -258,7 +259,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                   }}
                                 />
                               ) : avatarImg ? (
-                                <img
+                                <Image
                                   src={avatarurl + avatarImg}
                                   alt="avatar"
                                   style={{
