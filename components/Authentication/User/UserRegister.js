@@ -75,13 +75,14 @@ const UserRegister = ({ onRegisterUser }) => {
       "password",
     ];
     const formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
+    const savedEmail = localStorage.setItem(
+      "registration_email",
+      formRequest.email
+    );
     onRegisterUser(formRequest, (res) => {
       if (res.success) {
         router.push("/authentication/thank-you");
-        const savedEmail = localStorage.setItem(
-          "registration_email",
-          formRequest.email
-        );
+
         console.log(savedEmail);
         localStorage.setItem("thankyou_id", "User");
       } else {

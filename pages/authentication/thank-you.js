@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import AuthCode from "react-auth-code-input";
@@ -17,19 +17,24 @@ const ThankYou = ({ onVerifyUserEmail }) => {
   const handleOnChange = (res) => {
     setResult(res);
   };
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    setEmail({ email: localStorage.getItem("registration_email") });
+
+  useEffect(() => {
+    setEmail({ email: window.localStorage.getItem("registration_email") });
     thankyou_id = localStorage.getItem("thankyou_id");
-    // backLogin = thankyou_id.toLowerCase();
-  }
+    backLogin = thankyou_id.toLowerCase();
+  }, []);
+
+  // if (typeof window !== "undefined") {
+  //   // Perform localStorage action
+  //   }
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const data = {
-      email,
+      email: email.email,
       otp: result,
     };
+    console.log(data);
     onVerifyUserEmail(data, (res) => {
       if (res.success) {
         router.push("/authentication/user/login");
@@ -68,7 +73,7 @@ const ThankYou = ({ onVerifyUserEmail }) => {
                   </div> */}
               </form>
 
-              <Link href={`/authentication/${backLogin}/login`}>
+              <Link href={`/authentication/user/login`}>
                 <a className="btn-style-one red-light-color">
                   Back to {thankyou_id} Login{" "}
                   <i className="bx bx-chevron-right"></i>

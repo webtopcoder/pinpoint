@@ -14,7 +14,7 @@ const touchErrors = (errors) => {
 
 export const useLoginFormValidator = (form) => {
   const [errors, setErrors] = useState({
-    userInfo: {
+    email: {
       dirty: false,
       error: false,
       message: "",
@@ -37,13 +37,13 @@ export const useLoginFormValidator = (form) => {
       nextErrors = touchErrors(errors);
     }
 
-    const { userInfo, password } = form;
+    const { email, password } = form;
 
-    if (nextErrors.userInfo.dirty && (field ? field === "userInfo" : true)) {
-      const userInfoMessage = UserInfoValidator(userInfo, form);
-      nextErrors.userInfo.error = !!userInfoMessage;
-      nextErrors.userInfo.message = userInfoMessage;
-      if (!!userInfoMessage) isValid = false;
+    if (nextErrors.email.dirty && (field ? field === "email" : true)) {
+      const emailMessage = UserInfoValidator(email, form);
+      nextErrors.email.error = !!emailMessage;
+      nextErrors.email.message = emailMessage;
+      if (!!emailMessage) isValid = false;
     }
 
     if (nextErrors.password.dirty && (field ? field === "password" : true)) {

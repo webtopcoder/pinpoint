@@ -20,7 +20,7 @@ const UserLogin = ({ onLoginUser }) => {
   }, []);
 
   const [form, setForm] = useState({
-    userInfo: "",
+    email: "",
     password: "",
   });
 
@@ -45,6 +45,7 @@ const UserLogin = ({ onLoginUser }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
+    console.log(form);
     onLoginUser(form, (res) => {
       res.success ? notify("success", res.msg) : notify("error", res.msg);
       if (res.success) {
@@ -66,18 +67,18 @@ const UserLogin = ({ onLoginUser }) => {
         <form onSubmit={onSubmitForm}>
           <div className="auth-space"></div>
           <div className="form-group">
-            <label className="authen-text-attr">Username or Email *</label>
+            <label className="authen-text-attr"> Email *</label>
             <input
               type="text"
-              name="userInfo"
+              name="email"
               className="form-control"
-              value={form.userInfo}
+              value={form.email}
               onChange={onUpdateField}
               onBlur={onBlurField}
             />
-            {errors.userInfo.dirty && errors.userInfo.error ? (
+            {errors.email.dirty && errors.email.error ? (
               <p className={styles.formFieldErrorMessage}>
-                {errors.userInfo.message}
+                {errors.email.message}
               </p>
             ) : null}
           </div>
