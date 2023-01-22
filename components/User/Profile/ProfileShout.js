@@ -19,7 +19,7 @@ import toast from "@/components/Toast";
 
 const { Text, Link } = Typography;
 
-const profileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
+const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
   const IconText = ({ postID, text }) => (
     <Space>
       <Button
@@ -257,6 +257,7 @@ const profileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                         loader={myLoader}
                                         width={"25%"}
                                         src={imgurl + "/" + item1}
+                                        key={index}
                                       />
                                     ))}
                                   </Antimage.PreviewGroup>
@@ -291,4 +292,4 @@ const mapDispatchToProps = (dispatch) => ({
   ongetShoutout: (data, count, search, cb) =>
     dispatch(getShoutout(data, count, search, cb)),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(profileShout);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileShout);

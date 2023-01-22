@@ -13,6 +13,7 @@ import toast from "@/components/Toast";
 import { message, Upload, Input, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
+import Image from "next/image";
 
 const { Content } = Layout;
 
@@ -261,7 +262,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                   onChange={handleChange}
                                 >
                                   {imageUrl ? (
-                                    <img
+                                    <Image
                                       src={imageUrl}
                                       alt="avatar"
                                       style={{
@@ -269,7 +270,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                       }}
                                     />
                                   ) : avatarImg ? (
-                                    <img
+                                    <Image
                                       src={avatarurl + avatarImg}
                                       alt="avatar"
                                       style={{

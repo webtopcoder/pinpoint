@@ -3,7 +3,6 @@ import Image from "next/image";
 import { connect } from "react-redux";
 import {
   UploadOutlined,
-  StarFilled,
   EnvironmentFilled,
   LikeOutlined,
 } from "@ant-design/icons";
@@ -35,13 +34,19 @@ const IconText = ({ text }) => (
     <Text> {text}</Text>
   </Space>
 );
-
-const PartnerLocation = ({ location }) => {
-  const myLoader = ({ src }) => {
-    return src;
-  };
-  const imgurl = `http://${config.server}:${config.port}/post/`;
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const imgurl = `http://${config.server}:${config.port}/post/`;
+const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const myLoader = ({ src }) => {
+  return src;
+};
+const PartnerLocation = (location) => {
+  const ActivePost = location.posts.find((post, index) => {
+    if (post.from_user.id === location._id) {
+      return post;
+    }
+  });
+  console.log(ActivePost);
+  console.log(location);
   return (
     <Layout
       className="site-layout"
@@ -51,109 +56,11 @@ const PartnerLocation = ({ location }) => {
     >
       <Content>
         <div className="container">
-          <Card
-            className="banner"
-            style={{
-              backgroundColor: "#2F2F2F",
-              margin: "60px 16px",
-              marginTop: "100px",
-              position: "relative",
-            }}
-            bodyStyle={{
-              paddingBottom: "5px",
-            }}
-            bordered={false}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <Row
-                justify={"space-between"}
-                style={{
-                  height: "100px",
-                  marginTop: "20px",
-                }}
-              >
-                <Rate
-                  allowHalf
-                  disabled
-                  defaultValue={2}
-                  tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-                  value={location.rating}
-                />
-                <Space direction="vertical">
-                  <Text
-                    style={{
-                      marginTop: "30px",
-                      fontSize: "20px",
-                      color: "#fff",
-                    }}
-                    strong
-                  >
-                    {location.name}
-                  </Text>
-                </Space>
-
-                <Space
-                  wrap
-                  style={{
-                    alignItems: "top",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  <div
-                    style={{
-                      height: "15px",
-                      width: "15px",
-                      backgroundColor: location.isActive
-                        ? "#05ff00"
-                        : "#ff0000",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <Text style={{ color: "#fff" }}>{location.location}</Text>
-                </Space>
-              </Row>
-
-              <Text style={{ color: "#fff", textAlign: "center" }}>
-                {location.description ?? "Description of the location"}
-              </Text>
-
-              <Text
-                strong
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  paddingTop: "20px",
-                }}
-              >
-                Mexican, Pinpoint Favorite, Cheap Eats, Late Night
-              </Text>
-
-              <Avatar
-                style={{
-                  border: "3px solid black",
-                  position: "absolute",
-                  top: "-28%",
-                  right: "45%",
-                }}
-                size={100}
-                icon={
-                  location.profilePhoto ? (
-                    location.profilePhoto
-                  ) : (
-                    <EnvironmentFilled />
-                  )
-                }
-              />
-            </div>
-          </Card>
+          <LocationCard {...location} />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
               <PostForm />
+              {location.isActive ? <Posts {...ActivePost} {...location} /> : ""}
               <div className="avatar-area green-color">
                 <div className="avatar-respond">
                   <div className="avatar-form">
@@ -162,108 +69,9 @@ const PartnerLocation = ({ location }) => {
                         <List
                           itemLayout="vertical"
                           size="large"
-                          dataSource={location.reviews}
+                          dataSource={location.posts}
                           renderItem={(item, index) => (
-                            <List.Item
-                              key={index}
-                              actions={[
-                                <IconText
-                                  text={item?.like ? item.like.length : 0}
-                                  key="list-vertical-like-o"
-                                />,
-                              ]}
-                            >
-                              <Skeleton
-                                avatar
-                                title={false}
-                                loading={item.loading}
-                                active
-                              >
-                                <List.Item.Meta
-                                  avatar={
-                                    <Avatar
-                                      src={avatarurl + item?.from_user?.avatar}
-                                      size={64}
-                                    />
-                                  }
-                                  title={
-                                    <>
-                                      <span className="custom-userName">
-                                        {item?.from_user?.realname.first +
-                                          " " +
-                                          item?.from_user?.realname.last}{" "}
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                      </span>
-                                      <span className="custom-shoutout-text">
-                                        <a
-                                          className="custom-touser-text"
-                                          onClick={() =>
-                                            window.open(
-                                              baseUrl +
-                                                "/profile/" +
-                                                item.to_user._id +
-                                                "/activity",
-                                              "_blank"
-                                            )
-                                          }
-                                        >
-                                          @{item?.to_user?.username}
-                                        </a>
-                                      </span>
-                                      <br />
-                                      <a
-                                        onClick={() =>
-                                          window.open(
-                                            baseUrl +
-                                              "/profile/" +
-                                              item.from_user._id +
-                                              "/activity",
-                                            "_blank"
-                                          )
-                                        }
-                                      >
-                                        @{item?.from_user?.username}
-                                      </a>
-                                    </>
-                                  }
-                                  description={new Date(
-                                    item?.createdAt
-                                  ).toLocaleDateString(undefined, {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                    hour: "numeric",
-                                    hour12: true,
-                                    minute: "2-digit",
-                                    second: "2-digit",
-                                  })}
-                                />
-                                <div className="custom-list-content">
-                                  {item.content}
-                                </div>
-                                {item.image ? (
-                                  <div
-                                    className="custom-list-content"
-                                    style={{
-                                      marginTop: 10,
-                                    }}
-                                  >
-                                    <Antimage.PreviewGroup>
-                                      {item.image.map((item1, index) => (
-                                        <Antimage
-                                          loader={myLoader}
-                                          width={"25%"}
-                                          src={imgurl + "/" + item1}
-                                          key={index}
-                                        />
-                                      ))}
-                                    </Antimage.PreviewGroup>
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </Skeleton>
-                            </List.Item>
+                            <Posts {...item[0]} index={index} {...location} />
                           )}
                         />
                       </div>
@@ -370,5 +178,236 @@ function PostForm() {
     </div>
   );
 }
+function Posts(item, { index }, location) {
+  console.log(location);
+  console.log(item.from_user.id);
+  return (
+    <List.Item
+      key={index}
+      actions={[
+        <IconText
+          text={item?.like ? item.like.length : 0}
+          key="list-vertical-like-o"
+        />,
+      ]}
+    >
+      <Skeleton avatar title={false} loading={item?.loading} active>
+        {item.from_user.id !== location._id ? (
+          <List.Item.Meta
+            avatar={
+              <Avatar src={avatarurl + item?.from_user?.avatar} size={64} />
+            }
+            title={
+              <>
+                <span className="custom-userName">
+                  {item?.from_user?.realname?.first +
+                    " " +
+                    item?.from_user?.realname?.last}{" "}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                </span>
+                <span className="custom-shoutout-text">
+                  <a
+                    className="custom-touser-text"
+                    onClick={() =>
+                      window.open(
+                        baseUrl + "/profile/" + item.to_user._id + "/activity",
+                        "_blank"
+                      )
+                    }
+                  >
+                    @{item?.to_user?.username}
+                  </a>
+                </span>
+                <br />
+                <a
+                  onClick={() =>
+                    window.open(
+                      baseUrl + "/profile/" + item.from_user._id + "/activity",
+                      "_blank"
+                    )
+                  }
+                >
+                  @{item?.from_user?.username}
+                </a>
+              </>
+            }
+            description={new Date(item?.createdAt).toLocaleDateString(
+              undefined,
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "2-digit",
+                second: "2-digit",
+              }
+            )}
+          />
+        ) : (
+          <List.Item.Meta
+            avatar={<Avatar src={avatarurl + location?.avatar} size={64} />}
+            title={
+              <>
+                <span className="custom-userName">
+                  {item?.from_user?.username}{" "}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                </span>
 
+                <br />
+                <a
+                  onClick={() =>
+                    window.open(
+                      baseUrl + "/profile/" + item.from_user._id + "/activity",
+                      "_blank"
+                    )
+                  }
+                >
+                  @{item?.from_user?.username}
+                </a>
+              </>
+            }
+            description={new Date(item?.createdAt).toLocaleDateString(
+              undefined,
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "2-digit",
+                second: "2-digit",
+              }
+            )}
+          />
+        )}
+
+        <div className="custom-list-content">{item.content}</div>
+        {item.image ? (
+          <div
+            className="custom-list-content"
+            style={{
+              marginTop: 10,
+            }}
+          >
+            <Antimage.PreviewGroup>
+              {item.image.map((item1, index) => (
+                <Antimage
+                  loader={myLoader}
+                  width={"25%"}
+                  src={imgurl + "/" + item1}
+                  key={index}
+                />
+              ))}
+            </Antimage.PreviewGroup>
+          </div>
+        ) : (
+          ""
+        )}
+      </Skeleton>
+    </List.Item>
+  );
+}
+function LocationCard({ location }) {
+  return (
+    <Card
+      className="banner"
+      style={{
+        backgroundColor: "#2F2F2F",
+        margin: "60px 16px",
+        marginTop: "100px",
+        position: "relative",
+      }}
+      bodyStyle={{
+        paddingBottom: "5px",
+      }}
+      bordered={false}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Row
+          justify={"space-between"}
+          style={{
+            height: "100px",
+            marginTop: "20px",
+          }}
+        >
+          <Rate
+            allowHalf
+            disabled
+            defaultValue={2}
+            tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
+            value={location.rating}
+          />
+          <Space direction="vertical">
+            <Text
+              style={{
+                marginTop: "30px",
+                fontSize: "20px",
+                color: "#fff",
+              }}
+              strong
+            >
+              {location.name}
+            </Text>
+          </Space>
+
+          <Space
+            wrap
+            style={{
+              alignItems: "top",
+              alignSelf: "flex-start",
+            }}
+          >
+            <div
+              style={{
+                height: "15px",
+                width: "15px",
+                backgroundColor: location.isActive ? "#05ff00" : "#ff0000",
+                borderRadius: "50%",
+              }}
+            />
+            <Text style={{ color: "#fff" }}>{location.location}</Text>
+          </Space>
+        </Row>
+
+        <Text style={{ color: "#fff", textAlign: "center" }}>
+          {location.description ?? "Description of the location"}
+        </Text>
+
+        <Text
+          strong
+          style={{
+            color: "#fff",
+            textAlign: "center",
+            paddingTop: "20px",
+          }}
+        >
+          Mexican, Pinpoint Favorite, Cheap Eats, Late Night
+        </Text>
+
+        <Avatar
+          style={{
+            border: "3px solid black",
+            position: "absolute",
+            top: "-28%",
+            right: "45%",
+          }}
+          size={100}
+          icon={
+            location.profilePhoto ? (
+              location.profilePhoto
+            ) : (
+              <EnvironmentFilled />
+            )
+          }
+        />
+      </div>
+    </Card>
+  );
+}
 export default connect(undefined, undefined)(PartnerLocation);

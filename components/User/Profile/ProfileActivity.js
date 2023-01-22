@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { UploadOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
+import { UploadOutlined, LikeOutlined } from "@ant-design/icons";
 import {
   Image as Antimage,
   Divider,
@@ -18,7 +17,6 @@ import {
   Space,
   Skeleton,
   Mentions,
-  Progress,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
@@ -31,7 +29,7 @@ import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
-const profileActivity = ({
+const ProfileActivity = ({
   onrecommendPost,
   ongetmyFollowers,
   ongetActivity,
@@ -50,27 +48,6 @@ const profileActivity = ({
       <Text> {text}</Text>
     </Space>
   );
-  //use totalPollVoteCount, partnerPollQuestion and PartnerPollOptions
-  const totalPollVoteCount = 20;
-  const partnerPollQuestion = "This is a question.";
-  const partnerPollOptions = [
-    {
-      option: "This is option 1.",
-      votePercecnt: "20",
-    },
-    {
-      option: "This is option 2.",
-      votePercecnt: "50",
-    },
-    {
-      option: "This is option 3.",
-      votePercecnt: "10",
-    },
-    {
-      option: "This is option 4.",
-      votePercecnt: "20",
-    },
-  ];
 
   const myLoader = ({ src }) => {
     return src;
@@ -270,18 +247,6 @@ const profileActivity = ({
       }
     },
   };
-
-  const [percent, setPercent] = useState(0);
-
-  const increase = () => {
-    setPercent((prevPercent) => {
-      const newPercent = prevPercent + 10;
-      if (newPercent > 100) {
-        return 100;
-      }
-      return newPercent;
-    });
-  };
   return (
     <div className="blog-details-area">
       <div className="container">
@@ -351,7 +316,7 @@ const profileActivity = ({
                                   icon={<UploadOutlined />}
                                   style={{ marginRight: 10 }}
                                 >
-                                  Upload a Photo
+                                  Click to Upload
                                 </Button>
                               </Upload>
                             </Col>
@@ -436,9 +401,9 @@ const profileActivity = ({
                                       onClick={() =>
                                         window.open(
                                           baseUrl +
-                                          "/profile/" +
-                                          item.from_user._id +
-                                          "/activity",
+                                            "/profile/" +
+                                            item.from_user._id +
+                                            "/activity",
                                           "_blank"
                                         )
                                       }
@@ -472,14 +437,13 @@ const profileActivity = ({
                                   }}
                                 >
                                   <Antimage.PreviewGroup>
-                                    {item.image.map((item, index) => (
+                                    {item.image.map((item, index) => {
                                       <Antimage
-                                        key={index}
                                         loader={myLoader}
                                         width={"25%"}
                                         src={imgurl + "/" + item}
-                                      />
-                                    ))}
+                                      />;
+                                    })}
                                   </Antimage.PreviewGroup>
                                 </div>
                               ) : (
@@ -508,55 +472,13 @@ const profileActivity = ({
                     >
                       <div className="pin-about-section">
                         <h4 className="comment-notes">
-                          <span id="email-notes">About Us</span>
+                          <span id="email-notes">About Me</span>
                         </h4>
                         <div
                           dangerouslySetInnerHTML={{
                             __html: activityInfo && activityInfo?.about,
                           }}
                         ></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="avatar-respond">
-                    <div
-                      className="pin-post-header-section"
-                      style={{
-                        display: "block",
-                      }}
-                    >
-                      <div className="pin-about-section">
-                        <h4 className="comment-notes">
-                          <span id="email-notes">Partner Poll</span>
-                          <p className="total-votes-count">
-                            {totalPollVoteCount}&nbsp;votes
-                          </p>
-                        </h4>
-                        <p className="partner-poll-question">
-                          {partnerPollQuestion}
-                        </p>
-                        <div className="partner-poll-options">
-                          {partnerPollOptions.map((item, index) => {
-                            return (
-                              <div key={index}>
-                                <Space.Compact block size="small">
-                                  <Text style={{
-                                    width: 'calc(100% - 200px)',
-                                  }}> {item.option}</Text>
-
-                                  <Button onClick={increase} icon={<PlusOutlined />} />
-                                </Space.Compact>
-                                <Progress
-                                  percent={item.votePercecnt}
-                                  showInfo={false}
-                                  strokeColor="#1677FF"
-                                  trailColor="black"
-                                />
-
-                              </div>
-                            );
-                          })}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -569,14 +491,13 @@ const profileActivity = ({
                         <div className="row">
                           <Antimage.PreviewGroup>
                             {activityInfo?.image &&
-                              activityInfo.image.map((image, index) => (
+                              activityInfo.image.map((image, index) => {
                                 <Antimage
-                                  key={index}
                                   loader={myLoader}
                                   width={"25%"}
                                   src={imgurl + "/" + image}
-                                />
-                              ))}
+                                />;
+                              })}
                           </Antimage.PreviewGroup>
                         </div>
                         <div className="row">
@@ -585,9 +506,9 @@ const profileActivity = ({
                               onClick={() =>
                                 window.open(
                                   baseUrl +
-                                  "/profile/" +
-                                  view_user_id +
-                                  "/allphotos",
+                                    "/profile/" +
+                                    view_user_id +
+                                    "/allphotos",
                                   "_blank"
                                 )
                               }
@@ -713,4 +634,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getActivity(data, count, search, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(profileActivity);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);

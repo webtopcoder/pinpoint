@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Register from "@/components/Authentication/User/userRegister";
+import Register from "@/components/Authentication/User/UserRegister";
 
 const userRegister = () => {
   return (
@@ -14,11 +14,9 @@ const userRegister = () => {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
             <Register />
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
           </div>
         </div>
       </div>

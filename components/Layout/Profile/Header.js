@@ -48,16 +48,16 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
           <div className="avatar-area green-color">
             {/* <div class="d-flex mb-4">
                             {headerInfo?.profile?.avatar ?
-                                <img
+                                <Image
                                     class="d-flex me-3 rounded-circle avatar-sm"
                                     src={avatarurl + '/' + headerInfo?.profile?.avatar}
                                     alt="skote">
-                                </img> :
-                                <img
+                                </Image> :
+                                <Image
                                     class="d-flex me-3 rounded-circle avatar-sm"
                                     src={binavatar}
                                     alt="skote">
-                                </img>}
+                                </Image>}
                             <div className="flex-grow-1">
                                 <h5 className="font-size-14 mt-1">{headerInfo?.profile?.fullname}</h5>
                                 <small className="text-muted">@{headerInfo && <b className="fn">{headerInfo?.profile?.username}</b>}</small>

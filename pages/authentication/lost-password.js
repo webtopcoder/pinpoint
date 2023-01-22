@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Login from "@/components/Authentication/lost-password";
+import Login from "@/components/Authentication/Lost-password";
 
 const lostPassword = () => {
   return (
@@ -14,11 +14,9 @@ const lostPassword = () => {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
             <Login />
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
           </div>
         </div>
       </div>

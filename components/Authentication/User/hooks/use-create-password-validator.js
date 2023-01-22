@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import {
   passwordValidator,
-  confirmPasswordValidator
-} from "../user-validator.js";
+  confirmPasswordValidator,
+} from "../user-validator.js/index.js";
 
-const touchErrors = errors => {
+const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
     acc[field] = {
       ...fieldError,
@@ -15,18 +15,18 @@ const touchErrors = errors => {
   }, {});
 };
 
-export const createPasswordFormValidator = form => {
+export const useCreatePasswordFormValidator = (form) => {
   const [errors, setErrors] = useState({
-    password : {
+    password: {
       dirty: false,
       error: false,
       message: "",
     },
-    confirmPassword : {
+    confirmPassword: {
       dirty: false,
       error: false,
       message: "",
-    }
+    },
   });
 
   const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
@@ -47,20 +47,20 @@ export const createPasswordFormValidator = form => {
       nextErrors.password.error = !!passwordMessage;
       nextErrors.password.message = passwordMessage;
       if (!!passwordMessage) isValid = false;
-  }
+    }
 
-  if (
+    if (
       nextErrors.confirmPassword.dirty &&
       (field ? field === "confirmPassword" : true)
-  ) {
+    ) {
       const confirmPasswordMessage = confirmPasswordValidator(
-          confirmPassword,
-          form
+        confirmPassword,
+        form
       );
       nextErrors.confirmPassword.error = !!confirmPasswordMessage;
       nextErrors.confirmPassword.message = confirmPasswordMessage;
       if (!!confirmPasswordMessage) isValid = false;
-  }
+    }
     setErrors(nextErrors);
 
     return {
@@ -69,7 +69,7 @@ export const createPasswordFormValidator = form => {
     };
   };
 
-  const onBlurField = e => {
+  const onBlurField = (e) => {
     const field = e.target.name;
     const fieldError = errors[field];
     if (fieldError.dirty) return;

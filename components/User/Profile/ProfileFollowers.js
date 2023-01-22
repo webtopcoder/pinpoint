@@ -18,7 +18,7 @@ import baseUrl from "@/utils/baseUrl";
 
 const { Search } = Input;
 
-const profileFollowers = ({
+const ProfileFollowers = ({
   ongetmyFollowers,
   ongetFollowers,
   followersList,
@@ -276,4 +276,4 @@ const mapDispatchToProps = (dispatch) => ({
   onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(profileFollowers);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileFollowers);

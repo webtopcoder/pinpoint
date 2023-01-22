@@ -10,6 +10,7 @@ const Location = ({ location }) => {
   const dummyLocation = {
     _id: "1",
     name: "Example Food Truck #1",
+    avatar: "",
     isActive: true,
     lastSeen: "2 weeks ago",
     likeCount: 106,
@@ -18,7 +19,19 @@ const Location = ({ location }) => {
     description:
       "Example Food Truck #1 specializes in authentic Mexican food! Just like your grandma used to make! Come try us out and see for yourselves!",
     location: "Jacksonville, FL",
-    reviews: [
+    posts: [
+      {
+        from_user: {
+          username: "Example Food Truck #1",
+          id: "1",
+        },
+
+        image: ["63c402aaac00ac8f14d939421673799684099-undefined.png"],
+        content: "good boi",
+        like: [],
+        _id: "63c42804ac00ac8f14d93e79",
+        createdAt: "2023-01-15T16:21:24.104Z",
+      },
       {
         from_user: {
           username: "Sample User",
@@ -42,6 +55,18 @@ const Location = ({ location }) => {
         _id: "63c42804ac00ac8f14d93e79",
         createdAt: "2023-01-15T16:21:24.104Z",
       },
+      {
+        from_user: {
+          username: "Example Food Truck #1",
+          id: "1",
+        },
+
+        image: ["63c402aaac00ac8f14d939421673799684099-undefined.png"],
+        content: "good boi",
+        like: [],
+        _id: "63c42804ac00ac8f14d93e79",
+        createdAt: "2023-01-15T16:21:24.104Z",
+      },
     ],
   };
   return (
@@ -52,7 +77,7 @@ const Location = ({ location }) => {
         <Profileheader />
         <div className="pin-profile-section">
           <Submenu />
-          <PartnerLocation location={dummyLocation} />
+          <PartnerLocation {...dummyLocation} />
         </div>
       </div>
     </>

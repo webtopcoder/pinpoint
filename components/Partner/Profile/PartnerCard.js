@@ -1,33 +1,13 @@
+import IconText from "@/components/Layout/icontext";
+import { Avatar, Card, Col, Divider, Rate, Row, Space, Tag } from "antd";
+import Link from "next/link";
 import {
   EnvironmentFilled,
   MessageOutlined,
   LikeOutlined,
 } from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  Divider,
-  Layout,
-  Rate,
-  Row,
-  Space,
-  Tag,
-  Typography,
-} from "antd";
-import { Avatar, Card } from "antd";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 const { Text } = Typography;
-const { Content } = Layout;
-
-const IconText = ({ icon, text }) => (
-  <Space>
-    {icon}
-    {text}
-  </Space>
-);
 
 const PartnerCard = ({ location }) => {
   const router = useRouter();
@@ -166,33 +146,4 @@ const PartnerCard = ({ location }) => {
     </Link>
   );
 };
-
-const PartnerLocations = ({ locations }) => {
-  return (
-    <Layout
-      className="site-layout"
-      style={{
-        background: "#211f1f",
-      }}
-    >
-      <Content
-        style={{
-          margin: "60px 16px",
-        }}
-      >
-        <Row
-          gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
-          justify="space-around"
-        >
-          {locations.map((location, index) => (
-            <Col span={6} key={index}>
-              <PartnerCard location={location} />
-            </Col>
-          ))}
-        </Row>
-      </Content>
-    </Layout>
-  );
-};
-
-export default PartnerLocations;
+export default connect(undefined, undefined)(PartnerCard);
