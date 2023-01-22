@@ -18,7 +18,7 @@ import api from "@/utils/callApi";
 
 export function loginUser(form, cb) {
   return (dispatch) =>
-    api(`auth/user/login`, "post", form)
+    api(`auth/login`, "post", form)
       .then((res) => {
         dispatch({
           type: S_LOGIN,
@@ -84,9 +84,10 @@ export function verifyUserEmail(form, cb) {
         console.log(error);
       });
 }
+
 export function getCategory() {
   return (dispatch) =>
-    api(`base/categories`, "get").then((res) => {
+    api(`categories`, "get").then((res) => {
       dispatch({
         type: CATEGORY_GET_REQUEST,
       });
@@ -99,7 +100,7 @@ export function getCategory() {
 
 export function getsubCategory(categoryID, cb) {
   return (dispatch) =>
-    api(`base/subcategories/${categoryID}`, "get").then((res) => {
+    api(`${categoryID}/subcategories`, "get").then((res) => {
       dispatch({
         type: SUB_CATEGORY_GET_SUCCESS,
         payload: res,
