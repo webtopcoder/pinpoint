@@ -10,7 +10,6 @@ import styles from "../validate.module.css";
 import { useRegisterFormValidator } from "./hooks/use-user-register-form-validator";
 import { registerUser } from "@/redux/User/actions";
 import "react-datepicker/dist/react-datepicker.css";
-
 const UserRegister = ({ onRegisterUser }) => {
   const countryCode = "US";
   const country = csc.getCountryByCode(countryCode);
@@ -19,10 +18,10 @@ const UserRegister = ({ onRegisterUser }) => {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    usertype: "user",
+    role: "user",
     firstName: "",
     lastName: "",
-    userName: "",
+    username: "",
     birthday: new Date(),
     city: "",
     state: "",
@@ -67,11 +66,26 @@ const UserRegister = ({ onRegisterUser }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-
-    onRegisterUser(form, (res) => {
+    const fields = [
+      "role",
+      "firstName",
+      "lastName",
+      "username",
+      "email",
+      "password",
+    ];
+    const formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
+    onRegisterUser(formRequest, (res) => {
       if (res.success) {
-        localStorage.setItem("thankyou_id", "User");
         router.push("/authentication/thank-you");
+        const savedEmail = localStorage.setItem(
+          "registration_email",
+          formRequest.email
+        );
+        console.log(savedEmail);
+        localStorage.setItem("thankyou_id", "User");
+      } else {
+        console.log("error");
       }
     });
   };
@@ -130,13 +144,13 @@ const UserRegister = ({ onRegisterUser }) => {
                 <label className="authen-text-attr">User Name *</label>
                 <input
                   type="text"
-                  name="userName"
-                  value={form.userName}
+                  name="username"
+                  value={form.username}
                   onChange={onUpdateField}
                   onBlur={onBlurField}
                   className="form-control"
                 />
-                {errors.userName.dirty && errors.userName.error ? (
+                {errors.username.dirty && errors.username.error ? (
                   <p className={styles.formFieldErrorMessage}>
                     {errors.userName.message}
                   </p>
@@ -303,4 +317,5 @@ const UserRegister = ({ onRegisterUser }) => {
 const mapDispatchToProps = (dispatch) => ({
   onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
 });
+
 export default connect(undefined, mapDispatchToProps)(UserRegister);
