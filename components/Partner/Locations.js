@@ -572,4 +572,4 @@ const PartnerLocations = () => {
   );
 };
 
-export default connect(undefined, undefined)(partnerLocations);
+export default connect(undefined, undefined)(PartnerLocations);
