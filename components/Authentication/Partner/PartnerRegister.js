@@ -40,7 +40,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    usertype: "partner",
+    role: "partner",
     firstName: "",
     lastName: "",
     userName: "",
