@@ -6,7 +6,7 @@ import {
   FaCheck,
   FaExclamationTriangle,
   FaBug,
-  FaExclamationCircle
+  FaExclamationCircle,
 } from "react-icons/fa";
 
 export const displayIcon = (type) => {
@@ -35,7 +35,7 @@ const ToastMessage = ({ type, message }) =>
 
 ToastMessage.propTypes = {
   message: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
 };
 
 ToastMessage.dismiss = toast.dismiss;

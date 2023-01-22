@@ -1,4 +1,4 @@
-export const emailValidator = email => {
+export const emailValidator = (email) => {
   if (!email) {
     return "Email is required";
   } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
@@ -7,62 +7,62 @@ export const emailValidator = email => {
   return "";
 };
 
-export const UserInfoValidator = userInfo => {
+export const UserInfoValidator = (userInfo) => {
   if (!userInfo) {
     return "UserName or Email is required";
-  } 
+  }
   return "";
 };
-export const FirstNameValidator = firstName => {
+export const FirstNameValidator = (firstName) => {
   if (!firstName) {
     return "Owner First Name is required";
   }
   return "";
 };
 
-export const LastNameValidator = lastName => {
+export const LastNameValidator = (lastName) => {
   if (!lastName) {
     return "Owner Last Name is required";
   }
   return "";
 };
 
-export const LegalNameValidator = userName => {
+export const LegalNameValidator = (userName) => {
   if (!userName) {
     return "Legal Name is required";
   }
   return "";
 };
 
-export const AddressValidator = address => {
+export const AddressValidator = (address) => {
   if (!address) {
     return "address is required";
   }
   return "";
 };
 
-export const CityValidator = City => {
+export const CityValidator = (City) => {
   if (!City) {
     return "City is required";
   }
   return "";
 };
 
-export const CategoryValidator = category => {
+export const CategoryValidator = (category) => {
   if (!category) {
     return "Category is required";
   }
   return "";
 };
 
-export const StateValidator = state => {
+export const StateValidator = (state) => {
   if (!state) {
     return "State is required";
   }
   return "";
 };
 
-export const passwordValidator = password => {
+export const passwordValidator = (password) => {
   if (!password) {
     return "Password is required";
   } else if (password.length < 8) {

@@ -1,14 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
-import { Col, InputNumber, Row, Slider, Button, Tooltip, Cascader, Select } from 'antd';
-import { FullscreenOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import {
+  Col,
+  InputNumber,
+  Row,
+  Slider,
+  Button,
+  Tooltip,
+  Cascader,
+  Select,
+} from "antd";
+import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
-import Layout from '../../../layout';
-import config from '@/utils/config';
-import { getCategory } from '@/redux/User/actions';
-import { getsubCategory } from '@/redux/User/actions';
+import Layout from "../../../layout";
+import config from "@/utils/config";
+import { getCategory } from "@/redux/User/actions";
+import { getsubCategory } from "@/redux/User/actions";
 
 const categoryOptions = [];
 for (let i = 10; i < 36; i++) {
@@ -23,40 +32,42 @@ var map;
 const pinpoint = null;
 
 const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
-
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
   const options = {
     componentRestrictions: { country: "us" },
-    fields: ["address_components", "adr_address", "formatted_address", "geometry", "name"],
-    types: ["establishment"]
+    fields: [
+      "address_components",
+      "adr_address",
+      "formatted_address",
+      "geometry",
+      "name",
+    ],
+    types: ["establishment"],
   };
 
   const [form, setForm] = useState({
-
-    category: '',
-    subcategory: '',
+    category: "",
+    subcategory: "",
   });
 
   const [subcategoryList, setSubcategoryList] = useState([]);
 
-  const onUpdateField = e => {
-
+  const onUpdateField = (e) => {
     const field = e.target.name;
 
     if (e.target.name == "category") {
-      onsubgetCateogry(e.target.value, res => {
+      onsubgetCateogry(e.target.value, (res) => {
         const subarr = [];
         res.subcategories?.map((item, index) => {
           const subitem = {
             value: item.content,
             label: item.content,
-          }
+          };
           subarr.push(subitem);
-        })
+        });
         setSubcategoryList(subarr);
-
       });
     }
 
@@ -66,7 +77,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     };
 
     setForm(nextFormState);
-
   };
 
   const faviconUrl = `http://${config.server}:${config.port}/`;
@@ -74,7 +84,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
 
   const [position, setPosition] = useState({
     lat: 37.553326,
-    lng: -94.8110983
+    lng: -94.8110983,
   });
   let markers = [];
 
@@ -93,11 +103,10 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
   const [inputValue, setInputValue] = useState(5);
   const onChange = (newValue) => {
     setInputValue(newValue);
-    cityCircle.setRadius(newValue * 1000 * 1.6)
+    cityCircle.setRadius(newValue * 1000 * 1.6);
   };
 
   function createCenterControl(map) {
-
     const controlButton = document.createElement("button");
 
     // Set CSS for the control.
@@ -119,20 +128,18 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     // Setup the click event listeners: simply set the map to Chicago.
 
     controlButton.addEventListener("click", () => {
-
-
-
-      controlButton.textContent === "Show All Active" ? controlButton.textContent = "Hide All Active" : controlButton.textContent = "Show All Active"
+      controlButton.textContent === "Show All Active"
+        ? (controlButton.textContent = "Hide All Active")
+        : (controlButton.textContent = "Show All Active");
       if (controlButton.textContent === "Hide All Active") {
         for (var i = 0; i < pinpoint.length; i++) {
-
           const marker = new google.maps.Marker({
             position: pinpoint[i].position,
             icon: {
-              url: faviconUrl + 'favicon.png',
+              url: faviconUrl + "favicon.png",
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
-              anchor: new google.maps.Point(0, 0) // anchor
+              anchor: new google.maps.Point(0, 0), // anchor
             },
 
             map: map,
@@ -153,38 +160,31 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           marker.addListener("mouseout", () => {
             infowindow.close();
           });
-
         }
-      }
-      else {
+      } else {
         hideMarkers();
       }
     });
     return controlButton;
   }
 
-
   useEffect(() => {
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
-        console.log(error)
+        console.log(error);
       });
-
     }
     initMap();
-
   }, [position]);
-
 
   const getResult = () => {
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
-        console.log(error)
+        console.log(error);
       });
-
     }
     initMap();
-  }
+  };
   function success(pos) {
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
@@ -192,12 +192,9 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       fullscreenControl: false,
       streetViewControl: false,
       mapTypeControlOptions: {
-        mapTypeIds: [
-          google.maps.MapTypeId.ROADMAP
-        ]
-      }
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP],
+      },
     });
-
 
     const centerControlDiv = document.createElement("div");
     // Create the control.
@@ -205,7 +202,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
 
     // Append the control to the DIV.
     centerControlDiv.appendChild(centerControl);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv)
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 
     cityCircle = new google.maps.Circle({
       strokeColor: "#276f85",
@@ -225,20 +222,22 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     });
 
     for (var i = 0; i < pinpoint.length; i++) {
-      var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
-        // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
-        new google.maps.LatLng(position.lat, position.lng),
-        pinpoint[i].position
-      ))?.toFixed(2);
+      var d = google.maps.geometry?.spherical
+        ?.computeDistanceBetween(
+          // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
+          new google.maps.LatLng(position.lat, position.lng),
+          pinpoint[i].position
+        )
+        ?.toFixed(2);
 
       if (d < inputValue * 1000 * 1.6) {
         const marker = new google.maps.Marker({
           position: pinpoint[i].position,
           icon: {
-            url: faviconUrl + 'favicon.png',
+            url: faviconUrl + "favicon.png",
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
+            anchor: new google.maps.Point(0, 0), // anchor
           },
 
           map: map,
@@ -260,25 +259,25 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       }
     }
 
-
     function showMarkers() {
       setMapOnAll(map);
     }
 
     map.addListener("click", (e) => {
-
       // setMapOnAll(null);
       map.setZoom(11);
       console.log(e.latLng.toJSON());
       // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
-      map.setCenter(new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng))
+      map.setCenter(
+        new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng)
+      );
       setPosition(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)));
       // cityCircle.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)));
-      cityCircle.setCenter(new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng));
-
+      cityCircle.setCenter(
+        new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng)
+      );
     });
-
-  };
+  }
   const fullScreen = () => {
     const elementToSendFullscreen = map.getDiv().firstChild;
     if (isFullscreen(elementToSendFullscreen)) {
@@ -286,7 +285,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     } else {
       requestFullscreen(elementToSendFullscreen);
     }
-  }
+  };
 
   function isFullscreen(element) {
     return (
@@ -321,7 +320,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     }
   }
   useEffect(() => {
-
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
       options
@@ -332,19 +330,22 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       setPosition({
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
-      })
+      });
     });
 
     pinpoint = [
       {
         position: new google.maps.LatLng(36, -80),
         content: `<div style="width: 100px; height: 100px; background-color: 'white'">
-          <image src=${faviconUrl + 'pin1.png'} style="width: 100%; height: 100%"/>
-        </div>`
+          <image src=${
+            faviconUrl + "pin1.png"
+          } style="width: 100%; height: 100%"/>
+        </div>`,
       },
       {
         position: new google.maps.LatLng(39, -87),
-        content: '<div id="content">' +
+        content:
+          '<div id="content">' +
           '<div id="siteNotice">' +
           "</div>" +
           '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
@@ -355,11 +356,12 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
           "(last visited June 22, 2009).</p>" +
           "</div>" +
-          "</div>"
+          "</div>",
       },
       {
         position: new google.maps.LatLng(43, -90),
-        content: '<div id="content">' +
+        content:
+          '<div id="content">' +
           '<div id="siteNotice">' +
           "</div>" +
           '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
@@ -370,11 +372,12 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
           "(last visited June 22, 2009).</p>" +
           "</div>" +
-          "</div>"
+          "</div>",
       },
       {
         position: new google.maps.LatLng(35, -86),
-        content: '<div id="content">' +
+        content:
+          '<div id="content">' +
           '<div id="siteNotice">' +
           "</div>" +
           '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
@@ -385,11 +388,12 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
           "(last visited June 22, 2009).</p>" +
           "</div>" +
-          "</div>"
+          "</div>",
       },
       {
         position: new google.maps.LatLng(35, -110),
-        content: '<div id="content">' +
+        content:
+          '<div id="content">' +
           '<div id="siteNotice">' +
           "</div>" +
           '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
@@ -400,11 +404,12 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
           "(last visited June 22, 2009).</p>" +
           "</div>" +
-          "</div>"
+          "</div>",
       },
       {
         position: new google.maps.LatLng(47, -110),
-        content: '<div id="content">' +
+        content:
+          '<div id="content">' +
           '<div id="siteNotice">' +
           "</div>" +
           '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
@@ -415,11 +420,12 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
           "(last visited June 22, 2009).</p>" +
           "</div>" +
-          "</div>"
+          "</div>",
       },
       {
         position: new google.maps.LatLng(45, -100),
-        content: '<div id="content">' +
+        content:
+          '<div id="content">' +
           '<div id="siteNotice">' +
           "</div>" +
           '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
@@ -430,13 +436,12 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
           "(last visited June 22, 2009).</p>" +
           "</div>" +
-          "</div>"
-      }
-    ]
+          "</div>",
+      },
+    ];
 
     ongetCateogry();
-
-  }, [])
+  }, []);
 
   return (
     <>
@@ -451,11 +456,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
             <div className="shout-body">
               <div className="shout-author vcard">
                 <div className="avatar">
-                  <Image
-                    src={food}
-                    alt="user"
-                    className="shout-radius"
-                  />
+                  <Image src={food} alt="user" className="shout-radius" />
                 </div>
                 <form className="search-form">
                   <input
@@ -468,7 +469,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                     <i className="bx bx-current-location"></i>
                   </button>
                 </form>
-
               </div>
               <div className="shout-metadata">
                 <p>Search Radius:</p>
@@ -476,19 +476,18 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                   <Col span={21}>
                     <Slider
                       tooltip={{
-                        formatter
+                        formatter,
                       }}
-
                       trackStyle={{
-                        background: '#175594',
+                        background: "#175594",
                       }}
                       handleStyle={{
-                        background: 'white'
+                        background: "white",
                       }}
                       min={1}
                       max={25}
                       onChange={onChange}
-                      value={typeof inputValue === 'number' ? inputValue : 0}
+                      value={typeof inputValue === "number" ? inputValue : 0}
                     />
                   </Col>
                   <Col span={3}>
@@ -497,7 +496,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                       max={25}
                       style={{
                         width: 60,
-                        margin: '0 16px',
+                        margin: "0 16px",
                       }}
                       value={inputValue}
                       onChange={onChange}
@@ -517,9 +516,11 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                       className="form-control"
                     >
                       <option value="0">Select Category</option>
-                      {categoryInfo.map((option, index) =>
-                        <option key={index} value={option._id}>{option.content}</option>
-                      )}
+                      {categoryInfo.map((option, index) => (
+                        <option key={index} value={option._id}>
+                          {option.content}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="form-group">
@@ -527,12 +528,11 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                       mode="multiple"
                       allowClear
                       style={{
-                        width: '100%',
+                        width: "100%",
                       }}
                       placeholder="Select Subcategory"
                       options={subcategoryList}
                     />
-                   
                   </div>
                   <div className="form-group">
                     <div className="pin-post-footer-section">
@@ -546,7 +546,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -557,11 +556,18 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                     <div className="pin-post-footer-section">
                       <div className="pin-edit-button-section">
                         <Tooltip title="Full Screen">
-                          <Button type="primary" style={{
-                            height: 70
-                          }} icon={<FullscreenOutlined style={{
-                            fontSize: 40
-                          }} />}
+                          <Button
+                            type="primary"
+                            style={{
+                              height: 70,
+                            }}
+                            icon={
+                              <FullscreenOutlined
+                                style={{
+                                  fontSize: 40,
+                                }}
+                              />
+                            }
                             onClick={() => fullScreen()}
                           />
                         </Tooltip>
@@ -572,11 +578,19 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                     <div className="pin-post-footer-section">
                       <div className="pin-edit-button-section">
                         <Tooltip title="List View">
-                          <Button type="primary" style={{
-                            height: 70
-                          }} icon={<UnorderedListOutlined style={{
-                            fontSize: 40
-                          }} />} />
+                          <Button
+                            type="primary"
+                            style={{
+                              height: 70,
+                            }}
+                            icon={
+                              <UnorderedListOutlined
+                                style={{
+                                  fontSize: 40,
+                                }}
+                              />
+                            }
+                          />
                         </Tooltip>
                       </div>
                     </div>
@@ -586,36 +600,37 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
             </div>
           </div>
           <div className="google-map-area green-color">
-
             <div id="interactive-map">
               <div id="floating-panel">
                 <input id="hide-markers" type="button" value="Hide Markers" />
                 <input id="show-markers" type="button" value="Show Markers" />
-                <input id="delete-markers" type="button" value="Delete Markers" />
+                <input
+                  id="delete-markers"
+                  type="button"
+                  value="Delete Markers"
+                />
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </>
   );
 };
 
 InteractiveMap.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>
-}
-
+  return <Layout>{page}</Layout>;
+};
 
 const mapStateToProps = ({ user }) => ({
   categoryInfo: user.partnerCategory.categories,
-  subcategoryInfo: user.partnerCategory.subcategories
+  subcategoryInfo: user.partnerCategory.subCategories,
+});
 
-})
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   ongetCateogry: () => dispatch(getCategory()),
-  onsubgetCateogry: (categoryID, cb) => dispatch(getsubCategory(categoryID, cb)),
-})
+  onsubgetCateogry: (categoryID, cb) =>
+    dispatch(getsubCategory(categoryID, cb)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(InteractiveMap);

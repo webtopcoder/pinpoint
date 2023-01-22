@@ -10,7 +10,7 @@ import {
   emailValidator,
   passwordValidator,
   confirmPasswordValidator,
-} from "../user-validator.js/index.js";
+} from "../user-validator.js";
 
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
@@ -34,7 +34,7 @@ export const useRegisterFormValidator = (form) => {
       error: false,
       message: "",
     },
-    userName: {
+    username: {
       dirty: false,
       error: false,
       message: "",
@@ -85,7 +85,7 @@ export const useRegisterFormValidator = (form) => {
     const {
       firstName,
       lastName,
-      userName,
+      username,
       birthday,
       city,
       state,
@@ -108,10 +108,10 @@ export const useRegisterFormValidator = (form) => {
       if (!!lastNameMessage) isValid = false;
     }
 
-    if (nextErrors.userName.dirty && (field ? field === "userName" : true)) {
-      const userNameMessage = UserNameValidator(userName, form);
-      nextErrors.userName.error = !!userNameMessage;
-      nextErrors.userName.message = userNameMessage;
+    if (nextErrors.username.dirty && (field ? field === "username" : true)) {
+      const userNameMessage = UserNameValidator(username, form);
+      nextErrors.username.error = !!userNameMessage;
+      nextErrors.username.message = userNameMessage;
       if (!!userNameMessage) isValid = false;
     }
 

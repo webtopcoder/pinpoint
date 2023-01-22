@@ -11,9 +11,9 @@ import { getCategory } from "@/redux/User/actions";
 import toast from "@/components/Toast";
 
 const PartnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
-  const itemLocality = "";
-  const itemAddress = "";
-  const itemState = "";
+  let itemLocality = "";
+  let itemAddress = "";
+  let itemState = "";
   const notify = useCallback((type, message) => {
     toast({ type, message });
   }, []);
@@ -40,7 +40,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    usertype: "partner",
+    role: "partner",
     firstName: "",
     lastName: "",
     userName: "",
@@ -127,12 +127,12 @@ const PartnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    form = {
+    setForm({
       ...form,
       address: addressForm.address,
       city: addressForm.city,
       state: addressForm.state,
-    };
+    });
     const { isValid } = validateForm({
       form,
       addressForm,
@@ -280,7 +280,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCateogry, categoryInfo }) => {
                     <option value="0">Select Category</option>
                     {categoryInfo.map((option, index) => (
                       <option key={index} value={option._id}>
-                        {option.content}
+                        {option.name}
                       </option>
                     ))}
                   </select>

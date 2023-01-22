@@ -3,7 +3,6 @@ import PageTitle from "@/components/Layout/PageTitle";
 import LoginDashboard from "@/components/Authentication/LoginDashboard";
 
 const Authentication = () => {
-
   return (
     <>
       <PageTitle page="WHO AM I" />
@@ -15,11 +14,9 @@ const Authentication = () => {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
             <LoginDashboard />
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
           </div>
         </div>
       </div>
