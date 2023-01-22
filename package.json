@@ -52,7 +52,8 @@
     "sweetalert2": "^11.4.4",
     "sweetalert2-react-content": "^4.2.0",
     "swr": "^2.0.0",
-    "use-places-autocomplete": "^4.0.0"
+    "use-places-autocomplete": "^4.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.43.3",

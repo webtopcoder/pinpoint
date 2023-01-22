@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "checkJs": true,
+    "jsx": "react",
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
@@ -9,5 +13,6 @@
       "@/redux*": ["src/redux*"],
       "@/utils*": ["utils/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "build"]
 }
