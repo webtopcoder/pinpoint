@@ -11,10 +11,7 @@ export default function Custom404() {
         <div className="d-table-cell">
           <div className="container">
             <div className="not-found-content">
-              <Image 
-                src={errorImg} 
-                alt="error-image" 
-              />
+              <Image src={errorImg} alt="error-image" />
 
               <h3>Oops! That page can&apos;t be found</h3>
 

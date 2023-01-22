@@ -1,8 +1,7 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import FaqOne from "@/components/User/Faq/FaqOne";
-import Layout from '../layout';
-
+import Layout from "../layout";
 
 const Faq = () => {
   return (
@@ -33,7 +32,7 @@ const Faq = () => {
 };
 
 Faq.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>
-}
+  return <Layout>{page}</Layout>;
+};
 
 export default Faq;

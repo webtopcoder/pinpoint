@@ -15,7 +15,7 @@ const ToggleSwitch = ({
   onChange,
   optionLabels,
   small,
-  disabled
+  disabled,
 }) => {
   function handleKeyPress(e) {
     if (e.keyCode !== 32) return;
@@ -68,7 +68,7 @@ const ToggleSwitch = ({
 
 // Set optionLabels for rendering.
 ToggleSwitch.defaultProps = {
-  optionLabels: ["Yes", "No"]
+  optionLabels: ["Yes", "No"],
 };
 
 ToggleSwitch.propTypes = {
@@ -78,7 +78,7 @@ ToggleSwitch.propTypes = {
   name: PropTypes.string,
   optionLabels: PropTypes.array,
   small: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default ToggleSwitch;

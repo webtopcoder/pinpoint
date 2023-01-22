@@ -4,17 +4,15 @@ import Image from "next/image";
 import logo from "@/public/images/logo.png";
 import rightToggle from "@/public/images/landing/right-toggle.png";
 
-const Header = ({
-  toggle
-}) => {
+const Header = ({ toggle }) => {
   const [menu, setMenu] = React.useState(true);
   const toggleNavbar = () => {
     setMenu(!menu);
   };
 
-  const usertype = '';
-  if (typeof window !== 'undefined') {
-    usertype = sessionStorage.getItem('usertype')
+  const usertype = "";
+  if (typeof window !== "undefined") {
+    usertype = sessionStorage.getItem("usertype");
   }
 
   React.useEffect(() => {
@@ -39,10 +37,8 @@ const Header = ({
     <div id="navbar" className="navbar-area">
       <div className="main-nav">
         <div className="container">
-
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="col-md-4">
-            </div>
+            <div className="col-md-4"></div>
             <div className="col-md-4 text-center">
               <Link href="/">
                 <a className="navbar-brand">
@@ -50,7 +46,7 @@ const Header = ({
                 </a>
               </Link>
             </div>
-            {usertype !== 'partner' ?
+            {usertype !== "partner" ? (
               <>
                 <div className="col-md-4 text-right">
                   <div className="others-option">
@@ -59,7 +55,8 @@ const Header = ({
                         src={rightToggle}
                         width={80}
                         height={80}
-                        alt="site logo" />
+                        alt="site logo"
+                      />
                     </a>
                   </div>
                   <button
@@ -77,8 +74,10 @@ const Header = ({
                     <span className="icon-bar bottom-bar"></span>
                   </button>
                 </div>
-              </> : ''}
-
+              </>
+            ) : (
+              ""
+            )}
           </nav>
         </div>
       </div>
