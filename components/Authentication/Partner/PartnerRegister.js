@@ -7,38 +7,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import FormGroup from "../FormGroup";
 
 import styles from "../validate.module.css";
 
 import { useRegisterFormValidator } from "./hooks/use-partner-register-validator";
-
-const FormGroup = forwardRef(
-  (
-    { value, onChange, onBlur, errors, label, type = "text", name, ...props },
-    ref
-  ) => {
-    return (
-      <div className="form-group">
-        <label className="authen-text-attr">{label}</label>
-        <input
-          ref={ref}
-          type={type}
-          className="form-control"
-          name={name}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
-          {...props}
-        />{" "}
-        {errors[name]?.dirty && errors[name]?.error ? (
-          <p className={styles.formFieldErrorMessage}>
-            {errors[name]?.message}
-          </p>
-        ) : null}
-      </div>
-    );
-  }
-);
 
 const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
   let itemLocality = "";

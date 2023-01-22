@@ -1,13 +1,16 @@
-import { React, useState, useCallback } from "react";
-import { connect } from "react-redux";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
-import styles from "../validate.module.css";
-import { loginUser } from "@/redux/User/actions";
-import { useLoginFormValidator } from "./hooks/use-user-login-form-validator";
 import toast from "@/components/Toast";
+import logo from "@/public/images/logo.png";
+import { loginUser } from "@/redux/User/actions";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { React, useCallback, useState } from "react";
+import { connect } from "react-redux";
+
+import FormGroup from "../FormGroup";
+import styles from "../validate.module.css";
+
+import { useLoginFormValidator } from "./hooks/use-user-login-form-validator";
 
 const UserLogin = ({ onLoginUser }) => {
   const router = useRouter();
@@ -66,38 +69,24 @@ const UserLogin = ({ onLoginUser }) => {
         </div>
         <form onSubmit={onSubmitForm}>
           <div className="auth-space"></div>
-          <div className="form-group">
-            <label className="authen-text-attr"> Email *</label>
-            <input
-              type="text"
-              name="email"
-              className="form-control"
-              value={form.email}
-              onChange={onUpdateField}
-              onBlur={onBlurField}
-            />
-            {errors.email.dirty && errors.email.error ? (
-              <p className={styles.formFieldErrorMessage}>
-                {errors.email.message}
-              </p>
-            ) : null}
-          </div>
-          <div className="form-group">
-            <label className="authen-text-attr">Password *</label>
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              value={form.password}
-              onChange={onUpdateField}
-              onBlur={onBlurField}
-            />
-            {errors.password.dirty && errors.password.error ? (
-              <p className={styles.formFieldErrorMessage}>
-                {errors.password.message}
-              </p>
-            ) : null}
-          </div>
+          <FormGroup
+            label="Email"
+            value={form?.email}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="email"
+            errors={errors}
+          />
+
+          <FormGroup
+            label="Password"
+            value={form?.password}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="password"
+            errors={errors}
+            type="password"
+          />
           <div className="row align-items-center">
             <div className="col-lg-6 col-md-6 remember-me-wrap">
               <div className="form-check">
