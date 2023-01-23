@@ -1,19 +1,20 @@
 import {
-  USER_INFO_REQUEST,
-  USER_INFO_SUCCESS,
-  USER_ACTIVITY_REQUEST,
-  USER_ACTIVITY_SUCCESS,
-  USERINFO_GET_SUCCESS,
   ABOUT_CHANGE_SUCCESS,
-  SOCIAL_CHANGE_SUCCESS,
-  NOTIFICATION_CHANGE_SUCCESS,
-  USER_AVATAR_UPLOAD_SUCCESS,
-  HEADER_GET_SUCCESS,
-  POST_FOLLOWER_SUCCESS,
+  GET_ALL_PHOTOS_SUCCESS,
   GET_FOLLOWERS_LIST_SUCCESS,
   GET_SHOOT_OUT_SUCCESS,
+  HEADER_GET_SUCCESS,
+  NOTIFICATION_CHANGE_SUCCESS,
+  POST_FOLLOWER_SUCCESS,
   POST_LIKE_SUCCESS,
-  GET_ALL_PHOTOS_SUCCESS,
+  SOCIAL_CHANGE_SUCCESS,
+  USER_ACTIVITY_REQUEST,
+  USER_ACTIVITY_SUCCESS,
+  USER_AVATAR_UPLOAD_SUCCESS,
+  USER_INFO_REQUEST,
+  USER_INFO_SUCCESS,
+  USERINFO_GET_SUCCESS,
+  USERPOLL_GET_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -62,6 +63,13 @@ const profileReducer = (state = initialState, action) => {
           social: action.payload.social,
           notification: action.payload.notification,
         },
+      };
+    }
+
+    case USERPOLL_GET_SUCCESS: {
+      return {
+        ...state,
+        userPoll: action.payload,
       };
     }
 

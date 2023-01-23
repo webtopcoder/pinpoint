@@ -24,6 +24,7 @@ import "/styles/custom.css";
 import "/styles/styles.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-quill/dist/quill.snow.css";
 // import { PersistGate } from 'redux-persist/integration/react'
 import ScrollToTop from "@/components/Layout/ScrollToTop";
 import Head from "next/head";

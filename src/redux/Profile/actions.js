@@ -21,6 +21,7 @@ import {
   USER_UPDATE_INFO_SUCCESS,
   USERINFO_GET_REQUEST,
   USERINFO_GET_SUCCESS,
+  USERPOLL_GET_SUCCESS,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
@@ -175,6 +176,22 @@ export function editSocial(form) {
       type: SOCIAL_CHANGE_SUCCESS,
       payload: form,
     });
+}
+
+export function editPoll(form, cb) {
+  return (dispatch) =>
+    api(`profile/poll`, "patch", form)
+      .then((res) => {
+        dispatch({
+          type: USERPOLL_GET_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
 }
 
 export function editNotification(rating, follow, mention, favorite) {

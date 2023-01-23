@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { connect, useDispatch } from "react-redux";
-import { getInfo } from "@/redux/Profile/actions";
+import { editPoll, getInfo } from "@/redux/Profile/actions";
 import {
   updateInfo,
   editAbout,
@@ -14,6 +14,7 @@ import { message, Upload, Input, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import Image from "next/image";
+import EditPoll from "./EditPoll";
 
 const { Content } = Layout;
 
@@ -211,6 +212,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
     onupdateInfo(data, (res, error) => {
       if (error) {
         notify("error", error.message);
+        return;
       }
       notify("success", "Social updated successfully");
     });
@@ -310,109 +312,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                 <div className="profile-location">
                   <div className="container">
                     <div className="row">
-                      <div className="avatar-respond">
-                        <div className="pin-about-section">
-                          <span id="span-underline">Partner Poll</span>
-                          <form onSubmit={onSubmitForm} className="avatar-form">
-                            <div className="row">
-                              <div className="col-lg-12 col-md-12 col-sm-12">
-                                <div className="pin-post-footer-section mg-12">
-                                  <div className="pin-social-edit-title">
-                                    <p>Question:</p>
-                                  </div>
-
-                                  <div className="pin-social-edit-input">
-                                    <div className="input-group">
-                                      <textarea
-                                        name="facebook"
-                                        className="form-control"
-                                        value={editinfo.social.facebook}
-                                        onChange={onUpdateSocialField}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="pin-post-footer-section mg-12">
-                                  <div className="pin-social-edit-title">
-                                    <p>Option1 *:</p>
-                                  </div>
-                                  <div className="pin-social-edit-input">
-                                    <div className="input-group">
-                                      <input
-                                        type="text"
-                                        name="instagram"
-                                        className="form-control"
-                                        value={editinfo.social.instagram}
-                                        onChange={onUpdateSocialField}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="pin-post-footer-section mg-12">
-                                  <div className="pin-social-edit-title">
-                                    <p>Option2 *:</p>
-                                  </div>
-                                  <div className="pin-social-edit-input">
-                                    <div className="input-group">
-                                      <input
-                                        type="text"
-                                        name="twitter"
-                                        className="form-control"
-                                        value={editinfo.social.twitter}
-                                        onChange={onUpdateSocialField}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="pin-post-footer-section mg-12">
-                                  <div className="pin-social-edit-title">
-                                    <p>Option3 :</p>
-                                  </div>
-                                  <div className="pin-social-edit-input">
-                                    <div className="input-group">
-                                      <input
-                                        type="text"
-                                        name="tiktok"
-                                        className="form-control"
-                                        value={editinfo.social.tiktok}
-                                        onChange={onUpdateSocialField}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="pin-post-footer-section mg-12">
-                                  <div className="pin-social-edit-title">
-                                    <p>Option4 :</p>
-                                  </div>
-                                  <div className="pin-social-edit-input">
-                                    <div className="input-group">
-                                      <input
-                                        type="text"
-                                        name="snapchat"
-                                        className="form-control"
-                                        value={editinfo.social.snapchat}
-                                        onChange={onUpdateSocialField}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-lg-12 col-md-12 col-sm-12 mg-12">
-                                <div className="pin-post-footer-section">
-                                  <div className="pin-edit-button-section">
-                                    <button
-                                      type="submit"
-                                      className="btn-style-one red-light-color"
-                                    >
-                                      Update Poll
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
+                      <EditPoll />
                     </div>
                   </div>
                 </div>
