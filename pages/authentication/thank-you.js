@@ -53,9 +53,9 @@ const ThankYou = ({ onVerifyUserEmail }) => {
                 PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A
                 OTP TO THE EMAIL GIVEN!
               </p>
-              <p className="authSubHeader">
+              {/* <p className="authSubHeader">
                 Fill up the OTP code to start accessing the website,
-              </p>
+              </p> */}
               <form onSubmit={handleOnSubmit}>
                 <div className="otpField">
                   <AuthCode
@@ -63,7 +63,9 @@ const ThankYou = ({ onVerifyUserEmail }) => {
                     onChange={handleOnChange}
                   />
                 </div>
-                <button type="submit">Verify Email</button>
+                <button type="submit" style={{
+                  marginTop: 20
+                }} className="btn-style-one red-light-color">Verify Email</button>
                 {/* <div className="authSubText">
                     <p>Didn&#8217;t receive the code?</p>
                     <Link to="/">
@@ -72,12 +74,19 @@ const ThankYou = ({ onVerifyUserEmail }) => {
                   </div> */}
               </form>
 
-              <Link href={`/authentication/user/login`}>
+              {/* <Link href={`/authentication/user/login`}>
                 <a className="btn-style-one red-light-color">
                   Back to {thankyou_id} Login{" "}
                   <i className="bx bx-chevron-right"></i>
                 </a>
-              </Link>
+              </Link> */}
+              <div className="col-12">
+                <p className="account-desc">
+                  <Link href={`/authentication/user/login`}>
+                    <a className="login-dashboard-a-color">Back to {thankyou_id} Login{" "}</a>
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>
