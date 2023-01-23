@@ -84,9 +84,9 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
 
     ongetCategory();
 
-    return () => {
-      autoCompleteRef.current?.removeListener("place_changed");
-    };
+    // return () => {
+    //   autoCompleteRef.current?.removeListener("place_changed");
+    // };
   }, []);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(

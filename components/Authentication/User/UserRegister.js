@@ -113,7 +113,6 @@ const UserRegister = ({ onRegisterUser }) => {
                 onBlur={onBlurField}
                 name="firstName"
                 type="text"
-                placeholder="First Name"
               />
             </div>
             <div className="col-lg-6 col-md-6">
@@ -125,7 +124,6 @@ const UserRegister = ({ onRegisterUser }) => {
                 onBlur={onBlurField}
                 name="lastName"
                 type="text"
-                placeholder="Last Name"
               />
             </div>
             <div className="col-lg-12 col-md-12">
