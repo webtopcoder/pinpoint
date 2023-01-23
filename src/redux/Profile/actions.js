@@ -1,30 +1,31 @@
+import api from "@/utils/callApi";
+
 import {
-  USER_INFO_REQUEST,
-  USER_INFO_SUCCESS,
+  ABOUT_CHANGE_SUCCESS,
+  GET_ALL_PHOTOS_SUCCESS,
+  GET_FOLLOWERS_LIST_SUCCESS,
+  GET_SHOOT_OUT_SUCCESS,
+  HEADER_GET_SUCCESS,
+  NOTIFICATION_CHANGE_SUCCESS,
+  POST_FOLLOWER_SUCCESS,
+  POST_LIKE_SUCCESS,
+  SOCIAL_CHANGE_SUCCESS,
+  THINK_POST_SUCCESS,
+  UN_FRIEND_SUCCESS,
   USER_ACTIVITY_REQUEST,
   USER_ACTIVITY_SUCCESS,
+  USER_AVATAR_UPLOAD_SUCCESS,
+  USER_INFO_REQUEST,
+  USER_INFO_SUCCESS,
   USER_UPDATE_INFO_REQUEST,
   USER_UPDATE_INFO_SUCCESS,
   USERINFO_GET_REQUEST,
   USERINFO_GET_SUCCESS,
-  ABOUT_CHANGE_SUCCESS,
-  SOCIAL_CHANGE_SUCCESS,
-  NOTIFICATION_CHANGE_SUCCESS,
-  USER_AVATAR_UPLOAD_SUCCESS,
-  THINK_POST_SUCCESS,
-  HEADER_GET_SUCCESS,
-  POST_FOLLOWER_SUCCESS,
-  GET_FOLLOWERS_LIST_SUCCESS,
-  UN_FRIEND_SUCCESS,
-  GET_SHOOT_OUT_SUCCESS,
-  POST_LIKE_SUCCESS,
-  GET_ALL_PHOTOS_SUCCESS,
 } from "./types";
-import api from "@/utils/callApi";
 
 export function getUserInfo(user_id, cb) {
   return (dispatch) =>
-    api(`auth/user/login`, "get", user_id)
+    api(`auth/me`, "get")
       .then((res) => {
         dispatch({
           type: USER_INFO_REQUEST,
@@ -80,7 +81,7 @@ export function getShoutout(id, count, search, cb) {
 
 export function updateInfo(info, cb) {
   return (dispatch) =>
-    api(`profile/edit`, "put", info)
+    api(`profile/edit`, "patch", info)
       .then((res) => {
         dispatch({
           type: USER_UPDATE_INFO_REQUEST,
@@ -94,7 +95,7 @@ export function updateInfo(info, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }
 
@@ -138,41 +139,12 @@ export function getInfo() {
         };
 
         if (res.success) {
-          res.data.about ? (data.about = res.data.about) : data.about;
-          if (res.data.social) {
-            res.data.social.facebook
-              ? (data.social.facebook = res.data.social.facebook)
-              : data.social.facebook;
-            res.data.social.twitter
-              ? (data.social.twitter = res.data.social.twitter)
-              : data.social.twitter;
-            res.data.social.tiktok
-              ? (data.social.tiktok = res.data.social.tiktok)
-              : data.social.tiktok;
-            res.data.social.snapchat
-              ? (data.social.snapchat = res.data.social.snapchat)
-              : data.social.snapchat;
-            res.data.social.website
-              ? (data.social.website = res.data.social.website)
-              : data.social.website;
-            res.data.social.instagram
-              ? (data.social.instagram = res.data.social.instagram)
-              : data.social.instagram;
-          }
-          if (res.data.notification) {
-            res.data.notification.rate
-              ? (data.notification.rate = res.data.notification.rate)
-              : data.notification.rate;
-            res.data.notification.follow
-              ? (data.notification.follow = res.data.notification.follow)
-              : data.notification.follow;
-            res.data.notification.mention
-              ? (data.notification.mention = res.data.notification.mention)
-              : data.notification.mention;
-            res.data.notification.favorite
-              ? (data.notification.favorite = res.data.notification.favorite)
-              : data.notification.favorite;
-          }
+          data.about = res.data.about;
+          data.social = { ...data.social, ...res.data.social };
+          data.notification = {
+            ...data.notification,
+            ...res.data.notification,
+          };
         }
 
         dispatch({
@@ -215,7 +187,7 @@ export function editNotification(rating, follow, mention, favorite) {
     },
   };
 
-  api(`profile/edit`, "put", data);
+  api(`profile/edit`, "patch", data);
 
   return (dispatch) =>
     dispatch({

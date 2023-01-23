@@ -175,8 +175,11 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
       about: editinfo.about,
     };
 
-    onupdateInfo(data, (res) => {
-      res.success ? notify("success", res.msg) : notify("error", res.msg);
+    onupdateInfo(data, (res, error) => {
+      if (error) {
+        notify("error", error.message);
+      }
+      notify("success", "Profile updated successfully");
     });
   };
 
@@ -205,8 +208,11 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
       social: editinfo.social,
     };
 
-    onupdateInfo(data, (res) => {
-      res.success ? notify("success", res.msg) : notify("error", res.msg);
+    onupdateInfo(data, (res, error) => {
+      if (error) {
+        notify("error", error.message);
+      }
+      notify("success", "Social updated successfully");
     });
   };
 
