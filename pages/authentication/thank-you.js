@@ -20,7 +20,7 @@ const ThankYou = ({ onVerifyUserEmail }) => {
   };
 
   useEffect(() => {
-    setEmail({ email: window.localStorage.getItem("registration_email") });
+    setEmail(window.localStorage.getItem("registration_email"));
     thankyou_id = localStorage.getItem("thankyou_id");
     backLogin = thankyou_id.toLowerCase();
   }, []);
@@ -32,14 +32,12 @@ const ThankYou = ({ onVerifyUserEmail }) => {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const data = {
-      email: email.email,
+      email: email,
       otp: result,
     };
     console.log(data);
     onVerifyUserEmail(data, (res) => {
-      if (res.success) {
-        router.push("/authentication/user/login");
-      }
+      router.push("/authentication/user/login");
     });
   };
 

@@ -74,7 +74,14 @@ const UserRegister = ({ onRegisterUser }) => {
       "email",
       "password",
     ];
-    const formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
+    let formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
+    formRequest = {
+      ...formRequest,
+      address: {
+        city: form.city,
+        state: form.state,
+      },
+    };
     const savedEmail = localStorage.setItem(
       "registration_email",
       formRequest.email

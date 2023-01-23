@@ -6,10 +6,11 @@ import { getCategory } from "@/redux/User/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import FormGroup from "../FormGroup";
 
+import FormGroup from "../FormGroup";
 import styles from "../validate.module.css";
 
 import { useRegisterFormValidator } from "./hooks/use-partner-register-validator";
@@ -42,7 +43,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
     role: "partner",
     firstName: "",
     lastName: "",
-    userName: "",
+    username: "",
     address: "",
     city: "",
     state: "",
@@ -64,7 +65,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       mapAutoCompleteOptions
     );
 
-    autoCompleteRef.current.addListener("place_changed", async function () {
+    autoCompleteRef.current?.addListener("place_changed", async function () {
       const place = await autoCompleteRef.current.getPlace();
 
       place.address_components.map((address_component, _) => {
@@ -83,10 +84,6 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
     });
 
     ongetCategory();
-
-    // return () => {
-    //   autoCompleteRef.current?.removeListener("place_changed");
-    // };
   }, []);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(
@@ -135,18 +132,35 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       city: addressForm.city,
       state: addressForm.state,
     });
+
     const { isValid } = validateForm({
       form,
       addressForm,
       errors,
       forceTouchErrors: true,
     });
-    if (!isValid) return;
 
-    onRegisterUser(form, (res) => {
+    if (!isValid) return;
+    const data = {
+      role: form.role,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      username: form.username,
+      address: {
+        address: form.address,
+        city: form.city,
+        state: form.state,
+      },
+      category: form.category,
+      email: form.email,
+      password: form.password,
+    };
+
+    onRegisterUser(data, (res) => {
       res.success ? notify("success", res.msg) : notify("error", res.msg);
 
       if (res.success) {
+        localStorage.setItem("registration_email", form.email);
         localStorage.setItem("thankyou_id", "Partner");
         router.push("/authentication/thank-you");
       }
@@ -171,10 +185,10 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
                 <FormGroup
                   errors={errors}
                   label="Business Legal Name *"
-                  value={form.userName}
+                  value={form.username}
                   onChange={onUpdateField}
                   onBlur={onBlurField}
-                  name="userName"
+                  name="username"
                   type="text"
                 />
               </div>

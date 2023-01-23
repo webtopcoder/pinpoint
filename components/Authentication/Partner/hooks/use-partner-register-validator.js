@@ -35,7 +35,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
       error: false,
       message: "",
     },
-    userName: {
+    username: {
       dirty: false,
       error: false,
       message: "",
@@ -80,7 +80,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
   const validateForm = ({
     form,
     addressForm,
-    field,
+    field = undefined,
     errors,
     forceTouchErrors = false,
   }) => {
@@ -97,7 +97,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
     const {
       firstName,
       lastName,
-      userName,
+      username,
       category,
       email,
       password,
@@ -106,63 +106,63 @@ export const useRegisterFormValidator = (form, addressForm) => {
     const { address, city, state } = addressForm;
 
     if (nextErrors.firstName.dirty && (field ? field === "firstName" : true)) {
-      const ownerfirstNameMessage = FirstNameValidator(firstName, form);
+      const ownerfirstNameMessage = FirstNameValidator(firstName);
       nextErrors.firstName.error = !!ownerfirstNameMessage;
       nextErrors.firstName.message = ownerfirstNameMessage;
       if (!!ownerfirstNameMessage) isValid = false;
     }
 
     if (nextErrors.lastName.dirty && (field ? field === "lastName" : true)) {
-      const ownerlastNameMessage = LastNameValidator(lastName, form);
+      const ownerlastNameMessage = LastNameValidator(lastName);
       nextErrors.lastName.error = !!ownerlastNameMessage;
       nextErrors.lastName.message = ownerlastNameMessage;
       if (!!ownerlastNameMessage) isValid = false;
     }
 
-    if (nextErrors.userName.dirty && (field ? field === "userName" : true)) {
-      const legalNameMessage = LegalNameValidator(userName, form);
-      nextErrors.userName.error = !!legalNameMessage;
-      nextErrors.userName.message = legalNameMessage;
+    if (nextErrors.username.dirty && (field ? field === "username" : true)) {
+      const legalNameMessage = LegalNameValidator(username);
+      nextErrors.username.error = !!legalNameMessage;
+      nextErrors.username.message = legalNameMessage;
       if (!!legalNameMessage) isValid = false;
     }
 
     if (nextErrors.email.dirty && (field ? field === "email" : true)) {
-      const emailMessage = emailValidator(email, form);
+      const emailMessage = emailValidator(email);
       nextErrors.email.error = !!emailMessage;
       nextErrors.email.message = emailMessage;
       if (!!emailMessage) isValid = false;
     }
 
     if (nextErrors.address.dirty && (field ? field === "address" : true)) {
-      const addressMessage = AddressValidator(address, addressForm);
+      const addressMessage = AddressValidator(address);
       nextErrors.address.error = !!addressMessage;
       nextErrors.address.message = addressMessage;
       if (!!addressMessage) isValid = false;
     }
 
     if (nextErrors.city.dirty && (field ? field === "city" : true)) {
-      const cityMessage = CityValidator(city, addressForm);
+      const cityMessage = CityValidator(city);
       nextErrors.city.error = !!cityMessage;
       nextErrors.city.message = cityMessage;
       if (!!cityMessage) isValid = false;
     }
 
     if (nextErrors.state.dirty && (field ? field === "state" : true)) {
-      const stateMessage = StateValidator(state, addressForm);
+      const stateMessage = StateValidator(state);
       nextErrors.state.error = !!stateMessage;
       nextErrors.state.message = stateMessage;
       if (!!stateMessage) isValid = false;
     }
 
     if (nextErrors.category.dirty && (field ? field === "category" : true)) {
-      const categoryMessage = CategoryValidator(category, form);
+      const categoryMessage = CategoryValidator(category);
       nextErrors.category.error = !!categoryMessage;
       nextErrors.category.message = categoryMessage;
       if (!!categoryMessage) isValid = false;
     }
 
     if (nextErrors.password.dirty && (field ? field === "password" : true)) {
-      const passwordMessage = passwordValidator(password, form);
+      const passwordMessage = passwordValidator(password);
       nextErrors.password.error = !!passwordMessage;
       nextErrors.password.message = passwordMessage;
       if (!!passwordMessage) isValid = false;
