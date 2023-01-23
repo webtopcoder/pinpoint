@@ -5,7 +5,7 @@ const PageTitle = ({ page }) => {
   return (
     <Head>
       <title>{page} | PINPOINT</title>
-    </Head> 
+    </Head>
   );
 };
 

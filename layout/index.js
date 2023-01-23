@@ -1,11 +1,11 @@
-import { lazy, Suspense } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { lazy, Suspense } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 // project import
 // import ComponentLayout from './ComponentLayout';
-import UserLayout from '../components/Layout/UserLayout';
+import UserLayout from "../components/Layout/UserLayout";
 
-import AuthGuard from '@/utils/route-guard/AuthGuard';
+import AuthGuard from "@/utils/route-guard/AuthGuard";
 
 // import GuestGuard from 'utils/route-guard/GuestGuard';
 
@@ -17,8 +17,7 @@ import AuthGuard from '@/utils/route-guard/AuthGuard';
 
 // ==============================|| LAYOUTS - STRUCTURE ||============================== //
 
-export default function Layout({ variant = 'main', children }) {
-
+export default function Layout({ variant = "main", children }) {
   //     return (
   //         <UserLayout>{children}</UserLayout>
   //     )

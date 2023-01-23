@@ -1,13 +1,16 @@
-import { React, useState, useCallback } from "react";
-import { connect } from "react-redux";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
-import styles from "../validate.module.css";
-import { loginUser } from "@/redux/User/actions";
-import { useLoginFormValidator } from "./hooks/use-user-login-form-validator";
 import toast from "@/components/Toast";
+import logo from "@/public/images/logo.png";
+import { loginUser } from "@/redux/User/actions";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { React, useCallback, useState } from "react";
+import { connect } from "react-redux";
+
+import FormGroup from "../FormGroup";
+import styles from "../validate.module.css";
+
+import { useLoginFormValidator } from "./hooks/use-user-login-form-validator";
 
 const UserLogin = ({ onLoginUser }) => {
   const router = useRouter();
@@ -20,7 +23,7 @@ const UserLogin = ({ onLoginUser }) => {
   }, []);
 
   const [form, setForm] = useState({
-    userInfo: "",
+    email: "",
     password: "",
   });
 
@@ -45,6 +48,7 @@ const UserLogin = ({ onLoginUser }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
+    console.log(form);
     onLoginUser(form, (res) => {
       res.success ? notify("success", res.msg) : notify("error", res.msg);
       if (res.success) {
@@ -65,38 +69,24 @@ const UserLogin = ({ onLoginUser }) => {
         </div>
         <form onSubmit={onSubmitForm}>
           <div className="auth-space"></div>
-          <div className="form-group">
-            <label className="authen-text-attr">Username or Email *</label>
-            <input
-              type="text"
-              name="userInfo"
-              className="form-control"
-              value={form.userInfo}
-              onChange={onUpdateField}
-              onBlur={onBlurField}
-            />
-            {errors.userInfo.dirty && errors.userInfo.error ? (
-              <p className={styles.formFieldErrorMessage}>
-                {errors.userInfo.message}
-              </p>
-            ) : null}
-          </div>
-          <div className="form-group">
-            <label className="authen-text-attr">Password *</label>
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              value={form.password}
-              onChange={onUpdateField}
-              onBlur={onBlurField}
-            />
-            {errors.password.dirty && errors.password.error ? (
-              <p className={styles.formFieldErrorMessage}>
-                {errors.password.message}
-              </p>
-            ) : null}
-          </div>
+          <FormGroup
+            label="Email"
+            value={form?.email}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="email"
+            errors={errors}
+          />
+
+          <FormGroup
+            label="Password"
+            value={form?.password}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="password"
+            errors={errors}
+            type="password"
+          />
           <div className="row align-items-center">
             <div className="col-lg-6 col-md-6 remember-me-wrap">
               <div className="form-check">

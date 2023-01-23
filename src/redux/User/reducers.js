@@ -10,6 +10,8 @@ import {
   CATEGORY_GET_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
+  USER_EMAIL_VERIFICATION_REQUEST,
+  USER_EMAIL_VERIFICATION_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -70,7 +72,14 @@ const userReducer = (state = initialState, action) => {
         avatar: action.payload.avatar,
       };
     }
-
+    case USER_EMAIL_VERIFICATION_REQUEST:
+      return { ...state, loading: true };
+    case USER_EMAIL_VERIFICATION_SUCCESS: {
+      return {
+        ...state,
+        status: action.payload.success,
+      };
+    }
     case RESET_PASSWORD_REQUEST:
       return { ...state, loading: true };
 

@@ -14,11 +14,9 @@ const createPassword = () => {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
             <PasswordCreate />
-            <div className="col-lg-3 col-md-12">
-            </div>
+            <div className="col-lg-3 col-md-12"></div>
           </div>
         </div>
       </div>

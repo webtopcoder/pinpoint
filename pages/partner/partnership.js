@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import BasicLayout from '../../layout';
+import BasicLayout from "../../layout";
 import LeftSidebar from "@/components/Layout/Partner/Sidebar";
 import PartnershipDashboard from "@/components/Partner/Partnership";
-import { Layout } from 'antd';
+import { Layout } from "antd";
 
 const Partnership = () => {
   return (
@@ -12,7 +12,7 @@ const Partnership = () => {
       <div className="page-partner-area">
         <Layout
           style={{
-            minHeight: '130vh',
+            minHeight: "130vh",
           }}
         >
           <LeftSidebar />
@@ -24,7 +24,7 @@ const Partnership = () => {
 };
 
 Partnership.getLayout = function getLayout(page) {
-  return <BasicLayout>{page}</BasicLayout>
-}
+  return <BasicLayout>{page}</BasicLayout>;
+};
 
 export default Partnership;

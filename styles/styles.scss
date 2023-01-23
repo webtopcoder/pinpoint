@@ -1,271 +1,267 @@
 /*mailbox-banner-area-css*/
 .mailbox-banner-area-partner {
-    position: relative;
+  position: relative;
 
-    .mail-container {
-        padding-left: 30px;
-        padding-right: 30px;
+  .mail-container {
+    padding-left: 30px;
+    padding-right: 30px;
 
-        @media only screen and (max-width: 900px) {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .mailbox-container {
-            padding: 30px;
-
-            .menu-bar {
-                background-color: white;
-                border-radius: 10px;
-
-                .row {
-                    padding: 10px;
-
-                    .ant-menu-horizontal {
-                        border-bottom: 0px;
-                    }
-                }
-            }
-
-            .mail-content {
-
-                .mail-inbox {
-                    color: white;
-
-                    th {
-                        background-color: #4fc1e9 !important;
-                        color: white;
-                    }
-                }
-
-                .mail-compose-message {
-                    width: 100%;
-                    background-color: #f7f7f7;
-                    border: 1px solid #f7f7f7;
-                    border-radius: 10px;
-                    padding: 5px;
-                }
-
-                .title {
-                    border-radius: 10px;
-                    background-color: #f7f7f7;
-                    padding: 20px;
-                    border-left: 5px solid yellow;
-                    width: 100%;
-                    margin-bottom: 30px;
-                }
-            }
-        }
+    @media only screen and (max-width: 900px) {
+      padding-left: 10px;
+      padding-right: 10px;
     }
+
+    .mailbox-container {
+      padding: 30px;
+
+      .menu-bar {
+        background-color: white;
+        border-radius: 10px;
+
+        .row {
+          padding: 10px;
+
+          .ant-menu-horizontal {
+            border-bottom: 0px;
+          }
+        }
+      }
+
+      .mail-content {
+        .mail-inbox {
+          color: white;
+
+          th {
+            background-color: #4fc1e9 !important;
+            color: white;
+          }
+        }
+
+        .mail-compose-message {
+          width: 100%;
+          background-color: #f7f7f7;
+          border: 1px solid #f7f7f7;
+          border-radius: 10px;
+          padding: 5px;
+        }
+
+        .title {
+          border-radius: 10px;
+          background-color: #f7f7f7;
+          padding: 20px;
+          border-left: 5px solid yellow;
+          width: 100%;
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
 }
 
 .mailbox-banner-area-css {
-    padding-top: 130px;
-    position: relative;
+  padding-top: 130px;
+  position: relative;
 
-    .mail-container {
-        background-color: #272753;
-        padding-left: 30px;
-        padding-right: 30px;
+  .mail-container {
+    background-color: #272753;
+    padding-left: 30px;
+    padding-right: 30px;
 
-        @media only screen and (max-width: 900px) {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .mailbox-container {
-            padding: 50px;
-
-            .menu-bar {
-                background-color: white;
-                border-radius: 10px;
-
-                .row {
-                    padding: 10px;
-
-                    .ant-menu-horizontal {
-                        border-bottom: 0px;
-                    }
-                }
-            }
-
-            .mail-content {
-
-                .mail-inbox {
-                    color: white;
-
-                    th {
-                        background-color: #4fc1e9 !important;
-                        color: white;
-                    }
-                }
-
-                .mail-compose-message {
-                    width: 100%;
-                    background-color: #f7f7f7;
-                    border: 1px solid #f7f7f7;
-                    border-radius: 10px;
-                    padding: 5px;
-                }
-
-                .title {
-                    border-radius: 10px;
-                    background-color: #f7f7f7;
-                    padding: 20px;
-                    border-left: 5px solid yellow;
-                    width: 100%;
-                    margin-bottom: 30px;
-                }
-            }
-        }
+    @media only screen and (max-width: 900px) {
+      padding-left: 10px;
+      padding-right: 10px;
     }
+
+    .mailbox-container {
+      padding: 50px;
+
+      .menu-bar {
+        background-color: white;
+        border-radius: 10px;
+
+        .row {
+          padding: 10px;
+
+          .ant-menu-horizontal {
+            border-bottom: 0px;
+          }
+        }
+      }
+
+      .mail-content {
+        .mail-inbox {
+          color: white;
+
+          th {
+            background-color: #4fc1e9 !important;
+            color: white;
+          }
+        }
+
+        .mail-compose-message {
+          width: 100%;
+          background-color: #f7f7f7;
+          border: 1px solid #f7f7f7;
+          border-radius: 10px;
+          padding: 5px;
+        }
+
+        .title {
+          border-radius: 10px;
+          background-color: #f7f7f7;
+          padding: 20px;
+          border-left: 5px solid yellow;
+          width: 100%;
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
 }
 
 // Colors
 $label-colour: #bbb;
 $disabled-colour: #ddd;
-$toggle-colour: #2F855A;
+$toggle-colour: #2f855a;
 $white: #fff;
 $focus-color: #ff0;
 
 .toggle-switch {
-    position: relative;
-    margin-right: 10px;
-    width: 75px;
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    text-align: left;
+  position: relative;
+  margin-right: 10px;
+  width: 75px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  text-align: left;
 
-    &-checkbox {
-        display: none;
+  &-checkbox {
+    display: none;
+  }
+
+  &-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0 solid $label-colour;
+    border-radius: 20px;
+    margin: 0;
+
+    &:focus {
+      outline: none;
+
+      > span {
+        box-shadow: 0 0 2px 5px red;
+      }
     }
 
-    &-label {
-        display: block;
-        overflow: hidden;
-        cursor: pointer;
-        border: 0 solid $label-colour;
-        border-radius: 20px;
-        margin: 0;
+    > span:focus {
+      outline: none;
+    }
+  }
 
-        &:focus {
-            outline: none;
+  &-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
 
-            >span {
-                box-shadow: 0 0 2px 5px red;
-            }
-        }
-
-        >span:focus {
-            outline: none;
-        }
+    &:before,
+    &:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 34px;
+      padding: 0;
+      line-height: 34px;
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+      box-sizing: border-box;
     }
 
-    &-inner {
-        display: block;
-        width: 200%;
-        margin-left: -100%;
-        transition: margin 0.3s ease-in 0s;
+    &:before {
+      content: attr(data-yes);
+      text-transform: uppercase;
+      padding-left: 10px;
+      background-color: $toggle-colour;
+      color: $white;
+    }
+  }
 
-        &:before,
-        &:after {
-            display: block;
-            float: left;
-            width: 50%;
-            height: 34px;
-            padding: 0;
-            line-height: 34px;
-            font-size: 14px;
-            color: white;
-            font-weight: bold;
-            box-sizing: border-box;
-        }
+  &-disabled {
+    background-color: $disabled-colour;
+    cursor: not-allowed;
 
-        &:before {
-            content: attr(data-yes);
-            text-transform: uppercase;
-            padding-left: 10px;
-            background-color: $toggle-colour;
-            color: $white;
-        }
+    &:before {
+      background-color: $disabled-colour;
+      cursor: not-allowed;
+    }
+  }
+
+  &-inner:after {
+    content: attr(data-no);
+    text-transform: uppercase;
+    padding-right: 10px;
+    background-color: $label-colour;
+    color: $white;
+    text-align: right;
+  }
+
+  &-switch {
+    display: block;
+    width: 24px;
+    margin: 5px;
+    background: $white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px;
+    border: 0 solid $label-colour;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+  }
+
+  &-checkbox:checked + &-label {
+    .toggle-switch-inner {
+      margin-left: 0;
     }
 
-    &-disabled {
-        background-color: $disabled-colour;
-        cursor: not-allowed;
+    .toggle-switch-switch {
+      right: 0px;
+    }
+  }
 
-        &:before {
-            background-color: $disabled-colour;
-            cursor: not-allowed;
-        }
+  &.small-switch {
+    width: 40px;
+
+    .toggle-switch-inner {
+      &:after,
+      &:before {
+        content: "";
+        height: 20px;
+        line-height: 20px;
+      }
     }
 
-    &-inner:after {
-        content: attr(data-no);
-        text-transform: uppercase;
-        padding-right: 10px;
-        background-color: $label-colour;
-        color: $white;
-        text-align: right;
+    .toggle-switch-switch {
+      width: 16px;
+      right: 20px;
+      margin: 2px;
     }
+  }
 
-    &-switch {
-        display: block;
-        width: 24px;
-        margin: 5px;
-        background: $white;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 40px;
-        border: 0 solid $label-colour;
-        border-radius: 20px;
-        transition: all 0.3s ease-in 0s;
-    }
+  @media screen and (max-width: 991px) {
+    transform: scale(0.9);
+  }
 
-    &-checkbox:checked+&-label {
-        .toggle-switch-inner {
-            margin-left: 0;
-        }
+  @media screen and (max-width: 767px) {
+    transform: scale(0.825);
+  }
 
-        .toggle-switch-switch {
-            right: 0px;
-        }
-    }
-
-    &.small-switch {
-        width: 40px;
-
-        .toggle-switch-inner {
-
-            &:after,
-            &:before {
-                content: "";
-                height: 20px;
-                line-height: 20px;
-            }
-        }
-
-        .toggle-switch-switch {
-            width: 16px;
-            right: 20px;
-            margin: 2px;
-        }
-    }
-
-    @media screen and (max-width: 991px) {
-        transform: scale(0.9);
-    }
-
-    @media screen and (max-width: 767px) {
-        transform: scale(0.825);
-    }
-
-    @media screen and (max-width: 575px) {
-        transform: scale(0.75);
-    }
+  @media screen and (max-width: 575px) {
+    transform: scale(0.75);
+  }
 }
-

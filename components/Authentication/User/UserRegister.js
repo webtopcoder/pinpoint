@@ -5,12 +5,11 @@ import csc from "country-state-city";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
-import DatePicker from "react-datepicker";
 import styles from "../validate.module.css";
 import { useRegisterFormValidator } from "./hooks/use-user-register-form-validator";
 import { registerUser } from "@/redux/User/actions";
 import "react-datepicker/dist/react-datepicker.css";
-
+import FormGroup from "../FormGroup";
 const UserRegister = ({ onRegisterUser }) => {
   const countryCode = "US";
   const country = csc.getCountryByCode(countryCode);
@@ -19,10 +18,10 @@ const UserRegister = ({ onRegisterUser }) => {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    usertype: "user",
+    role: "user",
     firstName: "",
     lastName: "",
-    userName: "",
+    username: "",
     birthday: new Date(),
     city: "",
     state: "",
@@ -67,11 +66,27 @@ const UserRegister = ({ onRegisterUser }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-
-    onRegisterUser(form, (res) => {
+    const fields = [
+      "role",
+      "firstName",
+      "lastName",
+      "username",
+      "email",
+      "password",
+    ];
+    const formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
+    const savedEmail = localStorage.setItem(
+      "registration_email",
+      formRequest.email
+    );
+    onRegisterUser(formRequest, (res) => {
       if (res.success) {
-        localStorage.setItem("thankyou_id", "User");
         router.push("/authentication/thank-you");
+
+        console.log(savedEmail);
+        localStorage.setItem("thankyou_id", "User");
+      } else {
+        console.log("error");
       }
     });
   };
@@ -90,79 +105,52 @@ const UserRegister = ({ onRegisterUser }) => {
           <div className="row">
             <div className="auth-space"></div>
             <div className="col-lg-6 col-md-6">
-              <div className="form-group">
-                <label className="authen-text-attr">First Name *</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  className="form-control"
-                  value={form.firstName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                />
-                {errors.firstName.dirty && errors.firstName.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.firstName.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                errors={errors}
+                label="First Name *"
+                value={form.firstName}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="firstName"
+                type="text"
+                placeholder="First Name"
+              />
             </div>
             <div className="col-lg-6 col-md-6">
-              <div className="form-group">
-                <label className="authen-text-attr">Last Name * </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  className="form-control"
-                  value={form.lastName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                />
-                {errors.lastName.dirty && errors.lastName.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.lastName.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                errors={errors}
+                label="Last Name *"
+                value={form.lastName}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="lastName"
+                type="text"
+                placeholder="Last Name"
+              />
             </div>
             <div className="col-lg-12 col-md-12">
-              <div className="form-group">
-                <label className="authen-text-attr">User Name *</label>
-                <input
-                  type="text"
-                  name="userName"
-                  value={form.userName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  className="form-control"
-                />
-                {errors.userName.dirty && errors.userName.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.userName.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                label="Username *"
+                errors={errors}
+                value={form.username}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="username"
+                type="text"
+                placeholder="Username"
+              />
             </div>
             <div className="col-lg-12 col-md-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Date of Birth *</label>
-                <DatePicker
-                  name="birthday"
-                  className="form-control"
-                  onBlur={onBlurField}
-                  selected={form.birthday}
-                  showMonthDropdown
-                  showYearDropdown
-                  value={form.birthday}
-                  dropdownMode="select"
-                  onChange={(date) => setStartDate(date)}
-                />
-                {errors.birthday.dirty && errors.birthday.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.birthday.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                label="Birthday *"
+                errors={errors}
+                value={form.birthday}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="birthday"
+                type="date"
+                placeholder="Birthday"
+              />
             </div>
 
             <div className="col-lg-6 col-md-6">
@@ -214,59 +202,37 @@ const UserRegister = ({ onRegisterUser }) => {
               </div>
             </div>
             <div className="col-lg-12 col-md-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Email *</label>
-                <input
-                  type="Email"
-                  name="email"
-                  value={form.email}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  className="form-control"
-                />
-                {errors.email.dirty && errors.email.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.email.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                label="Email *"
+                errors={errors}
+                value={form.email}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="email"
+                type="email"
+              />
             </div>
             <div className="col-lg-12 col-md-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Password *</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={form.password}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  className="form-control"
-                />
-                {errors.password.dirty && errors.password.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.password.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                label="Password *"
+                errors={errors}
+                value={form.password}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="password"
+                type="password"
+              />
             </div>
             <div className="col-lg-12 col-md-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Confirm Password *</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="confirmPassword"
-                  value={form.confirmPassword}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                />
-                {errors.confirmPassword.dirty &&
-                errors.confirmPassword.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.confirmPassword.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                label="Confirm Password *"
+                errors={errors}
+                value={form.confirmPassword}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="confirmPassword"
+                type="password"
+              />
             </div>
           </div>
           <div className="row">
@@ -303,4 +269,5 @@ const UserRegister = ({ onRegisterUser }) => {
 const mapDispatchToProps = (dispatch) => ({
   onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
 });
+
 export default connect(undefined, mapDispatchToProps)(UserRegister);

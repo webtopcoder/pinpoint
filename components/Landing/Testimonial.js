@@ -44,7 +44,7 @@ const Testimonial = () => {
   React.useEffect(() => {
     setDisplay(true);
   }, []);
-  return (  
+  return (
     <div className="testimonials-area bg-black ptb-100">
       <div className="container">
         <div
@@ -53,9 +53,7 @@ const Testimonial = () => {
           data-aos-duration="1200"
         >
           <span className="sub-title">PINPOINT RAVES</span>
-          <h2 className="nunito-font">
-            Pinpoint Shout Outs
-          </h2>
+          <h2 className="nunito-font">Pinpoint Shout Outs</h2>
         </div>
         {display ? (
           <OwlCarousel

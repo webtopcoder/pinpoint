@@ -436,9 +436,9 @@ const ProfileActivity = ({
                                       onClick={() =>
                                         window.open(
                                           baseUrl +
-                                          "/profile/" +
-                                          item.from_user._id +
-                                          "/activity",
+                                            "/profile/" +
+                                            item.from_user._id +
+                                            "/activity",
                                           "_blank"
                                         )
                                       }
@@ -540,11 +540,19 @@ const ProfileActivity = ({
                             return (
                               <div key={index}>
                                 <Space.Compact block size="small">
-                                  <Text style={{
-                                    width: 'calc(100% - 200px)',
-                                  }}> {item.option}</Text>
+                                  <Text
+                                    style={{
+                                      width: "calc(100% - 200px)",
+                                    }}
+                                  >
+                                    {" "}
+                                    {item.option}
+                                  </Text>
 
-                                  <Button onClick={increase} icon={<PlusOutlined />} />
+                                  <Button
+                                    onClick={increase}
+                                    icon={<PlusOutlined />}
+                                  />
                                 </Space.Compact>
                                 <Progress
                                   percent={item.votePercecnt}
@@ -552,7 +560,6 @@ const ProfileActivity = ({
                                   strokeColor="#1677FF"
                                   trailColor="black"
                                 />
-
                               </div>
                             );
                           })}
@@ -585,9 +592,9 @@ const ProfileActivity = ({
                               onClick={() =>
                                 window.open(
                                   baseUrl +
-                                  "/profile/" +
-                                  view_user_id +
-                                  "/allphotos",
+                                    "/profile/" +
+                                    view_user_id +
+                                    "/allphotos",
                                   "_blank"
                                 )
                               }

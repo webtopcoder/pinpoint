@@ -4,7 +4,7 @@ Global CSS
 :root {
   --fontFamily: "Be Vietnam Pro", sans-serif;
   --nunitoFontFamily: "Nunito Sans", sans-serif;
-  --redLightColor: #EC2226;
+  --redLightColor: #ec2226;
   --blueDarkColor: #473bf0;
   --lightGreenColor: #00b3cc;
   --darkGreenColor: #2e85a1;
@@ -19,11 +19,11 @@ Global CSS
   --blackColor: #000000;
   --blueColor: #175594;
   --whiteColor: #ffffff;
-  --graylightColor: #D9D9D9B8;
-  --graydarkColor: #2F2F2F;
-  --blacklightColor: #D9D9D9;
-  --lightWhiteColor: #F1F1F1;
-  --darkWhiteColor: #D8D8D8;
+  --graylightColor: #d9d9d9b8;
+  --graydarkColor: #2f2f2f;
+  --blacklightColor: #d9d9d9;
+  --lightWhiteColor: #f1f1f1;
+  --darkWhiteColor: #d8d8d8;
   --transition: 0.5s;
   --fontSize: 17px;
 }
@@ -44,7 +44,8 @@ body {
 .ant-form-item-required,
 label,
 a,
-span, h2 {
+span,
+h2 {
   font-family: var(--fontFamily) !important;
 }
 
@@ -146,7 +147,7 @@ p:last-child {
 }
 
 .bg-dark-gray {
-  background-color: #2F2F2F
+  background-color: #2f2f2f;
 }
 
 .bg-black {
@@ -154,7 +155,7 @@ p:last-child {
 }
 
 .bg-light-gray {
-  background-color: #414141
+  background-color: #414141;
 }
 
 .bg-1d2b53 {
@@ -468,8 +469,6 @@ p:last-child {
   margin-top: 12px;
 }
 
-
-
 .section-title.white-color .sub-title {
   color: var(--whiteColor);
 }
@@ -602,7 +601,6 @@ p:last-child {
 }
 
 @-webkit-keyframes waviy {
-
   0%,
   40%,
   100% {
@@ -617,7 +615,6 @@ p:last-child {
 }
 
 @keyframes waviy {
-
   0%,
   40%,
   100% {
