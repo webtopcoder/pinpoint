@@ -46,7 +46,7 @@ export function getUserInfo(user_id, cb) {
 
 export function getActivity(id, count, search, cb) {
   return (dispatch) =>
-    api(`profile/activity/${id}?page=${count}&search=${search}`, "get")
+    api(`profile/${id}/activity?page=${count}&search=${search}`, "get")
       .then((res) => {
         dispatch({
           type: USER_ACTIVITY_REQUEST,
@@ -215,7 +215,7 @@ export function editNotification(rating, follow, mention, favorite) {
 
 export function postThink(info, cb) {
   return (dispatch) =>
-    api(`profile/post`, "post", info)
+    api(`profile/${info.userId}/post`, "post", info)
       .then((res) => {
         dispatch({
           type: THINK_POST_SUCCESS,
