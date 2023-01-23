@@ -22,7 +22,7 @@ export function loginUser(form, cb) {
       .then((res) => {
         dispatch({
           type: S_LOGIN,
-          payload: res.id,
+          payload: res.user.id,
         });
         dispatch({
           type: USER_LOGIN_REQUEST,
@@ -37,7 +37,7 @@ export function loginUser(form, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }
 
@@ -59,7 +59,7 @@ export function registerUser(form, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }
 
@@ -81,7 +81,7 @@ export function verifyUserEmail(form, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }
 

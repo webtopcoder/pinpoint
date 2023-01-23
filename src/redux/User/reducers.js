@@ -53,23 +53,25 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case USER_LOGIN_SUCCESS: {
-      sessionStorage.setItem("token", action.payload.token);
+      sessionStorage.setItem("token", action.payload.tokens.accessToken);
       sessionStorage.setItem("role", action.payload.role);
-      sessionStorage.setItem("username", action.payload.username);
-      sessionStorage.setItem("user_id", action.payload.id);
-      sessionStorage.setItem("usertype", action.payload.usertype);
+      sessionStorage.setItem("username", action.payload.user.username);
+      sessionStorage.setItem("user_id", action.payload.user._id);
+      sessionStorage.setItem("usertype", action.payload.role);
       sessionStorage.setItem(
         "avatar",
-        action.payload.avatar ? action.payload.avatar : ""
+        action.payload.user.profilePicture
+          ? action.payload.user.profilePicture
+          : ""
       );
       return {
         ...state,
-        token: action.payload.token,
+        token: action.payload.tokens.accessToken,
         role: action.payload.role,
-        username: action.payload.username,
-        user_id: action.payload.id,
-        usertype: action.payload.usertype,
-        avatar: action.payload.avatar,
+        username: action.payload.user.username,
+        user_id: action.payload.user._id,
+        usertype: action.payload.role,
+        avatar: action.payload.user.profilePicture,
       };
     }
     case USER_EMAIL_VERIFICATION_REQUEST:
@@ -127,7 +129,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         token: null,
-        role: 0,
+        role: "",
         username: "",
       };
     }

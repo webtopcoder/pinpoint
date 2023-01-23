@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { UserInfoValidator, passwordValidator } from "../partner-validator";
-
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
     acc[field] = {
@@ -12,19 +10,19 @@ const touchErrors = (errors) => {
   }, {});
 };
 
-export const useLoginFormValidator = (form) => {
-  const [errors, setErrors] = useState({
-    userInfo: {
-      dirty: false,
-      error: false,
-      message: "",
-    },
-    password: {
-      dirty: false,
-      error: false,
-      message: "",
-    },
-  });
+export const useLoginFormValidator = (form, formValidator) => {
+  const initialState = Object.keys(form).reduce((obj, key) => {
+    return {
+      ...obj,
+      [key]: {
+        value: form[key],
+        dirty: false,
+        error: false,
+      },
+    };
+  }, {});
+
+  const [errors, setErrors] = useState(initialState);
 
   const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
     let isValid = true;
@@ -37,21 +35,14 @@ export const useLoginFormValidator = (form) => {
       nextErrors = touchErrors(errors);
     }
 
-    const { userInfo, password } = form;
-
-    if (nextErrors.userInfo.dirty && (field ? field === "userInfo" : true)) {
-      const userInfoMessage = UserInfoValidator(userInfo, form);
-      nextErrors.userInfo.error = !!userInfoMessage;
-      nextErrors.userInfo.message = userInfoMessage;
-      if (!!userInfoMessage) isValid = false;
-    }
-
-    if (nextErrors.password.dirty && (field ? field === "password" : true)) {
-      const passwordMessage = passwordValidator(password, form);
-      nextErrors.password.error = !!passwordMessage;
-      nextErrors.password.message = passwordMessage;
-      if (!!passwordMessage) isValid = false;
-    }
+    Object.entries(form).forEach(([formField, value]) => {
+      if (nextErrors[formField].dirty && (field ? field === formField : true)) {
+        const message = formValidator[formField](value, form);
+        nextErrors[formField].error = false;
+        nextErrors[formField].message = "";
+        if (message) isValid = false;
+      }
+    });
 
     setErrors(nextErrors);
 

@@ -1,25 +1,27 @@
+import React from "react";
 import toast from "@/components/Toast";
 import logo from "@/public/images/logo.png";
 import { loginUser } from "@/redux/User/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { React, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { connect } from "react-redux";
 
-import FormGroup from "../FormGroup";
-import styles from "../validate.module.css";
+import FormGroup from "./FormGroup";
 
-import { useLoginFormValidator } from "./hooks/use-user-login-form-validator";
+import { useLoginFormValidator } from "./hooks/useLoginValidator";
+import { passwordValidator, UserInfoValidator } from "./User/user-validator.js";
 
-const UserLogin = ({ onLoginUser }) => {
+const formValidator = {
+  email: UserInfoValidator,
+  password: passwordValidator,
+};
+
+const LoginForm = ({ onLoginUser, role }) => {
   const router = useRouter();
   const notify = useCallback((type, message) => {
     toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
   }, []);
 
   const [form, setForm] = useState({
@@ -27,7 +29,10 @@ const UserLogin = ({ onLoginUser }) => {
     password: "",
   });
 
-  const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
+  const { errors, validateForm, onBlurField } = useLoginFormValidator(
+    form,
+    formValidator
+  );
 
   const onUpdateField = (e) => {
     const field = e.target.name;
@@ -48,12 +53,13 @@ const UserLogin = ({ onLoginUser }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-    console.log(form);
-    onLoginUser(form, (res) => {
-      res.success ? notify("success", res.msg) : notify("error", res.msg);
-      if (res.success) {
-        router.push("/home");
+    onLoginUser({ ...form, role: "user" }, (res, error) => {
+      if (error) {
+        notify("error", error.message);
+        return;
       }
+      notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
+      router.push("/home");
     });
   };
 
@@ -118,7 +124,7 @@ const UserLogin = ({ onLoginUser }) => {
           <div className="col-12">
             <p className="account-desc">
               No Account Yet? Signup{" "}
-              <Link href="/authentication/user/register">
+              <Link href={`/authentication/${role}/register`}>
                 <a>HERE</a>
               </Link>{" "}
               for free!
@@ -145,4 +151,4 @@ const mapDispatchToProps = (dispatch) => ({
   onLoginUser: (data, cb) => dispatch(loginUser(data, cb)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserLogin);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Login from "@/components/Authentication/Partner/PartnerLogin";
+import Login from "@/components/Authentication/LoginForm";
 
 const partnerLogin = () => {
   return (
@@ -15,7 +15,7 @@ const partnerLogin = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-12"></div>
-            <Login />
+            <Login role={"partner"} />
             <div className="col-lg-3 col-md-12"></div>
           </div>
         </div>
