@@ -1,3 +1,4 @@
+// @ts-nocheck
 import toast from "@/components/Toast";
 import logo from "@/public/images/logo.png";
 import { registerUser } from "@/redux/User/actions";
@@ -41,7 +42,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
     role: "partner",
     firstName: "",
     lastName: "",
-    username: "",
+    userName: "",
     address: "",
     city: "",
     state: "",
@@ -83,9 +84,9 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
 
     ongetCategory();
 
-    return () => {
-      autoCompleteRef.current?.removeListener("place_changed");
-    };
+    // return () => {
+    //   autoCompleteRef.current?.removeListener("place_changed");
+    // };
   }, []);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(
@@ -170,10 +171,10 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
                 <FormGroup
                   errors={errors}
                   label="Business Legal Name *"
-                  value={form.username}
+                  value={form.userName}
                   onChange={onUpdateField}
                   onBlur={onBlurField}
-                  name="username"
+                  name="userName"
                   type="text"
                 />
               </div>
