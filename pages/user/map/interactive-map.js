@@ -60,10 +60,10 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     if (e.target.name == "category") {
       onsubgetCateogry(e.target.value, (res) => {
         const subarr = [];
-        res.subcategories?.map((item, index) => {
+        res.subCategories?.map((item, index) => {
           const subitem = {
-            value: item.content,
-            label: item.content,
+            value: item.name,
+            label: item.name,
           };
           subarr.push(subitem);
         });
@@ -518,7 +518,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                       <option value="0">Select Category</option>
                       {categoryInfo.map((option, index) => (
                         <option key={index} value={option._id}>
-                          {option.content}
+                          {option.name}
                         </option>
                       ))}
                     </select>
@@ -624,7 +624,7 @@ InteractiveMap.getLayout = function getLayout(page) {
 
 const mapStateToProps = ({ user }) => ({
   categoryInfo: user.partnerCategory.categories,
-  subcategoryInfo: user.partnerCategory.subCategories,
+  subcategoryInfo: user.partnersubCategory,
 });
 
 const mapDispatchToProps = (dispatch) => ({

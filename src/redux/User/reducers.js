@@ -43,7 +43,7 @@ const initialState = {
   loginInfo: { success: false, msg: {} },
   resetPasswordInfo: { success: false, msg: "" },
   partnerCategory: { success: false, categories: [] },
-  partnersubCategory: { success: false, categories: [] },
+  partnersubCategory: { success: false, subCategories: [] },
   myFollowers: {},
 };
 

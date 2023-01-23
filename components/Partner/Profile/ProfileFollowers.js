@@ -33,7 +33,7 @@ const ProfileFollowers = ({
     toast.dismiss();
   }, []);
 
-  const user_id = "";
+  let user_id = "";
   if (typeof window !== "undefined") {
     user_id = sessionStorage.getItem("user_id");
   }
@@ -55,8 +55,8 @@ const ProfileFollowers = ({
       ongetFollowers(profile, 1, search, (res) => {
         if (res.success) {
           setInitLoading(false);
-          setData(res.data);
-          setList(res.data);
+          setData(res.followers);
+          setList(res.followers);
         } else notify("error", res.msg);
       });
     }
@@ -68,7 +68,7 @@ const ProfileFollowers = ({
       data.concat(
         [...new Array(10)].map(() => ({
           loading: true,
-          from: {},
+          follower: {},
         }))
       )
     );
@@ -76,7 +76,7 @@ const ProfileFollowers = ({
 
     ongetFollowers(profile, count, search, (res) => {
       if (res.success) {
-        const newData = data.concat(res.data);
+        const newData = data.concat(res.followers);
         setData(newData);
         setList(newData);
         setLoading(false);
@@ -94,8 +94,8 @@ const ProfileFollowers = ({
         ongetFollowers(profile, 1, search, (res) => {
           if (res.success) {
             setInitLoading(false);
-            setData(res.data);
-            setList(res.data);
+            setData(res.followers);
+            setList(res.followers);
           } else notify("error", res.msg);
         });
       } else notify("error", res.msg);
@@ -126,8 +126,8 @@ const ProfileFollowers = ({
     ongetFollowers(profile, count, value, (res) => {
       if (res.success) {
         setInitLoading(false);
-        setData(res.data);
-        setList(res.data);
+        setData(res.followers);
+        setList(res.followers);
       } else notify("error", res.msg);
     });
   };
@@ -184,7 +184,7 @@ const ProfileFollowers = ({
                               window.open(
                                 baseUrl +
                                   "/user/" +
-                                  item.from._id +
+                                  item.follower._id +
                                   "/activity",
                                 "_blank"
                               )
@@ -200,7 +200,7 @@ const ProfileFollowers = ({
                             onClick={() =>
                               window.open(
                                 baseUrl +
-                                  `/mail/inbox?email=@${item.from.username}`,
+                                  `/mail/inbox?email=@${item.follower.username}`,
                                 "_blank"
                               )
                             }
@@ -245,15 +245,13 @@ const ProfileFollowers = ({
                                   width: 70,
                                   height: 70,
                                 }}
-                                src={imgurl + item.from.avatar}
+                                src={imgurl + item.follower.avatar}
                               />
                             }
                             title={
                               <a href="https://ant.design">
-                                {item.from.first_name +
-                                  " " +
-                                  item.from.last_name}
-                                <p> @{item.from.username}</p>
+                                {item.follower.name}
+                                <p> @{item.follower.username}</p>
                               </a>
                             }
                             description={new Date(

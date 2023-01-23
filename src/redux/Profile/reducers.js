@@ -126,7 +126,7 @@ const profileReducer = (state = initialState, action) => {
     case GET_FOLLOWERS_LIST_SUCCESS: {
       return {
         ...state,
-        followersInfo: action.payload.data,
+        followersInfo: action.payload.followers,
       };
     }
 

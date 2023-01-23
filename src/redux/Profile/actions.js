@@ -246,7 +246,7 @@ export function recommendPost(id, cb) {
 
 export function getHeader(id) {
   return (dispatch) =>
-    api(`profile/header/${id}`, "get")
+    api(`profile/${id}/header`, "get")
       .then((res) => {
         dispatch({
           type: HEADER_GET_SUCCESS,
@@ -278,7 +278,7 @@ export function getAllphotos(id, paginationInfo) {
 
 export function postFollower(id, cb) {
   return (dispatch) =>
-    api(`profile/follow/${id}`, "post")
+    api(`follow/${id}`, "post")
       .then((res) => {
         dispatch({
           type: POST_FOLLOWER_SUCCESS,
@@ -293,7 +293,7 @@ export function postFollower(id, cb) {
 
 export function getFollowers(id, count, search, cb) {
   return (dispatch) =>
-    api(`profile/followers/${id}?page=${count}&search=${search}`, "get")
+    api(`follow/${id}/follower?page=${count}&search=${search}`, "get")
       .then((res) => {
         dispatch({
           type: GET_FOLLOWERS_LIST_SUCCESS,
@@ -308,7 +308,7 @@ export function getFollowers(id, count, search, cb) {
 
 export function unFriend(id, cb) {
   return (dispatch) =>
-    api(`profile/follow/${id}`, "delete")
+    api(`follow/${id}`, "delete")
       .then((res) => {
         dispatch({
           type: UN_FRIEND_SUCCESS,
