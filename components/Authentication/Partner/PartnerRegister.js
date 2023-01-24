@@ -156,14 +156,16 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       password: form.password,
     };
 
-    onRegisterUser(data, (res) => {
-      res.success ? notify("success", res.msg) : notify("error", res.msg);
-
-      if (res.success) {
-        localStorage.setItem("registration_email", form.email);
-        localStorage.setItem("thankyou_id", "Partner");
-        router.push("/authentication/thank-you");
+    onRegisterUser(data, (res, error) => {
+      if (error) {
+        notify("error", error.message);
+        return;
       }
+      notify("success", "Register successfully");
+
+      localStorage.setItem("registration_email", form.email);
+      localStorage.setItem("thankyou_id", "Partner");
+      router.push("/authentication/thank-you");
     });
   };
 

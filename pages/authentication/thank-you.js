@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import AuthCode from "react-auth-code-input";
@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 import thankYouImg from "@/public/images/thank-you.png";
 import { useRouter } from "next/router";
+import toast from "@/components/Toast";
 
 const ThankYou = ({ onVerifyUserEmail }) => {
   let thankyou_id = "";
@@ -18,6 +19,10 @@ const ThankYou = ({ onVerifyUserEmail }) => {
   const handleOnChange = (res) => {
     setResult(res);
   };
+
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("registration_email"));
@@ -36,7 +41,12 @@ const ThankYou = ({ onVerifyUserEmail }) => {
       otp: result,
     };
     console.log(data);
-    onVerifyUserEmail(data, (res) => {
+    onVerifyUserEmail(data, (res, error) => {
+      if (error) {
+        notify("error", error.message);
+        return;
+      }
+      notify("success", "Email verified successfully");
       router.push("/authentication/user/login");
     });
   };
