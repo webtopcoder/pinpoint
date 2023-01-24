@@ -75,7 +75,9 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
                 <div className="avatar">
                   {headerInfo?.profile?.avatar ? (
                     <Image
-                      src={avatarurl + "/" + headerInfo?.profile?.avatar}
+                      src={
+                        avatarurl + "/" + headerInfo?.profile?.avatar.filepath
+                      }
                       loader={myLoader}
                       unoptimized
                       layout={"fill"}
