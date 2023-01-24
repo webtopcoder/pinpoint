@@ -103,7 +103,7 @@ export function updateInfo(info, cb) {
 export function uploadAvatar(url, cb) {
   console.log(url);
   return (dispatch) =>
-    api(`profile/avatar`, "put", url)
+    api(`profile/avatar`, "post", url)
       .then((res) => {
         dispatch({
           type: USER_AVATAR_UPLOAD_SUCCESS,

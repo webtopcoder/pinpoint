@@ -11,7 +11,9 @@
       "@/utils/*": ["utils/*"],
       "@/src/*": ["src/*"],
       "@/redux*": ["src/redux*"],
-      "@/utils*": ["utils/*"]
+      "@/utils*": ["utils/*"],
+      "@/constants/*": ["constants/*"],
+      "@/constants*": ["constants/*"]
     }
   },
   "exclude": ["node_modules", "build"]

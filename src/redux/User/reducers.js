@@ -60,8 +60,8 @@ const userReducer = (state = initialState, action) => {
       sessionStorage.setItem("usertype", action.payload.role);
       sessionStorage.setItem(
         "avatar",
-        action.payload.user.profilePicture
-          ? action.payload.user.profilePicture
+        action.payload.user.profile.avatar.filepath
+          ? action.payload.user.profile.avatar.filepath
           : ""
       );
       return {
@@ -71,7 +71,7 @@ const userReducer = (state = initialState, action) => {
         username: action.payload.user.username,
         user_id: action.payload.user._id,
         usertype: action.payload.role,
-        avatar: action.payload.user.profilePicture,
+        avatar: action.payload.user.profile.avatar.filepath,
       };
     }
     case USER_EMAIL_VERIFICATION_REQUEST:
