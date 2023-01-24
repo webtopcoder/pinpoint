@@ -158,7 +158,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
 
     onRegisterUser(data, (res, error) => {
       if (error) {
-        notify("error", error.message);
+        notify("error", error.response.data.message);
         return;
       }
       notify("success", "Register successfully");

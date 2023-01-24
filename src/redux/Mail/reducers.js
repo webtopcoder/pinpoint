@@ -28,15 +28,15 @@ const mailReducer = (state = initialState, action) => {
     case GET_INBOX_SUCCESS: {
       return {
         ...state,
-        inboxlist: action.payload,
+        inboxlist: action.payload.results,
       };
     }
 
     case GET_SENT_SUCCESS: {
       return {
         ...state,
-        sentlist: action.payload.data,
-        senttotal: action.payload.total,
+        sentlist: action.payload.results,
+        senttotal: action.payload.totalResults,
       };
     }
 

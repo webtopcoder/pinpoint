@@ -44,7 +44,7 @@ const initialState = {
   resetPasswordInfo: { success: false, msg: "" },
   partnerCategory: { success: false, categories: [] },
   partnersubCategory: { success: false, subCategories: [] },
-  myFollowers: {},
+  myFollowers: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -54,10 +54,10 @@ const userReducer = (state = initialState, action) => {
 
     case USER_LOGIN_SUCCESS: {
       sessionStorage.setItem("token", action.payload.tokens.access.token);
-      sessionStorage.setItem("role", action.payload.role);
+      sessionStorage.setItem("role", action.payload.user.role);
       sessionStorage.setItem("username", action.payload.user.username);
       sessionStorage.setItem("user_id", action.payload.user._id);
-      sessionStorage.setItem("usertype", action.payload.role);
+      sessionStorage.setItem("usertype", action.payload.user.role);
       sessionStorage.setItem(
         "avatar",
         action.payload.user.profile.avatar.filepath
@@ -67,10 +67,10 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         token: action.payload.tokens.access.token,
-        role: action.payload.role,
+        role: action.payload.user.role,
         username: action.payload.user.username,
         user_id: action.payload.user._id,
-        usertype: action.payload.role,
+        usertype: action.payload.user.role,
         avatar: action.payload.user.profile.avatar.filepath,
       };
     }
@@ -112,7 +112,7 @@ const userReducer = (state = initialState, action) => {
     case GET_MYFOLLOWER_SUCCESS: {
       return {
         ...state,
-        myFollowers: action.payload,
+        myFollowers: action.payload.followers,
       };
     }
 

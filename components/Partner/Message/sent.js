@@ -23,7 +23,7 @@ const Sent = ({
   };
   const [open, setOpen] = useState(false);
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
-  const attachurl = `http://${config.server}:${config.port}/mail/`;
+  const attachurl = `http://${config.server}:${config.port}/avatar/`;
   const myLoader = ({ src }) => {
     return src;
   };
@@ -49,7 +49,7 @@ const Sent = ({
         <div className="thread-sender">
           <div className="thread-avatar">
             <Image
-              src={avatarurl + "/" + record.to_user.avatar}
+              src={avatarurl + "/" + record.to.profile.avatar.filepath}
               alt="user"
               width={40}
               height={40}
@@ -61,12 +61,12 @@ const Sent = ({
                 <a
                   onClick={() =>
                     window.open(
-                      baseUrl + "/user/" + record.to_user.id + "/activity",
+                      baseUrl + "/user/" + record.to._id + "/activity",
                       "_blank"
                     )
                   }
                 >
-                  @{record.to_user.username}
+                  @{record.to.username}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>
               </Tooltip>
@@ -74,18 +74,15 @@ const Sent = ({
             </div>
             <span className="activity">
               last sent:{" "}
-              {new Date(record.sent[0].createdAt).toLocaleDateString(
-                undefined,
-                {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  hour12: true,
-                  minute: "2-digit",
-                  second: "2-digit",
-                }
-              )}
+              {new Date(record.updatedAt).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "2-digit",
+                second: "2-digit",
+              })}
             </span>
           </div>
         </div>
@@ -100,9 +97,9 @@ const Sent = ({
           <p>
             <Tooltip title="View Message" color={"blue"}>
               <a onClick={() => selectedSentinfo(record)}>
-                {record.sent[0].subject.length > 30
-                  ? record.sent[0].subject.substring(0, 30) + "..."
-                  : record.sent[0].subject}
+                {record.subject.length > 30
+                  ? record.subject.substring(0, 30) + "..."
+                  : record.subject}
               </a>
             </Tooltip>
           </p>
@@ -168,16 +165,7 @@ const Sent = ({
   };
 
   const delete_sent = (delete_id) => {
-    const delete_array = [];
-    delete_array.push(delete_id);
-
-    const data = {
-      mailId: delete_array,
-      action: "delete",
-      is_read: false,
-    };
-
-    ondeleteSent(data, (res) => {
+    ondeleteSent(delete_id, (res) => {
       if (res.success) {
         res.success ? notify("success", res.msg) : notify("error", res.msg);
 
@@ -227,7 +215,7 @@ const Sent = ({
       is_read: false,
     };
 
-    ondeleteSent(data, (res) => {
+    ondeleteSent(mailId, (res) => {
       if (res.success) {
         res.success ? notify("success", res.msg) : notify("error", res.msg);
 
@@ -291,7 +279,7 @@ const Sent = ({
             >
               <div className="message-metadata">
                 <Image
-                  src={avatarurl + "/" + record.to_user.avatar}
+                  src={avatarurl + "/" + record.to.avatar}
                   alt="user"
                   className="avatar"
                   width={100}
@@ -302,12 +290,12 @@ const Sent = ({
                     <a
                       onClick={() =>
                         window.open(
-                          baseUrl + "/user/" + record.to_user.id + "/activity",
+                          baseUrl + "/user/" + record.to.id + "/activity",
                           "_blank"
                         )
                       }
                     >
-                      @{record.to_user.username}
+                      @{record.to.username}
                       <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                     </a>
                   </Tooltip>

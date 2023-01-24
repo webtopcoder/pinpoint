@@ -82,9 +82,13 @@ export function downloadFile(filename) {
 export function getInbox(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/inbox?page=${tableinfo.pagination.current}&pageSize=${
+      `mail/inbox?page=${tableinfo.pagination.current}&limit=${
         tableinfo.pagination.pageSize
-      }&order=${tableinfo.order && tableinfo.order == "ascend" ? 1 : -1}`,
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
       "get"
     )
       .then((res) => {
@@ -107,9 +111,13 @@ export function getInbox(tableinfo, cb) {
 export function getSent(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/sent?page=${tableinfo.pagination.current}&pageSize=${
+      `mail/sent?page=${tableinfo.pagination.current}&limit=${
         tableinfo.pagination.pageSize
-      }&order=${tableinfo.order && tableinfo.order == "ascend" ? 1 : -1}`,
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
       "get"
     )
       .then((res) => {
@@ -132,9 +140,13 @@ export function getSent(tableinfo, cb) {
 export function getPending(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/pending?page=${tableinfo.pagination.current}&pageSize=${
+      `mail/pending?page=${tableinfo.pagination.current}&limit=${
         tableinfo.pagination.pageSize
-      }&order=${tableinfo.order && tableinfo.order == "ascend" ? 1 : -1}`,
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
       "get"
     )
       .then((res) => {
@@ -154,9 +166,9 @@ export function getPending(tableinfo, cb) {
       });
 }
 
-export function resend_pending(resend_id, cb) {
+export function resend_pending(mail_id, cb) {
   return (dispatch) =>
-    api(`mail/resend/invite`, "post", { to: resend_id })
+    api(`mail/${mail_id}/resend-invite`, "post")
       .then((res) => {
         dispatch({
           type: RESEND_INVITE_SUCCESS,
@@ -170,9 +182,9 @@ export function resend_pending(resend_id, cb) {
       });
 }
 
-export function deleteSent(data, cb) {
+export function deleteSent(mail_id, cb) {
   return (dispatch) =>
-    api(`mail`, "put", data)
+    api(`mail/${mail_id}`, "delete")
       .then((res) => {
         dispatch({
           type: DELETE_SENT_REQUEST,
@@ -190,9 +202,9 @@ export function deleteSent(data, cb) {
       });
 }
 
-export function actionInbox(data, cb) {
+export function actionInbox(mail_id, cb) {
   return (dispatch) =>
-    api(`mail`, "put", data)
+    api(`mail/${mail_id}`, "delete")
       .then((res) => {
         dispatch({
           type: DELETE_INBOX_REQUEST,

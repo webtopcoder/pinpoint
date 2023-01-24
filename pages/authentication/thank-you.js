@@ -11,10 +11,9 @@ import { useRouter } from "next/router";
 import toast from "@/components/Toast";
 
 const ThankYou = ({ onVerifyUserEmail }) => {
-  let thankyou_id = "";
-  let backLogin = "";
   const router = useRouter();
   const [email, setEmail] = useState("test@gmail.com");
+  const [thankyou_id, setThankyouId] = useState("");
   const [result, setResult] = useState("");
   const handleOnChange = (res) => {
     setResult(res);
@@ -26,10 +25,10 @@ const ThankYou = ({ onVerifyUserEmail }) => {
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("registration_email"));
-    thankyou_id = localStorage.getItem("thankyou_id");
-    backLogin = thankyou_id.toLowerCase();
+    setThankyouId(localStorage.getItem("thankyou_id"));
   }, []);
 
+  const backLogin = thankyou_id.toLowerCase();
   // if (typeof window !== "undefined") {
   //   // Perform localStorage action
   //   }
@@ -43,11 +42,11 @@ const ThankYou = ({ onVerifyUserEmail }) => {
     console.log(data);
     onVerifyUserEmail(data, (res, error) => {
       if (error) {
-        notify("error", error.message);
+        notify("error", "Wrong OTP!");
         return;
       }
       notify("success", "Email verified successfully");
-      router.push("/authentication/user/login");
+      router.push(`/authentication/${backLogin}/login`);
     });
   };
 

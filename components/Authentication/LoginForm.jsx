@@ -55,11 +55,11 @@ const LoginForm = ({ onLoginUser, role }) => {
     if (!isValid) return;
     onLoginUser({ ...form, role }, (res, error) => {
       if (error) {
-        notify("error", error.message);
+        notify("error", error.response.data.message);
         return;
       }
       notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
-      router.push("/home");
+      router.push(role == "partner" ? "/partner/dashboard" : "/home");
     });
   };
 
