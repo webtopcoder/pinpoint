@@ -1,19 +1,23 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Table, Row, Col, Button, Space, Tooltip, Modal, Dropdown } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Row, Col, Button, Tooltip, Modal, Dropdown } from "antd";
 import { connect } from "react-redux";
-import { DeleteFilled, DownloadOutlined } from "@ant-design/icons";
-import Image from "next/image";
+import { DownloadOutlined } from "@ant-design/icons";
 import { getSent } from "@/redux/Mail/actions";
 import { downloadFile } from "@/redux/Mail/actions";
 import { deleteSent } from "@/redux/Mail/actions";
-import toast from "@/components/Toast";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
+import useNotify from "@/hooks/useNotify";
+import useSentColumns from "./useSentColumns";
+
+const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const attachurl = `http://${config.server}:${config.port}/avatar/`;
 
 const Sent = ({
   ondownloadFile,
   ongetSent,
   ondeleteSent,
+  sentitems,
   childlistfunc,
   childFunc,
 }) => {
@@ -22,109 +26,17 @@ const Sent = ({
     window.open(attachurl + e.key, "_blank");
   };
   const [open, setOpen] = useState(false);
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
-  const attachurl = `http://${config.server}:${config.port}/avatar/`;
-  const myLoader = ({ src }) => {
-    return src;
-  };
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+  const { notify } = useNotify();
+  const { columns, record_detail } = useSentColumns({
+    setOpen,
+    onDeleteSent: ondeleteSent,
+    getSent: ongetSent,
+  });
 
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
-
-  const columnes = [
-    {
-      title: "",
-      width: "1%",
-    },
-    {
-      title: "To",
-      align: "center",
-      width: "40%",
-      sorter: true,
-      render: (_, record) => (
-        <div className="thread-sender">
-          <div className="thread-avatar">
-            <Image
-              src={avatarurl + "/" + record.to.profile.avatar.filepath}
-              alt="user"
-              width={40}
-              height={40}
-            />
-          </div>
-          <div className="thread-from">
-            <div className="from">
-              <Tooltip title="View Profile" color={"blue"}>
-                <a
-                  onClick={() =>
-                    window.open(
-                      baseUrl + "/user/" + record.to._id + "/activity",
-                      "_blank"
-                    )
-                  }
-                >
-                  @{record.to.username}
-                  <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-                </a>
-              </Tooltip>
-              <span className="">&nbsp;({record.count})</span>
-            </div>
-            <span className="activity">
-              last sent:{" "}
-              {new Date(record.updatedAt).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              })}
-            </span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Subject",
-      dataIndex: "age",
-      align: "center",
-      render: (_, record) => (
-        <div className="thread-info">
-          <p>
-            <Tooltip title="View Message" color={"blue"}>
-              <a onClick={() => selectedSentinfo(record)}>
-                {record.subject.length > 30
-                  ? record.subject.substring(0, 30) + "..."
-                  : record.subject}
-              </a>
-            </Tooltip>
-          </p>
-        </div>
-      ),
-    },
-    {
-      title: "Actions",
-      key: "action",
-      align: "center",
-      render: (_, record) => (
-        <Space size="middle">
-          <Tooltip title="Are you sure?" color={"blue"}>
-            <a onClick={() => delete_sent(record._id)} className="mail-delete">
-              <DeleteFilled className="delete-style" />
-            </a>
-          </Tooltip>
-        </Space>
-      ),
-    },
-  ];
-
-  const [record_details, setSaveSentDetail] = useState([]);
-  const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+
+  const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
+
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -132,15 +44,10 @@ const Sent = ({
     },
   });
 
-  const selectedSentinfo = (recordInfo) => {
-    setSaveSentDetail(recordInfo);
-    setOpen(true);
-  };
   useEffect(() => {
     childFunc.current = bulkaction;
     setLoading(true);
     ongetSent(tableParams, (res) => {
-      setData(res.data);
       setLoading(false);
       setTableParams({
         ...tableParams,
@@ -158,35 +65,7 @@ const Sent = ({
       filters,
       ...sorter,
     });
-
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
-    }
   };
-
-  const delete_sent = (delete_id) => {
-    ondeleteSent(delete_id, (res) => {
-      if (res.success) {
-        res.success ? notify("success", res.msg) : notify("error", res.msg);
-
-        setLoading(true);
-        ongetSent(tableParams, (res) => {
-          setData(res.data);
-          setLoading(false);
-          setTableParams({
-            ...tableParams,
-            pagination: {
-              ...tableParams.pagination,
-              total: res.total,
-            },
-          });
-        });
-      }
-    });
-  };
-  const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
-
-  const [selectionType, setSelectionType] = useState("checkbox");
 
   useEffect(() => {
     childlistfunc(selectedRowkeyslist);
@@ -215,13 +94,12 @@ const Sent = ({
       is_read: false,
     };
 
-    ondeleteSent(mailId, (res) => {
+    ondeleteSent(data, (res) => {
       if (res.success) {
         res.success ? notify("success", res.msg) : notify("error", res.msg);
 
         setLoading(true);
         ongetSent(tableParams, (res) => {
-          setData(res.data);
           setLoading(false);
           setTableParams({
             ...tableParams,
@@ -240,12 +118,12 @@ const Sent = ({
       <Row className="mail-inbox">
         <Col md={24} sm={24} xs={24}>
           <Table
-            columns={columnes}
+            columns={columns}
             rowSelection={{
-              type: selectionType,
+              type: "checkbox",
               ...rowSelection,
             }}
-            dataSource={data}
+            dataSource={sentitems}
             loading={loading}
             rowKey={(rows) => rows._id}
             pagination={tableParams.pagination}
@@ -271,15 +149,19 @@ const Sent = ({
           </Button>,
         ]}
       >
-        {record_details.sent?.map((record, index) => (
-          <div id="message-thread" key={index}>
+        {record_detail && (
+          <div id="message-thread">
             <div
               id="thread-message-9"
               className="message-box odd sent-by-2 message-not-starred"
             >
               <div className="message-metadata">
-                <Image
-                  src={avatarurl + "/" + record.to.avatar}
+                <img
+                  src={
+                    avatarurl +
+                    "/" +
+                    record_detail?.to?.profile?.avatar?.filepath
+                  }
                   alt="user"
                   className="avatar"
                   width={100}
@@ -290,18 +172,21 @@ const Sent = ({
                     <a
                       onClick={() =>
                         window.open(
-                          baseUrl + "/user/" + record.to.id + "/activity",
+                          baseUrl +
+                            "/profile/" +
+                            record_detail?.to?._id +
+                            "/activity",
                           "_blank"
                         )
                       }
                     >
-                      @{record.to.username}
+                      @{record_detail?.to?.username}
                       <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                     </a>
                   </Tooltip>
                   <div className="message-meta">
                     <span className="activity">
-                      {new Date(record.createdAt).toLocaleDateString(
+                      {new Date(record_detail.createdAt).toLocaleDateString(
                         undefined,
                         {
                           year: "numeric",
@@ -317,12 +202,12 @@ const Sent = ({
                   </div>
                 </div>
                 <div className="message-star-actions">
-                  {record.files.length !== 0 ? (
+                  {record_detail.files.length !== 0 ? (
                     <Dropdown.Button
                       menu={{
-                        items: record.files.map((item, i) => ({
-                          key: item,
-                          label: item,
+                        items: record_detail.files.map((item) => ({
+                          key: item.filepath,
+                          label: item.filepath,
                         })),
                         onClick: onMenuClick,
                       }}
@@ -336,13 +221,13 @@ const Sent = ({
                 </div>
               </div>
               <div className="message-content">
-                <p className="message-subject">{record.subject}</p>
-                <pre>{record.message}</pre>
+                <p className="message-subject">{record_detail.subject}</p>
+                <pre>{record_detail.message}</pre>
               </div>
               <div className="clear"></div>
             </div>
           </div>
-        ))}
+        )}
       </Modal>
     </>
   );

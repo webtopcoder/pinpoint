@@ -1,5 +1,6 @@
 // @ts-nocheck
 import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
 import logo from "@/public/images/logo.png";
 import { registerUser } from "@/redux/User/actions";
 import { getCategory } from "@/redux/User/actions";
@@ -18,9 +19,8 @@ import { useRegisterFormValidator } from "./hooks/use-partner-register-validator
 const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
   let itemLocality = "";
   let itemState = "";
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+
+  const { notify } = useNotify();
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();

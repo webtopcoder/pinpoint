@@ -13,6 +13,12 @@ import {
   DELETE_INBOX_SUCCESS,
   DOWNLOAD_FILE_SUCCESS,
   RESEND_INVITE_SUCCESS,
+  GET_NOTICE_REQUEST,
+  GET_NOTICE_SUCCESS,
+  GET_PENDING_REQUEST,
+  GET_PENDING_SUCCESS,
+  UPDATE_MAIL_REQUEST,
+  UPDATE_MAIL_SUCCESS,
 } from "./types";
 import api from "@/utils/callApi";
 
@@ -58,7 +64,7 @@ export function sentInvite(form, cb) {
 
 export function downloadFile(filename) {
   return (dispatch) =>
-    api(`base/download/${filename}`, "post", { type: "mail" })
+    api(`media/download/${filename}`, "get")
       .then((res) => {
         console.log(res.blob());
 
@@ -151,11 +157,40 @@ export function getPending(tableinfo, cb) {
     )
       .then((res) => {
         dispatch({
-          type: GET_SENT_REQUEST,
+          type: GET_PENDING_REQUEST,
         });
 
         dispatch({
-          type: GET_SENT_SUCCESS,
+          type: GET_PENDING_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+export function getNotice(tableinfo, cb) {
+  return (dispatch) =>
+    api(
+      `mail/notices?page=${tableinfo.pagination.current}&limit=${
+        tableinfo.pagination.pageSize
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
+      "get"
+    )
+      .then((res) => {
+        dispatch({
+          type: GET_NOTICE_REQUEST,
+        });
+
+        dispatch({
+          type: GET_NOTICE_SUCCESS,
           payload: res,
         });
 
@@ -198,7 +233,27 @@ export function deleteSent(mail_id, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
+      });
+}
+
+export function updateMail(mail_id, form, cb) {
+  return (dispatch) =>
+    api(`mail/${mail_id}`, "patch", form)
+      .then((res) => {
+        dispatch({
+          type: UPDATE_MAIL_REQUEST,
+        });
+
+        dispatch({
+          type: UPDATE_MAIL_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
       });
 }
 

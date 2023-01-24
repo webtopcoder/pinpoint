@@ -37,6 +37,7 @@ export function loginUser(form, cb) {
         cb(res);
       })
       .catch((error) => {
+        console.error(error);
         cb(null, error);
       });
 }

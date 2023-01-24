@@ -55,7 +55,10 @@ const LoginForm = ({ onLoginUser, role }) => {
     if (!isValid) return;
     onLoginUser({ ...form, role }, (res, error) => {
       if (error) {
-        notify("error", error.response.data.message);
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
         return;
       }
       notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);

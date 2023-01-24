@@ -4,6 +4,12 @@ import {
   GET_INBOX_SUCCESS,
   GET_SENT_SUCCESS,
   DELETE_SENT_SUCCESS,
+  GET_NOTICE_REQUEST,
+  GET_PENDING_REQUEST,
+  GET_PENDING_SUCCESS,
+  GET_NOTICE_SUCCESS,
+  UPDATE_MAIL_REQUEST,
+  UPDATE_MAIL_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -11,6 +17,8 @@ const initialState = {
   status: false,
   inboxlist: [],
   sentlist: [],
+  noticelist: [],
+  pendinglist: [],
   senttotal: 0,
 };
 
@@ -37,6 +45,50 @@ const mailReducer = (state = initialState, action) => {
         ...state,
         sentlist: action.payload.results,
         senttotal: action.payload.totalResults,
+      };
+    }
+
+    case GET_NOTICE_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
+    case GET_NOTICE_SUCCESS: {
+      return {
+        ...state,
+        noticelist: action.payload.results,
+        loading: false,
+      };
+    }
+
+    case GET_PENDING_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
+    case GET_PENDING_SUCCESS: {
+      return {
+        ...state,
+        pendinglist: action.payload.results,
+        loading: false,
+      };
+    }
+
+    case UPDATE_MAIL_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
+    case UPDATE_MAIL_REQUEST: {
+      return {
+        ...state,
+        loading: true,
       };
     }
 
