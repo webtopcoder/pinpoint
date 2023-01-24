@@ -12,6 +12,7 @@ import {
   GET_MYFOLLOWER_SUCCESS,
   USER_EMAIL_VERIFICATION_REQUEST,
   USER_EMAIL_VERIFICATION_SUCCESS,
+  GET_NOTIFICATION_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -45,6 +46,7 @@ const initialState = {
   partnerCategory: { success: false, categories: [] },
   partnersubCategory: { success: false, subCategories: [] },
   myFollowers: [],
+  notifications: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -113,6 +115,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         myFollowers: action.payload.followers,
+      };
+    }
+
+    case GET_NOTIFICATION_SUCCESS: {
+      return {
+        ...state,
+        notifications: action.payload.results,
       };
     }
 
