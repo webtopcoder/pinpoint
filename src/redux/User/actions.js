@@ -100,7 +100,7 @@ export function getCategory() {
 
 export function getsubCategory(categoryID, cb) {
   return (dispatch) =>
-    api(`${categoryID}/subcategories`, "get").then((res) => {
+    api(`categories/${categoryID}/subcategories`, "get").then((res) => {
       dispatch({
         type: SUB_CATEGORY_GET_SUCCESS,
         payload: res,
@@ -110,8 +110,9 @@ export function getsubCategory(categoryID, cb) {
 }
 
 export function getmyFollowers() {
+  const userId = JSON.parse(localStorage.getItem("userInfo")).user._id;
   return (dispatch) =>
-    api(`base/followers`, "get").then((res) => {
+    api(`follow/${userId}/follower`, "get").then((res) => {
       dispatch({
         type: GET_MYFOLLOWER_SUCCESS,
         payload: res,

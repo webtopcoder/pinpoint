@@ -43,7 +43,7 @@ const initialState = {
   loginInfo: { success: false, msg: {} },
   resetPasswordInfo: { success: false, msg: "" },
   partnerCategory: { success: false, categories: [] },
-  partnersubCategory: { success: false, categories: [] },
+  partnersubCategory: { success: false, subCategories: [] },
   myFollowers: {},
 };
 
@@ -53,7 +53,7 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case USER_LOGIN_SUCCESS: {
-      sessionStorage.setItem("token", action.payload.tokens.accessToken);
+      sessionStorage.setItem("token", action.payload.tokens.access.token);
       sessionStorage.setItem("role", action.payload.role);
       sessionStorage.setItem("username", action.payload.user.username);
       sessionStorage.setItem("user_id", action.payload.user._id);
@@ -66,7 +66,7 @@ const userReducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        token: action.payload.tokens.accessToken,
+        token: action.payload.tokens.access.token,
         role: action.payload.role,
         username: action.payload.user.username,
         user_id: action.payload.user._id,

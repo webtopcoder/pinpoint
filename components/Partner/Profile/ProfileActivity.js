@@ -232,13 +232,18 @@ const ProfileActivity = ({
   const [upload_name, setUploadFile] = useState([]);
 
   const onFinish = (values) => {
-    const form_data = new FormData();
+    // const form_data = new FormData();
+    //
+    // upload_name.map((file, index) =>
+    //   form_data.append("image", file.originFileObj)
+    // );
+    // form_data.append("content", values.message);
+    // form_data.append("userid", view_user_id);
 
-    upload_name.map((file, index) =>
-      form_data.append("image", file.originFileObj)
-    );
-    form_data.append("content", values.message);
-    form_data.append("userid", view_user_id);
+    const form_data = {
+      content: values.message,
+      userId: view_user_id,
+    };
 
     onpostThink(form_data, (res) => {
       if (res.success) {
@@ -421,15 +426,8 @@ const ProfileActivity = ({
                                 title={
                                   <>
                                     <span className="custom-userName">
-                                      {item?.from_user?.realname.first +
-                                        " " +
-                                        item?.from_user?.realname.last}{" "}
+                                      {item?.from_user?.username}{" "}
                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                    </span>
-                                    <span className="custom-shoutout-text">
-                                      {item?.type !== "post"
-                                        ? item.other_content
-                                        : ""}
                                     </span>
                                     <br />
                                     <a
@@ -460,9 +458,7 @@ const ProfileActivity = ({
                                 })}
                               />
                               <div className="custom-list-content">
-                                {item?.type == "post"
-                                  ? item?.content
-                                  : item?.other}
+                                {item.content}
                               </div>
                               {item.image ? (
                                 <div

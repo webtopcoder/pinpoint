@@ -53,7 +53,7 @@ const LoginForm = ({ onLoginUser, role }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-    onLoginUser({ ...form, role: "user" }, (res, error) => {
+    onLoginUser({ ...form, role }, (res, error) => {
       if (error) {
         notify("error", error.message);
         return;

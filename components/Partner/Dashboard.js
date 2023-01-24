@@ -1,26 +1,29 @@
-import React, { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
-import { connect } from "react-redux";
-import {
-  Layout,
-  Upload,
-  Tag,
-  Card,
-  Col,
-  Row,
-  Button,
-  Modal,
-  Typography,
-  DatePicker,
-  Select,
-  message,
-  Form,
-  Input,
-} from "antd";
+import food from "@/public/images/landing/food.png";
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
-import food from "@/public/images/landing/food.png";
+import { getLocations } from "@/src/redux/Location/actions";
 import { UploadOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Layout,
+  message,
+  Modal,
+  Row,
+  Select,
+  Tag,
+  Typography,
+  Upload,
+} from "antd";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import toast from "../Toast";
 
 const { Option } = Select;
 
@@ -30,12 +33,29 @@ const { Title } = Typography;
 
 const { Content } = Layout;
 
-const PartnerDashboard = () => {
+const PartnerDashboard = ({
+  locations,
+  onquickArrival,
+  onquickDeparture,
+  ongetLocations,
+}) => {
+  const router = useRouter();
   const [form] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
 
   const [modal2Open, setModal2Open] = useState(false);
   const [modal1Open, setModal1Open] = useState(false);
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
+
+  useEffect(() => {
+    if (router.isReady) {
+      if (modal2Open) {
+        ongetLocations({ isActive: false, partner: router.query.id });
+      }
+    }
+  }, [modal1Open, modal2Open, router.isReady]);
 
   const onChange = (value, dateString) => {
     console.log("Selected Time: ", value);
@@ -73,17 +93,10 @@ const PartnerDashboard = () => {
   };
 
   return (
-    <Layout
-      className="site-layout"
-      style={{
-        background: "#211f1f",
-      }}
-    >
-      <Content
-        style={{
-          margin: "60px 40px",
-        }}
-      >
+    <Layout className="site-layout" style={{ background: "#211f1f" }}>
+      {" "}
+      <Content style={{ margin: "60px 40px" }}>
+        {" "}
         <div className="site-card-wrapper">
           <Row gutter={[32, 32]}>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -92,7 +105,8 @@ const PartnerDashboard = () => {
                 title="Partner Locations"
                 bordered={false}
               >
-                2
+                {" "}
+                2{" "}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -101,7 +115,8 @@ const PartnerDashboard = () => {
                 title="Active Locations"
                 bordered={false}
               >
-                1
+                {" "}
+                1{" "}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -110,7 +125,8 @@ const PartnerDashboard = () => {
                 title="Followers"
                 bordered={true}
               >
-                155
+                {" "}
+                155{" "}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={6} xl={6}>
@@ -119,7 +135,8 @@ const PartnerDashboard = () => {
                 title="Profile Views"
                 bordered={false}
               >
-                75
+                {" "}
+                75{" "}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -128,7 +145,8 @@ const PartnerDashboard = () => {
                 title="Business Rating"
                 bordered={false}
               >
-                4.2
+                {" "}
+                4.2{" "}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -137,7 +155,8 @@ const PartnerDashboard = () => {
                 title="Check In's"
                 bordered={false}
               >
-                32
+                {" "}
+                32{" "}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -161,7 +180,9 @@ const PartnerDashboard = () => {
                   alt="Snow"
                 />
                 <div className="centered">
-                  Quick <br /> Arrival
+                  Quick
+                  <br />
+                  Arrival
                 </div>
               </div>
             </Col>
@@ -176,7 +197,9 @@ const PartnerDashboard = () => {
                   alt="Snow"
                 />
                 <div className="centered">
-                  Quick <br /> Departure
+                  Quick
+                  <br />
+                  Departure
                 </div>
               </div>
             </Col>
@@ -193,6 +216,7 @@ const PartnerDashboard = () => {
         onCancel={() => setModal2Open(false)}
         footer={null}
       >
+        {" "}
         <Row>
           <Col xs={0} sm={0} md={8} lg={8} xl={8}></Col>
           <Col
@@ -228,10 +252,22 @@ const PartnerDashboard = () => {
             <Image src={food} alt="Snow" width={50} height={70} />
           </Col>
         </Row>
-        <Form form={form} layout="vertical">
+        <Form
+          form={form}
+          onFinish={(values) => {
+            onquickArrival(values, (res, error) => {
+              if (error) {
+                notify({ type: "error", message: "Error" });
+                return;
+              }
+              notify({ type: "success", message: "Successfully arrived" });
+            });
+          }}
+          layout="vertical"
+        >
           <Row>
             <Col xs={24} sm={24} md={6} lg={8} xl={8}>
-              <Form.Item label="Departure" required name="requiredMarkValue">
+              <Form.Item label="Departure" required name="departureAt">
                 <DatePicker
                   format="DD/MM/YYYY h:mm:ss A"
                   use12Hours
@@ -239,56 +275,30 @@ const PartnerDashboard = () => {
                   onChange={onChange}
                   onOk={onOk}
                 />
-              </Form.Item>
+              </Form.Item>{" "}
             </Col>
             <Col xs={24} sm={24} md={18} lg={16} xl={16}>
               <Form.Item
                 label="Partner Location"
                 required
+                name="locationId"
                 tooltip="This is a required field"
               >
                 <Select
                   size="middle"
-                  defaultValue="a1"
                   onChange={handleChange}
                   style={{
                     width: "100%",
                   }}
-                >
-                  <Option
-                    style={{
-                      display: "flex",
-                    }}
-                    value={1}
-                  >
-                    Item 1
-                    <Tag
-                      style={{
-                        textAlign: "right",
-                        float: "right",
-                      }}
-                      color="#87d068"
-                    >
-                      Active
-                    </Tag>
-                  </Option>
-                  <Option value={2}>
-                    Item 2
-                    <Tag
-                      style={{
-                        textAlign: "right",
-                        float: "right",
-                      }}
-                      color="#f50"
-                    >
-                      Inactive
-                    </Tag>
-                  </Option>
-                </Select>
+                  options={locations?.map((location) => ({
+                    value: location._id,
+                    label: location.name,
+                  }))}
+                ></Select>
               </Form.Item>
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Form.Item label="Let us know what you think!">
+              <Form.Item name="arrivalText" label="Let us know what you think!">
                 <TextArea rows={4} />
               </Form.Item>
             </Col>
@@ -301,6 +311,7 @@ const PartnerDashboard = () => {
                         icon={<UploadOutlined />}
                         style={{ marginRight: 10 }}
                       >
+                        {" "}
                         Upload a Photo
                       </Button>
                     </Upload>
@@ -324,7 +335,6 @@ const PartnerDashboard = () => {
           </Row>
         </Form>
       </Modal>
-
       <Modal
         className="dashboard-modal"
         centered
@@ -337,23 +347,10 @@ const PartnerDashboard = () => {
       >
         <Row>
           <Col xs={2} sm={4} md={8} lg={8} xl={8}></Col>
-          <Col
-            xs={2}
-            sm={4}
-            md={8}
-            lg={8}
-            xl={8}
-            style={{
-              margin: "auto",
-            }}
-          >
-            <Title
-              style={{
-                textAlign: "center",
-                fontWeight: 900,
-              }}
-              level={2}
-            >
+          <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{ margin: "auto" }}>
+            {" "}
+            <Title style={{ textAlign: "center", fontWeight: 900 }} level={2}>
+              {" "}
               Departure
             </Title>
           </Col>
@@ -363,60 +360,50 @@ const PartnerDashboard = () => {
             md={8}
             lg={8}
             xl={8}
-            style={{
-              textAlign: "right",
-            }}
+            style={{ textAlign: "right" }}
           >
             <Image src={food} alt="Snow" width={50} height={70} />
           </Col>
         </Row>
-        <Form form={form} layout="vertical">
+
+        <Form
+          form={form}
+          onFinish={(values) => {
+            onquickDeparture(values, (res, error) => {
+              if (error) {
+                notify({ type: "error", message: "Error" });
+                return;
+              }
+              notify({ type: "success", message: "Successfully departed" });
+            });
+          }}
+          layout="vertical"
+        >
           <Row>
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Form.Item
                 label="Partner Location"
+                name="locationId"
                 required
                 tooltip="This is a required field"
               >
                 <Select
                   size="middle"
-                  defaultValue="a1"
                   onChange={handleChange}
                   style={{
                     width: "100%",
                   }}
                 >
-                  <Option
-                    style={{
-                      display: "flex",
-                    }}
-                    value={1}
-                  >
-                    Item 1
-                    <Tag
+                  {locations?.map((location) => (
+                    <Option
                       style={{
-                        marginTop: 4,
-                        textAlign: "right",
-                        float: "right",
+                        display: "flex",
                       }}
-                      color="#87d068"
+                      value={location._id}
                     >
-                      Active
-                    </Tag>
-                  </Option>
-                  <Option value={2}>
-                    Item 2
-                    <Tag
-                      style={{
-                        marginTop: 4,
-                        textAlign: "right",
-                        float: "right",
-                      }}
-                      color="#f50"
-                    >
-                      Inactive
-                    </Tag>
-                  </Option>
+                      location.title
+                    </Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -446,4 +433,19 @@ const PartnerDashboard = () => {
   );
 };
 
-export default connect(undefined, undefined)(PartnerDashboard);
+const matchStateToProps = ({ location }) => {
+  return {
+    locations: location.userLocations?.results,
+  };
+};
+
+const matchDispatchToProps = (dispatch) => ({
+  onquickArrival: (data, cb) => quickArrival(data, cb),
+  onquickDeparture: (data, cb) => quickDeparture(data, cb),
+  ongetLocations: (data, cb) => getLocations(data, cb),
+});
+
+export default connect(
+  matchStateToProps,
+  matchDispatchToProps
+)(PartnerDashboard);
