@@ -303,8 +303,12 @@ function LeftSidebar({
               }}
             >
               <List.Item.Meta
-                title={<Link href={item.url ?? ""}>{item.title}</Link>}
-                description={item.description}
+                title={<span style={{
+                  color: 'white'
+                }}><Link href={item.url ?? ""}>{item.title}</Link></span>}
+                description={<span style={{
+                  color: 'white'
+                }}>{item.description}</span>}
               />
             </List.Item>
           )}
