@@ -1,24 +1,23 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Row, Col, Card, Form, Input, Button } from "antd";
 import { sentInvite } from "@/redux/Mail/actions";
-import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
 
 const SentInvite = ({ onsentInvite }) => {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
+  const { notify } = useNotify();
 
   const [composeForm] = Form.useForm();
   const onFinish = (values) => {
-    onsentInvite(values, (res) => {
-      if (res.success) {
+    onsentInvite(values, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong!"
+        );
+      } else {
         composeForm.resetFields();
-        res.success ? notify("success", res.msg) : notify("error", res.msg);
+        notify("success", "Invite Sent Successfully");
       }
     });
   };

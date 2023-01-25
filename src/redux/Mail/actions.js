@@ -59,6 +59,7 @@ export function sentInvite(form, cb) {
       })
       .catch((error) => {
         console.log(error);
+        cb(null, error);
       });
 }
 
