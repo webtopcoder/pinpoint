@@ -15,7 +15,7 @@ import {
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
 } from "./types";
-import { S_LOGIN } from "../Socket/types";
+import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
 
 export function loginUser(form, cb) {
@@ -26,6 +26,7 @@ export function loginUser(form, cb) {
           type: S_LOGIN,
           payload: res.user.id,
         });
+
         dispatch({
           type: USER_LOGIN_REQUEST,
         });
@@ -33,6 +34,10 @@ export function loginUser(form, cb) {
         dispatch({
           type: USER_LOGIN_SUCCESS,
           payload: res,
+        });
+
+        dispatch({
+          type: S_NOTIFICATION,
         });
 
         localStorage.setItem("userInfo", JSON.stringify(res));
