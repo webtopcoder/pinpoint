@@ -1,22 +1,22 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { connect } from "react-redux";
+import toast from "@/components/Toast";
+import { mailCompose } from "@/redux/Mail/actions";
+import { getmyFollowers } from "@/redux/User/actions";
 import { UploadOutlined } from "@ant-design/icons";
 import {
-  Row,
+  Button,
   Card,
   Col,
   Form,
-  Upload,
-  Button,
-  message,
-  Mentions,
   Input,
+  Mentions,
+  message,
+  Row,
   Select,
+  Upload,
 } from "antd";
-import { mailCompose } from "@/redux/Mail/actions";
-import { getmyFollowers } from "@/redux/User/actions";
 import { useRouter } from "next/router";
-import toast from "@/components/Toast";
+import React, { useCallback, useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 const { TextArea } = Input;
 
@@ -28,18 +28,19 @@ const Compose = ({
 }) => {
   const [composeForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
+  const [options, setOptions] = useState([]);
   const router = useRouter();
 
   const [prefix, setPrefix] = useState("@");
 
-  const options = [];
-
-  myfollowerList?.[0]?.[prefix].map((list, index) =>
-    options.push({
-      value: list,
-      label: list,
-    })
-  );
+  useEffect(() => {
+    setOptions(
+      myfollowerList.map((follow) => ({
+        value: follow.follower._id,
+        label: follow.follower.username,
+      }))
+    );
+  }, []);
 
   useEffect(() => {
     if (emailID) {
@@ -81,6 +82,7 @@ const Compose = ({
       } else notify("error", res.msg);
     });
   };
+
   const props = {
     name: "upload",
     onChange(info) {
@@ -103,6 +105,7 @@ const Compose = ({
       }
     },
   };
+
   return (
     <Row className="mail-inbox">
       <Col md={24} sm={24} xs={24}>
@@ -207,7 +210,7 @@ const Compose = ({
 
 const mapStateToProps = ({ user }) => {
   return {
-    myfollowerList: user.myFollowers.followers,
+    myfollowerList: user.myFollowers,
   };
 };
 

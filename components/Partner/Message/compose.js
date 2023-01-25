@@ -34,14 +34,10 @@ const Compose = ({
 
   const [prefix, setPrefix] = useState("@");
 
-  const options = [];
-
-  myfollowerList?.[0]?.[prefix].map((list, index) =>
-    options.push({
-      value: list,
-      label: list,
-    })
-  );
+  const options = myfollowerList?.map((follow) => ({
+    value: follow.follower._id,
+    label: follow.follower.username,
+  }));
 
   useEffect(() => {
     if (emailID) {
@@ -76,17 +72,24 @@ const Compose = ({
       form_data.append("files", file.originFileObj)
     );
 
-    form_data.append("to", values.name);
+    if (componentDisabled) {
+      form_data.append("isNotice", componentDisabled.toString());
+    } else {
+      form_data.append("to", values.name);
+    }
     form_data.append("subject", values.subject);
     form_data.append("message", values.message);
 
-    onmailCompose(form_data, (res) => {
+    onmailCompose(form_data, (res, error) => {
       if (res.success) {
         composeForm.resetFields();
         notify("success", res.msg);
-      } else notify("error", res.msg);
+      } else {
+        notify("error", res.msg);
+      }
     });
   };
+
   const props = {
     name: "upload",
     onChange(info) {
@@ -124,7 +127,7 @@ const Compose = ({
               label="Send To (Username or Friend's Name)"
               rules={[
                 {
-                  required: true,
+                  required: !componentDisabled,
                   message: "Please input your Username!",
                 },
               ]}
@@ -208,7 +211,7 @@ const Compose = ({
 
 const mapStateToProps = ({ user }) => {
   return {
-    myfollowerList: user.myFollowers.followers,
+    myfollowerList: user.myFollowers,
   };
 };
 

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
 import logo from "@/public/images/logo.png";
 import { registerUser } from "@/redux/User/actions";
 import { getCategory } from "@/redux/User/actions";
@@ -18,9 +19,8 @@ import { useRegisterFormValidator } from "./hooks/use-partner-register-validator
 const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
   let itemLocality = "";
   let itemState = "";
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+
+  const { notify } = useNotify();
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();
@@ -156,14 +156,16 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       password: form.password,
     };
 
-    onRegisterUser(data, (res) => {
-      res.success ? notify("success", res.msg) : notify("error", res.msg);
-
-      if (res.success) {
-        localStorage.setItem("registration_email", form.email);
-        localStorage.setItem("thankyou_id", "Partner");
-        router.push("/authentication/thank-you");
+    onRegisterUser(data, (res, error) => {
+      if (error) {
+        notify("error", error.response.data.message);
+        return;
       }
+      notify("success", "Register successfully");
+
+      localStorage.setItem("registration_email", form.email);
+      localStorage.setItem("thankyou_id", "Partner");
+      router.push("/authentication/thank-you");
     });
   };
 

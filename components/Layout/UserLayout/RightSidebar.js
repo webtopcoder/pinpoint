@@ -25,7 +25,7 @@ const RightSidebar = (props) => {
     avatarImg = sessionStorage.getItem("avatar");
   }
 
-  const { visible, onLogout, user_id } = props;
+  const { visible, onLogout, user_id, role } = props;
   const router = useRouter();
   const [token, setToken] = useState(null);
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
@@ -56,7 +56,9 @@ const RightSidebar = (props) => {
 
   return (
     <div
-      className={visible ? "right-sidebar show" : "right-sidebar"}
+      className={
+        role !== "partner" && visible ? "right-sidebar show" : "right-sidebar"
+      }
       role="document"
       id="right-sidebar"
     >
@@ -219,6 +221,7 @@ const mapStateToProps = (state) => {
     ...state.Layout,
     token: state.user.token,
     user_id: state.user.user_id,
+    role: state.user.role,
   };
 };
 

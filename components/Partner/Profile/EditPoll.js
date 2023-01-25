@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 function EditPoll({ userPoll, updatePoll }) {
   const [form, setForm] = React.useState({
-    question: "",
-    options: [],
+    question: userPoll?.question ?? "",
+    options: userPoll?.options ?? [],
   });
   const notify = useCallback((type, message) => {
     toast({ type, message });

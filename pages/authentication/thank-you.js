@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import AuthCode from "react-auth-code-input";
@@ -8,23 +8,27 @@ import { connect } from "react-redux";
 
 import thankYouImg from "@/public/images/thank-you.png";
 import { useRouter } from "next/router";
+import toast from "@/components/Toast";
 
 const ThankYou = ({ onVerifyUserEmail }) => {
-  let thankyou_id = "";
-  let backLogin = "";
   const router = useRouter();
   const [email, setEmail] = useState("test@gmail.com");
+  const [thankyou_id, setThankyouId] = useState("");
   const [result, setResult] = useState("");
   const handleOnChange = (res) => {
     setResult(res);
   };
 
-  useEffect(() => {
-    setEmail(window.localStorage.getItem("registration_email"));
-    thankyou_id = localStorage.getItem("thankyou_id");
-    backLogin = thankyou_id.toLowerCase();
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
   }, []);
 
+  useEffect(() => {
+    setEmail(window.localStorage.getItem("registration_email"));
+    setThankyouId(localStorage.getItem("thankyou_id"));
+  }, []);
+
+  const backLogin = thankyou_id.toLowerCase();
   // if (typeof window !== "undefined") {
   //   // Perform localStorage action
   //   }
@@ -36,8 +40,13 @@ const ThankYou = ({ onVerifyUserEmail }) => {
       otp: result,
     };
     console.log(data);
-    onVerifyUserEmail(data, (res) => {
-      router.push("/authentication/user/login");
+    onVerifyUserEmail(data, (res, error) => {
+      if (error) {
+        notify("error", "Wrong OTP!");
+        return;
+      }
+      notify("success", "Email verified successfully");
+      router.push(`/authentication/${backLogin}/login`);
     });
   };
 

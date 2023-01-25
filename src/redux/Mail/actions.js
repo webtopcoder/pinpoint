@@ -13,6 +13,12 @@ import {
   DELETE_INBOX_SUCCESS,
   DOWNLOAD_FILE_SUCCESS,
   RESEND_INVITE_SUCCESS,
+  GET_NOTICE_REQUEST,
+  GET_NOTICE_SUCCESS,
+  GET_PENDING_REQUEST,
+  GET_PENDING_SUCCESS,
+  UPDATE_MAIL_REQUEST,
+  UPDATE_MAIL_SUCCESS,
 } from "./types";
 import api from "@/utils/callApi";
 
@@ -58,7 +64,7 @@ export function sentInvite(form, cb) {
 
 export function downloadFile(filename) {
   return (dispatch) =>
-    api(`base/download/${filename}`, "post", { type: "mail" })
+    api(`media/download/${filename}`, "get")
       .then((res) => {
         console.log(res.blob());
 
@@ -82,9 +88,13 @@ export function downloadFile(filename) {
 export function getInbox(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/inbox?page=${tableinfo.pagination.current}&pageSize=${
+      `mail/inbox?page=${tableinfo.pagination.current}&limit=${
         tableinfo.pagination.pageSize
-      }&order=${tableinfo.order && tableinfo.order == "ascend" ? 1 : -1}`,
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
       "get"
     )
       .then((res) => {
@@ -107,9 +117,13 @@ export function getInbox(tableinfo, cb) {
 export function getSent(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/sent?page=${tableinfo.pagination.current}&pageSize=${
+      `mail/sent?page=${tableinfo.pagination.current}&limit=${
         tableinfo.pagination.pageSize
-      }&order=${tableinfo.order && tableinfo.order == "ascend" ? 1 : -1}`,
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
       "get"
     )
       .then((res) => {
@@ -132,18 +146,22 @@ export function getSent(tableinfo, cb) {
 export function getPending(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/pending?page=${tableinfo.pagination.current}&pageSize=${
+      `mail/pending?page=${tableinfo.pagination.current}&limit=${
         tableinfo.pagination.pageSize
-      }&order=${tableinfo.order && tableinfo.order == "ascend" ? 1 : -1}`,
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
       "get"
     )
       .then((res) => {
         dispatch({
-          type: GET_SENT_REQUEST,
+          type: GET_PENDING_REQUEST,
         });
 
         dispatch({
-          type: GET_SENT_SUCCESS,
+          type: GET_PENDING_SUCCESS,
           payload: res,
         });
 
@@ -154,9 +172,38 @@ export function getPending(tableinfo, cb) {
       });
 }
 
-export function resend_pending(resend_id, cb) {
+export function getNotice(tableinfo, cb) {
   return (dispatch) =>
-    api(`mail/resend/invite`, "post", { to: resend_id })
+    api(
+      `mail/notices?page=${tableinfo.pagination.current}&limit=${
+        tableinfo.pagination.pageSize
+      }&order=${
+        tableinfo.order && tableinfo.order == "ascend"
+          ? "createdAt:asc"
+          : "createdAt:desc"
+      }`,
+      "get"
+    )
+      .then((res) => {
+        dispatch({
+          type: GET_NOTICE_REQUEST,
+        });
+
+        dispatch({
+          type: GET_NOTICE_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+export function resend_pending(mail_id, cb) {
+  return (dispatch) =>
+    api(`mail/${mail_id}/resend-invite`, "post")
       .then((res) => {
         dispatch({
           type: RESEND_INVITE_SUCCESS,
@@ -170,9 +217,9 @@ export function resend_pending(resend_id, cb) {
       });
 }
 
-export function deleteSent(data, cb) {
+export function deleteSent(mail_id, cb) {
   return (dispatch) =>
-    api(`mail`, "put", data)
+    api(`mail/${mail_id}`, "delete")
       .then((res) => {
         dispatch({
           type: DELETE_SENT_REQUEST,
@@ -186,13 +233,33 @@ export function deleteSent(data, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }
 
-export function actionInbox(data, cb) {
+export function updateMail(mail_id, form, cb) {
   return (dispatch) =>
-    api(`mail`, "put", data)
+    api(`mail/${mail_id}`, "patch", form)
+      .then((res) => {
+        dispatch({
+          type: UPDATE_MAIL_REQUEST,
+        });
+
+        dispatch({
+          type: UPDATE_MAIL_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function actionInbox(mail_id, cb) {
+  return (dispatch) =>
+    api(`mail/${mail_id}`, "delete")
       .then((res) => {
         dispatch({
           type: DELETE_INBOX_REQUEST,

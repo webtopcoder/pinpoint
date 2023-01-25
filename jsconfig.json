@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "checkJs": true,
     "jsx": "react",
     "noImplicitAny": false,
     "baseUrl": ".",
@@ -11,7 +10,11 @@
       "@/utils/*": ["utils/*"],
       "@/src/*": ["src/*"],
       "@/redux*": ["src/redux*"],
-      "@/utils*": ["utils/*"]
+      "@/utils*": ["utils/*"],
+      "@/constants/*": ["constants/*"],
+      "@/constants*": ["constants/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/hooks*": ["hooks/*"]
     }
   },
   "exclude": ["node_modules", "build"]

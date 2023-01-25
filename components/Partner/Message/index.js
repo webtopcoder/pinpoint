@@ -8,12 +8,12 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { Avatar, Menu, Row, Col, Select, Button, Layout } from "antd";
-import MailInbox from "@/components/Partner/Message/inbox";
-import MailSent from "@/components/Partner/Message/sent";
+import MailInbox from "@/components/Partner/Message/Inbox";
+import MailSent from "@/components/Partner/Message/Sent";
 import MailCompose from "@/components/Partner/Message/compose";
 import MailSendInvite from "@/components/Partner/Message/sent_invite";
 import MailPendingInvite from "@/components/Partner/Message/pending_invite";
-import MailNotices from "@/components/Partner/Message/notices";
+import MailNotices from "@/components/Partner/Message/Notice";
 import { useRouter } from "next/router";
 const { Content } = Layout;
 

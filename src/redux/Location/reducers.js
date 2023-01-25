@@ -2,11 +2,13 @@ import {
   LOCATION_QUICK_ARRIVAL_SUCCESS,
   LOCATION_QUICK_DEPARTURE_REQUEST,
   LOCATION_QUICK_DEPARTURE_SUCCESS,
+  USER_LOCATION_REQUEST,
+  USER_LOCATION_SUCCESS,
 } from "./types";
 
 const initialState = {
   loading: true,
-  userLocation: [],
+  userLocations: [],
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -16,13 +18,21 @@ const locationReducer = (state = initialState, action) => {
     case LOCATION_QUICK_DEPARTURE_REQUEST:
       return { ...state, loading: true };
     case LOCATION_QUICK_ARRIVAL_SUCCESS:
-      return { ...state, loading: false, userLocation: action.payload };
+      return { ...state, loading: false };
     case LOCATION_QUICK_DEPARTURE_SUCCESS:
       return {
         ...state,
         loading: false,
-        userLocation: action.payload,
       };
+    case USER_LOCATION_REQUEST:
+      return { ...state, loading: true };
+    case USER_LOCATION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        userLocations: action.payload.results,
+      };
+
     default:
       return {
         ...state,

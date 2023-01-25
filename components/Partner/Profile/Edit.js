@@ -15,6 +15,7 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import Image from "next/image";
 import EditPoll from "./EditPoll";
+import { MEDIA_PREFIX_URL } from "@/constants/index";
 
 const { Content } = Layout;
 
@@ -79,7 +80,7 @@ const beforeUpload = (file) => {
 };
 
 const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
-  let avatarImg = "";
+  const avatarImg = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
     avatarImg = sessionStorage.getItem("avatar");
@@ -100,7 +101,9 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
       const image_data = new FormData();
       image_data.append("avatar", info.file.originFileObj);
       onuploadAvatar(image_data, (res) => {
-        res.success ? notify("success", res.msg) : notify("error", res.msg);
+        res.success
+          ? notify("success", "Profile Avatar successfully updated")
+          : notify("error", "Profile Avatar update failed");
       });
 
       getBase64(info.file.originFileObj, (url) => {
@@ -276,14 +279,18 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                       style={{
                                         width: "100%",
                                       }}
+                                      height={100}
+                                      width={100}
                                     />
                                   ) : avatarImg ? (
-                                    <Image
+                                    <img
                                       src={avatarurl + avatarImg}
                                       alt="avatar"
                                       style={{
                                         width: "100%",
                                       }}
+                                      height={100}
+                                      width={100}
                                     />
                                   ) : (
                                     uploadButton

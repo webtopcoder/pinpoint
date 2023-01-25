@@ -113,12 +113,12 @@ const profileReducer = (state = initialState, action) => {
 
     case USER_AVATAR_UPLOAD_SUCCESS: {
       sessionStorage.removeItem("avatar");
-      sessionStorage.setItem("avatar", action.payload.avatar);
+      sessionStorage.setItem("avatar", action.payload.avatar.filepath);
       return {
         ...state,
         editInfo: {
           ...state.editInfo,
-          avatar: action.payload.avatar,
+          avatar: action.payload.avatar.filepath,
         },
       };
     }

@@ -1,7 +1,11 @@
 import food from "@/public/images/landing/food.png";
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
-import { getLocations } from "@/src/redux/Location/actions";
+import {
+  getLocations,
+  quickDeparture as quickDepartureAction,
+  quickArrival as quickArrivalAction,
+} from "@/src/redux/Location/actions";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -16,6 +20,7 @@ import {
   Row,
   Select,
   Tag,
+  TimePicker,
   Typography,
   Upload,
 } from "antd";
@@ -34,13 +39,15 @@ const { Title } = Typography;
 const { Content } = Layout;
 
 const PartnerDashboard = ({
+  userId,
   locations,
   onquickArrival,
   onquickDeparture,
   ongetLocations,
 }) => {
   const router = useRouter();
-  const [form] = Form.useForm();
+  const [arrivalForm] = Form.useForm();
+  const [departureForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
 
   const [modal2Open, setModal2Open] = useState(false);
@@ -52,7 +59,21 @@ const PartnerDashboard = ({
   useEffect(() => {
     if (router.isReady) {
       if (modal2Open) {
-        ongetLocations({ isActive: false, partner: router.query.id });
+        ongetLocations({ isActive: false, partner: userId }, (res, error) => {
+          if (error) {
+            notify("error", "Something went wrong!");
+            return;
+          }
+        });
+      }
+
+      if (modal1Open) {
+        ongetLocations({ isActive: true, partner: userId }, (res, error) => {
+          if (error) {
+            notify("error", "Something went wrong!");
+            return;
+          }
+        });
       }
     }
   }, [modal1Open, modal2Open, router.isReady]);
@@ -93,9 +114,18 @@ const PartnerDashboard = ({
   };
 
   return (
-    <Layout className="site-layout" style={{ background: "#211f1f" }}>
+    <Layout
+      className="site-layout"
+      style={{
+        background: "#211f1f",
+      }}
+    >
       {" "}
-      <Content style={{ margin: "60px 40px" }}>
+      <Content
+        style={{
+          margin: "60px 40px",
+        }}
+      >
         {" "}
         <div className="site-card-wrapper">
           <Row gutter={[32, 32]}>
@@ -206,13 +236,17 @@ const PartnerDashboard = ({
           </Row>
         </div>
       </Content>
+      {/* Arrival Modal */}
       <Modal
         className="dashboard-modal"
         centered
         open={modal2Open}
         width={700}
         closable={false}
-        onOk={() => setModal2Open(false)}
+        onOk={() => {
+          arrivalForm.submit();
+          setModal2Open(false);
+        }}
         onCancel={() => setModal2Open(false)}
         footer={null}
       >
@@ -253,25 +287,44 @@ const PartnerDashboard = ({
           </Col>
         </Row>
         <Form
-          form={form}
+          form={arrivalForm}
           onFinish={(values) => {
-            onquickArrival(values, (res, error) => {
-              if (error) {
-                notify({ type: "error", message: "Error" });
-                return;
+            onquickArrival(
+              {
+                locationId: values.arrivalLocation,
+                departureAt: values.departureAt,
+                arrivalText: values.arrivalText,
+              },
+              (res, error) => {
+                setModal2Open(false);
+                if (error) {
+                  notify("error", "Something went wrong");
+                  return;
+                }
+                arrivalForm.resetFields();
+                notify("success", "Successfully arrived");
               }
-              notify({ type: "success", message: "Successfully arrived" });
-            });
+            );
           }}
           layout="vertical"
         >
+          {" "}
           <Row>
             <Col xs={24} sm={24} md={6} lg={8} xl={8}>
-              <Form.Item label="Departure" required name="departureAt">
-                <DatePicker
-                  format="DD/MM/YYYY h:mm:ss A"
+              <Form.Item
+                label="Departure"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select time for departure",
+                  },
+                ]}
+                required
+                name="departureAt"
+              >
+                <TimePicker
+                  format="h:mm A"
                   use12Hours
-                  showTime
                   onChange={onChange}
                   onOk={onOk}
                 />
@@ -281,8 +334,14 @@ const PartnerDashboard = ({
               <Form.Item
                 label="Partner Location"
                 required
-                name="locationId"
+                name="arrivalLocation"
                 tooltip="This is a required field"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select a location",
+                  },
+                ]}
               >
                 <Select
                   size="middle"
@@ -290,9 +349,9 @@ const PartnerDashboard = ({
                   style={{
                     width: "100%",
                   }}
-                  options={locations?.map((location) => ({
+                  options={locations.map((location) => ({
                     value: location._id,
-                    label: location.name,
+                    label: location.title,
                   }))}
                 ></Select>
               </Form.Item>
@@ -309,7 +368,9 @@ const PartnerDashboard = ({
                     <Upload listType="picture" {...props}>
                       <Button
                         icon={<UploadOutlined />}
-                        style={{ marginRight: 10 }}
+                        style={{
+                          marginRight: 10,
+                        }}
                       >
                         {" "}
                         Upload a Photo
@@ -335,22 +396,39 @@ const PartnerDashboard = ({
           </Row>
         </Form>
       </Modal>
+      {/* Departure Modal */}
       <Modal
         className="dashboard-modal"
         centered
         open={modal1Open}
         width={700}
         closable={false}
-        onOk={() => setModal1Open(false)}
+        onOk={() => {
+          departureForm.submit();
+          setModal1Open(false);
+        }}
         onCancel={() => setModal1Open(false)}
         footer={null}
       >
         <Row>
           <Col xs={2} sm={4} md={8} lg={8} xl={8}></Col>
-          <Col xs={2} sm={4} md={8} lg={8} xl={8} style={{ margin: "auto" }}>
-            {" "}
-            <Title style={{ textAlign: "center", fontWeight: 900 }} level={2}>
-              {" "}
+          <Col
+            xs={2}
+            sm={4}
+            md={8}
+            lg={8}
+            xl={8}
+            style={{
+              margin: "auto",
+            }}
+          >
+            <Title
+              style={{
+                textAlign: "center",
+                fontWeight: 900,
+              }}
+              level={2}
+            >
               Departure
             </Title>
           </Col>
@@ -360,22 +438,32 @@ const PartnerDashboard = ({
             md={8}
             lg={8}
             xl={8}
-            style={{ textAlign: "right" }}
+            style={{
+              textAlign: "right",
+            }}
           >
             <Image src={food} alt="Snow" width={50} height={70} />
           </Col>
         </Row>
 
         <Form
-          form={form}
+          form={departureForm}
           onFinish={(values) => {
-            onquickDeparture(values, (res, error) => {
-              if (error) {
-                notify({ type: "error", message: "Error" });
-                return;
+            onquickDeparture(
+              {
+                locationId: values.departureLocation,
+              },
+              (res, error) => {
+                setModal1Open(false);
+                if (error) {
+                  notify("error", "Error");
+                  return;
+                }
+
+                departureForm.resetFields();
+                notify("success", "Successfully departed");
               }
-              notify({ type: "success", message: "Successfully departed" });
-            });
+            );
           }}
           layout="vertical"
         >
@@ -383,8 +471,14 @@ const PartnerDashboard = ({
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Form.Item
                 label="Partner Location"
-                name="locationId"
+                name="departureLocation"
                 required
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select a location",
+                  },
+                ]}
                 tooltip="This is a required field"
               >
                 <Select
@@ -393,18 +487,11 @@ const PartnerDashboard = ({
                   style={{
                     width: "100%",
                   }}
-                >
-                  {locations?.map((location) => (
-                    <Option
-                      style={{
-                        display: "flex",
-                      }}
-                      value={location._id}
-                    >
-                      location.title
-                    </Option>
-                  ))}
-                </Select>
+                  options={locations.map((location) => ({
+                    value: location._id,
+                    label: location.title,
+                  }))}
+                ></Select>
               </Form.Item>
             </Col>
 
@@ -432,17 +519,17 @@ const PartnerDashboard = ({
     </Layout>
   );
 };
-
-const matchStateToProps = ({ location }) => {
+const matchStateToProps = ({ location, user }) => {
   return {
-    locations: location.userLocations?.results,
+    locations: location.userLocations,
+    userId: user.user_id,
   };
 };
 
 const matchDispatchToProps = (dispatch) => ({
-  onquickArrival: (data, cb) => quickArrival(data, cb),
-  onquickDeparture: (data, cb) => quickDeparture(data, cb),
-  ongetLocations: (data, cb) => getLocations(data, cb),
+  onquickArrival: (data, cb) => dispatch(quickArrivalAction(data, cb)),
+  onquickDeparture: (data, cb) => dispatch(quickDepartureAction(data, cb)),
+  ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
 });
 
 export default connect(

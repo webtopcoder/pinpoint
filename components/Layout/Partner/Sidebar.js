@@ -188,7 +188,7 @@ function LeftSidebar({ onLogout }) {
             <div className="avatar-vst-profile">{businessName}</div>
             <div
               className="vst-edit-profile"
-              onClick={() => handleOriginPageRender(`/partner/${user_id}/edit`)}
+              onClick={() => handleOriginPageRender(`/profile/${user_id}/edit`)}
             >
               edit profile
             </div>

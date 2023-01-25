@@ -418,7 +418,10 @@ const ProfileActivity = ({
                               <List.Item.Meta
                                 avatar={
                                   <Avatar
-                                    src={avatarurl + item?.from_user?.avatar}
+                                    src={
+                                      avatarurl +
+                                      item?.from_user?.avatar?.filepath
+                                    }
                                     size={64}
                                   />
                                 }
