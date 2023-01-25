@@ -15,7 +15,6 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import Image from "next/image";
 import EditPoll from "./EditPoll";
-import { MEDIA_PREFIX_URL } from "@/constants/index";
 
 const { Content } = Layout;
 
@@ -78,16 +77,9 @@ const beforeUpload = (file) => {
   }
   return isJpgOrPng && isLt2M;
 };
+const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
 const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
-  const avatarImg = "";
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    avatarImg = sessionStorage.getItem("avatar");
-  }
-
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
-
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const handleChange = (info) => {
@@ -282,9 +274,9 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                       height={100}
                                       width={100}
                                     />
-                                  ) : avatarImg ? (
+                                  ) : editinfo.avatar ? (
                                     <img
-                                      src={avatarurl + avatarImg}
+                                      src={avatarurl + editinfo.avatar}
                                       alt="avatar"
                                       style={{
                                         width: "100%",

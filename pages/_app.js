@@ -32,6 +32,7 @@ import io from "socket.io-client";
 import toast from "@/components/Toast";
 import baseUrl from "@/utils/baseUrl";
 import { DOMAIN } from "@/src/redux/constants";
+import { getUserInfo } from "@/src/redux/Profile/actions";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -57,6 +58,10 @@ function MyApp({ Component, pageProps }) {
         toast({ type: "success", message: data.msg });
       });
     }
+
+    store.dispatch((dispatch) =>
+      getUserInfo(store.getState().user.user_id, () => {})(dispatch)
+    );
 
     return () => {
       if (socket !== null) socket.off("New Client");

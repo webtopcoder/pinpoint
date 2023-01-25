@@ -40,7 +40,8 @@ const profileReducer = (state = initialState, action) => {
     case USER_INFO_SUCCESS: {
       return {
         ...state,
-        userinfo: action.payload,
+        userinfo: action.payload?.user,
+        avatar: action.payload?.user?.avatar?.filepath,
       };
     }
 
@@ -62,6 +63,7 @@ const profileReducer = (state = initialState, action) => {
           about: action.payload.about,
           social: action.payload.social,
           notification: action.payload.notification,
+          avatar: action.payload.avatar,
         },
       };
     }
@@ -119,6 +121,13 @@ const profileReducer = (state = initialState, action) => {
         editInfo: {
           ...state.editInfo,
           avatar: action.payload.avatar.filepath,
+        },
+        userinfo: {
+          ...state.userinfo,
+          profile: {
+            ...state.userinfo.profile,
+            avatar: action.payload.avatar,
+          },
         },
       };
     }

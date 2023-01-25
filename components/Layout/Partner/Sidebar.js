@@ -26,6 +26,7 @@ import {
 } from "antd";
 import { getNotifications, logout } from "@/src/redux/User/actions";
 import Link from "next/link";
+import config from "@/utils/config";
 
 const count = 3;
 
@@ -33,6 +34,7 @@ const { Sider } = Layout;
 const { Text } = Typography;
 
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
+const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
 function getItem(label, key, icon, children) {
   return {
@@ -48,6 +50,7 @@ function LeftSidebar({
   notifications,
   notificationCount,
   onGetNotifications,
+  avatar,
 }) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -189,13 +192,25 @@ function LeftSidebar({
             <div className="avatar-panel">
               <div className="partner-avatar-center">
                 <div className="rightsidebar-avatar">
-                  <Avatar
-                    style={{
-                      border: "3px solid gray",
-                    }}
-                    size={150}
-                    icon={<UserOutlined />}
-                  />
+                  {avatar ? (
+                    <img
+                      src={avatarurl + avatar}
+                      alt="avatar"
+                      style={{
+                        width: "100%",
+                      }}
+                      height={100}
+                      width={100}
+                    />
+                  ) : (
+                    <Avatar
+                      style={{
+                        border: "3px solid gray",
+                      }}
+                      size={150}
+                      icon={<UserOutlined />}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -320,6 +335,7 @@ const mapStateToProps = (state) => {
     token: state.user.token,
     notifications: state.user.notifications,
     notificationCount: state.user.notificationCount,
+    avatar: state?.profile?.userinfo?.profile?.avatar?.filepath,
   };
 };
 

@@ -137,6 +137,7 @@ export function getInfo() {
             mention: false,
             favorite: false,
           },
+          avatar: "",
         };
 
         if (res.success) {
@@ -146,6 +147,7 @@ export function getInfo() {
             ...data.notification,
             ...res.data.notification,
           };
+          data.avatar = res.data.avatar?.filepath;
         }
 
         dispatch({
