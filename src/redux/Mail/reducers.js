@@ -10,6 +10,8 @@ import {
   GET_NOTICE_SUCCESS,
   UPDATE_MAIL_REQUEST,
   UPDATE_MAIL_SUCCESS,
+  DELETE_MAIL_SUCCESS,
+  DELETE_MAIL_REQUEST,
 } from "./types";
 
 const initialState = {
@@ -94,9 +96,17 @@ const mailReducer = (state = initialState, action) => {
       };
     }
 
-    case DELETE_SENT_SUCCESS: {
+    case DELETE_MAIL_REQUEST: {
       return {
         ...state,
+        loading: true,
+      };
+    }
+
+    case DELETE_MAIL_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
       };
     }
 

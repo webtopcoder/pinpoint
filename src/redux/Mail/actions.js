@@ -7,10 +7,6 @@ import {
   GET_INBOX_SUCCESS,
   GET_SENT_REQUEST,
   GET_SENT_SUCCESS,
-  DELETE_SENT_REQUEST,
-  DELETE_SENT_SUCCESS,
-  DELETE_INBOX_REQUEST,
-  DELETE_INBOX_SUCCESS,
   DOWNLOAD_FILE_SUCCESS,
   RESEND_INVITE_SUCCESS,
   GET_NOTICE_REQUEST,
@@ -19,6 +15,10 @@ import {
   GET_PENDING_SUCCESS,
   UPDATE_MAIL_REQUEST,
   UPDATE_MAIL_SUCCESS,
+  DELETE_MAIL_REQUEST,
+  DELETE_MAIL_SUCCESS,
+  BULK_MAIL_ACTION_REQUEST,
+  BULK_MAIL_ACTION_SUCCESS,
 } from "./types";
 import api from "@/utils/callApi";
 
@@ -219,16 +219,16 @@ export function resendPending(mail_id, cb) {
       });
 }
 
-export function deleteSent(mail_id, cb) {
+export function deleteMail(mail_id, cb) {
   return (dispatch) =>
     api(`mail/${mail_id}`, "delete")
       .then((res) => {
         dispatch({
-          type: DELETE_SENT_REQUEST,
+          type: DELETE_MAIL_REQUEST,
         });
 
         dispatch({
-          type: DELETE_SENT_SUCCESS,
+          type: DELETE_MAIL_SUCCESS,
           payload: res,
         });
 
@@ -259,22 +259,25 @@ export function updateMail(mail_id, form, cb) {
       });
 }
 
-export function actionInbox(mail_id, cb) {
+export function bulkMailAction({ mailIds, action }, cb) {
   return (dispatch) =>
-    api(`mail/${mail_id}`, "delete")
+    api(`mail/bulk-actions`, "post", {
+      mailIds,
+      action,
+    })
       .then((res) => {
         dispatch({
-          type: DELETE_INBOX_REQUEST,
+          type: BULK_MAIL_ACTION_REQUEST,
         });
 
         dispatch({
-          type: DELETE_INBOX_SUCCESS,
+          type: BULK_MAIL_ACTION_SUCCESS,
           payload: res,
         });
 
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }

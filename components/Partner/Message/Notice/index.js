@@ -1,4 +1,4 @@
-import { deleteSent, getNotice } from "@/redux/Mail/actions";
+import { deleteMail, getNotice } from "@/redux/Mail/actions";
 import baseUrl from "@/utils/baseUrl";
 import { Button, Col, Dropdown, Modal, Row, Table, Tooltip } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -171,7 +171,7 @@ const mapStateToProps = ({ mail }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ongetNotice: (tableParams, cb) => dispatch(getNotice(tableParams, cb)),
-  ondeleteSent: (data, cb) => dispatch(deleteSent(data, cb)),
+  ondeleteSent: (data, cb) => dispatch(deleteMail(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notices);

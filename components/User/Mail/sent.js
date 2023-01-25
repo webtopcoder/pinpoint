@@ -5,10 +5,10 @@ import { DeleteFilled, DownloadOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { getSent } from "@/redux/Mail/actions";
 import { downloadFile } from "@/redux/Mail/actions";
-import { deleteSent } from "@/redux/Mail/actions";
-import toast from "@/components/Toast";
+import { deleteMail } from "@/redux/Mail/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
+import useNotify from "@/hooks/useNotify";
 
 const Sent = ({
   ondownloadFile,
@@ -24,16 +24,7 @@ const Sent = ({
   const [open, setOpen] = useState(false);
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
   const attachurl = `http://${config.server}:${config.port}/mail/`;
-  const myLoader = ({ src }) => {
-    return src;
-  };
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
+  const { notify } = useNotify();
 
   const columnes = [
     {
@@ -367,7 +358,7 @@ const mapStateToProps = ({ mail }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ongetSent: (tableParams, cb) => dispatch(getSent(tableParams, cb)),
-  ondeleteSent: (data, cb) => dispatch(deleteSent(data, cb)),
+  ondeleteSent: (data, cb) => dispatch(deleteMail(data, cb)),
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
 });
 

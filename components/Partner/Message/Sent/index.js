@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Table, Row, Col, Button, Tooltip, Modal, Dropdown } from "antd";
 import { connect } from "react-redux";
 import { DownloadOutlined } from "@ant-design/icons";
-import { getSent } from "@/redux/Mail/actions";
+import { bulkMailAction, getSent } from "@/redux/Mail/actions";
 import { downloadFile } from "@/redux/Mail/actions";
-import { deleteSent } from "@/redux/Mail/actions";
+import { deleteMail } from "@/redux/Mail/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -20,6 +20,7 @@ const Sent = ({
   sentitems,
   childlistfunc,
   childFunc,
+  onBulkDelete,
 }) => {
   const onMenuClick = (e) => {
     ondownloadFile(e.key);
@@ -88,16 +89,14 @@ const Sent = ({
   };
 
   const bulkaction = (value, list) => {
-    const data = {
-      mailId: list,
-      action: value,
-      is_read: false,
-    };
-
-    ondeleteSent(data, (res) => {
-      if (res.success) {
-        res.success ? notify("success", res.msg) : notify("error", res.msg);
-
+    onBulkDelete({ action: value, mailIds: list }, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      } else {
+        notify("success", res.message);
         setLoading(true);
         ongetSent(tableParams, (res) => {
           setLoading(false);
@@ -240,8 +239,9 @@ const mapStateToProps = ({ mail }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ongetSent: (tableParams, cb) => dispatch(getSent(tableParams, cb)),
-  ondeleteSent: (data, cb) => dispatch(deleteSent(data, cb)),
+  ondeleteSent: (data, cb) => dispatch(deleteMail(data, cb)),
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
+  onBulkDelete: (data, cb) => dispatch(bulkMailAction(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sent);
