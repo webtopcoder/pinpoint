@@ -287,7 +287,7 @@ export function postFollower(id, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        cb(null, error);
       });
 }
 

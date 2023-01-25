@@ -20,6 +20,7 @@ const initialState = {
   noticelist: [],
   pendinglist: [],
   senttotal: 0,
+  pendingtotal: 0,
 };
 
 const mailReducer = (state = initialState, action) => {
@@ -74,6 +75,7 @@ const mailReducer = (state = initialState, action) => {
       return {
         ...state,
         pendinglist: action.payload.results,
+        pendingtotal: action.payload.totalResults,
         loading: false,
       };
     }

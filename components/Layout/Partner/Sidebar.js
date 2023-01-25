@@ -5,7 +5,6 @@ import {
   DashboardFilled,
   SettingFilled,
   ProfileFilled,
-  ContactsFilled,
   EnvironmentFilled,
   UnorderedListOutlined,
   InfoCircleFilled,
@@ -14,20 +13,24 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import { Layout, Menu, Avatar, Space, Badge, Drawer, List, Button } from "antd";
-import { logout } from "@/src/redux/User/actions";
-
-const data = [
-  "@codydixon5 posted a review to Example Food Truck #3",
-  "@keendawg posted a photo on Example Food Truck #3",
-  "@codydixon5 requested to follow you",
-  "@codydixon5 started following Example Food Truck #2",
-  "@codydixon5 liked a comment on Example Food Truck #2",
-];
+import {
+  Layout,
+  Menu,
+  Avatar,
+  Space,
+  Badge,
+  Drawer,
+  List,
+  Button,
+  Typography,
+} from "antd";
+import { getNotifications, logout } from "@/src/redux/User/actions";
+import Link from "next/link";
 
 const count = 3;
 
 const { Sider } = Layout;
+const { Text } = Typography;
 
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 
@@ -40,13 +43,19 @@ function getItem(label, key, icon, children) {
   };
 }
 
-function LeftSidebar({ onLogout }) {
+function LeftSidebar({
+  onLogout,
+  notifications,
+  notificationCount,
+  onGetNotifications,
+}) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState("left");
 
+  const [notificationPage, setNotificationPage] = useState(1);
   const [token, setToken] = useState(null);
 
   const [data, setData] = useState([]);
@@ -55,12 +64,24 @@ function LeftSidebar({ onLogout }) {
   const router = useRouter();
   const pathurl = router.asPath;
 
+  useEffect(() => {
+    onGetNotifications(
+      {
+        sort: "createdAt:asc",
+        page: notificationPage,
+      },
+      () => {}
+    );
+  }, [notificationPage]);
+
   const showDrawer = () => {
     setOpen(true);
   };
+
   const onClose = () => {
     setOpen(false);
   };
+
   const onChange = (e) => {
     setPlacement(e.target.value);
   };
@@ -132,19 +153,12 @@ function LeftSidebar({ onLogout }) {
         }))
       )
     );
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        const newData = data.concat(res.results);
-        setData(newData);
-        setList(newData);
-        setLoading(false);
-        // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-        // In real scene, you can using public method of react-virtualized:
-        // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-        window.dispatchEvent(new Event("resize"));
-      });
+
+    if (notificationCount / 10 > notificationPage) {
+      setNotificationPage(notificationPage + 1);
+    }
   };
+
   const loadMore =
     !initLoading && !loading ? (
       <div
@@ -263,7 +277,8 @@ function LeftSidebar({ onLogout }) {
         open={open}
         key={placement}
         bodyStyle={{
-          background: "black",
+          color: "white",
+          background: "#2f2f2f",
         }}
         headerStyle={{
           color: "white",
@@ -273,7 +288,13 @@ function LeftSidebar({ onLogout }) {
           loadMore={loadMore}
           loading={initLoading}
           size="small"
-          dataSource={list}
+          dataSource={notifications}
+          pagination={{
+            onChange: (page) => {
+              setNotificationPage(page);
+            },
+            pageSize: 10,
+          }}
           renderItem={(item) => (
             <List.Item
               style={{
@@ -281,7 +302,10 @@ function LeftSidebar({ onLogout }) {
                 borderBlockEnd: "1px solid white",
               }}
             >
-              @codydixon5 posted a review to Example Food Truck #3
+              <List.Item.Meta
+                title={<Link href={item.url ?? ""}>{item.title}</Link>}
+                description={item.description}
+              />
             </List.Item>
           )}
         />
@@ -294,11 +318,14 @@ const mapStateToProps = (state) => {
   return {
     ...state.Layout,
     token: state.user.token,
+    notifications: state.user.notifications,
+    notificationCount: state.user.notificationCount,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
+  onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftSidebar);

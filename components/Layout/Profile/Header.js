@@ -1,18 +1,25 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { getHeader } from "@/redux/Profile/actions";
+import { getHeader, unFriend } from "@/redux/Profile/actions";
 import { postFollower, getInfo } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import binavatar from "@/public/images/landing/avatar.png";
 import config from "@/utils/config";
+import useNotify from "@/hooks/useNotify";
 
-const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
+const Header = ({
+  ongetHeader,
+  headerInfo,
+  onpostFollower,
+  ondeleteFollower,
+}) => {
   const myLoader = ({ src }) => {
     return src;
   };
   const avatarurl = `http://${config.server}:${config.port}/avatar`;
   const router = useRouter();
+  const { notify } = useNotify();
   let user_id = "";
   if (typeof window !== "undefined") {
     user_id = sessionStorage.getItem("user_id");
@@ -23,10 +30,30 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
   const own_page = user_id === view_user_id;
 
   const follow = () => {
-    onpostFollower(view_user_id, (res) => {
-      if (res.success) {
+    onpostFollower(view_user_id, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      } else {
+        notify("success", "Followed");
         ongetHeader(view_user_id);
-      } else notify("error", res.msg);
+      }
+    });
+  };
+
+  const unfollow = () => {
+    ondeleteFollower(view_user_id, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      } else {
+        notify("success", "Unfollowed");
+        ongetHeader(view_user_id);
+      }
     });
   };
 
@@ -117,7 +144,7 @@ const Header = ({ ongetHeader, headerInfo, onpostFollower }) => {
                   <div className="avatar-content mg-12">
                     {headerInfo?.profile?.is_follow ? (
                       <button
-                        onClick={follow}
+                        onClick={unfollow}
                         className="btn-style-one ps-3 avatar-message-button"
                       >
                         Unfollow<i className="bx bx-user-minus avatar-icon"></i>
@@ -207,5 +234,6 @@ const mapStateToProps = ({ profile }) => {
 const mapDispatchToProps = (dispatch) => ({
   ongetHeader: (data) => dispatch(getHeader(data)),
   onpostFollower: (id, cb) => dispatch(postFollower(id, cb)),
+  ondeleteFollower: (id, cb) => dispatch(unFriend(id, cb)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
