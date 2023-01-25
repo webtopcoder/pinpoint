@@ -22,9 +22,26 @@ const initialState = {
   activityInfo: {},
   editInfo: {
     about: "",
+    social: {
+      facebook: "",
+      twitter: "",
+      tiktok: "",
+      website: "",
+      snapchat: "",
+      instagram: "",
+    },
+    notification: {
+      rate: false,
+      follow: false,
+      mention: false,
+      favorite: false,
+    },
     avatar: "",
-    social: {},
-    notification: {},
+    poll: {
+      question: "",
+      options: [],
+      votes: [0, 0, 0, 0],
+    },
   },
   headerInfo: {},
   followersInfo: {},
@@ -64,6 +81,12 @@ const profileReducer = (state = initialState, action) => {
           social: action.payload.social,
           notification: action.payload.notification,
           avatar: action.payload.avatar,
+          poll: {
+            ...state.editInfo.poll,
+            question: action.payload.poll.question ?? "",
+            options: action.payload.poll.options ?? [],
+            votes: action.payload.poll.votes ?? Array(4).fill(0),
+          },
         },
       };
     }
@@ -71,7 +94,15 @@ const profileReducer = (state = initialState, action) => {
     case USERPOLL_GET_SUCCESS: {
       return {
         ...state,
-        userPoll: action.payload,
+        editInfo: {
+          ...state.editInfo,
+          poll: {
+            ...state.editInfo.poll,
+            question: action.payload.question,
+            options: action.payload.options,
+            votes: action.payload.votes,
+          },
+        },
       };
     }
 

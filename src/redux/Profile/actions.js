@@ -138,6 +138,11 @@ export function getInfo() {
             favorite: false,
           },
           avatar: "",
+          poll: {
+            question: "",
+            options: [],
+            votes: [0, 0, 0, 0],
+          },
         };
 
         if (res.success) {
@@ -148,6 +153,7 @@ export function getInfo() {
             ...res.data.notification,
           };
           data.avatar = res.data.avatar?.filepath;
+          data.poll = res.data.poll;
         }
 
         dispatch({
@@ -180,7 +186,15 @@ export function editSocial(form) {
     });
 }
 
-export function editPoll(form, cb) {
+export function editPoll(form) {
+  return (dispatch) =>
+    dispatch({
+      type: USERPOLL_GET_SUCCESS,
+      payload: form,
+    });
+}
+
+export function addPoll(form, cb) {
   return (dispatch) =>
     api(`profile/poll`, "patch", form)
       .then((res) => {

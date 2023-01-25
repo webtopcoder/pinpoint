@@ -1,13 +1,9 @@
 import toast from "@/components/Toast";
-import { editPoll } from "@/src/redux/Profile/actions";
+import { addPoll, editPoll } from "@/src/redux/Profile/actions";
 import React, { useCallback } from "react";
 import { connect } from "react-redux";
 
-function EditPoll({ userPoll, updatePoll }) {
-  const [form, setForm] = React.useState({
-    question: userPoll?.question ?? "",
-    options: userPoll?.options ?? [],
-  });
+function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
   const notify = useCallback((type, message) => {
     toast({ type, message });
   }, []);
@@ -15,26 +11,34 @@ function EditPoll({ userPoll, updatePoll }) {
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    updatePoll({ poll: form }, (res, error) => {
-      if (error) {
-        notify("error", error.message);
-        return;
+    onAddPoll(
+      {
+        poll: {
+          question: userPoll.question,
+          options: userPoll.options,
+        },
+      },
+      (res, error) => {
+        if (error) {
+          notify("error", error.message);
+          return;
+        }
+        notify("success", "Poll updated successfully");
       }
-      notify("success", "Poll updated successfully");
-    });
+    );
   };
 
   const onUpdatePoll = (e) => {
     const field = e.target.name;
-    const options = form.options;
+    const options = userPoll.options;
 
     if (field === "question") {
-      setForm({ ...form, question: e.target.value });
+      onEditPoll({ ...userPoll, question: e.target.value });
     } else {
       const index = field.split("-")[1];
 
       options[index] = e.target.value;
-      setForm({ ...form, options });
+      onEditPoll({ ...userPoll, options });
     }
   };
   return (
@@ -54,7 +58,7 @@ function EditPoll({ userPoll, updatePoll }) {
                     <textarea
                       name="question"
                       className="form-control"
-                      value={form.question}
+                      value={userPoll.question}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -70,7 +74,7 @@ function EditPoll({ userPoll, updatePoll }) {
                       type="text"
                       name="option-0"
                       className="form-control"
-                      value={form.options[0]}
+                      value={userPoll.options[0]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -86,7 +90,7 @@ function EditPoll({ userPoll, updatePoll }) {
                       type="text"
                       name="option-1"
                       className="form-control"
-                      value={form.options[1]}
+                      value={userPoll.options[1]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -102,7 +106,7 @@ function EditPoll({ userPoll, updatePoll }) {
                       type="text"
                       name="option-2"
                       className="form-control"
-                      value={form.options[2]}
+                      value={userPoll.options[2]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -118,7 +122,7 @@ function EditPoll({ userPoll, updatePoll }) {
                       type="text"
                       name="option-3"
                       className="form-control"
-                      value={form.options[3]}
+                      value={userPoll.options[3]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -146,12 +150,13 @@ function EditPoll({ userPoll, updatePoll }) {
 
 const mapStateToProps = ({ profile }) => {
   return {
-    userPoll: profile.userPoll,
+    userPoll: profile.editInfo.poll,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  updatePoll: (info, cb) => dispatch(editPoll(info, cb)),
+  onAddPoll: (info, cb) => dispatch(addPoll(info, cb)),
+  onEditPoll: (info, cb) => dispatch(editPoll(info, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPoll);

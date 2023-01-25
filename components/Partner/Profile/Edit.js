@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { connect, useDispatch } from "react-redux";
-import { editPoll, getInfo } from "@/redux/Profile/actions";
+import { addPoll, getInfo } from "@/redux/Profile/actions";
 import {
   updateInfo,
   editAbout,
