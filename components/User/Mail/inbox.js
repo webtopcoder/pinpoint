@@ -8,11 +8,13 @@ import {
   DownloadOutlined,
 } from "@ant-design/icons";
 import Image from "next/image";
-import { getInbox } from "@/redux/Mail/actions";
-import { actionInbox } from "@/redux/Mail/actions";
-import toast from "@/components/Toast";
+import { downloadFile, getInbox } from "@/redux/Mail/actions";
+import { deleteMail } from "@/redux/Mail/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
+import useNotify from "@/hooks/useNotify";
+
+const attachurl = `http://${config.server}:${config.port}/avatar/`;
 
 const Inbox = ({
   ongetInbox,
@@ -20,6 +22,7 @@ const Inbox = ({
   childFunc,
   bulkvalue,
   childlistfunc,
+  ondownloadFile,
 }) => {
   const onMenuClick = (e) => {
     ondownloadFile(e.key);
@@ -27,12 +30,7 @@ const Inbox = ({
   };
 
   const [open, setOpen] = useState(false);
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
+  const { notify } = useNotify();
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
   const columnes = [
@@ -434,7 +432,8 @@ const Inbox = ({
 const mapDispatchToProps = (dispatch) => ({
   ongetInbox: (tableParams, cb) => dispatch(getInbox(tableParams, cb)),
   onactionInbox: (action_id, bulkaction, cb) =>
-    dispatch(actionInbox(action_id, bulkaction, cb)),
+    dispatch(deleteMail(action_id, bulkaction, cb)),
+  ondownloadFile: (file, cb) => dispatch(downloadFile(file, cb)),
 });
 
 export default connect(undefined, mapDispatchToProps)(Inbox);

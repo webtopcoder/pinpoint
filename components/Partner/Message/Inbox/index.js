@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { DownloadOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import {
-  deleteSent,
+  bulkMailAction,
+  deleteMail,
   downloadFile,
   getInbox,
   updateMail,
 } from "@/redux/Mail/actions";
-import { actionInbox } from "@/redux/Mail/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -25,7 +25,6 @@ const Inbox = ({
   ondeletemail,
   onupdatemail,
   childFunc,
-  bulkvalue,
   childlistfunc,
   inbox,
 }) => {
@@ -99,32 +98,14 @@ const Inbox = ({
   };
 
   const bulkaction = (value, list) => {
-    let actiontype = "";
-    let is_readtype = false;
-
-    if (value === "bluk") {
-      notify("error", "Please select Bluk Action");
-      return;
-    } else if (value == "read") {
-      actiontype = "mark";
-      is_readtype = true;
-    } else if (value == "unread") {
-      actiontype = "mark";
-      is_readtype = false;
-    } else {
-      actiontype = "delete";
-      is_readtype = true;
-    }
-
-    const data = {
-      mailId: list,
-      action: actiontype,
-      is_read: is_readtype,
-    };
-
-    onactionInbox(data, (res) => {
-      if (res.success) {
-        res.success ? notify("success", res.msg) : notify("error", res.msg);
+    onactionInbox({ action: value, mailIds: list }, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      } else {
+        notify("success", res.message);
         setLoading(true);
         ongetInbox(tableParams, (res) => {
           setLoading(false);
@@ -152,7 +133,7 @@ const Inbox = ({
             }}
             dataSource={inbox}
             loading={loading}
-            rowKey={(rows) => rows.from}
+            rowKey={(rows) => rows._id}
             pagination={tableParams.pagination}
             onChange={handleTableChange}
           />
@@ -265,10 +246,9 @@ const mapStateToProps = ({ mail }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ongetInbox: (tableParams, cb) => dispatch(getInbox(tableParams, cb)),
-  onactionInbox: (action_id, bulkaction, cb) =>
-    dispatch(actionInbox(action_id, bulkaction, cb)),
+  onactionInbox: (data, cb) => dispatch(bulkMailAction(data, cb)),
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
-  ondeletemail: (id, cb) => dispatch(deleteSent(id, cb)),
+  ondeletemail: (id, cb) => dispatch(deleteMail(id, cb)),
   onupdatemail: (id, form, cb) => dispatch(updateMail(id, form, cb)),
 });
 

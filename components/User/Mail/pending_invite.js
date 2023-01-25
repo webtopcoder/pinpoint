@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Row, Col, Button, Space, Tooltip, Tag } from "antd";
 import { connect } from "react-redux";
-import { deleteSent } from "@/redux/Mail/actions";
+import { deleteMail } from "@/redux/Mail/actions";
 import { getPending } from "@/redux/Mail/actions";
 import { resendPending } from "@/redux/Mail/actions";
-import toast from "@/components/Toast";
-import config from "@/utils/config";
+import useNotify from "@/hooks/useNotify";
 
 const PendingInvite = ({ ondeleteSent, ongetPending, onresendPending }) => {
-  const attachurl = `http://${config.server}:${config.port}/mail/`;
-
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
+  const { notify } = useNotify();
 
   const columnes = [
     {
@@ -56,11 +47,9 @@ const PendingInvite = ({ ondeleteSent, ongetPending, onresendPending }) => {
         <div className="thread-info">
           <p>
             <Tooltip title={record.message} color={"blue"}>
-              <a onClick={() => selectedSentinfo(record)}>
-                {record.message.length > 10000
-                  ? record.message.substring(0, 30) + "..."
-                  : record.message}
-              </a>
+              {record.message.length > 10000
+                ? record.message.substring(0, 30) + "..."
+                : record.message}
             </Tooltip>
           </p>
         </div>
@@ -192,7 +181,7 @@ const mapStateToProps = ({ mail }) => ({
 const mapDispatchToProps = (dispatch) => ({
   onresendPending: (id, cb) => dispatch(resendPending(id, cb)),
   ongetPending: (tableParams, cb) => dispatch(getPending(tableParams, cb)),
-  ondeleteSent: (data, cb) => dispatch(deleteSent(data, cb)),
+  ondeleteSent: (data, cb) => dispatch(deleteMail(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PendingInvite);

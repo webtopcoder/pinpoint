@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Row, Col } from "antd";
 import { connect } from "react-redux";
-import { deleteSent } from "@/redux/Mail/actions";
+import { deleteMail } from "@/redux/Mail/actions";
 import { getPending } from "@/redux/Mail/actions";
 import { resendPending } from "@/redux/Mail/actions";
 import usePendingColumns from "./usePendingColumns";
@@ -74,7 +74,7 @@ const mapStateToProps = ({ mail }) => ({
 const mapDispatchToProps = (dispatch) => ({
   onresendPending: (id, cb) => dispatch(resendPending(id, cb)),
   ongetPending: (tableParams, cb) => dispatch(getPending(tableParams, cb)),
-  ondeleteSent: (data, cb) => dispatch(deleteSent(data, cb)),
+  ondeleteSent: (data, cb) => dispatch(deleteMail(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PendingInvite);
