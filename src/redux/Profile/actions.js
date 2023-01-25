@@ -1,4 +1,5 @@
 import api from "@/utils/callApi";
+import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 
 import {
   ABOUT_CHANGE_SUCCESS,
@@ -29,12 +30,21 @@ export function getUserInfo(user_id, cb) {
     api(`auth/me`, "get")
       .then((res) => {
         dispatch({
+          type: S_LOGIN,
+          payload: res.user.id,
+        });
+
+        dispatch({
           type: USER_INFO_REQUEST,
         });
 
         dispatch({
           type: USER_INFO_SUCCESS,
           payload: res,
+        });
+
+        dispatch({
+          type: S_NOTIFICATION,
         });
 
         cb(res);
