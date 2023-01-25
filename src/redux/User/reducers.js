@@ -13,6 +13,7 @@ import {
   USER_EMAIL_VERIFICATION_REQUEST,
   USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
+  GET_NOTIFICATION_REQUEST,
 } from "./types";
 
 let token = "";
@@ -47,6 +48,7 @@ const initialState = {
   partnersubCategory: { success: false, subCategories: [] },
   myFollowers: [],
   notifications: [],
+  notificationCount: 0,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -118,10 +120,19 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
+    case GET_NOTIFICATION_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
     case GET_NOTIFICATION_SUCCESS: {
       return {
         ...state,
+        loading: false,
         notifications: action.payload.results,
+        notificationCount: action.payload.totalResults,
       };
     }
 

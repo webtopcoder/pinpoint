@@ -150,8 +150,8 @@ export function getPending(tableinfo, cb) {
         tableinfo.pagination.pageSize
       }&order=${
         tableinfo.order && tableinfo.order == "ascend"
-          ? "createdAt:asc"
-          : "createdAt:desc"
+          ? "updatedAt:asc"
+          : "updatedAt:desc"
       }`,
       "get"
     )
@@ -201,7 +201,7 @@ export function getNotice(tableinfo, cb) {
       });
 }
 
-export function resend_pending(mail_id, cb) {
+export function resendPending(mail_id, cb) {
   return (dispatch) =>
     api(`mail/${mail_id}/resend-invite`, "post")
       .then((res) => {
@@ -214,6 +214,7 @@ export function resend_pending(mail_id, cb) {
       })
       .catch((error) => {
         console.log(error);
+        cb(null, error);
       });
 }
 

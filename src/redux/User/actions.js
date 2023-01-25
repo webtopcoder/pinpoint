@@ -13,6 +13,7 @@ import {
   USER_EMAIL_VERIFICATION_REQUEST,
   USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
+  GET_NOTIFICATION_REQUEST,
 } from "./types";
 import { S_LOGIN } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -145,10 +146,13 @@ export const logout = (cb) => (dispatch) => {
 };
 
 export function getNotifications(params, cb) {
-  const userId = JSON.parse(localStorage.getItem("userInfo")).user._id;
   return (dispatch) =>
-    api(`notification`, "get")
+    api(`notification`, "get", {}, params)
       .then((res) => {
+        dispatch({
+          type: GET_NOTIFICATION_REQUEST,
+        });
+
         dispatch({
           type: GET_NOTIFICATION_SUCCESS,
           payload: res,

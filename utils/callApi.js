@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "./config";
 
-export default async function callAPI(endpoint, method = "get", data) {
+export default async function callAPI(endpoint, method = "get", data, params) {
   let token = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
@@ -10,6 +10,7 @@ export default async function callAPI(endpoint, method = "get", data) {
   const configs = {
     method,
     url: `${process.env.NEXT_PUBLIC_API_BASE_URL}${config.baseURL}/${endpoint}`,
+    params,
     headers: {
       Authorization: `Bearer ${token}`,
     },
