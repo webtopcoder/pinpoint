@@ -17,6 +17,9 @@ import useInboxColumns from "./useInboxColumns";
 
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 const attachurl = `http://${config.server}:${config.port}/avatar/`;
+const loader = ({ src }) => {
+  return `${src}`;
+};
 
 const Inbox = ({
   ondownloadFile,
@@ -164,13 +167,12 @@ const Inbox = ({
               className="message-box odd Inbox-by-2 message-not-starred"
             >
               <div className="message-metadata">
-                <Image
+                <img
                   src={
-                    avatarurl +
-                    "/" +
-                    record_detail?.from?.profile?.avatar?.filepath
+                    avatarurl + record_detail?.from?.profile?.avatar?.filepath
                   }
                   alt="user"
+                  loader={loader}
                   className="avatar"
                   width={100}
                   height={100}

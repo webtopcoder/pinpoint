@@ -13,8 +13,10 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   images: {
-    loader: "akamai",
-    path: "http://localhost:3000/",
+    // loader: "akamai",
+    // path: "http://localhost:3000/",
+    domains: ["localhost:8080"],
+    unoptimized: true,
   },
   optimizeFonts: false,
 };
