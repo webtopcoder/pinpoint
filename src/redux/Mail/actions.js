@@ -38,6 +38,7 @@ export function mailCompose(form, cb) {
         cb(res);
       })
       .catch((error) => {
+        cb(null, error);
         console.log(error);
       });
 }

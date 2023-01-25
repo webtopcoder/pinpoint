@@ -148,11 +148,7 @@ const Sent = ({
             >
               <div className="message-metadata">
                 <img
-                  src={
-                    avatarurl +
-                    "/" +
-                    record_detail?.to?.profile?.avatar?.filepath
-                  }
+                  src={avatarurl + record_detail?.to?.profile?.avatar?.filepath}
                   alt="user"
                   className="avatar"
                   width={100}

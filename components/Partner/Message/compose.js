@@ -17,6 +17,7 @@ import { mailCompose } from "@/redux/Mail/actions";
 import { getmyFollowers } from "@/redux/User/actions";
 import { useRouter } from "next/router";
 import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
 
 const { TextArea } = Input;
 
@@ -31,6 +32,7 @@ const Compose = ({
   const [componentDisabled, setComponentDisabled] = useState(false);
 
   const router = useRouter();
+  const { notify } = useNotify();
 
   const [prefix, setPrefix] = useState("@");
 
@@ -53,14 +55,6 @@ const Compose = ({
     }
   }, [router.isReady]);
 
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
-
   const onCheck = (e) => {
     setComponentDisabled(e.target.checked);
   };
@@ -81,11 +75,14 @@ const Compose = ({
     form_data.append("message", values.message);
 
     onmailCompose(form_data, (res, error) => {
-      if (res.success) {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      } else {
         composeForm.resetFields();
         notify("success", res.msg);
-      } else {
-        notify("error", res.msg);
       }
     });
   };
