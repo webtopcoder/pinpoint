@@ -41,10 +41,10 @@ function useSentColumns({ setOpen, onDeleteSent, getSent }) {
   };
 
   const columns = [
-    {
-      title: "",
-      width: "1%",
-    },
+    // {
+    //   title: "",
+    //   width: "1%",
+    // },
     {
       title: "To",
       align: "center",
@@ -75,7 +75,6 @@ function useSentColumns({ setOpen, onDeleteSent, getSent }) {
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>
               </Tooltip>
-              <span className="">&nbsp;({record.count})</span>
             </div>
             <span className="activity">
               last sent:{" "}

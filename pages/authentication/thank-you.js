@@ -91,7 +91,7 @@ const ThankYou = ({ onVerifyUserEmail }) => {
               </Link> */}
               <div className="col-12">
                 <p className="account-desc">
-                  <Link href={`/authentication/user/login`}>
+                  <Link href={`/authentication/${backLogin}/login`}>
                     <a className="login-dashboard-a-color">Back to {thankyou_id} Login{" "}</a>
                   </Link>
                 </p>

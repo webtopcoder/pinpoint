@@ -66,10 +66,7 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
   };
 
   const columns = [
-    {
-      title: "",
-      width: "1%",
-    },
+   
     {
       title: "From",
       align: "center",

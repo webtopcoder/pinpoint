@@ -133,6 +133,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       state: addressForm.state,
     });
 
+    console.log(form)
     const { isValid } = validateForm({
       form,
       addressForm,
@@ -147,9 +148,9 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       lastName: form.lastName,
       username: form.username,
       address: {
-        address: form.address,
-        city: form.city,
-        state: form.state,
+        address: addressForm.address,
+        city: addressForm.city,
+        state: addressForm.state,
       },
       category: form.category,
       email: form.email,

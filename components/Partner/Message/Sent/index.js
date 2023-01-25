@@ -133,20 +133,12 @@ const Sent = ({
       <Modal
         centered
         open={open}
-        closable={false}
+        closable={true}
         keyboard={false}
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={900}
-        footer={[
-          <Button
-            type="primary"
-            onClick={() => setOpen(false)}
-            key="button-cancel"
-          >
-            cancel
-          </Button>,
-        ]}
+        footer={null}
       >
         {record_detail && (
           <div id="message-thread">

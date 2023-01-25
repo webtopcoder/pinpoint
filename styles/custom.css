@@ -973,10 +973,8 @@ h4 {
 
 #message-thread .message-box {
   padding: 25px;
-  margin-bottom: 25px;
   background-color: var(--whiteColor);
   -webkit-border-radius: 3px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 #message-thread .message-metadata {
@@ -1042,11 +1040,6 @@ h4 {
 
 #message-thread .message-content p:last-of-type {
   margin-bottom: 0;
-}
-
-.ant-modal-content {
-  background-color: var(--darkWhiteColor) !important;
-  padding: 10px 10px 10px 10px !important;
 }
 
 .ant-modal-content .ant-modal-body {
