@@ -1,110 +1,85 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { Avatar, Button, List, Skeleton, Input, Mentions, Layout } from "antd";
+import React, { useEffect, useState } from "react";
+import { Avatar, Button, List, Skeleton, Input, Layout } from "antd";
 import {
   UserOutlined,
   MessageFilled,
   UserDeleteOutlined,
 } from "@ant-design/icons";
-import { getmyFollowers } from "@/redux/User/actions";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { getFollowers } from "@/redux/Profile/actions";
 import { unFriend } from "@/redux/Profile/actions";
-import toast from "@/components/Toast";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
+import useNotify from "@/hooks/useNotify";
+import Link from "next/link";
+
+import binavatar from "@/public/images/landing/avatar.png";
 
 const { Search } = Input;
 const { Content } = Layout;
 
 const ProfileFollowers = ({
-  ongetmyFollowers,
   ongetFollowers,
   followersList,
+  user_id,
   onunFriend,
 }) => {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+  const { notify } = useNotify();
 
-  const imgurl = `http://${config.server}:${config.port}/avatar/`;
+  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
-
-  let user_id = "";
-  if (typeof window !== "undefined") {
-    user_id = sessionStorage.getItem("user_id");
-  }
   const router = useRouter();
-
   const { profile } = router.query;
 
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
   const [count, setCount] = useState(1);
   const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
 
   useEffect(() => {
+    console.log({
+      profile,
+      user_id,
+      followersList,
+    });
+  }, [followersList]);
+
+  useEffect(() => {
+    let mounted;
+
     if (router.isReady) {
-      const { profile } = router.query;
-      ongetmyFollowers();
-      ongetFollowers(profile, 1, search, (res) => {
+      ongetFollowers(profile, count, search, (res) => {
         if (res.success) {
-          setInitLoading(false);
-          setData(res.followers);
-          setList(res.followers);
-        } else notify("error", res.msg);
+          mounted || setInitLoading(false);
+          setData((data) => [...data, ...res.data.results]);
+          mounted || window.dispatchEvent(new Event("resize"));
+          mounted = true;
+        } else notify("error", "Something went wrong");
       });
     }
-  }, [router.isReady]);
-
-  useEffect(() => {
-    setLoading(true);
-    setList(
-      data.concat(
-        [...new Array(10)].map(() => ({
-          loading: true,
-          follower: {},
-        }))
-      )
-    );
-    const { profile } = router.query;
-
-    ongetFollowers(profile, count, search, (res) => {
-      if (res.success) {
-        const newData = data.concat(res.followers);
-        setData(newData);
-        setList(newData);
-        setLoading(false);
-        window.dispatchEvent(new Event("resize"));
-      } else notify("error", res.msg);
-    });
-  }, [count]);
+  }, [router.isReady, count]);
 
   const unfriend = (id) => {
     onunFriend(id, (res) => {
-      notify("success", res.msg);
       setLoading(true);
       if (res.success) {
-        const { profile } = router.query;
-        ongetFollowers(profile, 1, search, (res) => {
+        notify("success", "Unfriend successfully");
+        ongetFollowers(profile, count, search, (res) => {
           if (res.success) {
             setInitLoading(false);
-            setData(res.followers);
-            setList(res.followers);
-          } else notify("error", res.msg);
+            setData(res.data.results);
+          } else notify("error", "Something went wrong");
         });
-      } else notify("error", res.msg);
+      } else notify("error", "Something went wrong");
     });
   };
 
   const onLoadMore = () => {
     setCount(count + 1);
   };
+
   const loadMore =
     !initLoading && !loading ? (
       <div
@@ -121,13 +96,10 @@ const ProfileFollowers = ({
 
   const onSearch = (value) => {
     setSearch(value);
-    const { profile } = router.query;
 
     ongetFollowers(profile, count, value, (res) => {
       if (res.success) {
         setInitLoading(false);
-        setData(res.followers);
-        setList(res.followers);
       } else notify("error", res.msg);
     });
   };
@@ -172,18 +144,18 @@ const ProfileFollowers = ({
                 >
                   <List
                     className="demo-loadmore-list"
-                    loading={initLoading}
                     itemLayout="horizontal"
+                    loading={initLoading}
                     loadMore={loadMore}
-                    dataSource={list}
-                    renderItem={(item) => {
+                    dataSource={data}
+                    renderItem={(item) => (
                       <List.Item
                         actions={[
                           <Button
                             onClick={() =>
                               window.open(
                                 baseUrl +
-                                  "/user/" +
+                                  "/profile/" +
                                   item.follower._id +
                                   "/activity",
                                 "_blank"
@@ -212,7 +184,7 @@ const ProfileFollowers = ({
                             Message
                           </Button>,
                           <Button
-                            onClick={() => unfriend(item._id)}
+                            onClick={() => unfriend(item.follower._id)}
                             style={
                               user_id == profile
                                 ? {
@@ -232,12 +204,7 @@ const ProfileFollowers = ({
                           </Button>,
                         ]}
                       >
-                        <Skeleton
-                          avatar
-                          title={false}
-                          loading={item.loading}
-                          active
-                        >
+                        <Skeleton avatar title={false} loading={loading} active>
                           <List.Item.Meta
                             avatar={
                               <Avatar
@@ -245,17 +212,28 @@ const ProfileFollowers = ({
                                   width: 70,
                                   height: 70,
                                 }}
-                                src={imgurl + item.follower.avatar}
+                                src={
+                                  item?.follower?.profile?.avatar?.filepath
+                                    ? avatarurl +
+                                      item?.follower?.profile?.avatar?.filepath
+                                    : binavatar
+                                }
                               />
                             }
                             title={
-                              <a href="https://ant.design">
-                                {item.follower.name}
-                                <p> @{item.follower.username}</p>
-                              </a>
+                              <Link
+                                href={
+                                  "/profile/" + item.follower._id + "/activity"
+                                }
+                              >
+                                <>
+                                  {item.follower.name}
+                                  <p> @{item.follower.username}</p>
+                                </>
+                              </Link>
                             }
                             description={new Date(
-                              item.createdAt
+                              item.updatedAt
                             ).toLocaleDateString(undefined, {
                               year: "numeric",
                               month: "long",
@@ -267,8 +245,8 @@ const ProfileFollowers = ({
                             })}
                           />
                         </Skeleton>
-                      </List.Item>;
-                    }}
+                      </List.Item>
+                    )}
                   />
                 </div>
               </div>
@@ -283,7 +261,7 @@ const ProfileFollowers = ({
 const mapStateToProps = ({ profile, user }) => {
   return {
     followersList: profile.followersInfo,
-    myfollowerList: user.myFollowers.followers,
+    user_id: user.user_id,
   };
 };
 
@@ -291,6 +269,5 @@ const mapDispatchToProps = (dispatch) => ({
   ongetFollowers: (data, count, search, cb) =>
     dispatch(getFollowers(data, count, search, cb)),
   onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
-  ongetmyFollowers: () => dispatch(getmyFollowers()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileFollowers);

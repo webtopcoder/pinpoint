@@ -44,7 +44,7 @@ const initialState = {
     },
   },
   headerInfo: {},
-  followersInfo: {},
+  followersInfo: [],
   shoutoutInfo: {},
   allphotosInfo: [],
 };
@@ -166,7 +166,7 @@ const profileReducer = (state = initialState, action) => {
     case GET_FOLLOWERS_LIST_SUCCESS: {
       return {
         ...state,
-        followersInfo: action.payload.followers,
+        followersInfo: action.payload.data.results,
       };
     }
 

@@ -319,7 +319,7 @@ export function postFollower(id, cb) {
 
 export function getFollowers(id, count, search, cb) {
   return (dispatch) =>
-    api(`follow/${id}/follower?page=${count}&search=${search}`, "get")
+    api(`follow/${id}/follower?page=${count}&q=${search}`, "get")
       .then((res) => {
         dispatch({
           type: GET_FOLLOWERS_LIST_SUCCESS,

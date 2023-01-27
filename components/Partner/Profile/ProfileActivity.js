@@ -708,7 +708,7 @@ const ProfileActivity = ({
 const mapStateToProps = ({ profile, user }) => {
   return {
     activityInfo: profile.activityInfo,
-    myfollowerList: user.myFollowers.followers,
+    myfollowerList: user.myFollowers?.followers || [],
   };
 };
 
