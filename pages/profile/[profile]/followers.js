@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import PartnerFollowers from "@/components/Partner/Profile/ProfileFollowers";
-import { getFollowers } from "@/redux/Profile/actions";
+import ProfileFollowers from "@/components/Profile/ProfileFollowers";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import BasicLayout from "../../../layout";
 import { connect } from "react-redux";
 
-const Followers = ({ followersInfo }) => {
+const Followers = () => {
   return (
     <>
       <PageTitle page="Profile Followers" />
@@ -15,7 +14,7 @@ const Followers = ({ followersInfo }) => {
         <Profileheader />
         <div className="pin-profile-section">
           <Submenu />
-          <PartnerFollowers followerInfo={followersInfo} />
+          <ProfileFollowers />
         </div>
       </div>
     </>
@@ -26,13 +25,4 @@ Followers.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };
 
-const mapStateToProps = ({ profile }) => {
-  return {
-    followersInfo: profile.followersInfo,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  ongetFollowers: (data) => dispatch(getFollowers(data)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Followers);
+export default connect()(Followers);

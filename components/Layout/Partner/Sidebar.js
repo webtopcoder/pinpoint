@@ -112,7 +112,7 @@ function LeftSidebar({
     getItem("Messages", "/partner/message/", <MessageFilled />),
     getItem(
       "Followers",
-      `/partner/${user_id}/followers`,
+      `/profile/${user_id}/followers`,
       <UnorderedListOutlined />
     ),
     getItem("Settings", `/partner/settings/`, <SettingFilled />),
