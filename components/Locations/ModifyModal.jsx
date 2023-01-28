@@ -1,150 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { connect } from "react-redux";
-import {
-  Layout,
-  Upload,
-  Space,
-  Col,
-  Row,
-  Divider,
-  Button,
-  Modal,
-  Typography,
-  Select,
-  message,
-  Form,
-  Input,
-} from "antd";
 import food from "@/public/images/landing/food.png";
-import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
-import LocationCard from "../LocationCard";
-import { getLocations } from "@/src/redux/Location/actions";
-import useNotify from "@/hooks/useNotify";
-import AddLocationModal from "../Locations/AddLocationModal";
-
-const { TextArea } = Input;
+import { UploadOutlined } from "@ant-design/icons";
+import {
+  Form,
+  Modal,
+  Row,
+  Col,
+  Typography,
+  Input,
+  Divider,
+  Select,
+  Upload,
+  Button,
+  Space,
+} from "antd";
+import Image from "next/image";
 
 const { Title, Paragraph } = Typography;
-
-const { Content } = Layout;
-
-const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
-  const [uploadFile, setUploadFile] = useState([]);
-
-  const [addModalOpen, setAddModalOpen] = useState(false);
-
-  const { notify } = useNotify();
-
-  const uploadProps = {
-    name: "upload",
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        const fileUploadInfo = info.fileList;
-        setUploadFile(fileUploadInfo);
-      }
-
-      if (info.file.status == "removed") {
-        if (info.fileList.length == 0) setUploadFile([]);
-        else {
-          const fileUploadInfo = info.fileList;
-          setUploadFile(fileUploadInfo);
-        }
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
-  useEffect(() => {
-    ongetLocations({ partner: user_id }, (_, error) => {
-      if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
-      }
-    });
-  }, []);
-
-  return (
-    <Layout
-      className="site-layout"
-      style={{
-        background: "#211f1f",
-      }}
-    >
-      <Content
-        style={{
-          margin: "60px 40px",
-        }}
-      >
-        <div className="site-card-wrapper">
-          <Content className="custom-subcontent">
-            <Row gutter={16}>
-              <Col
-                className="gutter-row"
-                span={6}
-                style={{
-                  marginTop: 30,
-                }}
-              >
-                <Button
-                  type="primary"
-                  onClick={() => setAddModalOpen(true)}
-                  icon={<PlusCircleOutlined />}
-                >
-                  Add Location
-                </Button>
-              </Col>
-              <Col className="gutter-row" span={12}>
-                <Title
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  Partner Locations
-                </Title>
-              </Col>
-              <Col
-                className="gutter-row"
-                span={6}
-                style={{
-                  textAlign: "right",
-                }}
-              >
-                <Image src={food} alt="Snow" width={50} height={70} />
-              </Col>
-            </Row>
-            <Row
-              gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
-              style={{
-                marginTop: 30,
-              }}
-              justify="space-around"
-            >
-              {locations.map((location, index) => (
-                <Col span={6} key={index}>
-                  <LocationCard location={location} showActions={true} />
-                </Col>
-              ))}
-            </Row>
-          </Content>
-        </div>
-      </Content>
-
-      <AddLocationModal
-        open={addModalOpen}
-        setModalOpen={setAddModalOpen}
-        uploadProps={uploadProps}
-        uploadFile={uploadFile}
-      />
-    </Layout>
-  );
-};
+const { TextArea } = Input;
 
 const subcategoryList = [];
 for (let i = 10; i < 36; i++) {
@@ -158,7 +30,6 @@ function ModifyModal({
   open: modifyModalOpen,
   setModalOpen: setModifyModalOpen,
   uploadProps,
-  uploadFile,
 }) {
   const [form] = Form.useForm();
   return (
@@ -299,17 +170,4 @@ function ModifyModal({
   );
 }
 
-const mapStateToProps = ({ user, location }) => {
-  return {
-    locations: location.userLocations,
-    user_id: user.user_id,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PartnerLocations);
+export default ModifyModal;

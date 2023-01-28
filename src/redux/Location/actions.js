@@ -4,6 +4,7 @@ import {
   LOCATION_QUICK_ARRIVAL_SUCCESS,
   LOCATION_QUICK_DEPARTURE_REQUEST,
   LOCATION_QUICK_DEPARTURE_SUCCESS,
+  USER_LOCATION_ADD_SUCCESS,
   USER_LOCATION_REQUEST,
   USER_LOCATION_SUCCESS,
 } from "./types";
@@ -54,7 +55,9 @@ export function quickDeparture(form, cb) {
 export function getLocations({ pagination = false, partner, isActive }, cb) {
   return (dispatch) =>
     api(
-      `locations?pagination=${pagination}&partner=${partner}&isActive=${isActive}`,
+      `locations?pagination=${pagination}&partner=${partner}${
+        isActive != null ? "&isActive=" + isActive : ""
+      }`,
       "get"
     )
       .then((res) => {
@@ -64,6 +67,26 @@ export function getLocations({ pagination = false, partner, isActive }, cb) {
 
         dispatch({
           type: USER_LOCATION_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function createLocation(form, cb) {
+  return (dispatch) =>
+    api(`locations`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: USER_LOCATION_REQUEST,
+        });
+
+        dispatch({
+          type: USER_LOCATION_ADD_SUCCESS,
           payload: res,
         });
 
