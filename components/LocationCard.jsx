@@ -25,6 +25,8 @@ import { connect } from "react-redux";
 import baseUrl from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
+import config from "@/utils/config";
+import Image from "next/image";
 
 const { Text } = Typography;
 
@@ -42,6 +44,8 @@ const IconText = ({ icon, text }) => (
     {text}
   </Space>
 );
+
+const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
 const LocationCard = ({ location, showActions = false }) => {
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
@@ -146,7 +150,18 @@ const LocationCard = ({ location, showActions = false }) => {
               <Avatar
                 style={{ border: "3px solid black", cursor: "pointer" }}
                 size={100}
-                icon={location.avatar ? location.avatar : <EnvironmentFilled />}
+                icon={
+                  location.images.length !== 0 &&
+                  location.images[0]?.filepath ? (
+                    <Image
+                      src={avatarurl + location.images[0]?.filepath}
+                      height={200}
+                      width={200}
+                    />
+                  ) : (
+                    <EnvironmentFilled />
+                  )
+                }
               />
             </Link>
           </Col>

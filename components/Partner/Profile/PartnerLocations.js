@@ -1,10 +1,29 @@
 import LocationCard from "@/components/LocationCard";
+import useNotify from "@/hooks/useNotify";
+import { getLocations } from "@/src/redux/Location/actions";
 import { Col, Layout, Row } from "antd";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { connect } from "react-redux";
 
 const { Content } = Layout;
 
-const PartnerLocations = ({ locations }) => {
+const PartnerLocations = ({ locations, ongetLocations }) => {
+  const router = useRouter();
+  const { profile } = router.query;
+
+  const { notify } = useNotify();
+  useEffect(() => {
+    ongetLocations({ partner: profile }, (_, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      }
+    });
+  }, []);
+
   return (
     <Layout
       className="site-layout"
@@ -32,10 +51,16 @@ const PartnerLocations = ({ locations }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ location }) => {
   return {
-    locations: [],
+    locations: location.userLocations,
   };
 };
 
-export default connect(mapStateToProps)(PartnerLocations);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PartnerLocations);
