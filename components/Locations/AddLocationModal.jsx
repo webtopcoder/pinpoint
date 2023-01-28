@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Upload,
@@ -21,6 +21,18 @@ const { TextArea } = Input;
 
 const { Title, Paragraph } = Typography;
 
+const mapAutoCompleteOptions = {
+  componentRestrictions: { country: "us" },
+  fields: [
+    "address_components",
+    "adr_address",
+    "formatted_address",
+    "geometry",
+    "name",
+  ],
+  types: ["establishment"],
+};
+
 function AddLocationModal({
   open,
   user_id,
@@ -32,6 +44,41 @@ function AddLocationModal({
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
+
+  const autoCompleteRef = useRef();
+  const inputRef = useRef();
+
+  const [addressForm, setaddressForm] = useState({
+    address: "",
+    city: "",
+    state: "",
+  });
+
+  useEffect(() => {
+    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      mapAutoCompleteOptions
+    );
+
+    autoCompleteRef.current?.addListener("place_changed", async function () {
+      const place = await autoCompleteRef.current.getPlace();
+
+      place.address_components.map((address_component, _) => {
+        if (address_component.types[0] == "locality")
+          itemLocality = address_component.long_name;
+        if (address_component.types[0] == "administrative_area_level_1")
+          itemState = address_component.long_name;
+      });
+
+      setaddressForm({
+        ...addressForm,
+        address: place.formatted_address,
+        state: itemState,
+        city: itemLocality,
+      });
+    });
+  }, []);
+
   return (
     <Modal
       className="dashboard-modal"
@@ -97,6 +144,9 @@ function AddLocationModal({
 
           formData.append("title", values.title);
           formData.append("description", values.description);
+          formData.append("address", addressForm.address);
+          formData.append("city", addressForm.city);
+          formData.append("state", addressForm.state);
 
           onAddLocation(formData, (_, err) => {
             if (err) {
@@ -126,6 +176,22 @@ function AddLocationModal({
               <Input placeholder="This will be your individual locations name" />
             </Form.Item>
           </Col>
+
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Form.Item label="Address(Location)" name="address" required>
+              <Input
+                ref={inputRef}
+                placeholder="This will be your individual locations address"
+              />
+            </Form.Item>
+            <Form.Item label="State" name="state">
+              <Input value={addressForm.state} disabled />
+            </Form.Item>
+            <Form.Item label="City" name="city">
+              <Input value={addressForm.city} disabled />
+            </Form.Item>
+          </Col>
+
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item label="Location Description" name="description">
               <TextArea
