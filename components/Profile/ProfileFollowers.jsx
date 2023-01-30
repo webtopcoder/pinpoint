@@ -66,13 +66,14 @@ const ProfileFollowers = ({
       setLoading(true);
       if (res.success) {
         notify("success", "Unfriend successfully");
-        ongetFollowers(profile, count, search, (res) => {
-          if (res.success) {
-            setInitLoading(false);
-            setData(res.data.results);
-          } else notify("error", "Something went wrong");
+        ongetFollowers(profile, count, search, (res, error) => {
+          if (error) {
+            notify("error", "Something went wrong");
+          }
+          setInitLoading(false);
+          setData(res.data.results);
         });
-      } else notify("error", "Something went wrong");
+      }
     });
   };
 
@@ -172,7 +173,7 @@ const ProfileFollowers = ({
                             onClick={() =>
                               window.open(
                                 baseUrl +
-                                  `/mail/inbox?email=@${item.follower.username}`,
+                                  `/partner/message?username=@${item.follower.username}`,
                                 "_blank"
                               )
                             }

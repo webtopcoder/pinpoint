@@ -144,9 +144,9 @@ function AddLocationModal({
 
           formData.append("title", values.title);
           formData.append("description", values.description);
-          formData.append("address", addressForm.address);
-          formData.append("city", addressForm.city);
-          formData.append("state", addressForm.state);
+          formData.append("address", values.address);
+          formData.append("city", values.city);
+          formData.append("state", values.state);
 
           onAddLocation(formData, (_, err) => {
             if (err) {

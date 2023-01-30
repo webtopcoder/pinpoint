@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 
 import FormGroup from "../FormGroup";
@@ -133,7 +133,7 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
       state: addressForm.state,
     });
 
-    console.log(form)
+    console.log(form);
     const { isValid } = validateForm({
       form,
       addressForm,
