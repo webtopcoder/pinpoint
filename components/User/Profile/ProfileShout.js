@@ -92,7 +92,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
     setList(
       data.concat(
         [...new Array(10)].map(() => ({
-          loading: false,
+          loading: true,
           from: {},
         }))
       )
@@ -168,7 +168,10 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                               <List.Item.Meta
                                 avatar={
                                   <Avatar
-                                    src={avatarurl + item?.from?.avatar}
+                                    src={
+                                      avatarurl +
+                                      item?.from?.profile?.avatar?.filepath
+                                    }
                                     size={64}
                                   />
                                 }
