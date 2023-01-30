@@ -88,22 +88,6 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.isReady) {
-      const { profile } = router.query;
-      ongetShoutout(profile, 1, "", (res) => {
-        if (res.success) {
-          setInitLoading(false);
-          setData(res.shootouts);
-          setList(res.shootouts);
-          setLikesState(res.shootouts);
-
-          window.dispatchEvent(new Event("resize"));
-        } else notify("error", res.msg);
-      });
-    }
-  }, [router.isReady]);
-
-  useEffect(() => {
     setLoading(true);
     setList(
       data.concat(
@@ -114,19 +98,19 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
       )
     );
 
-    if (router.isReady) {
-      const { profile } = router.query;
-      ongetShoutout(profile, count, "", (res) => {
-        if (res.success) {
-          const newData = data.concat(res.shootouts);
-          setData(newData);
-          setList(newData);
-          setLoading(false);
-          window.dispatchEvent(new Event("resize"));
-          setLikesState(res.shootouts);
-        } else notify("error", res.msg);
-      });
-    }
+    const { profile } = router.query;
+    ongetShoutout(profile, count, "", (res, error) => {
+      if (error) {
+        console.log("error");
+      } else {
+        const newData = data.concat(res);
+        setData(newData);
+        setList(newData);
+        setLoading(false);
+        window.dispatchEvent(new Event("resize"));
+        setLikesState(newData);
+      }
+    });
   }, [count]);
 
   const onLoadMore = () => {
@@ -184,16 +168,19 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                               <List.Item.Meta
                                 avatar={
                                   <Avatar
-                                    src={avatarurl + item?.from_user?.avatar}
+                                    src={
+                                      avatarurl +
+                                      item?.from?.profile?.avatar?.filepath
+                                    }
                                     size={64}
                                   />
                                 }
                                 title={
                                   <>
                                     <span className="custom-userName">
-                                      {item?.from_user?.realname.first +
+                                      {item?.from?.firstName +
                                         " " +
-                                        item?.from_user?.realname.last}{" "}
+                                        item?.from?.lastName}{" "}
                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                     </span>
                                     <span className="custom-shoutout-text">
@@ -204,13 +191,13 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                           window.open(
                                             baseUrl +
                                               "/profile/" +
-                                              item.to_user._id +
+                                              item.to._id +
                                               "/activity",
                                             "_blank"
                                           )
                                         }
                                       >
-                                        @{item?.to_user?.username}
+                                        @{item?.to?.username}
                                       </a>
                                     </span>
                                     <br />
@@ -219,27 +206,16 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                         window.open(
                                           baseUrl +
                                             "/profile/" +
-                                            item.from_user._id +
+                                            item.from._id +
                                             "/activity",
                                           "_blank"
                                         )
                                       }
                                     >
-                                      @{item?.from_user?.username}
+                                      @{item?.from?.username}
                                     </a>
                                   </>
                                 }
-                                description={new Date(
-                                  item?.createdAt
-                                ).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                  hour: "numeric",
-                                  hour12: true,
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                })}
                               />
                               <div className="custom-list-content">
                                 {item.content}
