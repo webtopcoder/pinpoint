@@ -109,6 +109,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
           setList(newData);
           setLikesState(newData);
           setLoading(false);
+          setInitLoading(false);
           window.dispatchEvent(new Event("resize"));
         }
       });
@@ -147,6 +148,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                       <List
                         itemLayout="vertical"
                         size="large"
+                        loading={initLoading}
                         loadMore={loadMore}
                         dataSource={list}
                         renderItem={(item, index) => (
