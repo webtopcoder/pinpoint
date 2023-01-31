@@ -14,6 +14,8 @@ import {
   USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
+  SETTINGS_VALUE_GET_REQUEST,
+  PARNTER_SETTINGS_CHANGE,
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -167,5 +169,36 @@ export function getNotifications(params, cb) {
       })
       .catch((error) => {
         cb(null, error);
+      });
+}
+
+export function getSettingsValue(cb) {
+  return (dispatch) =>
+    api(`setting`, "get")
+      .then((res) => {
+        dispatch({
+          type: SETTINGS_VALUE_GET_REQUEST,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((err) => {
+        cb(null, err);
+      });
+}
+
+export function postSettingsValue(data, cb) {
+  return (dispatch) =>
+    api(`setting`, "post", data)
+      .then((res) => {
+        dispatch({
+          type: PARNTER_SETTINGS_CHANGE,
+          payload: data,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
       });
 }

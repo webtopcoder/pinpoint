@@ -23,6 +23,7 @@ import {
   USERINFO_GET_REQUEST,
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
+  PARNTER_SETTINGS_CHANGE,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
