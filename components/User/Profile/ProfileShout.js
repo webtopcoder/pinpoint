@@ -91,27 +91,30 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
     setLoading(true);
     setList(
       data.concat(
-        [...new Array(10)].map(() => ({
+        [...new Array(5)].map(() => ({
           loading: true,
           from: {},
         }))
       )
     );
 
-    const { profile } = router.query;
-    ongetShoutout(profile, count, "", (res, error) => {
-      if (error) {
-        console.log("error");
-      } else {
-        const newData = data.concat(res);
-        setData(newData);
-        setList(newData);
-        setLoading(false);
-        window.dispatchEvent(new Event("resize"));
-        setLikesState(newData);
-      }
-    });
-  }, [count]);
+    if (router.isReady) {
+      const { profile } = router.query;
+      ongetShoutout(profile, count, "", (res, error) => {
+        if (error) {
+          console.log("error");
+        } else {
+          const newData = data.concat(res.results);
+          setData(newData);
+          setList(newData);
+          setLikesState(newData);
+          setLoading(false);
+          setInitLoading(false);
+          window.dispatchEvent(new Event("resize"));
+        }
+      });
+    }
+  }, [count, router.query]);
 
   const onLoadMore = () => {
     setCount(count + 1);
