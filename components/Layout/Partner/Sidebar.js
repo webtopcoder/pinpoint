@@ -193,12 +193,13 @@ function LeftSidebar({
               <div className="partner-avatar-center">
                 <div className="rightsidebar-avatar">
                   {avatar ? (
-                    <img
+                    <Avatar
                       src={avatarurl + avatar}
                       alt="avatar"
                       style={{
                         width: "100%",
                       }}
+                      size={150}
                       height={100}
                       width={100}
                     />

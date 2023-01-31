@@ -1,4 +1,3 @@
-import food from "@/public/images/landing/food.png";
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
 import {
@@ -6,48 +5,29 @@ import {
   quickDeparture as quickDepartureAction,
   quickArrival as quickArrivalAction,
 } from "@/src/redux/Location/actions";
-import { UploadOutlined } from "@ant-design/icons";
 import {
-  Button,
   Card,
   Col,
-  DatePicker,
   Form,
   Input,
   Layout,
   message,
-  Modal,
   Row,
   Select,
-  Tag,
-  TimePicker,
   Typography,
-  Upload,
 } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import ArrivalModal from "../Locations/ArrivalModal";
+import DepartureModal from "../Locations/DepartureModal";
 import toast from "../Toast";
-
-const { Option } = Select;
-
-const { TextArea } = Input;
-
-const { Title } = Typography;
 
 const { Content } = Layout;
 
-const PartnerDashboard = ({
-  userId,
-  locations,
-  onquickArrival,
-  onquickDeparture,
-  ongetLocations,
-}) => {
+const PartnerDashboard = ({ userId, ongetLocations }) => {
   const router = useRouter();
-  const [arrivalForm] = Form.useForm();
-  const [departureForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
 
   const [modal2Open, setModal2Open] = useState(false);
@@ -55,6 +35,29 @@ const PartnerDashboard = ({
   const notify = useCallback((type, message) => {
     toast({ type, message });
   }, []);
+
+  const uploadProps = {
+    name: "upload",
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        const fileUploadInfo = info.fileList;
+        setUploadFile(fileUploadInfo);
+      }
+
+      if (info.file.status == "removed") {
+        if (info.fileList.length == 0) setUploadFile([]);
+        else {
+          const fileUploadInfo = info.fileList;
+          setUploadFile(fileUploadInfo);
+        }
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
 
   useEffect(() => {
     if (router.isReady) {
@@ -77,41 +80,6 @@ const PartnerDashboard = ({
       }
     }
   }, [modal1Open, modal2Open, router.isReady]);
-
-  const onChange = (value, dateString) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
-  };
-  const onOk = (value) => {
-    console.log("onOk: ", value);
-  };
-
-  const handleChange = (value) => {
-    console.log(`Selected: ${value}`);
-  };
-
-  const props = {
-    name: "upload",
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        const fileUploadInfo = info.fileList;
-        setUploadFile(fileUploadInfo);
-      }
-
-      if (info.file.status == "removed") {
-        if (info.fileList.length == 0) setUploadFile("");
-        else {
-          const fileUploadInfo = info.fileList;
-          setUploadFile(fileUploadInfo);
-        }
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
 
   return (
     <Layout
@@ -237,285 +205,16 @@ const PartnerDashboard = ({
         </div>
       </Content>
       {/* Arrival Modal */}
-      <Modal
-        className="dashboard-modal"
-        centered
-        open={modal2Open}
-        width={700}
-        closable={false}
-        onOk={() => {
-          arrivalForm.submit();
-          setModal2Open(false);
-        }}
-        onCancel={() => setModal2Open(false)}
-        footer={null}
-      >
-        {" "}
-        <Row>
-          <Col xs={0} sm={0} md={8} lg={8} xl={8}></Col>
-          <Col
-            xs={20}
-            sm={20}
-            md={8}
-            lg={8}
-            xl={8}
-            style={{
-              margin: "auto",
-            }}
-          >
-            <Title
-              style={{
-                textAlign: "center",
-                fontWeight: 900,
-              }}
-              level={2}
-            >
-              Arrival
-            </Title>
-          </Col>
-          <Col
-            xs={4}
-            sm={4}
-            md={8}
-            lg={8}
-            xl={8}
-            style={{
-              textAlign: "right",
-            }}
-          >
-            <Image src={food} alt="Snow" width={50} height={70} />
-          </Col>
-        </Row>
-        <Form
-          form={arrivalForm}
-          onFinish={(values) => {
-            onquickArrival(
-              {
-                locationId: values.arrivalLocation,
-                departureAt: values.departureAt,
-                arrivalText: values.arrivalText,
-              },
-              (res, error) => {
-                setModal2Open(false);
-                if (error) {
-                  notify("error", "Something went wrong");
-                  return;
-                }
-                arrivalForm.resetFields();
-                notify("success", "Successfully arrived");
-              }
-            );
-          }}
-          layout="vertical"
-        >
-          {" "}
-          <Row>
-            <Col xs={24} sm={24} md={6} lg={8} xl={8}>
-              <Form.Item
-                label="Departure"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select time for departure",
-                  },
-                ]}
-                required
-                name="departureAt"
-              >
-                <TimePicker
-                  format="h:mm A"
-                  use12Hours
-                  onChange={onChange}
-                  onOk={onOk}
-                />
-              </Form.Item>{" "}
-            </Col>
-            <Col xs={24} sm={24} md={18} lg={16} xl={16}>
-              <Form.Item
-                label="Partner Location"
-                required
-                name="arrivalLocation"
-                tooltip="This is a required field"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select a location",
-                  },
-                ]}
-              >
-                <Select
-                  size="middle"
-                  onChange={handleChange}
-                  style={{
-                    width: "100%",
-                  }}
-                  options={locations.map((location) => ({
-                    value: location._id,
-                    label: location.title,
-                  }))}
-                ></Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Form.Item name="arrivalText" label="Let us know what you think!">
-                <TextArea rows={4} />
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Form.Item name="fileupload">
-                <Row>
-                  <Col span={8}>
-                    <Upload listType="picture" {...props}>
-                      <Button
-                        icon={<UploadOutlined />}
-                        style={{
-                          marginRight: 10,
-                        }}
-                      >
-                        {" "}
-                        Upload a Photo
-                      </Button>
-                    </Upload>
-                  </Col>
-                  <Col span={8} offset={8}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className="btn-submit"
-                      style={{
-                        display: "initial",
-                        float: "right",
-                      }}
-                    >
-                      Let`&apos;`s Go
-                    </Button>
-                  </Col>
-                </Row>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
+      <ArrivalModal
+        openArrival={modal2Open}
+        setArrivalModalOpen={setModal2Open}
+      />
       {/* Departure Modal */}
-      <Modal
-        className="dashboard-modal"
-        centered
-        open={modal1Open}
-        width={700}
-        closable={false}
-        onOk={() => {
-          departureForm.submit();
-          setModal1Open(false);
-        }}
-        onCancel={() => setModal1Open(false)}
-        footer={null}
-      >
-        <Row>
-          <Col xs={2} sm={4} md={8} lg={8} xl={8}></Col>
-          <Col
-            xs={2}
-            sm={4}
-            md={8}
-            lg={8}
-            xl={8}
-            style={{
-              margin: "auto",
-            }}
-          >
-            <Title
-              style={{
-                textAlign: "center",
-                fontWeight: 900,
-              }}
-              level={2}
-            >
-              Departure
-            </Title>
-          </Col>
-          <Col
-            xs={2}
-            sm={4}
-            md={8}
-            lg={8}
-            xl={8}
-            style={{
-              textAlign: "right",
-            }}
-          >
-            <Image src={food} alt="Snow" width={50} height={70} />
-          </Col>
-        </Row>
-
-        <Form
-          form={departureForm}
-          onFinish={(values) => {
-            onquickDeparture(
-              {
-                locationId: values.departureLocation,
-              },
-              (res, error) => {
-                setModal1Open(false);
-                if (error) {
-                  notify("error", "Error");
-                  return;
-                }
-
-                departureForm.resetFields();
-                notify("success", "Successfully departed");
-              }
-            );
-          }}
-          layout="vertical"
-        >
-          <Row>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Form.Item
-                label="Partner Location"
-                name="departureLocation"
-                required
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select a location",
-                  },
-                ]}
-                tooltip="This is a required field"
-              >
-                <Select
-                  size="middle"
-                  onChange={handleChange}
-                  style={{
-                    width: "100%",
-                  }}
-                  options={locations.map((location) => ({
-                    value: location._id,
-                    label: location.title,
-                  }))}
-                ></Select>
-              </Form.Item>
-            </Col>
-
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Row>
-                <Col xs={2} sm={4} md={6} lg={8} xl={10}></Col>
-                <Col xs={2} sm={4} md={8} lg={8} xl={14}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="btn-submit"
-                    style={{
-                      display: "initial",
-                      float: "right",
-                    }}
-                  >
-                    Depart
-                  </Button>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
+      <DepartureModal
+        modalOpen={modal1Open}
+        setModalOpen={setModal1Open}
+        uploadProps={uploadProps}
+      />
     </Layout>
   );
 };

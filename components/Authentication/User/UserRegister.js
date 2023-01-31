@@ -86,17 +86,17 @@ const UserRegister = ({ onRegisterUser }) => {
       "registration_email",
       formRequest.email
     );
-    onRegisterUser(formRequest, (res) => {
-      if (res.success) {
+    onRegisterUser(formRequest, (res, error) => {
+      if (error) {
+        console.log("error");
+      } else {
         router.push("/authentication/thank-you");
-
         console.log(savedEmail);
         localStorage.setItem("thankyou_id", "User");
-      } else {
-        console.log("error");
       }
     });
   };
+  F;
 
   return (
     <div className="col-lg-6 col-md-12">

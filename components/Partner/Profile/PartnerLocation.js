@@ -21,10 +21,14 @@ import {
   List,
   Skeleton,
   Rate,
+  message,
+  Upload,
 } from "antd";
 import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
 import baseUrl from "@/utils/baseUrl";
+import { postReview } from "@/src/redux/Location/actions";
+import useNotify from "@/hooks/useNotify";
 const { Content } = Layout;
 const { Text } = Typography;
 
@@ -34,19 +38,13 @@ const IconText = ({ text }) => (
     <Text> {text}</Text>
   </Space>
 );
-const imgurl = `http://${config.server}:${config.port}/post/`;
+
+const imgurl = `http://${config.server}:${config.port}/avatar/`;
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
-const myLoader = ({ src }) => {
-  return src;
-};
-const PartnerLocation = (location) => {
-  const ActivePost = location.posts.find((post, index) => {
-    if (post.from_user.id === location._id) {
-      return post;
-    }
-  });
-  console.log(ActivePost);
-  console.log(location);
+
+const PartnerLocation = ({ location, onPostReview }) => {
+  if (!location) return <Skeleton active />;
+
   return (
     <Layout
       className="site-layout"
@@ -56,11 +54,11 @@ const PartnerLocation = (location) => {
     >
       <Content>
         <div className="container">
-          <LocationCard {...location} />
+          <LocationBanner location={location} />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
-              <PostForm />
-              {location.isActive ? <Posts {...ActivePost} {...location} /> : ""}
+              <PostForm location={location} onPostReview={onPostReview} />
+              {/*location.isActive ? <Posts {...ActivePost} {...location} /> : "" */}
               <div className="avatar-area green-color">
                 <div className="avatar-respond">
                   <div className="avatar-form">
@@ -69,9 +67,9 @@ const PartnerLocation = (location) => {
                         <List
                           itemLayout="vertical"
                           size="large"
-                          dataSource={location.posts}
+                          dataSource={location.reviews}
                           renderItem={(item, index) => (
-                            <Posts {...item[0]} index={index} {...location} />
+                            <Post key={index} review={item} />
                           )}
                         />
                       </div>
@@ -87,8 +85,34 @@ const PartnerLocation = (location) => {
   );
 };
 
-function PostForm() {
+function PostForm({ location, onPostReview }) {
   const [rating, setRating] = useState(0);
+  const [postForm] = Form.useForm();
+  const [uploadFile, setUploadFile] = useState([]);
+  const uploadProps = {
+    name: "upload",
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        const fileUploadInfo = info.fileList;
+        setUploadFile(fileUploadInfo);
+      }
+
+      if (info.file.status == "removed") {
+        if (info.fileList.length == 0) setUploadFile([]);
+        else {
+          const fileUploadInfo = info.fileList;
+          setUploadFile(fileUploadInfo);
+        }
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
+  const { notify } = useNotify();
   return (
     <div className="avatar-area green-color">
       <div className="avatar-respond">
@@ -105,9 +129,33 @@ function PostForm() {
         <div className="avatar-form">
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
-              <Form layout="vertical" autoComplete="off">
+              <Form
+                form={postForm}
+                onFinish={(values) => {
+                  const formData = new FormData();
+                  formData.append("rating", rating);
+                  formData.append("text", values.text);
+                  uploadFile.forEach((file) => {
+                    formData.append("images", file.originFileObj);
+                  });
+                  onPostReview(location._id, formData, (res, error) => {
+                    if (error) {
+                      notify(
+                        "error",
+                        error?.response?.data?.message || "Something went wrong"
+                      );
+                    } else {
+                      postForm.resetFields();
+                      setUploadFile([]);
+                      notify("success", "Review posted successfully");
+                    }
+                  });
+                }}
+                layout="vertical"
+                autoComplete="off"
+              >
                 <Form.Item
-                  name="message"
+                  name="text"
                   rules={[
                     {
                       required: true,
@@ -128,17 +176,21 @@ function PostForm() {
                     prefix={["@"]}
                   />
                 </Form.Item>
-                <Form.Item name="fileupload">
-                  <Row>
-                    <Col span={8}>
-                      <Button
-                        icon={<UploadOutlined />}
-                        style={{ marginRight: 10 }}
-                      >
-                        Click to Upload
-                      </Button>
-                    </Col>
-                    <Col span={5} offset={2}>
+                <Row>
+                  <Col span={8}>
+                    <Form.Item name="images">
+                      <Upload listType="picture" {...uploadProps}>
+                        <Button
+                          icon={<UploadOutlined />}
+                          style={{ marginRight: 10 }}
+                        >
+                          Click to Upload
+                        </Button>
+                      </Upload>
+                    </Form.Item>
+                  </Col>
+                  <Col span={5} offset={2}>
+                    <Form.Item name="rating">
                       <Rate
                         allowHalf
                         defaultValue={2}
@@ -152,24 +204,24 @@ function PostForm() {
                         onChange={setRating}
                         value={rating}
                       />
-                    </Col>
-                    <Col span={8} offset={1}>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        className="btn-submit"
-                        style={{
-                          display: "initial",
-                          float: "right",
-                          height: 50,
-                          padding: "10px 40px",
-                        }}
-                      >
-                        POST
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form.Item>
+                    </Form.Item>
+                  </Col>
+                  <Col span={8} offset={1}>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className="btn-submit"
+                      style={{
+                        display: "initial",
+                        float: "right",
+                        height: 50,
+                        padding: "10px 40px",
+                      }}
+                    >
+                      POST
+                    </Button>
+                  </Col>
+                </Row>
               </Form>
             </div>
           </div>
@@ -178,112 +230,76 @@ function PostForm() {
     </div>
   );
 }
-function Posts(item, { index }, location) {
-  console.log(location);
-  console.log(item.from_user.id);
+
+function Post({ review }) {
   return (
     <List.Item
-      key={index}
       actions={[
         <IconText
-          text={item?.like ? item.like.length : 0}
+          text={review?.like ? review.like.count : 0}
           key="list-vertical-like-o"
         />,
       ]}
     >
-      <Skeleton avatar title={false} loading={item?.loading} active>
-        {item.from_user.id !== location._id ? (
-          <List.Item.Meta
-            avatar={
-              <Avatar src={avatarurl + item?.from_user?.avatar} size={64} />
-            }
-            title={
-              <>
-                <span className="custom-userName">
-                  {item?.from_user?.realname?.first +
-                    " " +
-                    item?.from_user?.realname?.last}{" "}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                </span>
-                <span className="custom-shoutout-text">
-                  <a
-                    className="custom-touser-text"
-                    onClick={() =>
-                      window.open(
-                        baseUrl + "/profile/" + item.to_user._id + "/activity",
-                        "_blank"
-                      )
-                    }
-                  >
-                    @{item?.to_user?.username}
-                  </a>
-                </span>
-                <br />
+      <Skeleton avatar title={false} loading={review?.loading} active>
+        <List.Item.Meta
+          avatar={
+            <Avatar
+              src={avatarurl + review?.user?.profile?.avatar?.filepath}
+              size={64}
+            />
+          }
+          title={
+            <>
+              <span className="custom-userName">
+                {review?.user?.firstName + " " + review?.user?.lastName}{" "}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+              </span>
+              <span className="custom-shoutout-text">
                 <a
+                  className="custom-touser-text"
                   onClick={() =>
                     window.open(
-                      baseUrl + "/profile/" + item.from_user._id + "/activity",
+                      baseUrl +
+                        "/profile/" +
+                        location.partner._id +
+                        "/activity",
                       "_blank"
                     )
                   }
                 >
-                  @{item?.from_user?.username}
+                  @{location?.partner?.username}
                 </a>
-              </>
+              </span>
+              <br />
+              <a
+                onClick={() =>
+                  window.open(
+                    baseUrl + "/profile/" + review.user._id + "/activity",
+                    "_blank"
+                  )
+                }
+              >
+                @{review?.user?.username}
+              </a>
+            </>
+          }
+          description={new Date(review?.createdAt).toLocaleDateString(
+            undefined,
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              hour12: true,
+              minute: "2-digit",
+              second: "2-digit",
             }
-            description={new Date(item?.createdAt).toLocaleDateString(
-              undefined,
-              {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              }
-            )}
-          />
-        ) : (
-          <List.Item.Meta
-            avatar={<Avatar src={avatarurl + location?.avatar} size={64} />}
-            title={
-              <>
-                <span className="custom-userName">
-                  {item?.from_user?.username}{" "}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                </span>
+          )}
+        />
 
-                <br />
-                <a
-                  onClick={() =>
-                    window.open(
-                      baseUrl + "/profile/" + item.from_user._id + "/activity",
-                      "_blank"
-                    )
-                  }
-                >
-                  @{item?.from_user?.username}
-                </a>
-              </>
-            }
-            description={new Date(item?.createdAt).toLocaleDateString(
-              undefined,
-              {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              }
-            )}
-          />
-        )}
-
-        <div className="custom-list-content">{item.content}</div>
-        {item.image ? (
+        <div className="custom-list-content">{review.text}</div>
+        {review.images ? (
           <div
             className="custom-list-content"
             style={{
@@ -291,11 +307,10 @@ function Posts(item, { index }, location) {
             }}
           >
             <Antimage.PreviewGroup>
-              {item.image.map((item1, index) => (
+              {review.images.map((item1, index) => (
                 <Antimage
-                  loader={myLoader}
                   width={"25%"}
-                  src={imgurl + "/" + item1}
+                  src={imgurl + "/" + item1?.filepath}
                   key={index}
                 />
               ))}
@@ -308,7 +323,9 @@ function Posts(item, { index }, location) {
     </List.Item>
   );
 }
-function LocationCard({ location }) {
+
+function LocationBanner({ location }) {
+  if (!location) return <Skeleton active />;
   return (
     <Card
       className="banner"
@@ -352,7 +369,7 @@ function LocationCard({ location }) {
               }}
               strong
             >
-              {location.name}
+              {location.title}
             </Text>
           </Space>
 
@@ -371,7 +388,9 @@ function LocationCard({ location }) {
                 borderRadius: "50%",
               }}
             />
-            <Text style={{ color: "#fff" }}>{location.location}</Text>
+            <Text style={{ color: "#fff" }}>
+              {location.mapLocation?.address}
+            </Text>
           </Space>
         </Row>
 
@@ -387,7 +406,7 @@ function LocationCard({ location }) {
             paddingTop: "20px",
           }}
         >
-          Mexican, Pinpoint Favorite, Cheap Eats, Late Night
+          {location.arrivalText}
         </Text>
 
         <Avatar
@@ -398,9 +417,11 @@ function LocationCard({ location }) {
             right: "45%",
           }}
           size={100}
-          icon={
-            location.profilePhoto ? (
-              location.profilePhoto
+          src={
+            location.images &&
+            location.images?.length != 0 &&
+            location.images[0]?.filepath ? (
+              avatarurl + location.images[0]?.filepath
             ) : (
               <EnvironmentFilled />
             )
@@ -410,4 +431,12 @@ function LocationCard({ location }) {
     </Card>
   );
 }
-export default connect(undefined, undefined)(PartnerLocation);
+
+const mapDispatchToProp = (dispatch) => {
+  return {
+    onPostReview: (locationId, form, cb) =>
+      dispatch(postReview(locationId, form, cb)),
+  };
+};
+
+export default connect(null, mapDispatchToProp)(PartnerLocation);

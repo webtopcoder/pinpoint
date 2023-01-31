@@ -25,6 +25,9 @@ const Compose = ({
   onmailCompose,
   emailID,
   myfollowerList,
+  url: {
+    query: { username },
+  },
 }) => {
   const [composeForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
@@ -151,6 +154,7 @@ const Compose = ({
                   style={{
                     width: "50%",
                   }}
+                  defaultValue={username ? [username] : []}
                   options={options}
                 />
               )}
