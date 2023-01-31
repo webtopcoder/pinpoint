@@ -77,7 +77,7 @@ export function getActivity(id, count, search, cb) {
 
 export function getShoutout(id, count, search, cb) {
   return (dispatch) =>
-    api(`profile/shoutout/${id}?page=${count}&q=${search}`, "get")
+    api(`profile/shoutout/${id}?page=${count}`, "get")
       .then((res) => {
         dispatch({
           type: GET_SHOOT_OUT_SUCCESS,
