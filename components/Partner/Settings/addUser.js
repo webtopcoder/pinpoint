@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./settings.module.css";
 import { Col, Row, Layout, Button } from "antd";
 import { useRouter } from "next/router";
@@ -8,28 +8,32 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import AddUserModal from "./addModal";
+import { getSettingsValue, postSettingsValue } from "@/src/redux/User/actions";
+import { connect } from "react-redux";
 
 const { Content } = Layout;
 
-const data = [
-  {
-    email: "netprince1210@gmail.com",
-    role: "Owner",
-    _id: 1,
-  },
-  {
-    email: "netprince1210@gmail.com",
-    role: "Admin",
-    _id: 2,
-  },
-];
-const SettingAddUser = () => {
+const SettingAddUser = ({ user_settings, onGetSettingsValue }) => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const handleCancel = () => setShowModal(false);
   const handleOk = () => {
     setShowModal(false);
   };
+  useEffect(() => {
+    if (router.isReady) {
+      onGetSettingsValue((res, error) => {
+        if (error) {
+          console.log("error");
+        }
+      });
+    }
+  }, [onGetSettingsValue]);
+  const additionalUserSettings = user_settings.find(
+    (setting) => (setting.key = "user:additionalUser")
+  );
+  const data = additionalUserSettings?.value;
+
   return (
     <Layout
       className="site-layout"
@@ -94,4 +98,12 @@ const SettingAddUser = () => {
   );
 };
 
-export default SettingAddUser;
+const matchStateToProps = ({ user }) => {
+  return {
+    user_settings: user.settings,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  onGetSettingsValue: (cb) => dispatch(getSettingsValue(cb)),
+});
+export default connect(matchStateToProps, mapDispatchToProps)(SettingAddUser);
