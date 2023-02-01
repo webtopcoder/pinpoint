@@ -15,6 +15,7 @@ import {
   USER_INFO_SUCCESS,
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
+  PARTNERSHIPS_GET_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -47,6 +48,7 @@ const initialState = {
   followersInfo: [],
   shoutoutInfo: {},
   allphotosInfo: [],
+  partnershipsInfo: [],
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -187,6 +189,12 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         shoutoutInfo: action.payload,
+      };
+    }
+    case PARTNERSHIPS_GET_SUCCESS: {
+      return {
+        ...state,
+        partnershipsInfo: action.payload.results,
       };
     }
 

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./settings.module.css";
 import { Layout, Col, Row, Switch } from "antd";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const { Content } = Layout;
 
@@ -80,9 +81,12 @@ const Setting = () => {
           >
             Modify Business Details
           </Row>
-          <Row className={styles.list_round + " mt-3"}>
-            Partnership Payment Details
-          </Row>
+
+          <Link href="/partner/partnership">
+            <Row className={styles.list_round + " mt-3"}>
+              Partnership Payment Details
+            </Row>
+          </Link>
         </div>
       </Content>
     </Layout>

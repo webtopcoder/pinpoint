@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   Layout,
@@ -11,6 +11,9 @@ import {
   Typography,
   Space,
 } from "antd";
+import { getPartnerships } from "@/redux/Profile/actions";
+import { useRouter } from "next/router";
+import useNotify from "@/hooks/useNotify";
 
 const { Text, Paragraph } = Typography;
 
@@ -19,9 +22,10 @@ const { Content } = Layout;
 const PartnerShipPayment = ({
   title,
   price,
-  isActive,
+  currency,
   features,
-  priceReoccurIn,
+  applyIn,
+  isActive,
   renewalDate,
 }) => {
   return (
@@ -39,7 +43,7 @@ const PartnerShipPayment = ({
               fontWeight: 700,
             }}
           >
-            $
+            {currency}
           </Text>
           <Text
             style={{
@@ -49,14 +53,14 @@ const PartnerShipPayment = ({
           >
             {price}
           </Text>
-          {priceReoccurIn && (
+          {applyIn && (
             <Text
               style={{
                 fontSize: 20,
                 fontWeight: 700,
               }}
             >
-              / {priceReoccurIn}
+              / {applyIn}
             </Text>
           )}
         </Space>
@@ -105,31 +109,30 @@ const PartnerShipPayment = ({
   );
 };
 
-const Partnership = () => {
+const Partnership = ({
+  partnershipPlans,
+  user_partnership,
+  ongetPartnershipplans,
+  partnershipPriceRenewalDate,
+}) => {
   // const partnerShipPlans = usePartnerShipPlans();
-  const partnershipPlans = [
-    {
-      title: "Free",
-      price: "0",
-      isActive: false,
-      features: ["Free"],
-    },
-    {
-      title: "Premium",
-      price: "25",
-      priceReoccurIn: "month",
-      isActive: true,
-      renewalDate: "12/12/2021",
-      features: ["Can add locations in interactive map"],
-    },
-    {
-      title: "Max Premium",
-      price: "250",
-      priceReoccurIn: "year",
-      isActive: false,
-      features: ["Can add locations in interactive map"],
-    },
-  ];
+  const notify = useNotify();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.isReady) {
+      ongetPartnershipplans((_, error) => {
+        if (error) {
+          console.log(error);
+          notify(
+            "error",
+            error?.response?.data?.message ?? "Something went wrong"
+          );
+        }
+      });
+    }
+  }, [router.isReady]);
 
   return (
     <Layout className="site-layout" style={{ background: "#211f1f" }}>
@@ -167,9 +170,13 @@ const Partnership = () => {
           >
             {partnershipPlans.map((plan, index) => (
               <Col xs={12} sm={8} md={6} lg={8} xl={8} key={index}>
-                {plan.isActive ? (
+                {user_partnership == plan._id ? (
                   <Badge.Ribbon text="Active" color="green">
-                    <PartnerShipPayment {...plan} />
+                    <PartnerShipPayment
+                      {...plan}
+                      isActive={true}
+                      renewalDate={partnershipPriceRenewalDate}
+                    />
                   </Badge.Ribbon>
                 ) : (
                   <PartnerShipPayment {...plan} />
@@ -182,5 +189,15 @@ const Partnership = () => {
     </Layout>
   );
 };
+const mapStateToProps = ({ profile }) => {
+  return {
+    partnershipPlans: profile.partnershipsInfo,
+    user_partnership: profile.userinfo.activePartnership,
+    partnershipPriceRenewalDate: profile.userinfo.partnershipPriceRenewalDate,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  ongetPartnershipplans: (cb) => dispatch(getPartnerships(cb)),
+});
 
-export default connect(undefined, undefined)(Partnership);
+export default connect(mapStateToProps, mapDispatchToProps)(Partnership);

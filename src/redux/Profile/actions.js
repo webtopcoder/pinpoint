@@ -23,6 +23,8 @@ import {
   USERINFO_GET_REQUEST,
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
+  PARTNERSHIPS_GET_REQUEST,
+  PARTNERSHIPS_GET_SUCCESS,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
@@ -52,6 +54,25 @@ export function getUserInfo(user_id, cb) {
       .catch((error) => {
         console.log(error);
       });
+}
+export function getPartnerships(cb) {
+  return (dispatch) => {
+    api(`/partnership`, "get")
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIPS_GET_REQUEST,
+        });
+        dispatch({
+          type: PARTNERSHIPS_GET_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+  };
 }
 
 export function getActivity(id, count, search, cb) {
