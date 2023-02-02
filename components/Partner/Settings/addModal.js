@@ -68,8 +68,9 @@ const AddUserModal = ({
     }
 
     const additionalUserSettings = user_settings.find(
-      (setting) => (setting.key = "user:additionalUser")
+      (setting) => setting.key == "user:additionalUser"
     );
+
     if (!additionalUserSettings) {
       const additionalUserSettingsArray = [];
       additionalUserSettingsArray.push(form);
@@ -78,6 +79,7 @@ const AddUserModal = ({
         key: `user:additionalUser`,
         value: additionalUserSettingsArray,
       };
+
       onSettingsToggle(data, (res, error) => {
         if (error) {
           console.log("error");
