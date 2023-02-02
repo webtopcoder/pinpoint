@@ -16,6 +16,7 @@ import {
   GET_NOTIFICATION_REQUEST,
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
+  SETTINGS_VALUE_GET_SUCCESS,
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -184,6 +185,9 @@ export function getSettingsValue(cb) {
       .then((res) => {
         dispatch({
           type: SETTINGS_VALUE_GET_REQUEST,
+        });
+        dispatch({
+          type: SETTINGS_VALUE_GET_SUCCESS,
           payload: res,
         });
         cb(res);

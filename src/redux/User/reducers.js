@@ -16,6 +16,7 @@ import {
   GET_NOTIFICATION_REQUEST,
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
+  SETTINGS_VALUE_GET_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -164,6 +165,12 @@ const userReducer = (state = initialState, action) => {
     }
 
     case SETTINGS_VALUE_GET_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case SETTINGS_VALUE_GET_SUCCESS: {
       return { ...state, settings: action.payload.results };
     }
 
