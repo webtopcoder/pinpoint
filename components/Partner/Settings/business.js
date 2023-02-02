@@ -136,8 +136,8 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
       },
     };
 
-    onBusinessUpdate(data, (error) => {
-      error ? notify("error", "Error") : notify("success", "Success.");
+    onBusinessUpdate(data, (_, error) => {
+      error ? notify("error", "Error") : notify("success", "Success");
     });
   };
 
