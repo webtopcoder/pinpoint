@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./settings.module.css";
-import { useRegisterFormValidator } from "../../Authentication/partner/hooks/partner-Register-validator";
+import useNotify from "@/hooks/useNotify";
+import { useRegisterFormValidator } from "../../Authentication/Partner/hooks/use-partner-register-validator";
 import { Col, Row, Layout, Button } from "antd";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
@@ -11,28 +12,29 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { connect } from "react-redux";
+import { updateBusinessDetail } from "@/src/redux/Profile/actions";
 
 const { Content } = Layout;
 
-const Business = () => {
+const Business = ({ userinfo, onBusinessUpdate }) => {
   const router = useRouter();
-
-  const onSubmitForm = () => {};
+  const { notify } = useNotify();
   const [form, setForm] = useState({
     usertype: "partner",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    address: "",
-    city: "",
-    state: "",
-    email: "",
+    firstName: userinfo.firstName,
+    lastName: userinfo.lastName,
+    userName: userinfo.username,
+    address: userinfo.address?.address,
+    city: userinfo.address?.city,
+    state: userinfo.address?.state,
+    email: userinfo.email,
   });
 
   const [addressForm, setaddressForm] = useState({
-    address: "",
-    city: "",
-    state: "",
+    address: userinfo.address?.address,
+    city: userinfo.address?.city,
+    state: userinfo.address?.state,
   });
 
   const inputRef = useRef();
@@ -62,7 +64,7 @@ const Business = () => {
       };
 
       setaddressForm(nextFormState);
-      if (errors[field].dirty)
+      if (errors[field]?.dirty)
         validateForm({
           addressForm: nextFormState,
           form: form,
@@ -76,7 +78,7 @@ const Business = () => {
       };
 
       setForm(nextFormState);
-      if (errors[field].dirty)
+      if (errors[field]?.dirty)
         validateForm({
           form: nextFormState,
           addressForm: addressForm,
@@ -94,9 +96,9 @@ const Business = () => {
 
     autoCompleteRef.current.addListener("place_changed", async function () {
       const place = await autoCompleteRef.current.getPlace();
-      itemAddress = place.formatted_address;
-
-      place.address_components.map((address_component, i) => {
+      let itemLocality = "";
+      let itemState = "";
+      place?.address_components.map((address_component, i) => {
         if (address_component.types[0] == "locality")
           itemLocality = address_component.long_name;
         if (address_component.types[0] == "administrative_area_level_1")
@@ -105,12 +107,40 @@ const Business = () => {
 
       setaddressForm({
         ...addressForm,
-        address: place.formatted_address,
+        address: place?.formatted_address,
         state: itemState,
         city: itemLocality,
       });
     });
   });
+
+  const onUpdateInfoForm = (e) => {
+    e.preventDefault();
+    console.log(e);
+    setForm({
+      ...form,
+      address: addressForm.address,
+      city: addressForm.city,
+      state: addressForm.state,
+    });
+
+    const data = {
+      email: form.email,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      username: form.userName,
+      address: {
+        address: addressForm.address,
+        city: addressForm.city,
+        state: addressForm.state,
+      },
+    };
+
+    onBusinessUpdate(data, (_, error) => {
+      error ? notify("error", "Error") : notify("success", "Success");
+    });
+  };
+
   return (
     <Layout
       className="site-layout"
@@ -138,14 +168,7 @@ const Business = () => {
           </Row>
           <div className={styles.business_detail_content}>
             <div className="login-form">
-              <div className="logo-center">
-                <Link href="/">
-                  <a className="navbar-brand">
-                    <Image src={logo} alt="site logo" />
-                  </a>
-                </Link>
-              </div>
-              <form onSubmit={onSubmitForm}>
+              <form onSubmit={onUpdateInfoForm}>
                 <div className="row">
                   <div className="auth-space"></div>
                   <div className="col-lg-12 col-md-12">
@@ -161,9 +184,9 @@ const Business = () => {
                         onChange={onUpdateField}
                         onBlur={onBlurField}
                       />
-                      {errors.userName.dirty && errors.userName.error ? (
+                      {errors.userName?.dirty && errors.userName?.error ? (
                         <p className={styles.formFieldErrorMessage}>
-                          {errors.userName.message}
+                          {errors.userName?.message}
                         </p>
                       ) : null}
                     </div>
@@ -289,4 +312,14 @@ const Business = () => {
   );
 };
 
-export default Business;
+const mapStateToProps = (state) => {
+  return {
+    userinfo: state?.profile?.userinfo,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onBusinessUpdate: (info, cb) => dispatch(updateBusinessDetail(info, cb)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Business);

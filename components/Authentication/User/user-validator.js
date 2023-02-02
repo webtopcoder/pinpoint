@@ -6,7 +6,12 @@ export const emailValidator = (email) => {
   }
   return "";
 };
-
+export const RoleValidator = (role) => {
+  if (!role) {
+    return "Role is required";
+  }
+  return "";
+};
 export const UserInfoValidator = (userInfo) => {
   if (!userInfo) {
     return "User Name or Email is required";

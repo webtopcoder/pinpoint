@@ -24,6 +24,8 @@ import {
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
   PARNTER_SETTINGS_CHANGE,
+  BUSINESS_UPDATE_INFO_REQUEST,
+  BUSINESS_UPDATE_INFO_SUCCESS,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
@@ -345,5 +347,25 @@ export function unFriend(id, cb) {
       })
       .catch((error) => {
         console.log(error);
+      });
+}
+
+export function updateBusinessDetail(info, cb) {
+  return (dispatch) =>
+    api(`profile`, "patch", info)
+      .then((res) => {
+        dispatch({
+          type: BUSINESS_UPDATE_INFO_REQUEST,
+        });
+
+        dispatch({
+          type: BUSINESS_UPDATE_INFO_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
       });
 }
