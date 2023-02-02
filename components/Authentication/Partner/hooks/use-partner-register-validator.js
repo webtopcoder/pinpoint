@@ -192,7 +192,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
   const onBlurField = (e) => {
     const field = e.target.name;
     const fieldError = errors[field];
-    if (fieldError.dirty) return;
+    if (fieldError?.dirty) return;
 
     const updatedErrors = {
       ...errors,
