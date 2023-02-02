@@ -13,27 +13,47 @@ import { connect } from "react-redux";
 
 const { Content } = Layout;
 
-const SettingAddUser = ({ user_settings, onGetSettingsValue }) => {
+const SettingAddUser = ({
+  user_settings,
+  onGetSettingsValue,
+  onSettingsToggle,
+}) => {
   const router = useRouter();
+  const [data, setData] = useState();
+
   const [showModal, setShowModal] = useState(false);
   const handleCancel = () => setShowModal(false);
   const handleOk = () => {
     setShowModal(false);
   };
   useEffect(() => {
-    if (router.isReady) {
-      onGetSettingsValue((res, error) => {
-        if (error) {
-          console.log("error");
-        }
-      });
-    }
+    onGetSettingsValue((res, error) => {
+      if (error) {
+        console.log("error");
+      }
+    });
   }, [onGetSettingsValue]);
+  useEffect(() => {
+    setData(additionalUserSettings?.value);
+  }, [user_settings]);
   const additionalUserSettings = user_settings.find(
     (setting) => (setting.key = "user:additionalUser")
   );
-  const data = additionalUserSettings?.value;
-
+  const handleDelete = (e, deleteData) => {
+    e.preventDefault();
+    const filtered = data.filter((user) => user != deleteData);
+    const newData = {
+      key: `user:additionalUser`,
+      value: filtered,
+    };
+    onSettingsToggle(newData, (res, error) => {
+      if (error) {
+        console.log("error");
+      } else {
+        notify("success", "Settings Changed.");
+      }
+    });
+  };
   return (
     <Layout
       className="site-layout"
@@ -81,6 +101,7 @@ const SettingAddUser = ({ user_settings, onGetSettingsValue }) => {
                     type="primary"
                     shape="round"
                     icon={<DeleteOutlined />}
+                    onClick={(e) => handleDelete(e, user)}
                   >
                     Delete
                   </Button>
@@ -105,5 +126,6 @@ const matchStateToProps = ({ user }) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   onGetSettingsValue: (cb) => dispatch(getSettingsValue(cb)),
+  onSettingsToggle: (data, cb) => dispatch(postSettingsValue(data, cb)),
 });
 export default connect(matchStateToProps, mapDispatchToProps)(SettingAddUser);

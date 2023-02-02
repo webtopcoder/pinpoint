@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Modal, Row, Col, Select } from "antd";
 import styles from "./settings.module.css";
 import { postSettingsValue } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
-import useNotify from "@/hooks/useNotify";
+import toast from "@/components/Toast";
+
+import {
+  RoleValidator,
+  emailValidator,
+} from "@/components/Authentication/User/user-validator";
+import { useLoginFormValidator } from "@/components/Authentication/hooks/useLoginValidator";
+import FormGroup from "@/components/Authentication/FormGroup";
+
+const formValidator = {
+  email: emailValidator,
+  role: RoleValidator,
+};
 const AddUserModal = ({
   modal,
   onOk,
@@ -15,7 +27,15 @@ const AddUserModal = ({
     email: "",
     role: "admin",
   });
-  const notify = useNotify();
+
+  const { errors, validateForm, onBlurField } = useLoginFormValidator(
+    form,
+    formValidator
+  );
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
+
   const onUpdateField = (e) => {
     const field = e.target.name;
     const nextFormState = {
@@ -23,6 +43,13 @@ const AddUserModal = ({
       [field]: e.target.value,
     };
     setForm(nextFormState);
+    if (errors[field].dirty) {
+      validateForm({
+        form: nextFormState,
+        errors,
+        field,
+      });
+    }
   };
   const handleChange = (e) => {
     const nextFormState = {
@@ -33,6 +60,13 @@ const AddUserModal = ({
   };
   const onSubmitForm = (e) => {
     e.preventDefault();
+    const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
+    if (!isValid) {
+      notify("error", "Please Enter a valid email-id.");
+
+      return;
+    }
+
     const additionalUserSettings = user_settings.find(
       (setting) => (setting.key = "user:additionalUser")
     );
@@ -87,15 +121,14 @@ const AddUserModal = ({
       <Row className={styles.modal_title}>Add Additional User</Row>
       <Row className={styles.modalform}>
         Additional User Email
-        <div className="form-group">
-          <label className="authen-text-attr">Email</label>
-          <input
-            className="form-control"
-            name="email"
-            value={form?.email}
-            onChange={onUpdateField}
-          />
-        </div>
+        <FormGroup
+          label="Email"
+          value={form?.email}
+          onChange={onUpdateField}
+          onBlur={onBlurField}
+          name="email"
+          errors={errors}
+        />
       </Row>
       <Row className={styles.modalform + " mt-1"}>
         Permissions Type
