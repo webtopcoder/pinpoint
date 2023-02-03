@@ -53,6 +53,8 @@ function AddLocationModal({
     address: "",
     city: "",
     state: "",
+    lat: "",
+    lng: ""
   });
 
   const subcategoryList = [];
@@ -74,6 +76,8 @@ function AddLocationModal({
         const place = await autoCompleteRef.current.getPlace();
         let itemLocality = "";
         let itemState = "";
+
+        console.log(place)
         place.address_components.map((address_component, _) => {
           if (address_component.types[0] == "locality")
             itemLocality = address_component.long_name;
@@ -86,6 +90,8 @@ function AddLocationModal({
           address: place.formatted_address,
           state: itemState,
           city: itemLocality,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
         });
       });
     }
@@ -162,8 +168,10 @@ function AddLocationModal({
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
-          formData.append("city", values.city);
-          formData.append("state", values.state);
+          formData.append("city", addressForm.city);
+          formData.append("state", addressForm.state);
+          formData.append("lat", addressForm.lat);
+          formData.append("lng", addressForm.lng);
 
           onAddLocation(formData, (_, err) => {
             if (err) {
@@ -272,6 +280,7 @@ function AddLocationModal({
                     <Button
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
+                      maxCount={1}
                     >
                       Location Image
                     </Button>

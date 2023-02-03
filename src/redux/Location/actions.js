@@ -10,6 +10,10 @@ import {
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
   USER_LOCATION_SUCCESS,
+  LOCATION_UPDATE_REQUEST,
+  LOCATION_UPDATE_SUCCESS,
+  LOCATION_DELETE_REQUEST,
+  LOCATION_DELETE_SUCCESS
 } from "./types";
 
 export function quickArrival(form, cb) {
@@ -90,6 +94,46 @@ export function createLocation(form, cb) {
 
         dispatch({
           type: USER_LOCATION_ADD_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function deleteLocationById(id, cb) {
+  return (dispatch) =>
+    api(`locations/${id}`, "put")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_DELETE_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_DELETE_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function updateLocationById(locationID, form, cb) {
+  return (dispatch) =>
+    api(`locations/${locationID}`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: LOCATION_UPDATE_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_UPDATE_SUCCESS,
           payload: res,
         });
 
