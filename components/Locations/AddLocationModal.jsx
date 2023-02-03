@@ -10,6 +10,7 @@ import {
   Typography,
   Form,
   Input,
+  Select
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
@@ -54,6 +55,14 @@ function AddLocationModal({
     state: "",
   });
 
+  const subcategoryList = [];
+  for (let i = 10; i < 36; i++) {
+    subcategoryList.push({
+      value: i.toString(36) + i,
+      label: i.toString(36) + i,
+    });
+  }
+
   useEffect(() => {
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
@@ -62,7 +71,8 @@ function AddLocationModal({
 
     autoCompleteRef.current?.addListener("place_changed", async function () {
       const place = await autoCompleteRef.current.getPlace();
-
+      let itemLocality = "";
+      let itemState = "";
       place.address_components.map((address_component, _) => {
         if (address_component.types[0] == "locality")
           itemLocality = address_component.long_name;
@@ -79,6 +89,18 @@ function AddLocationModal({
     });
   }, []);
 
+  const onUpdateField = (e) => {
+    
+
+    const field = e.target.name;
+    console.log(addressForm.address, field, e.target.value)
+    const nextFormState = {
+      ...addressForm,
+      [field]: e.target.value,
+    };
+    setaddressForm(nextFormState);
+
+  };
   return (
     <Modal
       className="dashboard-modal"
@@ -144,7 +166,7 @@ function AddLocationModal({
 
           formData.append("title", values.title);
           formData.append("description", values.description);
-          formData.append("address", values.address);
+          formData.append("address", addressForm.address);
           formData.append("city", values.city);
           formData.append("state", values.state);
 
@@ -172,23 +194,63 @@ function AddLocationModal({
       >
         <Row>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item label="Location Name" required name="title">
+            <Form.Item
+              label="Location Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Insert Location Name",
+                },
+              ]}
+              required
+              name="title">
               <Input placeholder="This will be your individual locations name" />
             </Form.Item>
           </Col>
 
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item label="Address(Location)" name="address" required>
-              <Input
-                ref={inputRef}
-                placeholder="This will be your individual locations address"
+            <Form.Item
+              label="Address(Location)"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Insert Location Address",
+                },
+              ]}
+              required>
+            <input
+              ref={inputRef}
+              value={addressForm.address}
+              className="custom-placeautomate"
+              onChange={onUpdateField}
+              name="address"
+              placeholder="This will be your individual locations address"
+            />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              label="Location Sub Category"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Choose Subcategory",
+                  type: 'array',
+
+                },
+              ]}
+              required
+              tooltip="This is a required field"
+            >
+              <Select
+                mode="multiple"
+                allowClear
+                style={{
+                  width: "100%",
+                }}
+                placeholder="Select all that apply"
+                options={subcategoryList}
               />
-            </Form.Item>
-            <Form.Item label="State" name="state">
-              <Input value={addressForm.state} disabled />
-            </Form.Item>
-            <Form.Item label="City" name="city">
-              <Input value={addressForm.city} disabled />
             </Form.Item>
           </Col>
 
@@ -231,6 +293,7 @@ function AddLocationModal({
           </Col>
         </Row>
       </Form>
+
     </Modal>
   );
 }
