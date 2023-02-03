@@ -10,7 +10,7 @@ import {
   Typography,
   Form,
   Input,
-  Select
+  Select,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
@@ -64,42 +64,40 @@ function AddLocationModal({
   }
 
   useEffect(() => {
-    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      mapAutoCompleteOptions
-    );
+    if (inputRef.current) {
+      autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        mapAutoCompleteOptions
+      );
 
-    autoCompleteRef.current?.addListener("place_changed", async function () {
-      const place = await autoCompleteRef.current.getPlace();
-      let itemLocality = "";
-      let itemState = "";
-      place.address_components.map((address_component, _) => {
-        if (address_component.types[0] == "locality")
-          itemLocality = address_component.long_name;
-        if (address_component.types[0] == "administrative_area_level_1")
-          itemState = address_component.long_name;
-      });
+      autoCompleteRef.current?.addListener("place_changed", async function () {
+        const place = await autoCompleteRef.current.getPlace();
+        let itemLocality = "";
+        let itemState = "";
+        place.address_components.map((address_component, _) => {
+          if (address_component.types[0] == "locality")
+            itemLocality = address_component.long_name;
+          if (address_component.types[0] == "administrative_area_level_1")
+            itemState = address_component.long_name;
+        });
 
-      setaddressForm({
-        ...addressForm,
-        address: place.formatted_address,
-        state: itemState,
-        city: itemLocality,
+        setaddressForm({
+          ...addressForm,
+          address: place.formatted_address,
+          state: itemState,
+          city: itemLocality,
+        });
       });
-    });
-  }, []);
+    }
+  }, [inputRef.current]);
 
   const onUpdateField = (e) => {
-    
-
     const field = e.target.name;
-    console.log(addressForm.address, field, e.target.value)
     const nextFormState = {
       ...addressForm,
       [field]: e.target.value,
     };
     setaddressForm(nextFormState);
-
   };
   return (
     <Modal
@@ -108,9 +106,6 @@ function AddLocationModal({
       open={open}
       width={700}
       closable={false}
-      onOk={() => {
-        setModalOpen(false);
-      }}
       onCancel={() => setModalOpen(false)}
       footer={null}
     >
@@ -178,8 +173,13 @@ function AddLocationModal({
               );
               return;
             }
-            setModalOpen(false);
             notify("success", "Location added successfully");
+            form.resetFields();
+            setaddressForm({
+              address: "",
+              city: "",
+              state: "",
+            });
             ongetLocations({ partner: user_id }, (_, error) => {
               if (error) {
                 notify(
@@ -203,7 +203,8 @@ function AddLocationModal({
                 },
               ]}
               required
-              name="title">
+              name="title"
+            >
               <Input placeholder="This will be your individual locations name" />
             </Form.Item>
           </Col>
@@ -217,15 +218,16 @@ function AddLocationModal({
                   message: "Please Insert Location Address",
                 },
               ]}
-              required>
-            <input
-              ref={inputRef}
-              value={addressForm.address}
-              className="custom-placeautomate"
-              onChange={onUpdateField}
-              name="address"
-              placeholder="This will be your individual locations address"
-            />
+              required
+            >
+              <input
+                ref={inputRef}
+                value={addressForm.address}
+                className="custom-placeautomate"
+                onChange={onUpdateField}
+                name="address"
+                placeholder="This will be your individual locations address"
+              />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -235,11 +237,11 @@ function AddLocationModal({
                 {
                   required: true,
                   message: "Please Choose Subcategory",
-                  type: 'array',
-
+                  type: "array",
                 },
               ]}
               required
+              initialvalue={[]}
               tooltip="This is a required field"
             >
               <Select
@@ -293,7 +295,6 @@ function AddLocationModal({
           </Col>
         </Row>
       </Form>
-
     </Modal>
   );
 }
