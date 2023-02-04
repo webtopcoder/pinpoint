@@ -14,6 +14,9 @@ import {
   USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
+  SETTINGS_VALUE_GET_REQUEST,
+  PARNTER_SETTINGS_CHANGE,
+  SETTINGS_VALUE_GET_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -49,6 +52,7 @@ const initialState = {
   myFollowers: [],
   notifications: [],
   notificationCount: 0,
+  settings: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -159,6 +163,28 @@ const userReducer = (state = initialState, action) => {
         status: action.payload.success,
       };
     }
+
+    case SETTINGS_VALUE_GET_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case SETTINGS_VALUE_GET_SUCCESS: {
+      return { ...state, settings: action.payload.results };
+    }
+
+    case PARNTER_SETTINGS_CHANGE: {
+      const settings = state.settings.filter(
+        (ob) => ob.key != action.payload.key
+      );
+      settings.push(action.payload);
+      return {
+        ...state,
+        settings,
+      };
+    }
+
     default:
       return {
         ...state,

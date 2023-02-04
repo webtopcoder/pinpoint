@@ -25,6 +25,9 @@ import {
   USERPOLL_GET_SUCCESS,
   PARTNERSHIPS_GET_REQUEST,
   PARTNERSHIPS_GET_SUCCESS,
+  PARNTER_SETTINGS_CHANGE,
+  BUSINESS_UPDATE_INFO_REQUEST,
+  BUSINESS_UPDATE_INFO_SUCCESS,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
@@ -97,7 +100,7 @@ export function getActivity(id, count, search, cb) {
 
 export function getShoutout(id, count, search, cb) {
   return (dispatch) =>
-    api(`profile/shoutout/${id}?page=${count}&q=${search}`, "get")
+    api(`profile/shoutout/${id}?page=${count}`, "get")
       .then((res) => {
         dispatch({
           type: GET_SHOOT_OUT_SUCCESS,
@@ -365,5 +368,25 @@ export function unFriend(id, cb) {
       })
       .catch((error) => {
         console.log(error);
+      });
+}
+
+export function updateBusinessDetail(info, cb) {
+  return (dispatch) =>
+    api(`profile`, "patch", info)
+      .then((res) => {
+        dispatch({
+          type: BUSINESS_UPDATE_INFO_REQUEST,
+        });
+
+        dispatch({
+          type: BUSINESS_UPDATE_INFO_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
       });
 }
