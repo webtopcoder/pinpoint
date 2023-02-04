@@ -17,6 +17,9 @@ import {
   USERPOLL_GET_SUCCESS,
   PARTNERSHIPS_GET_SUCCESS,
   PROFILE_POLL_SUCCESS,
+  PARTNERSHIPS_SUBSCRIBE_REQUEST,
+  PARTNERSHIPS_SUBSCRIBE_SUCCESS,
+  PARTNERSHIPS_CREATE_CUSTOMER_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -213,6 +216,22 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         partnershipsInfo: action.payload.results,
+      };
+    }
+    case PARTNERSHIPS_CREATE_CUSTOMER_SUCCESS: {
+      return {
+        ...state,
+      };
+    }
+
+    case PARTNERSHIPS_SUBSCRIBE_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case PARTNERSHIPS_SUBSCRIBE_SUCCESS: {
+      return {
+        ...state,
       };
     }
 

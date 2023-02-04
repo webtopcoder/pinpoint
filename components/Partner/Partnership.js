@@ -10,24 +10,55 @@ import {
   Badge,
   Typography,
   Space,
+  Modal,
 } from "antd";
-import { getPartnerships } from "@/redux/Profile/actions";
+import { createCustomer, getPartnerships } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
+import CheckoutForm from "./checkoutform";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const { Text, Paragraph } = Typography;
 
 const { Content } = Layout;
 
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 const PartnerShipPayment = ({
   title,
   price,
+  plan,
   currency,
   features,
   applyIn,
   isActive,
   renewalDate,
+  createCustomer,
 }) => {
+  const [priceId, setPriceId] = useState("");
+  const [customer, setCustomer] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
+  const handleCancel = () => setShowModal(false);
+  const handleOk = () => {
+    setShowModal(false);
+  };
+  async function handleSubscribeClick(priceID) {
+    console.log(priceID);
+    setPriceId(priceID);
+    await createCustomer((res, error) => {
+      const customer = res.customer;
+      setCustomer(customer);
+
+      if (error) {
+        console.log("error");
+      }
+    });
+    console.log(customer);
+    setShowModal(true);
+  }
+
   return (
     <Card
       className="membership-card-style"
@@ -85,9 +116,21 @@ const PartnerShipPayment = ({
                   }}
                 ></Text>
               </Space>
-              <Button type="primary" size="large" disabled={isActive}>
+              <Button
+                type="primary"
+                size="large"
+                disabled={isActive}
+                onClick={() => handleSubscribeClick(plan.id)}
+              >
                 {price == 0 ? "Get Free" : "Buy Now"}
               </Button>
+              <Modal open={showModal}>
+                {customer ? (
+                  <CheckoutForm customerId={customer.id} priceId={priceId} />
+                ) : (
+                  ""
+                )}
+              </Modal>
             </>
           )}
 
@@ -114,12 +157,13 @@ const Partnership = ({
   user_partnership,
   ongetPartnershipplans,
   partnershipPriceRenewalDate,
+  onCreateCustomer,
 }) => {
   // const partnerShipPlans = usePartnerShipPlans();
-  const notify = useNotify();
-
+  const { notify } = useNotify();
+  console.log(user_partnership);
+  console.log(partnershipPlans);
   const router = useRouter();
-
   useEffect(() => {
     if (router.isReady) {
       ongetPartnershipplans((_, error) => {
@@ -135,58 +179,63 @@ const Partnership = ({
   }, [router.isReady]);
 
   return (
-    <Layout className="site-layout" style={{ background: "#211f1f" }}>
-      <Content style={{ margin: "100px 40px" }}>
-        <div className="site-card-wrapper">
-          <Row gutter={[32, 32]}>
-            <Col xs={24} sm={24} md={20} lg={20} xl={20} offset={2}>
-              <Paragraph
-                style={{
-                  color: "white",
-                  fontSize: 20,
-                  textAlign: "center",
-                  padding: 10,
-                  background: "teal",
-                  borderRadius: 10,
-                }}
-              >
-                Pinpoint Partnership - Being a Pinpoint Partner will give you
-                access to our interactive map feature.This will allow you to
-                post your active locations for Pinpoint Users to see. Your
-                Partnership will be billed monthly (30 days following your
-                payment) and is able to be cancelled at any point. If cancelled,
-                the cancellation will go into affect at the end of your current
-                Partnership period.
-              </Paragraph>
-            </Col>
-          </Row>
-          <Row
-            align={"middle"}
-            gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
-            style={{
-              marginTop: 20,
-            }}
-            justify="space-around"
-          >
-            {partnershipPlans.map((plan, index) => (
-              <Col xs={12} sm={8} md={6} lg={8} xl={8} key={index}>
-                {user_partnership == plan._id ? (
-                  <Badge.Ribbon text="Active" color="green">
+    <Elements stripe={stripePromise}>
+      <Layout className="site-layout" style={{ background: "#211f1f" }}>
+        <Content style={{ margin: "100px 40px" }}>
+          <div className="site-card-wrapper">
+            <Row gutter={[32, 32]}>
+              <Col xs={24} sm={24} md={20} lg={20} xl={20} offset={2}>
+                <Paragraph
+                  style={{
+                    color: "white",
+                    fontSize: 20,
+                    textAlign: "center",
+                    padding: 10,
+                    background: "teal",
+                    borderRadius: 10,
+                  }}
+                >
+                  Pinpoint Partnership - Being a Pinpoint Partner will give you
+                  access to our interactive map feature.This will allow you to
+                  post your active locations for Pinpoint Users to see. Your
+                  Partnership will be billed monthly (30 days following your
+                  payment) and is able to be cancelled at any point. If
+                  cancelled, the cancellation will go into affect at the end of
+                  your current Partnership period.
+                </Paragraph>
+              </Col>
+            </Row>
+            <Row
+              align={"middle"}
+              gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
+              style={{
+                marginTop: 20,
+              }}
+              justify="space-around"
+            >
+              {partnershipPlans.map((plan, index) => (
+                <Col xs={12} sm={8} md={6} lg={8} xl={8} key={index}>
+                  {user_partnership == plan._id ? (
+                    <Badge.Ribbon text="Active" color="green">
+                      <PartnerShipPayment
+                        {...plan}
+                        isActive={true}
+                        renewalDate={partnershipPriceRenewalDate}
+                      />
+                    </Badge.Ribbon>
+                  ) : (
                     <PartnerShipPayment
                       {...plan}
-                      isActive={true}
-                      renewalDate={partnershipPriceRenewalDate}
+                      createCustomer={onCreateCustomer}
                     />
-                  </Badge.Ribbon>
-                ) : (
-                  <PartnerShipPayment {...plan} />
-                )}
-              </Col>
-            ))}
-          </Row>
-        </div>
-      </Content>
-    </Layout>
+                  )}
+                </Col>
+              ))}
+            </Row>
+          </div>
+        </Content>
+      </Layout>
+    </Elements>
   );
 };
 const mapStateToProps = ({ profile }) => {
@@ -197,6 +246,7 @@ const mapStateToProps = ({ profile }) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
+  onCreateCustomer: (cb) => dispatch(createCustomer(cb)),
   ongetPartnershipplans: (cb) => dispatch(getPartnerships(cb)),
 });
 
