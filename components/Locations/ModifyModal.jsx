@@ -58,29 +58,18 @@ function ModifyModal({
   uploadFile,
 }) {
 
-  const fileList = [
-    {
-      uid: '0',
-      name: locationInfo.images[0]?.filepath,
-      status: 'done',
-      url: avatarurl + locationInfo.images[0]?.filepath,
-      thumbUrl: avatarurl + locationInfo.images[0]?.filepath,
-    },
-  ];
-
   const [form] = Form.useForm();
   const { notify } = useNotify();
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
-  console.log(locationInfo)
   const [addressForm, setaddressForm] = useState({
     address: locationInfo.mapLocation.address,
     city: locationInfo.mapLocation.city,
     state: locationInfo.mapLocation.state,
-    lat: locationInfo.mapLocation.lat,
-    lng: locationInfo.mapLocation.lng
+    lat: locationInfo.mapLocation.latitude,
+    lng: locationInfo.mapLocation.lngitude
   });
   useEffect(() => {
     if (inputRef.current) {

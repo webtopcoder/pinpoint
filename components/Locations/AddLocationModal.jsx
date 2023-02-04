@@ -16,6 +16,7 @@ import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { createLocation, getLocations } from "@/src/redux/Location/actions";
+import { getAllsubcategories } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
 
 const { TextArea } = Input;
@@ -105,6 +106,7 @@ function AddLocationModal({
     };
     setaddressForm(nextFormState);
   };
+
   return (
     <Modal
       className="dashboard-modal"
