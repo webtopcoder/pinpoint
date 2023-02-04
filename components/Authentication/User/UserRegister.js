@@ -96,7 +96,6 @@ const UserRegister = ({ onRegisterUser }) => {
       }
     });
   };
-  F;
 
   return (
     <div className="col-lg-6 col-md-12">
