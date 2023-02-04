@@ -73,6 +73,10 @@ a {
   outline: 0 !important;
 }
 
+span a{
+  color: white
+}
+
 a:hover {
   text-decoration: none;
 }

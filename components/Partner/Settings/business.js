@@ -37,6 +37,25 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
     state: userinfo.address?.state,
   });
 
+  useEffect(() => {
+    setForm({
+      ...form,
+      firstName: userinfo.firstName,
+      lastName: userinfo.lastName,
+      userName: userinfo.username,
+      address: userinfo.address?.address,
+      city: userinfo.address?.city,
+      state: userinfo.address?.state,
+      email: userinfo.email,
+    });
+
+    setaddressForm({
+      address: userinfo.address?.address,
+      city: userinfo.address?.city,
+      state: userinfo.address?.state,
+    });
+  }, [userinfo]);
+
   const inputRef = useRef();
   const autoCompleteRef = useRef();
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(
@@ -55,6 +74,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
     ],
     types: ["establishment"],
   };
+
   const onUpdateField = (e) => {
     const field = e.target.name;
     if (field == "address") {

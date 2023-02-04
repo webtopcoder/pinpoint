@@ -127,7 +127,7 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
               justify="space-around"
             >
               {locations.map((location, index) => (
-                <Col span={6} key={index}>
+                <Col span={8} key={index}>
                   <LocationCard location={location} showActions={true} />
                 </Col>
               ))}

@@ -16,6 +16,7 @@ import {
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
   PARTNERSHIPS_GET_SUCCESS,
+  PROFILE_POLL_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -49,6 +50,11 @@ const initialState = {
   shoutoutInfo: {},
   allphotosInfo: [],
   partnershipsInfo: [],
+  profilePoll: {
+    question: "",
+    options: [],
+    votes: [0, 0, 0, 0],
+  },
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -104,6 +110,18 @@ const profileReducer = (state = initialState, action) => {
             options: action.payload.options,
             votes: action.payload.votes,
           },
+        },
+      };
+    }
+
+    case PROFILE_POLL_SUCCESS: {
+      return {
+        ...state,
+        profilePoll: {
+          ...state.profilePoll,
+          question: action.payload.question,
+          options: action.payload.options,
+          votes: action.payload.votes,
         },
       };
     }

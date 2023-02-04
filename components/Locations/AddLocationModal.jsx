@@ -10,6 +10,7 @@ import {
   Typography,
   Form,
   Input,
+  Select,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
@@ -54,31 +55,50 @@ function AddLocationModal({
     state: "",
   });
 
-  useEffect(() => {
-    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      mapAutoCompleteOptions
-    );
-
-    autoCompleteRef.current?.addListener("place_changed", async function () {
-      const place = await autoCompleteRef.current.getPlace();
-
-      place.address_components.map((address_component, _) => {
-        if (address_component.types[0] == "locality")
-          itemLocality = address_component.long_name;
-        if (address_component.types[0] == "administrative_area_level_1")
-          itemState = address_component.long_name;
-      });
-
-      setaddressForm({
-        ...addressForm,
-        address: place.formatted_address,
-        state: itemState,
-        city: itemLocality,
-      });
+  const subcategoryList = [];
+  for (let i = 10; i < 36; i++) {
+    subcategoryList.push({
+      value: i.toString(36) + i,
+      label: i.toString(36) + i,
     });
-  }, []);
+  }
 
+  useEffect(() => {
+    if (inputRef.current) {
+      autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        mapAutoCompleteOptions
+      );
+
+      autoCompleteRef.current?.addListener("place_changed", async function () {
+        const place = await autoCompleteRef.current.getPlace();
+        let itemLocality = "";
+        let itemState = "";
+        place.address_components.map((address_component, _) => {
+          if (address_component.types[0] == "locality")
+            itemLocality = address_component.long_name;
+          if (address_component.types[0] == "administrative_area_level_1")
+            itemState = address_component.long_name;
+        });
+
+        setaddressForm({
+          ...addressForm,
+          address: place.formatted_address,
+          state: itemState,
+          city: itemLocality,
+        });
+      });
+    }
+  }, [inputRef.current]);
+
+  const onUpdateField = (e) => {
+    const field = e.target.name;
+    const nextFormState = {
+      ...addressForm,
+      [field]: e.target.value,
+    };
+    setaddressForm(nextFormState);
+  };
   return (
     <Modal
       className="dashboard-modal"
@@ -86,9 +106,6 @@ function AddLocationModal({
       open={open}
       width={700}
       closable={false}
-      onOk={() => {
-        setModalOpen(false);
-      }}
       onCancel={() => setModalOpen(false)}
       footer={null}
     >
@@ -144,7 +161,7 @@ function AddLocationModal({
 
           formData.append("title", values.title);
           formData.append("description", values.description);
-          formData.append("address", values.address);
+          formData.append("address", addressForm.address);
           formData.append("city", values.city);
           formData.append("state", values.state);
 
@@ -156,8 +173,13 @@ function AddLocationModal({
               );
               return;
             }
-            setModalOpen(false);
             notify("success", "Location added successfully");
+            form.resetFields();
+            setaddressForm({
+              address: "",
+              city: "",
+              state: "",
+            });
             ongetLocations({ partner: user_id }, (_, error) => {
               if (error) {
                 notify(
@@ -172,23 +194,65 @@ function AddLocationModal({
       >
         <Row>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item label="Location Name" required name="title">
+            <Form.Item
+              label="Location Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Insert Location Name",
+                },
+              ]}
+              required
+              name="title"
+            >
               <Input placeholder="This will be your individual locations name" />
             </Form.Item>
           </Col>
 
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item label="Address(Location)" name="address" required>
-              <Input
+            <Form.Item
+              label="Address(Location)"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Insert Location Address",
+                },
+              ]}
+              required
+            >
+              <input
                 ref={inputRef}
+                value={addressForm.address}
+                className="custom-placeautomate"
+                onChange={onUpdateField}
+                name="address"
                 placeholder="This will be your individual locations address"
               />
             </Form.Item>
-            <Form.Item label="State" name="state">
-              <Input value={addressForm.state} disabled />
-            </Form.Item>
-            <Form.Item label="City" name="city">
-              <Input value={addressForm.city} disabled />
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              label="Location Sub Category"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Choose Subcategory",
+                  type: "array",
+                },
+              ]}
+              required
+              initialvalue={[]}
+              tooltip="This is a required field"
+            >
+              <Select
+                mode="multiple"
+                allowClear
+                style={{
+                  width: "100%",
+                }}
+                placeholder="Select all that apply"
+                options={subcategoryList}
+              />
             </Form.Item>
           </Col>
 

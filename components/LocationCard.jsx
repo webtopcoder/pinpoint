@@ -84,10 +84,10 @@ const LocationCard = ({ location, showActions = false }) => {
           onClick={() =>
             window.open(
               baseUrl +
-                "/profile/" +
-                location.partner._id +
-                "/locations/" +
-                location._id,
+              "/profile/" +
+              location.partner._id +
+              "/locations/" +
+              location._id,
               "_blank"
             )
           }
@@ -97,10 +97,10 @@ const LocationCard = ({ location, showActions = false }) => {
       ),
       key: "0",
     },
-    /* {
+    {
       label: <a onClick={() => setModifyModalOpen(true)}>Modify Location</a>,
       key: "1",
-    }, */
+    },
   ];
 
   const [rating, setRating] = useState(location.rating ?? 0);
@@ -152,7 +152,7 @@ const LocationCard = ({ location, showActions = false }) => {
                 size={100}
                 icon={
                   location.images.length !== 0 &&
-                  location.images[0]?.filepath ? (
+                    location.images[0]?.filepath ? (
                     <Image
                       src={avatarurl + location.images[0]?.filepath}
                       height={200}

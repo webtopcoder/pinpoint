@@ -15,15 +15,20 @@ const Header = ({ toggle }) => {
     usertype = sessionStorage.getItem("usertype");
   }
 
+  const hasWindow = typeof window !== 'undefined';
+
   React.useEffect(() => {
     let elementId = document.getElementById("navbar");
-    document.addEventListener("scroll", () => {
-      if (window.scrollY > 170) {
-        elementId.classList.add("is-sticky");
-      } else {
-        elementId.classList.remove("is-sticky");
-      }
-    });
+    if (hasWindow) {
+      document.addEventListener("scroll", () => {
+        if (window.scrollY > 170) {
+          elementId.classList.add("is-sticky");
+        } else {
+          elementId.classList.remove("is-sticky");
+        }
+      });
+    }
+
   });
 
   const classOne = menu

@@ -27,20 +27,22 @@ for (let i = 10; i < 36; i++) {
 }
 
 function ModifyModal({
-  open: modifyModalOpen,
-  setModalOpen: setModifyModalOpen,
   uploadProps,
+  modalOpen,
+  setModalOpen
+
 }) {
+
   const [form] = Form.useForm();
   return (
     <Modal
       className="dashboard-modal"
       centered
-      open={modifyModalOpen}
+      open={modalOpen}
       width={700}
       closable={false}
-      onOk={() => setModifyModalOpen(false)}
-      onCancel={() => setModifyModalOpen(false)}
+      onOk={() => setModalOpen(false)}
+      onCancel={() => setModalOpen(false)}
       footer={null}
     >
       <Row>

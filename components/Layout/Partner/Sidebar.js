@@ -27,6 +27,7 @@ import {
 import { getNotifications, logout } from "@/src/redux/User/actions";
 import Link from "next/link";
 import config from "@/utils/config";
+import baseUrl from "@/utils/baseUrl";
 
 const count = 3;
 
@@ -73,7 +74,7 @@ function LeftSidebar({
         sort: "createdAt:asc",
         page: notificationPage,
       },
-      () => {}
+      () => { }
     );
   }, [notificationPage]);
 
@@ -92,11 +93,23 @@ function LeftSidebar({
   const [current, setCurrent] = useState(pathurl);
 
   const onClick = (e) => {
-    setCurrent(e.key);
-    router.push(e.key);
+    if (e.key.substring(1, 8) === 'profile') {
+      window.open(
+        baseUrl +
+        e.key,
+        "_blank"
+      )
+    }
+    else {
+      setCurrent(e.key);
+      router.push(e.key);
+    }
+
   };
 
   const handleOriginPageRender = (page) => {
+
+
     router.push(page);
   };
 
@@ -319,8 +332,12 @@ function LeftSidebar({
               }}
             >
               <List.Item.Meta
-                title={<Link href={item.url ?? ""}>{item.title}</Link>}
-                description={item.description}
+                title={<span style={{
+                  color: 'white'
+                }}><Link href={item.url ?? ""}>{item.title}</Link></span>}
+                description={<span style={{
+                  color: 'white'
+                }}>{item.description}</span>}
               />
             </List.Item>
           )}

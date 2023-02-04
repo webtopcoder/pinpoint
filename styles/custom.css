@@ -1043,9 +1043,10 @@ h4 {
 }
 
 .ant-modal-content .ant-modal-body {
-  max-height: 600px;
+  max-height: 700px;
   overflow: auto;
 }
+
 .settings .ant-modal-content {
   border: 10px solid #2f2f2f;
 }
@@ -1297,4 +1298,21 @@ h4 {
 
 .partner-poll-options .ant-progress {
   /* padding: 1rem 0; */
+}
+
+.custom-placeautomate {
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+  border-radius: 6px;
+  min-height: 32px;
+  vertical-align: bottom;
+  transition: all 0.3s, height 0s;
+  padding: 4px 11px;
+}
+
+.custom-placeautomate:hover {
+  border-color: #4096ff;
+  border-inline-end-width: 1px;
 }
