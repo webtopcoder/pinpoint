@@ -16,7 +16,7 @@ import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { createLocation, getLocations } from "@/src/redux/Location/actions";
-import { getAllsubcategories } from "@/src/redux/User/actions";
+import { getsubCategory } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
 
 const { TextArea } = Input;
@@ -43,6 +43,9 @@ function AddLocationModal({
   uploadFile,
   onAddLocation,
   ongetLocations,
+  onGetSubCategories,
+  subCategories,
+  userCategoryId,
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
@@ -55,16 +58,16 @@ function AddLocationModal({
     city: "",
     state: "",
     lat: "",
-    lng: ""
+    lng: "",
   });
 
-  const subcategoryList = [];
-  for (let i = 10; i < 36; i++) {
-    subcategoryList.push({
-      value: i.toString(36) + i,
-      label: i.toString(36) + i,
+  useEffect(() => {
+    onGetSubCategories(userCategoryId, (_, error) => {
+      if (error) {
+        notify("error", error);
+      }
     });
-  }
+  }, []);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -78,7 +81,7 @@ function AddLocationModal({
         let itemLocality = "";
         let itemState = "";
 
-        console.log(place)
+        console.log(place);
         place.address_components.map((address_component, _) => {
           if (address_component.types[0] == "locality")
             itemLocality = address_component.long_name;
@@ -106,6 +109,11 @@ function AddLocationModal({
     };
     setaddressForm(nextFormState);
   };
+
+  const subcategoryList = subCategories?.map((item) => ({
+    label: item.name,
+    value: item._id,
+  }));
 
   return (
     <Modal
@@ -310,13 +318,17 @@ function AddLocationModal({
   );
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, profile }) => ({
   user_id: user.user_id,
+  userCategoryId: profile.userinfo.category,
+  subCategories: user.partnersubCategory?.subCategories,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
   onAddLocation: (data, cb) => dispatch(createLocation(data, cb)),
+  onGetSubCategories: (categoryId, cb) =>
+    dispatch(getsubCategory(categoryId, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddLocationModal);

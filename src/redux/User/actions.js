@@ -17,7 +17,7 @@ import {
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
-  ALL_SUB_CATEGORY_GET_SUCCESS
+  ALL_SUB_CATEGORY_GET_SUCCESS,
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -124,16 +124,6 @@ export function getsubCategory(categoryID, cb) {
         payload: res,
       });
       cb(res);
-    });
-}
-
-export function getAllsubcategories() {
-  return (dispatch) =>
-    api(`categories/subcategories`, "get").then((res) => {
-      dispatch({
-        type: ALL_SUB_CATEGORY_GET_SUCCESS,
-        payload: res,
-      });
     });
 }
 

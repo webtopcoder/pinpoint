@@ -16,10 +16,14 @@ import {
   Button,
   Space,
 } from "antd";
-import { deleteLocationById, getLocations, updateLocationById } from "@/src/redux/Location/actions";
+import {
+  deleteLocationById,
+  getLocations,
+  updateLocationById,
+} from "@/src/redux/Location/actions";
 import Image from "next/image";
 import config from "@/utils/config";
-
+import { getsubCategory } from "@/src/redux/User/actions";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -36,14 +40,6 @@ const mapAutoCompleteOptions = {
   types: ["establishment"],
 };
 
-const subcategoryList = [];
-for (let i = 10; i < 36; i++) {
-  subcategoryList.push({
-    value: i.toString(36) + i,
-    label: i.toString(36) + i,
-  });
-}
-
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
 function ModifyModal({
@@ -56,8 +52,10 @@ function ModifyModal({
   onUpdateLocationByID,
   user_id,
   uploadFile,
+  onGetSubCategories,
+  subCategories,
+  userCategoryId,
 }) {
-
   const [form] = Form.useForm();
   const { notify } = useNotify();
 
@@ -68,9 +66,18 @@ function ModifyModal({
     address: locationInfo.mapLocation.address,
     city: locationInfo.mapLocation.city,
     state: locationInfo.mapLocation.state,
-    lat: locationInfo.mapLocation.latitude,
-    lng: locationInfo.mapLocation.lngitude
+    lat: locationInfo.mapLocation.latitude ?? 0,
+    lng: locationInfo.mapLocation.lngitude ?? 0,
   });
+
+  useEffect(() => {
+    onGetSubCategories(userCategoryId, (_, error) => {
+      if (error) {
+        notify("error", error);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (inputRef.current) {
       autoCompleteRef.current = new window.google.maps.places.Autocomplete(
@@ -128,7 +135,12 @@ function ModifyModal({
         });
       }
     });
-  }
+  };
+
+  const subcategoryList = subCategories?.map((item) => ({
+    label: item.name,
+    value: item._id,
+  }));
 
   return (
     <Modal
@@ -219,12 +231,12 @@ function ModifyModal({
         layout="vertical"
         fields={[
           {
-            name: ['title'],
-            value: locationInfo.title
+            name: ["title"],
+            value: locationInfo.title,
           },
           {
-            name: ['description'],
-            value: locationInfo.description
+            name: ["description"],
+            value: locationInfo.description,
           },
         ]}
       >
@@ -308,15 +320,21 @@ function ModifyModal({
                     listType="picture"
                     maxCount={1}
                     defaultFileList={
-                      locationInfo.images ? [{
-                        uid: '0',
-                        name: locationInfo.images[0]?.filepath,
-                        status: 'done',
-                        url: avatarurl + locationInfo.images[0]?.filepath,
-                        thumbUrl: avatarurl + locationInfo.images[0]?.filepath,
-                      }]
-                        : ''}
-                    {...uploadProps}>
+                      locationInfo.images
+                        ? [
+                            {
+                              uid: "0",
+                              name: locationInfo.images[0]?.filepath,
+                              status: "done",
+                              url: avatarurl + locationInfo.images[0]?.filepath,
+                              thumbUrl:
+                                avatarurl + locationInfo.images[0]?.filepath,
+                            },
+                          ]
+                        : ""
+                    }
+                    {...uploadProps}
+                  >
                     <Button
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
@@ -367,14 +385,19 @@ function ModifyModal({
   );
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, profile }) => ({
   user_id: user.user_id,
+  userCategoryId: profile.userinfo.category,
+  subCategories: user.partnersubCategory?.subCategories,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onDeleteLocation: (data, cb) => dispatch(deleteLocationById(data, cb)),
-  onUpdateLocationByID: (locationID, data, cb) => dispatch(updateLocationById(locationID, data, cb)),
+  onUpdateLocationByID: (locationID, data, cb) =>
+    dispatch(updateLocationById(locationID, data, cb)),
   ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
+  onGetSubCategories: (categoryId, cb) =>
+    dispatch(getsubCategory(categoryId, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModifyModal);
