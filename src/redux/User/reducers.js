@@ -17,6 +17,7 @@ import {
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
+  GET_FOLLOW_AND_FOLLOWING_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -49,10 +50,11 @@ const initialState = {
   resetPasswordInfo: { success: false, msg: "" },
   partnerCategory: { success: false, categories: [] },
   partnersubCategory: { success: false, subCategories: [] },
-  myFollowers: [],
   notifications: [],
   notificationCount: 0,
   settings: [],
+  myFollowers: [],
+  followAndFollowing: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -155,6 +157,8 @@ const userReducer = (state = initialState, action) => {
         token: null,
         role: "",
         username: "",
+        notifications: [],
+        notificationCount: 0,
       };
     }
     case USER_REGISTER_SUCCESS: {
@@ -182,6 +186,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         settings,
+      };
+    }
+
+    case GET_FOLLOW_AND_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        followAndFollowing: action.payload.data,
       };
     }
 

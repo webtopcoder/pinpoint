@@ -1,5 +1,6 @@
 import api from "@/utils/callApi";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
+import { LOGOUT } from "../User/types";
 
 import {
   ABOUT_CHANGE_SUCCESS,
@@ -54,7 +55,12 @@ export function getUserInfo(user_id, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+          dispatch({
+            type: LOGOUT,
+          });
+        }
+        cb(null, error);
       });
 }
 

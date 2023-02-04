@@ -23,7 +23,7 @@ import {
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
 import { getActivity, getProfilePoll, votePoll } from "@/redux/Profile/actions";
-import { getmyFollowers } from "@/redux/User/actions";
+import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
@@ -41,6 +41,8 @@ const ProfileActivity = ({
   ongetProfilePoll,
   profilePoll,
   onvotePoll,
+  ongetFollowerAndFollowings,
+  followAndFollowing,
 }) => {
   const IconText = ({ postID, text }) => (
     <Space>
@@ -76,6 +78,25 @@ const ProfileActivity = ({
     },
     []
   );
+
+  const followAndFollowingList = Array.from(
+    new Set(
+      followAndFollowing?.map((item) => {
+        let user;
+        if (item.following) {
+          user = item.following;
+        }
+
+        if (item.follower) {
+          user = item.follower;
+        }
+        return user.username;
+      })
+    )
+  ).map((username) => ({
+    label: username,
+    value: username,
+  }));
 
   const myLoader = ({ src }) => {
     return src;
@@ -137,6 +158,7 @@ const ProfileActivity = ({
     if (router.isReady) {
       const { profile } = router.query;
       ongetmyFollowers();
+      ongetFollowerAndFollowings();
       ongetActivity(profile, 1, "", (res) => {
         if (res.success) {
           setInitLoading(false);
@@ -333,14 +355,7 @@ const ProfileActivity = ({
                             }}
                             placeholder="input @ to mention user"
                             prefix={["@"]}
-                            options={(
-                              (myfollowerList && myfollowerList[0]?.[prefix]) ||
-                              []
-                            ).map((value) => ({
-                              key: value,
-                              value,
-                              label: value,
-                            }))}
+                            options={followAndFollowingList}
                           />
                         </Form.Item>
                         <Form.Item name="fileupload">
@@ -718,6 +733,7 @@ const mapStateToProps = ({ profile, user }) => {
     activityInfo: profile.activityInfo,
     myfollowerList: user.myFollowers?.followers || [],
     profilePoll: profile.profilePoll,
+    followAndFollowing: user.followAndFollowing,
   };
 };
 
@@ -729,5 +745,6 @@ const mapDispatchToProps = (dispatch) => ({
   ongetmyFollowers: () => dispatch(getmyFollowers()),
   ongetProfilePoll: (id) => dispatch(getProfilePoll(id)),
   onvotePoll: (id, option, cb) => dispatch(votePoll(id, option, cb)),
+  ongetFollowerAndFollowings: (cb) => dispatch(getFollowerAndFollowing(cb)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);
