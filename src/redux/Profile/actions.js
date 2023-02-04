@@ -24,10 +24,17 @@ import {
   USERINFO_GET_REQUEST,
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
+  PARTNERSHIPS_GET_REQUEST,
+  PARTNERSHIPS_GET_SUCCESS,
   PARNTER_SETTINGS_CHANGE,
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
   PROFILE_POLL_SUCCESS,
+  PARTNERSHIP_SUBSCRIBE_REQUEST,
+  PARTNERSHIP_SUBSCRIBE_SUCCESS,
+  PARTNERSHIP_CREATE_CUSTOMER_REQUEST,
+  PARTNERSHIP_CREATE_CUSTOMER_SUCCESS,
+  PARTNERSHIP_TRANSACTION_SUCCESS,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
@@ -62,6 +69,79 @@ export function getUserInfo(user_id, cb) {
         }
         cb(null, error);
       });
+}
+export function createCustomer(cb) {
+  return (dispatch) => {
+    api(`/partnership/create-customer`, "post")
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIP_CREATE_CUSTOMER_REQUEST,
+        });
+        dispatch({
+          type: PARTNERSHIP_CREATE_CUSTOMER_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+  };
+}
+export function subscribe(data, cb) {
+  return (dispatch) => {
+    api(`/partnership/subscribe`, "post", data)
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIP_SUBSCRIBE_REQUEST,
+        });
+        dispatch({
+          type: PARTNERSHIP_SUBSCRIBE_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+  };
+}
+export function postTransaction(data, cb) {
+  return (dispatch) => {
+    api(`/partnership/create-transaction`, "post", data)
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIP_TRANSACTION_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+  };
+}
+export function getPartnerships(cb) {
+  return (dispatch) => {
+    api(`/partnership`, "get")
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIPS_GET_REQUEST,
+        });
+        dispatch({
+          type: PARTNERSHIPS_GET_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+  };
 }
 
 export function getActivity(id, count, search, cb) {

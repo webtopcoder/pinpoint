@@ -3,6 +3,7 @@ import styles from "./settings.module.css";
 import useNotify from "@/hooks/useNotify";
 import { Layout, Col, Row, Switch } from "antd";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { getSettingsValue, postSettingsValue } from "@/src/redux/User/actions";
@@ -147,9 +148,12 @@ const Setting = ({
           >
             Modify Business Details
           </Row>
-          <Row className={styles.list_round + " mt-3"}>
-            Partnership Payment Details
-          </Row>
+
+          <Link href="/partner/partnership">
+            <Row className={styles.list_round + " mt-3"}>
+              Partnership Payment Details
+            </Row>
+          </Link>
         </div>
       </Content>
     </Layout>
