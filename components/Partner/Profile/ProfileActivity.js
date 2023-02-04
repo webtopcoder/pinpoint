@@ -22,7 +22,7 @@ import {
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
-import { getActivity } from "@/redux/Profile/actions";
+import { getActivity, getProfilePoll, votePoll } from "@/redux/Profile/actions";
 import { getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
@@ -38,6 +38,9 @@ const ProfileActivity = ({
   onpostThink,
   activityInfo,
   myfollowerList,
+  ongetProfilePoll,
+  profilePoll,
+  onvotePoll,
 }) => {
   const IconText = ({ postID, text }) => (
     <Space>
@@ -51,26 +54,28 @@ const ProfileActivity = ({
     </Space>
   );
   //use totalPollVoteCount, partnerPollQuestion and PartnerPollOptions
-  const totalPollVoteCount = 20;
-  const partnerPollQuestion = "This is a question.";
-  const partnerPollOptions = [
-    {
-      option: "This is option 1.",
-      votePercecnt: "20",
+  const totalPollVoteCount = profilePoll.votes?.reduce(
+    (a, vote) => a + vote,
+    0
+  );
+  const partnerPollQuestion = profilePoll.question;
+  const partnerPollOptions = profilePoll.options.reduce(
+    (acc, option, index) => {
+      const content = option;
+      const voteCount = profilePoll.votes[index];
+      const votePercentage = ((voteCount / totalPollVoteCount) * 100).toFixed(
+        0
+      );
+
+      acc.push({
+        content,
+        votePercentage,
+      });
+
+      return acc;
     },
-    {
-      option: "This is option 2.",
-      votePercecnt: "50",
-    },
-    {
-      option: "This is option 3.",
-      votePercecnt: "10",
-    },
-    {
-      option: "This is option 4.",
-      votePercecnt: "20",
-    },
-  ];
+    []
+  );
 
   const myLoader = ({ src }) => {
     return src;
@@ -103,6 +108,7 @@ const ProfileActivity = ({
   };
 
   const router = useRouter();
+  const profile = router.query?.profile;
 
   const recommendPost = (postID) => {
     const movieObj = likeState.find((x) => x._id === postID);
@@ -140,6 +146,7 @@ const ProfileActivity = ({
           setLikesState(res.posts);
         } else notify("error", res.msg);
       });
+      ongetProfilePoll(profile);
     }
   }, [router.isReady]);
 
@@ -276,17 +283,6 @@ const ProfileActivity = ({
     },
   };
 
-  const [percent, setPercent] = useState(0);
-
-  const increase = () => {
-    setPercent((prevPercent) => {
-      const newPercent = prevPercent + 10;
-      if (newPercent > 100) {
-        return 100;
-      }
-      return newPercent;
-    });
-  };
   return (
     <div className="blog-details-area">
       <div className="container">
@@ -545,16 +541,29 @@ const ProfileActivity = ({
                                     }}
                                   >
                                     {" "}
-                                    {item.option}
+                                    {item.content}
                                   </Text>
 
                                   <Button
-                                    onClick={increase}
+                                    onClick={() => {
+                                      onvotePoll(profile, index, (_, error) => {
+                                        if (error) {
+                                          notify(
+                                            "error",
+                                            error?.response?.data?.message ||
+                                              "Something went wrong"
+                                          );
+                                          return;
+                                        }
+
+                                        notify("success", "Successfully voted");
+                                      });
+                                    }}
                                     icon={<PlusOutlined />}
                                   />
                                 </Space.Compact>
                                 <Progress
-                                  percent={item.votePercecnt}
+                                  percent={item.votePercentage}
                                   showInfo={false}
                                   strokeColor="#1677FF"
                                   trailColor="black"
@@ -709,6 +718,7 @@ const mapStateToProps = ({ profile, user }) => {
   return {
     activityInfo: profile.activityInfo,
     myfollowerList: user.myFollowers?.followers || [],
+    profilePoll: profile.profilePoll,
   };
 };
 
@@ -718,5 +728,7 @@ const mapDispatchToProps = (dispatch) => ({
   ongetActivity: (data, count, search, cb) =>
     dispatch(getActivity(data, count, search, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
+  ongetProfilePoll: (id) => dispatch(getProfilePoll(id)),
+  onvotePoll: (id, option, cb) => dispatch(votePoll(id, option, cb)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);
