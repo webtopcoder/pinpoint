@@ -55,7 +55,7 @@ export function getUserInfo(user_id, cb) {
         cb(res);
       })
       .catch((error) => {
-        if (error.response.status === 401) {
+        if (error?.response?.status === 401) {
           dispatch({
             type: LOGOUT,
           });
@@ -267,7 +267,7 @@ export function postThink({ userId, formData }, cb) {
 
 export function recommendPost(id, cb) {
   return (dispatch) =>
-    api(`profile/like/${id}`, "put")
+    api(`post/${id}/like`, "post")
       .then((res) => {
         dispatch({
           type: POST_LIKE_SUCCESS,
@@ -277,6 +277,7 @@ export function recommendPost(id, cb) {
       })
       .catch((error) => {
         console.log(error);
+        cb(null, error);
       });
 }
 

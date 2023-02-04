@@ -1,74 +1,59 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { connect } from "react-redux";
-import { useRouter } from "next/router";
-import {
-  Image as Antimage,
-  Button,
-  Avatar,
-  List,
-  Space,
-  Skeleton,
-  Typography,
-} from "antd";
-import { LikeOutlined } from "@ant-design/icons";
+import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
 import { getShoutout } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
-import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
-import toast from "@/components/Toast";
+import config from "@/utils/config";
+import { LikeOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Button,
+  Image as Antimage,
+  List,
+  Skeleton,
+  Space,
+  Typography,
+} from "antd";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
-const { Text, Link } = Typography;
-
-const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
-  const IconText = ({ postID, text }) => (
+const { Text } = Typography;
+const IconText = ({ postID, text, likePost }) => {
+  const [like, setLike] = useState(text ? text : 0);
+  return (
     <Space>
       <Button
         type="primary"
-        onClick={() => recommendPost(postID)}
+        onClick={() => {
+          likePost(postID, (liked) => {
+            if (liked) {
+              setLike((like) => like + 1);
+            } else {
+              setLike((like) => (like ? like - 1 : like));
+            }
+          });
+        }}
         shape="circle"
         icon={<LikeOutlined />}
       />
-      <Text> {text}</Text>
+      <Text>{like}</Text>
     </Space>
   );
+};
 
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
-  const updatePosts = (id, updatedMovieObj) => {
-    return likeState.map((item, index) => {
-      if (item._id !== id) {
-        // This isn't the item we care about - keep it as-is
-        return item;
+const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
+  const { notify } = useNotify();
+  const likePost = (id, cb) => {
+    onrecommendPost(id, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+      } else {
+        cb(res.liked);
       }
-      const updatedState = [
-        ...likeState.slice(0, index),
-        updatedMovieObj,
-        ...likeState.slice(index + 1),
-      ];
-
-      return setLikesState(updatedState);
-    });
-  };
-
-  const recommendPost = (postID) => {
-    const movieObj = likeState.find((x) => x._id === postID);
-    const myID = sessionStorage.getItem("user_id");
-    const found = movieObj.like?.find((element) => element == myID);
-
-    if (found !== undefined) {
-      notify("error", "You already like this post");
-      return false;
-    } else movieObj.like?.push(myID);
-    updatePosts(postID, movieObj);
-    onrecommendPost(postID, (res) => {
-      if (res.success) {
-        notify("success", res.msg);
-      } else notify("error", res.msg);
     });
   };
 
@@ -83,7 +68,6 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
   const [count, setCount] = useState(1);
   const [data, setData] = useState([]);
   const [list, setList] = useState([]);
-  const [likeState, setLikesState] = useState();
 
   const router = useRouter();
 
@@ -107,7 +91,6 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
           const newData = data.concat(res.results);
           setData(newData);
           setList(newData);
-          setLikesState(newData);
           setLoading(false);
           setInitLoading(false);
           window.dispatchEvent(new Event("resize"));
@@ -156,8 +139,11 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                             key={index}
                             actions={[
                               <IconText
-                                postID={item._id}
-                                text={item?.like ? item.like.length : 0}
+                                postID={item.post?._id}
+                                text={
+                                  item?.post?.like ? item?.post?.like?.count : 0
+                                }
+                                likePost={likePost}
                                 key="list-vertical-like-o"
                               />,
                             ]}

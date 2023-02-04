@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
 import { UploadOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
@@ -26,10 +25,33 @@ import { getActivity, getProfilePoll, votePoll } from "@/redux/Profile/actions";
 import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
-import toast from "@/components/Toast";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
-const { Text, Link } = Typography;
+import useNotify from "@/hooks/useNotify";
+const { Text } = Typography;
+
+const IconText = ({ postID, text, likePost }) => {
+  const [like, setLike] = useState(text ? text : 0);
+  return (
+    <Space>
+      <Button
+        type="primary"
+        onClick={() => {
+          likePost(postID, (liked) => {
+            if (liked) {
+              setLike((like) => like + 1);
+            } else {
+              setLike((like) => (like ? like - 1 : like));
+            }
+          });
+        }}
+        shape="circle"
+        icon={<LikeOutlined />}
+      />
+      <Text>{like}</Text>
+    </Space>
+  );
+};
 
 const ProfileActivity = ({
   onrecommendPost,
@@ -37,25 +59,26 @@ const ProfileActivity = ({
   ongetActivity,
   onpostThink,
   activityInfo,
-  myfollowerList,
   ongetProfilePoll,
   profilePoll,
   onvotePoll,
   ongetFollowerAndFollowings,
   followAndFollowing,
 }) => {
-  const IconText = ({ postID, text }) => (
-    <Space>
-      <Button
-        type="primary"
-        onClick={() => recommendPost(postID)}
-        shape="circle"
-        icon={<LikeOutlined />}
-      />
-      <Text> {text}</Text>
-    </Space>
-  );
-  //use totalPollVoteCount, partnerPollQuestion and PartnerPollOptions
+  const { notify } = useNotify();
+  const likePost = (id, cb) => {
+    onrecommendPost(id, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+      } else {
+        cb(res.liked);
+      }
+    });
+  };
+
   const totalPollVoteCount = profilePoll.votes?.reduce(
     (a, vote) => a + vote,
     0
@@ -104,55 +127,14 @@ const ProfileActivity = ({
   const imgurl = `http://${config.server}:${config.port}/avatar/`;
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-  const [prefix, setPrefix] = useState("@");
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(1);
   const [data, setData] = useState([]);
   const [list, setList] = useState([]);
-  const [likeState, setLikesState] = useState();
-
-  const updatePosts = (id, updatedMovieObj) => {
-    return likeState.map((item, index) => {
-      if (item._id !== id) {
-        // This isn't the item we care about - keep it as-is
-        return item;
-      }
-      const updatedState = [
-        ...likeState.slice(0, index),
-        updatedMovieObj,
-        ...likeState.slice(index + 1),
-      ];
-
-      return setLikesState(updatedState);
-    });
-  };
 
   const router = useRouter();
   const profile = router.query?.profile;
-
-  const recommendPost = (postID) => {
-    const movieObj = likeState.find((x) => x._id === postID);
-    const myID = sessionStorage.getItem("user_id");
-    const found = movieObj?.like?.find((element) => element == myID);
-
-    if (found !== undefined) {
-      notify("error", "You already like this post");
-      return false;
-    }
-
-    if (myID == movieObj?.from_user._id) {
-      notify("error", "You can not like your post");
-      return false;
-    } else movieObj?.like?.push(myID);
-    updatePosts(postID, movieObj);
-
-    onrecommendPost(postID, (res) => {
-      if (res.success) {
-        notify("success", res.msg);
-      } else notify("error", res.msg);
-    });
-  };
 
   useEffect(() => {
     if (router.isReady) {
@@ -165,7 +147,6 @@ const ProfileActivity = ({
           setData(res.posts);
           setList(res.posts);
           window.dispatchEvent(new Event("resize"));
-          setLikesState(res.posts);
         } else notify("error", res.msg);
       });
       ongetProfilePoll(profile);
@@ -191,43 +172,11 @@ const ProfileActivity = ({
           setData(newData);
           setList(newData);
           setLoading(false);
-          setLikesState(res.posts);
           window.dispatchEvent(new Event("resize"));
         } else notify("error", res.msg);
       });
     }
   }, [count]);
-
-  // useEffect(() => {
-  //     window.addEventListener('scroll', scrollmore);
-  // }, []);
-
-  // const scrollmore = () => {
-  //     setCount(count + 1);
-  //     if (window.innerHeight + document.documentElement.scrollTop === document.scrollingElement.scrollHeight) {
-  //         setLoading(true);
-  //         setList(
-  //             data.concat(
-  //                 [...new Array(10)].map(() => ({
-  //                     loading: true,
-  //                     from: {},
-  //                 })),
-  //             ),
-  //         );
-  //         const { profile } = router.query;
-
-  //         ongetActivity(profile, count, '', res => {
-  //             if (res.success) {
-  //                 const newData = data.concat(res.posts);
-  //                 setData(newData);
-  //                 setList(newData);
-  //                 setLoading(false);
-  //                 window.dispatchEvent(new Event('resize'));
-  //             }
-  //             else notify("error", res.msg)
-  //         });
-  //     }
-  // }
 
   const onLoadMore = () => {
     setCount(count + 1);
@@ -247,13 +196,6 @@ const ProfileActivity = ({
       </div>
     ) : null;
 
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
   const view_user_id = router.query.profile;
 
   const [composeForm] = Form.useForm();
@@ -263,9 +205,7 @@ const ProfileActivity = ({
   const onFinish = (values) => {
     const form_data = new FormData();
 
-    upload_name.map((file, index) =>
-      form_data.append("images", file.originFileObj)
-    );
+    upload_name.map((file) => form_data.append("images", file.originFileObj));
     form_data.append("content", values.message);
 
     const data = {
@@ -408,15 +348,12 @@ const ProfileActivity = ({
                           <List.Item
                             key={index}
                             actions={[
-                              item?.type == "post" ? (
-                                <IconText
-                                  postID={item._id}
-                                  text={item?.like ? item.like.length : 0}
-                                  key="list-vertical-like-o"
-                                />
-                              ) : (
-                                ""
-                              ),
+                              <IconText
+                                postID={item._id}
+                                text={item.like ? item?.like?.count : 0}
+                                likePost={likePost}
+                                key="list-vertical-like-o"
+                              />,
                             ]}
                           >
                             <Skeleton
