@@ -81,7 +81,6 @@ function AddLocationModal({
         let itemLocality = "";
         let itemState = "";
 
-        console.log(place);
         place.address_components.map((address_component, _) => {
           if (address_component.types[0] == "locality")
             itemLocality = address_component.long_name;

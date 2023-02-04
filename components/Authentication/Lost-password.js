@@ -5,23 +5,19 @@ import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
 import { recoveryPassword } from "@/redux/User/actions";
-import { lostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
-import toast from "@/components/Toast";
+import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
+import useNotify from "@/hooks/useNotify";
+
 
 const LostPassword = ({ onrecoveryPassword }) => {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
 
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
+  const { notify } = useNotify();
 
   const [form, setForm] = useState({
     userInfo: "",
   });
 
-  const { errors, validateForm, onBlurField } = lostPasswordFormValidator(form);
+  const { errors, validateForm, onBlurField } = useLostPasswordFormValidator(form);
   const onUpdateField = (e) => {
     const field = e.target.name;
     const nextFormState = {
@@ -36,10 +32,10 @@ const LostPassword = ({ onrecoveryPassword }) => {
         field,
       });
   };
+
   const onSubmitForm = (e) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
-    console.log(isValid);
     if (!isValid) return;
     onrecoveryPassword(form, (res) => {
       res.success ? notify("success", res.msg) : notify("error", res.msg);
@@ -78,6 +74,23 @@ const LostPassword = ({ onrecoveryPassword }) => {
                 {errors.userInfo.message}
               </p>
             ) : null}
+          </div>
+
+          <div className="form-group">
+            <div className="row">
+              <div className="col-lg-6 col-md-6 remember-me-wrap">
+                <Link href="/authentication/lost-password">
+                  <a className="lost-your-password">Resend Email Verification</a>
+                </Link>
+              </div>
+              <div className="col-lg-6 col-md-6 remember-me-wrap" style={{
+                textAlign: 'end'
+              }}>
+                <Link href="/authentication/lost-password">
+                  <a className="lost-your-password">Login</a>
+                </Link>
+              </div>
+            </div>
           </div>
 
           <div className="row">

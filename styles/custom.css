@@ -81,6 +81,14 @@
   font-style: italic;
 }
 
+.login-form form .login-text-link a {
+  color: var(--redLightColor);
+}
+
+.login-form form .login-text-link{
+  text-align: end;
+}
+
 .login-dashboard-button {
   margin-top: 0px !important;
   border-radius: 35px !important;
@@ -1315,4 +1323,8 @@ h4 {
 .custom-placeautomate:hover {
   border-color: #4096ff;
   border-inline-end-width: 1px;
+}
+
+.custom-placeautomate::placeholder {
+  color: #d9d9d9;
 }

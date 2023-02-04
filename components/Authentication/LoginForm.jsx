@@ -1,17 +1,15 @@
 import React from "react";
-import toast from "@/components/Toast";
 import logo from "@/public/images/logo.png";
 import { loginUser } from "@/redux/User/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
-
 import FormGroup from "./FormGroup";
-
 import { useLoginFormValidator } from "./hooks/useLoginValidator";
 import { passwordValidator, UserInfoValidator } from "./User/user-validator.js";
+import useNotify from "@/hooks/useNotify";
 
 const formValidator = {
   email: UserInfoValidator,
@@ -20,9 +18,8 @@ const formValidator = {
 
 const LoginForm = ({ onLoginUser, role }) => {
   const router = useRouter();
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+
+  const { notify } = useNotify();
 
   const [form, setForm] = useState({
     email: "",

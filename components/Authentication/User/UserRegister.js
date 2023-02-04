@@ -30,12 +30,6 @@ const UserRegister = ({ onRegisterUser }) => {
     confirmPassword: "",
   });
 
-  const setStartDate = (date) => {
-    setForm({
-      ...form,
-      birthday: date,
-    });
-  };
   const [cityList, setCityList] = useState([]);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);

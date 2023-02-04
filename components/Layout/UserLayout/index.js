@@ -24,9 +24,9 @@ const UserLayout = ({ children }) => {
   };
   useEffect(() => {
     setVisible(false);
-    // document
-    //   .getElementById("__next")
-    //   .addEventListener("click", hideRightbar, true);
+    document
+      .getElementById("__next")
+      .addEventListener("click", hideRightbar, true);
   }, [router.pathname]);
 
   useEffect(() => {}, []);

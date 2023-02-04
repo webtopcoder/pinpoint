@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { UserInfoValidator } from "../user-validator.js/index.js";
+import { UserInfoValidator } from "../user-validator.js";
 
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
