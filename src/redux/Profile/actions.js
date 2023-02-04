@@ -243,9 +243,9 @@ export function editNotification(rating, follow, mention, favorite) {
     });
 }
 
-export function postThink(info, cb) {
+export function postThink({ userId, formData }, cb) {
   return (dispatch) =>
-    api(`profile/${info.userId}/post`, "post", info)
+    api(`profile/${userId}/post`, "post", formData)
       .then((res) => {
         dispatch({
           type: THINK_POST_SUCCESS,

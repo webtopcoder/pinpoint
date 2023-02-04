@@ -80,7 +80,7 @@ const ProfileActivity = ({
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/post/`;
+  const imgurl = `http://${config.server}:${config.port}/avatar/`;
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
   const [prefix, setPrefix] = useState("@");
@@ -239,20 +239,19 @@ const ProfileActivity = ({
   const [upload_name, setUploadFile] = useState([]);
 
   const onFinish = (values) => {
-    // const form_data = new FormData();
-    //
-    // upload_name.map((file, index) =>
-    //   form_data.append("image", file.originFileObj)
-    // );
-    // form_data.append("content", values.message);
-    // form_data.append("userid", view_user_id);
+    const form_data = new FormData();
 
-    const form_data = {
-      content: values.message,
+    upload_name.map((file, index) =>
+      form_data.append("images", file.originFileObj)
+    );
+    form_data.append("content", values.message);
+
+    const data = {
       userId: view_user_id,
+      formData: form_data,
     };
 
-    onpostThink(form_data, (res) => {
+    onpostThink(data, (res) => {
       if (res.success) {
         composeForm.resetFields();
         notify("success", res.msg);
@@ -472,7 +471,7 @@ const ProfileActivity = ({
                                         key={index}
                                         loader={myLoader}
                                         width={"25%"}
-                                        src={imgurl + "/" + item}
+                                        src={imgurl + item?.filepath}
                                       />
                                     ))}
                                   </Antimage.PreviewGroup>
