@@ -31,7 +31,10 @@ import useNotify from "@/hooks/useNotify";
 const { Text } = Typography;
 
 const IconText = ({ postID, text, likePost }) => {
-  const [like, setLike] = useState(text ? text : 0);
+  const [like, setLike] = useState(text);
+  useEffect(() => {
+    setLike(text);
+  }, [text]);
   return (
     <Space>
       <Button

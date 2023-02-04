@@ -20,7 +20,10 @@ import { connect } from "react-redux";
 
 const { Text } = Typography;
 const IconText = ({ postID, text, likePost }) => {
-  const [like, setLike] = useState(text ? text : 0);
+  const [like, setLike] = useState(text);
+  useEffect(() => {
+    setLike(text);
+  }, [text]);
   return (
     <Space>
       <Button
@@ -141,7 +144,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                               <IconText
                                 postID={item.post?._id}
                                 text={
-                                  item?.post?.like ? item?.post?.like?.count : 0
+                                  item.post?.like ? item.post?.like.count : 0
                                 }
                                 likePost={likePost}
                                 key="list-vertical-like-o"
