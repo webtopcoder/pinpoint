@@ -26,6 +26,7 @@ import {
   PARNTER_SETTINGS_CHANGE,
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
+  PROFILE_POLL_SUCCESS,
 } from "./types";
 
 export function getUserInfo(user_id, cb) {
@@ -284,6 +285,37 @@ export function getHeader(id) {
       })
       .catch((error) => {
         console.log(error);
+      });
+}
+
+export function getProfilePoll(id) {
+  return (dispatch) =>
+    api(`profile/${id}/poll`, "get")
+      .then((res) => {
+        dispatch({
+          type: PROFILE_POLL_SUCCESS,
+          payload: res,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+export function votePoll(id, option, cb) {
+  return (dispatch) =>
+    api(`profile/${id}/poll`, "post", { option })
+      .then((res) => {
+        dispatch({
+          type: PROFILE_POLL_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        cb(null, error);
       });
 }
 
