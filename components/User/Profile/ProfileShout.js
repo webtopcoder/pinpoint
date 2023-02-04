@@ -75,7 +75,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/post/`;
+  const imgurl = `http://${config.server}:${config.port}/avatar/`;
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
   const [initLoading, setInitLoading] = useState(true);
@@ -221,9 +221,9 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                 }
                               />
                               <div className="custom-list-content">
-                                {item.content}
+                                {item.post?.content}
                               </div>
-                              {item.image ? (
+                              {item.post?.images ? (
                                 <div
                                   className="custom-list-content"
                                   style={{
@@ -231,11 +231,11 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                   }}
                                 >
                                   <Antimage.PreviewGroup>
-                                    {item.image.map((item1, index) => (
+                                    {item.post?.images?.map((image, index) => (
                                       <Antimage
                                         loader={myLoader}
                                         width={"25%"}
-                                        src={imgurl + "/" + item1}
+                                        src={imgurl + image.filepath}
                                         key={index}
                                       />
                                     ))}
