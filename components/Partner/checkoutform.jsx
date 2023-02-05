@@ -1,15 +1,28 @@
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { subscribe } from "@/src/redux/Profile/actions";
+import {
+  getUserInfo,
+  postTransaction,
+  subscribe,
+} from "@/src/redux/Profile/actions";
 import { connect } from "react-redux";
 import useNotify from "@/hooks/useNotify";
+import { Modal } from "antd";
 
-const CheckoutForm = ({ customerId, priceId, onCheckout, onPayment }) => {
+const CheckoutForm = ({
+  customerId,
+  priceId,
+  onCheckout,
+  onPayment,
+  showModal,
+  onCancel,
+  setShowModal,
+}) => {
   const [error, setError] = useState(undefined);
   const [disabled, setDisabled] = useState(false);
+
   const stripe = useStripe();
   const elements = useElements();
-  console.log(priceId);
   function handleCardInputChange(event) {
     // Listen for changes in card input
     // and display errors, if any, to the user
@@ -33,15 +46,14 @@ const CheckoutForm = ({ customerId, priceId, onCheckout, onPayment }) => {
       customerId: customerId,
       priceId: priceId,
     };
-    console.log(data);
+
     await onCheckout(data, async (res, error) => {
-      console.log(res);
       const subscription = res;
-      console.log(subscription);
       if (!subscription) {
         notify("error", "Subscription purchase failed");
         return;
       }
+
       const stripePayload = await stripe.confirmCardPayment(
         subscription.clientSecret, // returned by subscribe endpoint
         {
@@ -50,37 +62,48 @@ const CheckoutForm = ({ customerId, priceId, onCheckout, onPayment }) => {
           },
         }
       );
-      console.log(stripePayload);
+
       const data = {
         order: stripePayload.paymentIntent,
         amount: stripePayload.paymentIntent.amount,
         currency: stripePayload.paymentIntent.currency,
-        priceId: "price_1MXlprDRRpegNszZVriDy4L0",
+        priceId: priceId,
       };
-      await onPayment(data, async (res, error) => {
+
+      onPayment(data, (res, error) => {
         if (error) {
           console.log(error);
+          notify("error", "Transaction send failed");
         }
       });
+
       if (stripePayload.error) {
         setError(stripePayload.error.message);
-        notify("error", error);
+        notify("error", "Stripe error");
+        return;
       }
+
+      notify("success", "Subscription purchase successful");
+
+      setShowModal(false);
     });
   }
 
   return (
-    <form onSubmit={handleCheckoutFormSubmit}>
+    <Modal
+      open={showModal}
+      okText="Pay Now"
+      onOk={handleCheckoutFormSubmit}
+      onCancel={onCancel}
+    >
       <CardElement onChange={handleCardInputChange} />
-      <button disabled={!stripe && disabled} type="submit">
-        Pay Now
-      </button>
-    </form>
+    </Modal>
   );
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onCheckout: (data, cb) => dispatch(subscribe(data, cb)),
   onPayment: (data, cb) => dispatch(postTransaction(data, cb)),
+  ongetUser: (cb) => dispatch(getUserInfo(cb)),
 });
 export default connect(undefined, mapDispatchToProps)(CheckoutForm);

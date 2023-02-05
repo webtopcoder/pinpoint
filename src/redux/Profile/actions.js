@@ -37,7 +37,7 @@ import {
   PARTNERSHIP_TRANSACTION_SUCCESS,
 } from "./types";
 
-export function getUserInfo(user_id, cb) {
+export function getUserInfo(cb) {
   return (dispatch) =>
     api(`auth/me`, "get")
       .then((res) => {
