@@ -16,16 +16,13 @@ const CheckoutForm = ({
   onPayment,
   showModal,
   onCancel,
-  getUserInfo,
   setShowModal,
 }) => {
   const [error, setError] = useState(undefined);
   const [disabled, setDisabled] = useState(false);
-  const [show, setShow] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
-  console.log(priceId);
   function handleCardInputChange(event) {
     // Listen for changes in card input
     // and display errors, if any, to the user
@@ -49,15 +46,14 @@ const CheckoutForm = ({
       customerId: customerId,
       priceId: priceId,
     };
-    console.log(data);
+
     await onCheckout(data, async (res, error) => {
-      console.log(res);
       const subscription = res;
-      console.log(subscription);
       if (!subscription) {
         notify("error", "Subscription purchase failed");
         return;
       }
+
       const stripePayload = await stripe.confirmCardPayment(
         subscription.clientSecret, // returned by subscribe endpoint
         {
@@ -66,32 +62,31 @@ const CheckoutForm = ({
           },
         }
       );
-      console.log(stripePayload);
+
       const data = {
         order: stripePayload.paymentIntent,
         amount: stripePayload.paymentIntent.amount,
         currency: stripePayload.paymentIntent.currency,
         priceId: priceId,
       };
-      console.log(data);
-      await onPayment(data, async (res, error) => {
+
+      onPayment(data, (res, error) => {
         if (error) {
           console.log(error);
+          notify("error", "Transaction send failed");
         }
       });
+
       if (stripePayload.error) {
         setError(stripePayload.error.message);
-        notify("error", error);
+        notify("error", "Stripe error");
+        return;
       }
-    });
 
-    await getUserInfo((res, error) => {
-      if (error) {
-        console.log("error");
-      }
-      notify("success", "Subscription active");
+      notify("success", "Subscription purchase successful");
+
+      setShowModal(false);
     });
-    setShowModal(false);
   }
 
   return (
@@ -109,5 +104,6 @@ const CheckoutForm = ({
 const mapDispatchToProps = (dispatch) => ({
   onCheckout: (data, cb) => dispatch(subscribe(data, cb)),
   onPayment: (data, cb) => dispatch(postTransaction(data, cb)),
+  ongetUser: (cb) => dispatch(getUserInfo(cb)),
 });
 export default connect(undefined, mapDispatchToProps)(CheckoutForm);

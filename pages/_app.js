@@ -59,9 +59,7 @@ function MyApp({ Component, pageProps }) {
       });
     }
 
-    store.dispatch((dispatch) =>
-      getUserInfo(store.getState().user.user_id, () => {})(dispatch)
-    );
+    store.dispatch((dispatch) => getUserInfo(() => {})(dispatch));
 
     return () => {
       if (socket !== null) socket.off("New Client");
