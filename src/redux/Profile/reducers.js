@@ -20,6 +20,7 @@ import {
   PARTNERSHIPS_SUBSCRIBE_REQUEST,
   PARTNERSHIPS_SUBSCRIBE_SUCCESS,
   PARTNERSHIPS_CREATE_CUSTOMER_SUCCESS,
+  PARTNERSHIP_TRANSACTION_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -234,7 +235,11 @@ const profileReducer = (state = initialState, action) => {
         ...state,
       };
     }
-
+    case PARTNERSHIP_TRANSACTION_SUCCESS: {
+      return {
+        ...state,
+      };
+    }
     default:
       return {
         ...state,
