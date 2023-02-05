@@ -50,7 +50,13 @@ const IconText = ({ icon, text }) => (
 
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = false, user_id }) => {
+const LocationCard = ({
+  onDepartureSet,
+  ongetLocations,
+  location,
+  showActions = false,
+  user_id,
+}) => {
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
@@ -83,26 +89,23 @@ const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = f
 
   const departure = (location_id) => {
     const form = {
-      locationId: location_id
-    }
-    onDepartureSet(
-      form,
-      (_, error) => {
-        if (error) {
-          notify("error", "Error");
-          return;
-        }
-        notify("success", "Successfully departed");
-        ongetLocations({ partner: user_id }, (_, error) => {
-          if (error) {
-            notify(
-              "error",
-              error?.response?.data?.message ?? "Something went wrong"
-            );
-          }
-        });
+      locationId: location_id,
+    };
+    onDepartureSet(form, (_, error) => {
+      if (error) {
+        notify("error", "Error");
+        return;
       }
-    );
+      notify("success", "Successfully departed");
+      ongetLocations({ partner: user_id }, (_, error) => {
+        if (error) {
+          notify(
+            "error",
+            error?.response?.data?.message ?? "Something went wrong"
+          );
+        }
+      });
+    });
   };
 
   const items = [
@@ -112,10 +115,10 @@ const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = f
           onClick={() =>
             window.open(
               baseUrl +
-              "/profile/" +
-              location.partner._id +
-              "/locations/" +
-              location._id,
+                "/profile/" +
+                location.partner._id +
+                "/locations/" +
+                location._id,
               "_blank"
             )
           }
@@ -149,20 +152,24 @@ const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = f
         actions={
           showActions && [
             // {location.Inactive}
-            location.isActive ?
+            location.isActive ? (
               <Button type="link" disabled>
                 Arrival
-              </Button> :
+              </Button>
+            ) : (
               <Button type="link" onClick={() => setArrivalModalOpen(true)}>
                 Arrival
-              </Button>,
-            location.isActive ?
+              </Button>
+            ),
+            location.isActive ? (
               <Button type="link" onClick={() => departure(location._id)}>
                 Departure
-              </Button> :
+              </Button>
+            ) : (
               <Button type="link" disabled>
                 Departure
-              </Button>,
+              </Button>
+            ),
             <Dropdown
               menu={{
                 items,
@@ -189,7 +196,7 @@ const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = f
                 size={100}
                 icon={
                   location.images.length !== 0 &&
-                    location.images[0]?.filepath ? (
+                  location.images[0]?.filepath ? (
                     <Image
                       src={avatarurl + location.images[0]?.filepath}
                       height={200}
@@ -307,6 +314,7 @@ const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = f
         setArrivalModalOpen={setArrivalModalOpen}
         uploadProps={uploadProps}
         locationInfo={location}
+        uploadFile={uploadFile}
       />
       <DepartureModal
         modalOpen={departureModalOpen}
@@ -338,7 +346,6 @@ const matchDispatchToProps = (dispatch) => {
     onDepartureSet: (data, cb) => dispatch(quickDeparture(data, cb)),
     ongetLocations: (payload, callback) =>
       dispatch(getLocations(payload, callback)),
-
   };
 };
 

@@ -30,7 +30,8 @@ function ArrivalModal({
   onquickArrival,
   ongetLocations,
   user_id,
-  locationInfo
+  locationInfo,
+  uploadFile,
 }) {
   const [arrivalForm] = Form.useForm();
 
@@ -101,30 +102,44 @@ function ArrivalModal({
         initialValues={formInitialValues}
         form={arrivalForm}
         fields={
-          locationInfo ? [{
-            name: ["locationId"],
-            value: locationInfo._id
-          }
-          ] : ''}
+          locationInfo
+            ? [
+                {
+                  name: ["locationId"],
+                  value: locationInfo._id,
+                },
+              ]
+            : ""
+        }
         onFinish={(values) => {
-          console.log(values)
-          onquickArrival(values, (_, error) => {
-            setArrivalModalOpen(false);
-            if (error) {
-              notify("error", "Something went wrong");
-              return;
-            }
-            arrivalForm.resetFields();
-            notify("success", "Successfully arrived");
-            ongetLocations({ partner: user_id }, (_, error) => {
-              if (error) {
-                notify(
-                  "error",
-                  error?.response?.data?.message ?? "Something went wrong"
-                );
-              }
-            });
+          const formData = new FormData();
+          uploadFile.map((file) =>
+            formData.append("images", file.originFileObj)
+          );
+          Object.keys(values).forEach((key) => {
+            formData.append(key, values[key]);
           });
+
+          onquickArrival(
+            { locationId: values.locationId, form: formData },
+            (_, error) => {
+              setArrivalModalOpen(false);
+              if (error) {
+                notify("error", "Something went wrong");
+                return;
+              }
+              arrivalForm.resetFields();
+              notify("success", "Successfully arrived");
+              ongetLocations({ partner: user_id }, (_, error) => {
+                if (error) {
+                  notify(
+                    "error",
+                    error?.response?.data?.message ?? "Something went wrong"
+                  );
+                }
+              });
+            }
+          );
         }}
         layout="vertical"
       >
@@ -151,14 +166,17 @@ function ArrivalModal({
               name="locationId"
               tooltip="This is a required field"
               rules={
-                !locationInfo ? [
-                  {
-                    required: true,
-                    message: "Please select a location",
-                  },
-                ] : ''}
+                !locationInfo
+                  ? [
+                      {
+                        required: true,
+                        message: "Please select a location",
+                      },
+                    ]
+                  : ""
+              }
             >
-              {locationInfo ?
+              {locationInfo ? (
                 <Select
                   defaultValue={locationInfo._id}
                   size="middle"
@@ -166,11 +184,11 @@ function ArrivalModal({
                     width: "100%",
                   }}
                   options={[
-                    { value: locationInfo._id, label: locationInfo.title }
+                    { value: locationInfo._id, label: locationInfo.title },
                   ]}
                   disabled
-                >
-                </Select> :
+                ></Select>
+              ) : (
                 <Select
                   size="middle"
                   style={{
@@ -180,8 +198,8 @@ function ArrivalModal({
                     value: location._id,
                     label: location.title,
                   }))}
-                ></Select>}
-
+                ></Select>
+              )}
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>

@@ -5,6 +5,7 @@ import {
   quickDeparture as quickDepartureAction,
   quickArrival as quickArrivalAction,
 } from "@/src/redux/Location/actions";
+import { uploadAvatar } from "@/src/redux/Profile/actions";
 import {
   Card,
   Col,
@@ -208,6 +209,8 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
       <ArrivalModal
         openArrival={modal2Open}
         setArrivalModalOpen={setModal2Open}
+        uploadProps={uploadProps}
+        uploadFile={upload_name}
       />
       {/* Departure Modal */}
       <DepartureModal
