@@ -13,15 +13,12 @@ import {
   LOCATION_UPDATE_REQUEST,
   LOCATION_UPDATE_SUCCESS,
   LOCATION_DELETE_REQUEST,
-  LOCATION_DELETE_SUCCESS
+  LOCATION_DELETE_SUCCESS,
 } from "./types";
 
-export function quickArrival(form, cb) {
+export function quickArrival({ form, locationId }, cb) {
   return (dispatch) =>
-    api(`locations/${form.locationId}/quick-arrival`, "post", {
-      departureAt: form.departureAt,
-      arrivalText: form.arrivalText,
-    })
+    api(`locations/${locationId}/quick-arrival`, "post", form)
       .then((res) => {
         dispatch({
           type: LOCATION_QUICK_ARRIVAL_REQUEST,
