@@ -14,15 +14,17 @@ const PartnerLocations = ({ locations, ongetLocations }) => {
 
   const { notify } = useNotify();
   useEffect(() => {
-    ongetLocations({ partner: profile }, (_, error) => {
-      if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
-      }
-    });
-  }, []);
+    if (router.isReady) {
+      ongetLocations({ partner: profile }, (_, error) => {
+        if (error) {
+          notify(
+            "error",
+            error?.response?.data?.message ?? "Something went wrong"
+          );
+        }
+      });
+    }
+  }, [router.isReady]);
 
   return (
     <Layout
