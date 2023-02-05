@@ -116,9 +116,8 @@ function ArrivalModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
-          Object.keys(values).forEach((key) => {
-            formData.append(key, values[key]);
-          });
+          formData.append("arrivalText", values.arrivalText);
+          formData.append("departureAt", values.departureAt);
 
           onquickArrival(
             { locationId: values.locationId, form: formData },
