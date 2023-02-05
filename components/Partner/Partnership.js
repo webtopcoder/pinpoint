@@ -19,7 +19,7 @@ import {
   getPartnerships,
   getUserInfo,
 } from "@/redux/Profile/actions";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import CheckoutForm from "./checkoutform";
 import { Elements } from "@stripe/react-stripe-js";
@@ -51,7 +51,6 @@ const PartnerShipPayment = ({
   const handleCancel = () => setShowModal(false);
   const { notify } = useNotify();
   async function handleSubscribeClick(priceID) {
-    console.log(priceID);
     setPriceId(priceID);
     await createCustomer((res, error) => {
       const customer = res.customer;
@@ -61,7 +60,6 @@ const PartnerShipPayment = ({
         console.log("error");
       }
     });
-    console.log(customer);
     setShowModal(true);
   }
   async function handleCancelSubscription(e, subscriptionId) {
@@ -164,7 +162,6 @@ const PartnerShipPayment = ({
                   customerId={customer.id}
                   priceId={priceId}
                   setShowModal={setShowModal}
-                  getUserInfo={getUserInfo}
                 />
               ) : (
                 ""
@@ -259,7 +256,7 @@ const Partnership = ({
               }}
               justify="space-around"
             >
-              {plans.map((plan, index) => (
+              {partnershipPlans.map((plan, index) => (
                 <Col xs={12} sm={8} md={6} lg={8} xl={8} key={index}>
                   {user_partnership == plan._id ? (
                     <Badge.Ribbon text="Active" color="green">
@@ -276,7 +273,6 @@ const Partnership = ({
                     <PartnerShipPayment
                       {...plan}
                       createCustomer={onCreateCustomer}
-                      getUserInfo={ongetUser}
                     />
                   )}
                 </Col>
@@ -297,11 +293,6 @@ const mapStateToProps = ({ profile }) => {
   };
 };
 
-let user_id = "";
-
-if (typeof window !== "undefined") {
-  user_id = sessionStorage.getItem("user_id");
-}
 const mapDispatchToProps = (dispatch) => ({
   ongetUser: (cb) => dispatch(getUserInfo(user_id, cb)),
   onCancelSubscription: (data, cb) => dispatch(cancelSubscription(data, cb)),
