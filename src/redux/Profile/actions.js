@@ -1,5 +1,6 @@
 import api from "@/utils/callApi";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
+import { LOGOUT } from "../User/types";
 
 import {
   ABOUT_CHANGE_SUCCESS,
@@ -61,7 +62,12 @@ export function getUserInfo(user_id, cb) {
         cb(res);
       })
       .catch((error) => {
-        console.log(error);
+        if (error?.response?.status === 401) {
+          dispatch({
+            type: LOGOUT,
+          });
+        }
+        cb(null, error);
       });
 }
 export function createCustomer(cb) {
@@ -323,9 +329,9 @@ export function editNotification(rating, follow, mention, favorite) {
     });
 }
 
-export function postThink(info, cb) {
+export function postThink({ userId, formData }, cb) {
   return (dispatch) =>
-    api(`profile/${info.userId}/post`, "post", info)
+    api(`profile/${userId}/post`, "post", formData)
       .then((res) => {
         dispatch({
           type: THINK_POST_SUCCESS,
@@ -341,7 +347,7 @@ export function postThink(info, cb) {
 
 export function recommendPost(id, cb) {
   return (dispatch) =>
-    api(`profile/like/${id}`, "put")
+    api(`post/${id}/like`, "post")
       .then((res) => {
         dispatch({
           type: POST_LIKE_SUCCESS,
@@ -351,6 +357,7 @@ export function recommendPost(id, cb) {
       })
       .catch((error) => {
         console.log(error);
+        cb(null, error);
       });
 }
 

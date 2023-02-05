@@ -30,6 +30,7 @@ function ArrivalModal({
   onquickArrival,
   ongetLocations,
   user_id,
+  locationInfo
 }) {
   const [arrivalForm] = Form.useForm();
 
@@ -99,7 +100,14 @@ function ArrivalModal({
       <Form
         initialValues={formInitialValues}
         form={arrivalForm}
+        fields={
+          locationInfo ? [{
+            name: ["locationId"],
+            value: locationInfo._id
+          }
+          ] : ''}
         onFinish={(values) => {
+          console.log(values)
           onquickArrival(values, (_, error) => {
             setArrivalModalOpen(false);
             if (error) {
@@ -142,23 +150,38 @@ function ArrivalModal({
               required
               name="locationId"
               tooltip="This is a required field"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a location",
-                },
-              ]}
+              rules={
+                !locationInfo ? [
+                  {
+                    required: true,
+                    message: "Please select a location",
+                  },
+                ] : ''}
             >
-              <Select
-                size="middle"
-                style={{
-                  width: "100%",
-                }}
-                options={locations.map((location) => ({
-                  value: location._id,
-                  label: location.title,
-                }))}
-              ></Select>
+              {locationInfo ?
+                <Select
+                  defaultValue={locationInfo._id}
+                  size="middle"
+                  style={{
+                    width: "100%",
+                  }}
+                  options={[
+                    { value: locationInfo._id, label: locationInfo.title }
+                  ]}
+                  disabled
+                >
+                </Select> :
+                <Select
+                  size="middle"
+                  style={{
+                    width: "100%",
+                  }}
+                  options={locations.map((location) => ({
+                    value: location._id,
+                    label: location.title,
+                  }))}
+                ></Select>}
+
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>

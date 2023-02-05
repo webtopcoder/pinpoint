@@ -1,4 +1,5 @@
 import React from "react";
+import useNotify from "@/hooks/useNotify";
 import {
   EnvironmentFilled,
   MessageOutlined,
@@ -26,6 +27,8 @@ import baseUrl from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
 import config from "@/utils/config";
+import { quickDeparture, getLocations } from "@/src/redux/Location/actions";
+
 import Image from "next/image";
 
 const { Text } = Typography;
@@ -47,12 +50,13 @@ const IconText = ({ icon, text }) => (
 
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-const LocationCard = ({ location, showActions = false }) => {
+const LocationCard = ({ onDepartureSet,ongetLocations, location, showActions = false, user_id }) => {
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
+  const [uploadFile, setUploadFile] = useState([]);
 
-  const [uploadName, setUploadFile] = useState([]);
+  const { notify } = useNotify();
 
   const uploadProps = {
     name: "upload",
@@ -75,6 +79,30 @@ const LocationCard = ({ location, showActions = false }) => {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
+  };
+
+  const departure = (location_id) => {
+    const form = {
+      locationId: location_id
+    }
+    onDepartureSet(
+      form,
+      (_, error) => {
+        if (error) {
+          notify("error", "Error");
+          return;
+        }
+        notify("success", "Successfully departed");
+        ongetLocations({ partner: user_id }, (_, error) => {
+          if (error) {
+            notify(
+              "error",
+              error?.response?.data?.message ?? "Something went wrong"
+            );
+          }
+        });
+      }
+    );
   };
 
   const items = [
@@ -120,12 +148,21 @@ const LocationCard = ({ location, showActions = false }) => {
         className="partner-locations-card"
         actions={
           showActions && [
-            <Button type="link" onClick={() => setArrivalModalOpen(true)}>
-              Arrival
-            </Button>,
-            <Button type="link" onClick={() => setDepartureModalOpen(true)}>
-              Departure
-            </Button>,
+            // {location.Inactive}
+            location.isActive ?
+              <Button type="link" disabled>
+                Arrival
+              </Button> :
+              <Button type="link" onClick={() => setArrivalModalOpen(true)}>
+                Arrival
+              </Button>,
+            location.isActive ?
+              <Button type="link" onClick={() => departure(location._id)}>
+                Departure
+              </Button> :
+              <Button type="link" disabled>
+                Departure
+              </Button>,
             <Dropdown
               menu={{
                 items,
@@ -269,15 +306,18 @@ const LocationCard = ({ location, showActions = false }) => {
         openArrival={arrivalModalOpen}
         setArrivalModalOpen={setArrivalModalOpen}
         uploadProps={uploadProps}
+        locationInfo={location}
       />
       <DepartureModal
         modalOpen={departureModalOpen}
         setModalOpen={setDepartureModalOpen}
       />
       <ModifyModal
-        uploadProps={uploadProps}
         modalOpen={modifyModalOpen}
         setModalOpen={setModifyModalOpen}
+        locationInfo={location}
+        uploadProps={uploadProps}
+        uploadFile={uploadFile}
       />
     </>
   );
@@ -295,6 +335,10 @@ const matchDispatchToProps = (dispatch) => {
     // deleteLocation: (location) => dispatch(deleteLocation(location)),
     // createLocation: (location) => dispatch(createLocation(location)),
     // updateLocation: (location) => dispatch(updateLocation(location)),
+    onDepartureSet: (data, cb) => dispatch(quickDeparture(data, cb)),
+    ongetLocations: (payload, callback) =>
+      dispatch(getLocations(payload, callback)),
+
   };
 };
 

@@ -16,6 +16,7 @@ import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { createLocation, getLocations } from "@/src/redux/Location/actions";
+import { getsubCategory } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
 
 const { TextArea } = Input;
@@ -42,6 +43,9 @@ function AddLocationModal({
   uploadFile,
   onAddLocation,
   ongetLocations,
+  onGetSubCategories,
+  subCategories,
+  userCategoryId,
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
@@ -53,15 +57,17 @@ function AddLocationModal({
     address: "",
     city: "",
     state: "",
+    lat: "",
+    lng: "",
   });
 
-  const subcategoryList = [];
-  for (let i = 10; i < 36; i++) {
-    subcategoryList.push({
-      value: i.toString(36) + i,
-      label: i.toString(36) + i,
+  useEffect(() => {
+    onGetSubCategories(userCategoryId, (_, error) => {
+      if (error) {
+        notify("error", error);
+      }
     });
-  }
+  }, []);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -74,6 +80,8 @@ function AddLocationModal({
         const place = await autoCompleteRef.current.getPlace();
         let itemLocality = "";
         let itemState = "";
+
+        console.log(place);
         place.address_components.map((address_component, _) => {
           if (address_component.types[0] == "locality")
             itemLocality = address_component.long_name;
@@ -86,6 +94,8 @@ function AddLocationModal({
           address: place.formatted_address,
           state: itemState,
           city: itemLocality,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
         });
       });
     }
@@ -99,6 +109,12 @@ function AddLocationModal({
     };
     setaddressForm(nextFormState);
   };
+
+  const subcategoryList = subCategories?.map((item) => ({
+    label: item.name,
+    value: item._id,
+  }));
+
   return (
     <Modal
       className="dashboard-modal"
@@ -162,8 +178,10 @@ function AddLocationModal({
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
-          formData.append("city", values.city);
-          formData.append("state", values.state);
+          formData.append("city", addressForm.city);
+          formData.append("state", addressForm.state);
+          formData.append("lat", addressForm.lat);
+          formData.append("lng", addressForm.lng);
 
           onAddLocation(formData, (_, err) => {
             if (err) {
@@ -272,6 +290,7 @@ function AddLocationModal({
                     <Button
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
+                      maxCount={1}
                     >
                       Location Image
                     </Button>
@@ -299,13 +318,17 @@ function AddLocationModal({
   );
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, profile }) => ({
   user_id: user.user_id,
+  userCategoryId: profile.userinfo.category,
+  subCategories: user.partnersubCategory?.subCategories,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
   onAddLocation: (data, cb) => dispatch(createLocation(data, cb)),
+  onGetSubCategories: (categoryId, cb) =>
+    dispatch(getsubCategory(categoryId, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddLocationModal);

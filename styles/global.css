@@ -73,9 +73,9 @@ a {
   outline: 0 !important;
 }
 
-span a{
+/* span a{
   color: white
-}
+} */
 
 a:hover {
   text-decoration: none;

@@ -17,6 +17,8 @@ import {
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
+  ALL_SUB_CATEGORY_GET_SUCCESS,
+  GET_FOLLOW_AND_FOLLOWING_SUCCESS,
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -210,5 +212,21 @@ export function postSettingsValue(data, cb) {
       })
       .catch((error) => {
         console.log(error);
+      });
+}
+
+export function getFollowerAndFollowing(cb) {
+  return (dispatch) =>
+    api(`follow`, "get")
+      .then((res) => {
+        dispatch({
+          type: GET_FOLLOW_AND_FOLLOWING_SUCCESS,
+          payload: res,
+        });
+        cb && cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        cb && cb(null, error);
       });
 }

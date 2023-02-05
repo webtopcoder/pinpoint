@@ -66,10 +66,10 @@ const AddUserModal = ({
 
       return;
     }
-
     const additionalUserSettings = user_settings.find(
       (setting) => setting.key == "user:additionalUser"
     );
+
 
     if (!additionalUserSettings) {
       const additionalUserSettingsArray = [];
@@ -80,6 +80,8 @@ const AddUserModal = ({
         value: additionalUserSettingsArray,
       };
 
+      console.log(data);
+
       onSettingsToggle(data, (res, error) => {
         if (error) {
           console.log("error");
@@ -89,14 +91,18 @@ const AddUserModal = ({
       });
     } else {
       const additionalUserSettingsArray = additionalUserSettings.value;
+      console.log(additionalUserSettingsArray)
       const filtered = additionalUserSettingsArray.filter(
         (user) => user.email != form.email
       );
       filtered.push(form);
+
+
       const data = {
         key: `user:additionalUser`,
         value: filtered,
       };
+
       onSettingsToggle(data, (res, error) => {
         if (error) {
           console.log("error");

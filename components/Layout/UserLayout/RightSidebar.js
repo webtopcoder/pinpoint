@@ -17,29 +17,27 @@ import { logout } from "@/src/redux/User/actions";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import config from "@/utils/config";
+import useNotify from "@/hooks/useNotify";
 
 const RightSidebar = (props) => {
-  const avatarImg = "";
+  let avatarImg = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
     avatarImg = sessionStorage.getItem("avatar");
   }
 
-  const { visible, onLogout, user_id, role } = props;
+  const { visible, onLogout, user_id, role, token } = props;
   const router = useRouter();
-  const [token, setToken] = useState(null);
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-  useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
-  }, []);
+  const { notify } = useNotify();
 
   const onLogoutHandler = () => {
     onLogout((res) => {
-      setToken(null);
       router.push("/home");
     });
   };
+
   const SignupOrLogin = (path) => {
     router.push(path);
   };
