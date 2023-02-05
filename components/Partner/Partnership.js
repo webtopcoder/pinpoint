@@ -12,7 +12,11 @@ import {
   Space,
   Modal,
 } from "antd";
-import { createCustomer, getPartnerships } from "@/redux/Profile/actions";
+import {
+  createCustomer,
+  getPartnerships,
+  getUserInfo,
+} from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import CheckoutForm from "./checkoutform";
@@ -36,14 +40,13 @@ const PartnerShipPayment = ({
   isActive,
   renewalDate,
   createCustomer,
+  getUserInfo,
 }) => {
   const [priceId, setPriceId] = useState("");
   const [customer, setCustomer] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const handleCancel = () => setShowModal(false);
-  const handleOk = () => {
-    setShowModal(false);
-  };
+
   async function handleSubscribeClick(priceID) {
     console.log(priceID);
     setPriceId(priceID);
@@ -124,13 +127,19 @@ const PartnerShipPayment = ({
               >
                 {price == 0 ? "Get Free" : "Buy Now"}
               </Button>
-              <Modal open={showModal}>
-                {customer ? (
-                  <CheckoutForm customerId={customer.id} priceId={priceId} />
-                ) : (
-                  ""
-                )}
-              </Modal>
+
+              {customer ? (
+                <CheckoutForm
+                  showModal={showModal}
+                  onCancel={handleCancel}
+                  customerId={customer.id}
+                  priceId={priceId}
+                  setShowModal={setShowModal}
+                  getUserInfo={getUserInfo}
+                />
+              ) : (
+                ""
+              )}
             </>
           )}
 
@@ -158,25 +167,28 @@ const Partnership = ({
   ongetPartnershipplans,
   partnershipPriceRenewalDate,
   onCreateCustomer,
+  ongetUser,
 }) => {
   // const partnerShipPlans = usePartnerShipPlans();
   const { notify } = useNotify();
+  const [plans, setPlans] = useState([]);
   console.log(user_partnership);
   console.log(partnershipPlans);
-  const router = useRouter();
+
   useEffect(() => {
-    if (router.isReady) {
-      ongetPartnershipplans((_, error) => {
-        if (error) {
-          console.log(error);
-          notify(
-            "error",
-            error?.response?.data?.message ?? "Something went wrong"
-          );
-        }
-      });
-    }
-  }, [router.isReady]);
+    setPlans(partnershipPlans);
+  }, [partnershipPlans, ongetUser]);
+  useEffect(() => {
+    ongetPartnershipplans((_, error) => {
+      if (error) {
+        console.log(error);
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      }
+    });
+  }, [ongetPartnershipplans]);
 
   return (
     <Elements stripe={stripePromise}>
@@ -213,7 +225,7 @@ const Partnership = ({
               }}
               justify="space-around"
             >
-              {partnershipPlans.map((plan, index) => (
+              {plans.map((plan, index) => (
                 <Col xs={12} sm={8} md={6} lg={8} xl={8} key={index}>
                   {user_partnership == plan._id ? (
                     <Badge.Ribbon text="Active" color="green">
@@ -227,6 +239,7 @@ const Partnership = ({
                     <PartnerShipPayment
                       {...plan}
                       createCustomer={onCreateCustomer}
+                      getUserInfo={ongetUser}
                     />
                   )}
                 </Col>
@@ -245,7 +258,15 @@ const mapStateToProps = ({ profile }) => {
     partnershipPriceRenewalDate: profile.userinfo.partnershipPriceRenewalDate,
   };
 };
+
+let user_id = "";
+
+if (typeof window !== "undefined") {
+  user_id = sessionStorage.getItem("user_id");
+}
 const mapDispatchToProps = (dispatch) => ({
+  ongetUser: (cb) => dispatch(getUserInfo(user_id, cb)),
+
   onCreateCustomer: (cb) => dispatch(createCustomer(cb)),
   ongetPartnershipplans: (cb) => dispatch(getPartnerships(cb)),
 });

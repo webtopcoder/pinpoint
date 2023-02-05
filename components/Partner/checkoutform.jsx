@@ -1,12 +1,28 @@
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { subscribe } from "@/src/redux/Profile/actions";
+import {
+  getUserInfo,
+  postTransaction,
+  subscribe,
+} from "@/src/redux/Profile/actions";
 import { connect } from "react-redux";
 import useNotify from "@/hooks/useNotify";
+import { Modal } from "antd";
 
-const CheckoutForm = ({ customerId, priceId, onCheckout, onPayment }) => {
+const CheckoutForm = ({
+  customerId,
+  priceId,
+  onCheckout,
+  onPayment,
+  showModal,
+  onCancel,
+  getUserInfo,
+  setShowModal,
+}) => {
   const [error, setError] = useState(undefined);
   const [disabled, setDisabled] = useState(false);
+  const [show, setShow] = useState(false);
+
   const stripe = useStripe();
   const elements = useElements();
   console.log(priceId);
@@ -55,8 +71,9 @@ const CheckoutForm = ({ customerId, priceId, onCheckout, onPayment }) => {
         order: stripePayload.paymentIntent,
         amount: stripePayload.paymentIntent.amount,
         currency: stripePayload.paymentIntent.currency,
-        priceId: "price_1MXlprDRRpegNszZVriDy4L0",
+        priceId: priceId,
       };
+      console.log(data);
       await onPayment(data, async (res, error) => {
         if (error) {
           console.log(error);
@@ -67,15 +84,25 @@ const CheckoutForm = ({ customerId, priceId, onCheckout, onPayment }) => {
         notify("error", error);
       }
     });
+
+    await getUserInfo((res, error) => {
+      if (error) {
+        console.log("error");
+      }
+      notify("success", "Subscription active");
+    });
+    setShowModal(false);
   }
 
   return (
-    <form onSubmit={handleCheckoutFormSubmit}>
+    <Modal
+      open={showModal}
+      okText="Pay Now"
+      onOk={handleCheckoutFormSubmit}
+      onCancel={onCancel}
+    >
       <CardElement onChange={handleCardInputChange} />
-      <button disabled={!stripe && disabled} type="submit">
-        Pay Now
-      </button>
-    </form>
+    </Modal>
   );
 };
 
