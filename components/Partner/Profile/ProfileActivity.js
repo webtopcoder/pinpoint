@@ -220,6 +220,14 @@ const ProfileActivity = ({
       if (res.success) {
         composeForm.resetFields();
         notify("success", res.msg);
+        ongetActivity(profile, 1, "", (res) => {
+          if (res.success) {
+            setInitLoading(false);
+            setData(res.posts);
+            setList(res.posts);
+            window.dispatchEvent(new Event("resize"));
+          } else notify("error", res.msg);
+        });
       } else notify("error", res.msg);
     });
   };
@@ -543,7 +551,7 @@ const ProfileActivity = ({
                                   key={index}
                                   loader={myLoader}
                                   width={"25%"}
-                                  src={imgurl + "/" + image}
+                                  src={imgurl + image?.filepath}
                                 />
                               ))}
                           </Antimage.PreviewGroup>
