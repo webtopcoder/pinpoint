@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
 import {
@@ -29,6 +29,10 @@ import food from "@/public/images/landing/food.png";
 import baseUrl from "@/utils/baseUrl";
 import { postReview } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
+import { getLocationById } from "@/src/redux/Location/actions";
+import ButtonGroup from "antd/es/button/button-group";
+import { useRouter } from "next/router";
+import { setRequestMeta } from "next/dist/server/request-meta";
 const { Content } = Layout;
 const { Text } = Typography;
 
@@ -42,9 +46,8 @@ const IconText = ({ text }) => (
 const imgurl = `http://${config.server}:${config.port}/avatar/`;
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-const PartnerLocation = ({ location, onPostReview }) => {
+const PartnerLocation = ({ location, onPostReview, getLocationInfo }) => {
   if (!location) return <Skeleton active />;
-
   return (
     <Layout
       className="site-layout"
@@ -57,8 +60,12 @@ const PartnerLocation = ({ location, onPostReview }) => {
           <LocationBanner location={location} />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
+              {location.isActive ? (
+                <Posts location={location} getLocationInfo={getLocationInfo} />
+              ) : (
+                ""
+              )}
               <PostForm location={location} onPostReview={onPostReview} />
-              {/*location.isActive ? <Posts {...ActivePost} {...location} /> : "" */}
               <div className="avatar-area green-color">
                 <div className="avatar-respond">
                   <div className="avatar-form">
@@ -84,6 +91,121 @@ const PartnerLocation = ({ location, onPostReview }) => {
     </Layout>
   );
 };
+
+function Posts({ review, location, getLocationInfo }) {
+  const router = useRouter();
+  // const [checkInNumber, setCheckInNumber] = useState(location.checkIn);
+  const [arrivalText, setArrivalText] = useState(location.arrivalText);
+  const [arrivalImage, setArrivalImage] = useState(
+    location.arrivalImages[0]?.filepath
+  );
+  const [date, setDate] = useState(location.createdAt);
+  useEffect(() => {
+    if (router.isReady) {
+      const locationId = router.query.location;
+      getLocationInfo({ id: locationId }, (res, err) => {
+        if (err) {
+          notify(
+            "error",
+            err?.response?.data?.message || "Something went wrong"
+          );
+        } else {
+          setArrivalText(res.arrivalText);
+          setDate(res.createdAt);
+          setArrivalImage(res.arrivalImages);
+          // setCheckInNumber(res.checkIn)
+        }
+      });
+    }
+  }, [router.isReady]);
+  return (
+    <div>
+      <div className="avatar-area green-color">
+        <div className="avatar-respond">
+          <div style={{ display: "flex" }} className="pin-post-header-section">
+            <div className="pin-post-label">
+              <p className="comment-notes">
+                <Avatar
+                  src={avatarurl + review?.user?.profile?.avatar?.filepath}
+                  size={64}
+                />
+                <p style={{ display: "inline-block", marginLeft: "10px" }}>
+                  {location?.title}
+                  <span style={{ marginLeft: "15px" }}>
+                    <div
+                      style={{
+                        height: "15px",
+                        width: "15px",
+                        backgroundColor: location?.isActive
+                          ? "#05ff00"
+                          : "#ff0000",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        marginRight: "5px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                    <p
+                      style={{
+                        fontSize: "10px",
+                        verticalAlign: "middle",
+                        display: "inline",
+                      }}
+                    >
+                      at {location?.mapLocation?.city}
+                    </p>
+                  </span>
+                </p>
+              </p>
+            </div>
+            <div style={{ marginLeft: "auto", order: "2" }}>
+              <Button
+                onClick={() => {
+                  // setCheckInNumber((prev) => prev + 1);
+                }}
+              >
+                Check In
+              </Button>
+            </div>
+          </div>
+          <div style={{ display: "flex" }}>
+            <div style={{ marginTop: "20px" }}>{arrivalText}</div>
+            <div style={{ marginLeft: "auto" }}>
+              <Image
+                src={imgurl + arrivalImage && arrivalImage[0]?.filepath}
+                alt="img"
+                width="100px"
+                height="100px"
+              />
+            </div>
+          </div>
+          <div style={{ display: "flex", marginTop: "30px" }}>
+            <div>
+              {new Date(date).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+            </div>
+            <div style={{ marginLeft: "auto", order: "2" }}>
+              <Button style={{ marginRight: "10px" }}>
+                {/* {checkInNumber} checked in */}
+              </Button>
+              <IconText
+                text={location?.like ? location.like.count : 0}
+                key="list-vertical-like-o"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function PostForm({ location, onPostReview }) {
   const [rating, setRating] = useState(0);
@@ -298,7 +420,7 @@ function Post({ review }) {
           )}
         />
 
-        <div className="custom-list-content">{review.text}</div>
+        <div className="custom-list-content">{review?.text}</div>
         {review.images ? (
           <div
             className="custom-list-content"
@@ -398,17 +520,6 @@ function LocationBanner({ location }) {
           {location.description ?? "Description of the location"}
         </Text>
 
-        <Text
-          strong
-          style={{
-            color: "#fff",
-            textAlign: "center",
-            paddingTop: "20px",
-          }}
-        >
-          {location.arrivalText}
-        </Text>
-
         <Avatar
           style={{
             border: "3px solid black",
@@ -434,6 +545,7 @@ function LocationBanner({ location }) {
 
 const mapDispatchToProp = (dispatch) => {
   return {
+    getLocationInfo: (id, cb) => dispatch(getLocationById(id, cb)),
     onPostReview: (locationId, form, cb) =>
       dispatch(postReview(locationId, form, cb)),
   };
