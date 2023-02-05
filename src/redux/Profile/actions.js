@@ -35,6 +35,8 @@ import {
   PARTNERSHIP_CREATE_CUSTOMER_REQUEST,
   PARTNERSHIP_CREATE_CUSTOMER_SUCCESS,
   PARTNERSHIP_TRANSACTION_SUCCESS,
+  PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
+  PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
 } from "./types";
 
 export function getUserInfo(cb) {
@@ -108,6 +110,26 @@ export function subscribe(data, cb) {
       });
   };
 }
+export function cancelSubscription(data, cb) {
+  return (dispatch) => {
+    api(`/partnership/cancel-subscribe`, "delete", data)
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
+        });
+        dispatch({
+          type: PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+  };
+}
+
 export function postTransaction(data, cb) {
   return (dispatch) => {
     api(`/partnership/create-transaction`, "post", data)
