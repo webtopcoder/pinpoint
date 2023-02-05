@@ -15,7 +15,11 @@ import {
   USER_INFO_SUCCESS,
   USERINFO_GET_SUCCESS,
   USERPOLL_GET_SUCCESS,
+  PARTNERSHIPS_GET_SUCCESS,
   PROFILE_POLL_SUCCESS,
+  PARTNERSHIPS_SUBSCRIBE_REQUEST,
+  PARTNERSHIPS_SUBSCRIBE_SUCCESS,
+  PARTNERSHIPS_CREATE_CUSTOMER_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -48,6 +52,7 @@ const initialState = {
   followersInfo: [],
   shoutoutInfo: {},
   allphotosInfo: [],
+  partnershipsInfo: [],
   profilePoll: {
     question: "",
     options: [],
@@ -205,6 +210,28 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         shoutoutInfo: action.payload,
+      };
+    }
+    case PARTNERSHIPS_GET_SUCCESS: {
+      return {
+        ...state,
+        partnershipsInfo: action.payload.results,
+      };
+    }
+    case PARTNERSHIPS_CREATE_CUSTOMER_SUCCESS: {
+      return {
+        ...state,
+      };
+    }
+
+    case PARTNERSHIPS_SUBSCRIBE_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case PARTNERSHIPS_SUBSCRIBE_SUCCESS: {
+      return {
+        ...state,
       };
     }
 
