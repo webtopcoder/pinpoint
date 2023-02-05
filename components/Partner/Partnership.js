@@ -11,18 +11,20 @@ import {
   Typography,
   Space,
   Modal,
+  Popconfirm,
 } from "antd";
 import {
+  cancelSubscription,
   createCustomer,
   getPartnerships,
   getUserInfo,
 } from "@/redux/Profile/actions";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import CheckoutForm from "./checkoutform";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { DeleteOutlined } from "@ant-design/icons";
 const { Text, Paragraph } = Typography;
 
 const { Content } = Layout;
@@ -40,13 +42,14 @@ const PartnerShipPayment = ({
   isActive,
   renewalDate,
   createCustomer,
-  getUserInfo,
+  subscriptionId,
+  cancelSubscription,
 }) => {
   const [priceId, setPriceId] = useState("");
   const [customer, setCustomer] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const handleCancel = () => setShowModal(false);
-
+  const { notify } = useNotify();
   async function handleSubscribeClick(priceID) {
     console.log(priceID);
     setPriceId(priceID);
@@ -60,6 +63,19 @@ const PartnerShipPayment = ({
     });
     console.log(customer);
     setShowModal(true);
+  }
+  async function handleCancelSubscription(e, subscriptionId) {
+    e.preventDefault();
+    console.log(subscriptionId);
+    const data = {
+      subscriptionId: subscriptionId,
+    };
+    await cancelSubscription(data, (res, error) => {
+      if (error) {
+        console.log("error");
+      }
+      notify("success", "Subscription Cancelled");
+    });
   }
 
   return (
@@ -105,9 +121,22 @@ const PartnerShipPayment = ({
                 <Text style={{ color: "green" }}>Renews on {renewalDate}</Text>
               </Space>
               <Space>
-                <Button size="large" danger>
-                  Cancel Partnership
-                </Button>
+                <Popconfirm
+                  title="Cancel PartnerShip?"
+                  description="Are you sure you want to unsubscribe from this plan?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={(e) => handleCancelSubscription(e, subscriptionId)}
+                >
+                  <Button
+                    size="large"
+                    shape="round"
+                    icon={<DeleteOutlined />}
+                    danger
+                  >
+                    Cancel Partnership
+                  </Button>
+                </Popconfirm>
               </Space>
             </>
           ) : (
@@ -168,27 +197,32 @@ const Partnership = ({
   partnershipPriceRenewalDate,
   onCreateCustomer,
   ongetUser,
+  user_subscriptionId,
+  onCancelSubscription,
 }) => {
   // const partnerShipPlans = usePartnerShipPlans();
+  const router = useRouter();
   const { notify } = useNotify();
   const [plans, setPlans] = useState([]);
   console.log(user_partnership);
   console.log(partnershipPlans);
-
+  console.log(user_subscriptionId);
   useEffect(() => {
     setPlans(partnershipPlans);
-  }, [partnershipPlans, ongetUser]);
+  }, [partnershipPlans]);
   useEffect(() => {
-    ongetPartnershipplans((_, error) => {
-      if (error) {
-        console.log(error);
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
-      }
-    });
-  }, [ongetPartnershipplans]);
+    if (router.isReady) {
+      ongetPartnershipplans((_, error) => {
+        if (error) {
+          console.log(error);
+          notify(
+            "error",
+            error?.response?.data?.message ?? "Something went wrong"
+          );
+        }
+      });
+    }
+  }, [ongetPartnershipplans, router.isReady]);
 
   return (
     <Elements stripe={stripePromise}>
@@ -233,6 +267,9 @@ const Partnership = ({
                         {...plan}
                         isActive={true}
                         renewalDate={partnershipPriceRenewalDate}
+                        subscriptionId={user_subscriptionId}
+                        cancelSubscription={onCancelSubscription}
+                        getUserInfo={ongetUser}
                       />
                     </Badge.Ribbon>
                   ) : (
@@ -255,6 +292,7 @@ const mapStateToProps = ({ profile }) => {
   return {
     partnershipPlans: profile.partnershipsInfo,
     user_partnership: profile.userinfo.activePartnership,
+    user_subscriptionId: profile.userinfo?.activeSubscription?.id,
     partnershipPriceRenewalDate: profile.userinfo.partnershipPriceRenewalDate,
   };
 };
@@ -266,6 +304,7 @@ if (typeof window !== "undefined") {
 }
 const mapDispatchToProps = (dispatch) => ({
   ongetUser: (cb) => dispatch(getUserInfo(user_id, cb)),
+  onCancelSubscription: (data, cb) => dispatch(cancelSubscription(data, cb)),
 
   onCreateCustomer: (cb) => dispatch(createCustomer(cb)),
   ongetPartnershipplans: (cb) => dispatch(getPartnerships(cb)),
