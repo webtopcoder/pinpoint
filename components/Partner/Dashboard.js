@@ -5,18 +5,8 @@ import {
   quickDeparture as quickDepartureAction,
   quickArrival as quickArrivalAction,
 } from "@/src/redux/Location/actions";
-import { uploadAvatar } from "@/src/redux/Profile/actions";
-import {
-  Card,
-  Col,
-  Form,
-  Input,
-  Layout,
-  message,
-  Row,
-  Select,
-  Typography,
-} from "antd";
+import { getDashboardInfo } from "@/src/redux/Profile/actions";
+import { Card, Col, Layout, message, Row } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -27,12 +17,17 @@ import toast from "../Toast";
 
 const { Content } = Layout;
 
-const PartnerDashboard = ({ userId, ongetLocations }) => {
+const PartnerDashboard = ({
+  userId,
+  ongetLocations,
+  ongetDashboardInfo,
+  dashboardInfo,
+}) => {
   const router = useRouter();
   const [upload_name, setUploadFile] = useState([]);
 
-  const [modal2Open, setModal2Open] = useState(false);
-  const [modal1Open, setModal1Open] = useState(false);
+  const [arrivalModalOpen, setModal2Open] = useState(false);
+  const [departureModalOpen, setModal1Open] = useState(false);
   const notify = useCallback((type, message) => {
     toast({ type, message });
   }, []);
@@ -62,8 +57,8 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      if (modal2Open) {
-        ongetLocations({ isActive: false, partner: userId }, (res, error) => {
+      if (arrivalModalOpen) {
+        ongetLocations({ isActive: false, partner: userId }, (_, error) => {
           if (error) {
             notify("error", "Something went wrong!");
             return;
@@ -71,8 +66,8 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
         });
       }
 
-      if (modal1Open) {
-        ongetLocations({ isActive: true, partner: userId }, (res, error) => {
+      if (departureModalOpen) {
+        ongetLocations({ isActive: true, partner: userId }, (_, error) => {
           if (error) {
             notify("error", "Something went wrong!");
             return;
@@ -80,7 +75,16 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
         });
       }
     }
-  }, [modal1Open, modal2Open, router.isReady]);
+  }, [departureModalOpen, arrivalModalOpen, router.isReady]);
+
+  useEffect(() => {
+    ongetDashboardInfo((_, error) => {
+      if (error) {
+        notify("error", "Something went wrong!");
+        return;
+      }
+    });
+  }, []);
 
   return (
     <Layout
@@ -104,8 +108,7 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
                 title="Partner Locations"
                 bordered={false}
               >
-                {" "}
-                2{" "}
+                {dashboardInfo?.partnerLocations}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -114,8 +117,7 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
                 title="Active Locations"
                 bordered={false}
               >
-                {" "}
-                1{" "}
+                {dashboardInfo?.activeLocations}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -124,8 +126,7 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
                 title="Followers"
                 bordered={true}
               >
-                {" "}
-                155{" "}
+                {dashboardInfo?.followers}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={6} xl={6}>
@@ -134,8 +135,7 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
                 title="Profile Views"
                 bordered={false}
               >
-                {" "}
-                75{" "}
+                {dashboardInfo?.profileViews}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -144,8 +144,7 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
                 title="Business Rating"
                 bordered={false}
               >
-                {" "}
-                4.2{" "}
+                {dashboardInfo?.businessRating}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -154,8 +153,7 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
                 title="Check In's"
                 bordered={false}
               >
-                {" "}
-                32{" "}
+                {dashboardInfo?.checkIns}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -207,24 +205,25 @@ const PartnerDashboard = ({ userId, ongetLocations }) => {
       </Content>
       {/* Arrival Modal */}
       <ArrivalModal
-        openArrival={modal2Open}
+        openArrival={arrivalModalOpen}
         setArrivalModalOpen={setModal2Open}
         uploadProps={uploadProps}
         uploadFile={upload_name}
       />
       {/* Departure Modal */}
       <DepartureModal
-        modalOpen={modal1Open}
+        modalOpen={departureModalOpen}
         setModalOpen={setModal1Open}
         uploadProps={uploadProps}
       />
     </Layout>
   );
 };
-const matchStateToProps = ({ location, user }) => {
+const matchStateToProps = ({ location, profile, user }) => {
   return {
     locations: location.userLocations,
     userId: user.user_id,
+    dashboardInfo: profile.dashboardInfo,
   };
 };
 
@@ -232,6 +231,7 @@ const matchDispatchToProps = (dispatch) => ({
   onquickArrival: (data, cb) => dispatch(quickArrivalAction(data, cb)),
   onquickDeparture: (data, cb) => dispatch(quickDepartureAction(data, cb)),
   ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
+  ongetDashboardInfo: (cb) => dispatch(getDashboardInfo(cb)),
 });
 
 export default connect(

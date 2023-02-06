@@ -429,6 +429,7 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
                         ]}
                         onChange={setRating}
                         value={rating}
+                        allowClear={false}
                       />
                     </Form.Item>
                   </Col>

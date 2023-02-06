@@ -23,6 +23,7 @@ import {
   PARTNERSHIP_TRANSACTION_SUCCESS,
   PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
   PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
+  DASHBOARD_GET_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -249,6 +250,14 @@ const profileReducer = (state = initialState, action) => {
         ...state,
       };
     }
+
+    case DASHBOARD_GET_SUCCESS: {
+      return {
+        ...state,
+        dashboardInfo: action.payload,
+      };
+    }
+
     default:
       return {
         ...state,

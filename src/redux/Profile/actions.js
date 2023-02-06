@@ -37,6 +37,7 @@ import {
   PARTNERSHIP_TRANSACTION_SUCCESS,
   PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
   PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
+  DASHBOARD_GET_SUCCESS,
 } from "./types";
 
 export function getUserInfo(cb) {
@@ -509,4 +510,21 @@ export function updateBusinessDetail(info, cb) {
       .catch((error) => {
         cb(null, error);
       });
+}
+
+export function getDashboardInfo(cb) {
+  return (dispatch) => {
+    api(`profile/partner/dashboard`, "get")
+      .then((res) => {
+        dispatch({
+          type: DASHBOARD_GET_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+  };
 }
