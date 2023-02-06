@@ -63,11 +63,11 @@ function ModifyModal({
   const inputRef = useRef();
 
   const [addressForm, setaddressForm] = useState({
-    address: locationInfo.mapLocation.address,
-    city: locationInfo.mapLocation.city,
-    state: locationInfo.mapLocation.state,
-    lat: locationInfo.mapLocation.latitude ?? 0,
-    lng: locationInfo.mapLocation.lngitude ?? 0,
+    address: locationInfo?.mapLocation?.address,
+    city: locationInfo?.mapLocation?.city,
+    state: locationInfo?.mapLocation?.state,
+    lat: locationInfo?.mapLocation?.latitude ?? 0,
+    lng: locationInfo?.mapLocation?.lngitude ?? 0,
   });
 
   useEffect(() => {
