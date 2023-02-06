@@ -212,7 +212,7 @@ export function likeLocation(locationId, cb) {
           type: LOCATION_REVIEW_SUCCESS,
         });
 
-        cb(res);
+        cb(res.liked);
       })
       .catch((error) => {
         cb(null, error);

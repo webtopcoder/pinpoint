@@ -285,9 +285,11 @@ function ArrivalBanner({ location, onLikeLocation }) {
               })}
             </div>
             <div style={{ marginLeft: "auto", order: "2" }}>
-              <Button style={{ marginRight: "10px" }}>
-                {/* {checkInNumber} checked in */}
-              </Button>
+              {/*
+      <Button style={{ marginRight: "10px" }}>
+       {checkInNumber} checked in
+      </Button>
+      */}
               <LikeLocation
                 likeLocation={onLikeLocation}
                 locationId={location._id}
