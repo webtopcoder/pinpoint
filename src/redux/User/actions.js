@@ -145,19 +145,40 @@ export function getmyFollowers() {
 
 export function recoveryPassword(form, cb) {
   return (dispatch) =>
-    api(`auth/user/lostpassword`, "post", form).then((res) => {
-      dispatch({
-        type: RESET_PASSWORD_REQUEST,
-      });
+    api(`auth/reset-password`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: RESET_PASSWORD_REQUEST,
+        });
 
-      dispatch({
-        type: RESET_PASSWORD_SUCCESS,
-        payload: res,
-      });
+        dispatch({
+          type: RESET_PASSWORD_SUCCESS,
+        });
 
-      localStorage.setItem("userInfo", JSON.stringify(res));
-      cb(res);
-    });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function forgotPassword(form, cb) {
+  return (dispatch) =>
+    api(`auth/forgot-password`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: RESET_PASSWORD_REQUEST,
+        });
+
+        dispatch({
+          type: RESET_PASSWORD_SUCCESS,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
 }
 
 export const logout = (cb) => (dispatch) => {
