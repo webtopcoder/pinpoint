@@ -4,13 +4,18 @@ import { connect } from "react-redux";
 import {
   UploadOutlined,
   EnvironmentFilled,
+  MessageOutlined,
   LikeOutlined,
+  EnvironmentOutlined
 } from "@ant-design/icons";
+import Link from "next/link";
 import {
   Image as Antimage,
   Button,
   Form,
   Row,
+  Divider,
+  Tag,
   Col,
   Avatar,
   Typography,
@@ -23,6 +28,7 @@ import {
   Rate,
   message,
   Upload,
+  Badge
 } from "antd";
 import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
@@ -30,7 +36,7 @@ import baseUrl from "@/utils/baseUrl";
 import { postReview } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import { getLocationById } from "@/src/redux/Location/actions";
-import ButtonGroup from "antd/es/button/button-group";
+// import { ButtonGroup } from "antd/es/button/button-group";
 import { useRouter } from "next/router";
 import { setRequestMeta } from "next/dist/server/request-meta";
 const { Content } = Layout;
@@ -56,7 +62,9 @@ const PartnerLocation = ({ location, onPostReview, getLocationInfo }) => {
       }}
     >
       <Content>
-        <div className="container">
+        <div className="container" style={{
+          paddingTop: 100
+        }}>
           <LocationBanner location={location} />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
@@ -383,9 +391,9 @@ function Post({ review }) {
                   onClick={() =>
                     window.open(
                       baseUrl +
-                        "/profile/" +
-                        location.partner._id +
-                        "/activity",
+                      "/profile/" +
+                      location.partner._id +
+                      "/activity",
                       "_blank"
                     )
                   }
@@ -447,99 +455,123 @@ function Post({ review }) {
 }
 
 function LocationBanner({ location }) {
+
+  console.log(location);
   if (!location) return <Skeleton active />;
   return (
-    <Card
-      className="banner"
-      style={{
-        backgroundColor: "#2F2F2F",
-        margin: "60px 16px",
-        marginTop: "100px",
-        position: "relative",
-      }}
-      bodyStyle={{
-        paddingBottom: "5px",
-      }}
-      bordered={false}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Row
-          justify={"space-between"}
-          style={{
-            height: "100px",
-            marginTop: "20px",
-          }}
-        >
-          <Rate
-            allowHalf
-            disabled
-            defaultValue={2}
-            tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-            value={location.rating}
-          />
-          <Space direction="vertical">
-            <Text
+    <>
+      <Row>
+        <Col span={18} offset={3} style={{
+
+        }}>
+          <Badge.Ribbon text={location.isActive ? "Active" : "Inactive"} placement="start" color={location.isActive ? "green" : "red"}>
+            <Card
               style={{
-                marginTop: "30px",
-                fontSize: "20px",
-                color: "#fff",
+                color: "white",
+                cursor: "pointer",
               }}
-              strong
+              headStyle={{
+                color: "white",
+                textAlign: "center",
+              }}
+              className="partner-locations-card"
             >
-              {location.title}
-            </Text>
-          </Space>
+              <Row
+                gutter={16}
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <Col span={8}>
+                  <Space>
+                    <Rate
+                      disabled
+                      allowHalf
+                      defaultValue={2}
+                      tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
+                      onChange={(value) => setRating(value)}
+                      value={location.rating}
+                    />
+                  </Space>
+                </Col>
 
-          <Space
-            wrap
-            style={{
-              alignItems: "top",
-              alignSelf: "flex-start",
-            }}
-          >
-            <div
-              style={{
-                height: "15px",
-                width: "15px",
-                backgroundColor: location.isActive ? "#05ff00" : "#ff0000",
-                borderRadius: "50%",
-              }}
-            />
-            <Text style={{ color: "#fff" }}>
-              {location.mapLocation?.address}
-            </Text>
-          </Space>
-        </Row>
+                <Col span={8} style={{
+                  top: -100
+                }}>
+                  <Space direction="vertical" >
+                    <Link
+                      href={`/profile/${location.partner._id}/locations/${location._id}`}
+                    >
+                      <Avatar
+                        style={{ border: "3px solid black", cursor: "pointer", background: 'rgb(223 216 216)' }}
+                        size={150}
+                        icon={
+                          location.images.length !== 0 &&
+                            location.images[0]?.filepath ? (
+                            <Image
+                              src={avatarurl + location.images[0]?.filepath}
+                              height={200}
+                              width={200}
+                            />
+                          ) : (
+                            <EnvironmentFilled />
+                          )
+                        }
+                      />
+                    </Link>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontWeight: 600,
+                        fontSize: 20
+                      }}
+                    >
+                      {location?.title}
+                    </Text>
+                  </Space>
+                </Col>
+                <Col span={8}>
+                  <Space direction="vertical">
+                    <Text
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      <EnvironmentOutlined /> {location?.mapLocation?.address}
+                    </Text>
 
-        <Text style={{ color: "#fff", textAlign: "center" }}>
-          {location.description ?? "Description of the location"}
-        </Text>
-
-        <Avatar
-          style={{
-            border: "3px solid black",
-            position: "absolute",
-            top: "-28%",
-            right: "45%",
-          }}
-          size={100}
-          src={
-            location.images &&
-            location.images?.length != 0 &&
-            location.images[0]?.filepath ? (
-              avatarurl + location.images[0]?.filepath
-            ) : (
-              <EnvironmentFilled />
-            )
-          }
-        />
-      </div>
-    </Card>
+                  </Space>
+                </Col>
+                <Col span='24' style={{
+                  top: -60
+                }}>
+                  <Space direction="vertical" className="gutter-row" span={24}>
+                    <Space>
+                      <Text
+                        style={{
+                          color: "white",
+                        }}
+                      >
+                        {location?.description}
+                      </Text>
+                    </Space>
+                    <Space>
+                      <Text
+                        style={{
+                          color: "white",
+                        }}
+                      >
+                        last seen {location.lastSeen}
+                      </Text>
+                    </Space>
+                  </Space>
+                </Col>
+              </Row>
+            </Card>
+          </Badge.Ribbon>
+        </Col>
+      </Row>
+    </>
   );
 }
 
