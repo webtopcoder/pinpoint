@@ -7,7 +7,11 @@ import {
 } from "@/src/redux/Profile/actions";
 import { connect } from "react-redux";
 import useNotify from "@/hooks/useNotify";
-import { Modal } from "antd";
+import { Modal, Row, Col, Typography } from "antd";
+import Image from "next/image";
+import food from "@/public/images/landing/food.png";
+
+const { Title } = Typography;
 
 const CheckoutForm = ({
   customerId,
@@ -95,8 +99,59 @@ const CheckoutForm = ({
       okText="Pay Now"
       onOk={handleCheckoutFormSubmit}
       onCancel={onCancel}
+      closable={false}
     >
-      <CardElement onChange={handleCardInputChange} />
+      <>
+      <Row>
+        <Col
+          xs={20}
+          sm={20}
+          md={20}
+          lg={20}
+          xl={20}
+          style={{
+            margin: "auto",
+          }}
+        >
+          <Title
+            style={{
+              textAlign: "center",
+              fontWeight: 900,
+            }}
+            level={3}
+          >
+            Add Payment Details
+          </Title>
+        </Col>
+        <Col
+          xs={4}
+          sm={4}
+          md={4}
+          lg={4}
+          xl={4}
+          style={{
+            textAlign: "right",
+          }}
+        >
+          <Image src={food} alt="Snow" width={50} height={70} />
+        </Col>
+
+        <Col
+          xs={24}
+          sm={24}
+          md={24}
+          lg={24}
+          xl={24}
+          style={{
+            marginTop: 20
+          }}
+        >
+          <CardElement onChange={handleCardInputChange} />
+        </Col>
+      </Row>
+
+      
+      </>
     </Modal>
   );
 };

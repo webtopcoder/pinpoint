@@ -232,9 +232,9 @@ const Partnership = ({
                   style={{
                     color: "white",
                     fontSize: 20,
-                    textAlign: "center",
-                    padding: 10,
-                    background: "teal",
+                    textAlign: "",
+                    padding: 20,
+                    background: "#1677ff",
                     borderRadius: 10,
                   }}
                 >
