@@ -109,7 +109,6 @@ function LeftSidebar({
 
   const handleOriginPageRender = (page) => {
 
-
     router.push(page);
   };
 
@@ -275,13 +274,21 @@ function LeftSidebar({
           <div className="avatar-panel-collapse">
             <div className="partner-avatar-center">
               <div className="rightsidebar-avatar-collapse">
-                <Avatar
-                  style={{
-                    border: "3px solid gray",
-                  }}
-                  size={50}
-                  icon={<UserOutlined />}
-                />
+                {avatar ? (
+                  <Avatar
+                    src={avatarurl + avatar}
+                    alt="avatar"
+                    size={50}
+                  />
+                ) : (
+                  <Avatar
+                    style={{
+                      border: "3px solid gray",
+                    }}
+                    size={50}
+                    icon={<UserOutlined />}
+                  />
+                )}
               </div>
             </div>
           </div>
