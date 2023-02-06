@@ -13,6 +13,7 @@ const Header = ({
   headerInfo,
   onpostFollower,
   ondeleteFollower,
+  user_id,
 }) => {
   const myLoader = ({ src }) => {
     return src;
@@ -20,10 +21,6 @@ const Header = ({
   const avatarurl = `http://${config.server}:${config.port}/avatar`;
   const router = useRouter();
   const { notify } = useNotify();
-  let user_id = "";
-  if (typeof window !== "undefined") {
-    user_id = sessionStorage.getItem("user_id");
-  }
 
   const view_user_id = router.query.profile;
 
@@ -225,9 +222,10 @@ const Header = ({
   );
 };
 
-const mapStateToProps = ({ profile }) => {
+const mapStateToProps = ({ profile, user }) => {
   return {
     headerInfo: profile.headerInfo,
+    user_id: user.user_id,
   };
 };
 

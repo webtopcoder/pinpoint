@@ -51,7 +51,7 @@ export function loginUser(form, cb) {
           type: S_NOTIFICATION,
         });
 
-        localStorage.setItem("userInfo", JSON.stringify(res));
+        localStorage.setItem("userInfo", JSON.stringify(res.user));
         cb(res);
       })
       .catch((error) => {

@@ -26,7 +26,7 @@ import {
 } from "./types";
 
 const initialState = {
-  userinfo: [],
+  userinfo: {},
   activityInfo: {},
   editInfo: {
     about: "",
@@ -72,7 +72,7 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         userinfo: action.payload?.user,
-        avatar: action.payload?.user?.avatar?.filepath,
+        avatar: action.payload?.user?.profile?.avatar?.filepath,
       };
     }
 
