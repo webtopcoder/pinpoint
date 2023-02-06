@@ -432,7 +432,7 @@ export function getAllphotos(id, paginationInfo) {
   console.log(paginationInfo);
   return (dispatch) =>
     api(
-      `profile/image/all/${id}?page=${paginationInfo.pagination.current}&pageSize=${paginationInfo.pagination.pageSize}`,
+      `profile/${id}/image/all?page=${paginationInfo.pagination.current}&limit=${paginationInfo.pagination.pageSize}`,
       "get"
     )
       .then((res) => {

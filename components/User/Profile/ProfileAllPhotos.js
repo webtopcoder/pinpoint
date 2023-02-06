@@ -1,25 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
 import { connect } from "react-redux";
 import { UploadOutlined, LikeOutlined } from "@ant-design/icons";
-import {
-  Image as Antimage,
-  Divider,
-  Button,
-  Pagination,
-  Upload,
-  message,
-  Form,
-  Row,
-  Col,
-  Avatar,
-  Typography,
-  List,
-  Space,
-  Skeleton,
-  Mentions,
-} from "antd";
-import food from "@/public/images/landing/food.png";
+import { Image as Antimage, Divider, Button, Typography, Space } from "antd";
 import { useRouter } from "next/router";
 import { getActivity } from "@/redux/Profile/actions";
 import { getmyFollowers } from "@/redux/User/actions";
@@ -28,7 +10,6 @@ import { recommendPost } from "@/redux/Profile/actions";
 import { getAllphotos } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
 const ProfileAllPhotos = ({
@@ -37,18 +18,6 @@ const ProfileAllPhotos = ({
   activityInfo,
   myallPhotos,
 }) => {
-  const IconText = ({ postID, text }) => (
-    <Space>
-      <Button
-        type="primary"
-        onClick={() => recommendPost(postID)}
-        shape="circle"
-        icon={<LikeOutlined />}
-      />
-      <Text> {text}</Text>
-    </Space>
-  );
-
   const [current, setCurrent] = useState(1);
   const [paginationInfo, setPageInfo] = useState({
     pagination: {
@@ -65,7 +34,7 @@ const ProfileAllPhotos = ({
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/post/`;
+  const imgurl = `http://${config.server}:${config.port}/avatar/`;
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
   const router = useRouter();
 
@@ -110,7 +79,7 @@ const ProfileAllPhotos = ({
                                 padding: "5px",
                               }}
                               width={"20%"}
-                              src={imgurl + "/" + image}
+                              src={imgurl + image?.filepath}
                               key={index}
                             />
                           ))}
@@ -164,7 +133,7 @@ const ProfileAllPhotos = ({
                                 <Antimage
                                   loader={myLoader}
                                   width={"25%"}
-                                  src={imgurl + "/" + image}
+                                  src={imgurl + image?.filepath}
                                   key={index}
                                 />
                               ))}
@@ -292,4 +261,5 @@ const mapDispatchToProps = (dispatch) => ({
   ongetmyFollowers: () => dispatch(getmyFollowers()),
   ongetAllphotos: (id, pageInfo) => dispatch(getAllphotos(id, pageInfo)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileAllPhotos);
