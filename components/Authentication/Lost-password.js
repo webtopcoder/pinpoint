@@ -4,20 +4,19 @@ import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
-import { recoveryPassword } from "@/redux/User/actions";
+import { forgotPassword } from "@/redux/User/actions";
 import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
 import useNotify from "@/hooks/useNotify";
 
-
 const LostPassword = ({ onrecoveryPassword }) => {
-
   const { notify } = useNotify();
 
   const [form, setForm] = useState({
     userInfo: "",
   });
 
-  const { errors, validateForm, onBlurField } = useLostPasswordFormValidator(form);
+  const { errors, validateForm, onBlurField } =
+    useLostPasswordFormValidator(form);
   const onUpdateField = (e) => {
     const field = e.target.name;
     const nextFormState = {
@@ -37,9 +36,18 @@ const LostPassword = ({ onrecoveryPassword }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-    onrecoveryPassword(form, (res) => {
-      res.success ? notify("success", res.msg) : notify("error", res.msg);
-    });
+    onrecoveryPassword(
+      {
+        emailOrUsername: form.userInfo,
+      },
+      (_, error) => {
+        if (error) {
+          notify("error", error?.response?.data?.message || "Error");
+        } else {
+          notify("success", "Email has been sent");
+        }
+      }
+    );
   };
 
   return (
@@ -80,12 +88,17 @@ const LostPassword = ({ onrecoveryPassword }) => {
             <div className="row">
               <div className="col-lg-6 col-md-6 remember-me-wrap">
                 <Link href="/authentication/lost-password">
-                  <a className="lost-your-password">Resend Email Verification</a>
+                  <a className="lost-your-password">
+                    Resend Email Verification
+                  </a>
                 </Link>
               </div>
-              <div className="col-lg-6 col-md-6 remember-me-wrap" style={{
-                textAlign: 'end'
-              }}>
+              <div
+                className="col-lg-6 col-md-6 remember-me-wrap"
+                style={{
+                  textAlign: "end",
+                }}
+              >
                 <Link href="/authentication/lost-password">
                   <a className="lost-your-password">Login</a>
                 </Link>
@@ -119,7 +132,7 @@ const mapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onrecoveryPassword: (data, cb) => dispatch(recoveryPassword(data, cb)),
+  onrecoveryPassword: (data, cb) => dispatch(forgotPassword(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LostPassword);

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
@@ -6,15 +6,30 @@ import Image from "next/image";
 import styles from "./validate.module.css";
 import { recoveryPassword } from "@/redux/User/actions";
 import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
+import { useRouter } from "next/router";
+import useNotify from "@/hooks/useNotify";
 
 const CreatePassword = ({ onrecoveryPassword }) => {
+  const router = useRouter();
   const [form, setForm] = useState({
     password: "",
     confirmPassword: "",
   });
 
+  const { notify } = useNotify();
+  const { token } = router.query;
+
+  useEffect(() => {
+    if (token) {
+      setForm({
+        ...form,
+        token,
+      });
+    }
+  }, [token]);
+
   const { errors, validateForm, onBlurField } =
-    createPasswordFormValidator(form);
+    useCreatePasswordFormValidator(form);
   const onUpdateField = (e) => {
     const field = e.target.name;
     const nextFormState = {
@@ -29,11 +44,25 @@ const CreatePassword = ({ onrecoveryPassword }) => {
         field,
       });
   };
+
   const onSubmitForm = (e) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-    onrecoveryPassword(form);
+    onrecoveryPassword(
+      {
+        password: form.password,
+        token: form.token,
+      },
+      (_, error) => {
+        if (error) {
+          notify("error", error?.response?.data?.message || "Error");
+        } else {
+          notify("success", "Password has been changed");
+          router.push("/");
+        }
+      }
+    );
   };
 
   return (
@@ -109,7 +138,7 @@ const CreatePassword = ({ onrecoveryPassword }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onrecoveryPassword: (data) => dispatch(recoveryPassword(data)),
+  onrecoveryPassword: (data, cb) => dispatch(recoveryPassword(data, cb)),
 });
 
-export default connect(undefined, mapDispatchToProps)(createPassword);
+export default connect(undefined, mapDispatchToProps)(CreatePassword);

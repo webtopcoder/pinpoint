@@ -161,6 +161,9 @@ const PartnerDashboard = ({
                 className="dashboard-card-quickpost-style"
                 title="Quick Post"
                 bordered={true}
+                onClick={() => {
+                  router.push(`/profile/${userId}/activity`);
+                }}
               >
                 +
               </Card>

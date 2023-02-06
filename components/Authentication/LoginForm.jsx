@@ -66,7 +66,6 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
       }
       notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
       router.push(role == "partner" ? "/partner/dashboard" : "/home");
-      on;
     });
   };
 

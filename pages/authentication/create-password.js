@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import PasswordCreate from "@/components/Authentication/create-password";
+import PasswordCreate from "@/components/Authentication/Create-password";
 
 const createPassword = () => {
   return (
