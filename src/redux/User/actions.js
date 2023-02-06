@@ -119,13 +119,17 @@ export function getCategory() {
 
 export function getsubCategory(categoryID, cb) {
   return (dispatch) =>
-    api(`categories/${categoryID}/subcategories`, "get").then((res) => {
-      dispatch({
-        type: SUB_CATEGORY_GET_SUCCESS,
-        payload: res,
+    api(`categories/${categoryID}/subcategories`, "get")
+      .then((res) => {
+        dispatch({
+          type: SUB_CATEGORY_GET_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
       });
-      cb(res);
-    });
 }
 
 export function getmyFollowers() {

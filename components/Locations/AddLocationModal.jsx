@@ -62,12 +62,14 @@ function AddLocationModal({
   });
 
   useEffect(() => {
-    onGetSubCategories(userCategoryId, (_, error) => {
-      if (error) {
-        notify("error", error);
-      }
-    });
-  }, []);
+    if (userCategoryId) {
+      onGetSubCategories(userCategoryId, (_, error) => {
+        if (error) {
+          notify(error, "error");
+        }
+      });
+    }
+  }, [userCategoryId]);
 
   useEffect(() => {
     if (inputRef.current) {

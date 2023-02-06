@@ -71,12 +71,14 @@ function ModifyModal({
   });
 
   useEffect(() => {
-    onGetSubCategories(userCategoryId, (_, error) => {
-      if (error) {
-        notify("error", error);
-      }
-    });
-  }, []);
+    if (userCategoryId) {
+      onGetSubCategories(userCategoryId, (_, error) => {
+        if (error) {
+          notify("error", "Error occurred");
+        }
+      });
+    }
+  }, [userCategoryId]);
 
   useEffect(() => {
     if (inputRef.current) {
