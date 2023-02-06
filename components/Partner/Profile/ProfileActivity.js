@@ -358,14 +358,16 @@ const ProfileActivity = ({
                         renderItem={(item, index) => (
                           <List.Item
                             key={index}
-                            actions={[
-                              <IconText
-                                postID={item._id}
-                                text={item.like ? item?.like?.count : 0}
-                                likePost={likePost}
-                                key="list-vertical-like-o"
-                              />,
-                            ]}
+                            actions={
+                              item.type == "post" && [
+                                <IconText
+                                  postID={item._id}
+                                  text={item.like ? item?.like?.count : 0}
+                                  likePost={likePost}
+                                  key="list-vertical-like-o"
+                                />,
+                              ]
+                            }
                           >
                             <Skeleton
                               avatar
@@ -373,74 +375,128 @@ const ProfileActivity = ({
                               loading={item.loading}
                               active
                             >
-                              <List.Item.Meta
-                                avatar={
-                                  <Avatar
-                                    src={
-                                      avatarurl +
-                                      item?.from_user?.avatar?.filepath
-                                    }
-                                    size={64}
-                                  />
-                                }
-                                // title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.realname?.first + '  ' + item?.from_user?.realname?.last} / @{item?.from_user?.username}</a>}
-                                title={
-                                  <>
-                                    <span className="custom-userName">
-                                      {item?.from_user?.username}{" "}
-                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                    </span>
-                                    <br />
-                                    <a
-                                      onClick={() =>
-                                        window.open(
-                                          baseUrl +
-                                            "/profile/" +
-                                            item.from_user._id +
-                                            "/activity",
-                                          "_blank"
-                                        )
-                                      }
-                                    >
-                                      @{item?.from_user?.username}
-                                    </a>
-                                  </>
-                                }
-                                description={new Date(
-                                  item?.createdAt
-                                ).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                  hour: "numeric",
-                                  hour12: true,
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                })}
-                              />
-                              <div className="custom-list-content">
-                                {item.content}
-                              </div>
-                              {item.image ? (
-                                <div
-                                  className="custom-list-content"
-                                  style={{
-                                    marginTop: 10,
-                                  }}
-                                >
-                                  <Antimage.PreviewGroup>
-                                    {item.image.map((item, index) => (
-                                      <Antimage
-                                        key={index}
-                                        loader={myLoader}
-                                        width={"25%"}
-                                        src={imgurl + item?.filepath}
+                              {item.type == "post" ? (
+                                <>
+                                  <List.Item.Meta
+                                    avatar={
+                                      <Avatar
+                                        src={
+                                          avatarurl +
+                                          item?.from_user?.avatar?.filepath
+                                        }
+                                        size={64}
                                       />
-                                    ))}
-                                  </Antimage.PreviewGroup>
-                                </div>
+                                    }
+                                    // title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.realname?.first + '  ' + item?.from_user?.realname?.last} / @{item?.from_user?.username}</a>}
+                                    title={
+                                      <>
+                                        <span className="custom-userName">
+                                          {item?.from_user?.username}{" "}
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                                        </span>
+                                        <br />
+                                        <a
+                                          onClick={() =>
+                                            window.open(
+                                              baseUrl +
+                                                "/profile/" +
+                                                item.from_user._id +
+                                                "/activity",
+                                              "_blank"
+                                            )
+                                          }
+                                        >
+                                          @{item?.from_user?.username}
+                                        </a>
+                                      </>
+                                    }
+                                    description={new Date(
+                                      item?.createdAt
+                                    ).toLocaleDateString(undefined, {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                      hour: "numeric",
+                                      hour12: true,
+                                      minute: "2-digit",
+                                      second: "2-digit",
+                                    })}
+                                  />
+                                  <div className="custom-list-content">
+                                    {item.content}
+                                  </div>
+                                  {item.image ? (
+                                    <div
+                                      className="custom-list-content"
+                                      style={{
+                                        marginTop: 10,
+                                      }}
+                                    >
+                                      <Antimage.PreviewGroup>
+                                        {item.image.map((item, index) => (
+                                          <Antimage
+                                            key={index}
+                                            loader={myLoader}
+                                            width={"25%"}
+                                            src={imgurl + item?.filepath}
+                                          />
+                                        ))}
+                                      </Antimage.PreviewGroup>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </>
                               ) : (
-                                ""
+                                <>
+                                  <List.Item.Meta
+                                    avatar={
+                                      <Avatar
+                                        src={
+                                          avatarurl +
+                                          item?.follower?.avatar?.filepath
+                                        }
+                                        size={64}
+                                      />
+                                    }
+                                    title={
+                                      <>
+                                        <span className="custom-userName">
+                                          {item?.follower?.username}{" "}
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                                        </span>
+                                        <br />
+                                        <a
+                                          onClick={() =>
+                                            window.open(
+                                              baseUrl +
+                                                "/profile/" +
+                                                item.follower._id +
+                                                "/activity",
+                                              "_blank"
+                                            )
+                                          }
+                                        >
+                                          @{item?.follower?.username}
+                                        </a>
+                                      </>
+                                    }
+                                    description={new Date(
+                                      item?.updatedAt
+                                    ).toLocaleDateString(undefined, {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                      hour: "numeric",
+                                      hour12: true,
+                                      minute: "2-digit",
+                                      second: "2-digit",
+                                    })}
+                                  />
+                                  <div className="custom-list-content">
+                                    Followed @{item?.following?.username}
+                                  </div>
+                                </>
                               )}
                             </Skeleton>
                           </List.Item>
