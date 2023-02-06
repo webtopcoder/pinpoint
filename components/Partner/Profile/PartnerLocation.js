@@ -215,6 +215,7 @@ function ArrivalBanner({ location, onLikeLocation }) {
                         src={avatarurl + location.images[0]?.filepath}
                         height={64}
                         width={64}
+                        alt="avatar"
                       />
                     ) : (
                       <EnvironmentFilled />
@@ -460,7 +461,7 @@ function Post({ review, likeReview, location }) {
   return (
     <List.Item
       actions={[
-        <Rate disabled defaultValue={review.rating} />,
+        <Rate disabled key={review.rating} defaultValue={review.rating} />,
         ,
         <IconText
           text={review?.like ? review.like.count : 0}
@@ -624,6 +625,7 @@ function LocationBanner({ location }) {
                               src={avatarurl + location.images[0]?.filepath}
                               height={200}
                               width={200}
+                              alt="locationImage"
                             />
                           ) : (
                             <EnvironmentFilled />
