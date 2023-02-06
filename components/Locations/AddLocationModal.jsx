@@ -181,6 +181,7 @@ function AddLocationModal({
           formData.append("state", addressForm.state);
           formData.append("lat", addressForm.lat);
           formData.append("lng", addressForm.lng);
+          formData.append("subCategories", values.subCategories);
 
           onAddLocation(formData, (_, err) => {
             if (err) {
@@ -260,6 +261,7 @@ function AddLocationModal({
               required
               initialvalue={[]}
               tooltip="This is a required field"
+              name="subCategories"
             >
               <Select
                 mode="multiple"

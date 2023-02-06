@@ -201,6 +201,7 @@ function ModifyModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
+
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
@@ -208,7 +209,7 @@ function ModifyModal({
           formData.append("state", addressForm.state);
           formData.append("lat", addressForm.lat);
           formData.append("lng", addressForm.lng);
-
+          formData.append("subCategories", values.subCategories);
           onUpdateLocationByID(locationInfo._id, formData, (_, err) => {
             if (err) {
               notify(
@@ -289,8 +290,8 @@ function ModifyModal({
                 },
               ]}
               required
-              initialvalue={[]}
               tooltip="This is a required field"
+              name="subCategories"
             >
               <Select
                 mode="multiple"
@@ -298,6 +299,9 @@ function ModifyModal({
                 style={{
                   width: "100%",
                 }}
+                defaultValue={locationInfo.subCategories?.map(
+                  (item) => item._id
+                )}
                 placeholder="Select all that apply"
                 options={subcategoryList}
               />

@@ -105,6 +105,7 @@ const PartnerLocation = ({
 }) => {
   const router = useRouter();
   const { notify } = useNotify();
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -119,6 +120,12 @@ const PartnerLocation = ({
       });
     }
   }, [router.isReady]);
+
+  useEffect(() => {
+    if (location.reviews) {
+      setReviews(temporarySwapHalf(location.reviews));
+    }
+  }, [location.reviews]);
 
   return (
     <Layout
@@ -145,7 +152,11 @@ const PartnerLocation = ({
               ) : (
                 ""
               )}
-              <PostForm location={location} onPostReview={onPostReview} />
+              <PostForm
+                location={location}
+                onPostReview={onPostReview}
+                getLocationInfo={getLocationInfo}
+              />
               <div className="avatar-area green-color">
                 <div className="avatar-respond">
                   <div className="avatar-form">
@@ -154,7 +165,7 @@ const PartnerLocation = ({
                         <List
                           itemLayout="vertical"
                           size="large"
-                          dataSource={location.reviews}
+                          dataSource={reviews}
                           renderItem={(item, index) => (
                             <Post
                               key={index}
@@ -290,8 +301,8 @@ function ArrivalBanner({ location, onLikeLocation }) {
   );
 }
 
-function PostForm({ location, onPostReview }) {
-  const [rating, setRating] = useState(0);
+function PostForm({ location, onPostReview, getLocationInfo }) {
+  const [rating, setRating] = useState(2);
   const [postForm] = Form.useForm();
   const [uploadFile, setUploadFile] = useState([]);
   const uploadProps = {
@@ -353,6 +364,15 @@ function PostForm({ location, onPostReview }) {
                       postForm.resetFields();
                       setUploadFile([]);
                       notify("success", "Review posted successfully");
+                      getLocationInfo({ id: location._id }, (_, error) => {
+                        if (error) {
+                          notify(
+                            "error",
+                            error?.response?.data?.message ||
+                              "Something went wrong"
+                          );
+                        }
+                      });
                     }
                   });
                 }}
@@ -667,6 +687,19 @@ function LocationBanner({ location }) {
       </Row>
     </>
   );
+}
+
+function temporarySwapHalf(array) {
+  var left = null;
+  var right = null;
+  var length = array.length;
+  for (left = 0; left < length / 2; left += 1) {
+    right = length - 1 - left;
+    var temporary = array[left];
+    array[left] = array[right];
+    array[right] = temporary;
+  }
+  return array;
 }
 
 const mapStateToProps = (state) => ({
