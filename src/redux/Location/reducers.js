@@ -13,6 +13,7 @@ import {
 const initialState = {
   loading: true,
   userLocations: [],
+  location: {},
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -45,6 +46,7 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        location: action.payload,
       };
     case LOCATION_REVIEW_REQUEST:
       return { ...state, loading: true };

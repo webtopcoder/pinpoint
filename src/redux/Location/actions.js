@@ -180,3 +180,41 @@ export function postReview(locationId, form, cb) {
         cb(null, error);
       });
 }
+
+export function likeLocationReview(reviewId, cb) {
+  return (dispatch) =>
+    api(`locations/review/${reviewId}/like`, "post")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_REVIEW_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_REVIEW_SUCCESS,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function likeLocation(locationId, cb) {
+  return (dispatch) =>
+    api(`locations/${locationId}/like`, "post")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_REVIEW_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_REVIEW_SUCCESS,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}

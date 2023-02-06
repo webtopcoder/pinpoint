@@ -4,9 +4,8 @@ import { connect } from "react-redux";
 import {
   UploadOutlined,
   EnvironmentFilled,
-  MessageOutlined,
   LikeOutlined,
-  EnvironmentOutlined
+  EnvironmentOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import {
@@ -14,8 +13,6 @@ import {
   Button,
   Form,
   Row,
-  Divider,
-  Tag,
   Col,
   Avatar,
   Typography,
@@ -28,32 +25,101 @@ import {
   Rate,
   message,
   Upload,
-  Badge
+  Badge,
 } from "antd";
 import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
 import baseUrl from "@/utils/baseUrl";
-import { postReview } from "@/src/redux/Location/actions";
+import {
+  likeLocation,
+  likeLocationReview,
+  postReview,
+} from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import { getLocationById } from "@/src/redux/Location/actions";
-// import { ButtonGroup } from "antd/es/button/button-group";
 import { useRouter } from "next/router";
-import { setRequestMeta } from "next/dist/server/request-meta";
 const { Content } = Layout;
 const { Text } = Typography;
 
-const IconText = ({ text }) => (
-  <Space>
-    <Button type="primary" shape="circle" icon={<LikeOutlined />} />
-    <Text> {text}</Text>
-  </Space>
-);
+const IconText = ({ reviewId, text, likeReview }) => {
+  const [like, setLike] = useState(text);
+  useEffect(() => {
+    setLike(text);
+  }, [text]);
+  return (
+    <Space>
+      <Button
+        type="primary"
+        onClick={() => {
+          likeReview(reviewId, (liked) => {
+            if (liked) {
+              setLike((like) => like + 1);
+            } else {
+              setLike((like) => (like ? like - 1 : like));
+            }
+          });
+        }}
+        shape="circle"
+        icon={<LikeOutlined />}
+      />
+      <Text>{like}</Text>
+    </Space>
+  );
+};
+
+const LikeLocation = ({ likeLocation, locationId, text }) => {
+  const [like, setLike] = useState(text);
+  useEffect(() => {
+    setLike(text);
+  }, [text]);
+  return (
+    <Space>
+      <Button
+        type="primary"
+        onClick={() => {
+          likeLocation(locationId, (liked) => {
+            if (liked) {
+              setLike((like) => like + 1);
+            } else {
+              setLike((like) => (like ? like - 1 : like));
+            }
+          });
+        }}
+        shape="circle"
+        icon={<LikeOutlined />}
+      />
+      <Text>{like}</Text>
+    </Space>
+  );
+};
 
 const imgurl = `http://${config.server}:${config.port}/avatar/`;
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-const PartnerLocation = ({ location, onPostReview, getLocationInfo }) => {
-  if (!location) return <Skeleton active />;
+const PartnerLocation = ({
+  location,
+  onPostReview,
+  getLocationInfo,
+  likeReview,
+  onLikeLocation,
+}) => {
+  const router = useRouter();
+  const { notify } = useNotify();
+
+  useEffect(() => {
+    if (router.isReady) {
+      const locationId = router.query.location;
+      getLocationInfo({ id: locationId }, (res, err) => {
+        if (err) {
+          notify(
+            "error",
+            err?.response?.data?.message || "Something went wrong"
+          );
+        }
+      });
+    }
+  }, [router.isReady]);
+
   return (
     <Layout
       className="site-layout"
@@ -62,14 +128,20 @@ const PartnerLocation = ({ location, onPostReview, getLocationInfo }) => {
       }}
     >
       <Content>
-        <div className="container" style={{
-          paddingTop: 100
-        }}>
+        <div
+          className="container"
+          style={{
+            paddingTop: 100,
+          }}
+        >
           <LocationBanner location={location} />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
               {location.isActive ? (
-                <Posts location={location} getLocationInfo={getLocationInfo} />
+                <ArrivalBanner
+                  location={location}
+                  onLikeLocation={onLikeLocation}
+                />
               ) : (
                 ""
               )}
@@ -84,7 +156,12 @@ const PartnerLocation = ({ location, onPostReview, getLocationInfo }) => {
                           size="large"
                           dataSource={location.reviews}
                           renderItem={(item, index) => (
-                            <Post key={index} review={item} />
+                            <Post
+                              key={index}
+                              review={item}
+                              likeReview={likeReview}
+                              location={location}
+                            />
                           )}
                         />
                       </div>
@@ -100,32 +177,12 @@ const PartnerLocation = ({ location, onPostReview, getLocationInfo }) => {
   );
 };
 
-function Posts({ review, location, getLocationInfo }) {
-  const router = useRouter();
+function ArrivalBanner({ location, onLikeLocation }) {
   // const [checkInNumber, setCheckInNumber] = useState(location.checkIn);
-  const [arrivalText, setArrivalText] = useState(location.arrivalText);
-  const [arrivalImage, setArrivalImage] = useState(
-    location.arrivalImages[0]?.filepath
-  );
-  const [date, setDate] = useState(location.createdAt);
-  useEffect(() => {
-    if (router.isReady) {
-      const locationId = router.query.location;
-      getLocationInfo({ id: locationId }, (res, err) => {
-        if (err) {
-          notify(
-            "error",
-            err?.response?.data?.message || "Something went wrong"
-          );
-        } else {
-          setArrivalText(res.arrivalText);
-          setDate(res.createdAt);
-          setArrivalImage(res.arrivalImages);
-          // setCheckInNumber(res.checkIn)
-        }
-      });
-    }
-  }, [router.isReady]);
+  const arrivalText = location.arrivalText;
+  const arrivalImage = location.arrivalImages[0]?.filepath;
+  const date = location.createdAt;
+
   return (
     <div>
       <div className="avatar-area green-color">
@@ -134,8 +191,24 @@ function Posts({ review, location, getLocationInfo }) {
             <div className="pin-post-label">
               <p className="comment-notes">
                 <Avatar
-                  src={avatarurl + review?.user?.profile?.avatar?.filepath}
+                  style={{
+                    border: "3px solid black",
+                    cursor: "pointer",
+                    background: "rgb(223 216 216)",
+                  }}
                   size={64}
+                  icon={
+                    location.images.length !== 0 &&
+                    location.images[0]?.filepath ? (
+                      <Image
+                        src={avatarurl + location.images[0]?.filepath}
+                        height={64}
+                        width={64}
+                      />
+                    ) : (
+                      <EnvironmentFilled />
+                    )
+                  }
                 />
                 <p style={{ display: "inline-block", marginLeft: "10px" }}>
                   {location?.title}
@@ -180,7 +253,7 @@ function Posts({ review, location, getLocationInfo }) {
             <div style={{ marginTop: "20px" }}>{arrivalText}</div>
             <div style={{ marginLeft: "auto" }}>
               <Image
-                src={imgurl + arrivalImage && arrivalImage[0]?.filepath}
+                src={imgurl + arrivalImage}
                 alt="img"
                 width="100px"
                 height="100px"
@@ -203,7 +276,9 @@ function Posts({ review, location, getLocationInfo }) {
               <Button style={{ marginRight: "10px" }}>
                 {/* {checkInNumber} checked in */}
               </Button>
-              <IconText
+              <LikeLocation
+                likeLocation={onLikeLocation}
+                locationId={location._id}
                 text={location?.like ? location.like.count : 0}
                 key="list-vertical-like-o"
               />
@@ -268,7 +343,7 @@ function PostForm({ location, onPostReview }) {
                   uploadFile.forEach((file) => {
                     formData.append("images", file.originFileObj);
                   });
-                  onPostReview(location._id, formData, (res, error) => {
+                  onPostReview(location._id, formData, (_, error) => {
                     if (error) {
                       notify(
                         "error",
@@ -361,12 +436,16 @@ function PostForm({ location, onPostReview }) {
   );
 }
 
-function Post({ review }) {
+function Post({ review, likeReview, location }) {
   return (
     <List.Item
       actions={[
+        <Rate disabled defaultValue={review.rating} />,
+        ,
         <IconText
           text={review?.like ? review.like.count : 0}
+          reviewId={review._id}
+          likeReview={likeReview}
           key="list-vertical-like-o"
         />,
       ]}
@@ -391,14 +470,15 @@ function Post({ review }) {
                   onClick={() =>
                     window.open(
                       baseUrl +
-                      "/profile/" +
-                      location.partner._id +
-                      "/activity",
+                        "/profile/" +
+                        location?.partner?._id +
+                        "/locations/" +
+                        location?._id,
                       "_blank"
                     )
                   }
                 >
-                  @{location?.partner?.username}
+                  @{location?.title}
                 </a>
               </span>
               <br />
@@ -440,7 +520,7 @@ function Post({ review }) {
               {review.images.map((item1, index) => (
                 <Antimage
                   width={"25%"}
-                  src={imgurl + "/" + item1?.filepath}
+                  src={imgurl + item1?.filepath}
                   key={index}
                 />
               ))}
@@ -455,16 +535,16 @@ function Post({ review }) {
 }
 
 function LocationBanner({ location }) {
-
-  console.log(location);
   if (!location) return <Skeleton active />;
   return (
     <>
       <Row>
-        <Col span={18} offset={3} style={{
-
-        }}>
-          <Badge.Ribbon text={location.isActive ? "Active" : "Inactive"} placement="start" color={location.isActive ? "green" : "red"}>
+        <Col span={18} offset={3} style={{}}>
+          <Badge.Ribbon
+            text={location.isActive ? "Active" : "Inactive"}
+            placement="start"
+            color={location.isActive ? "green" : "red"}
+          >
             <Card
               style={{
                 color: "white",
@@ -488,26 +568,38 @@ function LocationBanner({ location }) {
                       disabled
                       allowHalf
                       defaultValue={2}
-                      tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-                      onChange={(value) => setRating(value)}
+                      tooltips={[
+                        "terrible",
+                        "bad",
+                        "normal",
+                        "good",
+                        "wonderful",
+                      ]}
                       value={location.rating}
                     />
                   </Space>
                 </Col>
 
-                <Col span={8} style={{
-                  top: -100
-                }}>
-                  <Space direction="vertical" >
+                <Col
+                  span={8}
+                  style={{
+                    top: -100,
+                  }}
+                >
+                  <Space direction="vertical">
                     <Link
-                      href={`/profile/${location.partner._id}/locations/${location._id}`}
+                      href={`/profile/${location.partner?._id}/locations/${location._id}`}
                     >
                       <Avatar
-                        style={{ border: "3px solid black", cursor: "pointer", background: 'rgb(223 216 216)' }}
+                        style={{
+                          border: "3px solid black",
+                          cursor: "pointer",
+                          background: "rgb(223 216 216)",
+                        }}
                         size={150}
                         icon={
-                          location.images.length !== 0 &&
-                            location.images[0]?.filepath ? (
+                          location.images?.length > 0 &&
+                          location.images[0]?.filepath ? (
                             <Image
                               src={avatarurl + location.images[0]?.filepath}
                               height={200}
@@ -523,7 +615,7 @@ function LocationBanner({ location }) {
                       style={{
                         color: "white",
                         fontWeight: 600,
-                        fontSize: 20
+                        fontSize: 20,
                       }}
                     >
                       {location?.title}
@@ -539,12 +631,14 @@ function LocationBanner({ location }) {
                     >
                       <EnvironmentOutlined /> {location?.mapLocation?.address}
                     </Text>
-
                   </Space>
                 </Col>
-                <Col span='24' style={{
-                  top: -60
-                }}>
+                <Col
+                  span="24"
+                  style={{
+                    top: -60,
+                  }}
+                >
                   <Space direction="vertical" className="gutter-row" span={24}>
                     <Space>
                       <Text
@@ -575,12 +669,18 @@ function LocationBanner({ location }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  location: state.location.location,
+});
+
 const mapDispatchToProp = (dispatch) => {
   return {
     getLocationInfo: (id, cb) => dispatch(getLocationById(id, cb)),
     onPostReview: (locationId, form, cb) =>
       dispatch(postReview(locationId, form, cb)),
+    likeReview: (reviewId, cb) => dispatch(likeLocationReview(reviewId, cb)),
+    onLikeLocation: (locationId, cb) => dispatch(likeLocation(locationId, cb)),
   };
 };
 
-export default connect(null, mapDispatchToProp)(PartnerLocation);
+export default connect(mapStateToProps, mapDispatchToProp)(PartnerLocation);
