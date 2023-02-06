@@ -147,6 +147,7 @@ const ProfileActivity = ({
       ongetActivity(profile, 1, "", (res) => {
         if (res.success) {
           setInitLoading(false);
+          setLoading(false);
           setData(res.posts);
           setList(res.posts);
           window.dispatchEvent(new Event("resize"));
