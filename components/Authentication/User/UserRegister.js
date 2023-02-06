@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import csc from "country-state-city";
@@ -10,12 +10,18 @@ import { useRegisterFormValidator } from "./hooks/use-user-register-form-validat
 import { registerUser } from "@/redux/User/actions";
 import "react-datepicker/dist/react-datepicker.css";
 import FormGroup from "../FormGroup";
-const UserRegister = ({ onRegisterUser }) => {
+
+const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
   const countryCode = "US";
   const country = csc.getCountryByCode(countryCode);
   const states = csc.getStatesOfCountry(country.isoCode);
 
   const router = useRouter();
+  useEffect(() => {
+    if (token) {
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+    }
+  }, [token]);
 
   const [form, setForm] = useState({
     role: "user",
@@ -264,8 +270,13 @@ const UserRegister = ({ onRegisterUser }) => {
   );
 };
 
+const mapStateToProps = ({ user }) => ({
+  loggedInRole: user.role,
+  token: user.token,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
 });
 
-export default connect(undefined, mapDispatchToProps)(UserRegister);
+export default connect(mapStateToProps, mapDispatchToProps)(UserRegister);

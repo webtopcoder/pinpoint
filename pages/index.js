@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import LoginDashboard from "@/components/Authentication/LoginDashboard";
+import { connect } from "react-redux";
+import { useRouter } from "next/router";
 
-const Authentication = () => {
+const Authentication = ({ token, role }) => {
+  const router = useRouter();
+  useEffect(() => {
+    if (token) {
+      router.push(role == "partner" ? "/partner/dashboard" : "/home");
+    }
+  }, [token]);
   return (
     <>
       <PageTitle page="WHO AM I" />
@@ -24,4 +32,11 @@ const Authentication = () => {
   );
 };
 
-export default Authentication;
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+    role: state.user.role,
+  };
+};
+
+export default connect(mapStateToProps)(Authentication);

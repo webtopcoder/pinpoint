@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "@/public/images/logo.png";
 import { loginUser } from "@/redux/User/actions";
 import Image from "next/image";
@@ -16,9 +16,14 @@ const formValidator = {
   password: passwordValidator,
 };
 
-const LoginForm = ({ onLoginUser, role }) => {
+const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   const router = useRouter();
 
+  useEffect(() => {
+    if (token) {
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+    }
+  }, [token]);
   const { notify } = useNotify();
 
   const [form, setForm] = useState({
@@ -146,6 +151,8 @@ const LoginForm = ({ onLoginUser, role }) => {
 
 const mapStateToProps = ({ user }) => ({
   loginInfo: user.loginInfo,
+  loggedInRole: user.role,
+  token: user.token,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -16,9 +16,22 @@ import styles from "../validate.module.css";
 
 import { useRegisterFormValidator } from "./hooks/use-partner-register-validator";
 
-const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
+const PartnerRegister = ({
+  onRegisterUser,
+  ongetCategory,
+  categoryInfo,
+  loggedInRole,
+  token,
+}) => {
   let itemLocality = "";
   let itemState = "";
+
+  const router = useRouter();
+  useEffect(() => {
+    if (token) {
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+    }
+  }, [token]);
 
   const { notify } = useNotify();
 
@@ -340,6 +353,8 @@ const PartnerRegister = ({ onRegisterUser, ongetCategory, categoryInfo }) => {
 };
 const mapStateToProps = ({ user }) => ({
   categoryInfo: user.partnerCategory.categories,
+  token: user.token,
+  loggedInRole: user.role,
 });
 
 const mapDispatchToProps = (dispatch) => {

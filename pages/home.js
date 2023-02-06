@@ -1,22 +1,23 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import PageTitle from "@/components/Layout/PageTitle";
-import Testimonial from "@/components/Landing/Testimonial";
 import LandingContact from "@/components/Landing/LandingContact";
-import bannerImg from "@/public/images/landing/map-4-points.png";
-import subtitleImg from "@/public/images/landing/title_border.png";
-import food from "@/public/images/landing/food.png";
-import coffee from "@/public/images/landing/coffee.png";
-import mobile from "@/public/images/landing/mobile.png";
-import farmers from "@/public/images/landing/farmers.png";
+import Testimonial from "@/components/Landing/Testimonial";
+import PageTitle from "@/components/Layout/PageTitle";
 import christmas from "@/public/images/landing/christmas.png";
-import pumkin from "@/public/images/landing/pumkin.png";
+import coffee from "@/public/images/landing/coffee.png";
+import farmers from "@/public/images/landing/farmers.png";
 import fireworks from "@/public/images/landing/fireworks.png";
+import food from "@/public/images/landing/food.png";
 import location from "@/public/images/landing/location.png";
+import bannerImg from "@/public/images/landing/map-4-points.png";
+import mobile from "@/public/images/landing/mobile.png";
+import pumkin from "@/public/images/landing/pumkin.png";
+import subtitleImg from "@/public/images/landing/title_border.png";
 import config from "@/utils/config";
+import Image from "next/image";
+import React, { useEffect } from "react";
+
 import Layout from "../layout";
 
-const UserHome = (props) => {
+const UserHome = () => {
   const faviconUrl = `http://${config.server}:${config.port}/`;
 
   function initMap() {
