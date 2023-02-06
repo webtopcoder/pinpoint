@@ -388,27 +388,43 @@ const ProfileActivity = ({
                                         size={64}
                                       />
                                     }
-                                    // title={<a onClick={() => window.open(baseUrl + '/user/' + item.from_user._id + '/activity', '_blank')}>{item?.from_user?.realname?.first + '  ' + item?.from_user?.realname?.last} / @{item?.from_user?.username}</a>}
                                     title={
                                       <>
-                                        <span className="custom-userName">
-                                          {item?.from_user?.username}{" "}
-                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                        </span>
-                                        <br />
-                                        <a
-                                          onClick={() =>
-                                            window.open(
-                                              baseUrl +
-                                                "/profile/" +
-                                                item.from_user._id +
-                                                "/activity",
-                                              "_blank"
-                                            )
-                                          }
-                                        >
-                                          @{item?.from_user?.username}
-                                        </a>
+                                        <Space direction="vertical">
+                                          <span className="custom-userName">
+                                            {item?.from_user?.username}{" "}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                                          </span>
+                                          <a
+                                            onClick={() =>
+                                              window.open(
+                                                baseUrl +
+                                                  "/profile/" +
+                                                  item.from_user._id +
+                                                  "/activity",
+                                                "_blank"
+                                              )
+                                            }
+                                          >
+                                            @{item?.from_user?.username}
+                                          </a>
+                                        </Space>
+                                        <Space>
+                                          Posted to
+                                          <a
+                                            onClick={() =>
+                                              window.open(
+                                                baseUrl +
+                                                  "/profile/" +
+                                                  item?.to_user?._id +
+                                                  "/activity",
+                                                "_blank"
+                                              )
+                                            }
+                                          >
+                                            @{item?.to_user?.username}
+                                          </a>
+                                        </Space>
                                       </>
                                     }
                                     description={new Date(
@@ -462,24 +478,41 @@ const ProfileActivity = ({
                                     }
                                     title={
                                       <>
-                                        <span className="custom-userName">
-                                          {item?.follower?.username}{" "}
-                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                        </span>
-                                        <br />
-                                        <a
-                                          onClick={() =>
-                                            window.open(
-                                              baseUrl +
-                                                "/profile/" +
-                                                item.follower._id +
-                                                "/activity",
-                                              "_blank"
-                                            )
-                                          }
-                                        >
-                                          @{item?.follower?.username}
-                                        </a>
+                                        <Space direction="vertical">
+                                          <span className="custom-userName">
+                                            {item?.follower?.username}{" "}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                                          </span>
+                                          <a
+                                            onClick={() =>
+                                              window.open(
+                                                baseUrl +
+                                                  "/profile/" +
+                                                  item.follower._id +
+                                                  "/activity",
+                                                "_blank"
+                                              )
+                                            }
+                                          >
+                                            @{item?.follower?.username}
+                                          </a>
+                                        </Space>
+                                        <Space>
+                                          Followed
+                                          <a
+                                            onClick={() =>
+                                              window.open(
+                                                baseUrl +
+                                                  "/profile/" +
+                                                  item?.follower?._id +
+                                                  "/activity",
+                                                "_blank"
+                                              )
+                                            }
+                                          >
+                                            @{item?.following?.username}
+                                          </a>
+                                        </Space>
                                       </>
                                     }
                                     description={new Date(
@@ -494,9 +527,7 @@ const ProfileActivity = ({
                                       second: "2-digit",
                                     })}
                                   />
-                                  <div className="custom-list-content">
-                                    Followed @{item?.following?.username}
-                                  </div>
+                                  <div className="custom-list-content"></div>
                                 </>
                               )}
                             </Skeleton>

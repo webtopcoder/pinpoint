@@ -680,6 +680,24 @@ function LocationBanner({ location }) {
                     </Space>
                   </Space>
                 </Col>
+                <Col
+                  span="24"
+                  style={{
+                    top: -5,
+                  }}
+                >
+                  <Space>
+                    <Text
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      {location?.subCategories
+                        ?.map((item) => item.name)
+                        .join(", ")}
+                    </Text>
+                  </Space>
+                </Col>
               </Row>
             </Card>
           </Badge.Ribbon>
