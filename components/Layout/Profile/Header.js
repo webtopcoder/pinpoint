@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { getHeader, unFriend } from "@/redux/Profile/actions";
+import { getHeader, unfollow } from "@/redux/Profile/actions";
 import { postFollower, getInfo } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import binavatar from "@/public/images/landing/avatar.png";
@@ -232,6 +232,6 @@ const mapStateToProps = ({ profile, user }) => {
 const mapDispatchToProps = (dispatch) => ({
   ongetHeader: (data) => dispatch(getHeader(data)),
   onpostFollower: (id, cb) => dispatch(postFollower(id, cb)),
-  ondeleteFollower: (id, cb) => dispatch(unFriend(id, cb)),
+  ondeleteFollower: (id, cb) => dispatch(unfollow(id, cb)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

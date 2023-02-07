@@ -7,8 +7,8 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { getFollowers } from "@/redux/Profile/actions";
-import { unFriend } from "@/redux/Profile/actions";
+import { getFollowers, unFriend } from "@/redux/Profile/actions";
+import { unfollow } from "@/redux/Profile/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -62,15 +62,16 @@ const ProfileFollowers = ({
   }, [router.isReady, count]);
 
   const unfriend = (id) => {
-    onunFriend(id, (res) => {
+    onunFriend(id, (_, error) => {
       setLoading(true);
-      if (res.success) {
+      if (!error) {
         notify("success", "Unfriend successfully");
         ongetFollowers(profile, count, search, (res, error) => {
           if (error) {
             notify("error", "Something went wrong");
           }
           setInitLoading(false);
+          setLoading(false);
           setData(res.data.results);
         });
       }
