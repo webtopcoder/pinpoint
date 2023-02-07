@@ -293,6 +293,7 @@ function ModifyModal({
               ]}
               required
               tooltip="This is a required field"
+              initialvalue={locationInfo.subCategories?.map((item) => item._id)}
               name="subCategories"
             >
               <Select

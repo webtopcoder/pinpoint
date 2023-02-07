@@ -103,7 +103,7 @@ export function createLocation(form, cb) {
 
 export function deleteLocationById(id, cb) {
   return (dispatch) =>
-    api(`locations/${id}`, "put")
+    api(`locations/${id}`, "delete")
       .then((res) => {
         dispatch({
           type: LOCATION_DELETE_REQUEST,
@@ -123,7 +123,7 @@ export function deleteLocationById(id, cb) {
 
 export function updateLocationById(locationID, form, cb) {
   return (dispatch) =>
-    api(`locations/${locationID}`, "post", form)
+    api(`locations/${locationID}`, "patch", form)
       .then((res) => {
         dispatch({
           type: LOCATION_UPDATE_REQUEST,
