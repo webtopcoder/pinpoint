@@ -218,3 +218,23 @@ export function likeLocation(locationId, cb) {
         cb(null, error);
       });
 }
+
+export function checkInLocation(locationId, cb) {
+  return (dispatch) =>
+    api(`locations/${locationId}/check-in`, "post")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_REVIEW_REQUEST,
+        });
+
+        dispatch({
+          type: USER_LOCATION_ID_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}

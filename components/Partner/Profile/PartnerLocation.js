@@ -31,6 +31,7 @@ import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
 import baseUrl from "@/utils/baseUrl";
 import {
+  checkInLocation,
   likeLocation,
   likeLocationReview,
   postReview,
@@ -102,6 +103,7 @@ const PartnerLocation = ({
   getLocationInfo,
   likeReview,
   onLikeLocation,
+  onCheckInLocation,
 }) => {
   const router = useRouter();
   const { notify } = useNotify();
@@ -148,6 +150,7 @@ const PartnerLocation = ({
                 <ArrivalBanner
                   location={location}
                   onLikeLocation={onLikeLocation}
+                  onCheckInLocation={onCheckInLocation}
                 />
               ) : (
                 ""
@@ -188,11 +191,19 @@ const PartnerLocation = ({
   );
 };
 
-function ArrivalBanner({ location, onLikeLocation }) {
-  // const [checkInNumber, setCheckInNumber] = useState(location.checkIn);
+function ArrivalBanner({ location, onLikeLocation, onCheckInLocation }) {
+  const [checkInNumber, setCheckInNumber] = useState(0);
+  const { notify } = useNotify();
+
   const arrivalText = location.arrivalText;
   const arrivalImage = location.arrivalImages[0]?.filepath;
   const date = location.createdAt;
+
+  useEffect(() => {
+    if (location.checkIn) {
+      setCheckInNumber(location.checkIn?.length);
+    }
+  }, [location.checkIn]);
 
   return (
     <div>
@@ -254,7 +265,13 @@ function ArrivalBanner({ location, onLikeLocation }) {
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Button
                 onClick={() => {
-                  // setCheckInNumber((prev) => prev + 1);
+                  onCheckInLocation(location._id, (_, err) => {
+                    if (err) {
+                      notify("error", err?.response?.data?.message || "Error");
+                    }
+
+                    notify("success", "Check in successfully");
+                  });
                 }}
               >
                 Check In
@@ -285,11 +302,10 @@ function ArrivalBanner({ location, onLikeLocation }) {
               })}
             </div>
             <div style={{ marginLeft: "auto", order: "2" }}>
-              {/*
-      <Button style={{ marginRight: "10px" }}>
-       {checkInNumber} checked in
-      </Button>
-      */}
+              <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
+                {checkInNumber} checked in
+              </Button>
+
               <LikeLocation
                 likeLocation={onLikeLocation}
                 locationId={location._id}
@@ -736,6 +752,8 @@ const mapDispatchToProp = (dispatch) => {
       dispatch(postReview(locationId, form, cb)),
     likeReview: (reviewId, cb) => dispatch(likeLocationReview(reviewId, cb)),
     onLikeLocation: (locationId, cb) => dispatch(likeLocation(locationId, cb)),
+    onCheckInLocation: (locationId, cb) =>
+      dispatch(checkInLocation(locationId, cb)),
   };
 };
 
