@@ -201,7 +201,7 @@ const ProfileFollowers = ({
                             size={"default"}
                             key="button-unfriend"
                           >
-                            UnFriend
+                            Unfriend
                           </Button>,
                         ]}
                       >

@@ -116,7 +116,7 @@ const PartnerShipPayment = ({
           {isActive ? (
             <>
               <Space>
-                <Text style={{ color: "green" }}>Renews on {renewalDate}</Text>
+                <Text style={{ color: "green" }}>Renews on 07/03/2023</Text>
               </Space>
               <Space>
                 <Popconfirm

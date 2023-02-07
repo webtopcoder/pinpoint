@@ -231,7 +231,7 @@ function ArrivalModal({
                       float: "right",
                     }}
                   >
-                    Let`&apos;`s Go
+                    Let's Go
                   </Button>
                 </Col>
               </Row>

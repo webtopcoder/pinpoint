@@ -125,23 +125,26 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
               </Col>
             </Row>
             <Row
-              gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
+              gutter={16}
               style={{
                 marginTop: 30,
               }}
               justify="space-around"
             >
-              <List
-                grid={{
-                  column: 3,
-                }}
-                dataSource={locations}
-                renderItem={(item) => (
-                  <List.Item>
-                    <LocationCard location={item} showActions={true} />
-                  </List.Item>
-                )}
-              />
+              <Col className="gutter-row" span={24}>
+                <List
+                  grid={{
+                    column: 3,
+                  }}
+                  dataSource={locations}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <LocationCard location={item} showActions={true} />
+                    </List.Item>
+                  )}
+                />
+              </Col>
+
             </Row>
           </Content>
         </div>
