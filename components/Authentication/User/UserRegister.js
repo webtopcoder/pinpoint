@@ -28,7 +28,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
     firstName: "",
     lastName: "",
     username: "",
-    birthday: new Date(),
+    dob: new Date(),
     city: "",
     state: "",
     email: "",
@@ -54,7 +54,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
 
     setForm(nextFormState);
 
-    if (errors[field].dirty)
+    if (errors[field]?.dirty)
       validateForm({
         form: nextFormState,
         errors,
@@ -68,6 +68,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
     if (!isValid) return;
     const fields = [
       "role",
+      "dob",
       "firstName",
       "lastName",
       "username",
@@ -148,10 +149,10 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
               <FormGroup
                 label="Birthday *"
                 errors={errors}
-                value={form.birthday}
+                value={form.dob}
                 onChange={onUpdateField}
                 onBlur={onBlurField}
-                name="birthday"
+                name="dob"
                 type="date"
                 placeholder="Birthday"
               />

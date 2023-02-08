@@ -39,7 +39,7 @@ export const useRegisterFormValidator = (form) => {
       error: false,
       message: "",
     },
-    birthday: {
+    dob: {
       dirty: false,
       error: false,
       message: "",
@@ -86,8 +86,8 @@ export const useRegisterFormValidator = (form) => {
       firstName,
       lastName,
       username,
-      birthday,
       city,
+      dob,
       state,
       email,
       password,
@@ -122,11 +122,11 @@ export const useRegisterFormValidator = (form) => {
       if (!!emailMessage) isValid = false;
     }
 
-    if (nextErrors.birthday.dirty && (field ? field === "birthday" : true)) {
-      const birthdayMessage = BirthdayValidator(birthday, form);
-      nextErrors.birthday.error = !!birthdayMessage;
-      nextErrors.birthday.message = birthdayMessage;
-      if (!!birthdayMessage) isValid = false;
+    if (nextErrors.dob.dirty && (field ? field === "dob" : true)) {
+      const dobMessage = BirthdayValidator(dob, form);
+      nextErrors.dob.error = !!dobMessage;
+      nextErrors.dob.message = dobMessage;
+      if (!!dobMessage) isValid = false;
     }
 
     if (nextErrors.city.dirty && (field ? field === "city" : true)) {
@@ -174,7 +174,7 @@ export const useRegisterFormValidator = (form) => {
   const onBlurField = (e) => {
     const field = e.target.name;
     const fieldError = errors[field];
-    if (fieldError.dirty) return;
+    if (fieldError?.dirty) return;
 
     const updatedErrors = {
       ...errors,

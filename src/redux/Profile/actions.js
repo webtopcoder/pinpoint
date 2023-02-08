@@ -477,7 +477,7 @@ export function getFollowers(id, count, search, cb) {
       });
 }
 
-export function unFriend(id, cb) {
+export function unfollow(id, cb) {
   return (dispatch) =>
     api(`follow/${id}`, "delete")
       .then((res) => {
@@ -489,6 +489,23 @@ export function unFriend(id, cb) {
       })
       .catch((error) => {
         console.log(error);
+        cb(null, error);
+      });
+}
+
+export function unFriend(id, cb) {
+  return (dispatch) =>
+    api(`follow/${id}/unfriend`, "delete")
+      .then((res) => {
+        dispatch({
+          type: UN_FRIEND_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        cb(null, error);
       });
 }
 
