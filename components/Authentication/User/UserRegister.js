@@ -10,6 +10,7 @@ import { useRegisterFormValidator } from "./hooks/use-user-register-form-validat
 import { registerUser } from "@/redux/User/actions";
 import "react-datepicker/dist/react-datepicker.css";
 import FormGroup from "../FormGroup";
+import useNotify from "@/hooks/useNotify";
 
 const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
   const countryCode = "US";
@@ -37,6 +38,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
   });
 
   const [cityList, setCityList] = useState([]);
+  const { notify } = useNotify();
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
 
@@ -90,6 +92,10 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
     onRegisterUser(formRequest, (res, error) => {
       if (error) {
         console.log("error");
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
       } else {
         router.push("/authentication/thank-you");
         console.log(savedEmail);

@@ -3,14 +3,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import AuthCode from "react-auth-code-input";
-import { verifyUserEmail } from "@/redux/User/actions";
+import { sendVerificationEmail, verifyUserEmail } from "@/redux/User/actions";
 import { connect } from "react-redux";
 
 import thankYouImg from "@/public/images/thank-you.png";
 import { useRouter } from "next/router";
 import toast from "@/components/Toast";
 
-const ThankYou = ({ onVerifyUserEmail }) => {
+const ThankYou = ({ onVerifyUserEmail, onResendVerifyEmail }) => {
   const router = useRouter();
   const [email, setEmail] = useState("test@gmail.com");
   const [thankyou_id, setThankyouId] = useState("");
@@ -29,9 +29,6 @@ const ThankYou = ({ onVerifyUserEmail }) => {
   }, []);
 
   const backLogin = thankyou_id.toLowerCase();
-  // if (typeof window !== "undefined") {
-  //   // Perform localStorage action
-  //   }
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -40,13 +37,32 @@ const ThankYou = ({ onVerifyUserEmail }) => {
       otp: result,
     };
     console.log(data);
-    onVerifyUserEmail(data, (res, error) => {
+    onVerifyUserEmail(data, (_, error) => {
       if (error) {
-        notify("error", "Wrong OTP!");
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
         return;
       }
       notify("success", "Email verified successfully");
       router.push(`/authentication/${backLogin}/login`);
+    });
+  };
+
+  const handleResendEmail = () => {
+    const data = {
+      email: email,
+    };
+    onResendVerifyEmail(data, (_, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      }
+      notify("success", "Email sent successfully");
     });
   };
 
@@ -62,9 +78,6 @@ const ThankYou = ({ onVerifyUserEmail }) => {
                 PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A
                 OTP TO THE EMAIL GIVEN!
               </p>
-              {/* <p className="authSubHeader">
-                Fill up the OTP code to start accessing the website,
-              </p> */}
               <form onSubmit={handleOnSubmit}>
                 <div className="otpField">
                   <AuthCode
@@ -72,27 +85,29 @@ const ThankYou = ({ onVerifyUserEmail }) => {
                     onChange={handleOnChange}
                   />
                 </div>
-                <button type="submit" style={{
-                  marginTop: 20
-                }} className="btn-style-one red-light-color">Verify Email</button>
-                {/* <div className="authSubText">
-                    <p>Didn&#8217;t receive the code?</p>
-                    <Link to="/">
-                      <span>Send again</span>
-                    </Link>
-                  </div> */}
+                <button
+                  type="submit"
+                  style={{
+                    marginTop: 20,
+                  }}
+                  className="btn-style-one red-light-color"
+                >
+                  Verify Email
+                </button>
+                <div className="authSubText">
+                  <p>Didn&#8217;t receive the code?</p>
+                  <a role="button" onClick={handleResendEmail}>
+                    <span>Send again</span>
+                  </a>
+                </div>
               </form>
 
-              {/* <Link href={`/authentication/user/login`}>
-                <a className="btn-style-one red-light-color">
-                  Back to {thankyou_id} Login{" "}
-                  <i className="bx bx-chevron-right"></i>
-                </a>
-              </Link> */}
               <div className="col-12">
                 <p className="account-desc">
                   <Link href={`/authentication/${backLogin}/login`}>
-                    <a className="login-dashboard-a-color">Back to {thankyou_id} Login{" "}</a>
+                    <a className="login-dashboard-a-color">
+                      Back to {thankyou_id} Login{" "}
+                    </a>
                   </Link>
                 </p>
               </div>
@@ -106,5 +121,6 @@ const ThankYou = ({ onVerifyUserEmail }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onVerifyUserEmail: (data, cb) => dispatch(verifyUserEmail(data, cb)),
+  onResendVerifyEmail: (data, cb) => dispatch(sendVerificationEmail(data, cb)),
 });
 export default connect(undefined, mapDispatchToProps)(ThankYou);
