@@ -1,95 +1,46 @@
-import React from "react";
-import Image from "next/image";
-import farmers from "@/public/images/landing/farmers.png";
-import active from "@/public/images/active.png";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useRouter } from "next/router";
+import useNotify from "@/hooks/useNotify";
+import { getFavouriteLocations } from "@/src/redux/Location/actions";
+import { Col, Row } from "antd";
+import LocationCard from "@/components/LocationCard";
 
-const ProfileFavorites = () => {
+const ProfileFavorites = ({ ongetFavoriteLocations, favoriteLocations }) => {
+  const router = useRouter();
+  const { profile } = router.query;
+
+  const { notify } = useNotify();
+  useEffect(() => {
+    if (router.isReady) {
+      ongetFavoriteLocations(profile, (_, error) => {
+        if (error) {
+          notify(
+            "error",
+            error?.response?.data?.message ?? "Something went wrong"
+          );
+        }
+      });
+    }
+  }, [router.isReady]);
+
   return (
     <div className="blog-details-area">
       <div className="container">
         <br />
+
         <div className="row justify-content-center">
           <div className="col-xl-10 col-lg-12 col-md-12">
             <div className="profile-location">
               <p className="title">Favorite Locations</p>
               <div className="container">
-                <div className="row">
-                  <div className="col-lg-4 col-md-6 col-sm-6">
-                    <div className="single-location-box">
-                      <h3>Farmers Market</h3>
-
-                      <div className="icon">
-                        <Image src={farmers} alt="icon" />
-                      </div>
-
-                      <div className="profile-location-box-footer">
-                        <div className="img-section">
-                          <Image src={active} alt="icon" />
-                        </div>
-                        <div className="location-title">
-                          <span>Jacksonville, FL</span>
-                          <br />
-                          <span>Last seen 5 hours ago</span>
-                        </div>
-                        <div className="location-star">
-                          <span>
-                            <i className="bx bxs-star"></i>4.7
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6">
-                    <div className="single-location-box">
-                      <h3>Farmers Market</h3>
-
-                      <div className="icon">
-                        <Image src={farmers} alt="icon" />
-                      </div>
-
-                      <div className="profile-location-box-footer">
-                        <div className="img-section">
-                          <Image src={active} alt="icon" />
-                        </div>
-                        <div className="location-title">
-                          <span>Jacksonville, FL</span>
-                          <br />
-                          <span>Last seen 5 hours ago</span>
-                        </div>
-                        <div className="location-star">
-                          <span>
-                            <i className="bx bxs-star"></i>4.7
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6">
-                    <div className="single-location-box">
-                      <h3>Farmers Market</h3>
-
-                      <div className="icon">
-                        <Image src={farmers} alt="icon" />
-                      </div>
-
-                      <div className="profile-location-box-footer">
-                        <div className="img-section">
-                          <Image src={active} alt="icon" />
-                        </div>
-                        <div className="location-title">
-                          <span>Jacksonville, FL</span>
-                          <br />
-                          <span>Last seen 5 hours ago</span>
-                        </div>
-                        <div className="location-star">
-                          <span>
-                            <i className="bx bxs-star"></i>4.7
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Row justify="space-around">
+                  {favoriteLocations.map((location, index) => (
+                    <Col span={6} key={index}>
+                      <LocationCard location={location} />
+                    </Col>
+                  ))}
+                </Row>
               </div>
             </div>
           </div>
@@ -99,4 +50,17 @@ const ProfileFavorites = () => {
   );
 };
 
-export default ProfileFavorites;
+const mapStateToProps = ({ location }) => {
+  return {
+    favoriteLocations: location.favoriteLocations,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ongetFavoriteLocations: (payload, cb) =>
+      dispatch(getFavouriteLocations(payload, cb)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileFavorites);

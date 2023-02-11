@@ -14,6 +14,10 @@ import {
   LOCATION_UPDATE_SUCCESS,
   LOCATION_DELETE_REQUEST,
   LOCATION_DELETE_SUCCESS,
+  LOCATION_FAVORITE_REQUEST,
+  LOCATION_FAVORITE_SUCCESS,
+  LOCATION_GET_FAVORITE_REQUEST,
+  LOCATION_GET_FAVORITE_SUCCESS,
 } from "./types";
 
 export function quickArrival({ form, locationId }, cb) {
@@ -229,6 +233,66 @@ export function checkInLocation(locationId, cb) {
 
         dispatch({
           type: USER_LOCATION_ID_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function favoriteLocation(locationId, cb) {
+  return (dispatch) =>
+    api(`locations/${locationId}/favorite`, "post")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_FAVORITE_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_FAVORITE_SUCCESS,
+          payload: true,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function unfavoriteLocation(locationId, cb) {
+  return (dispatch) =>
+    api(`locations/${locationId}/favorite`, "delete")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_FAVORITE_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_FAVORITE_SUCCESS,
+          payload: false,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function getFavouriteLocations(userId, cb) {
+  return (dispatch) =>
+    api(`locations/favorite/${userId}`, "get")
+      .then((res) => {
+        dispatch({
+          type: LOCATION_GET_FAVORITE_REQUEST,
+        });
+
+        dispatch({
+          type: LOCATION_GET_FAVORITE_SUCCESS,
           payload: res,
         });
 

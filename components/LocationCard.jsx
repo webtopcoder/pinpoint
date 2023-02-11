@@ -33,14 +33,6 @@ import Image from "next/image";
 
 const { Text } = Typography;
 
-const subcategoryList = [];
-for (let i = 10; i < 36; i++) {
-  subcategoryList.push({
-    value: i.toString(36) + i,
-    label: i.toString(36) + i,
-  });
-}
-
 const IconText = ({ icon, text }) => (
   <Space>
     {icon}
@@ -151,7 +143,6 @@ const LocationCard = ({
         className="partner-locations-card"
         actions={
           showActions && [
-            // {location.Inactive}
             location.isActive ? (
               <Button type="link" disabled>
                 Arrival

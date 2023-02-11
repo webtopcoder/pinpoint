@@ -1,4 +1,7 @@
 import {
+  LOCATION_FAVORITE_REQUEST,
+  LOCATION_FAVORITE_SUCCESS,
+  LOCATION_GET_FAVORITE_SUCCESS,
   LOCATION_QUICK_ARRIVAL_SUCCESS,
   LOCATION_QUICK_DEPARTURE_REQUEST,
   LOCATION_QUICK_DEPARTURE_SUCCESS,
@@ -13,7 +16,10 @@ import {
 const initialState = {
   loading: true,
   userLocations: [],
-  location: {},
+  location: {
+    isFavorite: false,
+  },
+  favoriteLocations: [],
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -54,6 +60,24 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+      };
+
+    case LOCATION_FAVORITE_REQUEST:
+      return { ...state, loading: true };
+    case LOCATION_FAVORITE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        location: {
+          ...state.location,
+          isFavorite: action.payload ?? state.location.isFavorite,
+        },
+      };
+    case LOCATION_GET_FAVORITE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        favoriteLocations: action.payload,
       };
 
     default:
