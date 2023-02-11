@@ -19,14 +19,13 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 
-const RightSidebar = (props) => {
+const RightSidebar = ({ visible, onLogout, user_id, role, token }) => {
   let avatarImg = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
     avatarImg = sessionStorage.getItem("avatar");
   }
 
-  const { visible, onLogout, user_id, role, token } = props;
   const router = useRouter();
   const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
