@@ -94,6 +94,25 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
     },
   };
 
+  useEffect(() => {
+    if (sendToUserId && options?.length > 0) {
+      const sendToUser = options.find(
+        (option) => option.value === sendToUserId
+      );
+
+      if (!sendToUser) {
+        notify(
+          "error",
+          "You are not allowed to send message to this user. Please select from the list."
+        );
+      } else {
+        composeForm.setFieldsValue({
+          name: [sendToUserId],
+        });
+      }
+    }
+  }, [sendToUserId, options]);
+
   return (
     <Row className="mail-inbox">
       <Col md={24} sm={24} xs={24}>
@@ -113,7 +132,6 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
                   message: "Please input your Username!",
                 },
               ]}
-              initialValue={sendToUserId ? [sendToUserId] : []}
             >
               <Select
                 mode="multiple"

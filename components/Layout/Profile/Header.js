@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import binavatar from "@/public/images/landing/avatar.png";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
+import baseUrl from "@/utils/baseUrl";
 
 const Header = ({
   ongetHeader,
@@ -14,6 +15,7 @@ const Header = ({
   onpostFollower,
   ondeleteFollower,
   user_id,
+  userRole,
 }) => {
   const myLoader = ({ src }) => {
     return src;
@@ -133,6 +135,15 @@ const Header = ({
                   <div className="avatar-content">
                     <button
                       type="submit"
+                      onClick={() =>
+                        userRole
+                          ? window.open(
+                              baseUrl +
+                                `/${userRole}/message?user=${view_user_id}`,
+                              "_blank"
+                            )
+                          : null
+                      }
                       className="btn-style-one avatar-message-button ps-3"
                     >
                       Message<i className="bx bx-envelope avatar-icon"></i>
@@ -226,6 +237,7 @@ const mapStateToProps = ({ profile, user }) => {
   return {
     headerInfo: profile.headerInfo,
     user_id: user.user_id,
+    userRole: user.role,
   };
 };
 
