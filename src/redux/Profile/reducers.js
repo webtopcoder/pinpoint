@@ -98,9 +98,9 @@ const profileReducer = (state = initialState, action) => {
           avatar: action.payload.avatar,
           poll: {
             ...state.editInfo.poll,
-            question: action.payload.poll.question ?? "",
-            options: action.payload.poll.options ?? [],
-            votes: action.payload.poll.votes ?? Array(4).fill(0),
+            question: action.payload.poll?.question ?? "",
+            options: action.payload.poll?.options ?? [],
+            votes: action.payload.poll?.votes ?? Array(4).fill(0),
           },
         },
       };
