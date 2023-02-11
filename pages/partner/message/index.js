@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import BasicLayout from "../../../layout";
 import LeftSidebar from "@/components/Layout/Partner/Sidebar";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Row, Col, Button, Tooltip, Modal, Dropdown } from "antd";
+import { Table, Row, Col, Tooltip, Modal, Dropdown } from "antd";
 import { connect } from "react-redux";
 import { DownloadOutlined } from "@ant-design/icons";
 import { bulkMailAction, getSent } from "@/redux/Mail/actions";
@@ -35,7 +35,6 @@ const Sent = ({
   });
 
   const [loading, setLoading] = useState(false);
-
   const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
 
   const [tableParams, setTableParams] = useState({
