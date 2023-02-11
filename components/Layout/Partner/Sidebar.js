@@ -13,17 +13,7 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import {
-  Layout,
-  Menu,
-  Avatar,
-  Space,
-  Badge,
-  Drawer,
-  List,
-  Button,
-  Typography,
-} from "antd";
+import { Layout, Menu, Avatar, Space, Badge, Drawer, List, Button } from "antd";
 import { getNotifications, logout } from "@/src/redux/User/actions";
 import Link from "next/link";
 import config from "@/utils/config";
@@ -57,13 +47,7 @@ function LeftSidebar({
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState("left");
-
   const [notificationPage, setNotificationPage] = useState(1);
-  const [token, setToken] = useState(null);
-
-  const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
 
   const router = useRouter();
   const pathurl = router.asPath;
@@ -84,10 +68,6 @@ function LeftSidebar({
 
   const onClose = () => {
     setOpen(false);
-  };
-
-  const onChange = (e) => {
-    setPlacement(e.target.value);
   };
 
   const [current, setCurrent] = useState(pathurl);
@@ -132,35 +112,22 @@ function LeftSidebar({
     }
   }, [router.pathname]);
   useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
     fetch(fakeDataUrl)
       .then((res) => res.json())
-      .then((res) => {
+      .then(() => {
         setInitLoading(false);
-        setData(res.results);
-        setList(res.results);
       });
   }, []);
 
   const [collapsed, setCollapsed] = useState(false);
   const onLogoutHandler = () => {
-    onLogout((res) => {
-      setToken(null);
+    onLogout(() => {
       router.push("/home");
     });
   };
 
   const onLoadMore = () => {
     setLoading(true);
-    setList(
-      data.concat(
-        [...new Array(count)].map(() => ({
-          loading: true,
-          name: {},
-          picture: {},
-        }))
-      )
-    );
 
     if (notificationCount / 10 > notificationPage) {
       setNotificationPage(notificationPage + 1);
@@ -304,7 +271,6 @@ function LeftSidebar({
         closable={true}
         onClose={onClose}
         open={open}
-        key={placement}
         bodyStyle={{
           color: "white",
           background: "#2f2f2f",
