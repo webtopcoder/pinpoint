@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { getFollowers, unFriend } from "@/redux/Profile/actions";
+import { getFollowers, getHeader, unFriend } from "@/redux/Profile/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -23,6 +23,7 @@ const ProfileFollowers = ({
   followersList,
   user_id,
   onunFriend,
+  ongetHeader,
   userRole,
 }) => {
   const { notify } = useNotify();
@@ -74,6 +75,8 @@ const ProfileFollowers = ({
           setLoading(false);
           setData(res.data.results);
         });
+
+        ongetHeader(profile);
       }
     });
   };
@@ -276,5 +279,6 @@ const mapDispatchToProps = (dispatch) => ({
   ongetFollowers: (data, count, search, cb) =>
     dispatch(getFollowers(data, count, search, cb)),
   onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
+  ongetHeader: (id) => dispatch(getHeader(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileFollowers);
