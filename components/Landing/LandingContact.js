@@ -1,5 +1,4 @@
 import { React, useState, useCallback } from "react";
-import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
@@ -7,18 +6,10 @@ import Image from "next/image";
 import styles from "./contact-validator/LoginForm.module.css";
 import { ContactFormValidator } from "./contact-validator/validater-hook";
 import { ContactUser } from "@/redux/Contact/actions";
-import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
 
 const LandingContact = ({ onContactUser }) => {
-  const router = useRouter();
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
-
+  const { notify } = useNotify();
   const [form, setForm] = useState({
     usertype: "",
     firstName: "",
@@ -51,8 +42,10 @@ const LandingContact = ({ onContactUser }) => {
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
 
-    onContactUser(form, (res) => {
-      if (res.success) {
+    onContactUser(form, (res, err) => {
+      if (err) {
+        notify("error", err?.response?.data?.message || "Something went wrong");
+      } else {
         const initialstate = {
           usertype: "",
           firstName: "",
@@ -62,8 +55,8 @@ const LandingContact = ({ onContactUser }) => {
           messageContent: "",
         };
         setForm(initialstate);
-        notify("success", res.msg);
-      } else notify("error", res.msg);
+        notify("success", "Submitted Successfully");
+      }
     });
   };
 

@@ -108,7 +108,7 @@ const LocationCard = ({
             window.open(
               baseUrl +
                 "/profile/" +
-                location.partner._id +
+                (location.partner._id ?? location.partner) +
                 "/locations/" +
                 location._id,
               "_blank"
@@ -180,7 +180,9 @@ const LocationCard = ({
         >
           <Col span={24}>
             <Link
-              href={`/profile/${location.partner._id}/locations/${location._id}`}
+              href={`/profile/${
+                location.partner._id ?? location.partner
+              }/locations/${location._id}`}
             >
               <Avatar
                 style={{ border: "3px solid black", cursor: "pointer" }}

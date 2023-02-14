@@ -177,26 +177,7 @@ const RightSidebar = ({
               )}
             </div>
           </div>
-          {token ? (
-            <>
-              <div
-                onClick={() =>
-                  handleOriginPageRender(`/profile/${user_id}/activity`)
-                }
-                className="vst-profile"
-              >
-                View Profile
-              </div>
-              <div
-                onClick={() =>
-                  handleOriginPageRender(`/profile/${user_id}/edit`)
-                }
-                className="vst-edit-profile"
-              >
-                edit profile
-              </div>
-            </>
-          ) : (
+          {!token && (
             <div className="login-btn-panel">
               <div className="login-btn">
                 <Popconfirm
@@ -246,6 +227,26 @@ const RightSidebar = ({
                 </Popconfirm>
               </div>
             </div>
+          )}
+          {token && (
+            <>
+              <div
+                onClick={() =>
+                  handleOriginPageRender(`/profile/${user_id}/activity`)
+                }
+                className="vst-profile"
+              >
+                View Profile
+              </div>
+              <div
+                onClick={() =>
+                  handleOriginPageRender(`/profile/${user_id}/edit`)
+                }
+                className="vst-edit-profile"
+              >
+                edit profile
+              </div>
+            </>
           )}
           <Row
             className="sidebar-menu-item"

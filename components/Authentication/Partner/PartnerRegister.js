@@ -50,8 +50,6 @@ const PartnerRegister = ({
     types: ["establishment"],
   };
 
-  const router = useRouter();
-
   const [form, setForm] = useState({
     role: "partner",
     firstName: "",

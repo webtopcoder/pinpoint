@@ -3,16 +3,21 @@ import api from "@/utils/callApi";
 
 export function ContactUser(form, cb) {
   return (dispatch) =>
-    api(`contact`, "post", form).then((res) => {
-      dispatch({
-        type: CONTACT_REGISTER_REQUEST,
-      });
+    api(`contact`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: CONTACT_REGISTER_REQUEST,
+        });
 
-      dispatch({
-        type: CONTACT_REGISTER_SUCCESS,
-        payload: res,
-      });
+        dispatch({
+          type: CONTACT_REGISTER_SUCCESS,
+          payload: res,
+        });
 
-      cb(res);
-    });
+        cb(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        cb(null, err);
+      });
 }
