@@ -13,17 +13,7 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import {
-  Layout,
-  Menu,
-  Avatar,
-  Space,
-  Badge,
-  Drawer,
-  List,
-  Button,
-  Typography,
-} from "antd";
+import { Layout, Menu, Avatar, Space, Badge, Drawer, List, Button } from "antd";
 import { getNotifications, logout } from "@/src/redux/User/actions";
 import Link from "next/link";
 import config from "@/utils/config";
@@ -32,7 +22,6 @@ import baseUrl from "@/utils/baseUrl";
 const count = 3;
 
 const { Sider } = Layout;
-const { Text } = Typography;
 
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
@@ -52,18 +41,13 @@ function LeftSidebar({
   notificationCount,
   onGetNotifications,
   avatar,
+  role,
 }) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState("left");
-
   const [notificationPage, setNotificationPage] = useState(1);
-  const [token, setToken] = useState(null);
-
-  const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
 
   const router = useRouter();
   const pathurl = router.asPath;
@@ -74,7 +58,7 @@ function LeftSidebar({
         sort: "createdAt:asc",
         page: notificationPage,
       },
-      () => { }
+      () => {}
     );
   }, [notificationPage]);
 
@@ -86,29 +70,18 @@ function LeftSidebar({
     setOpen(false);
   };
 
-  const onChange = (e) => {
-    setPlacement(e.target.value);
-  };
-
   const [current, setCurrent] = useState(pathurl);
 
   const onClick = (e) => {
-    if (e.key.substring(1, 8) === 'profile') {
-      window.open(
-        baseUrl +
-        e.key,
-        "_blank"
-      )
-    }
-    else {
+    if (e.key.substring(1, 8) === "profile") {
+      window.open(baseUrl + e.key, "_blank");
+    } else {
       setCurrent(e.key);
       router.push(e.key);
     }
-
   };
 
   const handleOriginPageRender = (page) => {
-
     router.push(page);
   };
 
@@ -139,35 +112,22 @@ function LeftSidebar({
     }
   }, [router.pathname]);
   useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
     fetch(fakeDataUrl)
       .then((res) => res.json())
-      .then((res) => {
+      .then(() => {
         setInitLoading(false);
-        setData(res.results);
-        setList(res.results);
       });
   }, []);
 
   const [collapsed, setCollapsed] = useState(false);
   const onLogoutHandler = () => {
-    onLogout((res) => {
-      setToken(null);
+    onLogout(() => {
       router.push("/home");
     });
   };
 
   const onLoadMore = () => {
     setLoading(true);
-    setList(
-      data.concat(
-        [...new Array(count)].map(() => ({
-          loading: true,
-          name: {},
-          picture: {},
-        }))
-      )
-    );
 
     if (notificationCount / 10 > notificationPage) {
       setNotificationPage(notificationPage + 1);
@@ -187,6 +147,10 @@ function LeftSidebar({
         <Button onClick={onLoadMore}>loading more</Button>
       </div>
     ) : null;
+
+  if (role !== "partner") {
+    return null;
+  }
 
   return (
     <>
@@ -275,11 +239,7 @@ function LeftSidebar({
             <div className="partner-avatar-center">
               <div className="rightsidebar-avatar-collapse">
                 {avatar ? (
-                  <Avatar
-                    src={avatarurl + avatar}
-                    alt="avatar"
-                    size={50}
-                  />
+                  <Avatar src={avatarurl + avatar} alt="avatar" size={50} />
                 ) : (
                   <Avatar
                     style={{
@@ -311,7 +271,6 @@ function LeftSidebar({
         closable={true}
         onClose={onClose}
         open={open}
-        key={placement}
         bodyStyle={{
           color: "white",
           background: "#2f2f2f",
@@ -339,12 +298,24 @@ function LeftSidebar({
               }}
             >
               <List.Item.Meta
-                title={<span style={{
-                  color: 'white'
-                }}><Link href={item.url ?? ""}>{item.title}</Link></span>}
-                description={<span style={{
-                  color: 'white'
-                }}>{item.description}</span>}
+                title={
+                  <span
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    <Link href={item.url ?? ""}>{item.title}</Link>
+                  </span>
+                }
+                description={
+                  <span
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    {item.description}
+                  </span>
+                }
               />
             </List.Item>
           )}
@@ -361,6 +332,7 @@ const mapStateToProps = (state) => {
     notifications: state.user.notifications,
     notificationCount: state.user.notificationCount,
     avatar: state?.profile?.userinfo?.profile?.avatar?.filepath,
+    role: state?.user?.role,
   };
 };
 

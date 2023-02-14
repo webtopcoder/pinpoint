@@ -8,7 +8,6 @@ import {
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { getFollowers, unFriend } from "@/redux/Profile/actions";
-import { unfollow } from "@/redux/Profile/actions";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -24,6 +23,7 @@ const ProfileFollowers = ({
   followersList,
   user_id,
   onunFriend,
+  userRole,
 }) => {
   const { notify } = useNotify();
 
@@ -170,40 +170,44 @@ const ProfileFollowers = ({
                           >
                             View Profile
                           </Button>,
-                          <Button
-                            onClick={() =>
-                              window.open(
-                                baseUrl +
-                                  `/partner/message?username=@${item.follower.username}`,
-                                "_blank"
-                              )
-                            }
-                            type="primary"
-                            icon={<MessageFilled />}
-                            size={"default"}
-                            key="button-message"
-                          >
-                            Message
-                          </Button>,
-                          <Button
-                            onClick={() => unfriend(item.follower._id)}
-                            style={
-                              user_id == profile
-                                ? {
-                                    display: "block",
-                                  }
-                                : {
-                                    display: "none",
-                                  }
-                            }
-                            danger
-                            type="primary"
-                            icon={<UserDeleteOutlined />}
-                            size={"default"}
-                            key="button-unfriend"
-                          >
-                            Unfriend
-                          </Button>,
+                          userRole ? (
+                            <Button
+                              onClick={() =>
+                                window.open(
+                                  baseUrl +
+                                    `/${userRole}/message?user=${item.follower.id}`,
+                                  "_blank"
+                                )
+                              }
+                              type="primary"
+                              icon={<MessageFilled />}
+                              size={"default"}
+                              key="button-message"
+                            >
+                              Message
+                            </Button>
+                          ) : null,
+                          user_id == profile ? (
+                            <Button
+                              onClick={() => unfriend(item.follower._id)}
+                              style={
+                                user_id == profile
+                                  ? {
+                                      display: "block",
+                                    }
+                                  : {
+                                      display: "none",
+                                    }
+                              }
+                              danger
+                              type="primary"
+                              icon={<UserDeleteOutlined />}
+                              size={"default"}
+                              key="button-unfriend"
+                            >
+                              UnFriend
+                            </Button>
+                          ) : null,
                         ]}
                       >
                         <Skeleton avatar title={false} loading={loading} active>
@@ -264,6 +268,7 @@ const mapStateToProps = ({ profile, user }) => {
   return {
     followersList: profile.followersInfo,
     user_id: user.user_id,
+    userRole: user.role,
   };
 };
 

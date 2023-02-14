@@ -32,9 +32,11 @@ import food from "@/public/images/landing/food.png";
 import baseUrl from "@/utils/baseUrl";
 import {
   checkInLocation,
+  favoriteLocation,
   likeLocation,
   likeLocationReview,
   postReview,
+  unfavoriteLocation,
 } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import { getLocationById } from "@/src/redux/Location/actions";
@@ -104,6 +106,8 @@ const PartnerLocation = ({
   likeReview,
   onLikeLocation,
   onCheckInLocation,
+  onFavoriteLocation,
+  onUnFavoriteLocation,
 }) => {
   const router = useRouter();
   const { notify } = useNotify();
@@ -112,7 +116,7 @@ const PartnerLocation = ({
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
-      getLocationInfo({ id: locationId }, (res, err) => {
+      getLocationInfo({ id: locationId }, (_, err) => {
         if (err) {
           notify(
             "error",
@@ -143,7 +147,11 @@ const PartnerLocation = ({
             paddingTop: 100,
           }}
         >
-          <LocationBanner location={location} />
+          <LocationBanner
+            location={location}
+            onFavoriteLocation={onFavoriteLocation}
+            onUnFavoriteLocation={onUnFavoriteLocation}
+          />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
               {location.isActive ? (
@@ -574,7 +582,12 @@ function Post({ review, likeReview, location }) {
   );
 }
 
-function LocationBanner({ location }) {
+function LocationBanner({
+  location,
+  onFavoriteLocation,
+  onUnFavoriteLocation,
+}) {
+  const { notify } = useNotify();
   if (!location) return <Skeleton active />;
   return (
     <>
@@ -701,8 +714,10 @@ function LocationBanner({ location }) {
                     </Space>
                   </Space>
                 </Col>
+
+                <Col span={8} />
                 <Col
-                  span="24"
+                  span={8}
                   style={{
                     top: -5,
                   }}
@@ -717,6 +732,61 @@ function LocationBanner({ location }) {
                         ?.map((item) => item.name)
                         .join(", ")}
                     </Text>
+                  </Space>
+                </Col>
+
+                <Col span={8}>
+                  <Space direction="vertical">
+                    {location.isFavorite ? (
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          onUnFavoriteLocation(location._id, (_, error) => {
+                            if (error) {
+                              notify(
+                                "error",
+                                error?.response?.data?.message ||
+                                  "Something went wrong"
+                              );
+                              return;
+                            }
+
+                            notify(
+                              "success",
+                              "Location removed from Favorites"
+                            );
+                          });
+                        }}
+                      >
+                        Remove from Favorites
+                      </Button>
+                    ) : (
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          onFavoriteLocation(location._id, (_, error) => {
+                            if (error) {
+                              notify(
+                                "error",
+                                error?.response?.data?.message ||
+                                  "Something went wrong"
+                              );
+                              return;
+                            }
+
+                            notify("success", "Location added to Favorites");
+                          });
+                        }}
+                      >
+                        Add to Favorites
+                      </Button>
+                    )}
                   </Space>
                 </Col>
               </Row>
@@ -754,6 +824,10 @@ const mapDispatchToProp = (dispatch) => {
     onLikeLocation: (locationId, cb) => dispatch(likeLocation(locationId, cb)),
     onCheckInLocation: (locationId, cb) =>
       dispatch(checkInLocation(locationId, cb)),
+    onFavoriteLocation: (locationId, cb) =>
+      dispatch(favoriteLocation(locationId, cb)),
+    onUnFavoriteLocation: (locationId, cb) =>
+      dispatch(unfavoriteLocation(locationId, cb)),
   };
 };
 

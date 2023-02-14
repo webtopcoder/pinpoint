@@ -1,32 +1,26 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { connect } from "react-redux";
-import { UploadOutlined } from "@ant-design/icons";
-import {
-  Row,
-  Card,
-  Col,
-  Form,
-  Upload,
-  Button,
-  message,
-  Checkbox,
-  Input,
-  Select,
-} from "antd";
+import useNotify from "@/hooks/useNotify";
 import { mailCompose } from "@/redux/Mail/actions";
 import { getmyFollowers } from "@/redux/User/actions";
+import { UploadOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  message,
+  Row,
+  Select,
+  Upload,
+} from "antd";
 import { useRouter } from "next/router";
-import toast from "@/components/Toast";
-import useNotify from "@/hooks/useNotify";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 const { TextArea } = Input;
 
-const Compose = ({
-  ongetmyFollowers,
-  onmailCompose,
-  emailID,
-  myfollowerList,
-}) => {
+const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
   const [composeForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
   const [componentDisabled, setComponentDisabled] = useState(false);
@@ -34,20 +28,12 @@ const Compose = ({
   const router = useRouter();
   const { notify } = useNotify();
 
-  const [prefix, setPrefix] = useState("@");
+  const { user: sendToUserId } = router.query;
 
   const options = myfollowerList?.map((follow) => ({
     value: follow.follower._id,
     label: follow.follower.username,
   }));
-
-  useEffect(() => {
-    if (emailID) {
-      composeForm.setFieldsValue({
-        name: emailID,
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (router.isReady) {
@@ -62,9 +48,7 @@ const Compose = ({
   const onFinish = (values) => {
     const form_data = new FormData();
 
-    upload_name.map((file, index) =>
-      form_data.append("files", file.originFileObj)
-    );
+    upload_name.map((file) => form_data.append("files", file.originFileObj));
 
     if (componentDisabled) {
       form_data.append("isNotice", componentDisabled.toString());
@@ -109,6 +93,26 @@ const Compose = ({
       }
     },
   };
+
+  useEffect(() => {
+    if (sendToUserId && options?.length > 0) {
+      const sendToUser = options.find(
+        (option) => option.value === sendToUserId
+      );
+
+      if (!sendToUser) {
+        notify(
+          "error",
+          "You are not allowed to send message to this user. Please select from the list."
+        );
+      } else {
+        composeForm.setFieldsValue({
+          name: [sendToUserId],
+        });
+      }
+    }
+  }, [sendToUserId, options]);
+
   return (
     <Row className="mail-inbox">
       <Col md={24} sm={24} xs={24}>
@@ -129,30 +133,22 @@ const Compose = ({
                 },
               ]}
             >
-              {emailID ? (
-                <Input
-                  style={{
-                    width: "50%",
-                  }}
-                  disabled={true}
-                  placeholder="input @ to mention people"
-                />
-              ) : (
-                <Select
-                  mode="multiple"
-                  size="middle"
-                  placeholder="Please select Users"
-                  style={{
-                    width: "50%",
-                  }}
-                  disabled={componentDisabled}
-                  options={options}
-                />
-              )}
+              <Select
+                mode="multiple"
+                size="middle"
+                placeholder="Please select Users"
+                style={{
+                  width: "50%",
+                }}
+                disabled={componentDisabled}
+                options={options}
+              />
             </Form.Item>
-            <Form.Item name="notice">
-              <Checkbox onChange={onCheck}>This is a notice.</Checkbox>
-            </Form.Item>
+            {role === "partner" ? (
+              <Form.Item name="notice">
+                <Checkbox onChange={onCheck}>This is a notice.</Checkbox>
+              </Form.Item>
+            ) : null}
             <Form.Item name="subject" label="Subject">
               <Input
                 style={{
@@ -209,6 +205,7 @@ const Compose = ({
 const mapStateToProps = ({ user }) => {
   return {
     myfollowerList: user.myFollowers,
+    role: user.role,
   };
 };
 

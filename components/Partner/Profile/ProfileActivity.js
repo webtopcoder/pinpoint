@@ -67,6 +67,7 @@ const ProfileActivity = ({
   onvotePoll,
   ongetFollowerAndFollowings,
   followAndFollowing,
+  profileRole,
 }) => {
   const { notify } = useNotify();
   const likePost = (id, cb) => {
@@ -563,68 +564,78 @@ const ProfileActivity = ({
                       </div>
                     </div>
                   </div>
-                  <div className="avatar-respond">
-                    <div
-                      className="pin-post-header-section"
-                      style={{
-                        display: "block",
-                      }}
-                    >
-                      <div className="pin-about-section">
-                        <h4 className="comment-notes">
-                          <span id="email-notes">Partner Poll</span>
-                          <p className="total-votes-count">
-                            {totalPollVoteCount}&nbsp;votes
+                  {profileRole == "partner" && (
+                    <div className="avatar-respond">
+                      <div
+                        className="pin-post-header-section"
+                        style={{
+                          display: "block",
+                        }}
+                      >
+                        <div className="pin-about-section">
+                          <h4 className="comment-notes">
+                            <span id="email-notes">Partner Poll</span>
+                            <p className="total-votes-count">
+                              {totalPollVoteCount}&nbsp;votes
+                            </p>
+                          </h4>
+                          <p className="partner-poll-question">
+                            {partnerPollQuestion}
                           </p>
-                        </h4>
-                        <p className="partner-poll-question">
-                          {partnerPollQuestion}
-                        </p>
-                        <div className="partner-poll-options">
-                          {partnerPollOptions.map((item, index) => {
-                            return (
-                              <div key={index}>
-                                <Space.Compact block size="small">
-                                  <Text
-                                    style={{
-                                      width: "calc(100% - 200px)",
-                                    }}
-                                  >
-                                    {" "}
-                                    {item.content}
-                                  </Text>
+                          <div className="partner-poll-options">
+                            {partnerPollOptions.map((item, index) => {
+                              return (
+                                <div key={index}>
+                                  <Space.Compact block size="small">
+                                    <Text
+                                      style={{
+                                        width: "calc(100% - 200px)",
+                                      }}
+                                    >
+                                      {" "}
+                                      {item.content}
+                                    </Text>
 
-                                  <Button
-                                    onClick={() => {
-                                      onvotePoll(profile, index, (_, error) => {
-                                        if (error) {
-                                          notify(
-                                            "error",
-                                            error?.response?.data?.message ||
-                                              "Something went wrong"
-                                          );
-                                          return;
-                                        }
+                                    <Button
+                                      onClick={() => {
+                                        onvotePoll(
+                                          profile,
+                                          index,
+                                          (_, error) => {
+                                            if (error) {
+                                              notify(
+                                                "error",
+                                                error?.response?.data
+                                                  ?.message ||
+                                                  "Something went wrong"
+                                              );
+                                              return;
+                                            }
 
-                                        notify("success", "Successfully voted");
-                                      });
-                                    }}
-                                    icon={<PlusOutlined />}
+                                            notify(
+                                              "success",
+                                              "Successfully voted"
+                                            );
+                                          }
+                                        );
+                                      }}
+                                      icon={<PlusOutlined />}
+                                    />
+                                  </Space.Compact>
+                                  <Progress
+                                    percent={item.votePercentage}
+                                    showInfo={false}
+                                    strokeColor="#1677FF"
+                                    trailColor="black"
                                   />
-                                </Space.Compact>
-                                <Progress
-                                  percent={item.votePercentage}
-                                  showInfo={false}
-                                  strokeColor="#1677FF"
-                                  trailColor="black"
-                                />
-                              </div>
-                            );
-                          })}
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                   <div className="avatar-respond">
                     <div className="pin-post-header-section">
                       <div className="pin-about-section">
@@ -770,6 +781,7 @@ const mapStateToProps = ({ profile, user }) => {
     myfollowerList: user.myFollowers?.followers || [],
     profilePoll: profile.profilePoll,
     followAndFollowing: user.followAndFollowing,
+    profileRole: profile.headerInfo?.profile?.usertype,
   };
 };
 

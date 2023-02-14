@@ -104,6 +104,17 @@ export function verifyUserEmail(form, cb) {
       });
 }
 
+export function sendVerificationEmail(form, cb) {
+  return (dispatch) =>
+    api(`auth/send-verification-email`, "post", form)
+      .then((res) => {
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
 export function getCategory() {
   return (dispatch) =>
     api(`categories`, "get").then((res) => {

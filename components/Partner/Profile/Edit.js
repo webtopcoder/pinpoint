@@ -1,20 +1,20 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { connect, useDispatch } from "react-redux";
-import { addPoll, getInfo } from "@/redux/Profile/actions";
+import { getInfo } from "@/redux/Profile/actions";
 import {
   updateInfo,
   editAbout,
   editSocial,
   uploadAvatar,
 } from "@/redux/Profile/actions";
-import { editNotification } from "@/redux/Profile/actions";
-import toast from "@/components/Toast";
 import { message, Upload, Input, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import Image from "next/image";
 import EditPoll from "./EditPoll";
+import useNotify from "@/hooks/useNotify";
+import ToggleSettings from "@/components/User/Profile/profileEdit/ToggleSettings";
 
 const { Content } = Layout;
 
@@ -79,7 +79,13 @@ const beforeUpload = (file) => {
 };
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
-const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
+const Edit = ({
+  onupdateInfo,
+  ongetInfo,
+  editInfo,
+  onuploadAvatar,
+  userRole,
+}) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const handleChange = (info) => {
@@ -120,58 +126,23 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
 
   const dispatch = useDispatch();
 
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  const dismiss = useCallback(() => {
-    toast.dismiss();
-  }, []);
-
-  const [rating, setRating] = useState(
-    editinfo.notification.rating ? editinfo.notification.rating : false
-  );
-  const [follow, setFollow] = useState(
-    editinfo.notification.follow ? editinfo.notification.follow : false
-  );
-  const [mention, setMention] = useState(
-    editinfo.notification.mention ? editinfo.notification.mention : false
-  );
-  const [favorite, setFavorite] = useState(
-    editinfo.notification.favorite ? editinfo.notification.favorite : false
-  );
-
-  const onratingChange = (checked) => {
-    setRating(checked);
-  };
-
-  const onfollowChange = (checked) => {
-    setFollow(checked);
-  };
-
-  const onmentionChange = (checked) => {
-    setMention(checked);
-  };
-
-  const onfavoriteChange = (checked) => {
-    setFavorite(checked);
-  };
+  const { notify } = useNotify();
 
   const [form, setForm] = useState({
-    facebook: editinfo.social.facebook ? editinfo.social.facebook : "",
-    instagram: editinfo.social.instagram ? editinfo.social.instagram : "",
-    twitter: editinfo.social.twitter ? editinfo.social.twitter : "",
-    tiktok: editinfo.social.tiktok ? editinfo.social.tiktok : "",
-    snapchat: editinfo.social.snapchat ? editinfo.social.snapchat : "",
-    website: editinfo.social.website ? editinfo.social.website : "",
+    facebook: editInfo.social.facebook ? editInfo.social.facebook : "",
+    instagram: editInfo.social.instagram ? editInfo.social.instagram : "",
+    twitter: editInfo.social.twitter ? editInfo.social.twitter : "",
+    tiktok: editInfo.social.tiktok ? editInfo.social.tiktok : "",
+    snapchat: editInfo.social.snapchat ? editInfo.social.snapchat : "",
+    website: editInfo.social.website ? editInfo.social.website : "",
   });
 
   const updateInfo = () => {
     const data = {
-      about: editinfo.about,
+      about: editInfo.about,
     };
 
-    onupdateInfo(data, (res, error) => {
+    onupdateInfo(data, (_, error) => {
       if (error) {
         notify("error", error.message);
       }
@@ -195,13 +166,12 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
 
   useEffect(() => {
     dispatch(editSocial(form));
-    dispatch(editNotification(rating, follow, mention, favorite));
-  }, [form, rating, follow, mention, favorite]);
+  }, [form]);
 
   const onSubmitForm = (e) => {
     e.preventDefault();
     const data = {
-      social: editinfo.social,
+      social: editInfo.social,
     };
 
     onupdateInfo(data, (res, error) => {
@@ -235,12 +205,16 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
             <div className="row justify-content-center">
               <div className="col-xl-10 col-lg-12 col-md-12">
                 <div className="profile-location">
-                  <p className="title">Edit Business Profile</p>
+                  <p className="title">
+                    Edit {userRole == "partner" && "Business "}Profile
+                  </p>
                   <div className="container">
                     <div className="row">
                       <div className="avatar-respond">
                         <div className="pin-about-section">
-                          <span id="span-underline">About Us</span>
+                          <span id="span-underline">
+                            About {userRole == "partner" ? "Us" : "Me"}
+                          </span>
                           <div className="avatar-form mg-12">
                             <div className="row">
                               <div className="col-lg-10 col-md-10 col-sm-12">
@@ -250,7 +224,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                     modules={modules}
                                     formats={formats}
                                     theme="snow"
-                                    value={editinfo.about}
+                                    value={editInfo.about}
                                     onChange={changeAbout}
                                   />
                                 </div>
@@ -274,9 +248,9 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                       height={100}
                                       width={100}
                                     />
-                                  ) : editinfo.avatar ? (
+                                  ) : editInfo.avatar ? (
                                     <img
-                                      src={avatarurl + editinfo.avatar}
+                                      src={avatarurl + editInfo.avatar}
                                       alt="avatar"
                                       style={{
                                         width: "100%",
@@ -308,13 +282,15 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                     </div>
                   </div>
                 </div>
-                <div className="profile-location">
-                  <div className="container">
-                    <div className="row">
-                      <EditPoll />
+                {userRole === "partner" && (
+                  <div className="profile-location">
+                    <div className="container">
+                      <div className="row">
+                        <EditPoll />
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <div className="profile-location">
                   <div className="container">
                     <div className="row">
@@ -340,7 +316,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                         type="text"
                                         name="facebook"
                                         className="form-control"
-                                        value={editinfo.social.facebook}
+                                        value={editInfo.social.facebook}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -361,7 +337,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                         type="text"
                                         name="instagram"
                                         className="form-control"
-                                        value={editinfo.social.instagram}
+                                        value={editInfo.social.instagram}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -382,7 +358,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                         type="text"
                                         name="twitter"
                                         className="form-control"
-                                        value={editinfo.social.twitter}
+                                        value={editInfo.social.twitter}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -403,7 +379,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                         type="text"
                                         name="tiktok"
                                         className="form-control"
-                                        value={editinfo.social.tiktok}
+                                        value={editInfo.social.tiktok}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -424,7 +400,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                         type="text"
                                         name="snapchat"
                                         className="form-control"
-                                        value={editinfo.social.snapchat}
+                                        value={editInfo.social.snapchat}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -445,7 +421,7 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                         type="text"
                                         name="website"
                                         className="form-control"
-                                        value={editinfo.social.website}
+                                        value={editInfo.social.website}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -471,6 +447,13 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                     </div>
                   </div>
                 </div>
+                <div className="profile-location">
+                  <div className="container">
+                    <div className="row">
+                      <ToggleSettings />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -480,9 +463,10 @@ const Edit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
   );
 };
 
-const mapStateToProps = ({ profile }) => {
+const mapStateToProps = ({ user, profile }) => {
   return {
-    editinfo: profile.editInfo,
+    editInfo: profile.editInfo,
+    userRole: user.role,
   };
 };
 
@@ -491,4 +475,5 @@ const mapDispatchToProps = (dispatch) => ({
   onupdateInfo: (info, cb) => dispatch(updateInfo(info, cb)),
   onuploadAvatar: (url, cb) => dispatch(uploadAvatar(url, cb)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Edit);

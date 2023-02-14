@@ -5,7 +5,6 @@ import { Layout, Col, Row, Switch } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
 import { getSettingsValue, postSettingsValue } from "@/src/redux/User/actions";
 
 const { Content } = Layout;

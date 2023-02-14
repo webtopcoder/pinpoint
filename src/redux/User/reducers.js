@@ -122,7 +122,7 @@ const userReducer = (state = initialState, action) => {
     case GET_MYFOLLOWER_SUCCESS: {
       return {
         ...state,
-        myFollowers: action.payload.followers,
+        myFollowers: action.payload.data.results,
       };
     }
 

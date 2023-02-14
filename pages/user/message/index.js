@@ -7,12 +7,11 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Menu, Row, Col, Select, Button } from "antd";
 import PageTitle from "@/components/Layout/PageTitle";
-import useSWR from "swr";
-import MailInbox from "@/components/User/Mail/inbox";
-import MailSent from "@/components/User/Mail/sent";
-import MailCompose from "@/components/User/Mail/compose";
-import MailSendInvite from "@/components/User/Mail/sent_invite";
-import MailPendingInvite from "@/components/User/Mail/pending_invite";
+import MailInbox from "@/components/Partner/Message/Inbox";
+import MailSent from "@/components/Partner/Message/Sent";
+import MailCompose from "@/components/Partner/Message/compose";
+import MailSendInvite from "@/components/Partner/Message/Invite/sent";
+import MailPendingInvite from "@/components/Partner/Message/Invite/pending";
 import Layout from "../../../layout";
 import { useRouter } from "next/router";
 
@@ -28,13 +27,12 @@ import { useRouter } from "next/router";
 
 const Index = () => {
   const router = useRouter();
-  let emailID = "";
+
+  const { user } = router.query;
+
   useEffect(() => {
-    if (router.isReady) {
-      emailID = router.query.email;
-      emailID && setTab("compose");
-    }
-  }, [router.isReady]);
+    user && setTab("compose");
+  }, [user]);
 
   const childFunc = useRef(null);
   const items = [
@@ -129,6 +127,7 @@ const Index = () => {
 
   const [tab, setTab] = useState("inbox");
   const onClickTab = (e) => setTab(e.key);
+
   return (
     <>
       <PageTitle page="Message" />
@@ -140,7 +139,6 @@ const Index = () => {
               <Col span={17}>
                 {tab === "inbox" || tab === "sent" ? (
                   <>
-                    {" "}
                     <Select
                       defaultValue="bluk"
                       onChange={(e) => bulkoptionChange(e)}
