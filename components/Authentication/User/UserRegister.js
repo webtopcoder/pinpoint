@@ -247,11 +247,9 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-2"></div>
-            <div className="col-lg-8">
-              <button type="submit">Create Account</button>
+            <div className="col-lg-12">
+              <button className="loginsignButton" type="submit">Create Account</button>
             </div>
-            <div className="col-lg-2"></div>
           </div>
           <div className="row auth-divider"></div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
+import { UserOutlined, MessageOutlined, UserDeleteOutlined, UserAddOutlined } from '@ant-design/icons';
 import { connect } from "react-redux";
 import { getHeader, unfollow } from "@/redux/Profile/actions";
 import { postFollower, getInfo } from "@/redux/Profile/actions";
@@ -8,7 +9,13 @@ import binavatar from "@/public/images/landing/avatar.png";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import baseUrl from "@/utils/baseUrl";
-
+import { Avatar, Card, Skeleton, Switch, Space, Typography, Button, Row, Col } from 'antd';
+const { Meta } = Card;
+const { Title } = Typography;
+const style = {
+  background: '#0092ff',
+  padding: '8px 0',
+};
 const Header = ({
   ongetHeader,
   headerInfo,
@@ -69,167 +76,164 @@ const Header = ({
 
   return (
     <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="avatar-area green-color">
-            {/* <div class="d-flex mb-4">
-                            {headerInfo?.profile?.avatar ?
-                                <Image
-                                    class="d-flex me-3 rounded-circle avatar-sm"
-                                    src={avatarurl + '/' + headerInfo?.profile?.avatar}
-                                    alt="skote">
-                                </Image> :
-                                <Image
-                                    class="d-flex me-3 rounded-circle avatar-sm"
-                                    src={binavatar}
-                                    alt="skote">
-                                </Image>}
-                            <div className="flex-grow-1">
-                                <h5 className="font-size-14 mt-1">{headerInfo?.profile?.fullname}</h5>
-                                <small className="text-muted">@{headerInfo && <b className="fn">{headerInfo?.profile?.username}</b>}</small>
+      <Row
+        gutter={{
+          xs: 8,
+          sm: 16,
+          md: 24,
+          lg: 32,
+        }}
+        style={{
+          marginTop: 40,
+          marginBottom: 40
+        }}
+      >
+        <Col className="gutter-row" span={12} xs={24} sm={4} md={12} lg={12} xl={12}>
+          <Card
+            style={{
+              marginTop: 16,
+              border: '0px'
+            }}
+            bodyStyle={{
+              background: '#f8fbff',
+            }}
+          >
+            <Meta
+              avatar={
+                headerInfo?.profile?.avatar ?
+                  <Avatar size={120} src={avatarurl + "/" + headerInfo?.profile?.avatar.filepath} /> :
+                  <Avatar size={120} icon={<UserOutlined />} />
+              }
+              title={<Title level={3}>{headerInfo?.profile?.fullname}</Title>}
+              description={
+                <Space
+                  direction="vertical"
+                  size="middle"
+                >
+                  <Title level={5}>@{headerInfo?.profile?.username}</Title>
 
-                            </div>
-                            <div className="flex-grow-1">
-                                <button type="submit" className="btn-style-one avatar-message-button">
-                                    Message<i className="bx bx-envelope avatar-icon"></i>
-                                </button>
-                            </div>
-
-                        </div> */}
-            <div className="avatar-body">
-              <div className="avatar-author vcard">
-                <div className="avatar">
-                  {headerInfo?.profile?.avatar ? (
-                    <Image
-                      src={
-                        avatarurl + "/" + headerInfo?.profile?.avatar.filepath
-                      }
-                      loader={myLoader}
-                      unoptimized
-                      layout={"fill"}
-                      alt="user"
-                      className="avatar-radius"
-                    />
-                  ) : (
-                    <Image
-                      src={binavatar}
-                      alt="user"
-                      className="avatar-radius"
-                    />
-                  )}
-                </div>
-                {headerInfo && (
-                  <b
-                    style={{
-                      fontSize: 30,
-                    }}
-                    className="fn"
-                  >
-                    {headerInfo?.profile?.fullname}
-                  </b>
-                )}
-              </div>
-
-              {!own_page && (
-                <>
-                  <div className="avatar-content">
-                    <button
-                      type="submit"
-                      onClick={() =>
-                        userRole
-                          ? window.open(
+                  {!own_page && (
+                    <>
+                      <Space
+                        direction="vertical"
+                        size="middle"
+                        style={{
+                          display: 'flex',
+                        }}>
+                        <Button style={{
+                          width: 150
+                        }} type="primary" onClick={() =>
+                          userRole
+                            ? window.open(
                               baseUrl +
-                                `/${userRole}/message?user=${view_user_id}`,
+                              `/${userRole}/message?user=${view_user_id}`,
                               "_blank"
                             )
-                          : null
-                      }
-                      className="btn-style-one avatar-message-button ps-3"
-                    >
-                      Message<i className="bx bx-envelope avatar-icon"></i>
-                    </button>
-                  </div>
-                  <div className="avatar-content mg-12">
-                    {headerInfo?.profile?.is_follow ? (
-                      <button
-                        onClick={unfollow}
-                        className="btn-style-one ps-3 avatar-message-button"
-                      >
-                        Unfollow<i className="bx bx-user-minus avatar-icon"></i>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={follow}
-                        className="btn-style-one ps-3 avatar-message-button"
-                      >
-                        Follow<i className="bx bx-user-plus avatar-icon"></i>
-                      </button>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-6">
-          <div className="row justify-content-center">
+                            : null
+                        } icon={<MessageOutlined />} size='large'>Message</Button>
+                        <Button style={{
+                          width: 150
+                        }}
+                          type="primary" onClick={headerInfo?.profile?.is_follow ? unfollow : follow} icon={headerInfo?.profile?.is_follow ? <UserDeleteOutlined /> : <UserAddOutlined />} size='large'>{headerInfo?.profile?.is_follow ? 'Unfollow' : 'Follow'}</Button>
+                      </Space>
+                    </>
+                  )}
+                </Space>
+              }
+            />
+          </Card>
+        </Col>
+        <Col className="gutter-row" span={12} xs={24} sm={24} md={12} lg={12} xl={12}  style={{
+          marginTop: 40
+        }}>
+          <Row gutter={{
+            xs: 8,
+            sm: 16,
+            md: 24,
+            lg: 32,
+          }}>
             {headerInfo?.profile?.usertype == "partner" && (
               <>
-                <div className="col-md-3">
-                  <div data-aos-duration="1200">
-                    <div className="avatar-rightside-box">
-                      <h4>Rating</h4>
-                      <h1>
-                        {headerInfo && (
-                          <b className="fn">{headerInfo?.profile?.favorites}</b>
-                        )}
-                      </h1>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div data-aos-duration="1200">
-                    <div className="avatar-rightside-box">
-                      <h4>Locations</h4>
-                      <h1>
-                        {headerInfo && (
-                          <b className="fn">{headerInfo?.profile?.favorites}</b>
-                        )}
-                      </h1>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-            <div className="col-md-3">
-              <div data-aos-duration="1200">
-                <div className="avatar-rightside-box">
-                  <h4>Likes</h4>
-                  <h1>
+              
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}
+                  style={{
+                    textAlign: 'center',
+                    background: 'black',
+                    color: 'white'
+                  }}
+                  headStyle={{
+                    color: 'white'
+                  }}
+                  bodyStyle={{
+                    fontSize: 40,
+                    color: 'white'
+                  }}>
+                  <Card title="Rating" bordered={false}>
                     {headerInfo && (
                       <b className="fn">{headerInfo?.profile?.favorites}</b>
                     )}
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div data-aos-duration="1200">
-                <div className="avatar-rightside-box">
-                  <h4>Followers</h4>
-                  <h1>
+                  </Card>
+                </Col>
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Card title="Locations" bordered={false}
+                    style={{
+                      textAlign: 'center',
+                      background: 'black',
+                      color: 'white'
+                    }}
+                    headStyle={{
+                      color: 'white'
+                    }}
+                    bodyStyle={{
+                      fontSize: 40
+                    }}>
                     {headerInfo && (
-                      <b className="fn">{headerInfo?.profile?.followers}</b>
+                      <b className="fn">{headerInfo?.profile?.favorites}</b>
                     )}
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                  </Card>
+                </Col>
+              </>
+            )}
+            <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Card title="Likes" bordered={false}
+                style={{
+                  textAlign: 'center',
+                  background: 'black',
+                  color: 'white'
+                }}
+                headStyle={{
+                  color: 'white'
+                }}
+                bodyStyle={{
+                  fontSize: 40
+                }}>
+                {headerInfo && (
+                  <b className="fn">{headerInfo?.profile?.favorites}</b>
+                )}
+              </Card>
+            </Col>
+            <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Card title="Followers" bordered={false}
+                style={{
+                  textAlign: 'center',
+                  background: 'black',
+                  color: 'white'
+                }}
+                headStyle={{
+                  color: 'white'
+                }}
+                bodyStyle={{
+                  fontSize: 40
+                }}>
+                {headerInfo && (
+                  <b className="fn">{headerInfo?.profile?.followers}</b>
+                )}
+              </Card>
+            </Col>
+          </Row>
+        </Col>
+      </Row >
+    </div >
   );
 };
 

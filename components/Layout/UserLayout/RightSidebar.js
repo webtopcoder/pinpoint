@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Row, Badge, Popconfirm, Button, Avatar, Drawer, List } from "antd";
-
 import {
   ExportOutlined,
   LoginOutlined,
@@ -62,6 +61,7 @@ const RightSidebar = ({
   const [notificationLoading, setNotificationLoading] = useState(false);
   const [notificationDrawerOpen, setOpen] = useState(false);
   const [notificationPage, setNotificationPage] = useState(1);
+  
   useEffect(() => {
     onGetNotifications(
       {

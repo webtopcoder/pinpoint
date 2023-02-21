@@ -119,11 +119,9 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-4"></div>
-            <div className="col-lg-4">
-              <button type="submit">Log In</button>
+            <div className="col-lg-12">
+              <button className="loginsignButton" type="submit">Log In</button>
             </div>
-            <div className="col-lg-4"></div>
           </div>
           <div className="row auth-divider"></div>
 

@@ -19,6 +19,7 @@ import {
   SETTINGS_VALUE_GET_SUCCESS,
   ALL_SUB_CATEGORY_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
+  GET_ALL_ACTIVE_LOCATIONs_SUCCESS
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -266,3 +267,5 @@ export function getFollowerAndFollowing(cb) {
         cb && cb(null, error);
       });
 }
+
+

@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }) {
 
     store.dispatch((dispatch) => getUserInfo(() => {})(dispatch));
 
+    
     return () => {
       if (socket !== null) socket.off("New Client");
     };

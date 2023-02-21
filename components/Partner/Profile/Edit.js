@@ -105,7 +105,6 @@ const Edit = ({
       });
 
       getBase64(info.file.originFileObj, (url) => {
-        console.log(info.file.originFileObj);
         setImageUrl(url);
       });
     }
@@ -194,11 +193,7 @@ const Edit = ({
         background: "#211f1f",
       }}
     >
-      <Content
-        style={{
-          margin: "60px 16px",
-        }}
-      >
+      <Content className="profile-edit-section-margin">
         <div className="blog-details-area">
           <div className="container">
             <br />
@@ -304,7 +299,6 @@ const Edit = ({
                                   <div className="pin-social-edit-title">
                                     <p>Facebook:</p>
                                   </div>
-
                                   <div className="pin-social-edit-input">
                                     <div className="input-group">
                                       <div className="input-group-prepend">

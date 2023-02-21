@@ -10,7 +10,7 @@ import location from "@/public/images/landing/location.png";
 import bannerImg from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
-import subtitleImg from "@/public/images/landing/title_border.png";
+// import subtitleImg from "@/public/images/landing/title_border.png";
 import config from "@/utils/config";
 import Image from "next/image";
 import React, { useEffect } from "react";
@@ -217,18 +217,21 @@ const UserHome = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-8 col-md-12 banner-sub-description">
-              <p
-                style={{
-                  fontSize: 26,
-                  color: "#2F2F2FBF",
-                  lineHeight: 1.5,
-                }}
-              >
-                No more going down the Google black hole
-                <br /> when it comes to finding your favorite Food
-                <br /> Truck, Farmers Markets or other mobile
-                <br /> businesses.. Pinpoint will bring your favorites to
-                <br /> your front door!
+              <p className="banner-sub-description-p">
+                <div className="desktop">
+                  No more going down the Google black hole
+                  <br /> when it comes to finding your favorite Food
+                  <br /> Truck, Farmers Markets or other mobile
+                  <br /> businesses.. Pinpoint will bring your favorites to
+                  <br /> your front door!
+                </div>
+                <div className="mobile">
+                  No more going down the Google black hole
+                  when it comes to finding your favorite Food
+                  Truck, Farmers Markets or other mobile
+                  businesses.. Pinpoint will bring your favorites to
+                  your front door!
+                </div>
               </p>
             </div>
           </div>
@@ -238,18 +241,21 @@ const UserHome = () => {
         <div className="container">
           <div className="overview-box">
             <div className="row align-items-center">
-              <div className="col-lg-1 landing-sub-title-img">
-                <Image src={subtitleImg} alt="overview" />
-              </div>
               <div className="col-lg-5 col-md-12">
                 <p className="landing-sub-title">Welcome to Pinpoint </p>
               </div>
               <div className="col-lg-6 col-md-12"></div>
               <div className="col-lg-4 col-md-12 overview-content">
                 <h1>
-                  The
-                  <br /> Pinpoint <br />
-                  Promise
+                  <div className="desktop">
+                    The
+                    <br /> Pinpoint <br />
+                    Promise
+                  </div>
+                  <div className="mobile">
+                    The pinpoint Promise
+                  </div>
+
                 </h1>
               </div>
               <div className="col-lg-8 col-md-12 overview-image">
@@ -274,26 +280,18 @@ const UserHome = () => {
         <div className="container">
           <div className="overview-box">
             <div className="row align-items-center">
-              <div className="col-lg-1 landing-sub-title-img">
-                <Image src={subtitleImg} alt="overview" />
-              </div>
               <div className="col-lg-5 col-md-12">
                 <p className="landing-sub-title">Pinpoints Partners</p>
               </div>
               <div className="col-lg-6 col-md-12"></div>
-              <div className="col-lg-4 col-md-12 overview-content">
+              <div className="col-lg-4 col-md-12 overview-content desktop">
                 <h1>
                   Currently
                   <br /> Servicing
                 </h1>
               </div>
               <div className="col-lg-8 col-md-12">
-                <div
-                  className="container"
-                  style={{
-                    marginLeft: 45,
-                  }}
-                >
+                <div className="container mtl-45">
                   <div className="section-landing-title">
                     <span className="sub-landing-title">Everyday Partners</span>
                   </div>
@@ -309,10 +307,15 @@ const UserHome = () => {
                           <Image src={food} alt="icon" />
                         </div>
                         <h3>Food Trucks</h3>
-                        <p>
+                        <p className="desktop">
                           Hard time finding
                           <br /> your favorite food
                           <br /> trucks? Poof!
+                        </p>
+                        <p className="mobile">
+                          Hard time finding
+                          your favorite food
+                          trucks? Poof!
                         </p>
                       </div>
                     </div>
@@ -327,10 +330,13 @@ const UserHome = () => {
                           <Image src={coffee} alt="icon" />
                         </div>
                         <h3>Coffee Carts</h3>
-                        <p>
+                        <p className="desktop">
+
+                        </p>
+                        <p className="mobile">
                           Need your local
-                          <br /> morning fix? Look no
-                          <br /> further...
+                          morning fix? Look no
+                          further...
                         </p>
                       </div>
                     </div>
@@ -362,12 +368,7 @@ const UserHome = () => {
               </div>
               <div className="col-lg-1 col-md-12"></div>
               <div className="col-lg-11 col-md-12">
-                <div
-                  className="container"
-                  style={{
-                    marginLeft: 45,
-                  }}
-                >
+                <div className="container mtl-45">
                   <div className="row">
                     <div className="col-lg-3 col-md-6 col-sm-6">
                       <div className="single-help-desk-box">
@@ -420,20 +421,12 @@ const UserHome = () => {
         <div className="container">
           <div className="overview-box">
             <div className="row align-items-center">
-              <div className="col-lg-1 landing-sub-title-img">
-                <Image src={subtitleImg} alt="overview" />
-              </div>
               <div className="col-lg-5 col-md-12">
                 <p className="landing-sub-title">Pinpoint Locations </p>
               </div>
               <div className="col-lg-6 col-md-12"></div>
               <div className="col-lg-4 col-md-12 overview-content">
-                <h1
-                  style={{
-                    textAlign: "right",
-                    paddingRight: 28,
-                  }}
-                >
+                <h1 className="wherespinpoint">
                   Where’s <br />
                   Pinpoint
                 </h1>
@@ -463,9 +456,6 @@ const UserHome = () => {
         <div className="container">
           <div className="overview-box">
             <div className="row align-items-center">
-              <div className="col-lg-1 landing-sub-title-img">
-                <Image src={subtitleImg} alt="overview" />
-              </div>
               <div className="col-lg-5 col-md-12">
                 <p className="landing-sub-title">Contact Pinpoint</p>
               </div>

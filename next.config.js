@@ -12,6 +12,7 @@ module.exports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  
   images: {
     // loader: "akamai",
     // path: "http://localhost:3000/",

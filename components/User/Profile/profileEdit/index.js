@@ -103,7 +103,6 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
       });
 
       getBase64(info.file.originFileObj, (url) => {
-        console.log(info.file.originFileObj);
         setImageUrl(url);
       });
     }

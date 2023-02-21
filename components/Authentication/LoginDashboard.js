@@ -16,7 +16,7 @@ const LoginDashboard = () => {
         </div>
         <form>
           <div className="col-12">
-            <p className="account-desc">I`&apos;`M A...</p>
+            <p className="account-desc">I&apos;M A...</p>
           </div>
           <Link href="/authentication/user/login">
             <button className="login-dashboard-button">

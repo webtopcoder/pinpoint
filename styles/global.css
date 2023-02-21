@@ -25,6 +25,7 @@ Global CSS
   --lightWhiteColor: #f1f1f1;
   --darkWhiteColor: #d8d8d8;
   --transition: 0.5s;
+  --fontSizeForLogin: 30px;
   --fontSize: 17px;
 }
 
@@ -113,6 +114,10 @@ p:last-child {
 .border-tb {
   border: 1px solid #eee;
   display: block;
+}
+
+.mtl-45{
+  margin-left: 45px;
 }
 
 .ptb-100 {

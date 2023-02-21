@@ -71,6 +71,7 @@ export function getUserInfo(cb) {
           });
         }
         cb(null, error);
+        console.clear();
       });
 }
 export function createCustomer(cb) {

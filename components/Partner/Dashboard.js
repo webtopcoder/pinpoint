@@ -90,6 +90,7 @@ const PartnerDashboard = ({
     <Layout
       className="site-layout"
       style={{
+        
         background: "#211f1f",
       }}
     >

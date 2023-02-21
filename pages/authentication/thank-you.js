@@ -36,7 +36,6 @@ const ThankYou = ({ onVerifyUserEmail, onResendVerifyEmail }) => {
       email: email,
       otp: result,
     };
-    console.log(data);
     onVerifyUserEmail(data, (_, error) => {
       if (error) {
         notify(

@@ -23,7 +23,6 @@ export default async function callAPI(endpoint, method = "get", data, params) {
         resolve(res.data);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });

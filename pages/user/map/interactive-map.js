@@ -8,16 +8,19 @@ import {
   Slider,
   Button,
   Tooltip,
-  Cascader,
   Select,
+  Form,
+  Space
 } from "antd";
 import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
 import config from "@/utils/config";
-import { getCategory } from "@/redux/User/actions";
-import { getsubCategory } from "@/redux/User/actions";
+import { getCategory, getsubCategory } from "@/redux/User/actions";
+import { getAllLocations, getAllLocationsByFilter } from "@/redux/Location/actions";
+
+const { Option } = Select;
 
 const categoryOptions = [];
 for (let i = 10; i < 36; i++) {
@@ -29,9 +32,8 @@ for (let i = 10; i < 36; i++) {
 
 var cityCircle = null;
 var map;
-const pinpoint = null;
 
-const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
+const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAllLocations, activeLocations }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -52,31 +54,39 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     subcategory: "",
   });
 
+  const markerDescription = (image, title, content) => {
+    return '<div class="card" style="width: 30rem;">' +
+      '<img src="' + faviconUrl + 'avatar/' + image + '" class="card-img-top" alt="...">' +
+      '<div class="card-body">' +
+      '<h5 class="card-title">' + title + '</h5>' +
+      '<p class="card-text">' + content + '</p>' +
+      '<a href="#" class="card-link">Show Detail</a>' +
+      '<a href="#" class="card-link">Add Favorite</a>' +
+      '</div>' +
+      '<div class="card-footer">' +
+      '<small class="text-muted">Last updated 3 mins ago</small>' +
+      '</div>' +
+      '</div>'
+  }
   const [subcategoryList, setSubcategoryList] = useState([]);
+  const [activeLocationslist, setActivelocationlist] = useState(activeLocations);
 
-  const onUpdateField = (e) => {
-    const field = e.target.name;
+  const onFinish = (Form) => {
+    ongetAllLocations(false, true, Form);
+  };
 
-    if (e.target.name == "category") {
-      onsubgetCateogry(e.target.value, (res) => {
-        const subarr = [];
-        res.subCategories?.map((item, index) => {
-          const subitem = {
-            value: item.name,
-            label: item.name,
-          };
-          subarr.push(subitem);
-        });
-        setSubcategoryList(subarr);
+  const onUpdateField = (value) => {
+    onsubgetCategory(value, (res) => {
+      const subarr = [];
+      res.subCategories?.map((item, index) => {
+        const subitem = {
+          value: item._id,
+          label: item.name,
+        };
+        subarr.push(subitem);
       });
-    }
-
-    const nextFormState = {
-      ...form,
-      [field]: e.target.value,
-    };
-
-    setForm(nextFormState);
+      setSubcategoryList(subarr);
+    });
   };
 
   const faviconUrl = `http://${config.server}:${config.port}/`;
@@ -132,11 +142,11 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
         ? (controlButton.textContent = "Hide All Active")
         : (controlButton.textContent = "Show All Active");
       if (controlButton.textContent === "Hide All Active") {
-        for (var i = 0; i < pinpoint.length; i++) {
+        for (var i = 0; i < activeLocations?.length; i++) {
           const marker = new google.maps.Marker({
-            position: pinpoint[i].position,
+            position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
             icon: {
-              url: faviconUrl + "favicon.png",
+              url: faviconUrl + 'avatar/' + activeLocations[i]?.images[0]?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
               anchor: new google.maps.Point(0, 0), // anchor
@@ -148,18 +158,19 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           markers.push(marker);
 
           const infowindow = new google.maps.InfoWindow({
-            content: pinpoint[i].content,
+            content: markerDescription(activeLocationslist[i]?.arrivalImages[0]?.filepath, activeLocationslist[i]?.title, activeLocationslist[i]?.description),
+
             ariaLabel: "Food Truck",
           });
-          marker.addListener("mouseover", () => {
+          marker.addListener("click", () => {
             infowindow.open({
               anchor: marker,
               map,
             });
           });
-          marker.addListener("mouseout", () => {
-            infowindow.close();
-          });
+          // marker.addListener("click", () => {
+          //   infowindow.close();
+          // });
         }
       } else {
         hideMarkers();
@@ -221,41 +232,39 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       title: "Hello World!",
     });
 
-    for (var i = 0; i < pinpoint.length; i++) {
-      var d = google.maps.geometry?.spherical
-        ?.computeDistanceBetween(
-          // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
-          new google.maps.LatLng(position.lat, position.lng),
-          pinpoint[i].position
-        )
-        ?.toFixed(2);
+    for (var i = 0; i < activeLocationslist?.length; i++) {
+      var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
+        // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
+        new google.maps.LatLng(position.lat, position.lng),
+        new google.maps.LatLng(activeLocationslist[i]?.mapLocation?.latitude, activeLocationslist[i]?.mapLocation?.longitude)
+      ))?.toFixed(2);
 
       if (d < inputValue * 1000 * 1.6) {
         const marker = new google.maps.Marker({
-          position: pinpoint[i].position,
+          position: new google.maps.LatLng(activeLocationslist[i]?.mapLocation?.latitude, activeLocationslist[i]?.mapLocation?.longitude),
           icon: {
-            url: faviconUrl + "favicon.png",
+            url: faviconUrl + 'avatar/' + activeLocationslist[i]?.images[0]?.filepath,
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0), // anchor
+            anchor: new google.maps.Point(0, 0) // anchor
           },
 
           map: map,
         });
 
         const infowindow = new google.maps.InfoWindow({
-          content: pinpoint[i].content,
+          content: markerDescription(activeLocationslist[i]?.arrivalImages[0]?.filepath, activeLocationslist[i]?.title, activeLocations[i]?.description),
           ariaLabel: "Food Truck",
         });
-        marker.addListener("mouseover", () => {
+        marker.addListener("click", () => {
           infowindow.open({
             anchor: marker,
             map,
           });
         });
-        marker.addListener("mouseout", () => {
-          infowindow.close();
-        });
+        // marker.addListener("mouseout", () => {
+        //   infowindow.close();
+        // });
       }
     }
 
@@ -266,7 +275,6 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
     map.addListener("click", (e) => {
       // setMapOnAll(null);
       map.setZoom(11);
-      console.log(e.latLng.toJSON());
       // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
       map.setCenter(
         new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng)
@@ -333,114 +341,8 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
       });
     });
 
-    pinpoint = [
-      {
-        position: new google.maps.LatLng(36, -80),
-        content: `<div style="width: 100px; height: 100px; background-color: 'white'">
-          <image src=${
-            faviconUrl + "pin1.png"
-          } style="width: 100%; height: 100%"/>
-        </div>`,
-      },
-      {
-        position: new google.maps.LatLng(39, -87),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(43, -90),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(35, -86),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(35, -110),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(47, -110),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(45, -100),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-    ];
-
-    ongetCateogry();
+    ongetCategory();
+    ongetAllLocations(false, true, []);
   }, []);
 
   return (
@@ -455,7 +357,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
           <div className="shout-area followers green-color">
             <div className="shout-body">
               <div className="shout-author vcard">
-                <div className="avatar">
+                <div className="avatar desktop">
                   <Image src={food} alt="user" className="shout-radius" />
                 </div>
                 <form className="search-form">
@@ -473,7 +375,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
               <div className="shout-metadata">
                 <p>Search Radius:</p>
                 <Row>
-                  <Col span={21}>
+                  <Col span={19}>
                     <Slider
                       tooltip={{
                         formatter,
@@ -485,7 +387,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                         background: "white",
                       }}
                       min={1}
-                      max={25}
+                      max={500}
                       onChange={onChange}
                       value={typeof inputValue === "number" ? inputValue : 0}
                     />
@@ -493,7 +395,7 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
                   <Col span={3}>
                     <InputNumber
                       min={1}
-                      max={25}
+                      max={500}
                       style={{
                         width: 60,
                         margin: "0 16px",
@@ -508,94 +410,95 @@ const InteractiveMap = ({ ongetCateogry, onsubgetCateogry, categoryInfo }) => {
             <div className="shout-button-group">
               <div className="container">
                 <div className="col-lg-12 col-md-12">
-                  <div className="form-group">
-                    <select
-                      value={form.category}
-                      onChange={onUpdateField}
+                  <Form
+                    name="validate_other"
+                    onFinish={onFinish}
+                    style={{
+                      maxWidth: 600,
+                    }}
+                    layout="vertical"
+
+                  >
+                    <Form.Item
                       name="category"
-                      className="form-control"
+                      hasFeedback
                     >
-                      <option value="0">Select Category</option>
-                      {categoryInfo.map((option, index) => (
-                        <option key={index} value={option._id}>
-                          {option.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <Select
-                      mode="multiple"
-                      allowClear
-                      style={{
-                        width: "100%",
-                      }}
-                      placeholder="Select Subcategory"
-                      options={subcategoryList}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <div className="pin-post-footer-section">
-                      <div className="pin-edit-button-section">
-                        <button
-                          onClick={getResult}
-                          className="btn-style-one red-light-color"
-                        >
-                          Pinpoint
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                      <Select
+                        size="large"
+                        onChange={(e) => onUpdateField(e)}
+                        placeholder="Select Category">
+                        {categoryInfo.map((option, index) => (
+                          <Option key={index} value={option._id}>{option.name}</Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="subcategory"
+                      hasFeedback
+                    >
+                      <Select
+                        mode="multiple"
+                        allowClear
+                        style={{
+                          width: "100%",
+                        }}
+                        size="large"
+                        placeholder="Select Subcategory"
+                        options={subcategoryList}
+                      />
+                    </Form.Item>
+                    <Form.Item label="">
+                      <Button
+                        size="large" style={{
+                          marginTop: 10,
+                          width: "100%",
+                        }} type="primary" htmlType="submit">
+                        Pinpoint
+                      </Button>
+                    </Form.Item>
+                  </Form>
                 </div>
               </div>
             </div>
             <div className="shout-end-group">
               <div className="container">
-                <div className="col-lg-12 col-md-12">
-                  <div className="form-group">
-                    <div className="pin-post-footer-section">
-                      <div className="pin-edit-button-section">
-                        <Tooltip title="Full Screen">
-                          <Button
-                            type="primary"
-                            style={{
-                              height: 70,
-                            }}
-                            icon={
-                              <FullscreenOutlined
-                                style={{
-                                  fontSize: 40,
-                                }}
-                              />
-                            }
-                            onClick={() => fullScreen()}
-                          />
-                        </Tooltip>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="pin-post-footer-section">
-                      <div className="pin-edit-button-section">
-                        <Tooltip title="List View">
-                          <Button
-                            type="primary"
-                            style={{
-                              height: 70,
-                            }}
-                            icon={
-                              <UnorderedListOutlined
-                                style={{
-                                  fontSize: 40,
-                                }}
-                              />
-                            }
-                          />
-                        </Tooltip>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Space style={{
+                  width: '100%',
+                }} direction="horizontal" wrap>
+                  <Tooltip title="Full Screen">
+                    <Button
+                      type="primary"
+                      style={{
+                        width: 70,
+                        height: 70,
+                      }}
+                      icon={
+                        <FullscreenOutlined
+                          style={{
+                            fontSize: 40,
+                          }}
+                        />
+                      }
+                      onClick={() => fullScreen()}
+                    />
+                  </Tooltip>
+                  <Tooltip title="List View">
+                    <Button
+                      type="primary"
+                      style={{
+                        width: 70,
+                        height: 70,
+                      }}
+                      icon={
+                        <UnorderedListOutlined
+                          style={{
+                            fontSize: 40,
+                          }}
+                        />
+                      }
+                    />
+                  </Tooltip>
+                </Space>
               </div>
             </div>
           </div>
@@ -622,15 +525,18 @@ InteractiveMap.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, location }) => ({
   categoryInfo: user.partnerCategory.categories,
   subcategoryInfo: user.partnersubCategory,
+  activeLocations: location.activeLocations
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetCateogry: () => dispatch(getCategory()),
-  onsubgetCateogry: (categoryID, cb) =>
+  ongetCategory: () => dispatch(getCategory()),
+  onsubgetCategory: (categoryID, cb) =>
     dispatch(getsubCategory(categoryID, cb)),
+  ongetAllLocations: (pagination, status, form) =>
+    dispatch(getAllLocations(pagination, status, form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InteractiveMap);

@@ -8,6 +8,10 @@
   background-color: var(--blueColor);
 }
 
+.loginsignButton{
+  font-size: 20px !important;
+}
+
 .logo-center {
   text-align: center;
 }
@@ -68,6 +72,7 @@
 }
 
 .profile-authentication-area {
+  min-height: 100vh;
   background-color: var(--blackColor);
 }
 
@@ -92,7 +97,7 @@
 .login-dashboard-button {
   margin-top: 0px !important;
   border-radius: 35px !important;
-  font-size: 30px !important;
+  font-size: 30px;
   background-color: var(--graylightColor) !important;
   color: var(--graydarkColor) !important;
   font-weight: bolder !important;
@@ -124,6 +129,7 @@
 
 .thank-you-area {
   background-color: var(--blackColor);
+  min-height: 140vh;
 }
 
 .thank-you-content {
@@ -411,7 +417,7 @@ h4 {
   display: block;
   color: var(--blackColor);
   text-align: center;
-  padding: 14px 16px;
+  padding: 14px 4px;
   text-decoration: none;
   font-weight: 600;
 }
@@ -660,7 +666,7 @@ h4 {
 .followers .shout-button-group {
   width: 60%;
   margin-bottom: 20px;
-  text-align: end;
+  /* text-align: end; */
 }
 
 .followers .shout-author .avatar {
@@ -844,7 +850,7 @@ h4 {
 }
 
 .page-interactive-area .shout-area .shout-button-group {
-  text-align: center;
+  /* text-align: center; */
   width: 23%;
 }
 
@@ -872,7 +878,11 @@ h4 {
   background-color: #f9f9f9;
 }
 
-.page-interactive-area form button {
+.shout-button-group .ant-form-item{
+  margin-bottom: 8px;
+}
+
+.page-interactive-area .search-form button {
   right: 0;
   bottom: 0;
   width: 50px;

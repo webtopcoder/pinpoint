@@ -183,11 +183,9 @@ App Banner Area CSS
   transform: translateY(-50%);
   -webkit-animation: border-transform 10s linear infinite alternate forwards;
   animation: border-transform 10s linear infinite alternate forwards;
-  background: linear-gradient(
-    178.9deg,
-    #87f1ff 0.91%,
-    rgba(236, 253, 255, 0.21) 99.06%
-  );
+  background: linear-gradient(178.9deg,
+      #87f1ff 0.91%,
+      rgba(236, 253, 255, 0.21) 99.06%);
 }
 
 /*================================================
@@ -351,10 +349,7 @@ Property Banner Area CSS
   font-weight: 700;
 }
 
-.property-banner-content
-  .search-form
-  .form-group
-  input::-webkit-input-placeholder {
+.property-banner-content .search-form .form-group input::-webkit-input-placeholder {
   color: var(--blackColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
@@ -378,24 +373,15 @@ Property Banner Area CSS
   transition: var(--transition);
 }
 
-.property-banner-content
-  .search-form
-  .form-group
-  input:focus::-webkit-input-placeholder {
+.property-banner-content .search-form .form-group input:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
-.property-banner-content
-  .search-form
-  .form-group
-  input:focus:-ms-input-placeholder {
+.property-banner-content .search-form .form-group input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.property-banner-content
-  .search-form
-  .form-group
-  input:focus::-ms-input-placeholder {
+.property-banner-content .search-form .form-group input:focus::-ms-input-placeholder {
   color: transparent;
 }
 
@@ -736,6 +722,25 @@ Software Banner Area CSS
   margin-top: -208px;
   padding: 10px 0 10px 65px;
   border-radius: 0 0 28px 0;
+}
+
+.banner-sub-description-p{
+  font-size: 26px;
+  color: #2F2F2FBF;
+  line-height: 1.5;
+}
+
+.wherespinpoint{
+  text-align: right;
+  padding-right: 28,
+}
+
+.contactus{
+  padding: 10px 10px 10px 161px;
+}
+
+.profile-edit-section-margin{
+  margin: 60px 16px;
 }
 
 .landing-sub-title {
@@ -1497,18 +1502,14 @@ Services Area CSS
   transform: translateY(-50%) translateX(-50%);
   -webkit-animation: border-transform 10s linear infinite alternate forwards;
   animation: border-transform 10s linear infinite alternate forwards;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#87f1ff),
-    to(rgba(236, 253, 255, 0.21))
-  );
-  background: linear-gradient(
-    180deg,
-    #87f1ff 0%,
-    rgba(236, 253, 255, 0.21) 100%
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#87f1ff),
+      to(rgba(236, 253, 255, 0.21)));
+  background: linear-gradient(180deg,
+      #87f1ff 0%,
+      rgba(236, 253, 255, 0.21) 100%);
 }
 
 .overview-item .overview-image.style-two {
@@ -1537,18 +1538,14 @@ Services Area CSS
   transform: translateY(-50%) translateX(-50%);
   -webkit-animation: border-transform 10s linear infinite alternate forwards;
   animation: border-transform 10s linear infinite alternate forwards;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#87f1ff),
-    to(rgba(236, 253, 255, 0.21))
-  );
-  background: linear-gradient(
-    180deg,
-    #87f1ff 0%,
-    rgba(236, 253, 255, 0.21) 100%
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#87f1ff),
+      to(rgba(236, 253, 255, 0.21)));
+  background: linear-gradient(180deg,
+      #87f1ff 0%,
+      rgba(236, 253, 255, 0.21) 100%);
   margin-left: 80px;
   margin-top: 30px;
 }
@@ -1838,10 +1835,7 @@ Services Details Area CSS
   font-weight: 600;
 }
 
-.services-details-desc
-  .accordion
-  .accordion-item
-  .accordion-button:not(.collapsed)::after {
+.services-details-desc .accordion .accordion-item .accordion-button:not(.collapsed)::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
@@ -2377,20 +2371,16 @@ What We Do Area CSS
   animation-fill-mode: forwards;
   -webkit-animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
   animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(255, 255, 255, 0)),
-    color-stop(75%, var(--whiteColor)),
-    to(var(--whiteColor))
-  );
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 0%,
-    var(--whiteColor) 75%,
-    var(--whiteColor) 100%
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(rgba(255, 255, 255, 0)),
+      color-stop(75%, var(--whiteColor)),
+      to(var(--whiteColor)));
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      var(--whiteColor) 75%,
+      var(--whiteColor) 100%);
 }
 
 .lines .line:nth-child(1) {
@@ -2412,6 +2402,7 @@ What We Do Area CSS
 }
 
 @-webkit-keyframes bounce {
+
   0%,
   20%,
   53%,
@@ -2445,6 +2436,7 @@ What We Do Area CSS
 }
 
 @keyframes bounce {
+
   0%,
   20%,
   53%,
@@ -2546,6 +2538,7 @@ What We Do Area CSS
 }
 
 @-webkit-keyframes border-transform {
+
   0%,
   100% {
     border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
@@ -2577,6 +2570,7 @@ What We Do Area CSS
 }
 
 @keyframes border-transform {
+
   0%,
   100% {
     border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
@@ -2853,10 +2847,7 @@ FAQ Area CSS
   background-size: 1rem;
 }
 
-.faq-accordion-content
-  .accordion
-  .accordion-item
-  .accordion-button:not(.collapsed)::after {
+.faq-accordion-content .accordion .accordion-item .accordion-button:not(.collapsed)::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
@@ -2894,37 +2885,17 @@ FAQ Area CSS
 }
 
 .faq-accordion-content .accordion .accordion-item .accordion-body ul li a:hover,
-.faq-accordion-content
-  .accordion
-  .accordion-item
-  .accordion-body
-  ol
-  li
-  a:hover {
+.faq-accordion-content .accordion .accordion-item .accordion-body ol li a:hover {
   text-decoration: underline;
 }
 
-.faq-accordion-content
-  .accordion
-  .accordion-item
-  .accordion-body
-  ul
-  li:last-child,
-.faq-accordion-content
-  .accordion
-  .accordion-item
-  .accordion-body
-  ol
-  li:last-child {
+.faq-accordion-content .accordion .accordion-item .accordion-body ul li:last-child,
+.faq-accordion-content .accordion .accordion-item .accordion-body ol li:last-child {
   margin-bottom: 0;
 }
 
 .faq-accordion-content .accordion .accordion-item .accordion-body ul:last-child,
-.faq-accordion-content
-  .accordion
-  .accordion-item
-  .accordion-body
-  ol:last-child {
+.faq-accordion-content .accordion .accordion-item .accordion-body ol:last-child {
   margin-bottom: 0;
 }
 
@@ -4063,29 +4034,13 @@ Testimonials Area CSS
   margin-top: 15px !important;
 }
 
-.testimonials-content
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot:hover
-  span,
-.testimonials-content
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot.active
-  span {
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--darkGreenColor);
 }
 
-.testimonials-content
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot:hover
-  span::before,
-.testimonials-content
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot.active
-  span::before {
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-content .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--darkGreenColor);
 }
 
@@ -4111,30 +4066,20 @@ Testimonials Area CSS
   padding-left: 0;
 }
 
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .single-testimonials-box {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .single-testimonials-box {
   padding: 50px;
   margin-bottom: 0;
 }
 
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .single-testimonials-box
-  i {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .single-testimonials-box i {
   color: var(--greenColor);
 }
 
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .single-testimonials-box
-  .info::before {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .single-testimonials-box .info::before {
   background-color: var(--greenColor);
 }
 
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .owl-stage-outer {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-stage-outer {
   -webkit-box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
   box-shadow: 0px 0px 59px 31px rgba(0, 0, 0, 0.06);
   background: var(--whiteColor);
@@ -4148,29 +4093,13 @@ Testimonials Area CSS
   margin-top: 15px !important;
 }
 
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot:hover
-  span,
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot.active
-  span {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span,
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span {
   border-color: var(--greenColor);
 }
 
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot:hover
-  span::before,
-.testimonials-content-style-two
-  .testimonials-slides-two.owl-theme
-  .owl-dots
-  .owl-dot.active
-  span::before {
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot:hover span::before,
+.testimonials-content-style-two .testimonials-slides-two.owl-theme .owl-dots .owl-dot.active span::before {
   background-color: var(--greenColor);
 }
 
@@ -5291,6 +5220,7 @@ Team Area CSS
 }
 
 @-webkit-keyframes shake-bottom {
+
   0%,
   100% {
     -webkit-transform: rotate(0deg);
@@ -5330,6 +5260,7 @@ Team Area CSS
 }
 
 @keyframes shake-bottom {
+
   0%,
   100% {
     -webkit-transform: rotate(0deg);
@@ -6082,9 +6013,7 @@ Courses Details Area CSS
 }
 
 .courses-details-desc .react-tabs__tab-list .react-tabs__tab:hover::before,
-.courses-details-desc
-  .react-tabs__tab-list
-  .react-tabs__tab.react-tabs__tab--selected::before {
+.courses-details-desc .react-tabs__tab-list .react-tabs__tab.react-tabs__tab--selected::before {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
 }
@@ -6465,31 +6394,17 @@ Courses Details Area CSS
   margin-bottom: 3px;
 }
 
-.courses-details-desc
-  .courses-review-comments
-  .user-review
-  .review-rating
-  .review-stars {
+.courses-details-desc .courses-review-comments .user-review .review-rating .review-stars {
   display: inline-block;
 }
 
-.courses-details-desc
-  .courses-review-comments
-  .user-review
-  .review-rating
-  .review-stars
-  i {
+.courses-details-desc .courses-review-comments .user-review .review-rating .review-stars i {
   font-size: 17px;
   color: #cecfd2;
   display: inline-block;
 }
 
-.courses-details-desc
-  .courses-review-comments
-  .user-review
-  .review-rating
-  .review-stars
-  i.checked {
+.courses-details-desc .courses-review-comments .user-review .review-rating .review-stars i.checked {
   color: orange;
 }
 
@@ -6539,83 +6454,47 @@ Courses Details Area CSS
   padding-right: 18px;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control::-webkit-input-placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control::-webkit-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:-ms-input-placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control:-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control::-ms-input-placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control::-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control::placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control::placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus::-webkit-input-placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus:-ms-input-placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus::-ms-input-placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control:focus::-ms-input-placeholder {
   color: transparent;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus::placeholder {
+.courses-details-desc .review-form-wrapper form .form-group .form-control:focus::placeholder {
   color: transparent;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-group
-  textarea.form-control {
+.courses-details-desc .review-form-wrapper form .form-group textarea.form-control {
   height: auto !important;
   padding-top: 18px;
 }
@@ -6636,11 +6515,7 @@ Courses Details Area CSS
   position: relative;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .rating
-  label:not(:first-of-type) {
+.courses-details-desc .review-form-wrapper form .rating label:not(:first-of-type) {
   padding-right: 5px;
 }
 
@@ -6657,23 +6532,9 @@ Courses Details Area CSS
   display: none;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .rating
-  input:checked
-  ~ label:before,
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .rating:not(:checked)
-  > label:hover:before,
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .rating:not(:checked)
-  > label:hover
-  ~ label:before {
+.courses-details-desc .review-form-wrapper form .rating input:checked~label:before,
+.courses-details-desc .review-form-wrapper form .rating:not(:checked)>label:hover:before,
+.courses-details-desc .review-form-wrapper form .rating:not(:checked)>label:hover~label:before {
   color: #f6b500;
 }
 
@@ -6698,28 +6559,16 @@ Courses Details Area CSS
   box-shadow: unset !important;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input[type="checkbox"] {
+.courses-details-desc .review-form-wrapper form .form-check .form-check-input[type="checkbox"] {
   border-radius: 0;
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input:checked {
+.courses-details-desc .review-form-wrapper form .form-check .form-check-input:checked {
   background-color: var(--yellowColor);
   border-color: var(--yellowColor);
 }
 
-.courses-details-desc
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input:focus {
+.courses-details-desc .review-form-wrapper form .form-check .form-check-input:focus {
   border-color: var(--yellowColor);
 }
 
@@ -7112,18 +6961,14 @@ Pricing Area CSS
   visibility: hidden;
   -webkit-transition: var(--transition);
   transition: var(--transition);
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(98, 236, 255, 0.21)),
-    to(rgba(180, 246, 255, 0.0735))
-  );
-  background: linear-gradient(
-    180deg,
-    rgba(98, 236, 255, 0.21) 0%,
-    rgba(180, 246, 255, 0.0735) 100%
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(rgba(98, 236, 255, 0.21)),
+      to(rgba(180, 246, 255, 0.0735)));
+  background: linear-gradient(180deg,
+      rgba(98, 236, 255, 0.21) 0%,
+      rgba(180, 246, 255, 0.0735) 100%);
 }
 
 .single-pricing-box:hover::before,
@@ -7145,18 +6990,14 @@ Pricing Area CSS
 }
 
 .single-pricing-box.red-light-color::before {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(255, 0, 77, 0.1)),
-    to(rgba(180, 246, 255, 0.0735))
-  );
-  background: linear-gradient(
-    180deg,
-    rgba(255, 0, 77, 0.1) 0%,
-    rgba(180, 246, 255, 0.0735) 100%
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(rgba(255, 0, 77, 0.1)),
+      to(rgba(180, 246, 255, 0.0735)));
+  background: linear-gradient(180deg,
+      rgba(255, 0, 77, 0.1) 0%,
+      rgba(180, 246, 255, 0.0735) 100%);
 }
 
 /*================================================
@@ -7644,82 +7485,42 @@ Blog Details Area CSS
   color: var(--greenColor);
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.facebook {
+.blog-details-desc.green-color .post-footer .article-share .social li a.facebook {
   background-color: #3b5998;
   border-color: #3b5998;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.facebook:hover {
+.blog-details-desc.green-color .post-footer .article-share .social li a.facebook:hover {
   color: #3b5998;
   background-color: transparent;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.twitter {
+.blog-details-desc.green-color .post-footer .article-share .social li a.twitter {
   background-color: #1da1f2;
   border-color: #1da1f2;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.twitter:hover {
+.blog-details-desc.green-color .post-footer .article-share .social li a.twitter:hover {
   color: #1da1f2;
   background-color: transparent;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.linkedin {
+.blog-details-desc.green-color .post-footer .article-share .social li a.linkedin {
   background-color: #007bb5;
   border-color: #007bb5;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.linkedin:hover {
+.blog-details-desc.green-color .post-footer .article-share .social li a.linkedin:hover {
   color: #007bb5;
   background-color: transparent;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.instagram {
+.blog-details-desc.green-color .post-footer .article-share .social li a.instagram {
   background-color: #c13584;
   border-color: #c13584;
 }
 
-.blog-details-desc.green-color
-  .post-footer
-  .article-share
-  .social
-  li
-  a.instagram:hover {
+.blog-details-desc.green-color .post-footer .article-share .social li a.instagram:hover {
   color: #c13584;
   background-color: transparent;
 }
@@ -7858,10 +7659,7 @@ blockquote cite,
   font-size: 22px;
 }
 
-.comments-area
-  .comment-respond
-  .comment-reply-title
-  #cancel-comment-reply-link {
+.comments-area .comment-respond .comment-reply-title #cancel-comment-reply-link {
   display: inline-block;
 }
 
@@ -7902,28 +7700,19 @@ blockquote cite,
   padding-right: 18px;
 }
 
-.comments-area
-  .comment-respond
-  .form-group
-  .form-control::-webkit-input-placeholder {
+.comments-area .comment-respond .form-group .form-control::-webkit-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.comments-area
-  .comment-respond
-  .form-group
-  .form-control:-ms-input-placeholder {
+.comments-area .comment-respond .form-group .form-control:-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.comments-area
-  .comment-respond
-  .form-group
-  .form-control::-ms-input-placeholder {
+.comments-area .comment-respond .form-group .form-control::-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
@@ -7935,24 +7724,15 @@ blockquote cite,
   transition: var(--transition);
 }
 
-.comments-area
-  .comment-respond
-  .form-group
-  .form-control:focus::-webkit-input-placeholder {
+.comments-area .comment-respond .form-group .form-control:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
-.comments-area
-  .comment-respond
-  .form-group
-  .form-control:focus:-ms-input-placeholder {
+.comments-area .comment-respond .form-group .form-control:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.comments-area
-  .comment-respond
-  .form-group
-  .form-control:focus::-ms-input-placeholder {
+.comments-area .comment-respond .form-group .form-control:focus::-ms-input-placeholder {
   color: transparent;
 }
 
@@ -8046,18 +7826,12 @@ blockquote cite,
   color: var(--greenColor);
 }
 
-.comments-area.green-color
-  .comment-respond
-  .form-check
-  .form-check-input:checked {
+.comments-area.green-color .comment-respond .form-check .form-check-input:checked {
   background-color: var(--greenColor);
   border-color: var(--greenColor);
 }
 
-.comments-area.green-color
-  .comment-respond
-  .form-check
-  .form-check-input:focus {
+.comments-area.green-color .comment-respond .form-check .form-check-input:focus {
   border-color: var(--greenColor);
 }
 
@@ -8111,9 +7885,7 @@ Screenshots Area CSS
   top: 50%;
 }
 
-.screenshots-tabs
-  .react-tabs__tab-list
-  .react-tabs__tab.react-tabs__tab--selected {
+.screenshots-tabs .react-tabs__tab-list .react-tabs__tab.react-tabs__tab--selected {
   background: var(--redLightColor);
   border-color: transparent;
   color: var(--whiteColor);
@@ -8173,9 +7945,7 @@ Subscribe Area CSS
   font-weight: 400;
 }
 
-.subscribe-content
-  .newsletter-form
-  .input-newsletter::-webkit-input-placeholder {
+.subscribe-content .newsletter-form .input-newsletter::-webkit-input-placeholder {
   color: var(--paragraphColor);
 }
 
@@ -8330,10 +8100,7 @@ Request A Visit Area CSS
 }
 
 .request-a-visit-form form .form-group input:focus::-webkit-input-placeholder,
-.request-a-visit-form
-  form
-  .form-group
-  textarea:focus::-webkit-input-placeholder {
+.request-a-visit-form form .form-group textarea:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
@@ -8392,19 +8159,11 @@ App Download Area CSS
   background-color: var(--yellowColor);
 }
 
-.app-download-area.bg-yellow
-  .app-download-content
-  .btn-box
-  .playstore-btn
-  span {
+.app-download-area.bg-yellow .app-download-content .btn-box .playstore-btn span {
   color: var(--yellowColor);
 }
 
-.app-download-area.bg-yellow
-  .app-download-content
-  .btn-box
-  .applestore-btn
-  span {
+.app-download-area.bg-yellow .app-download-content .btn-box .applestore-btn span {
   color: var(--yellowColor);
 }
 
@@ -8412,19 +8171,11 @@ App Download Area CSS
   background-color: #711f7f;
 }
 
-.app-download-area.bg-711f7f
-  .app-download-content
-  .btn-box
-  .playstore-btn
-  span {
+.app-download-area.bg-711f7f .app-download-content .btn-box .playstore-btn span {
   color: var(--purpleColor);
 }
 
-.app-download-area.bg-711f7f
-  .app-download-content
-  .btn-box
-  .applestore-btn
-  span {
+.app-download-area.bg-711f7f .app-download-content .btn-box .applestore-btn span {
   color: var(--purpleColor);
 }
 
@@ -8432,19 +8183,11 @@ App Download Area CSS
   background-color: var(--blueDarkColor);
 }
 
-.app-download-area.bg-red-light
-  .app-download-content
-  .btn-box
-  .playstore-btn
-  span {
+.app-download-area.bg-red-light .app-download-content .btn-box .playstore-btn span {
   color: var(--redLightColor);
 }
 
-.app-download-area.bg-red-light
-  .app-download-content
-  .btn-box
-  .applestore-btn
-  span {
+.app-download-area.bg-red-light .app-download-content .btn-box .applestore-btn span {
   color: var(--redLightColor);
 }
 
@@ -8923,13 +8666,11 @@ Pagination Area CSS
   color: var(--blackColor);
   -webkit-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#ffffff),
-    to(#eaeef3)
-  );
+  background: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#ffffff),
+      to(#eaeef3));
   background: linear-gradient(180deg, #ffffff 0%, #eaeef3 100%);
   -webkit-box-shadow: 0 5px 15px 0 rgba(107, 124, 147, 0.15),
     0 2px 4px 0 rgba(107, 124, 147, 0.2), inset 0 -2px 0 0 #c2cfde;
@@ -9268,24 +9009,15 @@ Products Details Area CSS
   font-weight: 600;
 }
 
-.products-details-desc
-  .products-add-to-cart
-  .input-counter
-  input::-webkit-input-placeholder {
+.products-details-desc .products-add-to-cart .input-counter input::-webkit-input-placeholder {
   color: var(--blackColor);
 }
 
-.products-details-desc
-  .products-add-to-cart
-  .input-counter
-  input:-ms-input-placeholder {
+.products-details-desc .products-add-to-cart .input-counter input:-ms-input-placeholder {
   color: var(--blackColor);
 }
 
-.products-details-desc
-  .products-add-to-cart
-  .input-counter
-  input::-ms-input-placeholder {
+.products-details-desc .products-add-to-cart .input-counter input::-ms-input-placeholder {
   color: var(--blackColor);
 }
 
@@ -9385,23 +9117,14 @@ Products Details Area CSS
   margin-top: 40px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review {
   position: relative;
   margin-bottom: 20px;
   padding: 0 0 20px 110px;
   border-bottom: 1px solid #eeeeee;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review
-  img {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review img {
   top: 0;
   left: 0;
   width: 90px;
@@ -9410,57 +9133,28 @@ Products Details Area CSS
   position: absolute;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review
-  .sub-name {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review .sub-name {
   margin-bottom: 8px;
   font-weight: 600;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review
-  p {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review p {
   font-size: 16px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review
-  .review-rating {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review .review-rating {
   display: block;
   margin-bottom: 7px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review
-  .review-rating
-  .review-stars
-  i {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review .review-rating .review-stars i {
   line-height: 1;
   font-size: 16px;
   color: #cecfd2;
   display: inline-block;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .products-review-comments
-  .user-review
-  .review-rating
-  .review-stars
-  i.checked {
+.products-details-tabs .tab-content .tab-pane .products-review-comments .user-review .review-rating .review-stars i.checked {
   color: orange;
 }
 
@@ -9473,12 +9167,7 @@ Products Details Area CSS
   font-size: 22px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  .comment-notes
-  span {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper .comment-notes span {
   color: red;
 }
 
@@ -9486,23 +9175,12 @@ Products Details Area CSS
   margin-top: 20px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group {
   margin-bottom: 25px;
   text-align: start;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control {
   background-color: #f9f9f9;
   font-size: var(--fontSize);
   color: var(--blackColor);
@@ -9517,111 +9195,52 @@ Products Details Area CSS
   padding-right: 18px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control::-webkit-input-placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control::-webkit-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:-ms-input-placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control:-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control::-ms-input-placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control::-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control::placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control::placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus::-webkit-input-placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus:-ms-input-placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus::-ms-input-placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control:focus::-ms-input-placeholder {
   color: transparent;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  .form-control:focus::placeholder {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group .form-control:focus::placeholder {
   color: transparent;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-group
-  textarea.form-control {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-group textarea.form-control {
   height: auto !important;
   padding-top: 18px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating {
   text-align: start;
   overflow: hidden;
   max-width: 115px;
@@ -9629,13 +9248,7 @@ Products Details Area CSS
   margin-bottom: 25px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating
-  label {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating label {
   width: 23px;
   height: 23px;
   float: right;
@@ -9643,23 +9256,11 @@ Products Details Area CSS
   position: relative;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating
-  label:not(:first-of-type) {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating label:not(:first-of-type) {
   padding-right: 5px;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating
-  label:before {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating label:before {
   -webkit-transition: var(--transition);
   transition: var(--transition);
   content: "\2605";
@@ -9668,124 +9269,51 @@ Products Details Area CSS
   line-height: 1;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating
-  input {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating input {
   display: none;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating
-  input:checked
-  ~ label:before,
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating:not(:checked)
-  > label:hover:before,
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .rating:not(:checked)
-  > label:hover
-  ~ label:before {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating input:checked~label:before,
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating:not(:checked)>label:hover:before,
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .rating:not(:checked)>label:hover~label:before {
   color: #f6b500;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check {
   color: var(--paragraphColor);
   font-size: 16px;
   margin-top: 5px;
   cursor: pointer;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  a {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check a {
   color: var(--redLightColor);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  a:hover {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check a:hover {
   text-decoration: underline;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-input {
   margin-top: 0.18em;
   -webkit-box-shadow: unset !important;
   box-shadow: unset !important;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input[type="checkbox"] {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-input[type="checkbox"] {
   border-radius: 0;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input:checked {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-input:checked {
   background-color: var(--redLightColor);
   border-color: var(--redLightColor);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-input:focus {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-input:focus {
   border-color: var(--redLightColor);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  .form-check
-  .form-check-label {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form .form-check .form-check-label {
   cursor: pointer;
 }
 
@@ -9805,40 +9333,20 @@ Products Details Area CSS
   font-weight: 500;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  button:hover {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form button:hover {
   background-color: var(--blueDarkColor);
   color: var(--whiteColor);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  button.disabled {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form button.disabled {
   cursor: not-allowed !important;
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  button.disabled:hover {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form button.disabled:hover {
   color: var(--blackColor);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .review-form-wrapper
-  form
-  button.disabled:hover::before {
+.products-details-tabs .tab-content .tab-pane .review-form-wrapper form button.disabled:hover::before {
   opacity: 0.3;
   width: 55px;
 }
@@ -9858,16 +9366,11 @@ Products Details Area CSS
   color: var(--blackColor);
 }
 
-.products-details-tabs
-  .tab-content
-  .tab-pane
-  .table-striped
-  tbody
-  tr:nth-of-type(odd) {
+.products-details-tabs .tab-content .tab-pane .table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.products-details-tabs .tab-content .tab-pane .table > :not(caption) > * > * {
+.products-details-tabs .tab-content .tab-pane .table> :not(caption)>*>* {
   -webkit-box-shadow: unset;
   box-shadow: unset;
 }
@@ -9981,47 +9484,23 @@ Cart Area CSS
   font-weight: 600;
 }
 
-.cart-table
-  table
-  tbody
-  tr
-  td.product-quantity
-  .input-counter
-  input::-webkit-input-placeholder {
+.cart-table table tbody tr td.product-quantity .input-counter input::-webkit-input-placeholder {
   color: var(--blackColor);
 }
 
-.cart-table
-  table
-  tbody
-  tr
-  td.product-quantity
-  .input-counter
-  input:-ms-input-placeholder {
+.cart-table table tbody tr td.product-quantity .input-counter input:-ms-input-placeholder {
   color: var(--blackColor);
 }
 
-.cart-table
-  table
-  tbody
-  tr
-  td.product-quantity
-  .input-counter
-  input::-ms-input-placeholder {
+.cart-table table tbody tr td.product-quantity .input-counter input::-ms-input-placeholder {
   color: var(--blackColor);
 }
 
-.cart-table
-  table
-  tbody
-  tr
-  td.product-quantity
-  .input-counter
-  input::placeholder {
+.cart-table table tbody tr td.product-quantity .input-counter input::placeholder {
   color: var(--blackColor);
 }
 
-.cart-table .table > :not(:first-child) {
+.cart-table .table> :not(:first-child) {
   border-top: none;
 }
 
@@ -10075,9 +9554,7 @@ Cart Area CSS
   transition: var(--transition);
 }
 
-.cart-buttons
-  .shopping-coupon-code
-  .form-control:focus::-webkit-input-placeholder {
+.cart-buttons .shopping-coupon-code .form-control:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
@@ -10425,13 +9902,8 @@ Checkout Area CSS
   margin-bottom: 5px;
 }
 
-.order-details .payment-box .payment-method p [type="radio"]:checked + label,
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:not(:checked)
-  + label {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label {
   color: var(--blackColor);
   padding-left: 27px;
   position: relative;
@@ -10441,18 +9913,8 @@ Checkout Area CSS
   display: block;
 }
 
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:checked
-  + label::before,
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:not(:checked)
-  + label::before {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label::before,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label::before {
   left: 0;
   top: 4px;
   content: "";
@@ -10464,18 +9926,8 @@ Checkout Area CSS
   background: var(--whiteColor);
 }
 
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:checked
-  + label::after,
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:not(:checked)
-  + label::after {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label::after,
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label::after {
   top: 7px;
   left: 3px;
   content: "";
@@ -10488,24 +9940,14 @@ Checkout Area CSS
   background: var(--redLightColor);
 }
 
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:not(:checked)
-  + label::after {
+.order-details .payment-box .payment-method p [type="radio"]:not(:checked)+label::after {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0);
   transform: scale(0);
 }
 
-.order-details
-  .payment-box
-  .payment-method
-  p
-  [type="radio"]:checked
-  + label::after {
+.order-details .payment-box .payment-method p [type="radio"]:checked+label::after {
   opacity: 1;
   visibility: visible;
   -webkit-transform: scale(1);
@@ -10674,6 +10116,7 @@ Thank You Area CSS
   height: 100vh;
   background-color: #f9f9f9;
 }
+
 .otpField {
   text-align: center;
 }
@@ -10695,6 +10138,7 @@ Thank You Area CSS
   appearance: none;
   margin: 0;
 }
+
 .thank-you-content {
   background-color: var(--whiteColor);
   text-align: center;
@@ -10978,11 +10422,7 @@ Profile Authentication Area CSS
   box-shadow: unset !important;
 }
 
-.login-form
-  form
-  .remember-me-wrap
-  .form-check
-  .form-check-input[type="checkbox"] {
+.login-form form .remember-me-wrap .form-check .form-check-input[type="checkbox"] {
   border-radius: 0;
 }
 
@@ -11054,7 +10494,7 @@ Profile Authentication Area CSS
   border-radius: 5px;
   padding: 13px 30px;
   width: 100%;
-  font-size: var(--fontSize);
+  font-size: var(--fontSizeForLogin);
   font-weight: 600;
 }
 
@@ -11362,10 +10802,7 @@ Widget Area CSS
   color: var(--paragraphColor);
 }
 
-.widget-area
-  .widget_search
-  form
-  .search-field:focus::-webkit-input-placeholder {
+.widget-area .widget_search form .search-field:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
@@ -12057,31 +11494,19 @@ Sidebar Modal CSS
   font-weight: 400;
 }
 
-.sidebarModal.modal
-  .modal-body
-  .box
-  form
-  .input-newsletter::-webkit-input-placeholder {
+.sidebarModal.modal .modal-body .box form .input-newsletter::-webkit-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.sidebarModal.modal
-  .modal-body
-  .box
-  form
-  .input-newsletter:-ms-input-placeholder {
+.sidebarModal.modal .modal-body .box form .input-newsletter:-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 
-.sidebarModal.modal
-  .modal-body
-  .box
-  form
-  .input-newsletter::-ms-input-placeholder {
+.sidebarModal.modal .modal-body .box form .input-newsletter::-ms-input-placeholder {
   color: var(--paragraphColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
@@ -12097,27 +11522,15 @@ Sidebar Modal CSS
   border-color: var(--greenColor);
 }
 
-.sidebarModal.modal
-  .modal-body
-  .box
-  form
-  .input-newsletter:focus::-webkit-input-placeholder {
+.sidebarModal.modal .modal-body .box form .input-newsletter:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
-.sidebarModal.modal
-  .modal-body
-  .box
-  form
-  .input-newsletter:focus:-ms-input-placeholder {
+.sidebarModal.modal .modal-body .box form .input-newsletter:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.sidebarModal.modal
-  .modal-body
-  .box
-  form
-  .input-newsletter:focus::-ms-input-placeholder {
+.sidebarModal.modal .modal-body .box form .input-newsletter:focus::-ms-input-placeholder {
   color: transparent;
 }
 

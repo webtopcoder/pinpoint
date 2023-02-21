@@ -62,10 +62,7 @@ const LandingContact = ({ onContactUser }) => {
 
   return (
     <div
-      className="col-lg-12 col-md-12"
-      style={{
-        padding: "10px 10px 10px 161px",
-      }}
+      className="col-lg-12 col-md-12 contactus"
     >
       <div className="login-form">
         <div className="logo-center">

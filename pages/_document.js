@@ -1,10 +1,11 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+
 class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="/favicon.png" />
+          <link rel="icon" href="public/favicon.png" />
           <link
             href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
             rel="stylesheet"
@@ -17,7 +18,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Alex+Brush"
             rel="stylesheet"
           />
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAG6Xy390W6KIWFx3DFQAtIDVnW3gqCFQ&libraries=places" />
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAG6Xy390W6KIWFx3DFQAtIDVnW3gqCFQ&libraries=places&callback=Function.prototype" />
           <script
             src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"
             referrerPolicy="origin"
