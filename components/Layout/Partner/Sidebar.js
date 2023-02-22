@@ -39,6 +39,8 @@ function LeftSidebar({
   onGetNotifications,
   avatar,
   role,
+  businessName,
+  user_id,
 }) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -87,13 +89,6 @@ function LeftSidebar({
   const handleOriginPageRender = (page) => {
     router.push(page);
   };
-
-  let user_id = "";
-  let businessName = "";
-  if (typeof window !== "undefined") {
-    user_id = sessionStorage.getItem("user_id");
-    businessName = sessionStorage.getItem("username");
-  }
 
   const items = [
     getItem("Dashboard", "/partner/dashboard/", <DashboardFilled />),
@@ -330,6 +325,8 @@ const mapStateToProps = (state) => {
     notificationCount: state.user.notificationCount,
     avatar: state?.profile?.userinfo?.profile?.avatar?.filepath,
     role: state?.user?.role,
+    businessName: state?.user?.username,
+    user_id: state?.user?.user_id,
   };
 };
 
