@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "@/utils/ActiveLink";
 import Image from "next/image";
-import { Row, Badge, Popconfirm, Button, Avatar, Drawer, List } from "antd";
+import { Badge, Popconfirm, Button, Avatar, Drawer, List } from "antd";
 import {
   ExportOutlined,
   LoginOutlined,
@@ -19,14 +19,16 @@ import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import { getNotifications, logout } from "@/src/redux/User/actions";
 
-const Header = ({ toggle,
+const Header = ({
+  toggle,
   onLogout,
   user_id,
   token,
   avatarImg,
   onGetNotifications,
   notifications,
-  notificationCount
+  notificationCount,
+  role,
 }) => {
   const [menu, setMenu] = React.useState(true);
   const toggleNavbar = () => {
@@ -107,13 +109,7 @@ const Header = ({ toggle,
       </div>
     ) : null;
 
-
-  const usertype = "";
-  if (typeof window !== "undefined") {
-    usertype = sessionStorage.getItem("usertype");
-  }
-
-  const hasWindow = typeof window !== 'undefined';
+  const hasWindow = typeof window !== "undefined";
 
   React.useEffect(() => {
     let elementId = document.getElementById("navbar");
@@ -126,7 +122,6 @@ const Header = ({ toggle,
         }
       });
     }
-
   });
 
   const classOne = menu
@@ -149,8 +144,7 @@ const Header = ({ toggle,
                 </a>
               </Link>
             </div>
-            {usertype !== "partner" ? (
-
+            {role !== "partner" ? (
               <div className="col-md-4 text-right desktop">
                 <div className="others-option">
                   <a onClick={toggle}>
@@ -177,22 +171,28 @@ const Header = ({ toggle,
                   <span className="icon-bar bottom-bar"></span>
                 </button>
               </div>
-
             ) : (
               ""
             )}
-            <div className="mobile" style={{
-              width: '100%',
-            }}>
+            <div
+              className="mobile"
+              style={{
+                width: "100%",
+              }}
+            >
               <Link href="/">
                 <a className="navbar-brand">
                   <Image src={mobilelogo} alt="site logo" />
                 </a>
               </Link>
 
-              <div className={classOne} style={{
-                textAlign: 'center'
-              }} id="navbarSupportedContent">
+              <div
+                className={classOne}
+                style={{
+                  textAlign: "center",
+                }}
+                id="navbarSupportedContent"
+              >
                 <ul className="navbar-nav">
                   <li className="nav-item">
                     <div className="avatar-panel">
@@ -220,7 +220,12 @@ const Header = ({ toggle,
                               className="mailboxIcon"
                               onClick={showDrawer}
                             >
-                              <Image src={LIcon} alt="l" width={40} height={40} />
+                              <Image
+                                src={LIcon}
+                                alt="l"
+                                width={40}
+                                height={40}
+                              />
                             </Badge>
                           </div>
                         )}
@@ -267,7 +272,9 @@ const Header = ({ toggle,
                             onCancel={() =>
                               SignupOrLogin("/authentication/partner/login")
                             }
-                            onConfirm={() => SignupOrLogin("/authentication/user/login")}
+                            onConfirm={() =>
+                              SignupOrLogin("/authentication/user/login")
+                            }
                           >
                             <a href="#">
                               <Button
@@ -310,7 +317,9 @@ const Header = ({ toggle,
                       <>
                         <div
                           onClick={() =>
-                            handleOriginPageRender(`/profile/${user_id}/activity`)
+                            handleOriginPageRender(
+                              `/profile/${user_id}/activity`
+                            )
                           }
                           className="vst-profile"
                         >
@@ -328,27 +337,53 @@ const Header = ({ toggle,
                     )}
                   </li>
                   <li className="nav-item">
-                    <a className="dropdown-toggle nav-link" onClick={() => handleOriginPageRender("/home")}>Home</a>
+                    <a
+                      className="dropdown-toggle nav-link"
+                      onClick={() => handleOriginPageRender("/home")}
+                    >
+                      Home
+                    </a>
                   </li>
 
                   <li className="nav-item megamenu">
-                    <a className="dropdown-toggle nav-link" onClick={() => handlePageRender("/user/map/interactive-map")}>Interactive Map</a>
+                    <a
+                      className="dropdown-toggle nav-link"
+                      onClick={() =>
+                        handlePageRender("/user/map/interactive-map")
+                      }
+                    >
+                      Interactive Map
+                    </a>
                   </li>
 
                   <li className="nav-item">
                     <Link href="#" activeClassName="active">
-                      <a className="dropdown-toggle nav-link" onClick={() => handleOriginPageRender("/home/#pinpoint_location")}>Locations</a>
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() =>
+                          handleOriginPageRender("/home/#pinpoint_location")
+                        }
+                      >
+                        Locations
+                      </a>
                     </Link>
-
                   </li>
 
                   <li className="nav-item">
-                    <a className="dropdown-toggle nav-link" onClick={() => handleOriginPageRender("/home/#pinpoint_contactus")}>
+                    <a
+                      className="dropdown-toggle nav-link"
+                      onClick={() =>
+                        handleOriginPageRender("/home/#pinpoint_contactus")
+                      }
+                    >
                       Contact Us
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="dropdown-toggle nav-link" onClick={() => handleOriginPageRender("/faq")}>
+                    <a
+                      className="dropdown-toggle nav-link"
+                      onClick={() => handleOriginPageRender("/faq")}
+                    >
                       FAQ
                     </a>
                   </li>
@@ -356,7 +391,7 @@ const Header = ({ toggle,
               </div>
             </div>
             <div className="others-option">
-              {usertype !== "partner" ? (
+              {role !== "partner" ? (
                 <button
                   onClick={toggleNavbar}
                   className={classTwo}

@@ -19,19 +19,16 @@ import Link from "next/link";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 
-const count = 3;
-
 const { Sider } = Layout;
 
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
 function getItem(label, key, icon, children) {
   return {
+    label,
     key,
     icon,
     children,
-    label,
   };
 }
 
@@ -58,7 +55,13 @@ function LeftSidebar({
         sort: "createdAt:asc",
         page: notificationPage,
       },
-      () => {}
+      (_, err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          setInitLoading(false);
+        }
+      }
     );
   }, [notificationPage]);
 
@@ -106,18 +109,12 @@ function LeftSidebar({
     getItem("Partnership", "/partner/partnership/", <GiftOutlined />),
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
+
   useEffect(() => {
     if (router.pathname.indexOf("/partner/settings/") > -1) {
       setCurrent(router.pathname);
     }
   }, [router.pathname]);
-  useEffect(() => {
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then(() => {
-        setInitLoading(false);
-      });
-  }, []);
 
   const [collapsed, setCollapsed] = useState(false);
   const onLogoutHandler = () => {

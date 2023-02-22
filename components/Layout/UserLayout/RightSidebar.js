@@ -61,7 +61,7 @@ const RightSidebar = ({
   const [notificationLoading, setNotificationLoading] = useState(false);
   const [notificationDrawerOpen, setOpen] = useState(false);
   const [notificationPage, setNotificationPage] = useState(1);
-  
+
   useEffect(() => {
     onGetNotifications(
       {
