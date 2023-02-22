@@ -32,9 +32,9 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   });
 
   const { errors, validateForm, onBlurField } = useLoginFormValidator(
-    form,
-    formValidator
+    form
   );
+
 
   const onUpdateField = (e) => {
     const field = e.target.name;
@@ -43,6 +43,7 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
       [field]: e.target.value,
     };
     setForm(nextFormState);
+
     if (errors[field].dirty)
       validateForm({
         form: nextFormState,
@@ -54,6 +55,8 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   const onSubmitForm = (e) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
+
+    console.log(isValid);
     if (!isValid) return;
     onLoginUser({ ...form, role }, (res, error) => {
       if (error) {
