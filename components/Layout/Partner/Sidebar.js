@@ -19,19 +19,16 @@ import Link from "next/link";
 import config from "@/utils/config";
 import baseUrl from "@/utils/baseUrl";
 
-const count = 3;
-
 const { Sider } = Layout;
 
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 const avatarurl = `http://${config.server}:${config.port}/avatar/`;
 
 function getItem(label, key, icon, children) {
   return {
+    label,
     key,
     icon,
     children,
-    label,
   };
 }
 
@@ -42,6 +39,8 @@ function LeftSidebar({
   onGetNotifications,
   avatar,
   role,
+  businessName,
+  user_id,
 }) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -58,7 +57,13 @@ function LeftSidebar({
         sort: "createdAt:asc",
         page: notificationPage,
       },
-      () => {}
+      (_, err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          setInitLoading(false);
+        }
+      }
     );
   }, [notificationPage]);
 
@@ -85,13 +90,6 @@ function LeftSidebar({
     router.push(page);
   };
 
-  let user_id = "";
-  let businessName = "";
-  if (typeof window !== "undefined") {
-    user_id = sessionStorage.getItem("user_id");
-    businessName = sessionStorage.getItem("username");
-  }
-
   const items = [
     getItem("Dashboard", "/partner/dashboard/", <DashboardFilled />),
     getItem("Messages", "/partner/message/", <MessageFilled />),
@@ -106,18 +104,12 @@ function LeftSidebar({
     getItem("Partnership", "/partner/partnership/", <GiftOutlined />),
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
+
   useEffect(() => {
     if (router.pathname.indexOf("/partner/settings/") > -1) {
       setCurrent(router.pathname);
     }
   }, [router.pathname]);
-  useEffect(() => {
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then(() => {
-        setInitLoading(false);
-      });
-  }, []);
 
   const [collapsed, setCollapsed] = useState(false);
   const onLogoutHandler = () => {
@@ -333,6 +325,8 @@ const mapStateToProps = (state) => {
     notificationCount: state.user.notificationCount,
     avatar: state?.profile?.userinfo?.profile?.avatar?.filepath,
     role: state?.user?.role,
+    businessName: state?.user?.username,
+    user_id: state?.user?.user_id,
   };
 };
 
