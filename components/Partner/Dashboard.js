@@ -90,7 +90,7 @@ const PartnerDashboard = ({
     <Layout
       className="site-layout"
       style={{
-        
+
         background: "#211f1f",
       }}
     >
@@ -145,7 +145,7 @@ const PartnerDashboard = ({
                 title="Business Rating"
                 bordered={false}
               >
-                {dashboardInfo?.businessRating}
+                {dashboardInfo?.businessRating == "NaN" ? 0 : dashboardInfo?.businessRating}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
