@@ -8,12 +8,10 @@ import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import {
   DoubleLeftOutlined,
-  PlusOutlined,
-  DeleteOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { updateBusinessDetail } from "@/src/redux/Profile/actions";
+import { updateBusinessDetail } from "@/src/redux/User/actions";
 
 const { Content } = Layout;
 
@@ -136,7 +134,6 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
 
   const onUpdateInfoForm = (e) => {
     e.preventDefault();
-    console.log(e);
     setForm({
       ...form,
       address: addressForm.address,

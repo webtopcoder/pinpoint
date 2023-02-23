@@ -19,7 +19,9 @@ import {
   SETTINGS_VALUE_GET_SUCCESS,
   ALL_SUB_CATEGORY_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  GET_ALL_ACTIVE_LOCATIONs_SUCCESS
+  GET_ALL_ACTIVE_LOCATIONs_SUCCESS,
+  BUSINESS_UPDATE_INFO_REQUEST,
+  BUSINESS_UPDATE_INFO_SUCCESS
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -265,6 +267,27 @@ export function getFollowerAndFollowing(cb) {
       .catch((error) => {
         console.log(error);
         cb && cb(null, error);
+      });
+}
+
+export function updateBusinessDetail(info, cb) {
+  return (dispatch) =>
+    api(`profile`, "patch", info)
+      .then((res) => {
+        dispatch({
+          type: BUSINESS_UPDATE_INFO_REQUEST,
+        });
+
+        console.log(res);
+        dispatch({
+          type: BUSINESS_UPDATE_INFO_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
       });
 }
 

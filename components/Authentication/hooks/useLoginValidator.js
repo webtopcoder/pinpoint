@@ -67,13 +67,6 @@ export const useLoginFormValidator = (form) => {
       if (!!passwordMessage) isValid = false;
     }
 
-    if (nextErrors.role.dirty && (field ? field === "role" : true)) {
-      const roleMessage = RoleValidator(role, form);
-      nextErrors.role.error = !!roleMessage;
-      nextErrors.role.message = roleMessage;
-      if (!!roleMessage) isValid = false;
-    }
-
     setErrors(nextErrors);
 
     return {

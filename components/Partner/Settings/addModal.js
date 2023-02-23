@@ -32,7 +32,7 @@ const AddUserModal = ({
       ...form,
       [field]: e.target.value,
     };
-    
+
     setForm(nextFormState);
     if (errors[field].dirty) {
       validateFormAddUser({
@@ -86,7 +86,6 @@ const AddUserModal = ({
       );
       filtered.push(form);
 
-
       const data = {
         key: `user:additionalUser`,
         value: filtered,
@@ -97,13 +96,16 @@ const AddUserModal = ({
           console.log("error");
         } else {
           notify("success", "Settings Changed.");
+          setForm({
+            email: "",
+            role: "admin",
+          })
         }
       });
     }
   };
   function handleOnOk(e) {
     onSubmitForm(e);
-    onOk();
   }
   return (
     <Modal
