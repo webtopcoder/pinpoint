@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   emailValidator,
   passwordValidator,
+  RoleValidator
 } from "../User/user-validator.js";
 
 const touchErrors = (errors) => {
@@ -27,6 +28,11 @@ export const useLoginFormValidator = (form) => {
       error: false,
       message: "",
     },
+    role: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
   });
 
   const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
@@ -43,9 +49,11 @@ export const useLoginFormValidator = (form) => {
     const {
       email,
       password,
+      role,
     } = form;
 
     if (nextErrors.email.dirty && (field ? field === "email" : true)) {
+
       const emailMessage = emailValidator(email, form);
       nextErrors.email.error = !!emailMessage;
       nextErrors.email.message = emailMessage;
@@ -57,6 +65,52 @@ export const useLoginFormValidator = (form) => {
       nextErrors.password.error = !!passwordMessage;
       nextErrors.password.message = passwordMessage;
       if (!!passwordMessage) isValid = false;
+    }
+
+    if (nextErrors.role.dirty && (field ? field === "role" : true)) {
+      const roleMessage = RoleValidator(role, form);
+      nextErrors.role.error = !!roleMessage;
+      nextErrors.role.message = roleMessage;
+      if (!!roleMessage) isValid = false;
+    }
+
+    setErrors(nextErrors);
+
+    return {
+      isValid,
+      errors: nextErrors,
+    };
+  };
+
+  const validateFormAddUser = ({ form, field, errors, forceTouchErrors = false }) => {
+    let isValid = true;
+
+    // Create a deep copy of the errors
+    let nextErrors = JSON.parse(JSON.stringify(errors));
+
+    // Force validate all the fields
+    if (forceTouchErrors) {
+      nextErrors = touchErrors(errors);
+    }
+
+    const {
+      email,
+      role,
+    } = form;
+
+    if (nextErrors.email.dirty && (field ? field === "email" : true)) {
+
+      const emailMessage = emailValidator(email, form);
+      nextErrors.email.error = !!emailMessage;
+      nextErrors.email.message = emailMessage;
+      if (!!emailMessage) isValid = false;
+    }
+
+    if (nextErrors.role.dirty && (field ? field === "role" : true)) {
+      const roleMessage = RoleValidator(role, form);
+      nextErrors.role.error = !!roleMessage;
+      nextErrors.role.message = roleMessage;
+      if (!!roleMessage) isValid = false;
     }
 
     setErrors(nextErrors);
@@ -81,9 +135,11 @@ export const useLoginFormValidator = (form) => {
     };
 
     validateForm({ form, field, errors: updatedErrors });
+    validateFormAddUser({ form, field, errors: updatedErrors });
   };
 
   return {
+    validateFormAddUser,
     validateForm,
     onBlurField,
     errors,

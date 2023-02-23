@@ -1,21 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { Modal, Row, Col, Select } from "antd";
+import { Modal, Row, Col, Select, Input } from "antd";
 import styles from "./settings.module.css";
 import { postSettingsValue } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
 import toast from "@/components/Toast";
-
-import {
-  RoleValidator,
-  emailValidator,
-} from "@/components/Authentication/User/user-validator";
 import { useLoginFormValidator } from "@/components/Authentication/hooks/useLoginValidator";
-import FormGroup from "@/components/Authentication/FormGroup";
 
-const formValidator = {
-  email: emailValidator,
-  role: RoleValidator,
-};
 const AddUserModal = ({
   modal,
   onOk,
@@ -28,23 +18,24 @@ const AddUserModal = ({
     role: "admin",
   });
 
-  const { errors, validateForm, onBlurField } = useLoginFormValidator(
+  const { errors, validateFormAddUser, onBlurField } = useLoginFormValidator(
     form,
-    formValidator
   );
   const notify = useCallback((type, message) => {
     toast({ type, message });
   }, []);
 
   const onUpdateField = (e) => {
+    console.log(e.target.name, e.target.value)
     const field = e.target.name;
     const nextFormState = {
       ...form,
       [field]: e.target.value,
     };
+    
     setForm(nextFormState);
     if (errors[field].dirty) {
-      validateForm({
+      validateFormAddUser({
         form: nextFormState,
         errors,
         field,
@@ -60,7 +51,7 @@ const AddUserModal = ({
   };
   const onSubmitForm = (e) => {
     e.preventDefault();
-    const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
+    const { isValid } = validateFormAddUser({ form, errors, forceTouchErrors: true });
     if (!isValid) {
       notify("error", "Please Enter a valid email-id.");
 
@@ -79,8 +70,6 @@ const AddUserModal = ({
         key: `user:additionalUser`,
         value: additionalUserSettingsArray,
       };
-
-      console.log(data);
 
       onSettingsToggle(data, (res, error) => {
         if (error) {
@@ -129,8 +118,7 @@ const AddUserModal = ({
       <Row className={styles.modal_title}>Add Additional User</Row>
       <Row className={styles.modalform}>
         Additional User Email
-        <FormGroup
-          label="Email"
+        <Input
           value={form?.email}
           onChange={onUpdateField}
           onBlur={onBlurField}

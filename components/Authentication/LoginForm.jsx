@@ -8,13 +8,7 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import FormGroup from "./FormGroup";
 import { useLoginFormValidator } from "./hooks/useLoginValidator";
-import { passwordValidator, UserInfoValidator } from "./User/user-validator.js";
 import useNotify from "@/hooks/useNotify";
-
-const formValidator = {
-  email: UserInfoValidator,
-  password: passwordValidator,
-};
 
 const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   const router = useRouter();
@@ -34,7 +28,6 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   const { errors, validateForm, onBlurField } = useLoginFormValidator(
     form
   );
-
 
   const onUpdateField = (e) => {
     const field = e.target.name;
