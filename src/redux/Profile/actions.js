@@ -509,26 +509,6 @@ export function unFriend(id, cb) {
       });
 }
 
-export function updateBusinessDetail(info, cb) {
-  return (dispatch) =>
-    api(`profile`, "patch", info)
-      .then((res) => {
-        dispatch({
-          type: BUSINESS_UPDATE_INFO_REQUEST,
-        });
-
-        dispatch({
-          type: BUSINESS_UPDATE_INFO_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
 export function getDashboardInfo(cb) {
   return (dispatch) => {
     api(`profile/partner/dashboard`, "get")

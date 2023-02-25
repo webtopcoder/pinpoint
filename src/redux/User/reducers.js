@@ -19,6 +19,7 @@ import {
   SETTINGS_VALUE_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
   GET_FAQ_SUCCESS,
+  BUSINESS_UPDATE_INFO_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -86,6 +87,18 @@ const userReducer = (state = initialState, action) => {
         avatar: action?.payload?.user?.profile?.avatar?.filepath,
       };
     }
+
+    case BUSINESS_UPDATE_INFO_SUCCESS: {
+      return {
+        ...state,
+        role: action?.payload?.data?.role,
+        username: action?.payload?.data?.username,
+        user_id: action?.payload?.data?._id,
+        usertype: action?.payload?.data?.role,
+        avatar: action?.payload?.data?.profile?.avatar?.filepath,
+      };
+    }
+
     case USER_EMAIL_VERIFICATION_REQUEST:
       return { ...state, loading: true };
     case USER_EMAIL_VERIFICATION_SUCCESS: {

@@ -1,5 +1,4 @@
 import { Avatar, Card, Rate, Row, Space } from "antd";
-
 import { EnvironmentFilled } from "@ant-design/icons";
 import { connect } from "react-redux";
 

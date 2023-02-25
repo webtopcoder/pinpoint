@@ -1,7 +1,8 @@
 import LocationCard from "@/components/LocationCard";
 import useNotify from "@/hooks/useNotify";
 import { getLocations } from "@/src/redux/Location/actions";
-import { Col, Layout, Row } from "antd";
+import { Col, Layout, Row, Result, Button } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { connect } from "react-redux";
@@ -9,6 +10,7 @@ import { connect } from "react-redux";
 const { Content } = Layout;
 
 const PartnerLocations = ({ locations, ongetLocations }) => {
+
   const router = useRouter();
   const { profile } = router.query;
 
@@ -42,11 +44,19 @@ const PartnerLocations = ({ locations, ongetLocations }) => {
           gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
           justify="space-around"
         >
-          {locations.map((location, index) => (
+          {locations.length !== 0 ? (locations.map((location, index) => (
             <Col span={6} key={index}>
               <LocationCard location={location} />
             </Col>
-          ))}
+          ))) :
+            <Result
+              icon={<FrownOutlined style={{
+                color: '#ffffff'
+              }} />}
+              title={<span style={{
+                color: '#ffffff'
+              }}>Sorry, No exist any location</span>}
+            />}
         </Row>
       </Content>
     </Layout>

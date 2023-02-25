@@ -9,7 +9,7 @@ import binavatar from "@/public/images/landing/avatar.png";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import baseUrl from "@/utils/baseUrl";
-import { Avatar, Card, Skeleton, Switch, Space, Typography, Button, Row, Col } from 'antd';
+import { Avatar, Card, Space, Typography, Button, Row, Col } from 'antd';
 const { Meta } = Card;
 const { Title } = Typography;
 const style = {
@@ -69,10 +69,6 @@ const Header = ({
       ongetHeader(profile);
     }
   }, [router.isReady]);
-
-  useEffect(() => {
-    console.log({ headerInfo });
-  }, [headerInfo]);
 
   return (
     <div className="container">
@@ -143,7 +139,7 @@ const Header = ({
             />
           </Card>
         </Col>
-        <Col className="gutter-row" span={12} xs={24} sm={24} md={12} lg={12} xl={12}  style={{
+        <Col className="gutter-row" span={12} xs={24} sm={24} md={12} lg={12} xl={12} style={{
           marginTop: 40
         }}>
           <Row gutter={{
@@ -154,21 +150,22 @@ const Header = ({
           }}>
             {headerInfo?.profile?.usertype == "partner" && (
               <>
-              
-                <Col xs={12} sm={12} md={6} lg={6} xl={6}
-                  style={{
-                    textAlign: 'center',
-                    background: 'black',
-                    color: 'white'
-                  }}
-                  headStyle={{
-                    color: 'white'
-                  }}
-                  bodyStyle={{
-                    fontSize: 40,
-                    color: 'white'
-                  }}>
-                  <Card title="Rating" bordered={false}>
+
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Card title="Rating" bordered={false}
+                    style={{
+                      textAlign: 'center',
+                      background: 'black',
+                      color: 'white'
+                    }}
+                    headStyle={{
+                      color: 'white'
+                    }}
+                    bodyStyle={{
+                      fontSize: 40,
+                      color: 'white'
+                    }}
+                  >
                     {headerInfo && (
                       <b className="fn">{headerInfo?.profile?.favorites}</b>
                     )}

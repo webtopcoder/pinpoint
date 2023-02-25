@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./settings.module.css";
 import useNotify from "@/hooks/useNotify";
 import { Layout, Col, Row, Switch } from "antd";
