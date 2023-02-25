@@ -18,7 +18,7 @@ import {
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  
+  GET_FAQ_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -56,6 +56,7 @@ const initialState = {
   settings: [],
   myFollowers: [],
   followAndFollowing: [],
+  faqs: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -194,6 +195,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         followAndFollowing: action.payload.data,
+      };
+    }
+
+    case GET_FAQ_SUCCESS: {
+      return {
+        ...state,
+        faqs: action.payload.data,
       };
     }
 
