@@ -8,7 +8,7 @@ import {
   editSocial,
   uploadAvatar,
 } from "@/redux/Profile/actions";
-import { message, Upload, Input, Layout } from "antd";
+import { message, Upload, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import Image from "next/image";

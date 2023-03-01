@@ -257,7 +257,7 @@ const Partnership = ({
               justify="space-around"
             >
               {partnershipPlans.map((plan, index) => (
-                <Col xs={12} sm={8} md={6} lg={8} xl={8} key={index}>
+                <Col xs={24} sm={8} md={6} lg={8} xl={8} key={index}>
                   {user_partnership == plan._id ? (
                     <Badge.Ribbon text="Active" color="green">
                       <PartnerShipPayment

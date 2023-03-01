@@ -93,6 +93,8 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
       setLoading(true);
       return;
     }
+
+    console.log()
     if (info.file.status === "done") {
       // Get this url from response in real world.
       setLoading(false);
