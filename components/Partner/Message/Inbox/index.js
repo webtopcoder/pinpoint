@@ -11,12 +11,13 @@ import {
   updateMail,
 } from "@/redux/Mail/actions";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import useInboxColumns from "./useInboxColumns";
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
-const attachurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
+const attachurl = `${apiBaseUrl}/avatar/`;
+
 const loader = ({ src }) => {
   return `${src}`;
 };

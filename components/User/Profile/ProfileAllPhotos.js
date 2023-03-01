@@ -10,6 +10,7 @@ import { recommendPost } from "@/redux/Profile/actions";
 import { getAllphotos } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
 import config from "@/utils/config";
+import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
 const ProfileAllPhotos = ({
@@ -34,8 +35,8 @@ const ProfileAllPhotos = ({
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/avatar/`;
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+
+  const imgurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
 
   useEffect(() => {

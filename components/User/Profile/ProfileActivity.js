@@ -26,7 +26,7 @@ import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
 const ProfileActivity = ({
@@ -52,8 +52,8 @@ const ProfileActivity = ({
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/post/`;
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const imgurl = `${apiBaseUrl}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const [prefix, setPrefix] = useState("@");
   const [initLoading, setInitLoading] = useState(true);
@@ -311,7 +311,11 @@ const ProfileActivity = ({
                         <Form.Item name="fileupload">
                           <Row>
                             <Col span={8}>
-                              <Upload listType="picture" {...props}>
+                              <Upload
+                                method="get"
+                                listType="picture"
+                                {...props}
+                              >
                                 <Button
                                   icon={<UploadOutlined />}
                                   style={{ marginRight: 10 }}

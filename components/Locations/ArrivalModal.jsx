@@ -210,7 +210,7 @@ function ArrivalModal({
             <Form.Item name="fileupload">
               <Row>
                 <Col span={8}>
-                  <Upload listType="picture" {...uploadProps}>
+                  <Upload method="get" listType="picture" {...uploadProps}>
                     <Button
                       icon={<UploadOutlined />}
                       style={{

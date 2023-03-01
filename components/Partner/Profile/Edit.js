@@ -15,6 +15,7 @@ import Image from "next/image";
 import EditPoll from "./EditPoll";
 import useNotify from "@/hooks/useNotify";
 import ToggleSettings from "@/components/User/Profile/profileEdit/ToggleSettings";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Content } = Layout;
 
@@ -77,7 +78,7 @@ const beforeUpload = (file) => {
   }
   return isJpgOrPng && isLt2M;
 };
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const Edit = ({
   onupdateInfo,
@@ -231,6 +232,7 @@ const Edit = ({
                                   className="avatar-uploader"
                                   showUploadList={false}
                                   beforeUpload={beforeUpload}
+                                  method="get"
                                   onChange={handleChange}
                                 >
                                   {imageUrl ? (

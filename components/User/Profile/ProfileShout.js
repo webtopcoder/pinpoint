@@ -2,7 +2,7 @@ import toast from "@/components/Toast";
 import useNotify from "@/hooks/useNotify";
 import { getShoutout } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import config from "@/utils/config";
 import { LikeOutlined } from "@ant-design/icons";
 import {
@@ -63,8 +63,8 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/avatar/`;
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const imgurl = `${apiBaseUrl}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);

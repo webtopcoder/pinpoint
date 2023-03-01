@@ -27,7 +27,6 @@ import ScrollToTop from "@/components/Layout/ScrollToTop";
 import Head from "next/head";
 import io from "socket.io-client";
 import toast from "@/components/Toast";
-import baseUrl from "@/utils/baseUrl";
 import { DOMAIN } from "@/src/redux/constants";
 import { getUserInfo } from "@/src/redux/Profile/actions";
 
@@ -58,7 +57,6 @@ function MyApp({ Component, pageProps }) {
 
     store.dispatch((dispatch) => getUserInfo(() => {})(dispatch));
 
-    
     return () => {
       if (socket !== null) socket.off("New Client");
     };

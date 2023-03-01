@@ -4,10 +4,10 @@ import { Space, Tooltip } from "antd";
 import { DeleteFilled } from "@ant-design/icons";
 
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function useSentColumns({ setOpen, onDeleteSent, getSent }) {
   const [record_detail, setSaveSentDetail] = useState();

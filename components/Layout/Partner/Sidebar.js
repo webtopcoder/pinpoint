@@ -17,11 +17,11 @@ import { Layout, Menu, Avatar, Space, Badge, Drawer, List, Button } from "antd";
 import { getNotifications, logout } from "@/src/redux/User/actions";
 import Link from "next/link";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Sider } = Layout;
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function getItem(label, key, icon, children) {
   return {

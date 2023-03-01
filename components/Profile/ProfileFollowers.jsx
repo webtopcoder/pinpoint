@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { getFollowers, getHeader, unFriend } from "@/redux/Profile/actions";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ const ProfileFollowers = ({
 }) => {
   const { notify } = useNotify();
 
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const router = useRouter();
   const { profile } = router.query;
