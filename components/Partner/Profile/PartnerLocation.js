@@ -431,7 +431,7 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
                 <Row>
                   <Col span={8}>
                     <Form.Item name="images">
-                      <Upload listType="picture" {...uploadProps}>
+                      <Upload listType="picture" method="get" {...uploadProps}>
                         <Button
                           icon={<UploadOutlined />}
                           style={{ marginRight: 10 }}

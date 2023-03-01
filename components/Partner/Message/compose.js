@@ -174,7 +174,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
             </Form.Item>
             <Form.Item name="fileupload">
               <Row>
-                <Upload {...props}>
+                <Upload method="get" {...props}>
                   <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
                     Click to Upload
                   </Button>

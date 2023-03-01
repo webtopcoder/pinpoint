@@ -324,6 +324,7 @@ function ModifyModal({
               <Row>
                 <Col span={8}>
                   <Upload
+                    method="get"
                     listType="picture"
                     maxCount={1}
                     defaultFileList={

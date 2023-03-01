@@ -231,6 +231,7 @@ const Edit = ({
                                   className="avatar-uploader"
                                   showUploadList={false}
                                   beforeUpload={beforeUpload}
+                                  method="get"
                                   onChange={handleChange}
                                 >
                                   {imageUrl ? (

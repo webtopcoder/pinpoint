@@ -314,7 +314,11 @@ const ProfileActivity = ({
                         <Form.Item name="fileupload">
                           <Row>
                             <Col span={8}>
-                              <Upload listType="picture" {...props}>
+                              <Upload
+                                listType="picture"
+                                method="get"
+                                {...props}
+                              >
                                 <Button
                                   icon={<UploadOutlined />}
                                   style={{ marginRight: 10 }}
