@@ -18,6 +18,7 @@ import rightToggle from "@/public/images/landing/right-toggle.png";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import { getNotifications, logout } from "@/src/redux/User/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const Header = ({
   toggle,
@@ -36,7 +37,7 @@ const Header = ({
   };
   const router = useRouter();
 
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const { notify } = useNotify();
 

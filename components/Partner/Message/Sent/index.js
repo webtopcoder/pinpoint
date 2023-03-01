@@ -6,12 +6,12 @@ import { bulkMailAction, getSent } from "@/redux/Mail/actions";
 import { downloadFile } from "@/redux/Mail/actions";
 import { deleteMail } from "@/redux/Mail/actions";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import useSentColumns from "./useSentColumns";
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
-const attachurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
+const attachurl = `${apiBaseUrl}/avatar/`;
 
 const Sent = ({
   ondownloadFile,

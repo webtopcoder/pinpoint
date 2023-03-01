@@ -18,6 +18,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const RightSidebar = ({
   visible,
@@ -31,7 +32,7 @@ const RightSidebar = ({
   notificationCount,
 }) => {
   const router = useRouter();
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const { notify } = useNotify();
 

@@ -16,6 +16,7 @@ import { message, Upload, Input } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import Image from "next/image";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const QuillNoSSRWrapper = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -84,7 +85,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
     avatarImg = sessionStorage.getItem("avatar");
   }
 
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();

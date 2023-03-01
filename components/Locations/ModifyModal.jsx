@@ -24,6 +24,7 @@ import {
 import Image from "next/image";
 import config from "@/utils/config";
 import { getsubCategory } from "@/src/redux/User/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -40,7 +41,7 @@ const mapAutoCompleteOptions = {
   types: ["establishment"],
 };
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function ModifyModal({
   uploadProps,

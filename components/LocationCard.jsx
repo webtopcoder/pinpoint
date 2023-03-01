@@ -23,10 +23,9 @@ import Link from "next/link";
 import { useState } from "react";
 import ArrivalModal from "./Locations/ArrivalModal";
 import { connect } from "react-redux";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
-import config from "@/utils/config";
 import { quickDeparture, getLocations } from "@/src/redux/Location/actions";
 
 import Image from "next/image";
@@ -40,7 +39,7 @@ const IconText = ({ icon, text }) => (
   </Space>
 );
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const LocationCard = ({
   onDepartureSet,

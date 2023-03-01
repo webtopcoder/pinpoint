@@ -26,7 +26,7 @@ import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
 import config from "@/utils/config";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 const { Text } = Typography;
 
@@ -128,8 +128,8 @@ const ProfileActivity = ({
   const myLoader = ({ src }) => {
     return src;
   };
-  const imgurl = `http://${config.server}:${config.port}/avatar/`;
-  const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+  const imgurl = `${apiBaseUrl}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);

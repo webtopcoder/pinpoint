@@ -1,6 +1,7 @@
 import { Image as Antimage, List, Skeleton, Avatar, Space, Button } from "antd";
 import { LikeOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Text } = Typography;
 
@@ -38,8 +39,8 @@ const recommendPost = (postID) => {
   });
 };
 
-const imgurl = `http://${config.server}:${config.port}/post/`;
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const imgurl = `${apiBaseUrl}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 const myLoader = ({ src }) => {
   return src;
 };

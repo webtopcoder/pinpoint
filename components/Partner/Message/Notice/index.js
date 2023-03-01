@@ -1,5 +1,5 @@
 import { deleteMail, getNotice } from "@/redux/Mail/actions";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import { Button, Col, Dropdown, Modal, Row, Table, Tooltip } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import useNoticeColumns from "./useNoticeColumn";
 import config from "@/utils/config";
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const Notices = ({ ondeleteSent, ongetNotice, noticelist }) => {
   const [open, setOpen] = useState(false);

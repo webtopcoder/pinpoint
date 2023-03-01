@@ -1,5 +1,5 @@
 import useNotify from "@/hooks/useNotify";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import config from "@/utils/config";
 import {
   DeleteFilled,
@@ -10,7 +10,7 @@ import { Space, Tooltip } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
   const [record_detail, setSaveInboxDetail] = useState();
@@ -66,7 +66,6 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
   };
 
   const columns = [
-   
     {
       title: "From",
       align: "center",

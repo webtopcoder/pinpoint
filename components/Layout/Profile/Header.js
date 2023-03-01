@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { UserOutlined, MessageOutlined, UserDeleteOutlined, UserAddOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  MessageOutlined,
+  UserDeleteOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import { connect } from "react-redux";
 import { getHeader, unfollow } from "@/redux/Profile/actions";
 import { postFollower, getInfo } from "@/redux/Profile/actions";
@@ -8,13 +13,13 @@ import { useRouter } from "next/router";
 import binavatar from "@/public/images/landing/avatar.png";
 import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
-import baseUrl from "@/utils/baseUrl";
-import { Avatar, Card, Space, Typography, Button, Row, Col } from 'antd';
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { Avatar, Card, Space, Typography, Button, Row, Col } from "antd";
 const { Meta } = Card;
 const { Title } = Typography;
 const style = {
-  background: '#0092ff',
-  padding: '8px 0',
+  background: "#0092ff",
+  padding: "8px 0",
 };
 const Header = ({
   ongetHeader,
@@ -27,7 +32,7 @@ const Header = ({
   const myLoader = ({ src }) => {
     return src;
   };
-  const avatarurl = `http://${config.server}:${config.port}/avatar`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
   const { notify } = useNotify();
 
@@ -81,31 +86,41 @@ const Header = ({
         }}
         style={{
           marginTop: 40,
-          marginBottom: 40
+          marginBottom: 40,
         }}
       >
-        <Col className="gutter-row" span={12} xs={24} sm={4} md={12} lg={12} xl={12}>
+        <Col
+          className="gutter-row"
+          span={12}
+          xs={24}
+          sm={4}
+          md={12}
+          lg={12}
+          xl={12}
+        >
           <Card
             style={{
               marginTop: 16,
-              border: '0px'
+              border: "0px",
             }}
             bodyStyle={{
-              background: '#f8fbff',
+              background: "#f8fbff",
             }}
           >
             <Meta
               avatar={
-                headerInfo?.profile?.avatar ?
-                  <Avatar size={120} src={avatarurl + "/" + headerInfo?.profile?.avatar.filepath} /> :
+                headerInfo?.profile?.avatar ? (
+                  <Avatar
+                    size={120}
+                    src={avatarurl + "/" + headerInfo?.profile?.avatar.filepath}
+                  />
+                ) : (
                   <Avatar size={120} icon={<UserOutlined />} />
+                )
               }
               title={<Title level={3}>{headerInfo?.profile?.fullname}</Title>}
               description={
-                <Space
-                  direction="vertical"
-                  size="middle"
-                >
+                <Space direction="vertical" size="middle">
                   <Title level={5}>@{headerInfo?.profile?.username}</Title>
 
                   {!own_page && (
@@ -114,23 +129,49 @@ const Header = ({
                         direction="vertical"
                         size="middle"
                         style={{
-                          display: 'flex',
-                        }}>
-                        <Button style={{
-                          width: 150
-                        }} type="primary" onClick={() =>
-                          userRole
-                            ? window.open(
-                              baseUrl +
-                              `/${userRole}/message?user=${view_user_id}`,
-                              "_blank"
-                            )
-                            : null
-                        } icon={<MessageOutlined />} size='large'>Message</Button>
-                        <Button style={{
-                          width: 150
+                          display: "flex",
                         }}
-                          type="primary" onClick={headerInfo?.profile?.is_follow ? unfollow : follow} icon={headerInfo?.profile?.is_follow ? <UserDeleteOutlined /> : <UserAddOutlined />} size='large'>{headerInfo?.profile?.is_follow ? 'Unfollow' : 'Follow'}</Button>
+                      >
+                        <Button
+                          style={{
+                            width: 150,
+                          }}
+                          type="primary"
+                          onClick={() =>
+                            userRole
+                              ? window.open(
+                                  baseUrl +
+                                    `/${userRole}/message?user=${view_user_id}`,
+                                  "_blank"
+                                )
+                              : null
+                          }
+                          icon={<MessageOutlined />}
+                          size="large"
+                        >
+                          Message
+                        </Button>
+                        <Button
+                          style={{
+                            width: 150,
+                          }}
+                          type="primary"
+                          onClick={
+                            headerInfo?.profile?.is_follow ? unfollow : follow
+                          }
+                          icon={
+                            headerInfo?.profile?.is_follow ? (
+                              <UserDeleteOutlined />
+                            ) : (
+                              <UserAddOutlined />
+                            )
+                          }
+                          size="large"
+                        >
+                          {headerInfo?.profile?.is_follow
+                            ? "Unfollow"
+                            : "Follow"}
+                        </Button>
                       </Space>
                     </>
                   )}
@@ -139,31 +180,43 @@ const Header = ({
             />
           </Card>
         </Col>
-        <Col className="gutter-row" span={12} xs={24} sm={24} md={12} lg={12} xl={12} style={{
-          marginTop: 40
-        }}>
-          <Row gutter={{
-            xs: 8,
-            sm: 16,
-            md: 24,
-            lg: 32,
-          }}>
+        <Col
+          className="gutter-row"
+          span={12}
+          xs={24}
+          sm={24}
+          md={12}
+          lg={12}
+          xl={12}
+          style={{
+            marginTop: 40,
+          }}
+        >
+          <Row
+            gutter={{
+              xs: 8,
+              sm: 16,
+              md: 24,
+              lg: 32,
+            }}
+          >
             {headerInfo?.profile?.usertype == "partner" && (
               <>
-
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Card title="Rating" bordered={false}
+                  <Card
+                    title="Rating"
+                    bordered={false}
                     style={{
-                      textAlign: 'center',
-                      background: 'black',
-                      color: 'white'
+                      textAlign: "center",
+                      background: "black",
+                      color: "white",
                     }}
                     headStyle={{
-                      color: 'white'
+                      color: "white",
                     }}
                     bodyStyle={{
                       fontSize: 40,
-                      color: 'white'
+                      color: "white",
                     }}
                   >
                     {headerInfo && (
@@ -172,18 +225,21 @@ const Header = ({
                   </Card>
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Card title="Locations" bordered={false}
+                  <Card
+                    title="Locations"
+                    bordered={false}
                     style={{
-                      textAlign: 'center',
-                      background: 'black',
-                      color: 'white'
+                      textAlign: "center",
+                      background: "black",
+                      color: "white",
                     }}
                     headStyle={{
-                      color: 'white'
+                      color: "white",
                     }}
                     bodyStyle={{
-                      fontSize: 40
-                    }}>
+                      fontSize: 40,
+                    }}
+                  >
                     {headerInfo && (
                       <b className="fn">{headerInfo?.profile?.favorites}</b>
                     )}
@@ -192,36 +248,42 @@ const Header = ({
               </>
             )}
             <Col xs={12} sm={12} md={6} lg={6} xl={6}>
-              <Card title="Likes" bordered={false}
+              <Card
+                title="Likes"
+                bordered={false}
                 style={{
-                  textAlign: 'center',
-                  background: 'black',
-                  color: 'white'
+                  textAlign: "center",
+                  background: "black",
+                  color: "white",
                 }}
                 headStyle={{
-                  color: 'white'
+                  color: "white",
                 }}
                 bodyStyle={{
-                  fontSize: 40
-                }}>
+                  fontSize: 40,
+                }}
+              >
                 {headerInfo && (
                   <b className="fn">{headerInfo?.profile?.favorites}</b>
                 )}
               </Card>
             </Col>
             <Col xs={12} sm={12} md={6} lg={6} xl={6}>
-              <Card title="Followers" bordered={false}
+              <Card
+                title="Followers"
+                bordered={false}
                 style={{
-                  textAlign: 'center',
-                  background: 'black',
-                  color: 'white'
+                  textAlign: "center",
+                  background: "black",
+                  color: "white",
                 }}
                 headStyle={{
-                  color: 'white'
+                  color: "white",
                 }}
                 bodyStyle={{
-                  fontSize: 40
-                }}>
+                  fontSize: 40,
+                }}
+              >
                 {headerInfo && (
                   <b className="fn">{headerInfo?.profile?.followers}</b>
                 )}
@@ -229,8 +291,8 @@ const Header = ({
             </Col>
           </Row>
         </Col>
-      </Row >
-    </div >
+      </Row>
+    </div>
   );
 };
 

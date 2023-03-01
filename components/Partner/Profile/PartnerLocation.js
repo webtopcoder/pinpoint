@@ -29,7 +29,7 @@ import {
 } from "antd";
 import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
-import baseUrl from "@/utils/baseUrl";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import {
   checkInLocation,
   favoriteLocation,
@@ -96,8 +96,8 @@ const LikeLocation = ({ likeLocation, locationId, text }) => {
   );
 };
 
-const imgurl = `http://${config.server}:${config.port}/avatar/`;
-const avatarurl = `http://${config.server}:${config.port}/avatar/`;
+const imgurl = `${apiBaseUrl}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const PartnerLocation = ({
   location,
