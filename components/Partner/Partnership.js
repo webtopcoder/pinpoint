@@ -35,10 +35,10 @@ const stripePromise = loadStripe(
 const PartnerShipPayment = ({
   title,
   price,
-  plan,
   currency,
   features,
   applyIn,
+  stripePriceId,
   isActive,
   renewalDate,
   createCustomer,
@@ -145,7 +145,7 @@ const PartnerShipPayment = ({
                 type="primary"
                 size="large"
                 disabled={isActive}
-                onClick={() => handleSubscribeClick(plan.id)}
+                onClick={() => handleSubscribeClick(stripePriceId)}
               >
                 {price == 0 ? "Get Free" : "Buy Now"}
               </Button>
