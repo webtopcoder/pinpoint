@@ -87,19 +87,14 @@ const PartnerShipPayment = ({
         <Space wrap>
           <Text
             style={{
-              fontSize: 20,
-              fontWeight: 700,
-            }}
-          >
-            {currency}
-          </Text>
-          <Text
-            style={{
               fontSize: 50,
               fontWeight: 700,
             }}
           >
-            {price}
+            {new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency,
+            }).format(price)}
           </Text>
           {applyIn && (
             <Text
