@@ -22,14 +22,6 @@ import { getAllLocations, getAllLocationsByFilter } from "@/redux/Location/actio
 
 const { Option } = Select;
 
-const categoryOptions = [];
-for (let i = 10; i < 36; i++) {
-  categoryOptions.push({
-    value: i.toString(36) + i,
-    label: i.toString(36) + i,
-  });
-}
-
 var cityCircle = null;
 var map;
 
@@ -46,13 +38,13 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       "geometry",
       "name",
     ],
-    types: ["establishment"],
   };
 
   const [form, setForm] = useState({
     category: "",
     subcategory: "",
   });
+
 
   const markerDescription = (image, title, content) => {
     return '<div class="card" style="width: 30rem;">' +
@@ -69,10 +61,17 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       '</div>'
   }
   const [subcategoryList, setSubcategoryList] = useState([]);
-  const [activeLocationslist, setActivelocationlist] = useState(activeLocations);
+  const [actvivLocationList, setactiveLocationsList] = useState([]);
 
   const onFinish = (Form) => {
+    console.log(Form)
     ongetAllLocations(false, true, Form);
+    function initMap() {
+      window.navigator.geolocation.getCurrentPosition(success, (error) => {
+        console.log(error);
+      });
+    }
+    initMap();
   };
 
   const onUpdateField = (value) => {
@@ -99,7 +98,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   let markers = [];
 
   function setMapOnAll() {
-    // console.log(markers)
     for (let i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
@@ -107,7 +105,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
 
   // Removes the markers from the map, but keeps them in the array.
   function hideMarkers() {
-    // console.log('hide')
     setMapOnAll();
   }
   const [inputValue, setInputValue] = useState(5);
@@ -142,11 +139,12 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
         ? (controlButton.textContent = "Hide All Active")
         : (controlButton.textContent = "Show All Active");
       if (controlButton.textContent === "Hide All Active") {
-        for (var i = 0; i < activeLocations?.length; i++) {
+        for (var i = 0; i < actvivLocationList?.length; i++) {
+
           const marker = new google.maps.Marker({
-            position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
+            position: new google.maps.LatLng(actvivLocationList[i]?.mapLocation?.latitude, actvivLocationList[i]?.mapLocation?.longitude),
             icon: {
-              url: faviconUrl + 'avatar/' + activeLocations[i]?.images[0]?.filepath,
+              url: faviconUrl + 'avatar/' + actvivLocationList[i]?.images[0]?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
               anchor: new google.maps.Point(0, 0), // anchor
@@ -158,7 +156,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           markers.push(marker);
 
           const infowindow = new google.maps.InfoWindow({
-            content: markerDescription(activeLocationslist[i]?.arrivalImages[0]?.filepath, activeLocationslist[i]?.title, activeLocationslist[i]?.description),
+            content: markerDescription(actvivLocationList[i]?.arrivalImages[0]?.filepath, actvivLocationList[i]?.title, actvivLocationList[i]?.description),
 
             ariaLabel: "Food Truck",
           });
@@ -180,23 +178,50 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   }
 
   useEffect(() => {
-    function initMap() {
-      window.navigator.geolocation.getCurrentPosition(success, (error) => {
-        console.log(error);
-      });
-    }
-    initMap();
-  }, [position]);
+    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      options
+    );
 
-  const getResult = () => {
+    autoCompleteRef.current.addListener("place_changed", async function () {
+      const place = await autoCompleteRef.current.getPlace();
+      setPosition({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      });
+    });
+
+    ongetCategory();
+    ongetAllLocations(false, true, [], (res, error) => {
+      if (error) {
+        notify("error", 'error');
+        return;
+      }
+
+      setactiveLocationsList(res.results)
+    });
+  }, []);
+
+
+  useEffect(() => {
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
         console.log(error);
       });
     }
     initMap();
-  };
+  }, [position, actvivLocationList]);
+
+  // const getResult = () => {
+  //   function initMap() {
+  //     window.navigator.geolocation.getCurrentPosition(success, (error) => {
+  //       console.log(error);
+  //     });
+  //   }
+  //   initMap();
+  // };
   function success(pos) {
+    console.log(111, actvivLocationList)
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
       zoom: 5,
@@ -232,18 +257,19 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       title: "Hello World!",
     });
 
-    for (var i = 0; i < activeLocationslist?.length; i++) {
+    for (var i = 0; i < activeLocations?.length; i++) {
       var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
         // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
         new google.maps.LatLng(position.lat, position.lng),
-        new google.maps.LatLng(activeLocationslist[i]?.mapLocation?.latitude, activeLocationslist[i]?.mapLocation?.longitude)
+        new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude)
       ))?.toFixed(2);
+
 
       if (d < inputValue * 1000 * 1.6) {
         const marker = new google.maps.Marker({
-          position: new google.maps.LatLng(activeLocationslist[i]?.mapLocation?.latitude, activeLocationslist[i]?.mapLocation?.longitude),
+          position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
           icon: {
-            url: faviconUrl + 'avatar/' + activeLocationslist[i]?.images[0]?.filepath,
+            url: faviconUrl + 'avatar/' + activeLocations[i]?.images[0]?.filepath,
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
@@ -253,7 +279,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
         });
 
         const infowindow = new google.maps.InfoWindow({
-          content: markerDescription(activeLocationslist[i]?.arrivalImages[0]?.filepath, activeLocationslist[i]?.title, activeLocations[i]?.description),
+          content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
           ariaLabel: "Food Truck",
         });
         marker.addListener("click", () => {
@@ -327,23 +353,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       document.msExitFullscreen();
     }
   }
-  useEffect(() => {
-    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      options
-    );
 
-    autoCompleteRef.current.addListener("place_changed", async function () {
-      const place = await autoCompleteRef.current.getPlace();
-      setPosition({
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      });
-    });
-
-    ongetCategory();
-    ongetAllLocations(false, true, []);
-  }, []);
 
   return (
     <>
@@ -535,8 +545,8 @@ const mapDispatchToProps = (dispatch) => ({
   ongetCategory: () => dispatch(getCategory()),
   onsubgetCategory: (categoryID, cb) =>
     dispatch(getsubCategory(categoryID, cb)),
-  ongetAllLocations: (pagination, status, form) =>
-    dispatch(getAllLocations(pagination, status, form)),
+  ongetAllLocations: (pagination, status, form, cb) =>
+    dispatch(getAllLocations(pagination, status, form, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InteractiveMap);

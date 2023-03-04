@@ -303,15 +303,17 @@ export function getFavouriteLocations(userId, cb) {
       });
 }
 
-export function getAllLocations(pagination, status, form) {
+export function getAllLocations(pagination, status, form, cb) {
   return (dispatch) =>
-    api(`locations?pagination=${pagination}&isActive=${status}`, "get")
+    api(`locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory}`, "get")
       .then((res) => {
-        console.log(res)
         dispatch({
           type: GET_ALL_ACTIVE_LOCATIONs_SUCCESS,
           payload: res,
         });
+
+        cb(res);
+
       })
       .catch((error) => {
         console.log(error);

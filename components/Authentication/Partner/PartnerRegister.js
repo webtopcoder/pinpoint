@@ -47,7 +47,6 @@ const PartnerRegister = ({
       "geometry",
       "name",
     ],
-    types: ["establishment"],
   };
 
   const [form, setForm] = useState({

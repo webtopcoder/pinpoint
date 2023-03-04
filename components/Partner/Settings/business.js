@@ -70,7 +70,6 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
       "geometry",
       "name",
     ],
-    types: ["establishment"],
   };
 
   const onUpdateField = (e) => {

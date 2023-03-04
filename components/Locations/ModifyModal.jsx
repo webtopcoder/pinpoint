@@ -22,7 +22,6 @@ import {
   updateLocationById,
 } from "@/src/redux/Location/actions";
 import Image from "next/image";
-import config from "@/utils/config";
 import { getsubCategory } from "@/src/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 
@@ -38,7 +37,6 @@ const mapAutoCompleteOptions = {
     "geometry",
     "name",
   ],
-  types: ["establishment"],
 };
 
 const avatarurl = `${apiBaseUrl}/avatar/`;

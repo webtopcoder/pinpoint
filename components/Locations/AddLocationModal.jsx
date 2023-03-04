@@ -32,7 +32,6 @@ const mapAutoCompleteOptions = {
     "geometry",
     "name",
   ],
-  types: ["establishment"],
 };
 
 function AddLocationModal({
