@@ -16,9 +16,9 @@ import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
-import config from "@/utils/config";
 import { getCategory, getsubCategory } from "@/redux/User/actions";
 import { getAllLocations, getAllLocationsByFilter } from "@/redux/Location/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Option } = Select;
 
@@ -61,7 +61,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       '</div>'
   }
   const [subcategoryList, setSubcategoryList] = useState([]);
-  const [actvivLocationList, setactiveLocationsList] = useState([]);
 
   const onFinish = (Form) => {
     ongetAllLocations(false, true, Form);
@@ -87,7 +86,8 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     });
   };
 
-  const faviconUrl = `http://${config.server}:${config.port}/`;
+  const faviconUrl = `${apiBaseUrl}/avatar/`;
+
   const formatter = (value) => `${value}mile`;
 
   const [position, setPosition] = useState({
