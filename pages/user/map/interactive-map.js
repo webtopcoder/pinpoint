@@ -48,7 +48,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
 
   const markerDescription = (image, title, content) => {
     return '<div class="card" style="width: 30rem;">' +
-      '<img src="' + faviconUrl + 'avatar/' + image + '" class="card-img-top" alt="...">' +
+      '<img src="' + faviconUrl + image + '" class="card-img-top" alt="...">' +
       '<div class="card-body">' +
       '<h5 class="card-title">' + title + '</h5>' +
       '<p class="card-text">' + content + '</p>' +
@@ -143,7 +143,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
             icon: {
-              url: faviconUrl + 'avatar/' + activeLocations[i]?.images[0]?.filepath,
+              url: faviconUrl + activeLocations[i]?.images[0]?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
               anchor: new google.maps.Point(0, 0), // anchor
@@ -259,7 +259,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
           icon: {
-            url: faviconUrl + 'avatar/' + activeLocations[i]?.images[0]?.filepath,
+            url: faviconUrl + activeLocations[i]?.images[0]?.filepath,
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
