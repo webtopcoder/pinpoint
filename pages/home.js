@@ -1,3 +1,6 @@
+
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import LandingContact from "@/components/Landing/LandingContact";
 import Testimonial from "@/components/Landing/Testimonial";
 import PageTitle from "@/components/Layout/PageTitle";
@@ -11,14 +14,29 @@ import bannerImg from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 // import subtitleImg from "@/public/images/landing/title_border.png";
-import config from "@/utils/config";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import { getAllLocations } from "@/redux/Location/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 import Layout from "../layout";
 
-const UserHome = () => {
-  const faviconUrl = `http://${config.server}:${config.port}/`;
+const UserHome = ({ ongetAllLocations, activeLocations }) => {
+  const faviconUrl = `${apiBaseUrl}/avatar/`;
+
+  const markerDescription = (image, title, content) => {
+    return '<div class="card" style="width: 30rem;">' +
+      '<img src="' + faviconUrl + image + '" class="card-img-top" alt="...">' +
+      '<div class="card-body">' +
+      '<h5 class="card-title">' + title + '</h5>' +
+      '<p class="card-text">' + content + '</p>' +
+      '<a href="#" class="card-link">Show Detail</a>' +
+      '<a href="#" class="card-link">Add Favorite</a>' +
+      '</div>' +
+      '<div class="card-footer">' +
+      '<small class="text-muted">Last updated 3 mins ago</small>' +
+      '</div>' +
+      '</div>'
+  }
 
   function initMap() {
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
@@ -32,127 +50,13 @@ const UserHome = () => {
       center: { lat: 37.553326, lng: -94.8110983 },
       zoom: 4,
     });
-    const features = [
-      {
-        position: new google.maps.LatLng(36, -80),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(39, -87),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(43, -90),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(35, -86),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(35, -110),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(47, -110),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-      {
-        position: new google.maps.LatLng(45, -100),
-        content:
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h1 id="firstHeading" class="firstHeading">Food Truck</h1>' +
-          '<div id="bodyContent">' +
-          "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-          "sandstone rock formation in the southern part of the " +
-          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-          "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-          "(last visited June 22, 2009).</p>" +
-          "</div>" +
-          "</div>",
-      },
-    ];
 
     // Create markers.
-    for (let i = 0; i < features.length; i++) {
+    for (let i = 0; i < activeLocations.length; i++) {
       const marker = new google.maps.Marker({
-        position: features[i].position,
+        position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
         icon: {
-          url: faviconUrl + "favicon.png",
+          url: faviconUrl + activeLocations[i]?.images[0]?.filepath,
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0), // anchor
@@ -160,7 +64,7 @@ const UserHome = () => {
         map: map,
       });
       const infowindow = new google.maps.InfoWindow({
-        content: features[i].content,
+        content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
         ariaLabel: "Food Truck",
       });
       marker.addListener("mouseover", () => {
@@ -175,14 +79,12 @@ const UserHome = () => {
     }
   }
   useEffect(() => {
-    initMap();
-    // let map;
-
-    // map = new google.maps.Map(document.getElementById("map"), {
-    //   center: new google.maps.LatLng(-33.91722, 151.23064),
-    //   zoom: 16,
-    // });
+    ongetAllLocations(false, true, []);
   }, []);
+
+  useEffect(() => {
+    initMap();
+  }, [activeLocations]);
   return (
     <>
       <PageTitle page="Landing" />
@@ -490,4 +392,13 @@ UserHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default UserHome;
+const mapStateToProps = ({ location }) => ({
+  activeLocations: location.activeLocations
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  ongetAllLocations: (pagination, status, form) =>
+    dispatch(getAllLocations(pagination, status, form)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserHome);

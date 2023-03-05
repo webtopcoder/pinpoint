@@ -535,8 +535,8 @@ const mapDispatchToProps = (dispatch) => ({
   ongetCategory: () => dispatch(getCategory()),
   onsubgetCategory: (categoryID, cb) =>
     dispatch(getsubCategory(categoryID, cb)),
-  ongetAllLocations: (pagination, status, form, cb) =>
-    dispatch(getAllLocations(pagination, status, form, cb)),
+  ongetAllLocations: (pagination, status, form) =>
+    dispatch(getAllLocations(pagination, status, form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InteractiveMap);
