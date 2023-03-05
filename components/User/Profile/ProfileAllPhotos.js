@@ -69,7 +69,7 @@ const ProfileAllPhotos = ({
                   <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12">
                       <Divider orientation="left">
-                        <span className="all-photos">All Photosa</span>
+                        <span className="all-photos">All Photoes</span>
                       </Divider>
                       <Antimage.PreviewGroup>
                         {myallPhotos &&
