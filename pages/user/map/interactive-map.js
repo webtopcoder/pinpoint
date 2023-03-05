@@ -64,7 +64,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   const [actvivLocationList, setactiveLocationsList] = useState([]);
 
   const onFinish = (Form) => {
-    console.log(Form)
     ongetAllLocations(false, true, Form);
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
@@ -139,12 +138,12 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
         ? (controlButton.textContent = "Hide All Active")
         : (controlButton.textContent = "Show All Active");
       if (controlButton.textContent === "Hide All Active") {
-        for (var i = 0; i < actvivLocationList?.length; i++) {
+        for (var i = 0; i < activeLocations?.length; i++) {
 
           const marker = new google.maps.Marker({
-            position: new google.maps.LatLng(actvivLocationList[i]?.mapLocation?.latitude, actvivLocationList[i]?.mapLocation?.longitude),
+            position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
             icon: {
-              url: faviconUrl + 'avatar/' + actvivLocationList[i]?.images[0]?.filepath,
+              url: faviconUrl + 'avatar/' + activeLocations[i]?.images[0]?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
               anchor: new google.maps.Point(0, 0), // anchor
@@ -156,8 +155,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           markers.push(marker);
 
           const infowindow = new google.maps.InfoWindow({
-            content: markerDescription(actvivLocationList[i]?.arrivalImages[0]?.filepath, actvivLocationList[i]?.title, actvivLocationList[i]?.description),
-
+            content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
             ariaLabel: "Food Truck",
           });
           marker.addListener("click", () => {
@@ -192,14 +190,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     });
 
     ongetCategory();
-    ongetAllLocations(false, true, [], (res, error) => {
-      if (error) {
-        notify("error", 'error');
-        return;
-      }
-
-      setactiveLocationsList(res.results)
-    });
+    ongetAllLocations(false, true, []);
   }, []);
 
 
@@ -210,7 +201,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       });
     }
     initMap();
-  }, [position, actvivLocationList]);
+  }, [position, activeLocations]);
 
   // const getResult = () => {
   //   function initMap() {
@@ -221,7 +212,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   //   initMap();
   // };
   function success(pos) {
-    console.log(111, actvivLocationList)
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
       zoom: 5,

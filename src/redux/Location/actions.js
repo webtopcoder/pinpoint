@@ -303,19 +303,19 @@ export function getFavouriteLocations(userId, cb) {
       });
 }
 
-export function getAllLocations(pagination, status, form, cb) {
+export function getAllLocations(pagination, status, form) {
   return (dispatch) =>
-    api(`locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory}`, "get")
-      .then((res) => {
-        dispatch({
-          type: GET_ALL_ACTIVE_LOCATIONs_SUCCESS,
-          payload: res,
+    form?.subcategory ? api(`locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ''}`, "get") :
+      api(`locations?pagination=${pagination}&isActive=${status}`, "get")
+        .then((res) => {
+          dispatch({
+            type: GET_ALL_ACTIVE_LOCATIONs_SUCCESS,
+            payload: res,
+          });
+
+
+        })
+        .catch((error) => {
+          console.log(error);
         });
-
-        cb(res);
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 }
