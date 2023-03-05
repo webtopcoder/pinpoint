@@ -25,7 +25,6 @@ import { getActivity, getProfilePoll, votePoll } from "@/redux/Profile/actions";
 import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
-import config from "@/utils/config";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 const { Text } = Typography;
@@ -404,9 +403,9 @@ const ProfileActivity = ({
                                             onClick={() =>
                                               window.open(
                                                 baseUrl +
-                                                  "/profile/" +
-                                                  item.from_user._id +
-                                                  "/activity",
+                                                "/profile/" +
+                                                item.from_user._id +
+                                                "/activity",
                                                 "_blank"
                                               )
                                             }
@@ -420,9 +419,9 @@ const ProfileActivity = ({
                                             onClick={() =>
                                               window.open(
                                                 baseUrl +
-                                                  "/profile/" +
-                                                  item?.to_user?._id +
-                                                  "/activity",
+                                                "/profile/" +
+                                                item?.to_user?._id +
+                                                "/activity",
                                                 "_blank"
                                               )
                                             }
@@ -492,9 +491,9 @@ const ProfileActivity = ({
                                             onClick={() =>
                                               window.open(
                                                 baseUrl +
-                                                  "/profile/" +
-                                                  item.follower._id +
-                                                  "/activity",
+                                                "/profile/" +
+                                                item.follower._id +
+                                                "/activity",
                                                 "_blank"
                                               )
                                             }
@@ -508,9 +507,9 @@ const ProfileActivity = ({
                                             onClick={() =>
                                               window.open(
                                                 baseUrl +
-                                                  "/profile/" +
-                                                  item?.follower?._id +
-                                                  "/activity",
+                                                "/profile/" +
+                                                item?.follower?._id +
+                                                "/activity",
                                                 "_blank"
                                               )
                                             }
@@ -560,11 +559,12 @@ const ProfileActivity = ({
                         <h4 className="comment-notes">
                           <span id="email-notes">About Us</span>
                         </h4>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: activityInfo && activityInfo?.about,
-                          }}
-                        ></div>
+                        <div className="ql-snow">
+                          <div
+                            className="ql-editor"
+                            dangerouslySetInnerHTML={{ __html: activityInfo && activityInfo?.about, }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -611,7 +611,7 @@ const ProfileActivity = ({
                                                 "error",
                                                 error?.response?.data
                                                   ?.message ||
-                                                  "Something went wrong"
+                                                "Something went wrong"
                                               );
                                               return;
                                             }
@@ -665,9 +665,9 @@ const ProfileActivity = ({
                               onClick={() =>
                                 window.open(
                                   baseUrl +
-                                    "/profile/" +
-                                    view_user_id +
-                                    "/allphotos",
+                                  "/profile/" +
+                                  view_user_id +
+                                  "/allphotos",
                                   "_blank"
                                 )
                               }

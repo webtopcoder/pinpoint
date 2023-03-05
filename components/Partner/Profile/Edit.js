@@ -10,7 +10,6 @@ import {
 } from "@/redux/Profile/actions";
 import { message, Upload, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import config from "@/utils/config";
 import Image from "next/image";
 import EditPoll from "./EditPoll";
 import useNotify from "@/hooks/useNotify";
@@ -29,14 +28,18 @@ const modules = {
     [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ size: [] }],
     ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ 'color': [] }], 
     [
       { list: "ordered" },
       { list: "bullet" },
       { indent: "-1" },
       { indent: "+1" },
     ],
+    [{ 'align': [] }],
+    [{ 'direction': 'rtl' }],                
     ["link", "image", "video"],
     ["clean"],
+    
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -48,6 +51,7 @@ const formats = [
   "header",
   "font",
   "size",
+  "color",
   "bold",
   "italic",
   "underline",

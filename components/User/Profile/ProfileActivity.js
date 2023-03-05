@@ -18,6 +18,8 @@ import {
   Skeleton,
   Mentions,
 } from "antd";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.bubble.css'
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
 import { getActivity } from "@/redux/Profile/actions";
@@ -405,9 +407,9 @@ const ProfileActivity = ({
                                       onClick={() =>
                                         window.open(
                                           baseUrl +
-                                            "/profile/" +
-                                            item.from_user._id +
-                                            "/activity",
+                                          "/profile/" +
+                                          item.from_user._id +
+                                          "/activity",
                                           "_blank"
                                         )
                                       }
@@ -478,11 +480,18 @@ const ProfileActivity = ({
                         <h4 className="comment-notes">
                           <span id="email-notes">About Me</span>
                         </h4>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: activityInfo && activityInfo?.about,
-                          }}
-                        ></div>
+                        {/* <div className="ql-snow">
+                          <div
+                            className="ql-editor mt-16"
+                            dangerouslySetInnerHTML={{ __html: activityInfo && activityInfo?.about, }}
+                          />
+                        </div> */}
+
+                        <ReactQuill
+                          value={activityInfo && activityInfo?.about}
+                          readOnly={true}
+                          theme={"bubble"}
+                        />
                       </div>
                     </div>
                   </div>
@@ -510,9 +519,9 @@ const ProfileActivity = ({
                               onClick={() =>
                                 window.open(
                                   baseUrl +
-                                    "/profile/" +
-                                    view_user_id +
-                                    "/allphotos",
+                                  "/profile/" +
+                                  view_user_id +
+                                  "/allphotos",
                                   "_blank"
                                 )
                               }

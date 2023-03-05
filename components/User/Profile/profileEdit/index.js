@@ -14,7 +14,6 @@ import { editNotification } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
 import { message, Upload, Input } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import config from "@/utils/config";
 import Image from "next/image";
 import { apiBaseUrl } from "@/utils/baseUrl";
 

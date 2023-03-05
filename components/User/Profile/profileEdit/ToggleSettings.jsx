@@ -86,6 +86,7 @@ function ToggleSettings({
         </Col>
         <Col md={8} xs={8} sm={8} className={styles.right_pane}>
           <Switch
+            size="large"
             checkedChildren="Yes"
             unCheckedChildren="No"
             checked={settings["user:mention"] == "true" ? true : false}
