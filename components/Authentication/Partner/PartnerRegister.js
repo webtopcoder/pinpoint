@@ -143,7 +143,6 @@ const PartnerRegister = ({
       state: addressForm.state,
     });
 
-    console.log(form);
     const { isValid } = validateForm({
       form,
       addressForm,

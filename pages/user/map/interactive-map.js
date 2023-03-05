@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
+import ListViewModal from "@/components/User/InteractiveMap/ListView";
+
 import {
   Col,
   InputNumber,
@@ -17,7 +19,7 @@ import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
 import { getCategory, getsubCategory } from "@/redux/User/actions";
-import { getAllLocations, getAllLocationsByFilter } from "@/redux/Location/actions";
+import { getAllLocations } from "@/redux/Location/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Option } = Select;
@@ -40,12 +42,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     ],
   };
 
-  const [form, setForm] = useState({
-    category: "",
-    subcategory: "",
-  });
-
-
   const markerDescription = (image, title, content) => {
     return '<div class="card" style="width: 30rem;">' +
       '<img src="' + faviconUrl + image + '" class="card-img-top" alt="...">' +
@@ -60,6 +56,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       '</div>' +
       '</div>'
   }
+
   const [subcategoryList, setSubcategoryList] = useState([]);
 
   const onFinish = (Form) => {
@@ -94,6 +91,9 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     lat: 37.553326,
     lng: -94.8110983,
   });
+
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
   let markers = [];
 
   function setMapOnAll() {
@@ -203,14 +203,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     initMap();
   }, [position, activeLocations]);
 
-  // const getResult = () => {
-  //   function initMap() {
-  //     window.navigator.geolocation.getCurrentPosition(success, (error) => {
-  //       console.log(error);
-  //     });
-  //   }
-  //   initMap();
-  // };
   function success(pos) {
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
@@ -343,7 +335,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       document.msExitFullscreen();
     }
   }
-
 
   return (
     <>
@@ -489,6 +480,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
                         width: 70,
                         height: 70,
                       }}
+                      onClick={() => setAddModalOpen(true)}
                       icon={
                         <UnorderedListOutlined
                           style={{
@@ -515,6 +507,11 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
               </div>
             </div>
           </div>
+          <ListViewModal
+            open={addModalOpen}
+            setModalOpen={setAddModalOpen}
+            locations={activeLocations}
+          />
         </div>
       </div>
     </>

@@ -9,6 +9,7 @@ import {
 import { Space, Tooltip } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
+import { formatDate } from "@/utils/date";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
@@ -38,7 +39,7 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
             pageSize: 10,
           },
         },
-        () => {}
+        () => { }
       );
     });
   };
@@ -60,7 +61,7 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
             pageSize: 10,
           },
         },
-        () => {}
+        () => { }
       );
     });
   };
@@ -100,15 +101,7 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
             </div>
             <span className="activity">
               Received:{" "}
-              {new Date(record?.updatedAt).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              })}
+              {formatDate(record.updatedAt)}
             </span>
           </div>
         </div>

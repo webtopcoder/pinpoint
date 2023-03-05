@@ -3,17 +3,11 @@ import Image from "next/image";
 import { connect } from "react-redux";
 import {
   Layout,
-  Upload,
-  Space,
   Col,
   Row,
-  Divider,
   Button,
-  Modal,
   Typography,
-  Select,
   message,
-  Form,
   Input,
   List
 } from "antd";

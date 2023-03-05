@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Space, Tooltip } from "antd";
 import { DeleteFilled } from "@ant-design/icons";
-
-import config from "@/utils/config";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
+import { formatDate } from "@/utils/date";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
@@ -35,16 +34,12 @@ function useSentColumns({ setOpen, onDeleteSent, getSent }) {
             pageSize: 10,
           },
         },
-        () => {}
+        () => { }
       );
     });
   };
 
   const columns = [
-    // {
-    //   title: "",
-    //   width: "1%",
-    // },
     {
       title: "To",
       align: "center",
@@ -78,15 +73,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent }) {
             </div>
             <span className="activity">
               last sent:{" "}
-              {new Date(record.updatedAt).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              })}
+              {formatDate(record.updatedAt)}
             </span>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import useNotify from "@/hooks/useNotify";
 import { Button, Space, Tag, Tooltip } from "antd";
 import { useState } from "react";
+import { formatDate } from "@/utils/date";
 
 function useNoticeColumns({ setOpen, onDeleteNotice, getNotice }) {
   const [record_detail, setSaveSelected] = useState();
@@ -28,7 +29,7 @@ function useNoticeColumns({ setOpen, onDeleteNotice, getNotice }) {
             pageSize: 10,
           },
         },
-        () => {}
+        () => { }
       );
     });
   };
@@ -49,15 +50,7 @@ function useNoticeColumns({ setOpen, onDeleteNotice, getNotice }) {
               </p>
             </div>
             <span className="activity">
-              {new Date(record.createdAt).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              })}
+              {formatDate(record.createdAt)}
             </span>
           </div>
         </div>

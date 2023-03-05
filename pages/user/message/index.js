@@ -15,16 +15,6 @@ import MailPendingInvite from "@/components/Partner/Message/Invite/pending";
 import Layout from "../../../layout";
 import { useRouter } from "next/router";
 
-// export function useAuthSession() {
-
-//     const { data: user } = useSWR("api/session");
-
-//     useEffect(() => {
-//       if (!user) Router.push("/");
-//     }, [user]);
-//     return user;
-//   }
-
 const Index = () => {
   const router = useRouter();
 

@@ -331,10 +331,6 @@ const matchStateToProps = ({ user }) => {
 
 const matchDispatchToProps = (dispatch) => {
   return {
-    // updateLocation: (location) => dispatch(updateLocation(location)),
-    // deleteLocation: (location) => dispatch(deleteLocation(location)),
-    // createLocation: (location) => dispatch(createLocation(location)),
-    // updateLocation: (location) => dispatch(updateLocation(location)),
     onDepartureSet: (data, cb) => dispatch(quickDeparture(data, cb)),
     ongetLocations: (payload, callback) =>
       dispatch(getLocations(payload, callback)),
