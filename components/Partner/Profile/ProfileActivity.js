@@ -690,7 +690,7 @@ const ProfileActivity = ({
                           {activityInfo?.social?.facebook ? (
                             <li>
                               <a
-                                href={activityInfo.social.facebook}
+                                href={'https://' + activityInfo.social.facebook}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -703,7 +703,7 @@ const ProfileActivity = ({
                           {activityInfo?.social?.twitter ? (
                             <li>
                               <a
-                                href={activityInfo.social.twitter}
+                                href={'https://' + activityInfo.social.twitter}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -716,7 +716,7 @@ const ProfileActivity = ({
                           {activityInfo?.social?.snapchat ? (
                             <li>
                               <a
-                                href={activityInfo.social.snapchat}
+                                href={'https://' + activityInfo.social.snapchat}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -729,7 +729,7 @@ const ProfileActivity = ({
                           {activityInfo?.social?.instagram ? (
                             <li>
                               <a
-                                href={activityInfo.social.instagram}
+                                href={'https://' + activityInfo.social.instagram}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -742,7 +742,7 @@ const ProfileActivity = ({
                           {activityInfo?.viewInfo?.profile?.social?.tiktok ? (
                             <li>
                               <a
-                                href={activityInfo.social.tiktok}
+                                href={'https://' + activityInfo.social.tiktok}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -755,7 +755,7 @@ const ProfileActivity = ({
                           {activityInfo?.social?.website ? (
                             <li>
                               <a
-                                href={activityInfo.social.website}
+                                href={'https://' + activityInfo.social.website}
                                 target="_blank"
                                 rel="noreferrer"
                               >
