@@ -15,6 +15,7 @@ import {
   Upload,
   Button,
   Space,
+  Popconfirm
 } from "antd";
 import {
   deleteLocationById,
@@ -329,15 +330,15 @@ function ModifyModal({
                     defaultFileList={
                       locationInfo.images
                         ? [
-                            {
-                              uid: "0",
-                              name: locationInfo.images[0]?.filepath,
-                              status: "done",
-                              url: avatarurl + locationInfo.images[0]?.filepath,
-                              thumbUrl:
-                                avatarurl + locationInfo.images[0]?.filepath,
-                            },
-                          ]
+                          {
+                            uid: "0",
+                            name: locationInfo.images[0]?.filepath,
+                            status: "done",
+                            url: avatarurl + locationInfo.images[0]?.filepath,
+                            thumbUrl:
+                              avatarurl + locationInfo.images[0]?.filepath,
+                          },
+                        ]
                         : ""
                     }
                     {...uploadProps}
@@ -357,19 +358,30 @@ function ModifyModal({
                   }}
                 >
                   <Space>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className="btn-submit"
-                      style={{
-                        display: "initial",
-                        float: "right",
+                    <Popconfirm
+                      title="Delete this Location"
+                      description="Are you sure to delete?"
+                      okText="Yes"
+                      onConfirm={(e) => {
+                        delete_location(e, locationInfo._id)
                       }}
-                      danger
-                      onClick={(e) => delete_location(e, locationInfo._id)}
+                      cancelText="No"
                     >
-                      Delete Location
-                    </Button>
+                      <Button
+                        disabled={locationInfo?.isActive ? true : false}
+                        type="primary"
+                        htmlType="submit"
+                        className="btn-submit"
+                        style={{
+                          display: "initial",
+                          float: "right",
+                        }}
+                        danger
+                      >
+                        Delete Location
+                      </Button>
+                    </Popconfirm>
+
                     <Button
                       type="primary"
                       htmlType="submit"
