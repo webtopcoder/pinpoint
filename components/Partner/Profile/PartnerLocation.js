@@ -313,7 +313,6 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation }) {
               <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
                 {checkInNumber} checked in
               </Button>
-
               <LikeLocation
                 likeLocation={onLikeLocation}
                 locationId={location._id}

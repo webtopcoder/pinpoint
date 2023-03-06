@@ -21,6 +21,8 @@ import Layout from "../../../layout";
 import { getCategory, getsubCategory } from "@/redux/User/actions";
 import { getAllLocations } from "@/redux/Location/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import { getDiffToNow } from "@/utils/date";
+import baseUrl from "@/utils/baseUrl";
 
 const { Option } = Select;
 
@@ -42,20 +44,32 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     ],
   };
 
-  const markerDescription = (image, title, content) => {
-    return '<div class="card" style="width: 30rem;">' +
-      '<img src="' + faviconUrl + image + '" class="card-img-top" alt="...">' +
-      '<div class="card-body">' +
-      '<h5 class="card-title">' + title + '</h5>' +
-      '<p class="card-text">' + content + '</p>' +
-      '<a href="#" class="card-link">Show Detail</a>' +
-      '<a href="#" class="card-link">Add Favorite</a>' +
+  const viewDetails = () => {
+    alert(2342);
+     };
+
+  const markerDescription = (data) => {
+
+    return '<div class="card mb-3" style="max-width: 640px;">' +
+      '<div class="row no-gutters">' +
+      '<div class="col-md-4">' +
+      '<img src="' + faviconUrl + data?.arrivalImages[0]?.filepath + '" class="card-img" alt="...">' +
       '</div>' +
-      '<div class="card-footer">' +
-      '<small class="text-muted">Last updated 3 mins ago</small>' +
+      ' <div class="col-md-8">' +
+      '<div class="card-body">' +
+      '<h5 class="card-title">' + data?.title + '</h5>' +
+      '<p class="card-text">' + data?.description + '</p>' +
+      '<p class="card-text"><small class="text-muted">Last updated ' + getDiffToNow(data?.createdAt) + ' ago</small></p>' +
+       `<a onClick="window.open('${baseUrl}/profile/${data.partner._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp`+
+      `<a onClick="viewDetails();"
+      type="button" class="btn btn-primary">Add Favorite</a>` +
+      '</div>' +
+      '</div>' +
       '</div>' +
       '</div>'
   }
+
+
 
   const [subcategoryList, setSubcategoryList] = useState([]);
 
@@ -143,7 +157,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
             icon: {
-              url: faviconUrl + activeLocations[i]?.images[0]?.filepath,
+              url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
               anchor: new google.maps.Point(0, 0), // anchor
@@ -155,7 +169,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           markers.push(marker);
 
           const infowindow = new google.maps.InfoWindow({
-            content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
+            content: markerDescription(activeLocations[i]),
             ariaLabel: "Food Truck",
           });
           marker.addListener("click", () => {
@@ -251,7 +265,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
           icon: {
-            url: faviconUrl + activeLocations[i]?.images[0]?.filepath,
+            url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
@@ -261,7 +275,8 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
         });
 
         const infowindow = new google.maps.InfoWindow({
-          content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
+          content: markerDescription(activeLocations[i]),
+          // content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
           ariaLabel: "Food Truck",
         });
         marker.addListener("click", () => {

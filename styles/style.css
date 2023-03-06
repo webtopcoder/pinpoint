@@ -13159,3 +13159,7 @@ h4 {
 .notification-content {
   color: white !important;
 }
+
+.card-body .card-text{
+  color: #212529
+}

@@ -23,21 +23,6 @@ import Layout from "../layout";
 const UserHome = ({ ongetAllLocations, activeLocations }) => {
   const faviconUrl = `${apiBaseUrl}/avatar/`;
 
-  const markerDescription = (image, title, content) => {
-    return '<div class="card" style="width: 30rem;">' +
-      '<img src="' + faviconUrl + image + '" class="card-img-top" alt="...">' +
-      '<div class="card-body">' +
-      '<h5 class="card-title">' + title + '</h5>' +
-      '<p class="card-text">' + content + '</p>' +
-      '<a href="#" class="card-link">Show Detail</a>' +
-      '<a href="#" class="card-link">Add Favorite</a>' +
-      '</div>' +
-      '<div class="card-footer">' +
-      '<small class="text-muted">Last updated 3 mins ago</small>' +
-      '</div>' +
-      '</div>'
-  }
-
   function initMap() {
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
       console.log(error);
@@ -56,25 +41,12 @@ const UserHome = ({ ongetAllLocations, activeLocations }) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
         icon: {
-          url: faviconUrl + activeLocations[i]?.images[0]?.filepath,
+          url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0), // anchor
         },
         map: map,
-      });
-      const infowindow = new google.maps.InfoWindow({
-        content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
-        ariaLabel: "Food Truck",
-      });
-      marker.addListener("mouseover", () => {
-        infowindow.open({
-          anchor: marker,
-          map,
-        });
-      });
-      marker.addListener("mouseout", () => {
-        infowindow.close();
       });
     }
   }
