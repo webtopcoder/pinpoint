@@ -3,7 +3,6 @@ import {
   MAIL_COMPOSE_SUCCESS,
   GET_INBOX_SUCCESS,
   GET_SENT_SUCCESS,
-  DELETE_SENT_SUCCESS,
   GET_NOTICE_REQUEST,
   GET_PENDING_REQUEST,
   GET_PENDING_SUCCESS,
@@ -12,6 +11,7 @@ import {
   UPDATE_MAIL_SUCCESS,
   DELETE_MAIL_SUCCESS,
   DELETE_MAIL_REQUEST,
+  GET_ISREAD_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -21,6 +21,7 @@ const initialState = {
   sentlist: [],
   noticelist: [],
   pendinglist: [],
+  isreadlist: [],
   senttotal: 0,
   pendingtotal: 0,
 };
@@ -78,6 +79,14 @@ const mailReducer = (state = initialState, action) => {
         ...state,
         pendinglist: action.payload.results,
         pendingtotal: action.payload.totalResults,
+        loading: false,
+      };
+    }
+
+    case GET_ISREAD_SUCCESS: {
+      return {
+        ...state,
+        isreadlist : action.payload.results,
         loading: false,
       };
     }

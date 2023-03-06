@@ -19,6 +19,8 @@ import {
   DELETE_MAIL_SUCCESS,
   BULK_MAIL_ACTION_REQUEST,
   BULK_MAIL_ACTION_SUCCESS,
+  GET_ISREAD_REQUEST,
+  GET_ISREAD_SUCCESS
 } from "./types";
 import api from "@/utils/callApi";
 
@@ -90,12 +92,10 @@ export function downloadFile(filename) {
 export function getInbox(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/inbox?page=${tableinfo.pagination.current}&limit=${
-        tableinfo.pagination.pageSize
-      }&order=${
-        tableinfo.order && tableinfo.order == "ascend"
-          ? "createdAt:asc"
-          : "createdAt:desc"
+      `mail/inbox?page=${tableinfo.pagination.current}&limit=${tableinfo.pagination.pageSize
+      }&order=${tableinfo.order && tableinfo.order == "ascend"
+        ? "createdAt:asc"
+        : "createdAt:desc"
       }`,
       "get"
     )
@@ -119,12 +119,10 @@ export function getInbox(tableinfo, cb) {
 export function getSent(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/sent?page=${tableinfo.pagination.current}&limit=${
-        tableinfo.pagination.pageSize
-      }&order=${
-        tableinfo.order && tableinfo.order == "ascend"
-          ? "createdAt:asc"
-          : "createdAt:desc"
+      `mail/sent?page=${tableinfo.pagination.current}&limit=${tableinfo.pagination.pageSize
+      }&order=${tableinfo.order && tableinfo.order == "ascend"
+        ? "createdAt:asc"
+        : "createdAt:desc"
       }`,
       "get"
     )
@@ -148,12 +146,10 @@ export function getSent(tableinfo, cb) {
 export function getPending(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/pending?page=${tableinfo.pagination.current}&limit=${
-        tableinfo.pagination.pageSize
-      }&order=${
-        tableinfo.order && tableinfo.order == "ascend"
-          ? "updatedAt:asc"
-          : "updatedAt:desc"
+      `mail/pending?page=${tableinfo.pagination.current}&limit=${tableinfo.pagination.pageSize
+      }&order=${tableinfo.order && tableinfo.order == "ascend"
+        ? "updatedAt:asc"
+        : "updatedAt:desc"
       }`,
       "get"
     )
@@ -177,12 +173,10 @@ export function getPending(tableinfo, cb) {
 export function getNotice(tableinfo, cb) {
   return (dispatch) =>
     api(
-      `mail/notices?page=${tableinfo.pagination.current}&limit=${
-        tableinfo.pagination.pageSize
-      }&order=${
-        tableinfo.order && tableinfo.order == "ascend"
-          ? "createdAt:asc"
-          : "createdAt:desc"
+      `mail/notices?page=${tableinfo.pagination.current}&limit=${tableinfo.pagination.pageSize
+      }&order=${tableinfo.order && tableinfo.order == "ascend"
+        ? "createdAt:asc"
+        : "createdAt:desc"
       }`,
       "get"
     )
@@ -280,5 +274,23 @@ export function bulkMailAction({ mailIds, action }, cb) {
       })
       .catch((error) => {
         cb(null, error);
+      });
+}
+
+export function getIsReadEmails() {
+  return (dispatch) =>
+    api(`mail/isread`, "get")
+      .then((res) => {
+        dispatch({
+          type: GET_ISREAD_REQUEST,
+        });
+
+        dispatch({
+          type: GET_ISREAD_SUCCESS,
+          payload: res,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
 }

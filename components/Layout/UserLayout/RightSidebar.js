@@ -13,10 +13,10 @@ import Link from "next/link";
 import Logo from "@/public/images/landing/logo.png";
 import mailIcon from "@/public/images/landing/user-mail.png";
 import LIcon from "@/public/images/landing/l.png";
-import { getNotifications, logout } from "@/src/redux/User/actions";
+import { getNotifications, updatedNotifications, logout } from "@/src/redux/User/actions";
+import { getIsReadEmails } from "@/src/redux/Mail/actions";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import { apiBaseUrl } from "@/utils/baseUrl";
 
@@ -30,6 +30,9 @@ const RightSidebar = ({
   onGetNotifications,
   notifications,
   notificationCount,
+  onGetIsReadEmails,
+  isReadEmails,
+  onUpdatedNotifications
 }) => {
   const router = useRouter();
   const avatarurl = `${apiBaseUrl}/avatar/`;
@@ -58,12 +61,23 @@ const RightSidebar = ({
     router.push(page);
   };
 
+  const notificationRead = (item) => {
+    onUpdatedNotifications(item?._id, (res, error) => {
+      if (error) {
+        notify("error", 'Error');
+        return;
+      }
+      router.push(item?.url);
+    });
+  };
+
   const [initLoading, setInitLoading] = useState(true);
   const [notificationLoading, setNotificationLoading] = useState(false);
   const [notificationDrawerOpen, setOpen] = useState(false);
   const [notificationPage, setNotificationPage] = useState(1);
 
   useEffect(() => {
+    onGetIsReadEmails();
     onGetNotifications(
       {
         sort: "createdAt:asc",
@@ -124,7 +138,7 @@ const RightSidebar = ({
                 <div style={{ marginBottom: 20 }}>
                   <Link href="/user/message">
                     <a>
-                      <Badge dot={true} className="mailboxLIcon">
+                      <Badge dot={isReadEmails.length > 0 ? true : false} className="mailboxLIcon">
                         <Image
                           src={mailIcon}
                           alt="mail"
@@ -139,7 +153,7 @@ const RightSidebar = ({
               {token && (
                 <div>
                   <Badge
-                    dot={true}
+                    dot={notifications.length > 0 ? true : false}
                     className="mailboxIcon"
                     onClick={showDrawer}
                   >
@@ -321,7 +335,7 @@ const RightSidebar = ({
                       color: "white",
                     }}
                   >
-                    <Link href={item.url ?? ""}>{item.title}</Link>
+                    <a onClick={() => notificationRead(item)}>{item.title}</a>
                   </span>
                 }
                 description={
@@ -351,12 +365,16 @@ const mapStateToProps = (state) => {
     avatarImg: state.user.avatar,
     notifications: state.user.notifications,
     notificationCount: state.user.notificationCount,
+    isReadEmails: state?.mail?.isreadlist
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
   onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
+  onUpdatedNotifications: (id, cb) => dispatch(updatedNotifications(id, cb)),
+  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightSidebar);

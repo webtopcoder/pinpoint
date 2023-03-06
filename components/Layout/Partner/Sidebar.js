@@ -14,9 +14,8 @@ import {
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Layout, Menu, Avatar, Space, Badge, Drawer, List, Button } from "antd";
-import { getNotifications, logout } from "@/src/redux/User/actions";
+import { getNotifications, updatedNotifications, logout } from "@/src/redux/User/actions";
 import Link from "next/link";
-import config from "@/utils/config";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Sider } = Layout;
@@ -41,6 +40,7 @@ function LeftSidebar({
   role,
   businessName,
   user_id,
+  onUpdatedNotifications,
 }) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -88,6 +88,16 @@ function LeftSidebar({
 
   const handleOriginPageRender = (page) => {
     router.push(page);
+  };
+
+  const notificationRead = (item) => {
+    onUpdatedNotifications(item?._id, (res, error) => {
+      if (error) {
+        notify("error", 'Error');
+        return;
+      }
+      router.push(item?.url);
+    });
   };
 
   const items = [
@@ -197,7 +207,7 @@ function LeftSidebar({
                   textAlign: "center",
                 }}
               >
-                <Badge dot>
+                <Badge dot={notifications.length > 0 ? true : false}>
                   <Avatar
                     shape="square"
                     onClick={showDrawer}
@@ -296,7 +306,7 @@ function LeftSidebar({
                       color: "white",
                     }}
                   >
-                    <Link href={item.url ?? ""}>{item.title}</Link>
+                    <a onClick={() => notificationRead(item)}>{item.title}</a>
                   </span>
                 }
                 description={
@@ -333,6 +343,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
   onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
+  onUpdatedNotifications: (id, cb) => dispatch(updatedNotifications(id, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftSidebar);

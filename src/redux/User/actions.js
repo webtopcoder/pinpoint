@@ -14,12 +14,12 @@ import {
   USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
+  UPDATE_NOTIFICATION_REQUEST,
+  UPDATE_NOTIFICATION_SUCCESS,
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
-  ALL_SUB_CATEGORY_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  GET_ALL_ACTIVE_LOCATIONs_SUCCESS,
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
@@ -221,6 +221,27 @@ export function getNotifications(params, cb) {
       });
 }
 
+export function updatedNotifications(id, cb) {
+  return (dispatch) =>
+    api(`notification/${id}/mark-as-read`, "post")
+      .then((res) => {
+
+        console.log(res);
+        dispatch({
+          type: UPDATE_NOTIFICATION_REQUEST,
+        });
+
+        dispatch({
+          type: UPDATE_NOTIFICATION_SUCCESS,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
 export function getSettingsValue(cb) {
   return (dispatch) =>
     api(`setting`, "get")
@@ -295,7 +316,6 @@ export function updateBusinessDetail(info, cb) {
           type: BUSINESS_UPDATE_INFO_REQUEST,
         });
 
-        console.log(res);
         dispatch({
           type: BUSINESS_UPDATE_INFO_SUCCESS,
           payload: res,
