@@ -10,10 +10,10 @@ import {
   getInbox,
   updateMail,
 } from "@/redux/Mail/actions";
-import config from "@/utils/config";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import useInboxColumns from "./useInboxColumns";
+import { getIsReadEmails } from "@/src/redux/Mail/actions";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 const attachurl = `${apiBaseUrl}/avatar/`;
@@ -31,6 +31,7 @@ const Inbox = ({
   childFunc,
   childlistfunc,
   inbox,
+  onGetIsReadEmails
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -40,6 +41,7 @@ const Inbox = ({
     getInbox: ongetInbox,
     onDeleteMail: ondeletemail,
     onUpdateMail: onupdatemail,
+    ongetIsReadEmails: onGetIsReadEmails
   });
 
   const onMenuClick = (e) => {
@@ -253,6 +255,7 @@ const mapDispatchToProps = (dispatch) => ({
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
   ondeletemail: (id, cb) => dispatch(deleteMail(id, cb)),
   onupdatemail: (id, form, cb) => dispatch(updateMail(id, form, cb)),
+  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inbox);

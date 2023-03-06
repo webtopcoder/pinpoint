@@ -1,6 +1,6 @@
 import useNotify from "@/hooks/useNotify";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import config from "@/utils/config";
+import { connect } from "react-redux";
 import {
   DeleteFilled,
   EyeInvisibleOutlined,
@@ -13,7 +13,7 @@ import { formatDate } from "@/utils/date";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
+const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails }) => {
   const [record_detail, setSaveInboxDetail] = useState();
   const { notify } = useNotify();
 
@@ -32,6 +32,7 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
         return;
       }
       notify("success", res.message);
+      ongetIsReadEmails();
       getInbox(
         {
           pagination: {
@@ -54,6 +55,7 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox }) => {
         return;
       }
       notify("success", res.message);
+      ongetIsReadEmails();
       getInbox(
         {
           pagination: {

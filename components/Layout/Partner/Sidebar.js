@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Layout, Menu, Avatar, Space, Badge, Drawer, List, Button } from "antd";
 import { getNotifications, updatedNotifications, logout } from "@/src/redux/User/actions";
-import Link from "next/link";
+import { getIsReadEmails } from "@/src/redux/Mail/actions";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Sider } = Layout;
@@ -41,6 +41,8 @@ function LeftSidebar({
   businessName,
   user_id,
   onUpdatedNotifications,
+  onGetIsReadEmails,
+  isReadEmails,
 }) {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -52,6 +54,7 @@ function LeftSidebar({
   const pathurl = router.asPath;
 
   useEffect(() => {
+    onGetIsReadEmails();
     onGetNotifications(
       {
         sort: "createdAt:asc",
@@ -102,7 +105,11 @@ function LeftSidebar({
 
   const items = [
     getItem("Dashboard", "/partner/dashboard/", <DashboardFilled />),
-    getItem("Messages", "/partner/message/", <MessageFilled />),
+    getItem("Messages", "/partner/message/",
+      <Badge dot={isReadEmails.length > 0 ? true : false}>
+        <MessageFilled />
+      </Badge>
+    ),
     getItem(
       "Followers",
       `/profile/${user_id}/followers`,
@@ -337,6 +344,7 @@ const mapStateToProps = (state) => {
     role: state?.user?.role,
     businessName: state?.user?.username,
     user_id: state?.user?.user_id,
+    isReadEmails: state?.mail?.isreadlist
   };
 };
 
@@ -344,6 +352,7 @@ const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
   onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
   onUpdatedNotifications: (id, cb) => dispatch(updatedNotifications(id, cb)),
+  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftSidebar);
