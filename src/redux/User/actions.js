@@ -23,6 +23,8 @@ import {
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
+  GET_ACTIVE_PARTNERS_REQUEST,
+  GET_ACTIVE_PARTNERS_SUCCESS
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -83,6 +85,24 @@ export function registerUser(form, cb) {
       })
       .catch((error) => {
         cb(null, error);
+      });
+}
+
+export function getActivepartners() {
+  return (dispatch) =>
+    api(`auth/partners?status=active`, "get")
+      .then((res) => {
+        dispatch({
+          type: GET_ACTIVE_PARTNERS_REQUEST,
+        });
+
+        dispatch({
+          type: GET_ACTIVE_PARTNERS_SUCCESS,
+          payload: res,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
 }
 
@@ -225,8 +245,6 @@ export function updatedNotifications(id, cb) {
   return (dispatch) =>
     api(`notification/${id}/mark-as-read`, "post")
       .then((res) => {
-
-        console.log(res);
         dispatch({
           type: UPDATE_NOTIFICATION_REQUEST,
         });

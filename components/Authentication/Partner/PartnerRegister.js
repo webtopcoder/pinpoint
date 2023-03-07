@@ -57,6 +57,8 @@ const PartnerRegister = ({
     address: "",
     city: "",
     state: "",
+    lat: "",
+    lng: "",
     category: "",
     email: "",
     password: "",
@@ -67,6 +69,8 @@ const PartnerRegister = ({
     address: "",
     city: "",
     state: "",
+    lat: "",
+    lng: "",
   });
 
   useEffect(() => {
@@ -90,6 +94,8 @@ const PartnerRegister = ({
         address: place.formatted_address,
         state: itemState,
         city: itemLocality,
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
       });
     });
 
@@ -141,6 +147,9 @@ const PartnerRegister = ({
       address: addressForm.address,
       city: addressForm.city,
       state: addressForm.state,
+      lat: addressForm.lat,
+      lng: addressForm.lng,
+
     });
 
     const { isValid } = validateForm({
@@ -160,6 +169,8 @@ const PartnerRegister = ({
         address: addressForm.address,
         city: addressForm.city,
         state: addressForm.state,
+        latitude: addressForm.lat,
+        longitude: addressForm.lng,
       },
       category: form.category,
       email: form.email,

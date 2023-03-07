@@ -13,14 +13,12 @@ import location from "@/public/images/landing/location.png";
 import bannerImg from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
-// import subtitleImg from "@/public/images/landing/title_border.png";
 import Image from "next/image";
-import { getAllLocations } from "@/redux/Location/actions";
+import { getActivepartners } from "@/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
-
 import Layout from "../layout";
 
-const UserHome = ({ ongetAllLocations, activeLocations }) => {
+const UserHome = ({ ongetActivepartners, activePartners }) => {
   const faviconUrl = `${apiBaseUrl}/avatar/`;
 
   function initMap() {
@@ -37,11 +35,11 @@ const UserHome = ({ ongetAllLocations, activeLocations }) => {
     });
 
     // Create markers.
-    for (let i = 0; i < activeLocations.length; i++) {
+    for (let i = 0; i < activePartners.length; i++) {
       const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
+        position: new google.maps.LatLng(activePartners[i]?.address?.latitude, activePartners[i]?.address?.longitude),
         icon: {
-          url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
+          url: faviconUrl + activePartners[i]?.category?.image?.filepath,
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0), // anchor
@@ -51,12 +49,12 @@ const UserHome = ({ ongetAllLocations, activeLocations }) => {
     }
   }
   useEffect(() => {
-    ongetAllLocations(false, true, []);
+    ongetActivepartners();
   }, []);
 
   useEffect(() => {
     initMap();
-  }, [activeLocations]);
+  }, [activePartners]);
   return (
     <>
       <PageTitle page="Landing" />
@@ -364,13 +362,13 @@ UserHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-const mapStateToProps = ({ location }) => ({
-  activeLocations: location.activeLocations
+const mapStateToProps = ({ user }) => ({
+  activePartners: user.activePartners
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetAllLocations: (pagination, status, form) =>
-    dispatch(getAllLocations(pagination, status, form)),
+  ongetActivepartners: () =>
+    dispatch(getActivepartners()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserHome);

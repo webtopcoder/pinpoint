@@ -22,6 +22,7 @@ import {
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_SUCCESS,
+  GET_ACTIVE_PARTNERS_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -60,6 +61,7 @@ const initialState = {
   myFollowers: [],
   followAndFollowing: [],
   faqs: [],
+  activePartners: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -128,6 +130,13 @@ const userReducer = (state = initialState, action) => {
         partnerCategory: action.payload,
       };
     }
+    case GET_ACTIVE_PARTNERS_SUCCESS: {
+      return {
+        ...state,
+        activePartners: action.payload,
+      };
+    }
+
 
     case SUB_CATEGORY_GET_SUCCESS: {
       return {
