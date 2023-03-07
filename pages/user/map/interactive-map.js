@@ -44,10 +44,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     ],
   };
 
-  const viewDetails = () => {
-    alert(2342);
-     };
-
   const markerDescription = (data) => {
 
     return '<div class="card mb-3" style="max-width: 640px;">' +
@@ -67,8 +63,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       '</div>' +
       '</div>'
   }
-
-
 
   const [subcategoryList, setSubcategoryList] = useState([]);
 

@@ -11,7 +11,7 @@ import {
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
   USER_LOCATION_SUCCESS,
-  GET_ALL_ACTIVE_LOCATIONs_SUCCESS
+  GET_ALL_ACTIVE_LOCATIONS_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -81,7 +81,8 @@ const locationReducer = (state = initialState, action) => {
         loading: false,
         favoriteLocations: action.payload,
       };
-    case GET_ALL_ACTIVE_LOCATIONs_SUCCESS: {
+    case GET_ALL_ACTIVE_LOCATIONS_SUCCESS: {
+
       return {
         ...state,
         activeLocations: action.payload.results,

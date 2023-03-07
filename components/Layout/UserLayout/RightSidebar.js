@@ -374,7 +374,6 @@ const mapDispatchToProps = (dispatch) => ({
   onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
   onUpdatedNotifications: (id, cb) => dispatch(updatedNotifications(id, cb)),
   onGetIsReadEmails: () => dispatch(getIsReadEmails()),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightSidebar);

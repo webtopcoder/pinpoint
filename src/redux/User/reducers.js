@@ -14,6 +14,8 @@ import {
   USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
+  UPDATE_NOTIFICATION_REQUEST,
+  UPDATE_NOTIFICATION_SUCCESS,
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
@@ -145,6 +147,15 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+      };
+    }
+
+    case GET_NOTIFICATION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        notifications: action.payload.results,
+        notificationCount: action.payload.totalResults,
       };
     }
 

@@ -18,7 +18,7 @@ import {
   LOCATION_FAVORITE_SUCCESS,
   LOCATION_GET_FAVORITE_REQUEST,
   LOCATION_GET_FAVORITE_SUCCESS,
-  GET_ALL_ACTIVE_LOCATIONs_SUCCESS
+  GET_ALL_ACTIVE_LOCATIONS_SUCCESS
 } from "./types";
 
 export function quickArrival({ form, locationId }, cb) {
@@ -304,18 +304,23 @@ export function getFavouriteLocations(userId, cb) {
 }
 
 export function getAllLocations(pagination, status, form) {
+  let apiquery;
+  form?.subcategory?.length > 0 ?
+    apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ''}`
+    :
+    apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${form?.category ? form.category : ''}`
+
   return (dispatch) =>
-    form?.subcategory ? api(`locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ''}`, "get") :
-      api(`locations?pagination=${pagination}&isActive=${status}`, "get")
-        .then((res) => {
-          dispatch({
-            type: GET_ALL_ACTIVE_LOCATIONs_SUCCESS,
-            payload: res,
-          });
-
-
-        })
-        .catch((error) => {
-          console.log(error);
+    api(apiquery, "get")
+      .then((res) => {
+        console.log(234234234);
+        dispatch({
+          type: GET_ALL_ACTIVE_LOCATIONS_SUCCESS,
+          payload: res,
         });
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(234234234234);
+      });
 }
