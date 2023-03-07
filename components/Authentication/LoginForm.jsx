@@ -59,8 +59,20 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
         );
         return;
       }
-      notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
-      router.push(role == "partner" ? "/partner/dashboard" : "/home");
+      if (role == 'partner') {
+        if (res.user.status !== 'active') {
+          notify("error", 'Not Allowed');
+          return false;
+        }
+        else {
+          notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
+          router.push("/partner/dashboard");
+        }
+      }
+      else {
+        notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
+        router.push("/home");
+      }
     });
   };
 
