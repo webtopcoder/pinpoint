@@ -1,6 +1,7 @@
 import useNotify from "@/hooks/useNotify";
 import { mailCompose } from "@/redux/Mail/actions";
 import { getmyFollowers } from "@/redux/User/actions";
+import { getuserInfoByID } from "@/redux/User/actions";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -15,12 +16,13 @@ import {
   Upload,
 } from "antd";
 import { useRouter } from "next/router";
+import { array } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 const { TextArea } = Input;
 
-const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
+const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetuserInfoByID }) => {
   const [composeForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
   const [componentDisabled, setComponentDisabled] = useState(false);
@@ -53,7 +55,16 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
     if (componentDisabled) {
       form_data.append("isNotice", componentDisabled.toString());
     } else {
-      form_data.append("to", values.name);
+
+      if (Array.isArray(values?.name[0])) {
+        form_data.append("to", values.name);
+      }
+      else {
+        const followingUser = Array();
+        followingUser.push(values.name[0].value)
+        form_data.append("to", followingUser);
+      }
+
     }
     form_data.append("subject", values.subject);
     form_data.append("message", values.message);
@@ -99,17 +110,22 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
       const sendToUser = options.find(
         (option) => option.value === sendToUserId
       );
+      ongetuserInfoByID(sendToUserId, (res, error) => {
+        if (error) {
+          notify(
+            "error",
+            error?.response?.data?.message ?? "Something went wrong"
+          );
+        } else {
 
-      if (!sendToUser) {
-        notify(
-          "error",
-          "You are not allowed to send message to this user. Please select from the list."
-        );
-      } else {
-        composeForm.setFieldsValue({
-          name: [sendToUserId],
-        });
-      }
+          composeForm.setFieldsValue({
+            name: [{
+              value: sendToUserId,
+              label: res
+            }],
+          });
+        }
+      });
     }
   }, [sendToUserId, options]);
 
@@ -134,13 +150,13 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
               ]}
             >
               <Select
+                disabled={sendToUserId ? true : false}
                 mode="multiple"
                 size="middle"
                 placeholder="Please select Users"
                 style={{
                   width: "50%",
                 }}
-                disabled={componentDisabled}
                 options={options}
               />
             </Form.Item>
@@ -211,6 +227,7 @@ const mapStateToProps = ({ user }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onmailCompose: (data, cb) => dispatch(mailCompose(data, cb)),
+  ongetuserInfoByID: (id, cb) => dispatch(getuserInfoByID(id, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

@@ -110,13 +110,13 @@ const ProfileActivity = ({
       followAndFollowing?.map((item) => {
         let user;
         if (item.following) {
-          user = item.following;
+          user = item?.following;
         }
 
         if (item.follower) {
-          user = item.follower;
+          user = item?.follower;
         }
-        return user.username;
+        return user?.username;
       })
     )
   ).map((username) => ({

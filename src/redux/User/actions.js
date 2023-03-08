@@ -106,6 +106,17 @@ export function getActivepartners() {
       });
 }
 
+export function getuserInfoByID(id, cb) {
+  return () =>
+    api(`auth/username?ID=${id}`, "get")
+      .then((res) => {
+        cb(res?.username);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
 export function verifyUserEmail(form, cb) {
   return (dispatch) =>
     api(`auth/verify-email`, "post", form)
