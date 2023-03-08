@@ -27,7 +27,6 @@ import {
   Upload,
   Badge,
 } from "antd";
-import config from "@/utils/config";
 import food from "@/public/images/landing/food.png";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import {

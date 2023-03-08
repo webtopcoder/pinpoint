@@ -31,8 +31,8 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role }) => {
   const { user: sendToUserId } = router.query;
 
   const options = myfollowerList?.map((follow) => ({
-    value: follow.follower._id,
-    label: follow.follower.username,
+    value: follow?.follower?._id,
+    label: follow?.follower?.username,
   }));
 
   useEffect(() => {
