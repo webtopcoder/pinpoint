@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Badge, Popconfirm, Button, Avatar, Drawer, List } from "antd";
+import { Row, Badge, Popconfirm, Button, Avatar } from "antd";
 import {
   ExportOutlined,
   LoginOutlined,
@@ -13,12 +13,17 @@ import Link from "next/link";
 import Logo from "@/public/images/landing/logo.png";
 import mailIcon from "@/public/images/landing/user-mail.png";
 import LIcon from "@/public/images/landing/l.png";
-import { getNotifications, updatedNotifications, logout } from "@/src/redux/User/actions";
+import {
+  getNotifications,
+  updatedNotifications,
+  logout,
+} from "@/src/redux/User/actions";
 import { getIsReadEmails } from "@/src/redux/Mail/actions";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import useNotify from "@/hooks/useNotify";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import NotificationDrawer from "@/components/Profile/NotificationDrawer";
 
 const RightSidebar = ({
   visible,
@@ -27,12 +32,9 @@ const RightSidebar = ({
   role,
   token,
   avatarImg,
-  onGetNotifications,
-  notifications,
-  notificationCount,
   onGetIsReadEmails,
   isReadEmails,
-  onUpdatedNotifications
+  notifications,
 }) => {
   const router = useRouter();
   const avatarurl = `${apiBaseUrl}/avatar/`;
@@ -61,41 +63,11 @@ const RightSidebar = ({
     router.push(page);
   };
 
-  const notificationRead = (item) => {
-    onUpdatedNotifications(item?._id, (res, error) => {
-      if (error) {
-        notify("error", 'Error');
-        return;
-      }
-      router.push(item?.url);
-    });
-  };
-
-  const [initLoading, setInitLoading] = useState(true);
-  const [notificationLoading, setNotificationLoading] = useState(false);
   const [notificationDrawerOpen, setOpen] = useState(false);
-  const [notificationPage, setNotificationPage] = useState(1);
 
   useEffect(() => {
     onGetIsReadEmails();
-    onGetNotifications(
-      {
-        sort: "createdAt:asc",
-        page: notificationPage,
-      },
-      () => {
-        setInitLoading(false);
-      }
-    );
-  }, [notificationPage]);
-
-  const onLoadMore = () => {
-    setNotificationLoading(true);
-
-    if (notificationCount / 10 > notificationPage) {
-      setNotificationPage(notificationPage + 1);
-    }
-  };
+  }, []);
 
   const showDrawer = () => {
     setOpen(true);
@@ -104,20 +76,6 @@ const RightSidebar = ({
   const onClose = () => {
     setOpen(false);
   };
-
-  const loadMore =
-    !initLoading && !notificationLoading ? (
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: 12,
-          height: 32,
-          lineHeight: "32px",
-        }}
-      >
-        <Button onClick={onLoadMore}>loading more</Button>
-      </div>
-    ) : null;
 
   return (
     <>
@@ -138,7 +96,10 @@ const RightSidebar = ({
                 <div style={{ marginBottom: 20 }}>
                   <Link href="/user/message">
                     <a>
-                      <Badge dot={isReadEmails.length > 0 ? true : false} className="mailboxLIcon">
+                      <Badge
+                        dot={isReadEmails.length > 0 ? true : false}
+                        className="mailboxLIcon"
+                      >
                         <Image
                           src={mailIcon}
                           alt="mail"
@@ -296,62 +257,11 @@ const RightSidebar = ({
         </PerfectScrollbar>
       </div>
 
-      <Drawer
-        title="Notifications"
-        placement="right"
-        closable={true}
+      <NotificationDrawer
         onClose={onClose}
         open={notificationDrawerOpen}
-        bodyStyle={{
-          color: "white",
-          background: "#2f2f2f",
-        }}
-        headerStyle={{
-          color: "white",
-        }}
-      >
-        <List
-          loadMore={loadMore}
-          loading={initLoading}
-          size="small"
-          dataSource={notifications}
-          pagination={{
-            onChange: (page) => {
-              setNotificationPage(page);
-            },
-            pageSize: 10,
-          }}
-          renderItem={(item) => (
-            <List.Item
-              style={{
-                color: "white",
-                borderBlockEnd: "1px solid white",
-              }}
-            >
-              <List.Item.Meta
-                title={
-                  <span
-                    style={{
-                      color: "white",
-                    }}
-                  >
-                    <a onClick={() => notificationRead(item)}>{item.title}</a>
-                  </span>
-                }
-                description={
-                  <span
-                    style={{
-                      color: "white",
-                    }}
-                  >
-                    {item.description}
-                  </span>
-                }
-              />
-            </List.Item>
-          )}
-        />
-      </Drawer>
+        placement="right"
+      />
     </>
   );
 };
@@ -365,7 +275,7 @@ const mapStateToProps = (state) => {
     avatarImg: state.user.avatar,
     notifications: state.user.notifications,
     notificationCount: state.user.notificationCount,
-    isReadEmails: state?.mail?.isreadlist
+    isReadEmails: state?.mail?.isreadlist,
   };
 };
 
