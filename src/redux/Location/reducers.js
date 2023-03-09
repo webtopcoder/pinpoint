@@ -7,6 +7,8 @@ import {
   LOCATION_QUICK_DEPARTURE_SUCCESS,
   LOCATION_REVIEW_REQUEST,
   LOCATION_REVIEW_SUCCESS,
+  LOCATION_CHECKIN_REQUEST,
+  LOCATION_CHECKIN_SUCCESS,
   USER_LOCATION_ADD_SUCCESS,
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
@@ -21,6 +23,7 @@ const initialState = {
   location: {
     isFavorite: false,
   },
+  checkIncount: 0,
   favoriteLocations: [],
 };
 
@@ -55,6 +58,7 @@ const locationReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         location: action.payload,
+        checkIncount: action.payload.checkIn.length
       };
     case LOCATION_REVIEW_REQUEST:
       return { ...state, loading: true };
@@ -82,10 +86,16 @@ const locationReducer = (state = initialState, action) => {
         favoriteLocations: action.payload,
       };
     case GET_ALL_ACTIVE_LOCATIONS_SUCCESS: {
-
       return {
         ...state,
         activeLocations: action.payload.results,
+      };
+    }
+
+    case LOCATION_CHECKIN_SUCCESS: {
+      return {
+        ...state,
+        checkIncount: action.payload.count,
       };
     }
     default:

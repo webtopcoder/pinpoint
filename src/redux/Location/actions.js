@@ -18,7 +18,9 @@ import {
   LOCATION_FAVORITE_SUCCESS,
   LOCATION_GET_FAVORITE_REQUEST,
   LOCATION_GET_FAVORITE_SUCCESS,
-  GET_ALL_ACTIVE_LOCATIONS_SUCCESS
+  GET_ALL_ACTIVE_LOCATIONS_SUCCESS,
+  LOCATION_CHECKIN_REQUEST,
+  LOCATION_CHECKIN_SUCCESS
 } from "./types";
 
 export function quickArrival({ form, locationId }, cb) {
@@ -228,11 +230,10 @@ export function checkInLocation(locationId, cb) {
     api(`locations/${locationId}/check-in`, "post")
       .then((res) => {
         dispatch({
-          type: LOCATION_REVIEW_REQUEST,
+          type: LOCATION_CHECKIN_REQUEST,
         });
-
         dispatch({
-          type: USER_LOCATION_ID_SUCCESS,
+          type: LOCATION_CHECKIN_SUCCESS,
           payload: res,
         });
 
@@ -313,7 +314,6 @@ export function getAllLocations(pagination, status, form) {
   return (dispatch) =>
     api(apiquery, "get")
       .then((res) => {
-        console.log(234234234);
         dispatch({
           type: GET_ALL_ACTIVE_LOCATIONS_SUCCESS,
           payload: res,
@@ -321,6 +321,5 @@ export function getAllLocations(pagination, status, form) {
       })
       .catch((error) => {
         console.log(error);
-        console.log(234234234234);
       });
 }

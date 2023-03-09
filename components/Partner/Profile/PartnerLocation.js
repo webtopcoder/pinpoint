@@ -107,6 +107,7 @@ const PartnerLocation = ({
   onCheckInLocation,
   onFavoriteLocation,
   onUnFavoriteLocation,
+  checkIncount
 }) => {
   const router = useRouter();
   const { notify } = useNotify();
@@ -158,6 +159,7 @@ const PartnerLocation = ({
                   location={location}
                   onLikeLocation={onLikeLocation}
                   onCheckInLocation={onCheckInLocation}
+                  checkIncount={checkIncount}
                 />
               ) : (
                 ""
@@ -198,19 +200,12 @@ const PartnerLocation = ({
   );
 };
 
-function ArrivalBanner({ location, onLikeLocation, onCheckInLocation }) {
-  const [checkInNumber, setCheckInNumber] = useState(0);
-  const { notify } = useNotify();
+function ArrivalBanner({ location, onLikeLocation, onCheckInLocation, checkIncount }) {
 
+  const { notify } = useNotify();
   const arrivalText = location.arrivalText;
   const arrivalImage = location.arrivalImages[0]?.filepath;
   const date = location.createdAt;
-
-  useEffect(() => {
-    if (location.checkIn) {
-      setCheckInNumber(location.checkIn?.length);
-    }
-  }, [location.checkIn]);
 
   return (
     <div>
@@ -228,7 +223,7 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation }) {
                   size={64}
                   icon={
                     location.images.length !== 0 &&
-                    location.images[0]?.filepath ? (
+                      location.images[0]?.filepath ? (
                       <Image
                         src={avatarurl + location.images[0]?.filepath}
                         height={64}
@@ -272,12 +267,11 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation }) {
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Button
                 onClick={() => {
-                  onCheckInLocation(location._id, (_, err) => {
+                  onCheckInLocation(location._id, (res, err) => {
                     if (err) {
                       notify("error", err?.response?.data?.message || "Error");
                     }
-
-                    notify("success", "Check in successfully");
+                    notify(res.type, res.message);
                   });
                 }}
               >
@@ -310,7 +304,7 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation }) {
             </div>
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
-                {checkInNumber} checked in
+                {checkIncount} checked in
               </Button>
               <LikeLocation
                 likeLocation={onLikeLocation}
@@ -394,7 +388,7 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
                           notify(
                             "error",
                             error?.response?.data?.message ||
-                              "Something went wrong"
+                            "Something went wrong"
                           );
                         }
                       });
@@ -516,10 +510,10 @@ function Post({ review, likeReview, location }) {
                   onClick={() =>
                     window.open(
                       baseUrl +
-                        "/profile/" +
-                        location?.partner?._id +
-                        "/locations/" +
-                        location?._id,
+                      "/profile/" +
+                      location?.partner?._id +
+                      "/locations/" +
+                      location?._id,
                       "_blank"
                     )
                   }
@@ -650,7 +644,7 @@ function LocationBanner({
                         size={150}
                         icon={
                           location.images?.length > 0 &&
-                          location.images[0]?.filepath ? (
+                            location.images[0]?.filepath ? (
                             <Image
                               src={avatarurl + location.images[0]?.filepath}
                               height={200}
@@ -747,7 +741,7 @@ function LocationBanner({
                               notify(
                                 "error",
                                 error?.response?.data?.message ||
-                                  "Something went wrong"
+                                "Something went wrong"
                               );
                               return;
                             }
@@ -773,7 +767,7 @@ function LocationBanner({
                               notify(
                                 "error",
                                 error?.response?.data?.message ||
-                                  "Something went wrong"
+                                "Something went wrong"
                               );
                               return;
                             }
@@ -811,6 +805,7 @@ function temporarySwapHalf(array) {
 
 const mapStateToProps = (state) => ({
   location: state.location.location,
+  checkIncount: state.location.checkIncount
 });
 
 const mapDispatchToProp = (dispatch) => {

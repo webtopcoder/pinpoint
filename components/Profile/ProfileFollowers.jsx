@@ -101,11 +101,13 @@ const ProfileFollowers = ({
 
   const onSearch = (value) => {
     setSearch(value);
-
     ongetFollowers(profile, count, value, (res) => {
       if (res.success) {
         setInitLoading(false);
-      } else notify("error", res.msg);
+        setLoading(false);
+        setData(res.data.results);
+      }
+      else notify("error", res.msg);
     });
   };
 
@@ -419,7 +421,7 @@ const mapDispatchToProps = (dispatch) => ({
   ongetFollowers: (data, count, search, cb) =>
     dispatch(getFollowers(data, count, search, cb)),
   onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
-  onacceptFollowerRequest: (id,type, cb) => dispatch(acceptFollowerRequest(id, type, cb)),
+  onacceptFollowerRequest: (id, type, cb) => dispatch(acceptFollowerRequest(id, type, cb)),
   ongetHeader: (id) => dispatch(getHeader(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileFollowers);

@@ -55,8 +55,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
     if (componentDisabled) {
       form_data.append("isNotice", componentDisabled.toString());
     } else {
-
-      if (Array.isArray(values?.name[0])) {
+      if (!sendToUserId) {
         form_data.append("to", values.name);
       }
       else {
@@ -64,11 +63,10 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
         followingUser.push(values.name[0].value)
         form_data.append("to", followingUser);
       }
-
     }
+
     form_data.append("subject", values.subject);
     form_data.append("message", values.message);
-
     onmailCompose(form_data, (res, error) => {
       if (error) {
         notify(

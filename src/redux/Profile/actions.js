@@ -477,6 +477,7 @@ export function acceptFollowerRequest(id, type, cb) {
 }
 
 export function getFollowers(id, count, search, cb) {
+
   return (dispatch) =>
     api(`follow/${id}/follower?page=${count}&q=${search}`, "get")
       .then((res) => {

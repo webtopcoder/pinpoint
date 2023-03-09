@@ -16,6 +16,7 @@ export const UserInfoValidator = (userInfo) => {
   if (!userInfo) {
     return "User Name or Email is required";
   }
+  
   return "";
 };
 
@@ -36,6 +37,9 @@ export const LastNameValidator = (LastName) => {
 export const UserNameValidator = (userName) => {
   if (!userName) {
     return "User Name is required";
+  }
+  else if(/\s/.test(userName)){
+    return "User Name can not contain whitespace."
   }
   return "";
 };
