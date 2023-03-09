@@ -430,7 +430,6 @@ export function votePoll(id, option, cb) {
 }
 
 export function getAllphotos(id, paginationInfo) {
-  console.log(paginationInfo);
   return (dispatch) =>
     api(
       `profile/${id}/image/all?page=${paginationInfo.pagination.current}&limit=${paginationInfo.pagination.pageSize}`,
@@ -450,6 +449,21 @@ export function getAllphotos(id, paginationInfo) {
 export function postFollower(id, cb) {
   return (dispatch) =>
     api(`follow/${id}`, "post")
+      .then((res) => {
+        dispatch({
+          type: POST_FOLLOWER_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
+export function acceptFollowerRequest(id, type, cb) {
+  return (dispatch) =>
+    api(`follow/accept?id=${id}&type=${type}`, "get")
       .then((res) => {
         dispatch({
           type: POST_FOLLOWER_SUCCESS,

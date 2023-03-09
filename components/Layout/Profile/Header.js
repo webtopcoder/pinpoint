@@ -10,8 +10,6 @@ import { connect } from "react-redux";
 import { getHeader, unfollow } from "@/redux/Profile/actions";
 import { postFollower, getInfo } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
-import binavatar from "@/public/images/landing/avatar.png";
-import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import { Avatar, Card, Space, Typography, Button, Row, Col } from "antd";
@@ -42,13 +40,15 @@ const Header = ({
 
   const follow = () => {
     onpostFollower(view_user_id, (res, error) => {
+      console.log(res);
       if (error) {
         notify(
           "error",
           error?.response?.data?.message ?? "Something went wrong"
         );
       } else {
-        notify("success", "Followed");
+
+        notify(res.data.type, res.data.message);
         ongetHeader(view_user_id);
       }
     });
@@ -140,10 +140,10 @@ const Header = ({
                           onClick={() =>
                             userRole
                               ? window.open(
-                                  baseUrl +
-                                    `/${userRole}/message?user=${view_user_id}`,
-                                  "_blank"
-                                )
+                                baseUrl +
+                                `/${userRole}/message?user=${view_user_id}`,
+                                "_blank"
+                              )
                               : null
                           }
                           icon={<MessageOutlined />}

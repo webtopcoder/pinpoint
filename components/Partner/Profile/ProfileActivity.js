@@ -615,7 +615,6 @@ const ProfileActivity = ({
                                               );
                                               return;
                                             }
-
                                             notify(
                                               "success",
                                               "Successfully voted"

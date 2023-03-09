@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, List, Skeleton, Input, Layout } from "antd";
+import { Avatar, Button, List, Skeleton, Input, Layout, Space } from "antd";
 import {
   UserOutlined,
   MessageFilled,
   UserDeleteOutlined,
+  CheckOutlined,
+  CloseOutlined
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { getFollowers, getHeader, unFriend } from "@/redux/Profile/actions";
-import config from "@/utils/config";
+import { getFollowers, getHeader, unFriend, acceptFollowerRequest } from "@/redux/Profile/actions";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import Link from "next/link";
@@ -25,6 +26,7 @@ const ProfileFollowers = ({
   onunFriend,
   ongetHeader,
   userRole,
+  onacceptFollowerRequest
 }) => {
   const { notify } = useNotify();
 
@@ -49,7 +51,6 @@ const ProfileFollowers = ({
 
   useEffect(() => {
     let mounted;
-
     if (router.isReady) {
       ongetFollowers(profile, count, search, (res) => {
         if (res.success) {
@@ -75,7 +76,6 @@ const ProfileFollowers = ({
           setLoading(false);
           setData(res.data.results);
         });
-
         ongetHeader(profile);
       }
     });
@@ -160,9 +160,9 @@ const ProfileFollowers = ({
                             onClick={() =>
                               window.open(
                                 baseUrl +
-                                  "/profile/" +
-                                  item.follower._id +
-                                  "/activity",
+                                "/profile/" +
+                                item?.follower?._id +
+                                "/activity",
                                 "_blank"
                               )
                             }
@@ -174,43 +174,183 @@ const ProfileFollowers = ({
                             View Profile
                           </Button>,
                           userRole ? (
-                            <Button
-                              onClick={() =>
-                                window.open(
-                                  baseUrl +
-                                    `/${userRole}/message?user=${item.follower.id}`,
-                                  "_blank"
-                                )
-                              }
-                              type="primary"
-                              icon={<MessageFilled />}
-                              size={"default"}
-                              key="button-message"
-                            >
-                              Message
-                            </Button>
-                          ) : null,
-                          user_id == profile ? (
-                            <Button
-                              onClick={() => unfriend(item.follower._id)}
-                              style={
-                                user_id == profile
-                                  ? {
+                            user_id !== profile ? (
+                              <Button
+                                onClick={() =>
+                                  window.open(
+                                    baseUrl +
+                                    `/${userRole}/message?user=${item?.follower?.id}`,
+                                    "_blank"
+                                  )
+                                }
+                                type="primary"
+                                icon={<MessageFilled />}
+                                size={"default"}
+                                key="button-message"
+                              >
+                                Message
+                              </Button>
+                            ) : item?.status === "pending" ? (
+                              <Space direction="horizontal">
+                                <Button
+                                  onClick={() => {
+                                    onacceptFollowerRequest(item?.id, "active", (_, error) => {
+                                      setLoading(true);
+                                      if (!error) {
+                                        notify("success", "Accepted successfully");
+                                        ongetFollowers(profile, count, search, (res, error) => {
+                                          if (error) {
+                                            notify("error", "Something went wrong");
+                                          }
+                                          setInitLoading(false);
+                                          setLoading(false);
+                                          setData(res.data.results);
+                                        });
+                                        ongetHeader(profile);
+                                      }
+                                    });
+                                  }
+                                  }
+                                  type="primary"
+                                  icon={<CheckOutlined />}
+                                  size={"default"}
+                                  key="button-message"
+                                >
+                                  Accept
+                                </Button>
+                                <Button
+                                  onClick={() => {
+                                    onacceptFollowerRequest(item?.id, "decline", (_, error) => {
+                                      setLoading(true);
+                                      if (!error) {
+                                        notify("success", "Declined successfully");
+                                        ongetFollowers(profile, count, search, (res, error) => {
+                                          if (error) {
+                                            notify("error", "Something went wrong");
+                                          }
+                                          setInitLoading(false);
+                                          setLoading(false);
+                                          setData(res.data.results);
+                                        });
+                                        ongetHeader(profile);
+                                      }
+                                    });
+                                  }}
+                                  style={
+                                    user_id == profile
+                                      ? {
+                                        display: "block",
+                                      }
+                                      : {
+                                        display: "none",
+                                      }
+                                  }
+                                  danger
+                                  type="primary"
+                                  icon={<CloseOutlined />}
+                                  size={"default"}
+                                  key="button-unfriend"
+                                >
+                                  Decline
+                                </Button>
+                              </Space>
+                            ) : (
+                              <Space direction="horizontal">
+                                <Button
+                                  onClick={() =>
+                                    window.open(
+                                      baseUrl +
+                                      `/${userRole}/message?user=${item?.follower?.id}`,
+                                      "_blank"
+                                    )
+                                  }
+                                  type="primary"
+                                  icon={<MessageFilled />}
+                                  size={"default"}
+                                  key="button-message"
+                                >
+                                  Message
+                                </Button>
+                                <Button
+                                  onClick={() => unfriend(item?.follower?._id)}
+                                  style={
+                                    user_id == profile
+                                      ? {
+                                        display: "block",
+                                      }
+                                      : {
+                                        display: "none",
+                                      }
+                                  }
+                                  danger
+                                  type="primary"
+                                  icon={<UserDeleteOutlined />}
+                                  size={"default"}
+                                  key="button-unfriend"
+                                >
+                                  UnFriend
+                                </Button>
+                              </Space>
+                            )
+                          ) : (
+                            <Space direction="horizontal">
+                              <Button
+                                onClick={() =>
+                                  window.open(
+                                    baseUrl +
+                                    `/${userRole}/message?user=${item?.follower?.id}`,
+                                    "_blank"
+                                  )
+                                }
+                                type="primary"
+                                icon={<MessageFilled />}
+                                size={"default"}
+                                key="button-message"
+                              >
+                                Accept
+                              </Button>
+                              <Button
+                                onClick={() => unfriend(item?.follower?._id)}
+                                style={
+                                  user_id == profile
+                                    ? {
                                       display: "block",
                                     }
-                                  : {
+                                    : {
                                       display: "none",
                                     }
-                              }
-                              danger
-                              type="primary"
-                              icon={<UserDeleteOutlined />}
-                              size={"default"}
-                              key="button-unfriend"
-                            >
-                              UnFriend
-                            </Button>
-                          ) : null,
+                                }
+                                danger
+                                type="primary"
+                                icon={<UserDeleteOutlined />}
+                                size={"default"}
+                                key="button-unfriend"
+                              >
+                                Decline
+                              </Button>
+                            </Space>
+                          ),
+                          // user_id == profile ? (
+                          //   <Button
+                          //     onClick={() => unfriend(item?.follower?._id)}
+                          //     style={
+                          //       user_id == profile
+                          //         ? {
+                          //           display: "block",
+                          //         }
+                          //         : {
+                          //           display: "none",
+                          //         }
+                          //     }
+                          //     danger
+                          //     type="primary"
+                          //     icon={<UserDeleteOutlined />}
+                          //     size={"default"}
+                          //     key="button-unfriend"
+                          //   >
+                          //     UnFriend
+                          //   </Button>
+                          // ) : null,
                         ]}
                       >
                         <Skeleton avatar title={false} loading={loading} active>
@@ -224,7 +364,7 @@ const ProfileFollowers = ({
                                 src={
                                   item?.follower?.profile?.avatar?.filepath
                                     ? avatarurl +
-                                      item?.follower?.profile?.avatar?.filepath
+                                    item?.follower?.profile?.avatar?.filepath
                                     : binavatar
                                 }
                               />
@@ -232,12 +372,12 @@ const ProfileFollowers = ({
                             title={
                               <Link
                                 href={
-                                  "/profile/" + item.follower._id + "/activity"
+                                  "/profile/" + item?.follower?._id + "/activity"
                                 }
                               >
                                 <>
-                                  {item.follower.name}
-                                  <p> @{item.follower.username}</p>
+                                  {item?.follower?.name}
+                                  <p> @{item?.follower?.username}</p>
                                 </>
                               </Link>
                             }
@@ -261,9 +401,9 @@ const ProfileFollowers = ({
               </div>
             </div>
           </div>
-        </div>
-      </Content>
-    </Layout>
+        </div >
+      </Content >
+    </Layout >
   );
 };
 
@@ -279,6 +419,7 @@ const mapDispatchToProps = (dispatch) => ({
   ongetFollowers: (data, count, search, cb) =>
     dispatch(getFollowers(data, count, search, cb)),
   onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
+  onacceptFollowerRequest: (id,type, cb) => dispatch(acceptFollowerRequest(id, type, cb)),
   ongetHeader: (id) => dispatch(getHeader(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileFollowers);
