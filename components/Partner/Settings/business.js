@@ -193,6 +193,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                         Business Legal Name *
                       </label>
                       <input
+                        disabled
                         type="text"
                         className="form-control"
                         name="userName"

@@ -159,7 +159,6 @@ export function getLocationById({ id, ...params }, cb) {
           type: USER_LOCATION_ID_SUCCESS,
           payload: res,
         });
-
         cb(res);
       })
       .catch((error) => {

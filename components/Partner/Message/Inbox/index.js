@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Table, Row, Col, Button, Tooltip, Modal, Dropdown } from "antd";
 import { connect } from "react-redux";
 import { DownloadOutlined } from "@ant-design/icons";
-import Image from "next/image";
 import {
   bulkMailAction,
   deleteMail,

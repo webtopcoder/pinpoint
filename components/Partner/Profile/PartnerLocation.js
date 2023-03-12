@@ -40,6 +40,8 @@ import {
 import useNotify from "@/hooks/useNotify";
 import { getLocationById } from "@/src/redux/Location/actions";
 import { useRouter } from "next/router";
+import { getDiffToNow } from "@/utils/date";
+
 const { Content } = Layout;
 const { Text } = Typography;
 
@@ -230,11 +232,11 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation, checkIncou
                         width={64}
                         alt="avatar"
                       />
-                    ) : (
-                      <EnvironmentFilled />
-                    )
-                  }
-                />
+                    ) : ""
+                  }>
+                  {location.images?.length !== 0 &&
+                    location.images[0]?.filepath ? "" : 'No Photo'}
+                </Avatar>
                 <p style={{ display: "inline-block", marginLeft: "10px" }}>
                   {location?.title}
                   <span style={{ marginLeft: "15px" }}>
@@ -354,7 +356,7 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
         <div className="pin-post-header-section">
           <div className="pin-post-label">
             <p className="comment-notes">
-              <span id="email-notes">Let us know what you think!</span>
+              <span id="email-notes">Just a quick description about your arrival today!</span>
             </p>
           </div>
           <div className="pin-post-logo">
@@ -668,17 +670,6 @@ function LocationBanner({
                     </Text>
                   </Space>
                 </Col>
-                <Col span={8}>
-                  <Space direction="vertical">
-                    <Text
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      <EnvironmentOutlined /> {location?.mapLocation?.address}
-                    </Text>
-                  </Space>
-                </Col>
                 <Col
                   span="24"
                   style={{
@@ -701,11 +692,21 @@ function LocationBanner({
                           color: "white",
                         }}
                       >
-                        last seen {location.lastSeen}
+                        last seen {getDiffToNow(location.lastSeen)} ago
+                      </Text>
+                    </Space>
+                    <Space direction="vertical">
+                      <Text
+                        style={{
+                          color: "white",
+                        }}
+                      >
+                        <EnvironmentOutlined /> {location?.mapLocation?.address}
                       </Text>
                     </Space>
                   </Space>
                 </Col>
+
 
                 <Col span={8} />
                 <Col

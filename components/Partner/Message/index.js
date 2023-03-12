@@ -106,7 +106,7 @@ const Mail = () => {
       ),
     },
     {
-      label: "PENDING_INVITES",
+      label: "PENDING INVITES",
       key: "pending_invites",
       icon: (
         <Avatar

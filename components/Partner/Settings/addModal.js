@@ -26,7 +26,6 @@ const AddUserModal = ({
   }, []);
 
   const onUpdateField = (e) => {
-    console.log(e.target.name, e.target.value)
     const field = e.target.name;
     const nextFormState = {
       ...form,

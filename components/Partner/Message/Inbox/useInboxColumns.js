@@ -1,6 +1,5 @@
 import useNotify from "@/hooks/useNotify";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import { connect } from "react-redux";
 import {
   DeleteFilled,
   EyeInvisibleOutlined,

@@ -106,10 +106,10 @@ const LocationCard = ({
           onClick={() =>
             window.open(
               baseUrl +
-                "/profile/" +
-                (location.partner._id ?? location.partner) +
-                "/locations/" +
-                location._id,
+              "/profile/" +
+              (location.partner._id ?? location.partner) +
+              "/locations/" +
+              location._id,
               "_blank"
             )
           }
@@ -179,26 +179,25 @@ const LocationCard = ({
         >
           <Col span={24}>
             <Link
-              href={`/profile/${
-                location.partner._id ?? location.partner
-              }/locations/${location._id}`}
+              href={`/profile/${location.partner._id ?? location.partner
+                }/locations/${location._id}`}
             >
               <Avatar
                 style={{ border: "3px solid black", cursor: "pointer" }}
                 size={100}
                 icon={
                   location.images.length !== 0 &&
-                  location.images[0]?.filepath ? (
+                    location.images[0]?.filepath ? (
                     <Image
                       src={avatarurl + location.images[0]?.filepath}
                       height={200}
                       width={200}
                     />
-                  ) : (
-                    <EnvironmentFilled />
-                  )
-                }
-              />
+                  ) : ""
+                }>
+                {location.images.length !== 0 &&
+                  location.images[0]?.filepath ? "" : 'No Photo'}
+              </Avatar>
             </Link>
           </Col>
         </Row>

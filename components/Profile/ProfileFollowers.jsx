@@ -95,7 +95,7 @@ const ProfileFollowers = ({
           lineHeight: "32px",
         }}
       >
-        <Button onClick={onLoadMore}>loading more</Button>
+        <Button onClick={onLoadMore}>Load More</Button>
       </div>
     ) : null;
 

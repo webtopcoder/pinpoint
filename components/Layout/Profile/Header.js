@@ -40,7 +40,6 @@ const Header = ({
 
   const follow = () => {
     onpostFollower(view_user_id, (res, error) => {
-      console.log(res);
       if (error) {
         notify(
           "error",
@@ -241,7 +240,7 @@ const Header = ({
                     }}
                   >
                     {headerInfo && (
-                      <b className="fn">{headerInfo?.profile?.favorites}</b>
+                      <b className="fn">{headerInfo?.profile?.location}</b>
                     )}
                   </Card>
                 </Col>

@@ -10,7 +10,7 @@ const Faq = () => {
       <div className="page-title-area bg-black">
         <div className="container">
           <div className="page-title-content">
-            <span className="sub-title">Frequently Ask & Question</span>
+            <span className="sub-title">Frequently Asked Question</span>
             <h1>Ciao! How Can We Help You?</h1>
             <form>
               <label>

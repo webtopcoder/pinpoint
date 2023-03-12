@@ -5,7 +5,6 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { bulkMailAction, getSent } from "@/redux/Mail/actions";
 import { downloadFile } from "@/redux/Mail/actions";
 import { deleteMail } from "@/redux/Mail/actions";
-import config from "@/utils/config";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import useSentColumns from "./useSentColumns";

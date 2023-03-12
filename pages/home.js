@@ -203,7 +203,9 @@ const UserHome = ({ ongetActivepartners, activePartners }) => {
                         </div>
                         <h3>Coffee Carts</h3>
                         <p className="desktop">
-
+                          Need your local
+                            morning fix? Look no
+                          further...
                         </p>
                         <p className="mobile">
                           Need your local

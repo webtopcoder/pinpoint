@@ -85,7 +85,6 @@ const LandingContact = ({ onContactUser }) => {
                   value={form.firstName}
                   onChange={onUpdateField}
                   onBlur={onBlurField}
-                  placeholder="First Name"
                 />
                 {errors.firstName.dirty && errors.firstName.error ? (
                   <p className={styles.formFieldErrorMessage}>
@@ -104,7 +103,6 @@ const LandingContact = ({ onContactUser }) => {
                   value={form.lastName}
                   onChange={onUpdateField}
                   onBlur={onBlurField}
-                  placeholder="Last Name:"
                 />
                 {errors.lastName.dirty && errors.lastName.error ? (
                   <p className={styles.formFieldErrorMessage}>
@@ -123,7 +121,6 @@ const LandingContact = ({ onContactUser }) => {
                   onChange={onUpdateField}
                   onBlur={onBlurField}
                   className="form-control"
-                  placeholder="Email:"
                 />
                 {errors.email.dirty && errors.email.error ? (
                   <p className={styles.formFieldErrorMessage}>
@@ -142,7 +139,6 @@ const LandingContact = ({ onContactUser }) => {
                   onChange={onUpdateField}
                   onBlur={onBlurField}
                   className="form-control"
-                  placeholder="Subject:"
                 />
                 {errors.subject.dirty && errors.subject.error ? (
                   <p className={styles.formFieldErrorMessage}>
