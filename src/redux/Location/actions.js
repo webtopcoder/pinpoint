@@ -20,7 +20,7 @@ import {
   LOCATION_GET_FAVORITE_SUCCESS,
   GET_ALL_ACTIVE_LOCATIONS_SUCCESS,
   LOCATION_CHECKIN_REQUEST,
-  LOCATION_CHECKIN_SUCCESS
+  LOCATION_CHECKIN_SUCCESS,
 } from "./types";
 
 export function quickArrival({ form, locationId }, cb) {
@@ -66,7 +66,8 @@ export function quickDeparture(form, cb) {
 export function getLocations({ pagination = false, partner, isActive }, cb) {
   return (dispatch) =>
     api(
-      `locations?pagination=${pagination}&partner=${partner}${isActive != null ? "&isActive=" + isActive : ""
+      `locations?pagination=${pagination}&partner=${partner}${
+        isActive != null ? "&isActive=" + isActive : ""
       }`,
       "get"
     )
@@ -198,7 +199,7 @@ export function likeLocationReview(reviewId, cb) {
           type: LOCATION_REVIEW_SUCCESS,
         });
 
-        cb(res);
+        cb(res.liked);
       })
       .catch((error) => {
         cb(null, error);
@@ -305,10 +306,13 @@ export function getFavouriteLocations(userId, cb) {
 
 export function getAllLocations(pagination, status, form) {
   let apiquery;
-  form?.subcategory?.length > 0 ?
-    apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ''}`
-    :
-    apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${form?.category ? form.category : ''}`
+  form?.subcategory?.length > 0
+    ? (apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${
+        form?.subcategory ? form.subcategory : ""
+      }`)
+    : (apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${
+        form?.category ? form.category : ""
+      }`);
 
   return (dispatch) =>
     api(apiquery, "get")
