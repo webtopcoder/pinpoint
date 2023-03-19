@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import LandingContact from "@/components/Landing/LandingContact";
 import Testimonial from "@/components/Landing/Testimonial";
@@ -14,12 +14,13 @@ import bannerImg from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
-import { getActivepartners } from "@/redux/User/actions";
+import { getActivepartners, getTestimonials } from "@/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
 
-const UserHome = ({ ongetActivepartners, activePartners }) => {
+const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) => {
   const faviconUrl = `${apiBaseUrl}/avatar/`;
+  const [testimonials, setTestimonial] = useState();
 
   function initMap() {
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
@@ -50,6 +51,13 @@ const UserHome = ({ ongetActivepartners, activePartners }) => {
   }
   useEffect(() => {
     ongetActivepartners();
+    ongetTestimonials((res, error) => {
+      if (error) {
+        notify("error", error.response.data.message);
+        return;
+      }
+      setTestimonial(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -204,7 +212,7 @@ const UserHome = ({ ongetActivepartners, activePartners }) => {
                         <h3>Coffee Carts</h3>
                         <p className="desktop">
                           Need your local
-                            morning fix? Look no
+                          morning fix? Look no
                           further...
                         </p>
                         <p className="mobile">
@@ -325,7 +333,7 @@ const UserHome = ({ ongetActivepartners, activePartners }) => {
           </div>
         </div>
       </div>
-      <Testimonial />
+      <Testimonial testimonials={testimonials} />
       <div className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">
@@ -371,6 +379,8 @@ const mapStateToProps = ({ user }) => ({
 const mapDispatchToProps = (dispatch) => ({
   ongetActivepartners: () =>
     dispatch(getActivepartners()),
+  ongetTestimonials: (cb) => dispatch(getTestimonials(cb)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserHome);

@@ -2,11 +2,14 @@ import React from "react";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import Image from "next/image";
-
+import { apiBaseUrl } from "@/utils/baseUrl";
 import userImg1 from "@/public/images/user/user1.jpg";
 import userImg2 from "@/public/images/user/user2.jpg";
 import userImg3 from "@/public/images/user/user3.jpg";
 import userImg4 from "@/public/images/user/user4.jpg";
+import {
+  Image as Antimage,
+} from "antd";
 
 const options = {
   margin: 25,
@@ -38,8 +41,14 @@ const options = {
   },
 };
 
-const Testimonial = () => {
+const Testimonial = ({ testimonials }) => {
+
+  const imgurl = `${apiBaseUrl}/avatar/`;
   const [display, setDisplay] = React.useState(false);
+
+  const myLoader = ({ src }) => {
+    return src;
+  };
 
   React.useEffect(() => {
     setDisplay(true);
@@ -60,70 +69,24 @@ const Testimonial = () => {
             className="testimonials-slides-four owl-carousel owl-theme"
             {...options}
           >
-            <div className="testimonials-item">
-              <i className="flaticon-left-quotes-sign"></i>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna
-                facilisi viverra felis eleifend ornare urna. Eu mauris, velit
-                volutpat massa volutpat. Risus pellentesque felis nisl ut
-                laoreet euismod vel”
-              </p>
-              <div className="info">
-                <h3>Lora Joly</h3>
-                <span>Founder at Envato</span>
+            {testimonials?.map((testimonial, index) => (
+              <div className="testimonials-item">
+                <i className="flaticon-left-quotes-sign"></i>
+                <p>
+                  {testimonial?.content}
+                </p>
+                <div className="info">
+                  <h3>{testimonial?.username}</h3>
+                  <span>{testimonial?.occupation}</span>
+                </div>
+                <div className="img">
+                  <Image loader={myLoader}
+                    src={imgurl + "/" + testimonial?.files?.filepath}
+                    layout="fill"
+                    alt="user" />
+                </div>
               </div>
-              <div className="img">
-                <Image src={userImg1} alt="user" />
-              </div>
-            </div>
-            <div className="testimonials-item">
-              <i className="flaticon-left-quotes-sign"></i>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna
-                facilisi viverra felis eleifend ornare urna. Eu mauris, velit
-                volutpat massa volutpat. Risus pellentesque felis nisl ut
-                laoreet euismod vel”
-              </p>
-              <div className="info">
-                <h3>Alina Smith</h3>
-                <span>Founder at EnvyTheme</span>
-              </div>
-              <div className="img">
-                <Image src={userImg2} alt="user" />
-              </div>
-            </div>
-            <div className="testimonials-item">
-              <i className="flaticon-left-quotes-sign"></i>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna
-                facilisi viverra felis eleifend ornare urna. Eu mauris, velit
-                volutpat massa volutpat. Risus pellentesque felis nisl ut
-                laoreet euismod vel”
-              </p>
-              <div className="info">
-                <h3>James Andy</h3>
-                <span>Founder at ThemeForest</span>
-              </div>
-              <div className="img">
-                <Image src={userImg3} alt="user" />
-              </div>
-            </div>
-            <div className="testimonials-item">
-              <i className="flaticon-left-quotes-sign"></i>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna
-                facilisi viverra felis eleifend ornare urna. Eu mauris, velit
-                volutpat massa volutpat. Risus pellentesque felis nisl ut
-                laoreet euismod vel”
-              </p>
-              <div className="info">
-                <h3>David Warner</h3>
-                <span>Founder at Code</span>
-              </div>
-              <div className="img">
-                <Image src={userImg4} alt="user" />
-              </div>
-            </div>
+            ))}
           </OwlCarousel>
         ) : (
           ""

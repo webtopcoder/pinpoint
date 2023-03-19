@@ -106,6 +106,17 @@ export function getActivepartners() {
       });
 }
 
+export function getTestimonials(cb) {
+  return (dispatch) =>
+    api(`admin/testimonial/all`, "get")
+      .then((res) => {
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
 export function getuserInfoByID(id, cb) {
   return () =>
     api(`auth/username?ID=${id}`, "get")
