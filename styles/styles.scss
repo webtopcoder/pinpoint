@@ -35,6 +35,14 @@
             background-color: #4fc1e9 !important;
             color: white;
           }
+
+          .ant-pagination .ant-pagination-item-active {
+            background-color: #272753;
+          }
+
+          .ant-pagination-item {
+            color: #fff;
+          }
         }
 
         .mail-compose-message {
@@ -152,12 +160,12 @@ $focus-color: #ff0;
     &:focus {
       outline: none;
 
-      > span {
+      >span {
         box-shadow: 0 0 2px 5px red;
       }
     }
 
-    > span:focus {
+    >span:focus {
       outline: none;
     }
   }
@@ -224,7 +232,7 @@ $focus-color: #ff0;
     transition: all 0.3s ease-in 0s;
   }
 
-  &-checkbox:checked + &-label {
+  &-checkbox:checked+&-label {
     .toggle-switch-inner {
       margin-left: 0;
     }
@@ -238,6 +246,7 @@ $focus-color: #ff0;
     width: 40px;
 
     .toggle-switch-inner {
+
       &:after,
       &:before {
         content: "";

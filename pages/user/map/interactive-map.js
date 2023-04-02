@@ -426,7 +426,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
                         size="large"
                         onChange={(e) => onUpdateField(e)}
                         placeholder="Select Category">
-                        {categoryInfo.map((option, index) => (
+                        {categoryInfo?.map((option, index) => (
                           <Option key={index} value={option._id}>{option.name}</Option>
                         ))}
                       </Select>
@@ -531,7 +531,7 @@ InteractiveMap.getLayout = function getLayout(page) {
 };
 
 const mapStateToProps = ({ user, location }) => ({
-  categoryInfo: user.partnerCategory.categories,
+  categoryInfo: user.partnerCategory.allcategories,
   subcategoryInfo: user.partnersubCategory,
   activeLocations: location.activeLocations
 });

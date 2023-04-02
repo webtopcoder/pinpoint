@@ -65,11 +65,11 @@ const Inbox = ({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          total: res.total,
+          total: res.totalResults,
         },
       });
     });
-  }, []);
+  }, [JSON.stringify(tableParams)]);
 
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -77,6 +77,7 @@ const Inbox = ({
       filters,
       ...sorter,
     });
+
   };
 
   const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
@@ -93,7 +94,6 @@ const Inbox = ({
         "selectedRows: ",
         selectedRows
       );
-      console.log(selectedRowkeyslist);
     },
     getCheckboxProps: (record) => ({
       disabled: record.name === "Disabled User",
@@ -118,7 +118,7 @@ const Inbox = ({
             ...tableParams,
             pagination: {
               ...tableParams.pagination,
-              total: res.total,
+              total: res.totalResults,
             },
           });
         });
@@ -185,9 +185,9 @@ const Inbox = ({
                       onClick={() =>
                         window.open(
                           baseUrl +
-                            "/profile/" +
-                            record_detail?.from?._id +
-                            "/activity",
+                          "/profile/" +
+                          record_detail?.from?._id +
+                          "/activity",
                           "_blank"
                         )
                       }
