@@ -12692,7 +12692,7 @@ h4 {
 
 .ant-modal-content .ant-modal-body {
   max-height: 700px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .settings .ant-modal-content {
