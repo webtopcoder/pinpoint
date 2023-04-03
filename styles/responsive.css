@@ -3599,56 +3599,65 @@
   .banner-background {
     display: none;
   }
-  .plr-100{
+
+  .plr-100 {
     padding-left: 20px;
     padding-right: 20px;
   }
+
   .desktop {
     display: none;
   }
-  
+
   .mobile {
     display: contents;
   }
-  .avatar-right{
+
+  .avatar-right {
     width: 28%;
     margin-top: 35px;
   }
-  .view-map-button{
+
+  .view-map-button {
     margin-top: 10px;
   }
 
-  .template-footer-nine .single-footer-widget{
+  .template-footer-nine .single-footer-widget {
     margin-bottom: 0px;
   }
-  .avatar-panel{
+
+  .avatar-panel {
     height: 125px;
   }
-  
-  .avatar-left{
+
+  .avatar-left {
     height: 0px;
   }
-  .avatar-center{
+
+  .avatar-center {
     height: 10px;
   }
-  .rightsidebar-avatar{
+
+  .rightsidebar-avatar {
     height: 0px;
   }
-  .pin-social-edit-title{
+
+  .pin-social-edit-title {
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
 
-  .main-nav .navbar .navbar-brand{
+  .main-nav .navbar .navbar-brand {
     margin: auto;
   }
-  .followers{
+
+  .followers {
     display: block !important;
     padding-right: 3px !important;
     padding-bottom: 15px !important;
   }
 
-  .page-interactive-area .shout-area .shout-body{
+  .page-interactive-area .shout-area .shout-body {
     width: 100% !important;
     border-right: none !important;
     padding-left: 4vw !important;
@@ -3656,36 +3665,41 @@
     margin-bottom: 0px !important;
   }
 
-  .page-interactive-area .shout-area .shout-end-group{
+  .page-interactive-area .shout-area .shout-end-group {
     width: 100% !important;
   }
 
-  .page-interactive-area .shout-area .shout-button-group{
+  .page-interactive-area .shout-area .shout-button-group {
     width: 100% !important;
   }
 
-  .page-pin-area{
+  .page-pin-area {
     padding-top: 70px !important;
   }
-  .pin-social-edit-input{
+
+  .pin-social-edit-input {
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
-  .profile-edit-section-margin{
+
+  .profile-edit-section-margin {
     margin: 20px 5px !important;
   }
-  .profile-location{
+
+  .profile-location {
     padding: 9px !important;
   }
-  .widget-area{
-    margin-top: 10px; 
+
+  .widget-area {
+    margin-top: 10px;
   }
+
   .section-landing-title {
     margin-left: 0 !important;
     margin-top: 20px;
   }
 
-  .single-footer-widget p{
+  .single-footer-widget p {
     margin-top: 20px;
   }
 
@@ -8104,10 +8118,6 @@
   }
 
   /*profile-authentication-area-css*/
-  .login-form {
-    padding-right: 0;
-  }
-
   .login-form h2 {
     font-size: 30px;
   }

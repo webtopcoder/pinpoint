@@ -207,7 +207,7 @@ const PartnerRegister = ({
               <div className="col-lg-12 col-md-12">
                 <FormGroup
                   errors={errors}
-                  label="Business Legal Name *"
+                  label="Business Legal Name(no spaces) *"
                   value={form.username}
                   onChange={onUpdateField}
                   onBlur={onBlurField}
