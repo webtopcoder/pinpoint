@@ -281,7 +281,7 @@ const PartnerRegister = ({
                     onBlur={onBlurField}
                   >
                     <option value="0">Select Category</option>
-                    {categoryInfo.map((option, index) => (
+                    {categoryInfo?.map((option, index) => (
                       <option key={index} value={option._id}>
                         {option.name}
                       </option>
@@ -357,7 +357,7 @@ const PartnerRegister = ({
   );
 };
 const mapStateToProps = ({ user }) => ({
-  categoryInfo: user.partnerCategory.categories,
+  categoryInfo: user.partnerCategory.allcategories,
   token: user.token,
   loggedInRole: user.role,
 });
