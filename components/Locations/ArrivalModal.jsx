@@ -104,11 +104,11 @@ function ArrivalModal({
         fields={
           locationInfo
             ? [
-                {
-                  name: ["locationId"],
-                  value: locationInfo._id,
-                },
-              ]
+              {
+                name: ["locationId"],
+                value: locationInfo._id,
+              },
+            ]
             : ""
         }
         onFinish={(values) => {
@@ -122,9 +122,10 @@ function ArrivalModal({
           onquickArrival(
             { locationId: values.locationId, form: formData },
             (_, error) => {
+              
               setArrivalModalOpen(false);
               if (error) {
-                notify("error", "Something went wrong");
+                notify("error", error.response.data.message);
                 return;
               }
               arrivalForm.resetFields();
@@ -167,11 +168,11 @@ function ArrivalModal({
               rules={
                 !locationInfo
                   ? [
-                      {
-                        required: true,
-                        message: "Please select a location",
-                      },
-                    ]
+                    {
+                      required: true,
+                      message: "Please select a location",
+                    },
+                  ]
                   : ""
               }
             >
