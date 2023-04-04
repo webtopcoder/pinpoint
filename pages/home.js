@@ -19,7 +19,7 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
 
 const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) => {
-  const faviconUrl = `${apiBaseUrl}/avatar/`;
+  const faviconUrl = `${apiBaseUrl}/favicon.png`;
   const [testimonials, setTestimonial] = useState();
 
   function initMap() {
@@ -40,7 +40,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(activePartners[i]?.address?.latitude, activePartners[i]?.address?.longitude),
         icon: {
-          url: food,
+          url: faviconUrl,
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0), // anchor
