@@ -3,10 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import logo from "@/public/images/logo.png";
+import useNotify from "@/hooks/useNotify";
 
 const FooterNine = () => {
   const router = useRouter();
   const [token, setToken] = useState(null);
+  const { notify } = useNotify();
 
   useEffect(() => {
     setToken(sessionStorage.getItem("token"));
