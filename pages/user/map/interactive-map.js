@@ -56,7 +56,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       '<h5 class="card-title">' + data?.title + '</h5>' +
       '<p class="card-text">' + data?.description + '</p>' +
       '<p class="card-text"><small class="text-muted">Last updated ' + getDiffToNow(data?.createdAt) + ' ago</small></p>' +
-       `<a onClick="window.open('${baseUrl}/profile/${data.partner._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp`+
+       `<a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp`+
       `<a type="button" class="btn btn-primary">Add Favorite</a>` +
       '</div>' +
       '</div>' +
