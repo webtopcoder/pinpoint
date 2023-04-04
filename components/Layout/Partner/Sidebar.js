@@ -52,9 +52,23 @@ function LeftSidebar({
   const pathurl = router.asPath;
   const [current, setCurrent] = useState(pathurl);
 
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+
+  function getCurrentDimension() {
+    if (typeof window !== 'undefined') {
+      return {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    }
+  }
+
   useEffect(() => {
     onGetIsReadEmails();
+    setScreenSize(getCurrentDimension())
+    screenSize.width < 766 ? setCollapsed(true) : setCollapsed(false)
   }, []);
+
 
   const showDrawer = () => {
     setOpen(true);
@@ -97,6 +111,8 @@ function LeftSidebar({
     getItem("Partnership", "/partner/partnership/", <GiftOutlined />),
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
+
+
 
   useEffect(() => {
     if (router.pathname.indexOf("/partner/settings/") > -1) {

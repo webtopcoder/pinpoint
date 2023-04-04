@@ -103,7 +103,7 @@ const PartnerDashboard = ({
         {" "}
         <div className="site-card-wrapper">
           <Row gutter={[32, 32]}>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}>
               <Card
                 className="dashboard-card-style"
                 title="Partner Locations"
@@ -112,7 +112,7 @@ const PartnerDashboard = ({
                 {dashboardInfo?.partnerLocations}
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}>
               <Card
                 className="dashboard-card-style"
                 title="Active Locations"
@@ -121,7 +121,7 @@ const PartnerDashboard = ({
                 {dashboardInfo?.activeLocations}
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}>
               <Card
                 className="dashboard-card-style"
                 title="Followers"
@@ -130,7 +130,7 @@ const PartnerDashboard = ({
                 {dashboardInfo?.followers}
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={6} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={6} xl={6}>
               <Card
                 className="dashboard-card-style"
                 title="Profile Views"
@@ -139,7 +139,7 @@ const PartnerDashboard = ({
                 {dashboardInfo?.profileViews}
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}>
               <Card
                 className="dashboard-card-style"
                 title="Business Rating"
@@ -148,7 +148,7 @@ const PartnerDashboard = ({
                 {dashboardInfo?.businessRating == "NaN" ? 0 : dashboardInfo?.businessRating}
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}>
               <Card
                 className="dashboard-card-style"
                 title="Check In's"
@@ -157,7 +157,7 @@ const PartnerDashboard = ({
                 {dashboardInfo?.checkIns}
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}>
               <Card
                 className="dashboard-card-quickpost-style"
                 title="Quick Post"
@@ -169,7 +169,7 @@ const PartnerDashboard = ({
                 +
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}></Col>
+            <Col xs={24} sm={8} md={6} lg={8} xl={6}></Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <div
                 className="dashboard-imagebutton"

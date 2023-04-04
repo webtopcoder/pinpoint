@@ -65,7 +65,6 @@ const PartnerShipPayment = ({
   }
   async function handleCancelSubscription(e, subscriptionId) {
     e.preventDefault();
-    console.log(subscriptionId);
     const data = {
       subscriptionId: subscriptionId,
     };
@@ -199,9 +198,7 @@ const Partnership = ({
   const router = useRouter();
   const { notify } = useNotify();
   const [plans, setPlans] = useState([]);
-  console.log(user_partnership);
-  console.log(partnershipPlans);
-  console.log(user_subscriptionId);
+
   useEffect(() => {
     setPlans(partnershipPlans);
   }, [partnershipPlans]);
@@ -209,7 +206,6 @@ const Partnership = ({
     if (router.isReady) {
       ongetPartnershipplans((_, error) => {
         if (error) {
-          console.log(error);
           notify(
             "error",
             error?.response?.data?.message ?? "Something went wrong"
@@ -255,7 +251,7 @@ const Partnership = ({
               justify="space-around"
             >
               {partnershipPlans.map((plan, index) => (
-                <Col xs={24} sm={8} md={6} lg={8} xl={8} key={index}>
+                <Col xs={24} sm={24} md={12} lg={12} xl={8} key={index}>
                   {user_partnership == plan._id ? (
                     <Badge.Ribbon text="Active" color="green">
                       <PartnerShipPayment
