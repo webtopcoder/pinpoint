@@ -44,12 +44,15 @@ const PartnerShipPayment = ({
   createCustomer,
   subscriptionId,
   cancelSubscription,
+  onflag,
+  getUserInfo
 }) => {
   const [priceId, setPriceId] = useState("");
   const [customer, setCustomer] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const handleCancel = () => setShowModal(false);
   const { notify } = useNotify();
+
   async function handleSubscribeClick(priceID) {
     setPriceId(priceID);
     await createCustomer((res, error) => {
@@ -61,6 +64,7 @@ const PartnerShipPayment = ({
         console.log("error");
       }
     });
+
     setShowModal(true);
   }
   async function handleCancelSubscription(e, subscriptionId) {
@@ -73,6 +77,13 @@ const PartnerShipPayment = ({
         console.log("error");
       }
       notify("success", "Subscription Cancelled");
+    });
+
+    await getUserInfo((res, error) => {
+      if (error) {
+        console.log(error);
+        notify("error", "Fail");
+      }
     });
   }
 
@@ -111,7 +122,7 @@ const PartnerShipPayment = ({
           {isActive ? (
             <>
               <Space>
-                <Text style={{ color: "green" }}>Renews on 07/03/2023</Text>
+                <Text style={{ color: "green" }}>Renews on 04/05/2023</Text>
               </Space>
               <Space>
                 <Popconfirm
@@ -159,6 +170,7 @@ const PartnerShipPayment = ({
                   customerId={customer.id}
                   priceId={priceId}
                   setShowModal={setShowModal}
+                  flagfun={onflag}
                 />
               ) : (
                 ""
@@ -197,11 +209,8 @@ const Partnership = ({
   // const partnerShipPlans = usePartnerShipPlans();
   const router = useRouter();
   const { notify } = useNotify();
-  const [plans, setPlans] = useState([]);
+  const [flag, setFlag] = useState(partnershipPlans.length > 0 ? true : false);
 
-  useEffect(() => {
-    setPlans(partnershipPlans);
-  }, [partnershipPlans]);
   useEffect(() => {
     if (router.isReady) {
       ongetPartnershipplans((_, error) => {
@@ -213,7 +222,7 @@ const Partnership = ({
         }
       });
     }
-  }, [ongetPartnershipplans, router.isReady]);
+  }, [router.isReady]);
 
   return (
     <Elements stripe={stripePromise}>
@@ -261,12 +270,14 @@ const Partnership = ({
                         subscriptionId={user_subscriptionId}
                         cancelSubscription={onCancelSubscription}
                         getUserInfo={ongetUser}
+                        onflag={setFlag}
                       />
                     </Badge.Ribbon>
                   ) : (
                     <PartnerShipPayment
                       {...plan}
                       createCustomer={onCreateCustomer}
+                      onflag={setFlag}
                     />
                   )}
                 </Col>
@@ -288,9 +299,8 @@ const mapStateToProps = ({ profile }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetUser: (cb) => dispatch(getUserInfo(user_id, cb)),
+  ongetUser: (cb) => dispatch(getUserInfo(cb)),
   onCancelSubscription: (data, cb) => dispatch(cancelSubscription(data, cb)),
-
   onCreateCustomer: (cb) => dispatch(createCustomer(cb)),
   ongetPartnershipplans: (cb) => dispatch(getPartnerships(cb)),
 });

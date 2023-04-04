@@ -21,6 +21,8 @@ const CheckoutForm = ({
   showModal,
   onCancel,
   setShowModal,
+  flagfun,
+  ongetUser
 }) => {
   const [error, setError] = useState(undefined);
   const [disabled, setDisabled] = useState(false);
@@ -28,10 +30,7 @@ const CheckoutForm = ({
   const stripe = useStripe();
   const elements = useElements();
   function handleCardInputChange(event) {
-    // Listen for changes in card input
-    // and display errors, if any, to the user
-    // Also control the disabled state of the submit button
-    // if the input field is empty
+
     setDisabled(event?.empty);
     setError(event?.error?.message ?? "");
   }
@@ -110,6 +109,12 @@ const CheckoutForm = ({
       notify("success", "Subscription purchase successful");
 
       setShowModal(false);
+      await ongetUser((res, error) => {
+        if (error) {
+          console.log(error);
+          notify("error", "Fail");
+        }
+      });
     });
   }
 
