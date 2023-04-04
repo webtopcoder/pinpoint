@@ -25,6 +25,8 @@ import CheckoutForm from "./checkoutform";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { DeleteOutlined } from "@ant-design/icons";
+import { formartUnixtime } from "@/utils/date";
+
 const { Text, Paragraph } = Typography;
 
 const { Content } = Layout;
@@ -45,8 +47,10 @@ const PartnerShipPayment = ({
   subscriptionId,
   cancelSubscription,
   onflag,
-  getUserInfo
+  getUserInfo,
+  renewdate
 }) => {
+
   const [priceId, setPriceId] = useState("");
   const [customer, setCustomer] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
@@ -122,7 +126,8 @@ const PartnerShipPayment = ({
           {isActive ? (
             <>
               <Space>
-                <Text style={{ color: "green" }}>Renews on 04/05/2023</Text>
+                <Text style={{ color: "green" }}>
+                  {formartUnixtime(renewdate)}</Text>
               </Space>
               <Space>
                 <Popconfirm
@@ -270,6 +275,7 @@ const Partnership = ({
                         subscriptionId={user_subscriptionId}
                         cancelSubscription={onCancelSubscription}
                         getUserInfo={ongetUser}
+                        renewdate={partnershipPriceRenewalDate}
                         onflag={setFlag}
                       />
                     </Badge.Ribbon>
@@ -294,7 +300,7 @@ const mapStateToProps = ({ profile }) => {
     partnershipPlans: profile.partnershipsInfo,
     user_partnership: profile.userinfo.activePartnership,
     user_subscriptionId: profile.userinfo?.activeSubscription?.id,
-    partnershipPriceRenewalDate: profile.userinfo.partnershipPriceRenewalDate,
+    partnershipPriceRenewalDate: profile.userinfo?.activeSubscription?.current_period_end,
   };
 };
 

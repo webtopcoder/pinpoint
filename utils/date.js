@@ -8,6 +8,10 @@ export function getDiffToNow(date) {
     return moment(date).fromNow(true);
 }
 
+export function formartUnixtime(time) {
+    return moment.unix(time).format("MM/DD/YYYY");
+}
+
 export function formatTime(seconds, format) {
     const h = Math.floor(seconds / 3600);
     const hours = h < 10 ? `0${h}` : h;
