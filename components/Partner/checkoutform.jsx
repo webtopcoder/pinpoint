@@ -58,23 +58,43 @@ const CheckoutForm = ({
         return;
       }
 
-      const stripePayload = await stripe.confirmCardPayment(
-        subscription.clientSecret, // returned by subscribe endpoint
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-          },
-        }
-      );
+      let stripePayload, data;
+      if (subscription.status === "setupCard") {
+        stripePayload = await stripe.confirmCardSetup(
+          subscription.clientSecret,
+          {
+            payment_method: {
+              card: elements.getElement(CardElement),
+            },
+          }
+        );
 
-      const data = {
-        order: stripePayload.paymentIntent,
-        amount: stripePayload.paymentIntent.amount,
-        currency: stripePayload.paymentIntent.currency,
-        priceId: priceId,
-      };
+        data = {
+          order: `${stripePayload.id} - trial`,
+          amount: 0,
+          currency: "usd",
+          priceId,
+          trial: true,
+        };
+      } else {
+        stripePayload = await stripe.confirmCardPayment(
+          subscription.clientSecret, // returned by subscribe endpoint
+          {
+            payment_method: {
+              card: elements.getElement(CardElement),
+            },
+          }
+        );
 
-      onPayment(data, (res, error) => {
+        data = {
+          order: stripePayload.paymentIntent,
+          amount: stripePayload.paymentIntent.amount,
+          currency: stripePayload.paymentIntent.currency,
+          priceId,
+        };
+      }
+
+      await onPayment(data, (res, error) => {
         if (error) {
           console.log(error);
           notify("error", "Transaction send failed");
@@ -102,55 +122,53 @@ const CheckoutForm = ({
       closable={false}
     >
       <>
-      <Row>
-        <Col
-          xs={20}
-          sm={20}
-          md={20}
-          lg={20}
-          xl={20}
-          style={{
-            margin: "auto",
-          }}
-        >
-          <Title
+        <Row>
+          <Col
+            xs={20}
+            sm={20}
+            md={20}
+            lg={20}
+            xl={20}
             style={{
-              textAlign: "center",
-              fontWeight: 900,
+              margin: "auto",
             }}
-            level={3}
           >
-            Add Payment Details
-          </Title>
-        </Col>
-        <Col
-          xs={4}
-          sm={4}
-          md={4}
-          lg={4}
-          xl={4}
-          style={{
-            textAlign: "right",
-          }}
-        >
-          <Image src={food} alt="Snow" width={50} height={70} />
-        </Col>
+            <Title
+              style={{
+                textAlign: "center",
+                fontWeight: 900,
+              }}
+              level={3}
+            >
+              Add Payment Details
+            </Title>
+          </Col>
+          <Col
+            xs={4}
+            sm={4}
+            md={4}
+            lg={4}
+            xl={4}
+            style={{
+              textAlign: "right",
+            }}
+          >
+            <Image src={food} alt="Snow" width={50} height={70} />
+          </Col>
 
-        <Col
-          xs={24}
-          sm={24}
-          md={24}
-          lg={24}
-          xl={24}
-          style={{
-            marginTop: 20
-          }}
-        >
-          <CardElement onChange={handleCardInputChange} />
-        </Col>
-      </Row>
-
-      
+          <Col
+            xs={24}
+            sm={24}
+            md={24}
+            lg={24}
+            xl={24}
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <CardElement onChange={handleCardInputChange} />
+          </Col>
+        </Row>
       </>
     </Modal>
   );

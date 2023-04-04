@@ -54,6 +54,7 @@ const PartnerShipPayment = ({
     setPriceId(priceID);
     await createCustomer((res, error) => {
       const customer = res.customer;
+
       setCustomer(customer);
 
       if (error) {
@@ -145,7 +146,9 @@ const PartnerShipPayment = ({
                 type="primary"
                 size="large"
                 disabled={isActive}
-                onClick={() => handleSubscribeClick(stripePriceId)}
+                onClick={() =>
+                  handleSubscribeClick(stripePriceId).catch(console.error)
+                }
               >
                 {price == 0 ? "Get Free" : "Buy Now"}
               </Button>
