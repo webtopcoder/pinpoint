@@ -40,7 +40,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(activePartners[i]?.address?.latitude, activePartners[i]?.address?.longitude),
         icon: {
-          url: faviconUrl + activePartners[i]?.category?.image?.filepath,
+          url: food,
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(0, 0), // anchor
