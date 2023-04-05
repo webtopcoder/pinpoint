@@ -27,6 +27,7 @@ import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
 import { quickDeparture, getLocations } from "@/src/redux/Location/actions";
+import { getDiffToNow } from "@/utils/date";
 
 import Image from "next/image";
 
@@ -284,7 +285,7 @@ const LocationCard = ({
                   color: "white",
                 }}
               >
-                last seen {location.lastSeen}
+                last seen {getDiffToNow(location.lastSeen)} ago
               </Text>
             </Space>
             <Space>

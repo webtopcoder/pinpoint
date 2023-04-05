@@ -368,6 +368,11 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
             <div className="col-lg-12 col-md-12 col-sm-12">
               <Form
                 form={postForm}
+                initialValues={
+                  {
+                    rating: 0
+                  }
+                }
                 onFinish={(values) => {
                   const formData = new FormData();
                   formData.append("rating", rating);
@@ -439,7 +444,6 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
                     <Form.Item name="rating">
                       <Rate
                         allowHalf
-                        defaultValue={2}
                         tooltips={[
                           "terrible",
                           "bad",
