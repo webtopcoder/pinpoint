@@ -8,7 +8,7 @@ import { Layout } from "antd";
 const Partnership = () => {
   return (
     <>
-      <PageTitle page="Dashboard" />
+      <PageTitle page="Partnership" />
       <div className="page-partner-area">
         <Layout
           style={{

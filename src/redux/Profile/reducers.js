@@ -24,6 +24,7 @@ import {
   PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
   PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
   DASHBOARD_GET_SUCCESS,
+  PARTNERSHIP_SUBSCRIBE_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -222,6 +223,7 @@ const profileReducer = (state = initialState, action) => {
         partnershipsInfo: action.payload.results,
       };
     }
+
     case PARTNERSHIPS_CREATE_CUSTOMER_SUCCESS: {
       return {
         ...state,
@@ -243,11 +245,15 @@ const profileReducer = (state = initialState, action) => {
     }
 
     case PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS: {
-      return { ...state };
+      return {
+        ...state,
+        userinfo: action.payload.user
+      };
     }
     case PARTNERSHIP_TRANSACTION_SUCCESS: {
       return {
         ...state,
+        userinfo: action.payload
       };
     }
 

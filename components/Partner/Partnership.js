@@ -46,7 +46,6 @@ const PartnerShipPayment = ({
   createCustomer,
   subscriptionId,
   cancelSubscription,
-  onflag,
   getUserInfo,
   renewdate
 }) => {
@@ -175,7 +174,6 @@ const PartnerShipPayment = ({
                   customerId={customer.id}
                   priceId={priceId}
                   setShowModal={setShowModal}
-                  flagfun={onflag}
                 />
               ) : (
                 ""
@@ -214,7 +212,6 @@ const Partnership = ({
   // const partnerShipPlans = usePartnerShipPlans();
   const router = useRouter();
   const { notify } = useNotify();
-  const [flag, setFlag] = useState(partnershipPlans.length > 0 ? true : false);
 
   useEffect(() => {
     if (router.isReady) {
@@ -276,14 +273,12 @@ const Partnership = ({
                         cancelSubscription={onCancelSubscription}
                         getUserInfo={ongetUser}
                         renewdate={partnershipPriceRenewalDate}
-                        onflag={setFlag}
                       />
                     </Badge.Ribbon>
                   ) : (
                     <PartnerShipPayment
                       {...plan}
                       createCustomer={onCreateCustomer}
-                      onflag={setFlag}
                     />
                   )}
                 </Col>

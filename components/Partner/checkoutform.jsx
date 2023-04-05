@@ -21,7 +21,6 @@ const CheckoutForm = ({
   showModal,
   onCancel,
   setShowModal,
-  flagfun,
   ongetUser
 }) => {
   const [error, setError] = useState(undefined);
@@ -109,12 +108,6 @@ const CheckoutForm = ({
       notify("success", "Subscription purchase successful");
 
       setShowModal(false);
-      await ongetUser((res, error) => {
-        if (error) {
-          console.log(error);
-          notify("error", "Fail");
-        }
-      });
     });
   }
 

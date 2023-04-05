@@ -97,6 +97,7 @@ export function subscribe(data, cb) {
   return (dispatch) => {
     api(`/partnership/subscribe`, "post", data)
       .then((res) => {
+        console.log(res.user)
         dispatch({
           type: PARTNERSHIP_SUBSCRIBE_REQUEST,
         });
@@ -136,6 +137,8 @@ export function postTransaction(data, cb) {
   return (dispatch) => {
     api(`/partnership/create-transaction`, "post", data)
       .then((res) => {
+
+        console.log(res);
         dispatch({
           type: PARTNERSHIP_TRANSACTION_SUCCESS,
           payload: res,
