@@ -22,7 +22,7 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.bubble.css'
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
-import { getActivity } from "@/redux/Profile/actions";
+import { getActivity, getAllphotos } from "@/redux/Profile/actions";
 import { getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
@@ -38,6 +38,8 @@ const ProfileActivity = ({
   onpostThink,
   activityInfo,
   myfollowerList,
+  ongetAllphotos,
+  myallPhotos
 }) => {
   const IconText = ({ postID, text }) => (
     <Space>
@@ -54,6 +56,14 @@ const ProfileActivity = ({
   const myLoader = ({ src }) => {
     return src;
   };
+
+  const [paginationInfo, setPageInfo] = useState({
+    pagination: {
+      current: 1,
+      pageSize: 20,
+    },
+  });
+
   const imgurl = `${apiBaseUrl}/avatar/`;
   const avatarurl = `${apiBaseUrl}/avatar/`;
 
@@ -98,7 +108,6 @@ const ProfileActivity = ({
       return false;
     } else movieObj?.like?.push(myID);
     updatePosts(postID, movieObj);
-
     onrecommendPost(postID, (res) => {
       if (res.success) {
         notify("success", res.msg);
@@ -109,6 +118,7 @@ const ProfileActivity = ({
   useEffect(() => {
     if (router.isReady) {
       const { profile } = router.query;
+      ongetAllphotos(profile, paginationInfo);
       ongetmyFollowers();
       ongetActivity(profile, 1, "", (res) => {
         if (res.success) {
@@ -147,37 +157,6 @@ const ProfileActivity = ({
       });
     }
   }, [count]);
-
-  // useEffect(() => {
-  //     window.addEventListener('scroll', scrollmore);
-  // }, []);
-
-  // const scrollmore = () => {
-  //     setCount(count + 1);
-  //     if (window.innerHeight + document.documentElement.scrollTop === document.scrollingElement.scrollHeight) {
-  //         setLoading(true);
-  //         setList(
-  //             data.concat(
-  //                 [...new Array(10)].map(() => ({
-  //                     loading: true,
-  //                     from: {},
-  //                 })),
-  //             ),
-  //         );
-  //         const { profile } = router.query;
-
-  //         ongetActivity(profile, count, '', res => {
-  //             if (res.success) {
-  //                 const newData = data.concat(res.posts);
-  //                 setData(newData);
-  //                 setList(newData);
-  //                 setLoading(false);
-  //                 window.dispatchEvent(new Event('resize'));
-  //             }
-  //             else notify("error", res.msg)
-  //         });
-  //     }
-  // }
 
   const onLoadMore = () => {
     setCount(count + 1);
@@ -637,6 +616,7 @@ const mapStateToProps = ({ profile, user }) => {
   return {
     activityInfo: profile.activityInfo,
     myfollowerList: user.myFollowers.followers,
+    myallPhotos: profile.allphotosInfo,
   };
 };
 
@@ -646,5 +626,6 @@ const mapDispatchToProps = (dispatch) => ({
   ongetActivity: (data, count, search, cb) =>
     dispatch(getActivity(data, count, search, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
+  ongetAllphotos: (id, pageInfo) => dispatch(getAllphotos(id, pageInfo)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);

@@ -21,7 +21,7 @@ import {
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
-import { getActivity, getProfilePoll, votePoll } from "@/redux/Profile/actions";
+import { getActivity, getProfilePoll, votePoll, getAllphotos } from "@/redux/Profile/actions";
 import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
@@ -67,6 +67,8 @@ const ProfileActivity = ({
   ongetFollowerAndFollowings,
   followAndFollowing,
   profileRole,
+  ongetAllphotos,
+  myallPhotos
 }) => {
   const { notify } = useNotify();
   const likePost = (id, cb) => {
@@ -130,6 +132,13 @@ const ProfileActivity = ({
   const imgurl = `${apiBaseUrl}/avatar/`;
   const avatarurl = `${apiBaseUrl}/avatar/`;
 
+  const [paginationInfo, setPageInfo] = useState({
+    pagination: {
+      current: 1,
+      pageSize: 20,
+    },
+  });
+
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(1);
@@ -142,6 +151,7 @@ const ProfileActivity = ({
   useEffect(() => {
     if (router.isReady) {
       const { profile } = router.query;
+      ongetAllphotos(profile, paginationInfo);
       ongetmyFollowers();
       ongetFollowerAndFollowings();
       ongetActivity(profile, 1, "", (res) => {
@@ -647,8 +657,8 @@ const ProfileActivity = ({
                         </h4>
                         <div className="row">
                           <Antimage.PreviewGroup>
-                            {activityInfo?.image &&
-                              activityInfo.image.map((image, index) => (
+                            {myallPhotos &&
+                              myallPhotos.map((image, index) => (
                                 <Antimage
                                   key={index}
                                   loader={myLoader}
@@ -785,6 +795,7 @@ const mapStateToProps = ({ profile, user }) => {
     profilePoll: profile.profilePoll,
     followAndFollowing: user.followAndFollowing,
     profileRole: profile.headerInfo?.profile?.usertype,
+    myallPhotos: profile.allphotosInfo.slice(0, 8),
   };
 };
 
@@ -797,5 +808,6 @@ const mapDispatchToProps = (dispatch) => ({
   ongetProfilePoll: (id) => dispatch(getProfilePoll(id)),
   onvotePoll: (id, option, cb) => dispatch(votePoll(id, option, cb)),
   ongetFollowerAndFollowings: (cb) => dispatch(getFollowerAndFollowing(cb)),
+  ongetAllphotos: (id, pageInfo) => dispatch(getAllphotos(id, pageInfo)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);

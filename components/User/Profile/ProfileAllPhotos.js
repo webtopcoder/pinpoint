@@ -28,7 +28,6 @@ const ProfileAllPhotos = ({
   });
 
   const onChange = (page, pageSize) => {
-    console.log(pageSize);
     setCurrent(page);
   };
 
