@@ -15,8 +15,9 @@ import {
   Upload,
 } from "antd";
 import Image from "next/image";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import moment from 'moment';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -36,6 +37,27 @@ function ArrivalModal({
   const [arrivalForm] = Form.useForm();
 
   const { notify } = useNotify();
+
+  const disabledHours = () => {
+    const hours = [];
+    const currentHour = moment().hour();
+    for (let i = 0; i <= currentHour - 1; i++) {
+      hours.push(i);
+    }
+
+    return hours;
+  };
+
+  const disabledMinutes = (selectedHour) => {
+    const minutes = [];
+    const currentMinute = moment().minute();
+    if (selectedHour === moment().hour()) {
+      for (let i = 0; i <= currentMinute - 1; i++) {
+        minutes.push(i);
+      }
+    }
+    return minutes;
+  };
 
   useEffect(() => {
     if (openArrival) {
@@ -116,13 +138,14 @@ function ArrivalModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
+
           formData.append("arrivalText", values.arrivalText);
           formData.append("departureAt", values.departureAt);
 
           onquickArrival(
             { locationId: values.locationId, form: formData },
             (_, error) => {
-              
+
               setArrivalModalOpen(false);
               if (error) {
                 notify("error", error.response.data.message);
@@ -156,7 +179,11 @@ function ArrivalModal({
               required
               name="departureAt"
             >
-              <TimePicker format="h:mm A" use12Hours />
+              <TimePicker
+                disabledHours={disabledHours}
+                disabledMinutes={disabledMinutes}
+                format="h:mm a"
+                use12Hours={true} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={18} lg={16} xl={16}>
