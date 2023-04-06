@@ -30,15 +30,16 @@ import {
 import food from "@/public/images/landing/food.png";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import {
-  checkInLocation,
+  checkInArrival,
   favoriteLocation,
-  likeLocation,
+  likeArrival,
   likeLocationReview,
   postReview,
   unfavoriteLocation,
+  getLocationById,
+  getExpiredArrival
 } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
-import { getLocationById } from "@/src/redux/Location/actions";
 import { useRouter } from "next/router";
 import { getDiffToNow } from "@/utils/date";
 
@@ -71,7 +72,7 @@ const IconText = ({ reviewId, text, likeReview }) => {
   );
 };
 
-const LikeLocation = ({ likeLocation, locationId, text }) => {
+const LikeArrvial = ({ likeArrival, arrvialID, text }) => {
   const [like, setLike] = useState(text);
   useEffect(() => {
     setLike(text);
@@ -81,7 +82,7 @@ const LikeLocation = ({ likeLocation, locationId, text }) => {
       <Button
         type="primary"
         onClick={() => {
-          likeLocation(locationId, (liked) => {
+          likeArrival(arrvialID, (liked) => {
             if (liked) {
               setLike((like) => like + 1);
             } else {
@@ -105,11 +106,13 @@ const PartnerLocation = ({
   onPostReview,
   getLocationInfo,
   likeReview,
-  onLikeLocation,
-  onCheckInLocation,
+  onLikeArrival,
+  onCheckInArrival,
+  ongetExpiredArrival,
   onFavoriteLocation,
   onUnFavoriteLocation,
-  checkIncount
+  checkIncount,
+  expiredArrivals
 }) => {
   const router = useRouter();
   const { notify } = useNotify();
@@ -118,6 +121,14 @@ const PartnerLocation = ({
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
+      ongetExpiredArrival({ id: locationId }, (_, err) => {
+        if (err) {
+          notify(
+            "error",
+            err?.response?.data?.message || "Something went wrong"
+          );
+        }
+      });
       getLocationInfo({ id: locationId }, (_, err) => {
         if (err) {
           notify(
@@ -139,7 +150,7 @@ const PartnerLocation = ({
     <Layout
       className="site-layout"
       style={{
-        background: "#211f1f",
+        background: "#000000",
       }}
     >
       <Content>
@@ -159,8 +170,8 @@ const PartnerLocation = ({
               {location.isActive ? (
                 <ArrivalBanner
                   location={location}
-                  onLikeLocation={onLikeLocation}
-                  onCheckInLocation={onCheckInLocation}
+                  onLikeArrival={onLikeArrival}
+                  onCheckInArrival={onCheckInArrival}
                   checkIncount={checkIncount}
                 />
               ) : (
@@ -171,6 +182,17 @@ const PartnerLocation = ({
                 onPostReview={onPostReview}
                 getLocationInfo={getLocationInfo}
               />
+              {expiredArrivals.length > 0 ? (
+                <ExpiredArrivalBanner
+                  location={location}
+                  arrivals={expiredArrivals}
+                  onLikeArrival={onLikeArrival}
+                  onCheckInArrival={onCheckInArrival}
+                  checkIncount={checkIncount}
+                />
+              ) : (
+                ""
+              )}
               <div className="avatar-area green-color">
                 <div className="avatar-respond">
                   <div className="avatar-form">
@@ -202,12 +224,131 @@ const PartnerLocation = ({
   );
 };
 
-function ArrivalBanner({ location, onLikeLocation, onCheckInLocation, checkIncount }) {
+
+function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArrival, checkIncount }) {
 
   const { notify } = useNotify();
-  const arrivalText = location.arrivalText;
-  const arrivalImage = location.arrivalImages[0]?.filepath;
-  const date = location.createdAt;
+  return (
+    <div>
+      <div className="avatar-area green-color">
+
+        {arrivals.map((arrival, index) => (
+          <div className="avatar-respond">
+            <div style={{ display: "flex" }} className="pin-post-header-section">
+              <div className="pin-post-label">
+                <p className="comment-notes">
+                  <Avatar
+                    style={{
+                      border: "3px solid black",
+                      cursor: "pointer",
+                      background: "rgb(223 216 216)",
+                    }}
+                    size={64}
+                    icon={
+                      location.images?.length !== 0 &&
+                        location.images[0].filepath ? (
+                        <Image
+                          src={avatarurl + location.images[0]?.filepath}
+                          height={64}
+                          width={64}
+                          alt="avatar"
+                        />
+                      ) : ""
+                    }>
+                    {location.images?.length !== 0 &&
+                      location.images[0]?.filepath ? "" : 'No Photo'}
+                  </Avatar>
+                  <p style={{ display: "inline-block", marginLeft: "10px" }}>
+                    {location?.title}
+                    <span style={{ marginLeft: "15px" }}>
+                      <div
+                        style={{
+                          height: "15px",
+                          width: "15px",
+                          backgroundColor: "#ff0000",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          marginRight: "5px",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                      <p
+                        style={{
+                          fontSize: "10px",
+                          verticalAlign: "middle",
+                          display: "inline",
+                        }}
+                      >
+                        at {location?.mapLocation?.city}
+                      </p>
+                    </span>
+                  </p>
+                </p>
+              </div>
+              <div style={{ marginLeft: "auto", order: "2" }}>
+                <Button
+                  onClick={() => {
+                    onCheckInArrival(arrival.id, (res, err) => {
+                      if (err) {
+                        notify("error", err?.response?.data?.message || "Error");
+                      }
+                      notify(res.type, res.message);
+                    });
+                  }}
+                >
+                  Check In
+                </Button>
+              </div>
+            </div>
+            <div style={{ display: "flex" }}>
+              <div style={{ marginTop: "20px" }}>{arrival.arrivalText}</div>
+              <div style={{ marginLeft: "auto" }}>
+                <Image
+                  src={imgurl + arrival?.images[0]?.filepath}
+                  alt="img"
+                  width="100px"
+                  height="100px"
+                />
+              </div>
+            </div>
+            <div style={{ display: "flex", marginTop: "30px" }}>
+              <div>
+                {new Date(arrival.updatedAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  hour12: true,
+                  minute: "2-digit",
+                  second: "2-digit",
+                })}
+              </div>
+              <div style={{ marginLeft: "auto", order: "2" }}>
+                <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
+                  {arrival.checkIn.length} checked in
+                </Button>
+                <LikeArrvial
+                  likeArrival={onLikeArrival}
+                  arrvialID={arrival.id}
+                  text={arrival.like ? arrival.like.count : 0}
+                  key="list-vertical-like-o"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount }) {
+
+  const { notify } = useNotify();
+  const arrivalText = location?.isArrival?.arrivalText;
+  const arrivalImage = location?.isArrival?.images[0]?.filepath;
+  const arrivalID = location?.isArrival?.id;
+  const date = location?.updatedAt;
 
   return (
     <div>
@@ -269,7 +410,7 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation, checkIncou
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Button
                 onClick={() => {
-                  onCheckInLocation(location._id, (res, err) => {
+                  onCheckInArrival(arrivalID, (res, err) => {
                     if (err) {
                       notify("error", err?.response?.data?.message || "Error");
                     }
@@ -308,10 +449,10 @@ function ArrivalBanner({ location, onLikeLocation, onCheckInLocation, checkIncou
               <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
                 {checkIncount} checked in
               </Button>
-              <LikeLocation
-                likeLocation={onLikeLocation}
-                locationId={location._id}
-                text={location?.like ? location.like.count : 0}
+              <LikeArrvial
+                likeArrival={onLikeArrival}
+                arrvialID={arrivalID}
+                text={location.isArrival.like ? location.isArrival.like.count : 0}
                 key="list-vertical-like-o"
               />
             </div>
@@ -810,7 +951,8 @@ function temporarySwapHalf(array) {
 
 const mapStateToProps = (state) => ({
   location: state.location.location,
-  checkIncount: state.location.checkIncount
+  checkIncount: state.location.checkIncount,
+  expiredArrivals: state.location.expiredArrivals
 });
 
 const mapDispatchToProp = (dispatch) => {
@@ -819,9 +961,10 @@ const mapDispatchToProp = (dispatch) => {
     onPostReview: (locationId, form, cb) =>
       dispatch(postReview(locationId, form, cb)),
     likeReview: (reviewId, cb) => dispatch(likeLocationReview(reviewId, cb)),
-    onLikeLocation: (locationId, cb) => dispatch(likeLocation(locationId, cb)),
-    onCheckInLocation: (locationId, cb) =>
-      dispatch(checkInLocation(locationId, cb)),
+    onLikeArrival: (arrivalID, cb) => dispatch(likeArrival(arrivalID, cb)),
+    ongetExpiredArrival: (locationid, cb) => dispatch(getExpiredArrival(locationid, cb)),
+    onCheckInArrival: (locationId, cb) =>
+      dispatch(checkInArrival(locationId, cb)),
     onFavoriteLocation: (locationId, cb) =>
       dispatch(favoriteLocation(locationId, cb)),
     onUnFavoriteLocation: (locationId, cb) =>

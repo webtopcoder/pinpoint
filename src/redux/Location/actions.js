@@ -21,6 +21,8 @@ import {
   GET_ALL_ACTIVE_LOCATIONS_SUCCESS,
   LOCATION_CHECKIN_REQUEST,
   LOCATION_CHECKIN_SUCCESS,
+  USER_EXPIRED_ARRIVAL_REQUEST,
+  USER_EXPIRED_ARRIVAL_SUCCESS
 } from "./types";
 
 export function quickArrival({ form, locationId }, cb) {
@@ -66,8 +68,7 @@ export function quickDeparture(form, cb) {
 export function getLocations({ pagination = false, partner, isActive }, cb) {
   return (dispatch) =>
     api(
-      `locations?pagination=${pagination}&partner=${partner}${
-        isActive != null ? "&isActive=" + isActive : ""
+      `locations?pagination=${pagination}&partner=${partner}${isActive != null ? "&isActive=" + isActive : ""
       }`,
       "get"
     )
@@ -167,6 +168,25 @@ export function getLocationById({ id, ...params }, cb) {
       });
 }
 
+export function getExpiredArrival({ id, ...params }, cb) {
+  return (dispatch) =>
+    api(`locations/arrival/${id}`, "get", {}, params)
+      .then((res) => {
+        dispatch({
+          type: USER_EXPIRED_ARRIVAL_REQUEST,
+        });
+
+        dispatch({
+          type: USER_EXPIRED_ARRIVAL_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
+
 export function postReview(locationId, form, cb) {
   return (dispatch) =>
     api(`locations/${locationId}/review`, "post", form)
@@ -206,9 +226,9 @@ export function likeLocationReview(reviewId, cb) {
       });
 }
 
-export function likeLocation(locationId, cb) {
+export function likeArrival(arrivalID, cb) {
   return (dispatch) =>
-    api(`locations/${locationId}/like`, "post")
+    api(`locations/${arrivalID}/like`, "post")
       .then((res) => {
         dispatch({
           type: LOCATION_REVIEW_REQUEST,
@@ -225,9 +245,9 @@ export function likeLocation(locationId, cb) {
       });
 }
 
-export function checkInLocation(locationId, cb) {
+export function checkInArrival(arrivalID, cb) {
   return (dispatch) =>
-    api(`locations/${locationId}/check-in`, "post")
+    api(`locations/${arrivalID}/check-in`, "post")
       .then((res) => {
         dispatch({
           type: LOCATION_CHECKIN_REQUEST,
@@ -307,11 +327,9 @@ export function getFavouriteLocations(userId, cb) {
 export function getAllLocations(pagination, status, form) {
   let apiquery;
   form?.subcategory?.length > 0
-    ? (apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${
-        form?.subcategory ? form.subcategory : ""
+    ? (apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ""
       }`)
-    : (apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${
-        form?.category ? form.category : ""
+    : (apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${form?.category ? form.category : ""
       }`);
 
   return (dispatch) =>

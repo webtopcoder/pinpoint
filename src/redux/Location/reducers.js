@@ -13,6 +13,8 @@ import {
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
   USER_LOCATION_SUCCESS,
+  USER_EXPIRED_ARRIVAL_REQUEST,
+  USER_EXPIRED_ARRIVAL_SUCCESS,
   GET_ALL_ACTIVE_LOCATIONS_SUCCESS
 } from "./types";
 
@@ -20,6 +22,7 @@ const initialState = {
   loading: true,
   userLocations: [],
   activeLocations: [],
+  expiredArrivals: [],
   location: {
     isFavorite: false,
   },
@@ -58,7 +61,7 @@ const locationReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         location: action.payload,
-        checkIncount: action.payload.checkIn.length
+        checkIncount: action.payload.isArrival?.checkIn?.length
       };
     case LOCATION_REVIEW_REQUEST:
       return { ...state, loading: true };
@@ -67,7 +70,14 @@ const locationReducer = (state = initialState, action) => {
         ...state,
         loading: false,
       };
-
+    case USER_EXPIRED_ARRIVAL_REQUEST:
+      return { ...state, loading: true };
+    case USER_EXPIRED_ARRIVAL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        expiredArrivals: action.payload,
+      };
     case LOCATION_FAVORITE_REQUEST:
       return { ...state, loading: true };
     case LOCATION_FAVORITE_SUCCESS:
