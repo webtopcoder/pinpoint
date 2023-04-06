@@ -45,7 +45,7 @@ const PartnerLocations = ({ locations, ongetLocations }) => {
           justify="space-around"
         >
           {locations.length !== 0 ? (locations.map((location, index) => (
-            <Col span={6} key={index}>
+            <Col xs={24} sm={12} md={12} lg={12} xl={8} key={index}>
               <LocationCard location={location} />
             </Col>
           ))) :

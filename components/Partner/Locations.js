@@ -86,7 +86,7 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
             <Row gutter={16}>
               <Col
                 className="gutter-row"
-                span={6}
+                xs={24} sm={24} md={8} lg={8} xl={6}
                 style={{
                   marginTop: 30,
                 }}
@@ -99,7 +99,9 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
                   Add Location
                 </Button>
               </Col>
-              <Col className="gutter-row" span={12}>
+              <Col className="gutter-row"
+                xs={24} sm={24} md={8} lg={8} xl={12}
+              >
                 <Title
                   style={{
                     textAlign: "center",
@@ -123,12 +125,19 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
               style={{
                 marginTop: 30,
               }}
+              xs={24} sm={24} md={8} lg={8} xl={6}
               justify="space-around"
             >
               <Col className="gutter-row" span={24}>
                 <List
                   grid={{
-                    column: 3,
+                    gutter: 16,
+                    xs: 1,
+                    sm: 1,
+                    md: 1,
+                    lg: 2,
+                    xl: 3,
+                    xxl: 3,
                   }}
                   dataSource={locations}
                   renderItem={(item) => (
@@ -143,7 +152,6 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
           </Content>
         </div>
       </Content>
-
       <AddLocationModal
         open={addModalOpen}
         setModalOpen={setAddModalOpen}

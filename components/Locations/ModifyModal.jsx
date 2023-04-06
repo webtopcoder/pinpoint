@@ -241,6 +241,12 @@ function ModifyModal({
             name: ["description"],
             value: locationInfo.description,
           },
+          {
+            name: ["subCategories"],
+            value: locationInfo.subCategories?.map(
+              (item) => item._id
+            ),
+          },
         ]}
       >
         <Row>
@@ -293,7 +299,6 @@ function ModifyModal({
               ]}
               required
               tooltip="This is a required field"
-              initialvalue={locationInfo.subCategories?.map((item) => item._id)}
               name="subCategories"
             >
               <Select
@@ -302,9 +307,6 @@ function ModifyModal({
                 style={{
                   width: "100%",
                 }}
-                defaultValue={locationInfo.subCategories?.map(
-                  (item) => item._id
-                )}
                 placeholder="Select all that apply"
                 options={subcategoryList}
               />
