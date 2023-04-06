@@ -113,6 +113,19 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   function hideMarkers() {
     setMapOnAll();
   }
+
+  function getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      setPosition({
+        lat: latitude,
+        lng: longitude,
+      });
+    });
+
+    document.querySelector(".search-field").value=""
+  }
+
   const [inputValue, setInputValue] = useState(5);
   const onChange = (newValue) => {
     setInputValue(newValue);
@@ -184,6 +197,19 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   }
 
   useEffect(() => {
+
+    window.navigator.geolocation.getCurrentPosition(success, (error) => {
+      console.log(error);
+    });
+
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      setPosition({
+        lat: latitude,
+        lng: longitude,
+      });
+    });
+
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
       options
@@ -205,7 +231,9 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
   useEffect(() => {
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
-        console.log(error);
+        const { latitude, longitude } = success.coords;
+
+        console.log(latitude, longitude);
       });
     }
     initMap();
@@ -360,14 +388,14 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
                 <div className="avatar desktop">
                   <Image src={food} alt="user" className="shout-radius" />
                 </div>
-                <form className="search-form">
+                <form className="search-form" action="javascript:void(0);">
                   <input
                     type="search"
                     className="search-field"
                     ref={inputRef}
                     placeholder="Enter Address or Share Location"
                   />
-                  <button type="submit">
+                  <button onClick={getCurrentLocation}>
                     <i className="bx bx-current-location"></i>
                   </button>
                 </form>
