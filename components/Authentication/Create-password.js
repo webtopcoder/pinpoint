@@ -49,6 +49,7 @@ const CreatePassword = ({ onrecoveryPassword }) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
+
     onrecoveryPassword(
       {
         password: form.password,
