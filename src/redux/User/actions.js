@@ -106,6 +106,17 @@ export function getActivepartners() {
       });
 }
 
+export function getisFavorited(locationID, cb) {
+  return (dispatch) =>
+    api(`profile/getFavortied/${locationID}`, "get")
+      .then((res) => {
+        cb(res)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
 export function getTestimonials(cb) {
   return (dispatch) =>
     api(`admin/testimonial/all`, "get")

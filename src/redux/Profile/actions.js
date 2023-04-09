@@ -171,6 +171,18 @@ export function getPartnerships(cb) {
   };
 }
 
+export function updateProfileViews(id) {
+  return (dispatch) => {
+    api(`updateProfileView/${id}`, "get")
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
 export function getActivity(id, count, search, cb) {
   return (dispatch) =>
     api(`profile/${id}/activity?page=${count}&search=${search}`, "get")

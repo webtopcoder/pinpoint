@@ -60,8 +60,9 @@ const locationReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        location: action.payload,
-        checkIncount: action.payload.isArrival?.checkIn?.length
+        location: { ...action.payload.location, isFavorite: action.payload.isFavorite },
+        expiredArrivals: action.payload.expiredArrival,
+        checkIncount: action.payload.location.isArrival?.checkIn?.length
       };
     case LOCATION_REVIEW_REQUEST:
       return { ...state, loading: true };

@@ -196,7 +196,7 @@ const ProfileFollowers = ({
                               <Space direction="horizontal">
                                 <Button
                                   onClick={() => {
-                                    onacceptFollowerRequest(item?.id, "active", (_, error) => {
+                                    onacceptFollowerRequest(item?._id, "active", (_, error) => {
                                       setLoading(true);
                                       if (!error) {
                                         notify("success", "Accepted successfully");
@@ -222,7 +222,7 @@ const ProfileFollowers = ({
                                 </Button>
                                 <Button
                                   onClick={() => {
-                                    onacceptFollowerRequest(item?.id, "decline", (_, error) => {
+                                    onacceptFollowerRequest(item?._id, "decline", (_, error) => {
                                       setLoading(true);
                                       if (!error) {
                                         notify("success", "Declined successfully");

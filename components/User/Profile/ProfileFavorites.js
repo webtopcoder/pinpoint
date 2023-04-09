@@ -28,7 +28,6 @@ const ProfileFavorites = ({ ongetFavoriteLocations, favoriteLocations }) => {
     <div className="blog-details-area">
       <div className="container">
         <br />
-
         <div className="row justify-content-center">
           <div className="col-xl-10 col-lg-12 col-md-12">
             <div className="profile-location">

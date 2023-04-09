@@ -7,7 +7,8 @@ import {
     Typography,
     Table,
     Tag,
-    Button
+    Button,
+    Tabs
 } from "antd";
 import { formatDate } from "@/utils/date";
 import baseUrl from "@/utils/baseUrl";
@@ -17,7 +18,8 @@ const { Title } = Typography;
 function ListViewModal({
     open,
     setModalOpen,
-    locations
+    locations,
+    alllocations
 }) {
 
     const columns = [
@@ -95,6 +97,33 @@ function ListViewModal({
             },
         },
     ];
+
+    const items = [
+        {
+            key: '1',
+            label: `Filtered Locations`,
+            children: <>
+                <Table
+                    dataSource={locations}
+                    columns={columns}
+                    pagination={false}
+                    rowKey="_id"
+                />
+            </>,
+        },
+        {
+            key: '2',
+            label: `All`,
+            children: <>
+                <Table
+                    dataSource={alllocations}
+                    columns={columns}
+                    pagination={false}
+                    rowKey="_id"
+                />
+            </>,
+        },
+    ];
     return (
         <Modal
             className="dashboard-modal"
@@ -105,7 +134,7 @@ function ListViewModal({
             onCancel={() => setModalOpen(false)}
             footer={null}
         >
-            <Row>
+            {/* <Row>
                 <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
                 <Col
                     xs={20}
@@ -140,15 +169,14 @@ function ListViewModal({
                     }}
                 >
                 </Col>
-            </Row>
+            </Row> */}
             <Row>
                 <Col md={24} sm={24} xs={24}>
-                    <Table
-                        dataSource={locations}
-                        columns={columns}
-                        pagination={false}
-                        rowKey="_id"
+                    <Tabs
+                        type="card"
+                        items={items}
                     />
+
                 </Col>
             </Row>
         </Modal>

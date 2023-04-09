@@ -18,7 +18,7 @@ import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
-import { getCategory, getsubCategory } from "@/redux/User/actions";
+import { getCategory, getsubCategory, getisFavorited } from "@/redux/User/actions";
 import { getAllLocations } from "@/redux/Location/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { getDiffToNow } from "@/utils/date";
@@ -29,7 +29,8 @@ const { Option } = Select;
 var cityCircle = null;
 var map;
 
-const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAllLocations, activeLocations }) => {
+
+const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAllLocations, activeLocations, ongetisFavorited }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -44,28 +45,46 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     ],
   };
 
-  const markerDescription = (data) => {
-
-    return '<div class="card mb-3" style="max-width: 640px;">' +
-      '<div class="row no-gutters">' +
-      '<div class="col-md-4">' +
-      '<img src="' + faviconUrl + data?.arrivalImages[0]?.filepath + '" class="card-img" alt="...">' +
-      '</div>' +
-      ' <div class="col-md-8">' +
-      '<div class="card-body">' +
-      '<h5 class="card-title">' + data?.title + '</h5>' +
-      '<p class="card-text">' + data?.description + '</p>' +
-      '<p class="card-text"><small class="text-muted">Last updated ' + getDiffToNow(data?.createdAt) + ' ago</small></p>' +
-      `<a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp` +
-      `<a type="button" class="btn btn-primary">Add Favorite</a>` +
-      '</div>' +
-      '</div>' +
-      '</div>' +
-      '</div>'
+  function favoriteAction() {
+    console.log(234234);
   }
 
-  const [subcategoryList, setSubcategoryList] = useState([]);
+  const markerDescription = (data) => {
 
+    function favoriteAction() {
+      console.log(234234);
+    }
+
+    ongetisFavorited(data?.id, (res) => {
+
+      res.success ? setFavoriteInfo({ flag: false, btn: "Remove Favorite" }) : setFavoriteInfo({ flag: true, btn: "Add Favorite" })
+    });
+
+    return `<div class="card mb-3" style="max-width: 640px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="${faviconUrl}${data?.arrivalImages[0]?.filepath}" class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">${data?.title}</h5>
+          <p class="card-text">${data?.description}</p>
+          <p class="card-text"><small class="text-muted">Last updated ${getDiffToNow(data?.createdAt)} ago</small></p>
+          <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
+          <a type="button" class="btn btn-primary" onclick="()=>favoriteAction()">${favoriteInfo.btn}</a>
+          </div>
+      </div>
+    </div>
+  </div>`;
+  }
+
+
+  const [subcategoryList, setSubcategoryList] = useState([]);
+  const [radiusLocations, setRadiusLocations] = useState(activeLocations);
+  const [favoriteInfo, setFavoriteInfo] = useState({
+    flag: false,
+    btn: "Remove Favorite"
+  });
   const onFinish = (Form) => {
     ongetAllLocations(false, true, Form);
     function initMap() {
@@ -123,7 +142,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       });
     });
 
-    document.querySelector(".search-field").value=""
+    document.querySelector(".search-field").value = ""
   }
 
   const [inputValue, setInputValue] = useState(5);
@@ -232,8 +251,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     function initMap() {
       window.navigator.geolocation.getCurrentPosition(success, (error) => {
         const { latitude, longitude } = success.coords;
-
-        console.log(latitude, longitude);
       });
     }
     initMap();
@@ -274,6 +291,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       map,
       title: "Hello World!",
     });
+    setRadiusLocations([]);
 
     for (var i = 0; i < activeLocations?.length; i++) {
       var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
@@ -284,6 +302,10 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
 
 
       if (d < inputValue * 1000 * 1.6) {
+        radiusLocations.push(activeLocations[i]);
+        setRadiusLocations(radiusLocations);
+
+        console.log(radiusLocations)
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
           icon: {
@@ -292,7 +314,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
             origin: new google.maps.Point(0, 0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
           },
-
           map: map,
         });
 
@@ -547,7 +568,8 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           <ListViewModal
             open={addModalOpen}
             setModalOpen={setAddModalOpen}
-            locations={activeLocations}
+            locations={radiusLocations}
+            alllocations={activeLocations}
           />
         </div>
       </div>
@@ -569,6 +591,8 @@ const mapDispatchToProps = (dispatch) => ({
   ongetCategory: () => dispatch(getCategory()),
   onsubgetCategory: (categoryID, cb) =>
     dispatch(getsubCategory(categoryID, cb)),
+  ongetisFavorited: (locationID, cb) =>
+    dispatch(getisFavorited(locationID, cb)),
   ongetAllLocations: (pagination, status, form) =>
     dispatch(getAllLocations(pagination, status, form)),
 });

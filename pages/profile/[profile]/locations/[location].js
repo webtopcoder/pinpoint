@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 const Location = () => {
   return (
     <>
-      <PageTitle page="Locations" />
+      <PageTitle page="Location" />
 
       <div className="page-pin-area">
         <Profileheader />

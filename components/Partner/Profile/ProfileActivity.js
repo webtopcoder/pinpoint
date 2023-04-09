@@ -21,7 +21,7 @@ import {
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
-import { getActivity, getProfilePoll, votePoll, getAllphotos } from "@/redux/Profile/actions";
+import { getActivity, getProfilePoll, votePoll, getAllphotos, updateProfileViews } from "@/redux/Profile/actions";
 import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
@@ -68,7 +68,8 @@ const ProfileActivity = ({
   followAndFollowing,
   profileRole,
   ongetAllphotos,
-  myallPhotos
+  myallPhotos,
+  onupdateProfileViews
 }) => {
   const { notify } = useNotify();
   const likePost = (id, cb) => {
@@ -152,6 +153,7 @@ const ProfileActivity = ({
     if (router.isReady) {
       const { profile } = router.query;
       ongetAllphotos(profile, paginationInfo);
+      onupdateProfileViews(profile);
       ongetmyFollowers();
       ongetFollowerAndFollowings();
       ongetActivity(profile, 1, "", (res) => {
@@ -801,6 +803,7 @@ const mapStateToProps = ({ profile, user }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onpostThink: (data, cb) => dispatch(postThink(data, cb)),
+  onupdateProfileViews: (data) => dispatch(updateProfileViews(data)),
   onrecommendPost: (id, cb) => dispatch(recommendPost(id, cb)),
   ongetActivity: (data, count, search, cb) =>
     dispatch(getActivity(data, count, search, cb)),

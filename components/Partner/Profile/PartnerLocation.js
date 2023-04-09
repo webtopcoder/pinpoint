@@ -37,7 +37,6 @@ import {
   postReview,
   unfavoriteLocation,
   getLocationById,
-  getExpiredArrival
 } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
@@ -108,7 +107,6 @@ const PartnerLocation = ({
   likeReview,
   onLikeArrival,
   onCheckInArrival,
-  ongetExpiredArrival,
   onFavoriteLocation,
   onUnFavoriteLocation,
   checkIncount,
@@ -121,14 +119,7 @@ const PartnerLocation = ({
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
-      ongetExpiredArrival({ id: locationId }, (_, err) => {
-        if (err) {
-          notify(
-            "error",
-            err?.response?.data?.message || "Something went wrong"
-          );
-        }
-      });
+
       getLocationInfo({ id: locationId }, (_, err) => {
         if (err) {
           notify(
@@ -246,7 +237,7 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
                     size={64}
                     icon={
                       location.images?.length !== 0 &&
-                        location.images[0].filepath ? (
+                        location.images[0]?.filepath ? (
                         <Image
                           src={avatarurl + location.images[0]?.filepath}
                           height={64}
@@ -962,7 +953,6 @@ const mapDispatchToProp = (dispatch) => {
       dispatch(postReview(locationId, form, cb)),
     likeReview: (reviewId, cb) => dispatch(likeLocationReview(reviewId, cb)),
     onLikeArrival: (arrivalID, cb) => dispatch(likeArrival(arrivalID, cb)),
-    ongetExpiredArrival: (locationid, cb) => dispatch(getExpiredArrival(locationid, cb)),
     onCheckInArrival: (locationId, cb) =>
       dispatch(checkInArrival(locationId, cb)),
     onFavoriteLocation: (locationId, cb) =>

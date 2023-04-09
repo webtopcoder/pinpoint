@@ -7,6 +7,7 @@ const { Text } = Typography;
 function PartnerLocationCard({ location }) {
   return (
     <Card
+      hoverable
       className="banner"
       style={{
         backgroundColor: "#2F2F2F",

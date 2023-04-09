@@ -28,6 +28,7 @@ import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
 import { quickDeparture, getLocations } from "@/src/redux/Location/actions";
 import { getDiffToNow } from "@/utils/date";
+import { useRouter } from "next/router";
 
 import Image from "next/image";
 
@@ -55,6 +56,7 @@ const LocationCard = ({
   const [uploadFile, setUploadFile] = useState([]);
 
   const { notify } = useNotify();
+  const router = useRouter();
 
   const uploadProps = {
     name: "upload",
@@ -131,6 +133,7 @@ const LocationCard = ({
   return (
     <>
       <Card
+        hoverable
         style={{
           color: "white",
           cursor: "pointer",
@@ -171,18 +174,19 @@ const LocationCard = ({
             </Dropdown>,
           ]
         }
+
       >
-        <Row
-          gutter={16}
-          style={{
-            textAlign: "center",
-          }}
-        >
-          <Col span={24}>
-            <Link
-              href={`/profile/${location.partner._id ?? location.partner
-                }/locations/${location._id}`}
-            >
+        <div onClick={() => {
+          window.open(baseUrl + `/profile/${location.partner._id ?? location.partner
+            }/locations/${location._id}`, "_blank");
+        }}>
+          <Row
+            gutter={16}
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <Col span={24}>
               <Avatar
                 style={{ border: "3px solid black", cursor: "pointer" }}
                 size={100}
@@ -199,107 +203,107 @@ const LocationCard = ({
                 {location.images.length !== 0 &&
                   location.images[0]?.filepath ? "" : 'No Photo'}
               </Avatar>
-            </Link>
-          </Col>
-        </Row>
-        <Row
-          gutter={16}
-          style={{
-            textAlign: "center",
-          }}
-        >
-          <Col className="gutter-row" span={12}>
-            <IconText
-              icon={
-                <LikeOutlined
-                  style={{
-                    fontSize: 30,
-                  }}
-                />
-              }
-              text={
-                <Text
-                  style={{
-                    fontSize: 40,
-                    color: "white",
-                  }}
-                >
-                  {location.like?.count ?? 0}
-                </Text>
-              }
-              key="list-vertical-like-o"
-            />
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <IconText
-              icon={
-                <MessageOutlined
-                  style={{
-                    fontSize: 30,
-                  }}
-                />
-              }
-              text={
-                <Text
-                  style={{
-                    fontSize: 40,
-                    color: "white",
-                  }}
-                >
-                  {location.reviewCount ?? 0}
-                </Text>
-              }
-              key="list-vertical-message"
-            />
-          </Col>
-        </Row>
-        <Divider
-          style={{
-            borderColor: "white",
-          }}
-          dashed
-        >
-          <Tag style={{}} color={location.isActive ? "#87d068" : "#ff4d4f"}>
-            {location.isActive ? "Active" : "Inactive"}
-          </Tag>
-        </Divider>
-        <Col
-          style={{
-            marginTop: 20,
-            textAlign: "center",
-          }}
-        >
-          <Space direction="vertical" className="gutter-row" span={24}>
-            <Space>
-              <Text
-                style={{
-                  color: "white",
-                }}
-              >
-                {location?.mapLocation?.address}
-              </Text>
-            </Space>
-            <Space>
-              <Text
-                style={{
-                  color: "white",
-                }}
-              >
-                last seen {getDiffToNow(location.lastSeen)} ago
-              </Text>
-            </Space>
-            <Space>
-              <Rate
-                disabled
-                allowHalf
-                defaultValue={2}
-                tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-                onChange={(value) => setRating(value)}
-                value={rating}
+            </Col>
+          </Row>
+          <Row
+            gutter={16}
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <Col className="gutter-row" span={12}>
+              <IconText
+                icon={
+                  <LikeOutlined
+                    style={{
+                      fontSize: 30,
+                    }}
+                  />
+                }
+                text={
+                  <Text
+                    style={{
+                      fontSize: 40,
+                      color: "white",
+                    }}
+                  >
+                    {location.like?.count ?? 0}
+                  </Text>
+                }
+                key="list-vertical-like-o"
               />
+            </Col>
+            <Col className="gutter-row" span={12}>
+              <IconText
+                icon={
+                  <MessageOutlined
+                    style={{
+                      fontSize: 30,
+                    }}
+                  />
+                }
+                text={
+                  <Text
+                    style={{
+                      fontSize: 40,
+                      color: "white",
+                    }}
+                  >
+                    {location.reviewCount ?? 0}
+                  </Text>
+                }
+                key="list-vertical-message"
+              />
+            </Col>
+          </Row>
+          <Divider
+            style={{
+              borderColor: "white",
+            }}
+            dashed
+          >
+            <Tag style={{}} color={location.isActive ? "#87d068" : "#ff4d4f"}>
+              {location.isActive ? "Active" : "Inactive"}
+            </Tag>
+          </Divider>
+          <Col
+            style={{
+              marginTop: 20,
+              textAlign: "center",
+            }}
+          >
+            <Space direction="vertical" className="gutter-row" span={24}>
+              <Space>
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  {location?.mapLocation?.address}
+                </Text>
+              </Space>
+              <Space>
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  last seen {getDiffToNow(location.lastSeen)} ago
+                </Text>
+              </Space>
+              <Space>
+                <Rate
+                  disabled
+                  allowHalf
+                  defaultValue={2}
+                  tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
+                  onChange={(value) => setRating(value)}
+                  value={rating}
+                />
+              </Space>
             </Space>
-          </Space>
-        </Col>
+          </Col>
+        </div>
       </Card>
       <ArrivalModal
         openArrival={arrivalModalOpen}
