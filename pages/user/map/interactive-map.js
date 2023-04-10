@@ -30,7 +30,7 @@ var cityCircle = null;
 var map;
 
 
-const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAllLocations, activeLocations, ongetisFavorited }) => {
+const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAllLocations, favoriteLocation, activeLocations, ongetisFavorited }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -51,15 +51,11 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
 
   const markerDescription = (data) => {
 
-    function favoriteAction() {
-      console.log(234234);
-    }
-
     ongetisFavorited(data?.id, (res) => {
 
       res.success ? setFavoriteInfo({ flag: false, btn: "Remove Favorite" }) : setFavoriteInfo({ flag: true, btn: "Add Favorite" })
-    });
 
+    });
     return `<div class="card mb-3" style="max-width: 640px;">
     <div class="row no-gutters">
       <div class="col-md-4">
@@ -71,7 +67,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           <p class="card-text">${data?.description}</p>
           <p class="card-text"><small class="text-muted">Last updated ${getDiffToNow(data?.createdAt)} ago</small></p>
           <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
-          <a type="button" class="btn btn-primary" onclick="()=>favoriteAction()">${favoriteInfo.btn}</a>
+          <a type="button" class="btn btn-primary" onclick="${getDiffToNow(data?.createdAt)}">${favoriteInfo.btn}</a>
           </div>
       </div>
     </div>
@@ -80,25 +76,20 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
 
 
   const [subcategoryList, setSubcategoryList] = useState([]);
-  const [radiusLocations, setRadiusLocations] = useState(activeLocations);
+  const [radiusLocations, setRadiusLocations] = useState([]);
   const [favoriteInfo, setFavoriteInfo] = useState({
     flag: false,
-    btn: "Remove Favorite"
+    btn: ""
   });
   const onFinish = (Form) => {
     ongetAllLocations(false, true, Form);
-    function initMap() {
-      window.navigator.geolocation.getCurrentPosition(success, (error) => {
-        console.log(error);
-      });
-    }
-    initMap();
+    setRadiusLocations([]);
   };
 
   const onUpdateField = (value) => {
     onsubgetCategory(value, (res) => {
       const subarr = [];
-      res.subCategories?.map((item, index) => {
+      res?.subCategories?.map((item, index) => {
         const subitem = {
           value: item._id,
           label: item.name,
@@ -304,8 +295,6 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       if (d < inputValue * 1000 * 1.6) {
         radiusLocations.push(activeLocations[i]);
         setRadiusLocations(radiusLocations);
-
-        console.log(radiusLocations)
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
           icon: {
@@ -476,8 +465,9 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
                         size="large"
                         onChange={(e) => onUpdateField(e)}
                         placeholder="Select Category">
+                        <Option key={0} value="">All</Option>
                         {categoryInfo?.map((option, index) => (
-                          <Option key={index} value={option._id}>{option.name}</Option>
+                          <Option key={index + 1} value={option._id}>{option.name}</Option>
                         ))}
                       </Select>
                     </Form.Item>

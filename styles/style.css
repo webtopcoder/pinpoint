@@ -12103,8 +12103,8 @@ h4 {
 }
 
 .pin-post-label {
-  flex: 0 0 50%;
-  max-width: 50%;
+  flex: 0 0 70%;
+  max-width: 70%;
   font-size: 16px;
 }
 
@@ -12114,8 +12114,8 @@ h4 {
 }
 
 .pin-post-logo {
-  flex: 0 0 50%;
-  max-width: 50%;
+  flex: 0 0 30%;
+  max-width: 30%;
   text-align: end;
 }
 
@@ -13166,4 +13166,14 @@ h4 {
 
 .form-control:disabled {
   opacity: 0.5;
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
 }

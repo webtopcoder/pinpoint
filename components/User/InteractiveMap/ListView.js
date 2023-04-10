@@ -24,6 +24,7 @@ function ListViewModal({
 
     const columns = [
         {
+            key: '0',
             title: "Partner Name",
             dataIndex: "partner",
             render(partner) {
@@ -31,10 +32,12 @@ function ListViewModal({
             },
         },
         {
+            key: '1',
             title: "Location Name",
             dataIndex: "title",
         },
         {
+            key: '2',
             title: "City",
             dataIndex: "mapLocation",
             render(mapLocation) {
@@ -42,6 +45,7 @@ function ListViewModal({
             },
         },
         {
+            key: '3',
             title: "State",
             dataIndex: "mapLocation",
             render(mapLocation) {
@@ -49,6 +53,7 @@ function ListViewModal({
             },
         },
         {
+            key: '4',
             title: "Sub Categories",
             dataIndex: "subCategories",
             render(subCategories) {
@@ -58,6 +63,7 @@ function ListViewModal({
             },
         },
         {
+            key: '5',
             title: "Rating",
             dataIndex: "rating",
             render(rating) {
@@ -65,6 +71,7 @@ function ListViewModal({
             },
         },
         {
+            key: '6',
             title: "Sign Up Date",
             dataIndex: "createdAt",
             render(createdAt) {
@@ -72,6 +79,7 @@ function ListViewModal({
             },
         },
         {
+            key: '7',
             title: "Actions",
             dataIndex: "_id",
             fixed: "right",
@@ -100,27 +108,25 @@ function ListViewModal({
 
     const items = [
         {
-            key: '1',
+            key: 1,
             label: `Filtered Locations`,
             children: <>
                 <Table
                     dataSource={locations}
                     columns={columns}
                     pagination={false}
-                    rowKey="_id"
-                />
+                    rowKey="id" />
             </>,
         },
         {
-            key: '2',
+            key: 2,
             label: `All`,
             children: <>
                 <Table
                     dataSource={alllocations}
                     columns={columns}
                     pagination={false}
-                    rowKey="_id"
-                />
+                    rowKey="id" />
             </>,
         },
     ];
@@ -134,48 +140,12 @@ function ListViewModal({
             onCancel={() => setModalOpen(false)}
             footer={null}
         >
-            {/* <Row>
-                <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
-                <Col
-                    xs={20}
-                    sm={20}
-                    md={8}
-                    lg={22}
-                    xl={22}
-                    style={{
-                        margin: "auto",
-                        textAlign: "center",
-                    }}
-                >
-                    <Title
-                        style={{
-                            textAlign: "center",
-                            fontWeight: 900,
-                        }}
-                        level={2}
-                    >
-                        Locations List
-                    </Title>
-                    <Divider style={{}} dashed></Divider>
-                </Col>
-                <Col
-                    xs={4}
-                    sm={4}
-                    md={8}
-                    lg={2}
-                    xl={2}
-                    style={{
-                        textAlign: "right",
-                    }}
-                >
-                </Col>
-            </Row> */}
             <Row>
                 <Col md={24} sm={24} xs={24}>
                     <Tabs
+                        defaultActiveKey="1"
                         type="card"
-                        items={items}
-                    />
+                        items={items} />
 
                 </Col>
             </Row>
