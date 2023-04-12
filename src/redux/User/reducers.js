@@ -23,6 +23,8 @@ import {
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_SUCCESS,
   GET_ACTIVE_PARTNERS_SUCCESS,
+  CLEAR_NOTIFICATION_REQUEST,
+  CLEAR_NOTIFICATION_SUCCESS
 } from "./types";
 
 let token = "";
@@ -168,12 +170,19 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case GET_NOTIFICATION_SUCCESS: {
+    case CLEAR_NOTIFICATION_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
+    case CLEAR_NOTIFICATION_SUCCESS: {
       return {
         ...state,
         loading: false,
-        notifications: action.payload.results,
-        notificationCount: action.payload.totalResults,
+        notifications: [],
+        notificationCount: 0,
       };
     }
 

@@ -24,7 +24,9 @@ import {
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
   GET_ACTIVE_PARTNERS_REQUEST,
-  GET_ACTIVE_PARTNERS_SUCCESS
+  GET_ACTIVE_PARTNERS_SUCCESS,
+  CLEAR_NOTIFICATION_REQUEST,
+  CLEAR_NOTIFICATION_SUCCESS
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -152,8 +154,6 @@ export function verifyUserEmail(form, cb) {
           payload: res,
         });
 
-        // localStorage.setItem('userInfo', JSON.stringify(res));
-
         cb(res);
       })
       .catch((error) => {
@@ -274,6 +274,24 @@ export function getNotifications(params, cb) {
       });
 }
 
+export function clearNotifications() {
+  return (dispatch) =>
+    api(`notification/clear`, "get")
+      .then((res) => {
+        dispatch({
+          type: CLEAR_NOTIFICATION_REQUEST,
+        });
+
+        dispatch({
+          type: CLEAR_NOTIFICATION_SUCCESS,
+        });
+
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+}
+
 export function updatedNotifications(id, cb) {
   return (dispatch) =>
     api(`notification/${id}/mark-as-read`, "post")
@@ -285,12 +303,8 @@ export function updatedNotifications(id, cb) {
         dispatch({
           type: UPDATE_NOTIFICATION_SUCCESS,
         });
-
         cb(res);
       })
-      .catch((error) => {
-        cb(null, error);
-      });
 }
 
 export function getSettingsValue(cb) {
