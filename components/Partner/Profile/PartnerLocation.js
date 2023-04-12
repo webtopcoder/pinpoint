@@ -270,7 +270,7 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
                           display: "inline",
                         }}
                       >
-                        at {location?.mapLocation?.city}
+                        at {arrival?.location?.mapLocation?.city}
                       </p>
                     </span>
                   </p>
@@ -304,7 +304,7 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
             </div>
             <div style={{ display: "flex", marginTop: "30px" }}>
               <div>
-                {new Date(arrival.updatedAt).toLocaleDateString(undefined, {
+                {new Date(arrival?.updatedAt).toLocaleDateString(undefined, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",

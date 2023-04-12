@@ -407,23 +407,21 @@ const ProfileActivity = ({
                                     title={
                                       <>
                                         <Space direction="vertical">
-                                          <span className="custom-userName">
-                                            {item?.from_user?.username}{" "}
+                                          <a onClick={() =>
+                                            window.open(
+                                              baseUrl +
+                                              "/profile/" +
+                                              item.from_user._id +
+                                              "/activity",
+                                              "_blank"
+                                            )
+                                          } className="custom-userName">
+                                            {item?.from_user?.firstname}{" "}{item?.from_user?.lastname}
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                          </span>
-                                          <a
-                                            onClick={() =>
-                                              window.open(
-                                                baseUrl +
-                                                "/profile/" +
-                                                item.from_user._id +
-                                                "/activity",
-                                                "_blank"
-                                              )
-                                            }
-                                          >
-                                            @{item?.from_user?.username}
                                           </a>
+                                          <span>
+                                            @{item?.from_user?.username}
+                                          </span>
                                         </Space>
                                         <Space>
                                           Posted to

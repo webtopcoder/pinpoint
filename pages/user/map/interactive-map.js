@@ -45,33 +45,40 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     ],
   };
 
-  function favoriteAction() {
-    console.log(234234);
-  }
+  // function favoriteAction() {
+  //   console.log(234234);
+  // }
+
+  // function getFavorited(id) {
+  //   ongetisFavorited(id, (res) => {
+
+  //     res.success ? setFavoriteInfo({ flag: false, btn: "Add Favorite" }) : setFavoriteInfo({ flag: true, btn: "Remove Favorite" })
+  //     return res.success
+  //   });
+  // }
+
 
   const markerDescription = (data) => {
+    // const flag = ""
+    // ongetisFavorited(data?.id, (res) => {
+    //   flag = "OKAY"
+    //   res.success ? setFavoriteInfo({ flag: false, btn: "Add Favorite" }) : setFavoriteInfo({ flag: true, btn: "Remove Favorite" })
+    // });
 
-    ongetisFavorited(data?.id, (res) => {
-
-      res.success ? setFavoriteInfo({ flag: false, btn: "Remove Favorite" }) : setFavoriteInfo({ flag: true, btn: "Add Favorite" })
-
-    });
     return `<div class="card mb-3" style="max-width: 640px;">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="${faviconUrl}${data?.arrivalImages[0]?.filepath}" class="card-img" alt="...">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="${faviconUrl}${data?.arrivalImages[0]?.filepath}" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">${data?.title}</h5>
+            <p class="card-text">${data?.description}</p>
+            <p class="card-text"><small class="text-muted">Last updated ${getDiffToNow(data?.createdAt)} ago</small></p>
+            <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
+        </div>
       </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">${data?.title}</h5>
-          <p class="card-text">${data?.description}</p>
-          <p class="card-text"><small class="text-muted">Last updated ${getDiffToNow(data?.createdAt)} ago</small></p>
-          <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
-          <a type="button" class="btn btn-primary" onclick="${getDiffToNow(data?.createdAt)}">${favoriteInfo.btn}</a>
-          </div>
-      </div>
-    </div>
-  </div>`;
+    </div>`;
   }
 
 
