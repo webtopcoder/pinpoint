@@ -3,8 +3,8 @@ import Socket from "socket.io-client";
 import { DOMAIN } from "../constants";
 import { USER_INFO_SUCCESS } from "../Profile/types";
 import { USER_LOGIN_SUCCESS } from "../User/types";
-
 import { S_LOGIN, S_NOTIFICATION } from "./types";
+import Link from "next/link";
 
 const initialState = {
   socket: Socket(DOMAIN),
@@ -22,11 +22,24 @@ const socketReducer = (state = initialState, action) => {
     case S_NOTIFICATION: {
       const notificationlistener = `notification-${state.user}`;
       state.socket.on(notificationlistener, (data) => {
-        toast({ type: "info", message: data.message });
+
+        // if (data.flag === "follow")
+        switch (data.type) {
+          case "shoutout":
+            toast({ type: "info", message: <Link href={`/profile/${data.to}/shout-outs`}>{data.message}</Link> });
+            break;
+          case "follow":
+            toast({ type: "info", message: <Link href={`/profile/${data.to}/followers`}>{data.message}</Link> });
+            break;
+          default:
+            toast({ type: "info", message: data.message });
+            break;
+        }
       });
 
+
       /* if (state.notificationlistener != notificationlistener) {
-        state.socket.off(state.socket.notificationlistener);
+          state.socket.off(state.socket.notificationlistener);
       } */
 
       return {
