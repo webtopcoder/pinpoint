@@ -37,7 +37,7 @@ const PartnerLocations = ({ locations, ongetLocations }) => {
     >
       <Content
         style={{
-          margin: "60px 16px",
+          margin: "60px 100px",
         }}
       >
         <Row

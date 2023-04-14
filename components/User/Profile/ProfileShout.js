@@ -169,43 +169,39 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                 }
                                 title={
                                   <>
-                                    <span className="custom-userName">
-                                      {item?.from?.firstName +
-                                        " " +
-                                        item?.from?.lastName}{" "}
-                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                    </span>
-                                    <span className="custom-shoutout-text">
-                                      shouted out&nbsp;&nbsp;
+                                    <Space direction="vertical">
+                                      <a onClick={() =>
+                                        window.open(
+                                          baseUrl +
+                                          "/profile/" +
+                                          item.from._id +
+                                          "/activity",
+                                          "_blank"
+                                        )
+                                      } className="custom-userName">
+                                        {item?.from?.firstName}{" "}{item?.from?.lastName}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                                      </a>
+                                      <span>
+                                        @{item?.from?.username}
+                                      </span>
+                                    </Space>
+                                    <Space>
+                                      shouted out
                                       <a
-                                        className="custom-touser-text"
                                         onClick={() =>
                                           window.open(
                                             baseUrl +
-                                              "/profile/" +
-                                              item.to._id +
-                                              "/activity",
+                                            "/profile/" +
+                                            item?.to?._id +
+                                            "/activity",
                                             "_blank"
                                           )
                                         }
                                       >
                                         @{item?.to?.username}
                                       </a>
-                                    </span>
-                                    <br />
-                                    <a
-                                      onClick={() =>
-                                        window.open(
-                                          baseUrl +
-                                            "/profile/" +
-                                            item.from._id +
-                                            "/activity",
-                                          "_blank"
-                                        )
-                                      }
-                                    >
-                                      @{item?.from?.username}
-                                    </a>
+                                    </Space>
                                   </>
                                 }
                               />

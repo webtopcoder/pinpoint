@@ -65,7 +65,7 @@ const Setting = ({
         <div className="site-card-wrapper">
           {settings ? (
             <>
-              <Row className={styles.list}>
+              {/* <Row className={styles.list}>
                 <Col md={16} xs={16} sm={16} className={styles.left_pane}>
                   Notify me when I receive a like, comment or rating.
                 </Col>
@@ -115,7 +115,7 @@ const Setting = ({
                     }}
                   />
                 </Col>
-              </Row>
+              </Row> */}
               <Row className={styles.list + " mt-3"}>
                 <Col md={16} xs={16} sm={16} className={styles.left_pane}>
                   Notify me when I have a Location status change.

@@ -5,7 +5,6 @@ import {
   getNotifications,
   updatedNotifications,
   clearNotifications,
-
 } from "@/src/redux/User/actions";
 import {
   CloseOutlined,
@@ -139,13 +138,7 @@ function NotificationDrawer({
               </Tooltip>
             </Space.Compact>]}
           >
-            <Link
-              style={{
-                cursor: "pointer",
-              }}
-              href={item.url ?? "#"}
-              onClick={() => notificationRead(true, item)}
-            >
+           
               <List.Item.Meta
                 avatar={<Avatar src={avatarurl + "/" + item?.actor.profile?.avatar.filepath} />}
                 title={
@@ -158,6 +151,7 @@ function NotificationDrawer({
                     {item.actor.firstName}{" "}{item.actor.lastName}
                   </span>
                 }
+                onClick={() => notificationRead(true, item)}
                 description={
                   <span
                     style={{
@@ -169,7 +163,6 @@ function NotificationDrawer({
                   </span>
                 }
               />
-            </Link>
           </List.Item>
         )}
       />

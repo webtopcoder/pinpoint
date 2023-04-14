@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, List, Skeleton, Input, Layout, Space } from "antd";
+import { Avatar, Button, List, Skeleton, Input, Layout, Space, Tag } from "antd";
 import {
   UserOutlined,
   MessageFilled,
   UserDeleteOutlined,
   CheckOutlined,
-  CloseOutlined
+  CloseOutlined,
+  SyncOutlined
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
@@ -158,7 +159,7 @@ const ProfileFollowers = ({
                     renderItem={(item) => (
                       <List.Item
                         actions={[
-                          <Button
+                          item?.status !== "requesting" ? (<Button
                             onClick={() =>
                               window.open(
                                 baseUrl +
@@ -174,26 +175,12 @@ const ProfileFollowers = ({
                             key="button-view-profile"
                           >
                             View Profile
-                          </Button>,
+                          </Button>) : '',
                           userRole ? (
                             user_id !== profile ? (
-                              <Button
-                                onClick={() =>
-                                  window.open(
-                                    baseUrl +
-                                    `/${userRole}/message?user=${item?.follower?.id}`,
-                                    "_blank"
-                                  )
-                                }
-                                type="primary"
-                                icon={<MessageFilled />}
-                                size={"default"}
-                                key="button-message"
-                              >
-                                Message
-                              </Button>
-                            ) : item?.status === "pending" ? (
-                              <Space direction="horizontal">
+                              ""
+                            ) : item?.status !== "active" ? (
+                              item?.status === "pending" ? (<Space direction="horizontal">
                                 <Button
                                   onClick={() => {
                                     onacceptFollowerRequest(item?._id, "active", (_, error) => {
@@ -255,14 +242,21 @@ const ProfileFollowers = ({
                                 >
                                   Decline
                                 </Button>
-                              </Space>
+                              </Space>)
+                                :
+                                (<Space direction="horizontal">
+                                  <Tag icon={<SyncOutlined spin />} color="processing">
+                                    pending
+                                  </Tag>
+                                </Space>)
+
                             ) : (
                               <Space direction="horizontal">
                                 <Button
                                   onClick={() =>
                                     window.open(
                                       baseUrl +
-                                      `/${userRole}/message?user=${item?.follower?.id}`,
+                                      `/${userRole}/message?user=${item?.follower?._id}`,
                                       "_blank"
                                     )
                                   }

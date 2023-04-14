@@ -19,13 +19,13 @@ const { Content } = Layout;
 
 const Mail = () => {
   const router = useRouter();
+  const { user } = router.query;
+
   let emailID = "";
   useEffect(() => {
-    if (router.isReady) {
-      emailID = router.query.email;
-      emailID && setTab("compose");
-    }
-  }, [router.isReady]);
+    user && setTab("compose");
+
+  }, [user]);
 
   const childFunc = useRef(null);
   const items = [
@@ -180,33 +180,33 @@ const Mail = () => {
                         options={
                           tab == "inbox"
                             ? [
-                                {
-                                  value: "bluk",
-                                  label: "Bluk Action",
-                                },
-                                {
-                                  value: "read",
-                                  label: "Mark Read",
-                                },
-                                {
-                                  value: "unread",
-                                  label: "Mark Unread",
-                                },
-                                {
-                                  value: "delete",
-                                  label: "Delete",
-                                },
-                              ]
+                              {
+                                value: "bluk",
+                                label: "Bluk Action",
+                              },
+                              {
+                                value: "read",
+                                label: "Mark Read",
+                              },
+                              {
+                                value: "unread",
+                                label: "Mark Unread",
+                              },
+                              {
+                                value: "delete",
+                                label: "Delete",
+                              },
+                            ]
                             : [
-                                {
-                                  value: "bluk",
-                                  label: "Bluk Action",
-                                },
-                                {
-                                  value: "delete",
-                                  label: "Delete",
-                                },
-                              ]
+                              {
+                                value: "bluk",
+                                label: "Bluk Action",
+                              },
+                              {
+                                value: "delete",
+                                label: "Delete",
+                              },
+                            ]
                         }
                       />
                       <Button

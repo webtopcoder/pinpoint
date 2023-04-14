@@ -493,23 +493,21 @@ const ProfileActivity = ({
                                     title={
                                       <>
                                         <Space direction="vertical">
-                                          <span className="custom-userName">
-                                            {item?.follower?.username}{" "}
+                                          <a onClick={() =>
+                                            window.open(
+                                              baseUrl +
+                                              "/profile/" +
+                                              item.from_user._id +
+                                              "/activity",
+                                              "_blank"
+                                            )
+                                          } className="custom-userName">
+                                            {item?.follower?.firstname}{" "}{item?.follower?.lastname}
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                                          </span>
-                                          <a
-                                            onClick={() =>
-                                              window.open(
-                                                baseUrl +
-                                                "/profile/" +
-                                                item.follower._id +
-                                                "/activity",
-                                                "_blank"
-                                              )
-                                            }
-                                          >
-                                            @{item?.follower?.username}
                                           </a>
+                                          <span>
+                                            @{item?.follower?.username}
+                                          </span>
                                         </Space>
                                         <Space>
                                           Followed

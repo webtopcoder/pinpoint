@@ -26,25 +26,21 @@ const ProfileFavorites = ({ ongetFavoriteLocations, favoriteLocations }) => {
 
   return (
     <div className="blog-details-area">
-      <div className="container">
         <br />
         <div className="row justify-content-center">
           <div className="col-xl-10 col-lg-12 col-md-12">
             <div className="profile-location">
               <p className="title">Favorite Locations</p>
-              <div className="container">
-                <Row justify="space-around">
-                  {favoriteLocations.map((location, index) => (
-                    <Col span={6} key={index}>
-                      <LocationCard location={location} />
-                    </Col>
-                  ))}
-                </Row>
-              </div>
+              <Row justify="space-around" gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+                {favoriteLocations.map((location, index) => (
+                  <Col xs={24} sm={12} md={12} lg={12} xl={8} key={index}>
+                    <LocationCard location={location} />
+                  </Col>
+                ))}
+              </Row>
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };
