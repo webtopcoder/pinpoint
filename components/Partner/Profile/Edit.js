@@ -28,7 +28,7 @@ const modules = {
     [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ size: [] }],
     ["bold", "italic", "underline", "strike", "blockquote"],
-    [{ 'color': [] }], 
+    [{ 'color': [] }],
     [
       { list: "ordered" },
       { list: "bullet" },
@@ -36,10 +36,10 @@ const modules = {
       { indent: "+1" },
     ],
     [{ 'align': [] }],
-    [{ 'direction': 'rtl' }],                
+    [{ 'direction': 'rtl' }],
     ["link", "image", "video"],
     ["clean"],
-    
+
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -447,13 +447,13 @@ const Edit = ({
                     </div>
                   </div>
                 </div>
-                <div className="profile-location">
+                {/* <div className="profile-location">
                   <div className="container">
                     <div className="row">
                       <ToggleSettings />
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
