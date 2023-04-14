@@ -161,8 +161,7 @@ function NotificationDrawer({
                   >
                     {item.description}
                   </span>
-                  </>
-                 
+                  </>   
                 }
               />
           </List.Item>
