@@ -48,7 +48,7 @@ function ToggleSettings({
 
   return settings ? (
     <>
-      <Row className={styles.list}>
+      {/* <Row className={styles.list}>
         <Col md={16} xs={16} sm={16} className={styles.left_pane}>
           Notify me when I receive a like, comment or rating.
         </Col>
@@ -95,7 +95,7 @@ function ToggleSettings({
             }}
           />
         </Col>
-      </Row>
+      </Row> */}
       <Row className={styles.list + " mt-3"}>
         <Col md={16} xs={16} sm={16} className={styles.left_pane}>
           Notify me when my favorites are active.

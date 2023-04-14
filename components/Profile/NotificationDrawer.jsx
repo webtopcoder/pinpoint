@@ -138,7 +138,6 @@ function NotificationDrawer({
               </Tooltip>
             </Space.Compact>]}
           >
-           
               <List.Item.Meta
                 avatar={<Avatar src={avatarurl + "/" + item?.actor.profile?.avatar.filepath} />}
                 title={
@@ -153,7 +152,8 @@ function NotificationDrawer({
                 }
                 onClick={() => notificationRead(true, item)}
                 description={
-                  <span
+                  <>
+                   <span
                     style={{
                       color: "white",
                       cursor: "pointer",
@@ -161,6 +161,8 @@ function NotificationDrawer({
                   >
                     {item.description}
                   </span>
+                  </>
+                 
                 }
               />
           </List.Item>
