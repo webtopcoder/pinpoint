@@ -148,7 +148,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
               ]}
             >
               <Select
-                disabled={sendToUserId ? true : false}
+                disabled={sendToUserId || componentDisabled ? true : false}
                 mode="multiple"
                 size="middle"
                 placeholder="Please select Users"
