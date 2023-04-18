@@ -5,18 +5,31 @@ import {
   EyeInvisibleOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Space, Tooltip, Tag, Button } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails }) => {
+const useInboxColumns = ({ setOpen, setSaveReply, setInitLoading, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails, ongetReply }) => {
   const [record_detail, setSaveInboxDetail] = useState();
   const { notify } = useNotify();
 
   const selectedInboxinfo = (recordInfo) => {
+    ongetReply(recordInfo._id, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+        return;
+      }
+      else {
+        setInitLoading(false)
+        setSaveReply(res.results);
+      }
+    });
     setSaveInboxDetail(recordInfo);
     setOpen(true);
   };
@@ -116,11 +129,12 @@ const useInboxColumns = ({ setOpen, onUpdateMail, onDeleteMail, getInbox, ongetI
         <div className="thread-info">
           <p>
             <Tooltip title="View Message" color={"blue"}>
-              <a onClick={() => selectedInboxinfo(record)}>
+              <Button type="link" onClick={() => selectedInboxinfo(record)}>
                 {record.subject.length > 30
                   ? record.subject.substring(0, 30) + "..."
                   : record.subject}
-              </a>
+              </Button>
+              {record?.repliesCount !== 0 ? <Tag color="success">{record?.repliesCount} replied</Tag> : ''}
             </Tooltip>
           </p>
         </div>

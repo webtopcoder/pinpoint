@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { Space, Tooltip } from "antd";
+import { Space, Tooltip, Button, Tag } from "antd";
 import { DeleteFilled } from "@ant-design/icons";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -8,11 +8,24 @@ import { formatDate } from "@/utils/date";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-function useSentColumns({ setOpen, onDeleteSent, getSent }) {
+function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSaveReply, ongetReply }) {
   const [record_detail, setSaveSentDetail] = useState();
   const { notify } = useNotify();
 
   const selectedSentinfo = (recordInfo) => {
+    ongetReply(recordInfo._id, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+        return;
+      }
+      else {
+        setInitLoading(false)
+        setSaveReply(res.results);
+      }
+    });
     setSaveSentDetail(recordInfo);
     setOpen(true);
   };
@@ -87,11 +100,12 @@ function useSentColumns({ setOpen, onDeleteSent, getSent }) {
         <div className="thread-info">
           <p>
             <Tooltip title="View Message" color={"blue"}>
-              <a onClick={() => selectedSentinfo(record)}>
+              <Button type="link" onClick={() => selectedSentinfo(record)}>
                 {record.subject.length > 30
                   ? record.subject.substring(0, 30) + "..."
                   : record.subject}
-              </a>
+              </Button>
+              {record?.repliesCount !== 0 ? <Tag color="error">{record?.repliesCount} unread</Tag> : ''}
             </Tooltip>
           </p>
         </div>

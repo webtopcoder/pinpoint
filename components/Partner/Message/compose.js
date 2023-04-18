@@ -75,6 +75,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
         );
       } else {
         composeForm.resetFields();
+        setUploadFile([]);
         notify("success", res.msg);
       }
     });

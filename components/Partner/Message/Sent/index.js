@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Table, Row, Col, Tooltip, Modal, Dropdown } from "antd";
+import { Table, Row, Col, Button, Tooltip, Modal, Dropdown, Input, Divider, Upload, Form, message, List, Skeleton, Avatar, Space } from "antd";
 import { connect } from "react-redux";
-import { DownloadOutlined } from "@ant-design/icons";
-import { bulkMailAction, getSent } from "@/redux/Mail/actions";
+import { DownloadOutlined, UploadOutlined, DownOutlined, UpOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { bulkMailAction, getSent, deleteMail, getReplyByID, replyCompose } from "@/redux/Mail/actions";
 import { downloadFile } from "@/redux/Mail/actions";
-import { deleteMail } from "@/redux/Mail/actions";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import useSentColumns from "./useSentColumns";
+import { getDiffToNow } from "@/utils/date";
+import Link from "next/link";
+
+const { TextArea } = Input;
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 const attachurl = `${apiBaseUrl}/avatar/`;
+
+const IconText = ({ icon, text }) => (
+  <Space>
+    {React.createElement(icon)}
+    {text}
+  </Space>
+);
 
 const Sent = ({
   ondownloadFile,
@@ -20,6 +30,8 @@ const Sent = ({
   childlistfunc,
   childFunc,
   onBulkDelete,
+  onreplyCompose,
+  ongetReplyByID
 }) => {
   const onMenuClick = (e) => {
     ondownloadFile(e.key);
@@ -27,13 +39,23 @@ const Sent = ({
   };
   const [open, setOpen] = useState(false);
   const { notify } = useNotify();
+  const [replymsg, setReply] = useState('');
+  const [replyForm] = Form.useForm();
+  const [upload_name, setUploadFile] = useState([]);
+  const [expand, setExpand] = useState(true);
+  const [initLoading, setInitLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [reply_detail, setSaveReply] = useState();
+
   const { columns, record_detail } = useSentColumns({
     setOpen,
+    setSaveReply,
+    setInitLoading,
+    ongetReply: ongetReplyByID,
     onDeleteSent: ondeleteSent,
     getSent: ongetSent,
   });
 
-  const [loading, setLoading] = useState(false);
   const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
 
   const [tableParams, setTableParams] = useState({
@@ -57,6 +79,55 @@ const Sent = ({
       });
     });
   }, [JSON.stringify(tableParams)]);
+
+
+  const onFinish = (values) => {
+
+    const form_data = new FormData();
+    upload_name.map((file) => form_data.append("files", file.originFileObj));
+    form_data.append("from", record_detail?.from?._id);
+    form_data.append("role", record_detail?.from?.role);
+    form_data.append("to", record_detail?.to?._id);
+    form_data.append("reply", record_detail?._id);
+    form_data.append("message", values.message);
+    onreplyCompose(form_data, (res, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message ?? "Something went wrong"
+        );
+      } else {
+        setExpand(true);
+        setSaveReply(res.result.results);
+        setUploadFile([]);
+        replyForm.resetFields();
+        notify("success", res.msg);
+      }
+    });
+  };
+
+  const props = {
+    name: "upload",
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        const fileUploadInfo = info.fileList;
+        setUploadFile(fileUploadInfo);
+      }
+
+      if (info.file.status == "removed") {
+        if (info.fileList.length == 0) setUploadFile("");
+        else {
+          const fileUploadInfo = info.fileList;
+          setUploadFile(fileUploadInfo);
+        }
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
 
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -145,22 +216,16 @@ const Sent = ({
               className="message-box odd sent-by-2 message-not-starred"
             >
               <div className="message-metadata">
-                <img
-                  src={avatarurl + record_detail?.to?.profile?.avatar?.filepath}
-                  alt="user"
-                  className="avatar"
-                  width={100}
-                  height={100}
-                />
+                <Avatar shape="square" size={50} src={avatarurl + record_detail?.to?.profile?.avatar?.filepath} />
                 <div className="message-metadata-head">
                   <Tooltip title="View Profile" color={"blue"}>
                     <a
                       onClick={() =>
                         window.open(
                           baseUrl +
-                            "/profile/" +
-                            record_detail?.to?._id +
-                            "/activity",
+                          "/profile/" +
+                          record_detail?.to?._id +
+                          "/activity",
                           "_blank"
                         )
                       }
@@ -213,6 +278,116 @@ const Sent = ({
             </div>
           </div>
         )}
+        {reply_detail?.length > 0 ?
+          <>
+            <Divider orientation="left" plain>
+              Replied List
+            </Divider>
+            <Button
+              style={{
+                fontSize: 12,
+              }}
+              onClick={() => {
+                setExpand(!expand);
+              }}
+              type="link"
+            >
+              {expand ? <UpOutlined /> : <DownOutlined />} Reply
+            </Button>
+            <Form
+              form={replyForm}
+              onFinish={onFinish}
+              layout="inline"
+              autoComplete="off"
+            >
+              <Col span={21}>
+                <Form.Item
+                  hidden={expand}
+                  name="message"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input Message!",
+                    },
+                    {
+                      whitespace: true,
+                      message: "Please input Message!",
+                    },
+                  ]}
+                >
+                  <TextArea
+                    value={replymsg}
+                    placeholder="Reply message"
+                    autoSize={{
+                      minRows: 3,
+                      maxRows: 5,
+                    }}
+                    onChange={(e) => setReply(e.target.value)}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={3}>
+                <Form.Item name="fileupload" hidden={expand}
+                >
+                  <Upload method="get" {...props}>
+                    <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
+                      Upload
+                    </Button>
+                  </Upload>
+                </Form.Item>
+              </Col>
+              <Col span={21}>
+                <Form.Item name="submit" style={{
+                  textAlign: 'right',
+                  marginTop: '10px'
+                }} hidden={expand}
+                >
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="btn-submit"
+                  >
+                    SEND
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Form>
+            <List
+              className="demo-loadmore-list"
+              loading={initLoading}
+              itemLayout="vertical"
+              dataSource={reply_detail}
+              renderItem={(item) => (
+                <List.Item
+                  actions={[
+                    item?.files?.length !== 0 ? (
+                      <Dropdown
+                        menu={{
+                          items: item?.files?.map((item) => ({
+                            key: item.filepath,
+                            label: item.filepath,
+                          })),
+                          onClick: onMenuClick,
+                        }}
+                      >
+                        <Button>{<DownloadOutlined />}</Button>
+                      </Dropdown>
+                    ) : (
+                      ""
+                    ),
+                    <IconText icon={ClockCircleOutlined} text={getDiffToNow(item?.createdAt) + " ago"} key="list-vertical-star-o" />,
+                  ]}
+                >
+                  <Skeleton avatar title={false} loading={item.loading} active>
+                    <List.Item.Meta
+                      avatar={<Avatar shape="square" size={50} src={avatarurl + item?.from?.profile?.avatar?.filepath} />}
+                      title={<Link href={`/profile/${item.from.id}/activity`}>{"@" + item?.from?.username}</Link>}
+                      description={item?.message}
+                    />
+                  </Skeleton>
+                </List.Item>
+              )}
+            /></> : ''}
       </Modal>
     </>
   );
@@ -228,6 +403,8 @@ const mapDispatchToProps = (dispatch) => ({
   ondeleteSent: (data, cb) => dispatch(deleteMail(data, cb)),
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
   onBulkDelete: (data, cb) => dispatch(bulkMailAction(data, cb)),
+  ongetReplyByID: (id, cb) => dispatch(getReplyByID(id, cb)),
+  onreplyCompose: (data, cb) => dispatch(replyCompose(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sent);

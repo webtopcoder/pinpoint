@@ -1,4 +1,4 @@
-import { Drawer, List, Button, Space, Avatar, Tooltip } from "antd";
+import { Drawer, List, Button, Space, Avatar, Tooltip, Tag } from "antd";
 import useNotify from "@/hooks/useNotify";
 import { connect } from "react-redux";
 import {
@@ -8,11 +8,13 @@ import {
 } from "@/src/redux/User/actions";
 import {
   CloseOutlined,
+  ClockCircleOutlined
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { useRouter } from "next/router";
+import { getDiffToNow } from "@/utils/date";
 
 function NotificationDrawer({
   placement = "left",
@@ -138,22 +140,22 @@ function NotificationDrawer({
               </Tooltip>
             </Space.Compact>]}
           >
-              <List.Item.Meta
-                avatar={<Avatar src={avatarurl + "/" + item?.actor.profile?.avatar.filepath} />}
-                title={
+            <List.Item.Meta
+              avatar={<Avatar src={avatarurl + "/" + item?.actor.profile?.avatar.filepath} />}
+              title={
+                <span
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  {item.actor.firstName}{" "}{item.actor.lastName}
+                </span>
+              }
+              onClick={() => notificationRead(true, item)}
+              description={
+                <>
                   <span
-                    style={{
-                      color: "white",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {item.actor.firstName}{" "}{item.actor.lastName}
-                  </span>
-                }
-                onClick={() => notificationRead(true, item)}
-                description={
-                  <>
-                   <span
                     style={{
                       color: "white",
                       cursor: "pointer",
@@ -161,9 +163,19 @@ function NotificationDrawer({
                   >
                     {item.description}
                   </span>
-                  </>   
-                }
-              />
+                  <span
+                    style={{
+                      color: "gray",
+                      cursor: "pointer",
+                    }}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      {getDiffToNow(item.createdAt)} ago
+                    
+                  </span>
+                </>
+              }
+            />
           </List.Item>
         )}
       />

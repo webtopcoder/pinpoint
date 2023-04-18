@@ -1,6 +1,8 @@
 import {
   MAIL_COMPOSE_REQUEST,
   MAIL_COMPOSE_SUCCESS,
+  REPLY_COMPOSE_REQUEST,
+  REPLY_COMPOSE_SUCCESS,
   SENT_INVITE_REQUEST,
   SENT_INVITE_SUCCESS,
   GET_INBOX_REQUEST,
@@ -20,7 +22,7 @@ import {
   BULK_MAIL_ACTION_REQUEST,
   BULK_MAIL_ACTION_SUCCESS,
   GET_ISREAD_REQUEST,
-  GET_ISREAD_SUCCESS
+  GET_ISREAD_SUCCESS,
 } from "./types";
 import api from "@/utils/callApi";
 
@@ -34,6 +36,27 @@ export function mailCompose(form, cb) {
 
         dispatch({
           type: MAIL_COMPOSE_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+        console.log(error);
+      });
+}
+
+export function replyCompose(form, cb) {
+  return (dispatch) =>
+    api(`mail/reply`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: REPLY_COMPOSE_REQUEST,
+        });
+
+        dispatch({
+          type: REPLY_COMPOSE_SUCCESS,
           payload: res,
         });
 
@@ -109,6 +132,17 @@ export function getInbox(tableinfo, cb) {
           payload: res,
         });
 
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+export function getReplyByID(id, cb) {
+  return (dispatch) =>
+    api(`mail/${id}/reply`, "post")
+      .then((res) => {
         cb(res);
       })
       .catch((error) => {
