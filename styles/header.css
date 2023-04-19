@@ -1747,8 +1747,8 @@
   .main-nav .navbar .others-option {
     position: absolute;
     margin: 0;
-    top: 12px;
-    right: 45px;
+    top: 20px;
+    right: 0px;
   }
   .main-nav .navbar .others-option .btn-style-one {
     font-size: 10px;

@@ -13057,8 +13057,6 @@ h4 {
 }
 
 .rightsidebar-avatar {
-  width: 160px;
-  height: 160px;
   border-radius: 80px;
   text-align: center;
   margin: auto auto;
@@ -13155,6 +13153,7 @@ h4 {
 .sidebar-menu-item:hover {
   cursor: pointer;
   color: var(--paragraphColor);
+  transition: var(--transition)
 }
 
 .notification-content {
