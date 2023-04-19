@@ -137,13 +137,13 @@ const Header = ({
                           }}
                           type="primary"
                           onClick={() =>
-                            userRole
+                            userRole && headerInfo?.profile?.is_follow
                               ? window.open(
                                 baseUrl +
                                 `/${userRole}/message?user=${view_user_id}`,
                                 "_blank"
                               )
-                              : null
+                              : notify("error", "Please send follow request firstly")
                           }
                           icon={<MessageOutlined />}
                           size="large"
@@ -291,7 +291,7 @@ const Header = ({
           </Row>
         </Col>
       </Row>
-    </div>
+    </div >
   );
 };
 

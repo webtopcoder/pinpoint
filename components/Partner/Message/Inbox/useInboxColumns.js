@@ -12,7 +12,7 @@ import { formatDate } from "@/utils/date";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-const useInboxColumns = ({ setOpen, setSaveReply, setInitLoading, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails, ongetReply }) => {
+const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails, ongetReply }) => {
   const [record_detail, setSaveInboxDetail] = useState();
   const { notify } = useNotify();
 
@@ -90,7 +90,7 @@ const useInboxColumns = ({ setOpen, setSaveReply, setInitLoading, onUpdateMail, 
         <div className="thread-sender">
           <div className="thread-avatar">
             <Image
-              src={avatarurl + "/" + record?.from?.profile?.avatar?.filepath}
+              src={avatarurl + "/" + (user_id === record?.from?._id ? record?.to?.profile?.avatar?.filepath : record?.from?.profile?.avatar?.filepath)}
               alt="user"
               className="avatar"
               width={45}
@@ -103,12 +103,12 @@ const useInboxColumns = ({ setOpen, setSaveReply, setInitLoading, onUpdateMail, 
                 <a
                   onClick={() =>
                     window.open(
-                      baseUrl + "/profile/" + record?.from?._id + "/activity",
+                      baseUrl + "/profile/" + user_id === record?.from?._id ? record?.to?._id : record?.from?._id + "/activity",
                       "_blank"
                     )
                   }
                 >
-                  @{record?.from?.username}
+                  @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>
               </Tooltip>

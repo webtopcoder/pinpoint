@@ -497,7 +497,7 @@ const ProfileActivity = ({
                                             window.open(
                                               baseUrl +
                                               "/profile/" +
-                                              item.from_user._id +
+                                              item.follower._id +
                                               "/activity",
                                               "_blank"
                                             )

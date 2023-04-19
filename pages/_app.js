@@ -3,7 +3,7 @@ import AOS from "aos";
 import { store } from "@/redux/store";
 import { Provider } from "react-redux";
 import Router from "next/router";
-import NProgress from "nprogress";
+import NProgress from "nprogress"
 import "nprogress/nprogress.css";
 import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -36,7 +36,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 function MyApp({ Component, pageProps, permission }) {
 
   var socket = null;
-  
+
   React.useEffect(() => {
 
     AOS.init();
@@ -71,6 +71,7 @@ function MyApp({ Component, pageProps, permission }) {
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
+
         {getLayout(<Component {...pageProps} />)}
         <ToastContainer
           position="top-right"

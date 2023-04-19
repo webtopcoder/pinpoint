@@ -23,10 +23,6 @@ const { TextArea } = Input;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 const attachurl = `${apiBaseUrl}/avatar/`;
 
-const loader = ({ src }) => {
-  return `${src}`;
-};
-
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
@@ -45,7 +41,8 @@ const Inbox = ({
   inbox,
   onGetIsReadEmails,
   onreplyCompose,
-  ongetReplyByID
+  ongetReplyByID,
+  user_id
 }) => {
 
   const [open, setOpen] = useState(false);
@@ -60,6 +57,7 @@ const Inbox = ({
   const { notify } = useNotify();
   const { record_detail, columns } = useInboxColumns({
     setOpen,
+    user_id,
     setSaveReply,
     setInitLoading,
     ongetReply: ongetReplyByID,
@@ -414,8 +412,9 @@ const Inbox = ({
     </>
   );
 };
-const mapStateToProps = ({ mail }) => ({
+const mapStateToProps = ({ mail, user }) => ({
   inbox: mail.inboxlist,
+  user_id: user.user_id
 });
 
 const mapDispatchToProps = (dispatch) => ({
