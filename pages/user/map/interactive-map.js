@@ -578,6 +578,8 @@ InteractiveMap.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
+InteractiveMap.authenticate = true;
+
 const mapStateToProps = ({ user, location }) => ({
   categoryInfo: user.partnerCategory.allcategories,
   subcategoryInfo: user.partnersubCategory,

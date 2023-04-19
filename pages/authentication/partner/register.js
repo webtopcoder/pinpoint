@@ -1,6 +1,7 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Register from "@/components/Authentication/Partner/PartnerRegister";
+import { connect } from "react-redux";
 
 const partnerRegister = () => {
   return (
@@ -24,4 +25,13 @@ const partnerRegister = () => {
   );
 };
 
-export default partnerRegister;
+partnerRegister.authenticate = false;
+
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+    role: state.user.role,
+  };
+};
+
+export default connect(mapStateToProps)(partnerRegister);

@@ -201,6 +201,9 @@ const userReducer = (state = initialState, action) => {
         token: null,
         role: "",
         username: "",
+        user_id: "",
+        usertype: "",
+        avatar: "",
         notifications: [],
         notificationCount: 0,
       };

@@ -1,6 +1,7 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Login from "@/components/Authentication/LoginForm";
+import { connect } from "react-redux";
 
 const partnerLogin = () => {
   return (
@@ -24,4 +25,13 @@ const partnerLogin = () => {
   );
 };
 
-export default partnerLogin;
+partnerLogin.authenticate = false;
+
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+    role: state.user.role,
+  };
+};
+
+export default connect(mapStateToProps)(partnerLogin);

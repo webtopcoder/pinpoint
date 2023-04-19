@@ -33,9 +33,12 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, permission }) {
+
   var socket = null;
+  
   React.useEffect(() => {
+
     AOS.init();
     if (store.getState().user.user_id && socket == null) {
       socket = io(DOMAIN);
@@ -53,8 +56,7 @@ function MyApp({ Component, pageProps }) {
         toast({ type: "success", message: data.msg });
       });
     }
-
-    store.dispatch((dispatch) => getUserInfo(() => {})(dispatch));
+    store.dispatch((dispatch) => getUserInfo(() => { })(dispatch));
 
     return () => {
       if (socket !== null) socket.off("New Client");
@@ -84,6 +86,17 @@ function MyApp({ Component, pageProps }) {
       </Provider>
     </>
   );
+}
+
+MyApp.getInitialProps = async ({ Component }) => {
+
+  const authenticate = Component?.authenticate;
+  if (authenticate) {
+    const state = store.getState();
+    state.user.token === null ? Router.push('/') : ''
+  }
+
+  return { permission: authenticate }
 }
 
 export default MyApp;

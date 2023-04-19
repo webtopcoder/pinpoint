@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 
 const Authentication = ({ token, role }) => {
+
   const router = useRouter();
   useEffect(() => {
     if (token) {
@@ -31,6 +32,8 @@ const Authentication = ({ token, role }) => {
     </>
   );
 };
+
+Authentication.authenticate = false;
 
 const mapStateToProps = (state) => {
   return {
