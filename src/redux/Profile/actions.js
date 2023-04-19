@@ -97,7 +97,6 @@ export function subscribe(data, cb) {
   return (dispatch) => {
     api(`/partnership/subscribe`, "post", data)
       .then((res) => {
-        console.log(res.user)
         dispatch({
           type: PARTNERSHIP_SUBSCRIBE_REQUEST,
         });
@@ -133,12 +132,28 @@ export function cancelSubscription(data, cb) {
   };
 }
 
+export function removePartnership() {
+  return (dispatch) => {
+    api(`/partnership/removePartnership`, "delete")
+      .then((res) => {
+        dispatch({
+          type: PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
+        });
+        dispatch({
+          type: PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
+          payload: res,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
 export function postTransaction(data, cb) {
   return (dispatch) => {
     api(`/partnership/create-transaction`, "post", data)
       .then((res) => {
-
-        console.log(res);
         dispatch({
           type: PARTNERSHIP_TRANSACTION_SUCCESS,
           payload: res,

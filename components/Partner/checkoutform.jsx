@@ -4,8 +4,9 @@ import {
   getUserInfo,
   postTransaction,
   subscribe,
+  removePartnership
 } from "@/src/redux/Profile/actions";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import useNotify from "@/hooks/useNotify";
 import { Modal, Row, Col, Typography } from "antd";
 import Image from "next/image";
@@ -28,6 +29,8 @@ const CheckoutForm = ({
 
   const stripe = useStripe();
   const elements = useElements();
+  const dispatch = useDispatch();
+
   function handleCardInputChange(event) {
 
     setDisabled(event?.empty);
@@ -55,7 +58,6 @@ const CheckoutForm = ({
         notify("error", "Subscription purchase failed");
         return;
       }
-
       let stripePayload, data;
       if (subscription.status === "setupCard") {
         stripePayload = await stripe.confirmCardSetup(
@@ -85,29 +87,30 @@ const CheckoutForm = ({
         );
 
         data = {
-          order: stripePayload.paymentIntent,
-          amount: stripePayload.paymentIntent.amount,
-          currency: stripePayload.paymentIntent.currency,
+          order: stripePayload?.paymentIntent,
+          amount: stripePayload?.paymentIntent?.amount,
+          currency: stripePayload?.paymentIntent?.currency,
           priceId,
         };
       }
-
-      await onPayment(data, (res, error) => {
-        if (error) {
-          console.log(error);
-          notify("error", "Transaction send failed");
-        }
-      });
-
       if (stripePayload.error) {
+        dispatch(removePartnership());
         setError(stripePayload.error.message);
-        notify("error", "Stripe error");
+        notify("error", stripePayload.error.message);
         return;
       }
+      else {
+        await onPayment(data, (res, error) => {
+          if (error) {
+            console.log(error);
+            notify("error", "Transaction send failed");
+          }
+        });
 
-      notify("success", "Subscription purchase successful");
+        notify("success", "Subscription purchase successful");
+        setShowModal(false);
+      }
 
-      setShowModal(false);
     });
   }
 
