@@ -146,28 +146,21 @@ function LeftSidebar({
           <>
             <div className="avatar-panel">
               <div className="partner-avatar-center">
-                <div className="rightsidebar-avatar">
-                  {avatar ? (
-                    <Avatar
-                      src={avatarurl + avatar}
-                      alt="avatar"
-                      style={{
-                        width: "100%",
-                      }}
-                      size={150}
-                      height={100}
-                      width={100}
-                    />
-                  ) : (
-                    <Avatar
-                      style={{
-                        border: "3px solid gray",
-                      }}
-                      size={150}
-                      icon={<UserOutlined />}
-                    />
-                  )}
-                </div>
+                {avatar ? (
+                  <Avatar
+                    src={avatarurl + avatar}
+                    alt="avatar"
+                    size={170}
+                  />
+                ) : (
+                  <Avatar
+                    style={{
+                      border: "3px solid gray",
+                    }}
+                    size={150}
+                    icon={<UserOutlined />}
+                  />
+                )}
               </div>
             </div>
             <div className="avatar-vst-profile">{businessName}</div>
