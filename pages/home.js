@@ -65,7 +65,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
   }, [activePartners]);
   return (
     <>
-      <PageTitle page="Landing" />
+      <PageTitle page="Home" />
       <div className="software-banner-area">
         <div className="container">
           <div className="row">
