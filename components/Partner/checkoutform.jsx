@@ -8,7 +8,7 @@ import {
 } from "@/src/redux/Profile/actions";
 import { connect, useDispatch } from "react-redux";
 import useNotify from "@/hooks/useNotify";
-import { Modal, Row, Col, Typography } from "antd";
+import { Modal, Row, Col, Typography, Button } from "antd";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 
@@ -25,6 +25,7 @@ const CheckoutForm = ({
   ongetUser
 }) => {
   const [error, setError] = useState(undefined);
+  const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   const stripe = useStripe();
@@ -40,8 +41,10 @@ const CheckoutForm = ({
 
   async function handleCheckoutFormSubmit(event) {
     event.preventDefault();
+    setLoading(true);
 
     if (!stripe || !elements) {
+      setLoading(false);
       return;
     }
 
@@ -55,6 +58,7 @@ const CheckoutForm = ({
     await onCheckout(data, async (res, error) => {
       const subscription = res;
       if (!subscription) {
+        setLoading(false);
         notify("error", "Subscription purchase failed");
         return;
       }
@@ -97,6 +101,7 @@ const CheckoutForm = ({
         dispatch(removePartnership());
         setError(stripePayload.error.message);
         notify("error", stripePayload.error.message);
+        setLoading(false);
         return;
       }
       else {
@@ -106,10 +111,11 @@ const CheckoutForm = ({
             notify("error", "Transaction send failed");
           }
         });
-
+        setLoading(false);
         notify("success", "Subscription purchase successful");
         setShowModal(false);
       }
+
 
     });
   }
@@ -117,10 +123,17 @@ const CheckoutForm = ({
   return (
     <Modal
       open={showModal}
-      okText="Pay Now"
       onOk={handleCheckoutFormSubmit}
       onCancel={onCancel}
       closable={false}
+      footer={[
+        <Button key="back" onClick={onCancel}>
+          cancel
+        </Button>,
+        <Button key="submit" type="primary" loading={loading} onClick={handleCheckoutFormSubmit}>
+          Pay Now
+        </Button>,
+      ]}
     >
       <>
         <Row>
