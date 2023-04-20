@@ -72,7 +72,7 @@ const Header = ({
       const { profile } = router.query;
       ongetHeader(profile);
     }
-  }, [router.isReady]);
+  }, [router.isReady, view_user_id]);
 
   return (
     <div className="container">

@@ -149,25 +149,25 @@ const ProfileActivity = ({
   const router = useRouter();
   const profile = router.query?.profile;
 
+  console.log(profile);
   useEffect(() => {
-    if (router.isReady) {
-      const { profile } = router.query;
-      ongetAllphotos(profile, paginationInfo);
-      onupdateProfileViews(profile);
-      ongetmyFollowers();
-      ongetFollowerAndFollowings();
-      ongetActivity(profile, 1, "", (res) => {
-        if (res.success) {
-          setInitLoading(false);
-          setLoading(false);
-          setData(res.posts);
-          setList(res.posts);
-          window.dispatchEvent(new Event("resize"));
-        } else notify("error", res.msg);
-      });
-      ongetProfilePoll(profile);
-    }
-  }, [router.isReady]);
+    const { profile } = router.query;
+    ongetAllphotos(profile, paginationInfo);
+    onupdateProfileViews(profile);
+    ongetmyFollowers();
+    ongetFollowerAndFollowings();
+    ongetActivity(profile, 1, "", (res) => {
+      if (res.success) {
+        setInitLoading(false);
+        setLoading(false);
+        setData(res.posts);
+        setList(res.posts);
+        window.dispatchEvent(new Event("resize"));
+      } else notify("error", res.msg);
+    });
+    ongetProfilePoll(profile);
+
+  }, [router.isReady, profile]);
 
   useEffect(() => {
     setLoading(true);
@@ -516,7 +516,7 @@ const ProfileActivity = ({
                                               window.open(
                                                 baseUrl +
                                                 "/profile/" +
-                                                item?.follower?._id +
+                                                item?.following?._id +
                                                 "/activity",
                                                 "_blank"
                                               )

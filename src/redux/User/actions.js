@@ -26,7 +26,9 @@ import {
   GET_ACTIVE_PARTNERS_REQUEST,
   GET_ACTIVE_PARTNERS_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
-  CLEAR_NOTIFICATION_SUCCESS
+  CLEAR_NOTIFICATION_SUCCESS,
+  GET_DEFAULT_AVATAR_REQUEST,
+  GET_DEFAULT_AVATAR_SUCCESS,
 } from "./types";
 import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -89,6 +91,19 @@ export function registerUser(form, cb) {
         cb(null, error);
       });
 }
+
+export function getDefaultAvatar(cb) {
+  return (dispatch) =>
+    api(`auth/getDefaultAvatar`, "get")
+      .then((res) => {
+       cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        cb(res);
+      });
+}
+
 
 export function getActivepartners() {
   return (dispatch) =>

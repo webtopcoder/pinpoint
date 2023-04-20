@@ -7,23 +7,17 @@ import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "../validate.module.css";
 import { useRegisterFormValidator } from "./hooks/use-user-register-form-validator";
-import { registerUser } from "@/redux/User/actions";
+import { registerUser, getDefaultAvatar } from "@/redux/User/actions";
 import "react-datepicker/dist/react-datepicker.css";
 import FormGroup from "../FormGroup";
 import useNotify from "@/hooks/useNotify";
 
-const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
+const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar }) => {
   const countryCode = "US";
   const country = csc.getCountryByCode(countryCode);
   const states = csc.getStatesOfCountry(country.isoCode);
-
   const router = useRouter();
-  useEffect(() => {
-    if (token) {
-      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
-    }
-  }, [token]);
-
+  const [defaultAvatar, setAvatar] = useState();
   const [form, setForm] = useState({
     role: "user",
     firstName: "",
@@ -41,6 +35,22 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
   const { notify } = useNotify();
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
+
+  useEffect(() => {
+    if (token) {
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+    }
+  }, [token]);
+
+  useEffect(() => {
+    ongetDefaultAvatar((res, error) => {
+      if (error) {
+        console.log("error");
+      } else {
+        setAvatar(res?.result);
+      }
+    })
+  }, []);
 
   const onUpdateField = (e) => {
     const field = e.target.name;
@@ -84,6 +94,9 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
         city: form.city,
         state: form.state,
       },
+      profile: {
+        avatar: defaultAvatar
+      }
     };
     const savedEmail = localStorage.setItem(
       "registration_email",
@@ -98,7 +111,6 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole }) => {
         );
       } else {
         router.push("/authentication/thank-you");
-        console.log(savedEmail);
         localStorage.setItem("thankyou_id", "User");
       }
     });
@@ -282,6 +294,7 @@ const mapStateToProps = ({ user }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
+  ongetDefaultAvatar: (cb) => dispatch(getDefaultAvatar(cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRegister);

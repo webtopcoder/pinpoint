@@ -2,8 +2,7 @@
 import toast from "@/components/Toast";
 import useNotify from "@/hooks/useNotify";
 import logo from "@/public/images/logo.png";
-import { registerUser } from "@/redux/User/actions";
-import { getCategory } from "@/redux/User/actions";
+import { registerUser, getDefaultAvatar, getCategory } from "@/redux/User/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,36 +18,15 @@ import { useRegisterFormValidator } from "./hooks/use-partner-register-validator
 const PartnerRegister = ({
   onRegisterUser,
   ongetCategory,
+  ongetDefaultAvatar,
   categoryInfo,
   loggedInRole,
   token,
 }) => {
+
   let itemLocality = "";
   let itemState = "";
-
-  const router = useRouter();
-  useEffect(() => {
-    if (token) {
-      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
-    }
-  }, [token]);
-
-  const { notify } = useNotify();
-
-  const autoCompleteRef = useRef();
-  const inputRef = useRef();
-
-  const mapAutoCompleteOptions = {
-    componentRestrictions: { country: "us" },
-    fields: [
-      "address_components",
-      "adr_address",
-      "formatted_address",
-      "geometry",
-      "name",
-    ],
-  };
-
+  const [defaultAvatar, setAvatar] = useState();
   const [form, setForm] = useState({
     role: "partner",
     firstName: "",
@@ -72,6 +50,29 @@ const PartnerRegister = ({
     lat: "",
     lng: "",
   });
+
+  const router = useRouter();
+  useEffect(() => {
+    if (token) {
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+    }
+  }, [token]);
+
+  const { notify } = useNotify();
+
+  const autoCompleteRef = useRef();
+  const inputRef = useRef();
+
+  const mapAutoCompleteOptions = {
+    componentRestrictions: { country: "us" },
+    fields: [
+      "address_components",
+      "adr_address",
+      "formatted_address",
+      "geometry",
+      "name",
+    ],
+  };
 
   useEffect(() => {
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
@@ -100,6 +101,14 @@ const PartnerRegister = ({
     });
 
     ongetCategory();
+    ongetDefaultAvatar((res, error) => {
+      if (error) {
+        console.log("error");
+      } else {
+        setAvatar(res?.result);
+      }
+    })
+
   }, []);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(
@@ -149,7 +158,6 @@ const PartnerRegister = ({
       state: addressForm.state,
       lat: addressForm.lat,
       lng: addressForm.lng,
-
     });
 
     const { isValid } = validateForm({
@@ -171,6 +179,9 @@ const PartnerRegister = ({
         state: addressForm.state,
         latitude: addressForm.lat,
         longitude: addressForm.lng,
+      },
+      profile: {
+        avatar: defaultAvatar
       },
       category: form.category,
       email: form.email,
@@ -365,6 +376,7 @@ const mapStateToProps = ({ user }) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
+    ongetDefaultAvatar: (cb) => dispatch(getDefaultAvatar(cb)),
     ongetCategory: () => dispatch(getCategory()),
   };
 };
