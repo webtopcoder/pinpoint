@@ -4,16 +4,35 @@ import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
-import { forgotPassword } from "@/redux/User/actions";
+import { forgotPassword, sendVerificationEmail } from "@/redux/User/actions";
 import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
 import useNotify from "@/hooks/useNotify";
+import { useRouter } from "next/router";
 
-const LostPassword = ({ onrecoveryPassword }) => {
+const LostPassword = ({ onrecoveryPassword, onResendVerifyEmail }) => {
+  const router = useRouter();
   const { notify } = useNotify();
 
   const [form, setForm] = useState({
     userInfo: "",
   });
+
+  const handleResendEmail = () => {
+    const data = {
+      email: form.userInfo,
+    };
+    onResendVerifyEmail(data, (_, error) => {
+      if (error) {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      }
+      notify("success", "Email sent successfully");
+      router.push(`/email-verification?email=${form.userInfo}`);
+    });
+  };
 
   const { errors, validateForm, onBlurField } =
     useLostPasswordFormValidator(form);
@@ -87,11 +106,24 @@ const LostPassword = ({ onrecoveryPassword }) => {
           <div className="form-group">
             <div className="row">
               <div className="col-lg-6 col-md-6 remember-me-wrap">
-                <Link href="/authentication/lost-password">
-                  <a className="lost-your-password">
-                    Resend Email Verification
-                  </a>
-                </Link>
+                <a
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    const emailRegex = /[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+$/;
+                    if (form.userInfo && emailRegex.test(form.userInfo)) {
+                      handleResendEmail();
+
+                      return;
+                    }
+
+                    notify("error", "Please enter valid email");
+                  }}
+                  className="lost-your-password"
+                >
+                  Resend Email Verification
+                </a>
               </div>
               <div
                 className="col-lg-6 col-md-6 remember-me-wrap"
@@ -99,7 +131,7 @@ const LostPassword = ({ onrecoveryPassword }) => {
                   textAlign: "end",
                 }}
               >
-                <Link href="/authentication/lost-password">
+                <Link href="/authentication/user/login">
                   <a className="lost-your-password">Login</a>
                 </Link>
               </div>
@@ -133,6 +165,7 @@ const mapStateToProps = ({ user }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onrecoveryPassword: (data, cb) => dispatch(forgotPassword(data, cb)),
+  onResendVerifyEmail: (data, cb) => dispatch(sendVerificationEmail(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LostPassword);
