@@ -35,6 +35,7 @@ const RightSidebar = ({
   onGetIsReadEmails,
   isReadEmails,
   notifications,
+  newNotification,
 }) => {
   const router = useRouter();
   const avatarurl = `${apiBaseUrl}/avatar/`;
@@ -114,7 +115,9 @@ const RightSidebar = ({
               {token && (
                 <div>
                   <Badge
-                    dot={notifications.length > 0 ? true : false}
+                    dot={
+                      newNotification || notifications.length > 0 ? true : false
+                    }
                     className="mailboxIcon"
                     onClick={showDrawer}
                   >
@@ -224,7 +227,7 @@ const RightSidebar = ({
               </div>
             </>
           )}
-        
+
           <Row
             className="sidebar-menu-item"
             onClick={() => handleOriginPageRender("/home")}
@@ -277,6 +280,7 @@ const mapStateToProps = (state) => {
     notifications: state.user.notifications,
     notificationCount: state.user.notificationCount,
     isReadEmails: state?.mail?.isreadlist,
+    newNotification: state.socket.newNotification,
   };
 };
 

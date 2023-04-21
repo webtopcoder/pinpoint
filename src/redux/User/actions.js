@@ -30,7 +30,7 @@ import {
   GET_DEFAULT_AVATAR_REQUEST,
   GET_DEFAULT_AVATAR_SUCCESS,
 } from "./types";
-import { S_LOGIN, S_NOTIFICATION } from "../Socket/types";
+import { NOTIFICATION_VIEWED, S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
 import { USER_INFO_SUCCESS } from "../Profile/types";
 
@@ -96,14 +96,13 @@ export function getDefaultAvatar(cb) {
   return (dispatch) =>
     api(`auth/getDefaultAvatar`, "get")
       .then((res) => {
-       cb(res);
+        cb(res);
       })
       .catch((error) => {
         console.log(error);
         cb(res);
       });
 }
-
 
 export function getActivepartners() {
   return (dispatch) =>
@@ -127,7 +126,7 @@ export function getisFavorited(locationID, cb) {
   return (dispatch) =>
     api(`profile/getFavortied/${locationID}`, "get")
       .then((res) => {
-        cb(res)
+        cb(res);
       })
       .catch((error) => {
         console.log(error);
@@ -282,6 +281,10 @@ export function getNotifications(params, cb) {
           payload: res,
         });
 
+        dispatch({
+          type: NOTIFICATION_VIEWED,
+        });
+
         cb(res);
       })
       .catch((error) => {
@@ -300,26 +303,24 @@ export function clearNotifications() {
         dispatch({
           type: CLEAR_NOTIFICATION_SUCCESS,
         });
-
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
 }
 
 export function updatedNotifications(id, cb) {
   return (dispatch) =>
-    api(`notification/${id}/mark-as-read`, "post")
-      .then((res) => {
-        dispatch({
-          type: UPDATE_NOTIFICATION_REQUEST,
-        });
+    api(`notification/${id}/mark-as-read`, "post").then((res) => {
+      dispatch({
+        type: UPDATE_NOTIFICATION_REQUEST,
+      });
 
-        dispatch({
-          type: UPDATE_NOTIFICATION_SUCCESS,
-        });
-        cb(res);
-      })
+      dispatch({
+        type: UPDATE_NOTIFICATION_SUCCESS,
+      });
+      cb(res);
+    });
 }
 
 export function getSettingsValue(cb) {

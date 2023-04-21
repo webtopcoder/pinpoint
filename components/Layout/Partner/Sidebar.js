@@ -45,6 +45,7 @@ function LeftSidebar({
   user_id,
   onGetIsReadEmails,
   isReadEmails,
+  newNotification,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -55,20 +56,19 @@ function LeftSidebar({
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
 
   function getCurrentDimension() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return {
         width: window.innerWidth,
-        height: window.innerHeight
-      }
+        height: window.innerHeight,
+      };
     }
   }
 
   useEffect(() => {
     onGetIsReadEmails();
-    setScreenSize(getCurrentDimension())
-    screenSize.width < 766 ? setCollapsed(true) : setCollapsed(false)
+    setScreenSize(getCurrentDimension());
+    screenSize.width < 766 ? setCollapsed(true) : setCollapsed(false);
   }, []);
-
 
   const showDrawer = () => {
     setOpen(true);
@@ -112,8 +112,6 @@ function LeftSidebar({
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
 
-
-
   useEffect(() => {
     if (router.pathname.indexOf("/partner/settings/") > -1) {
       setCurrent(router.pathname);
@@ -147,11 +145,7 @@ function LeftSidebar({
             <div className="avatar-panel">
               <div className="partner-avatar-center">
                 {avatar ? (
-                  <Avatar
-                    src={avatarurl + avatar}
-                    alt="avatar"
-                    size={170}
-                  />
+                  <Avatar src={avatarurl + avatar} alt="avatar" size={170} />
                 ) : (
                   <Avatar
                     style={{
@@ -177,7 +171,11 @@ function LeftSidebar({
                   textAlign: "center",
                 }}
               >
-                <Badge dot={notifications.length > 0 ? true : false}>
+                <Badge
+                  dot={
+                    newNotification || notifications.length > 0 ? true : false
+                  }
+                >
                   <Avatar
                     shape="square"
                     onClick={showDrawer}
@@ -253,6 +251,7 @@ const mapStateToProps = (state) => {
     businessName: state?.user?.username,
     user_id: state?.user?.user_id,
     isReadEmails: state?.mail?.isreadlist,
+    newNotification: state.socket.newNotification,
   };
 };
 

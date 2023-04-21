@@ -24,7 +24,7 @@ import {
   BUSINESS_UPDATE_INFO_SUCCESS,
   GET_ACTIVE_PARTNERS_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
-  CLEAR_NOTIFICATION_SUCCESS
+  CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
 
 let token = "";
@@ -63,7 +63,7 @@ const initialState = {
   myFollowers: [],
   followAndFollowing: [],
   faqs: [],
-  activePartners: []
+  activePartners: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -138,7 +138,6 @@ const userReducer = (state = initialState, action) => {
         activePartners: action.payload,
       };
     }
-
 
     case SUB_CATEGORY_GET_SUCCESS: {
       return {

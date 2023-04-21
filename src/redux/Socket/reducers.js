@@ -3,15 +3,19 @@ import Socket from "socket.io-client";
 import { DOMAIN } from "../constants";
 import { USER_INFO_SUCCESS } from "../Profile/types";
 import { USER_LOGIN_SUCCESS } from "../User/types";
+import { getNotifications } from "@/src/redux/User/actions";
 import {
-  getNotifications,
-} from "@/src/redux/User/actions";
-import { S_LOGIN, S_NOTIFICATION } from "./types";
+  NEW_NOTIFICATION,
+  NOTIFICATION_VIEWED,
+  S_LOGIN,
+  S_NOTIFICATION,
+} from "./types";
 import Link from "next/link";
 
 const initialState = {
   socket: Socket(DOMAIN),
   user: "",
+  newNotification: false,
   notificationlistener: null,
 };
 
@@ -27,15 +31,34 @@ const socketReducer = (state = initialState, action) => {
       state.socket.on(notificationlistener, (data) => {
         switch (data.type) {
           case "shoutout":
-            toast({ type: "info", message: <Link href={`/profile/${data.to}/shout-outs`}>{data.message}</Link> });
+            toast({
+              type: "info",
+              message: (
+                <Link href={`/profile/${data.to}/shout-outs`}>
+                  {data.message}
+                </Link>
+              ),
+            });
+
             break;
           case "follow":
-            toast({ type: "info", message: <Link href={`/profile/${data.to}/followers`}>{data.message}</Link> });
+            toast({
+              type: "info",
+              message: (
+                <Link href={`/profile/${data.to}/followers`}>
+                  {data.message}
+                </Link>
+              ),
+            });
             break;
           default:
             toast({ type: "info", message: data.message });
             break;
         }
+
+        socketReducer(state, {
+          type: NEW_NOTIFICATION,
+        });
       });
 
       /* if (state.notificationlistener != notificationlistener) {
@@ -59,6 +82,20 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload.user.id,
+      };
+    }
+
+    case NOTIFICATION_VIEWED: {
+      return {
+        ...state,
+        newNotification: false,
+      };
+    }
+
+    case NEW_NOTIFICATION: {
+      return {
+        ...state,
+        newNotification: true,
       };
     }
 
