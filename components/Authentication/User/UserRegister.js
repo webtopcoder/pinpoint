@@ -27,6 +27,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
     city: "",
     state: "",
     email: "",
+    status: "active",
     password: "",
     confirmPassword: "",
   });
@@ -86,6 +87,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
       "username",
       "email",
       "password",
+      "status"
     ];
     let formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
     formRequest = {
