@@ -6,6 +6,7 @@ import {
   EnvironmentFilled,
   LikeOutlined,
   EnvironmentOutlined,
+  DownOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
 import {
@@ -112,15 +113,17 @@ const PartnerLocation = ({
   checkIncount,
   expiredArrivals
 }) => {
+
   const router = useRouter();
   const { notify } = useNotify();
   const [reviews, setReviews] = useState([]);
+  const [expand, setExpand] = useState(false);
 
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
 
-      getLocationInfo({ id: locationId }, (_, err) => {
+      getLocationInfo({ id: locationId, expand: expand }, (_, err) => {
         if (err) {
           notify(
             "error",
@@ -129,7 +132,7 @@ const PartnerLocation = ({
         }
       });
     }
-  }, [router.isReady]);
+  }, [router.isReady, expand]);
 
   useEffect(() => {
     if (location.reviews) {
@@ -173,13 +176,15 @@ const PartnerLocation = ({
                 onPostReview={onPostReview}
                 getLocationInfo={getLocationInfo}
               />
-              {expiredArrivals.length > 0 ? (
+              {expiredArrivals.arrivalData?.length > 0 ? (
                 <ExpiredArrivalBanner
                   location={location}
                   arrivals={expiredArrivals}
                   onLikeArrival={onLikeArrival}
                   onCheckInArrival={onCheckInArrival}
                   checkIncount={checkIncount}
+                  expand={expand}
+                  setExpand={setExpand}
                 />
               ) : (
                 ""
@@ -215,15 +220,14 @@ const PartnerLocation = ({
   );
 };
 
-
-function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArrival, checkIncount }) {
+function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArrival, checkIncount, expand, setExpand }) {
 
   const { notify } = useNotify();
+
   return (
     <div>
       <div className="avatar-area green-color">
-
-        {arrivals.map((arrival, index) => (
+        {arrivals?.arrivalData.map((arrival, index) => (
           <div className="avatar-respond">
             <div style={{ display: "flex" }} className="pin-post-header-section">
               <div className="pin-post-label">
@@ -328,6 +332,20 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
             </div>
           </div>
         ))}
+        {arrivals?.total > 3 ?
+          <a
+            style={{
+              marginTop: 15,
+              display: 'block',
+              textAlign: 'center',
+              fontSize: 15,
+              color: "rgb(255 255 255)"
+            }}
+            onClick={() => {
+              setExpand(!expand);
+            }}
+          ><DownOutlined rotate={expand ? 180 : 0} /> {expand ? "Hide" : `Show All(${arrivals?.total})`}
+          </a> : ""}
       </div>
     </div>
   );
@@ -638,38 +656,23 @@ function Post({ review, likeReview, location }) {
           }
           title={
             <>
-              <span className="custom-userName">
-                {review?.user?.firstName + " " + review?.user?.lastName}{" "}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-              </span>
-              <span className="custom-shoutout-text">
-                <a
-                  className="custom-touser-text"
-                  onClick={() =>
-                    window.open(
-                      baseUrl +
-                      "/profile/" +
-                      location?.partner?._id +
-                      "/locations/" +
-                      location?._id,
-                      "_blank"
-                    )
-                  }
-                >
-                  @{location?.title}
-                </a>
-              </span>
-              <br />
-              <a
-                onClick={() =>
+              <Space direction="vertical">
+                <a onClick={() =>
                   window.open(
-                    baseUrl + "/profile/" + review.user._id + "/activity",
+                    baseUrl +
+                    "/profile/" +
+                    review.user._id +
+                    "/activity",
                     "_blank"
                   )
-                }
-              >
-                @{review?.user?.username}
-              </a>
+                } className="custom-userName">
+                  {review?.user?.firstName}{" "}{review?.user?.lastName}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                </a>
+                <span>
+                  @{review?.user?.username}
+                </span>
+              </Space>
             </>
           }
           description={new Date(review?.createdAt).toLocaleDateString(
@@ -842,8 +845,6 @@ function LocationBanner({
                     </Space>
                   </Space>
                 </Col>
-
-
                 <Col span={8} />
                 <Col
                   span={8}

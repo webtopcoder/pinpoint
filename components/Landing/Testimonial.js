@@ -81,7 +81,7 @@ const Testimonial = ({ testimonials }) => {
                 </div>
                 <div className="img">
                   <Image loader={myLoader}
-                    src={imgurl + "/" + testimonial?.files?.filepath}
+                    src={imgurl + "/" + testimonial?.image?.filepath}
                     layout="fill"
                     alt="user" />
                 </div>

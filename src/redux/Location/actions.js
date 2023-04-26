@@ -149,14 +149,13 @@ export function updateLocationById(locationID, form, cb) {
       });
 }
 
-export function getLocationById({ id, ...params }, cb) {
+export function getLocationById({ id, expand }, cb) {
   return (dispatch) =>
-    api(`locations/${id}`, "get", {}, params)
+    api(`locations/${id}/${expand}`, "get")
       .then((res) => {
         dispatch({
           type: USER_LOCATION_REQUEST,
         });
-
         dispatch({
           type: USER_LOCATION_ID_SUCCESS,
           payload: res,
