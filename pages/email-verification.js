@@ -63,43 +63,46 @@ const VerifyEmail = ({ onVerifyUserEmail, onResendVerifyEmail }) => {
   };
 
   return (
-    <div className="thank-you-area">
-      <div className="d-table">
-        <div className="d-table-cell">
-          <div className="container">
-            <div className="thank-you-content">
-              <p>
-                PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A
-                OTP TO THE EMAIL GIVEN!
-              </p>
-              <form onSubmit={handleOnSubmit}>
-                <div className="otpField">
-                  <AuthCode
-                    allowedCharacters="numeric"
-                    onChange={handleOnChange}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  style={{
-                    marginTop: 20,
-                  }}
-                  className="btn-style-one red-light-color"
-                >
-                  Verify Email
-                </button>
-                <div className="authSubText">
-                  <p>Didn&#8217;t receive the code?</p>
-                  <a role="button" onClick={handleResendEmail}>
-                    <span>Send again</span>
-                  </a>
-                </div>
-              </form>
+    <>
+      <PageTitle page="EMAIL VERIFY" />
+      <div className="thank-you-area">
+        <div className="d-table">
+          <div className="d-table-cell">
+            <div className="container">
+              <div className="thank-you-content">
+                <p>
+                  PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A
+                  OTP TO THE EMAIL GIVEN!
+                </p>
+                <form onSubmit={handleOnSubmit}>
+                  <div className="otpField">
+                    <AuthCode
+                      allowedCharacters="numeric"
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    style={{
+                      marginTop: 20,
+                    }}
+                    className="btn-style-one red-light-color"
+                  >
+                    Verify Email
+                  </button>
+                  <div className="authSubText">
+                    <p>Didn&#8217;t receive the code?</p>
+                    <a role="button" onClick={handleResendEmail}>
+                      <span>Send again</span>
+                    </a>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
