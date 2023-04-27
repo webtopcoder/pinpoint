@@ -215,7 +215,8 @@ export function getsubCategory(categoryID, cb) {
 }
 
 export function getmyFollowers() {
-  const userId = JSON.parse(localStorage.getItem("userInfo"))._id;
+
+  const userId = sessionStorage.getItem("user_id");
   return (dispatch) =>
     api(`follow/${userId}/follower`, "get").then((res) => {
       dispatch({

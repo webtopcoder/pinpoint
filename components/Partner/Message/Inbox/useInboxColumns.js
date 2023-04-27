@@ -5,7 +5,7 @@ import {
   EyeInvisibleOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Tooltip, Tag, Button } from "antd";
+import { Space, Tooltip, Tag, Button, Badge } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
@@ -30,6 +30,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
         setSaveReply(res.results);
       }
     });
+    markAsReadOrUnRead(recordInfo._id, !recordInfo.is_read);
     setSaveInboxDetail(recordInfo);
     setOpen(true);
   };
@@ -43,7 +44,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
         );
         return;
       }
-      notify("success", res.message);
+      // notify("success", res.message);
       ongetIsReadEmails();
       getInbox(
         {
@@ -110,7 +111,8 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                 >
                   @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-                </a>
+                </a>&nbsp;&nbsp;
+                <Tag color="success">{record?.from?.role}</Tag>
               </Tooltip>
             </div>
             <span className="activity">
@@ -134,7 +136,8 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                   ? record.subject.substring(0, 30) + "..."
                   : record.subject}
               </Button>
-              {record?.repliesCount !== 0 ? <Tag color="success">{record?.repliesCount} replied</Tag> : ''}
+              {!record.is_read ? <Tag color="error">New</Tag> : ''}
+              {record?.repliesCount !== 0 ? <Tag color="error">{record?.repliesCount} replied</Tag> : ''}
             </Tooltip>
           </p>
         </div>
