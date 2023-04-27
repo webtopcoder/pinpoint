@@ -30,7 +30,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
         setSaveReply(res.results);
       }
     });
-    markAsReadOrUnRead(recordInfo._id, !recordInfo.is_read);
+    markAsReadOrUnRead(recordInfo._id, true);
     setSaveInboxDetail(recordInfo);
     setOpen(true);
   };
@@ -112,7 +112,6 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                   @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>&nbsp;&nbsp;
-                <Tag color="success">{record?.from?.role}</Tag>
               </Tooltip>
             </div>
             <span className="activity">
