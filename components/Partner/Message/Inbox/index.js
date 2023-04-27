@@ -19,7 +19,6 @@ import { getDiffToNow } from "@/utils/date";
 import Link from "next/link";
 
 const { TextArea } = Input;
-
 const avatarurl = `${apiBaseUrl}/avatar/`;
 const attachurl = `${apiBaseUrl}/avatar/`;
 
@@ -97,10 +96,12 @@ const Inbox = ({
   const onFinish = (values) => {
 
     const form_data = new FormData();
+    const myID = sessionStorage.getItem("user_id");
+
     upload_name.map((file) => form_data.append("files", file.originFileObj));
-    form_data.append("from", record_detail?.to?._id);
+    form_data.append("from", myID === record_detail?.to?._id ? record_detail?.to?._id : myID);
     form_data.append("role", record_detail?.to?.role);
-    form_data.append("to", record_detail?.from?._id);
+    form_data.append("to", myID === record_detail?.to?._id ? record_detail?.from?._id : record_detail?.to?._id);
     form_data.append("reply", record_detail?._id);
     form_data.append("message", values.message);
     onreplyCompose(form_data, (res, error) => {
@@ -291,7 +292,6 @@ const Inbox = ({
               <div className="clear"></div>
             </div>
           </div>
-
         )}
 
         <Button
@@ -405,8 +405,6 @@ const Inbox = ({
                 </List.Item>
               )}
             /></> : ''}
-
-
       </Modal >
 
     </>
