@@ -39,7 +39,7 @@ const FooterNine = () => {
           <div className="col-lg-2 col-md-6 col-sm-5"></div>
         </div>
         <div className="row">
-          <div className="col-lg-4 col-md-6 col-sm-5">
+          {/* <div className="col-lg-4 col-md-6 col-sm-5">
             <div className="single-footer-widget">
               <p>Stay up to date with Pinpoint!</p>
               <div className="widget-area">
@@ -57,8 +57,8 @@ const FooterNine = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col-lg-4 col-md-6 col-sm-5">
+          </div> */}
+          <div className="col-lg-6 col-md-6 col-sm-5">
             <div className="single-footer-widget">
               <p>Stay social with us...</p>
 
@@ -102,7 +102,7 @@ const FooterNine = () => {
               </ul>
             </div>
           </div>
-          <div className="col-lg-4 col-md-6 col-sm-8">
+          <div className="col-lg-6 col-md-6 col-sm-8">
             <div className="single-footer-widget">
               <button
                 onClick={() => handlePageRender("/user/map/interactive-map")}
