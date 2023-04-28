@@ -175,6 +175,7 @@ const PartnerLocation = ({
                 location={location}
                 onPostReview={onPostReview}
                 getLocationInfo={getLocationInfo}
+                expand={expand}
               />
               {expiredArrivals.arrivalData?.length > 0 ? (
                 <ExpiredArrivalBanner
@@ -472,8 +473,8 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
   );
 }
 
-function PostForm({ location, onPostReview, getLocationInfo }) {
-  const [rating, setRating] = useState(2);
+function PostForm({ location, onPostReview, getLocationInfo, expand }) {
+  const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
   const [uploadFile, setUploadFile] = useState([]);
   const uploadProps = {
@@ -540,7 +541,7 @@ function PostForm({ location, onPostReview, getLocationInfo }) {
                       postForm.resetFields();
                       setUploadFile([]);
                       notify("success", "Review posted successfully");
-                      getLocationInfo({ id: location._id }, (_, error) => {
+                      getLocationInfo({ id: location._id, expand: expand }, (_, error) => {
                         if (error) {
                           notify(
                             "error",
@@ -636,7 +637,7 @@ function Post({ review, likeReview, location }) {
   return (
     <List.Item
       actions={[
-        <Rate disabled key={review.rating} defaultValue={review.rating} />,
+        review.rating !== 0 ? <Rate disabled key={review.rating} defaultValue={review.rating} /> : '',
         ,
         <IconText
           text={review?.like ? review.like.count : 0}
