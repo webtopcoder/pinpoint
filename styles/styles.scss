@@ -1,6 +1,5 @@
 /*mailbox-banner-area-css*/
-.mailbox-banner-area-partner {
-  position: relative;
+
 
   .mail-container {
     padding-left: 30px;
@@ -41,7 +40,7 @@
           }
 
           .ant-pagination-item {
-            color: #fff;
+            color: #fff !important;
           }
         }
 
@@ -64,7 +63,6 @@
       }
     }
   }
-}
 
 .mailbox-banner-area-css {
   padding-top: 130px;

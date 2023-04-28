@@ -74,7 +74,7 @@ const Sent = ({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          total: res.total,
+          total: res.totalResults,
         },
       });
     });
@@ -173,7 +173,7 @@ const Sent = ({
             ...tableParams,
             pagination: {
               ...tableParams.pagination,
-              total: res.total,
+              total: res.totalResults,
             },
           });
         });
@@ -394,7 +394,6 @@ const Sent = ({
 };
 
 const mapStateToProps = ({ mail }) => ({
-  sentTotal: mail.senttotal,
   sentitems: mail.sentlist,
 });
 

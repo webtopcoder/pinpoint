@@ -33,7 +33,7 @@ const PendingInvite = ({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          total: res.total,
+          total: res.totalResults,
         },
       });
     });
@@ -68,7 +68,6 @@ const PendingInvite = ({
 
 const mapStateToProps = ({ mail }) => ({
   pendinglist: mail.pendinglist,
-  pendingtotal: mail.pendingtotal,
 });
 
 const mapDispatchToProps = (dispatch) => ({

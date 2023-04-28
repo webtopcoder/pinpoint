@@ -74,7 +74,7 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
         <div className="thread-info">
           <p>
             <Tooltip title={record.message} color={"blue"}>
-              {record.message.length > 10000
+              {record?.message?.length > 10000
                 ? record.message.substring(0, 30) + "..."
                 : record.message}
             </Tooltip>

@@ -48,7 +48,6 @@ const mailReducer = (state = initialState, action) => {
       return {
         ...state,
         sentlist: action.payload.results,
-        senttotal: action.payload.totalResults,
       };
     }
 
@@ -86,7 +85,7 @@ const mailReducer = (state = initialState, action) => {
     case GET_ISREAD_SUCCESS: {
       return {
         ...state,
-        isreadlist : action.payload.results,
+        isreadlist: action.payload.results,
         loading: false,
       };
     }
