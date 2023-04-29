@@ -9,12 +9,14 @@ import { Space, Tooltip, Tag, Button, Badge } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
+import { useRouter } from "next/router";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails, ongetReply }) => {
   const [record_detail, setSaveInboxDetail] = useState();
   const { notify } = useNotify();
+  const router = useRouter();
 
   const selectedInboxinfo = (recordInfo) => {
     ongetReply(recordInfo._id, (res, error) => {
@@ -103,10 +105,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
               <Tooltip title="View Profile" color={"blue"}>
                 <a
                   onClick={() =>
-                    window.open(
-                      baseUrl + "/profile/" + user_id === record?.from?._id ? record?.to?._id : record?.from?._id + "/activity",
-                      "_blank"
-                    )
+                    router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}/activity`)
                   }
                 >
                   @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
@@ -119,7 +118,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
               {formatDate(record.updatedAt)}
             </span>
           </div>
-        </div>
+        </div >
       ),
     },
     {

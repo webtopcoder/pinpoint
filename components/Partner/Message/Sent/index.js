@@ -9,6 +9,7 @@ import useNotify from "@/hooks/useNotify";
 import useSentColumns from "./useSentColumns";
 import { getDiffToNow } from "@/utils/date";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 
@@ -46,6 +47,7 @@ const Sent = ({
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [reply_detail, setSaveReply] = useState();
+  const router = useRouter();
 
   const { columns, record_detail } = useSentColumns({
     setOpen,
@@ -220,15 +222,7 @@ const Sent = ({
                 <div className="message-metadata-head">
                   <Tooltip title="View Profile" color={"blue"}>
                     <a
-                      onClick={() =>
-                        window.open(
-                          baseUrl +
-                          "/profile/" +
-                          record_detail?.to?._id +
-                          "/activity",
-                          "_blank"
-                        )
-                      }
+                      onClick={() => router.push(`/profile/${record_detail?.to?._id}/activity`)}
                     >
                       @{record_detail?.to?.username}
                       <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
@@ -388,7 +382,7 @@ const Sent = ({
                 </List.Item>
               )}
             /></> : ''}
-      </Modal>
+      </Modal >
     </>
   );
 };

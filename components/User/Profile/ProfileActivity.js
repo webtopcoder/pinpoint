@@ -95,7 +95,7 @@ const ProfileActivity = ({
 
   const recommendPost = (postID) => {
     const movieObj = likeState.find((x) => x._id === postID);
-    const myID = sessionStorage.("user_id");
+    const myID = sessionStorage.getItem("user_id");
     const found = movieObj?.like?.find((element) => element == myID);
 
     if (found !== undefined) {
@@ -383,15 +383,7 @@ const ProfileActivity = ({
                                     </span>
                                     <br />
                                     <a
-                                      onClick={() =>
-                                        window.open(
-                                          baseUrl +
-                                          "/profile/" +
-                                          item.from_user._id +
-                                          "/activity",
-                                          "_blank"
-                                        )
-                                      }
+                                      onClick={() => router.push(`profile/${item?.from_user?._id}/activity`)}
                                     >
                                       @{item?.from_user?.username}
                                     </a>
@@ -495,15 +487,7 @@ const ProfileActivity = ({
                         <div className="row">
                           <Divider orientation="center" plain>
                             <Button
-                              onClick={() =>
-                                window.open(
-                                  baseUrl +
-                                  "/profile/" +
-                                  view_user_id +
-                                  "/allphotos",
-                                  "_blank"
-                                )
-                              }
+                              onClick={() => router.push(`profile/${view_user_id}/allphotos`)}
                               type="link"
                             >
                               View All Photos

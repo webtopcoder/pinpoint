@@ -105,20 +105,12 @@ function InboxDetailModal({
               />
               <div className="message-metadata-head">
                 <Tooltip title="View Profile" color={"blue"}>
-                  <a
-                    onClick={() =>
-                      window.open(
-                        baseUrl +
-                        "/profile/" +
-                        record?.from?._id +
-                        "/activity",
-                        "_blank"
-                      )
-                    }
+                  <Link
+                    href={`/profile/${record?.from?._id}/activity}`}
                   >
                     @{record?.from?.username}
                     <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-                  </a>
+                  </Link>
                 </Tooltip>
                 <div className="message-meta">
                   <span className="activity">

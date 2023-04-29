@@ -72,12 +72,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
             <div className="from">
               <Tooltip title="View Profile" color={"blue"}>
                 <a
-                  onClick={() =>
-                    window.open(
-                      baseUrl + "/profile/" + record?.to?._id + "/activity",
-                      "_blank"
-                    )
-                  }
+                  onClick={() => router.push(`/profile/${record?.to?._id}/activity`)}
                 >
                   @{record?.to?.username}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>

@@ -138,11 +138,7 @@ const Header = ({
                           type="primary"
                           onClick={() =>
                             userRole && headerInfo?.profile?.is_follow
-                              ? window.open(
-                                baseUrl +
-                                `/${userRole}/message?user=${view_user_id}`,
-                                "_blank"
-                              )
+                              ? router.push(`/${userRole}/message?user=${view_user_id}`)
                               : notify("error", "Please send follow request firstly")
                           }
                           icon={<MessageOutlined />}

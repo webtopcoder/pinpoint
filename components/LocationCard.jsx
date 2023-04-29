@@ -105,20 +105,11 @@ const LocationCard = ({
   const items = [
     {
       label: (
-        <a
-          onClick={() =>
-            window.open(
-              baseUrl +
-              "/profile/" +
-              (location.partner._id ?? location.partner) +
-              "/locations/" +
-              location._id,
-              "_blank"
-            )
-          }
+        <Link
+          href={`${baseUrl}/profile/${location.partner._id ?? location.partner}/locations/${location._id}`}
         >
           View Location Profile
-        </a>
+        </Link>
       ),
       key: "0",
     },
@@ -177,8 +168,7 @@ const LocationCard = ({
 
       >
         <div onClick={() => {
-          window.open(baseUrl + `/profile/${location.partner._id ?? location.partner
-            }/locations/${location._id}`, "_blank");
+          router.push(`/profile/${location.partner._id ?? location.partner}/locations/${location._id}`);
         }}>
           <Row
             gutter={16}
@@ -304,7 +294,7 @@ const LocationCard = ({
             </Space>
           </Col>
         </div>
-      </Card>
+      </Card >
       <ArrivalModal
         openArrival={arrivalModalOpen}
         setArrivalModalOpen={setArrivalModalOpen}

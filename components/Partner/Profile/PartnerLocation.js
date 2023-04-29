@@ -202,6 +202,7 @@ const PartnerLocation = ({
                           renderItem={(item, index) => (
                             <Post
                               key={index}
+                              router={router}
                               review={item}
                               likeReview={likeReview}
                               location={location}
@@ -633,7 +634,7 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
   );
 }
 
-function Post({ review, likeReview, location }) {
+function Post({ review, likeReview, location, router }) {
   return (
     <List.Item
       actions={[
@@ -658,15 +659,9 @@ function Post({ review, likeReview, location }) {
           title={
             <>
               <Space direction="vertical">
-                <a onClick={() =>
-                  window.open(
-                    baseUrl +
-                    "/profile/" +
-                    review.user._id +
-                    "/activity",
-                    "_blank"
-                  )
-                } className="custom-userName">
+                <a
+                  onClick={() => router.push(`/profile/${review?.user?._id}/activity`)}
+                  className="custom-userName">
                   {review?.user?.firstName}{" "}{review?.user?.lastName}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                 </a>

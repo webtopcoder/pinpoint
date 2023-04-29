@@ -17,6 +17,7 @@ import useNotify from "@/hooks/useNotify";
 import useInboxColumns from "./useInboxColumns";
 import { getDiffToNow } from "@/utils/date";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 const avatarurl = `${apiBaseUrl}/avatar/`;
@@ -54,6 +55,8 @@ const Inbox = ({
   const [reply_detail, setSaveReply] = useState();
 
   const { notify } = useNotify();
+  const router = useRouter();
+
   const { record_detail, columns } = useInboxColumns({
     setOpen,
     user_id,
@@ -236,13 +239,7 @@ const Inbox = ({
                   <Tooltip title="View Profile" color={"blue"}>
                     <a
                       onClick={() =>
-                        window.open(
-                          baseUrl +
-                          "/profile/" +
-                          record_detail?.from?._id +
-                          "/activity",
-                          "_blank"
-                        )
+                        router.push(`/profile/${record_detail?.from?._id}/activity`)
                       }
                     >
                       @{record_detail?.from?.username}

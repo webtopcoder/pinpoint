@@ -160,15 +160,7 @@ const ProfileFollowers = ({
                       <List.Item
                         actions={[
                           item?.status !== "requesting" ? (<Button
-                            onClick={() =>
-                              window.open(
-                                baseUrl +
-                                "/profile/" +
-                                item?.follower?._id +
-                                "/activity",
-                                "_blank"
-                              )
-                            }
+                            onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
                             type="primary"
                             icon={<UserOutlined />}
                             size={"default"}
@@ -253,13 +245,7 @@ const ProfileFollowers = ({
                             ) : (
                               <Space direction="horizontal">
                                 <Button
-                                  onClick={() =>
-                                    window.open(
-                                      baseUrl +
-                                      `/${userRole}/message?user=${item?.follower?._id}`,
-                                      "_blank"
-                                    )
-                                  }
+                                  onClick={() => router.push(`/${userRole}/message?user=${item?.follower?._id}`)}
                                   type="primary"
                                   icon={<MessageFilled />}
                                   size={"default"}
@@ -291,13 +277,7 @@ const ProfileFollowers = ({
                           ) : (
                             <Space direction="horizontal">
                               <Button
-                                onClick={() =>
-                                  window.open(
-                                    baseUrl +
-                                    `/${userRole}/message?user=${item?.follower?.id}`,
-                                    "_blank"
-                                  )
-                                }
+                                onClick={() => router.push(`/${userRole}/message?user=${item?.follower?.id}`)}
                                 type="primary"
                                 icon={<MessageFilled />}
                                 size={"default"}

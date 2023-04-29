@@ -79,12 +79,8 @@ function LeftSidebar({
   };
 
   const onClick = (e) => {
-    if (e.key.substring(1, 8) === "profile") {
-      window.open(baseUrl + e.key, "_blank");
-    } else {
-      setCurrent(e.key);
-      router.push(e.key);
-    }
+    setCurrent(e.key);
+    router.push(e.key);
   };
 
   const handleOriginPageRender = (page) => {

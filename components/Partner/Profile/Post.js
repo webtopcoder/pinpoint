@@ -2,6 +2,7 @@ import { Image as Antimage, List, Skeleton, Avatar, Space, Button } from "antd";
 import { LikeOutlined } from "@ant-design/icons";
 import config from "@/utils/config";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import { useRouter } from "next/router";
 
 const { Text } = Typography;
 
@@ -44,10 +45,11 @@ const avatarurl = `${apiBaseUrl}/avatar/`;
 const myLoader = ({ src }) => {
   return src;
 };
+
 function Post(item, { index }, location) {
+
+  const router = useRouter();
   const postID = item._id;
-  console.log(location);
-  console.log(item.from_user.id);
   return (
     <List.Item
       key={index}
@@ -83,24 +85,14 @@ function Post(item, { index }, location) {
                 <span className="custom-shoutout-text">
                   <a
                     className="custom-touser-text"
-                    onClick={() =>
-                      window.open(
-                        baseUrl + "/profile/" + item.to_user._id + "/activity",
-                        "_blank"
-                      )
-                    }
+                    onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}
                   >
                     @{item?.to_user?.username}
                   </a>
                 </span>
                 <br />
                 <a
-                  onClick={() =>
-                    window.open(
-                      baseUrl + "/profile/" + item.from_user._id + "/activity",
-                      "_blank"
-                    )
-                  }
+                  onClick={() => router.push(`/profile/${item?.from_user?._id}/activity`)}
                 >
                   @{item?.from_user?.username}
                 </a>
@@ -131,12 +123,7 @@ function Post(item, { index }, location) {
 
                 <br />
                 <a
-                  onClick={() =>
-                    window.open(
-                      baseUrl + "/profile/" + item.from_user._id + "/activity",
-                      "_blank"
-                    )
-                  }
+                  onClick={() => router.push(`/profile/${item?.from_user?._id}/activity`)}
                 >
                   @{item?.from_user?.username}
                 </a>

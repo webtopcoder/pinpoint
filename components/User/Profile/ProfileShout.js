@@ -170,15 +170,9 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                 title={
                                   <>
                                     <Space direction="vertical">
-                                      <a onClick={() =>
-                                        window.open(
-                                          baseUrl +
-                                          "/profile/" +
-                                          item.from._id +
-                                          "/activity",
-                                          "_blank"
-                                        )
-                                      } className="custom-userName">
+                                      <a
+                                        onClick={() => router.push(`/profile/${item?.from?._id}/activity`)}
+                                        className="custom-userName">
                                         {item?.from?.firstName}{" "}{item?.from?.lastName}
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                       </a>
@@ -189,15 +183,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                     <Space>
                                       shouted out
                                       <a
-                                        onClick={() =>
-                                          window.open(
-                                            baseUrl +
-                                            "/profile/" +
-                                            item?.to?._id +
-                                            "/activity",
-                                            "_blank"
-                                          )
-                                        }
+                                        onClick={() => router.push(`/profile/${item?.to?._id}/activity`)}
                                       >
                                         @{item?.to?.username}
                                       </a>

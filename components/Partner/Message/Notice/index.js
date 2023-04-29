@@ -5,13 +5,15 @@ import { DownloadOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import useNoticeColumns from "./useNoticeColumn";
+import { useRouter } from "next/router";
+
 import config from "@/utils/config";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const Notices = ({ ondeleteSent, ongetNotice, noticelist }) => {
   const [open, setOpen] = useState(false);
-
+  const router = useRouter();
   const { columns, record_detail } = useNoticeColumns({
     setOpen,
     onDeleteNotice: ondeleteSent,
@@ -103,64 +105,58 @@ const Notices = ({ ondeleteSent, ongetNotice, noticelist }) => {
                   <Tooltip title="View Profile" color={"blue"}>
                     <a
                       onClick={() =>
-                        window.open(
-                          baseUrl +
-                            "/profile/" +
-                            record_detail?.to?._id +
-                            "/activity",
-                          "_blank"
-                        )
+                        router.push(`/profile/${record_detail?.to?._id}/activity`)
                       }
                     >
-                      @{record_detail?.to?.username}
-                      <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-                    </a>
-                  </Tooltip>
-                  <div className="message-meta">
-                    <span className="activity">
-                      {new Date(record_detail.createdAt).toLocaleDateString(
-                        undefined,
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                          hour: "numeric",
-                          hour12: true,
-                          minute: "2-digit",
-                          second: "2-digit",
-                        }
-                      )}
-                    </span>
-                  </div>
-                </div>
-                <div className="message-star-actions">
-                  {record_detail.files.length !== 0 ? (
-                    <Dropdown.Button
-                      menu={{
-                        items: record_detail.files.map((item) => ({
-                          key: item.filepath,
-                          label: item.filepath,
-                        })),
-                        onClick: onMenuClick,
-                      }}
-                      icon={<DownloadOutlined />}
-                    >
-                      Attached Files
-                    </Dropdown.Button>
-                  ) : (
-                    ""
-                  )}
+                    @{record_detail?.to?.username}
+                    <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
+                  </a>
+                </Tooltip>
+                <div className="message-meta">
+                  <span className="activity">
+                    {new Date(record_detail.createdAt).toLocaleDateString(
+                      undefined,
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "numeric",
+                        hour12: true,
+                        minute: "2-digit",
+                        second: "2-digit",
+                      }
+                    )}
+                  </span>
                 </div>
               </div>
-              <div className="message-content">
-                <p className="message-subject">{record_detail.subject}</p>
-                <pre>{record_detail.message}</pre>
+              <div className="message-star-actions">
+                {record_detail.files.length !== 0 ? (
+                  <Dropdown.Button
+                    menu={{
+                      items: record_detail.files.map((item) => ({
+                        key: item.filepath,
+                        label: item.filepath,
+                      })),
+                      onClick: onMenuClick,
+                    }}
+                    icon={<DownloadOutlined />}
+                  >
+                    Attached Files
+                  </Dropdown.Button>
+                ) : (
+                  ""
+                )}
               </div>
-              <div className="clear"></div>
             </div>
+            <div className="message-content">
+              <p className="message-subject">{record_detail.subject}</p>
+              <pre>{record_detail.message}</pre>
+            </div>
+            <div className="clear"></div>
+          </div>
           </div>
         )}
-      </Modal>
+    </Modal >
     </>
   );
 };

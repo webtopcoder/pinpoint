@@ -149,7 +149,6 @@ const ProfileActivity = ({
   const router = useRouter();
   const profile = router.query?.profile;
 
-  console.log(profile);
   useEffect(() => {
     const { profile } = router.query;
     ongetAllphotos(profile, paginationInfo);
@@ -407,15 +406,9 @@ const ProfileActivity = ({
                                     title={
                                       <>
                                         <Space direction="vertical">
-                                          <a onClick={() =>
-                                            window.open(
-                                              baseUrl +
-                                              "/profile/" +
-                                              item.from_user._id +
-                                              "/activity",
-                                              "_blank"
-                                            )
-                                          } className="custom-userName">
+                                          <a
+                                            onClick={() => router.push(`/profile/${item?.from_user?._id}/activity`)}
+                                            className="custom-userName">
                                             {item?.from_user?.firstname}{" "}{item?.from_user?.lastname}
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                           </a>
@@ -426,15 +419,7 @@ const ProfileActivity = ({
                                         <Space>
                                           Posted to
                                           <a
-                                            onClick={() =>
-                                              window.open(
-                                                baseUrl +
-                                                "/profile/" +
-                                                item?.to_user?._id +
-                                                "/activity",
-                                                "_blank"
-                                              )
-                                            }
+                                            onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}
                                           >
                                             @{item?.to_user?.username}
                                           </a>
@@ -493,15 +478,9 @@ const ProfileActivity = ({
                                     title={
                                       <>
                                         <Space direction="vertical">
-                                          <a onClick={() =>
-                                            window.open(
-                                              baseUrl +
-                                              "/profile/" +
-                                              item.follower._id +
-                                              "/activity",
-                                              "_blank"
-                                            )
-                                          } className="custom-userName">
+                                          <a
+                                            onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
+                                            className="custom-userName">
                                             {item?.follower?.firstname}{" "}{item?.follower?.lastname}
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                           </a>
@@ -512,15 +491,7 @@ const ProfileActivity = ({
                                         <Space>
                                           Followed
                                           <a
-                                            onClick={() =>
-                                              window.open(
-                                                baseUrl +
-                                                "/profile/" +
-                                                item?.following?._id +
-                                                "/activity",
-                                                "_blank"
-                                              )
-                                            }
+                                            onClick={() => router.push(`/profile/${item?.following?._id}/activity`)}
                                           >
                                             @{item?.following?.username}
                                           </a>
@@ -669,15 +640,7 @@ const ProfileActivity = ({
                         <div className="row">
                           <Divider orientation="center" plain>
                             <Button
-                              onClick={() =>
-                                window.open(
-                                  baseUrl +
-                                  "/profile/" +
-                                  view_user_id +
-                                  "/allphotos",
-                                  "_blank"
-                                )
-                              }
+                              onClick={() => router.push(`/profile/${view_user_id}/allphotos`)}
                               type="link"
                             >
                               View All Photos
