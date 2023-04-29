@@ -23,7 +23,7 @@ const ProfileAllPhotos = ({
   const [paginationInfo, setPageInfo] = useState({
     pagination: {
       current: 1,
-      pageSize: 20,
+      pageSize: 500,
     },
   });
 
@@ -128,13 +128,13 @@ const ProfileAllPhotos = ({
                         </h4>
                         <div className="row">
                           <Antimage.PreviewGroup>
-                            {activityInfo?.image &&
-                              activityInfo.image.map((image, index) => (
+                            {myallPhotos &&
+                              (myallPhotos.slice(0, 8)).map((image, index) => (
                                 <Antimage
+                                  key={index}
                                   loader={myLoader}
                                   width={"25%"}
                                   src={imgurl + image?.filepath}
-                                  key={index}
                                 />
                               ))}
                           </Antimage.PreviewGroup>

@@ -231,6 +231,7 @@ const ProfileActivity = ({
     onpostThink(data, (res) => {
       if (res.success) {
         composeForm.resetFields();
+        setUploadFile([]);
         notify("success", res.msg);
         ongetActivity(profile, 1, "", (res) => {
           if (res.success) {

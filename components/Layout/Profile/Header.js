@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import {
   UserOutlined,
   MessageOutlined,
@@ -15,10 +14,7 @@ import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import { Avatar, Card, Space, Typography, Button, Row, Col } from "antd";
 const { Meta } = Card;
 const { Title } = Typography;
-const style = {
-  background: "#0092ff",
-  padding: "8px 0",
-};
+
 const Header = ({
   ongetHeader,
   headerInfo,
@@ -27,12 +23,11 @@ const Header = ({
   user_id,
   userRole,
 }) => {
-  const myLoader = ({ src }) => {
-    return src;
-  };
+
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
   const { notify } = useNotify();
+  const [loading, setLoading] = useState(true);
 
   const view_user_id = router.query.profile;
 
@@ -68,9 +63,12 @@ const Header = ({
   };
 
   useEffect(() => {
+    setLoading(true);
     if (router.isReady) {
       const { profile } = router.query;
-      ongetHeader(profile);
+      ongetHeader(profile).then(() => {
+        setLoading(false);
+      });
     }
   }, [router.isReady, view_user_id]);
 
@@ -105,6 +103,7 @@ const Header = ({
             bodyStyle={{
               background: "#f8fbff",
             }}
+            loading={loading}
           >
             <Meta
               avatar={
