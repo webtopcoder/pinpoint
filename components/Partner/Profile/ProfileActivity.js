@@ -319,7 +319,7 @@ const ProfileActivity = ({
                             style={{
                               width: "100%",
                             }}
-                            showCount
+                            
                             placeholder="input @ to mention user"
                             prefix={["@"]}
                             options={followAndFollowingList}

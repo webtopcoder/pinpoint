@@ -1,0 +1,2164 @@
+[33mcommit 58cf77f33f1e5546ae0d6f25477c2927d0a42306[m[33m ([m[1;36mHEAD -> [m[1;32mserhii[m[33m, [m[1;31morigin/stephens[m[33m)[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Apr 30 12:05:27 2023 +0200
+
+    fixed: localstorage issues
+
+[33mcommit a1d1ed7bd8b5dcdad5df393371a60b092e5fb12a[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Apr 30 11:27:14 2023 +0200
+
+    fixed: getting shoutlist
+
+[33mcommit 7aa94cbc31d10a145c68f47678df024f96ce5be3[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Apr 29 08:16:59 2023 +0200
+
+    fixed: all photos issue
+
+[33mcommit debf3b71c1c186816ad09bf2891f51f45b29e2ad[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Apr 29 05:10:44 2023 +0200
+
+    fixed: router issues
+
+[33mcommit f0dda765d62f122d7c4ee4c1f72e0110f9227ece[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 28 09:51:37 2023 +0200
+
+    fixed: post, review rating issues
+
+[33mcommit 043b8fcc61b225a34d8586d08aa05ce0efa856e3[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 28 04:05:43 2023 +0200
+
+    fixed: mail big issue
+
+[33mcommit d328c2d92a879c9ac98d0ebcc313db9588b84c0b[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 27 08:07:03 2023 +0200
+
+    fixed: message is read issue
+
+[33mcommit bd97a235c02346956445d515ac073408081bbdea[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 27 05:13:25 2023 +0200
+
+    fixed: following issue
+
+[33mcommit db0ca69ed6a8e5bf002544fa7c564149196e683a[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 27 03:44:55 2023 +0200
+
+    fixed: footer remove newsletter
+
+[33mcommit 4a6a58e17341079d6c2020c86c2448a65ef4fe95[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 27 03:04:03 2023 +0200
+
+    message same user reply issue
+
+[33mcommit 50b1837efaa6002694ace2ef1b22de1ec0a2b34d[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 26 08:32:32 2023 +0200
+
+    fixed: email verification page title
+
+[33mcommit c4108ac6be2d8472d586fc05e2bc21240707aa72[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 26 08:24:30 2023 +0200
+
+    fixed: auth issue
+
+[33mcommit fc4a319ac665341b5fc9a9312b5236c2f101d223[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 26 08:08:04 2023 +0200
+
+    fixed: last issues
+
+[33mcommit 85a5dd581c7567270cd1779220f4745b6496d185[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Apr 21 23:11:28 2023 +0545
+
+    added: new notification badge
+
+[33mcommit 23d112a7270daae7acd542b264000aaf87f87696[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Apr 21 22:46:38 2023 +0545
+
+    fix: email verification resend
+
+[33mcommit 3103e116f152517e9e6d0a4da6bcbc73aff78298[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 20 08:25:31 2023 +0200
+
+    fixed: some issues
+
+[33mcommit 12416d04561e10a0a642e3847e6b4189bbf3bde4[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 22:46:22 2023 +0200
+
+    fixed: reply issues
+
+[33mcommit 645cd847022fd2b97186bcd0dd0beff7d4d3e8a8[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 09:09:59 2023 +0200
+
+    fixed: sending invite page css
+
+[33mcommit 472c18504dfefd42ef487fa893fa152fc9b69d40[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 08:56:46 2023 +0200
+
+    fixed: button loading
+
+[33mcommit 685df0611c78440a13aecbd712a8aaf1d6c34070[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 08:37:37 2023 +0200
+
+    fixed: partnership issue
+
+[33mcommit bed567b4cd7a22e31debf8344e616297d8f6070c[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 07:17:57 2023 +0200
+
+    fixed: partner avatar issue
+
+[33mcommit 9ef5b3e2ee1c3c3da5d07eb1cc09dd256a2244f2[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 05:34:31 2023 +0200
+
+    fixed: landing tag changed to home
+
+[33mcommit e8e6683c2b2c54477be3cfde0d95c44ba53ad0e2[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 05:31:59 2023 +0200
+
+    fixed: mobile responsive issue
+
+[33mcommit 5c75633b292cf476016974a1258ce347db73f30f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 04:51:46 2023 +0200
+
+    fixed: after logout avatar issue
+
+[33mcommit a1ea262395c9bb5f17c88a1f608f761213b1340f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 19 00:00:55 2023 +0200
+
+    fixed: reply function completed
+
+[33mcommit 69ccb3a58c4e2a9501ef7e675ac055ed411dd2be[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Apr 16 11:01:35 2023 +0200
+
+    fixed: email issue
+
+[33mcommit ed966211077ca1733b4c3f6f3627d7c999f91f82[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 14 23:48:25 2023 +0200
+
+    fixed: notifications list remove
+
+[33mcommit 7b363833a07b9e2c50da44a5c3509afe426a7127[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 14 23:28:51 2023 +0200
+
+    fixed: following link
+
+[33mcommit 6063fcc82f8d9682a7bdbd0967e98c303a5d9f47[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 14 21:53:12 2023 +0200
+
+    fixed: notifications removed.
+
+[33mcommit b9cb557e7e449d7f8f41a13742a2e2ba8d77b6b1[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 14 02:42:34 2023 +0200
+
+    fixed: follow issues resolved, several issues
+
+[33mcommit 82364a8f2e089c44e52697e794f2f9832abb3f46[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 13 03:21:55 2023 +0200
+
+    fixed: notification link
+
+[33mcommit 775d5e54888a29d7ab9713e8cc7e84b91a141beb[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 13 01:57:28 2023 +0200
+
+    fixed: notification drawer issue
+
+[33mcommit 27fb68144d92a7808798794d6f1079eab52b2da2[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 12 16:06:00 2023 +0200
+
+    fixed: the add favorite removed
+
+[33mcommit 88b67b09d97a1e4cc59338185fa40c1c29f99660[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 11 00:58:28 2023 +0200
+
+    fixed: interactive map issue
+
+[33mcommit c55fa55bf00f71d22a7612c481812c255ff11c13[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Apr 9 19:56:03 2023 +0200
+
+    fixed: follow, interactiva map issues
+
+[33mcommit 0cf6502895d5d2d8d04416d4e4aa16e2e6e1786e[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 7 01:41:50 2023 +0200
+
+    fixed: reset password issue
+
+[33mcommit 67f9487e23aacaf55f333e7b8be6a83a6c873843[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 7 01:14:13 2023 +0200
+
+    fixed: modify location issue
+
+[33mcommit 0ef97f55c1d0f362fa166c125a4d63ea97e9fb6a[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Apr 7 00:16:40 2023 +0200
+
+    fixed: individual location issues
+
+[33mcommit f910ad75ad6287cb44a3a0b33ca4ba4651947219[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 6 19:53:32 2023 +0200
+
+    feature: adding disabledhours and disabledminutes in addarrivalmodal
+
+[33mcommit 5ef64364d324972ccf1ae79b43e9bb8eacb2661f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 6 18:42:55 2023 +0200
+
+    fixed: map default location
+
+[33mcommit 3cc28b26891fd21095c3ac1154d8399e948ab11e[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Apr 6 01:52:11 2023 +0200
+
+    fixed: allphotoimages
+
+[33mcommit 5c41febd5d0c20ec3350ce863f1d4f9a7e255c86[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 5 22:58:40 2023 +0200
+
+    fixed: allphotos, departuredate issue
+
+[33mcommit 6767478b973a9c5cb900d1a827b63b9a721db0f2[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 5 02:42:18 2023 +0200
+
+    fixed: partnership renewdata issue
+
+[33mcommit 039d6d3f0198c8bf99d7638a95bd973996a80c08[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Apr 5 01:12:49 2023 +0200
+
+    fixed: partnership renewdate
+
+[33mcommit ae03182a2e07e834c68539cba856941ed2cf3754[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 23:26:04 2023 +0200
+
+    fixed: partnership issues
+
+[33mcommit 567457469b7cf0ae120aa01855f22c8c4934ec25[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 21:22:27 2023 +0200
+
+    fixed: partner sidebar issue
+
+[33mcommit b032087ee54657cb76e943657c1018fe2d3de65d[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 20:11:10 2023 +0200
+
+    fixed: payment issues
+
+[33mcommit 684d960ba58cfd7f47975845e0f2430fbde89acb[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Apr 4 23:25:13 2023 +0545
+
+    added: trial subscription
+
+[33mcommit 0ff96464e19333a68db7836dbca0b55a36cac268[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 10:03:29 2023 +0200
+
+    fixed: notification issue
+
+[33mcommit 57816798a42d4719becc4535e627c8206a724926[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 09:59:59 2023 +0200
+
+    fixed: symbol changed in home map
+
+[33mcommit 106a167434af285c1962d034ca7e4e48611a27b9[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 09:51:47 2023 +0200
+
+    fixed: partner position avatar in map
+
+[33mcommit a057c40f779728e1ea2db5f4838ada57e50b61f2[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 02:12:25 2023 +0200
+
+    fixed: partnership notification when add location
+
+[33mcommit eac062dfaf192b90694133282139cd754dcb1919[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Apr 4 01:21:53 2023 +0200
+
+    fixed: several issues
+
+[33mcommit ef2446d41161eb63ff725db56817cef34e971b41[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Apr 3 22:43:36 2023 +0200
+
+    fixed: partner business legal name
+
+[33mcommit 22cfa8c51a56da7134329e61c029f1655a496672[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Apr 3 22:13:46 2023 +0200
+
+    fixed: partner register issue
+
+[33mcommit 660f1a166ae4f4424a9eeb036483192357f0989c[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Apr 2 09:18:13 2023 +0200
+
+    fixed: categories issue in interactive map
+
+[33mcommit e998c4182e5240706191b22b8a5192fa37d4c7a8[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 19 22:05:22 2023 +0100
+
+    fixed: testimonial section on homepage
+
+[33mcommit d8ffe4916986531628ca7f680a286afbbd422adc[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Mar 14 09:43:30 2023 +0545
+
+    fix: location review like
+
+[33mcommit e455798107dc3e4d2a755e569da0fa44b4f4d047[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 12 16:29:29 2023 +0100
+
+    fixed: fixeing many errors
+
+[33mcommit a19039f2a9113150cae7db7dbd8133bfed0f0114[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Mar 9 18:00:27 2023 +0100
+
+    fixed: several issues
+
+[33mcommit beb83bac53c1f29f5a22ea220fff23c94dc0feb0[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Mar 9 10:01:57 2023 +0100
+
+    fixed: accepting following request
+
+[33mcommit 5800e1d0c0493b47220060140b076b52c0194c09[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Mar 8 22:46:39 2023 +0100
+
+    fixed: direct message in profile
+
+[33mcommit 6c3b3c2134083c109acdc2c3b6ce984bd91d0332[m
+Merge: db63c83 6fe5471
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Mar 8 19:40:22 2023 +0100
+
+    Merge branch 'stephens' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit db63c83e572937c4f73e09f923d71c2a5e60b273[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Mar 8 19:40:06 2023 +0100
+
+    fixed: some issuesss
+
+[33mcommit 6fe5471142738f42aad5767ad403c8087ebf513d[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Mar 8 14:36:37 2023 +0545
+
+    fix: notification component drawer
+
+[33mcommit 5974205d66e44c4fa426429710ea42c95519313d[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Mar 7 10:57:00 2023 +0100
+
+    fixed: where pinpoint issue in home
+
+[33mcommit 7239b774dd71997500ef9c5348c52b7d46cf2ac6[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Mar 7 09:28:49 2023 +0100
+
+    fixed: admin allow partner status
+
+[33mcommit 5490f24c9aa29da4b04daf294bab8a984bf29ffb[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Mar 7 08:53:32 2023 +0100
+
+    fixed: filter issue by subcategories in map
+
+[33mcommit 70e636c3558b5d6908e86e5f3b490b6cedf2f931[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Mar 6 22:15:25 2023 +0100
+
+    fixed: confirm window in location delete
+
+[33mcommit e8d27111e1f6e57fa588e5e946a63fa30af57bd7[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Mar 6 20:26:13 2023 +0100
+
+    fixed: email notification badge
+
+[33mcommit 81f050b04bbc635e5b96d2ada52d4eba85c500b3[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Mar 6 19:51:16 2023 +0100
+
+    fixed: notification badge
+
+[33mcommit f993c25b24e928f0a2b76a2f8253af8873d0fc98[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Mar 6 17:10:13 2023 +0100
+
+    fixed: add favorite button
+
+[33mcommit 4f892c082cc1e3828c0363748a16f80b4d961b23[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Mar 6 17:07:41 2023 +0100
+
+    fixed: windowinfo in map
+
+[33mcommit 2e0c3663d70ba1c6f631006eb145e40b046e02e8[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 19:04:26 2023 +0100
+
+    added: list view functionality
+
+[33mcommit 442f9aae58958260edf627b0bc0109d2484f0e94[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 17:16:27 2023 +0100
+
+    fixed: social link broken issue in profile page
+
+[33mcommit 833ccc85c39e96d730d4375c298a4292d942511c[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 17:04:23 2023 +0100
+
+    fixed: all photoes spell
+
+[33mcommit 441fb0b767b0a5caccaf8987ca520682aa48017f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 16:57:34 2023 +0100
+
+    fixed: react quill issue in activity about section
+
+[33mcommit 838e70fe2a3462945151d8373236808b2f22a66e[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 15:03:32 2023 +0100
+
+    added: social links on footer
+
+[33mcommit be0c3ddcd370c7dab6819caf283bbb73736c47bf[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 10:41:00 2023 +0100
+
+    fixed: interactive map issue in homepage
+
+[33mcommit dd8e0efba0644217ffcde4a718d2d2843980cdee[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 07:17:17 2023 +0100
+
+    fixed: avatar url again
+
+[33mcommit f2175057e69ead745f1469869dd7ff4ee4b5fb0e[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 07:11:13 2023 +0100
+
+    fixed: avatar url issue in map
+
+[33mcommit b821c32c3eb7d94ff67840fc30af3a7ffec3db6c[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Mar 5 06:50:42 2023 +0100
+
+    fixed: interactive map activlactions
+
+[33mcommit 7779e928aa0a3940077c0c400b1133f7f6a94a6c[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Mar 4 10:25:04 2023 +0100
+
+    fixed: interactive map issue
+
+[33mcommit 71dff11d503324b1136dd3e94e97dad1a36336a0[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Mar 3 17:53:04 2023 +0545
+
+    fix: subscribe to partnership - data model change
+
+[33mcommit d6a85c79d18709b4198bd35eb9aee07ae254823c[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Mar 3 17:49:14 2023 +0545
+
+    feat: added currency symbol
+
+[33mcommit cad18b7e73fbce27b8e8be5aefe371c6f0d6b046[m
+Merge: f5c3d5a a989145
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Mar 1 16:11:20 2023 +0100
+
+    Merge branch 'stephens' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit f5c3d5aa1a51393d68d3b9a84100e5ed4c445b16[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Mar 1 16:11:02 2023 +0100
+
+    fixed: some issues,
+
+[33mcommit a9891458845033b57dea9e24ec582b51790bda87[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Mar 1 20:47:38 2023 +0545
+
+    fix: media urls
+
+[33mcommit de0e69fed0eea7475cdbf871a744ecfcd493fa20[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Mar 1 20:34:11 2023 +0545
+
+    fix: Upload antd
+
+[33mcommit 8d687eee8a815f2d193181e2b44ddfcee7333ed5[m
+Merge: 3fca500 e404034
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 25 08:27:31 2023 +0545
+
+    Merge branch 'stephens' of github.com:webtopcoder/pinpoint into stephens
+
+[33mcommit 3fca500e05dceafac475e5786514e3729fbcce37[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 25 08:24:53 2023 +0545
+
+    fixed: faq with loader
+
+[33mcommit fcc88402216588f2fef4cfeac7cb857ac87e6e7a[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 25 08:03:17 2023 +0545
+
+    added: faq from api
+
+[33mcommit e404034bfdb959e741a39ffa2353a0abbb259546[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 23 19:30:49 2023 +0100
+
+    fixed: business modify in partner setting, tidy up css files
+
+[33mcommit 4bfec9d8b26412f355b6ae0247ebe8378e67dfe2[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 23 18:16:28 2023 +0100
+
+    fixed: setting add user in partner setting
+
+[33mcommit b0141ca0d5443c5c18298a88e4f2b03fa64e6daf[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 23 17:39:08 2023 +0100
+
+    added: antd result feature
+
+[33mcommit 50161e88064f3dcac89571d192b5a716b73a1e06[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 23 17:12:45 2023 +0100
+
+    fixed: avatar issue in headerinfo
+
+[33mcommit 3085d610bda5558611f5edae0b323866c893b6f1[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 23 16:07:57 2023 +0100
+
+    fixed: base url
+
+[33mcommit 690d4b59379ec4d45606f27c1512679109d6a620[m[33m ([m[1;32mmaster[m[33m)[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Feb 22 15:21:59 2023 +0100
+
+    remove: favicon.png file
+
+[33mcommit 07dd7268da36b76950f41b17aa46dfa93e421c24[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Feb 22 15:21:24 2023 +0100
+
+    fixed: favicon.ico
+
+[33mcommit 9678ff1c826b78f47e4f60f1344ee0fe886ee146[m
+Merge: 4973b42 725aa94
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Feb 22 14:49:14 2023 +0100
+
+    Merge branch 'stephens' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 4973b425444837ee214dcf44320ef9a98d59b3b8[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Feb 22 14:48:52 2023 +0100
+
+    fixed: login validator issue
+
+[33mcommit 725aa944950ef4545facec417442f872594c82f2[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Feb 22 16:41:43 2023 +0545
+
+    fix: partner sidebar
+
+[33mcommit c0932c1b1bb04f4114e56c704adbe134828674e0[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Feb 22 16:36:58 2023 +0545
+
+    fix: header display
+
+[33mcommit abe243de269fe9aec2af5dd1d2d294480be607ff[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Feb 21 22:50:06 2023 +0545
+
+    fix: packages
+
+[33mcommit cafe19235e7fe183606e9684f496898d196b92fb[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Feb 21 15:50:54 2023 +0100
+
+    fixed: interactive map
+
+[33mcommit 39e7772514380487fe2c63d5b0586f18683acbc2[m
+Merge: 75e3fd6 719b24f
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Feb 14 06:42:55 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 75e3fd67b612497121316836e7007fe1983c5c95[m
+Merge: 400dae4 528d2c4
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Feb 14 06:41:16 2023 +0100
+
+    partner completed
+
+[33mcommit 719b24f44dd5647d3ed9bb2d50c723d906e1e2cf[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 13 22:24:23 2023 +0545
+
+    fixed: location card
+
+[33mcommit 166abd87d24617a0634e0d17ef23a605de788b85[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 13 19:59:23 2023 +0545
+
+    fixed: css in right sidebar
+
+[33mcommit d5b781576e17baaba2e8b7fe383ab949abdbd72a[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 13 18:56:13 2023 +0545
+
+    fixed: user contact and follower
+
+[33mcommit 528d2c4904a1b68363e6f4adb5d113ba4ce10c43[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 11 22:07:38 2023 +0545
+
+    feat: favorite locations added
+
+[33mcommit 48f1f3bce6c833c6a37b42f695874fd4c4364370[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 11 20:01:43 2023 +0545
+
+    added: user notification
+
+[33mcommit a8853797b7fba2ec1a089cef2e9efb7d084617a7[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 11 19:42:36 2023 +0545
+
+    fix: user profile activity
+
+[33mcommit 364cf2d540d70ade9a21f5492b6358695990be69[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 11 19:32:24 2023 +0545
+
+    added: user edit section
+
+[33mcommit ef9ca47a3db811951b7be48f7367d4256693ef72[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 11 18:55:06 2023 +0545
+
+    fix: send message buttons
+
+[33mcommit 0ea3b2919fc78f14b5029f60143600dfe4ee1fa2[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 11 18:35:12 2023 +0545
+
+    fix: send message, and user mail
+
+[33mcommit fb711bc25a5e12179ebd47599b20316bec67ffc4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Thu Feb 9 22:54:37 2023 +0545
+
+    fix: user register notify and resend verification
+
+[33mcommit 400dae4f2546321b8f1d24e74e18a6b8c5c1942b[m
+Merge: 9962bd1 6bbeb7d
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Feb 8 06:24:49 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 6bbeb7d8b05d598c3d5aabca1ab1313df58585b0[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Feb 8 00:31:47 2023 +0545
+
+    fix: modify location
+
+[33mcommit ab0c6cb9dc6e22db2347c49f4ed3ec76655b8651[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Feb 8 00:01:39 2023 +0545
+
+    fix: unfriend
+
+[33mcommit faa1cc2f781abcfb3e9e4f29871e190ae2aec80c[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Feb 7 23:00:10 2023 +0545
+
+    feat: checkin added in location
+
+[33mcommit 9962bd11fe6dc81455048dd29952eef7b4d15f5f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Feb 7 11:58:23 2023 +0100
+
+    fixed: partnership page fixed
+
+[33mcommit 49ba310cfe9c6033d63c45c2a84a186b938bb4f4[m
+Merge: d25810a 45b2eb2
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Tue Feb 7 12:00:54 2023 +0545
+
+    Merge pull request #16 from h3cksamrat/fix/aayush/user-registration-now-takes-dob
+    
+    fixed user registration not taking dob
+
+[33mcommit e67d487374caaad5ca351b871ca91593e74e3834[m
+Merge: f79d610 d25810a
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Feb 6 19:36:08 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit f79d610509f389e18a2d3f0ea1e1e91538da3883[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Feb 6 19:35:00 2023 +0100
+
+    fixed: some pages
+
+[33mcommit d25810a6510ca49501a9bc421e0b023fa5fad5bc[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Feb 7 00:11:01 2023 +0545
+
+    fix: minor issues
+
+[33mcommit 777793e3ed28edcc39fec2a2211a99c43464a1ba[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 23:13:50 2023 +0545
+
+    feat: password reset
+
+[33mcommit 402d66f97fe2dd1466386fd4f43a1ce3224350ac[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 21:18:54 2023 +0545
+
+    fix: register and login, not available for loggedIn user
+
+[33mcommit ce36afbcde3b8243a90401eed390c7861f8bab51[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 20:58:35 2023 +0545
+
+    fix: arrival like
+
+[33mcommit aba8f9df4523fb6d361598ac66b4033900964f11[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 20:39:40 2023 +0545
+
+    fix: dashboard statistics
+
+[33mcommit 45b2eb2cba64da2377e318207859a2eb32d12437[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Mon Feb 6 19:29:49 2023 +0545
+
+    fixed user registration not taking dob
+
+[33mcommit 05a52dda820c061ae3eafdaa2dc181d63119216c[m
+Merge: 0a644af 812644a
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 18:57:46 2023 +0545
+
+    Merge branch 'main' of github.com:h3cksamrat/pinpoint-frontend into samrat
+
+[33mcommit 0a644afcb2d4dbf3f2790e9a3afc0adbcb0d902a[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 18:54:51 2023 +0545
+
+    fix: get user
+
+[33mcommit 812644abbfc0ee5c64fe156549d4141e84565cec[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Mon Feb 6 18:55:04 2023 +0545
+
+    hotfix: eslint error fixes on PartnerLocation
+
+[33mcommit 7d62626b70a24771290bf39a2dadab4c1fa70060[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 18:38:39 2023 +0545
+
+    fix: all images
+
+[33mcommit adc450e14c3bd56b0dce263426c3b03f4f89db91[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 17:50:49 2023 +0545
+
+    fix: activity title and location subcategories
+
+[33mcommit 904d53bfc02cec4745fc45c9c784dc57add3622b[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 17:28:43 2023 +0545
+
+    fixed: subcategory undefined error
+
+[33mcommit a5c001ff4564d72ab60874891893fbb4ba456412[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 17:22:48 2023 +0545
+
+    fixed: subcategories and review
+
+[33mcommit 376d27731c1d4c604c6a13e645bd58080611672d[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 16:12:53 2023 +0545
+
+    fix: activity load more
+
+[33mcommit 97e28dc8867b47193068cebde90d449600d197a6[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 16:05:28 2023 +0545
+
+    fix: location like, review stars, images issues
+
+[33mcommit 0352255ceb07226f4643a16e9ebf4a6dbcaf577b[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 14:35:27 2023 +0545
+
+    fix: profile activity with post and follow
+
+[33mcommit 2edb0a9ff21a97b06dede8f773445e1d627086cd[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Feb 6 08:00:43 2023 +0100
+
+    fixed: partner sidebar collasped avatar revised
+
+[33mcommit a17cb9e33f7a8d2e8c039de93136a0d8cdec5dc7[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Feb 6 07:54:11 2023 +0100
+
+    fixed: partnership buy now modal revised
+
+[33mcommit 9f886d77cac8b332a8ec3be8904d847eae1c8d9f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Feb 6 07:04:06 2023 +0100
+
+    fixed: profile location individual page design
+
+[33mcommit 21c22c8ae5be83e0fb219c73fc9f762a4f564ad1[m
+Merge: 7985c01 7f28aa2
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 20:14:00 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 7f28aa2c23bd068685a7b1ae2da6ba5c1cd4e098[m
+Merge: b946eb4 410af5b
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Mon Feb 6 00:58:03 2023 +0545
+
+    Merge pull request #15 from h3cksamrat/feature/aayush/locations-page
+    
+    location page done
+
+[33mcommit 410af5b791e1976930d2dd58b0e9d640e036e8e3[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Mon Feb 6 00:49:06 2023 +0545
+
+    location page done
+
+[33mcommit 7985c0146d817a87fb55b2706f5ce0bb4f1f6841[m
+Merge: d5f3c06 b946eb4
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 19:30:01 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit b946eb4bc0be1db69d5fbd347c19ff2ed0a5dfe4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Feb 6 00:14:50 2023 +0545
+
+    fix: quick arrival issues
+
+[33mcommit d5f3c064c7ea09ad978dee3d7f29e59bfab384d8[m
+Merge: 0872471 31185cd
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 18:59:30 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 31185cd1483eebd2f21774d302a05e6436188754[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Feb 5 23:40:49 2023 +0545
+
+    fix: quick arrival Images
+
+[33mcommit 0872471cc7e6fda8369f6187012f596c74c6f3a8[m
+Merge: 1164688 7135d3b
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 18:35:00 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 7135d3b547546e0ea3dfe02057e1bbabf26af94e[m
+Merge: 61923d6 078917e
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Feb 5 23:15:21 2023 +0545
+
+    Merge branch 'feature/partnership' of github.com:h3cksamrat/pinpoint-frontend into samrat
+
+[33mcommit 078917ee02110bff55b7a6642db6c4302715a8f3[m
+Merge: 559fae0 5e8bcea
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sun Feb 5 22:44:04 2023 +0545
+
+    Merge branch 'feature/partnership' of github.com:h3cksamrat/pinpoint-frontend into feature/partnership
+
+[33mcommit 559fae0b2299ebd462a734ddd882f41ee58e7fd2[m
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sun Feb 5 22:42:16 2023 +0545
+
+    added cancel subscription
+
+[33mcommit 1164688080adc0aa7f3cafd9d017440ecf673414[m
+Merge: d3817aa 61923d6
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 17:25:28 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 61923d6fac6957a6982bccc0bcc3d75e9ae1b79f[m
+Merge: 679a465 607d94f
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Feb 5 22:05:25 2023 +0545
+
+    Merge branch 'main' of github.com:h3cksamrat/pinpoint-frontend into samrat
+
+[33mcommit 679a465c16341716e959c8f0513801ea6ac63ca3[m
+Merge: 82df7b5 5e8bcea
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Feb 5 22:03:32 2023 +0545
+
+    Merge branch 'feature/partnership' into samrat
+
+[33mcommit 5e8bcea2cc840d291271f94f3b1e2ed880cb8c82[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Feb 5 21:22:35 2023 +0545
+
+    fix: getUser and cleanup: partnership page
+
+[33mcommit b4ee47d79a19c5be89e2723fcff30e3481e8fb4f[m
+Merge: 4151708 607d94f
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sun Feb 5 20:13:32 2023 +0545
+
+    Merge branch 'main' of github.com:h3cksamrat/pinpoint-frontend into feature/partnership
+
+[33mcommit 4151708697934522d16e744b0d32f7d97d88280b[m
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sun Feb 5 19:50:02 2023 +0545
+
+    fix:stripe payment
+
+[33mcommit d3817aa25edd03bf2692205bfd04b16eb799fea3[m
+Merge: 31e6ebb 8da425f
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 06:15:52 2023 +0100
+
+    Merge branch 'feature/partnership' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 31e6ebb9b8d9105b09c41fb99935dce43216e339[m
+Merge: 6de279d ecccf20
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sun Feb 5 06:15:22 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 607d94fcfd743530276efc5e5bf0675bf5d2f534[m
+Merge: ecccf20 8da425f
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Sun Feb 5 01:06:09 2023 +0545
+
+    Merge pull request #12 from h3cksamrat/feature/partnership
+    
+    partnership integration
+
+[33mcommit 82df7b57efb52001bb585743898e14e0a3a3768c[m
+Merge: ecccf20 8da425f
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Feb 5 01:04:17 2023 +0545
+
+    Merge branch 'feature/partnership' of github.com:h3cksamrat/pinpoint-frontend into samrat
+
+[33mcommit 8da425f9e21b44cb174acfcfc1856378e20963e1[m
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sun Feb 5 00:37:27 2023 +0545
+
+    stripe integration
+
+[33mcommit ecccf209859cd640467b410e1de86d5b06d8318c[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 23:26:50 2023 +0545
+
+    fix: post seen after posting
+
+[33mcommit 6de279dda5a66429008252f9b31a36522b1ead9e[m
+Merge: 0c52c97 da87a43
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Feb 4 17:34:38 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit da87a43a54f97ad5a1708e0e1598749cd177c3a3[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 20:58:04 2023 +0545
+
+    fix: like in posts
+
+[33mcommit 0c52c976ffab16fca4e5172ffa3d2d0a17bea4cc[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Feb 4 15:55:58 2023 +0100
+
+    feat: design lost password page
+
+[33mcommit e1b9a603093ddfa630540245bd2a8f48cc4fc62f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 20:37:40 2023 +0545
+
+    feat: like in posts
+
+[33mcommit de51be73c327ed5cb923fa239ffb8b6c91007ced[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 17:37:06 2023 +0545
+
+    fix: mention in posts
+
+[33mcommit 7109418e348ab7d530152cbdd10f637d41b94340[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 15:42:21 2023 +0545
+
+    fix: shoutout posts
+
+[33mcommit e810f1869848c39ab7b5957926d081fb9b0a8456[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 15:30:04 2023 +0545
+
+    fix: post in profile activity
+
+[33mcommit 819ca0b2245238fae51f1eaac16ca0d6ae709bb2[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 14:29:01 2023 +0545
+
+    fix: partner logout
+
+[33mcommit a6b3b70ce6d97ee7608e4afddf5ab71c1ed6be74[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 13:56:05 2023 +0545
+
+    fix: subcategories in location
+
+[33mcommit bb3a9d4328decff37064776180d565bb0a20d36c[m
+Merge: 8284eca 4501328
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 12:55:15 2023 +0545
+
+    Merge branch 'samrat' into stephens
+
+[33mcommit 8284ecac4bdba269aa5c50fd18a7e076b2de1199[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Feb 4 08:04:08 2023 +0100
+
+    fixed: locations listing
+
+[33mcommit 73d6428bc0bf80ba0f59f6244d2e3fe1601e35ad[m
+Merge: 497fa07 4501328
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sat Feb 4 12:29:09 2023 +0545
+
+    Merge branch 'main' of github.com:h3cksamrat/pinpoint-frontend into feature/partnership
+
+[33mcommit 497fa077c3720148419bd5d4be0df58687e2316f[m
+Merge: 054c849 88288f8
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Sat Feb 4 12:28:15 2023 +0545
+
+    Merge branch 'main' of github.com:h3cksamrat/pinpoint-frontend into feature/partnership
+
+[33mcommit 450132880a8d2c5a7e91e7a18f57fc6097b4fa6f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Feb 4 11:45:32 2023 +0545
+
+    fixed: poll in activity page
+
+[33mcommit f19b7dbc1b897409038fed2e94ca31f7edfe0437[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Feb 3 23:14:26 2023 +0100
+
+    fixed: add and modify locations completed except for subcategory
+
+[33mcommit bad9a82835baf909259fd122959bd98e890f9e0f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Feb 3 20:42:04 2023 +0545
+
+    fix: add location address autocomplete
+
+[33mcommit c3f559462088ab5e4514a39daad2d52f8d14a76c[m
+Merge: ef94250 c59381e
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Feb 3 19:52:15 2023 +0545
+
+    Merge branch 'samrat' into stephens
+
+[33mcommit ef94250a0c77dcf60cbfef6ee4f6654a69e083e7[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Feb 3 13:39:01 2023 +0100
+
+    fixed: add location modal
+
+[33mcommit 7d2590017b72446b5f7c46df870a334494ea2256[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 2 20:45:07 2023 +0100
+
+    fixed: when click view profile, open new tab
+
+[33mcommit c59381e9ba3955db61dc7c750305f5c73d7bdaea[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Feb 3 00:05:29 2023 +0545
+
+    fix: refreshed business page data populate
+
+[33mcommit dc47ca17189874f6cc3929d6b95dae7f25ddb724[m
+Merge: 321f7db 88288f8
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Thu Feb 2 19:17:57 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 88288f8e9ef828e5788cfc13db2669365b95567c[m
+Merge: 5965332 c5e5e02
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Thu Feb 2 23:51:38 2023 +0545
+
+    Merge pull request #14 from h3cksamrat/feature/edit-business-detail-settings-page
+    
+    edit business details page
+
+[33mcommit c5e5e021c26e52d570e2d029114866da7ad2c8e6[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Thu Feb 2 23:50:22 2023 +0545
+
+    fix: notify
+
+[33mcommit 59653323bdd41420798efc862ae9c8ff588465ca[m
+Merge: dc56a9d 10b261e
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Thu Feb 2 23:40:17 2023 +0545
+
+    Merge pull request #13 from h3cksamrat/feature/additional_user
+    
+    added feature additional user
+
+[33mcommit 10b261ea1c4436d492cf4d2435066781c8982905[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Thu Feb 2 23:39:07 2023 +0545
+
+    fixed: data null error and added popconfirm
+
+[33mcommit 8a9261097ff3f6bc3250c8b63554ffbcd3497615[m
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Thu Feb 2 20:48:42 2023 +0545
+
+    added delete functionality and validator
+
+[33mcommit ec4ad25f27679a83af863c80bf24bec29e122be2[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Thu Feb 2 20:45:19 2023 +0545
+
+    edit business details page
+
+[33mcommit dc56a9daa1c95ec445e2457c88670e9c03e407d4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Thu Feb 2 18:07:15 2023 +0545
+
+    fix: partner profile image after login
+
+[33mcommit c533d3312e569856958d0f8a2f7eb268e7841c41[m
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Thu Feb 2 04:15:05 2023 +0545
+
+    added feature additional user
+
+[33mcommit 054c84996fd7a0fdc68ce0f4e28125052306635e[m
+Author: anishshrestha <shresthaanish986@gmail.com>
+Date:   Wed Feb 1 19:41:06 2023 +0545
+
+    partnership integration
+
+[33mcommit 321f7db0a393cba1140573851afd7b90061b7d93[m
+Merge: 5ce907a 3972285
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Jan 31 20:04:52 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 397228591928e3660ab0ccc5326d848ba4f74cc6[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Feb 1 00:49:03 2023 +0545
+
+    fix: shoutout
+
+[33mcommit 5ce907a01bfafd7145e20a4fa65ebbc986aee9ca[m
+Merge: db7bd3a 43bcbb9
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Jan 31 19:54:19 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 43bcbb9d322ffb5e8a3a2b2e60156c0f499c26d5[m
+Merge: c0d3692 73867f5
+Author: Samrat Neupane <asnov101@gmail.com>
+Date:   Wed Feb 1 00:29:41 2023 +0545
+
+    Merge pull request #11 from h3cksamrat/feature/settings-page
+    
+    settings page done
+
+[33mcommit 73867f52fb34225757407e2677c9bffa2016b982[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Wed Feb 1 00:26:46 2023 +0545
+
+    settings page done
+
+[33mcommit db7bd3a16ce5c39d97d813adc40c13bce1aa521e[m
+Merge: ca503e7 c0d3692
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Jan 31 17:32:49 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit c0d36925889f8d7ef3c7a305c58dd41d831fa98b[m
+Merge: 62811c2 0b5c788
+Author: Samrat Neupane <asnov101@gmail.com>
+Date:   Tue Jan 31 19:09:35 2023 +0545
+
+    Merge pull request #10 from h3cksamrat/feature/shoutout-partner
+    
+    shoutout finalization
+
+[33mcommit 0b5c78878566682e8e5fb6405fcddf700993a910[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Tue Jan 31 19:07:20 2023 +0545
+
+    hotfix: intial loading fixed
+
+[33mcommit a6b660aa2cbf1112e08b66574f0e32cdf4ed1e20[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Tue Jan 31 19:04:43 2023 +0545
+
+    shoutout finalization
+
+[33mcommit 62811c2f2c43bd6f1bc63e2849b8e8868bc7aa51[m
+Merge: 114c2f0 b871805
+Author: Samrat Neupane <asnov101@gmail.com>
+Date:   Tue Jan 31 00:15:32 2023 +0545
+
+    Merge pull request #9 from h3cksamrat/feature/shoutout-partner
+    
+    shoutout for partners
+
+[33mcommit b871805d09f6b913d31051209794e2aa7bf80048[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Tue Jan 31 00:14:11 2023 +0545
+
+    fixed avatar
+
+[33mcommit 28ccfd771bef785ecebe6db30b8aabc259f84c94[m
+Author: aayush <aayusshgh@gmail.com>
+Date:   Tue Jan 31 00:05:46 2023 +0545
+
+    shoutout for partners
+
+[33mcommit 114c2f02888ebcba31d87c494e1a7fee20645892[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 30 19:29:32 2023 +0545
+
+    fix: location
+
+[33mcommit 0d3f3d8d7a8fe23f595e1075ae75320482ea1942[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Jan 28 22:55:51 2023 +0545
+
+    fix: location
+
+[33mcommit 89b000ef32e4f670084a5146cd2538a42d8f3d0f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Jan 28 16:34:16 2023 +0545
+
+    profile location
+
+[33mcommit b167e34297ac15136f97e5ef2d24f2eb512026a9[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sat Jan 28 15:52:50 2023 +0545
+
+    location added
+
+[33mcommit ca503e74387839a224790eb639505f4d36d7294b[m
+Merge: bc79878 c684276
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Jan 27 18:28:43 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit c68427695528999b2ae8969581bcc46a0eb69d0d[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Fri Jan 27 22:58:47 2023 +0545
+
+    fix: follower profile
+
+[33mcommit bc798788a09c94ca653197625f2052b60e797c05[m
+Merge: 2b2ec53 8ede709
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 22:54:40 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 8ede709c813ecabbbe7bdf186a2b081506dbcc3f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Thu Jan 26 03:22:19 2023 +0545
+
+    added: notification socket
+
+[33mcommit 2b2ec53edf9259a8fc5225915e7c0710cbdb5e5f[m
+Merge: ae7f9db f5dcddb
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 20:56:10 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit ae7f9db8bfca59bef553f9b7d0cba2725cd49ddb[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 19:32:09 2023 +0100
+
+    fixed: message, profile edit
+
+[33mcommit f5dcddb7e9c572337de1311a3b42ca1242a24532[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Thu Jan 26 00:07:04 2023 +0545
+
+    fixed: image issue and compose mail
+
+[33mcommit bd01c2be9473dc59c1ca6949a2858f67ef35359f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 22:34:31 2023 +0545
+
+    fixed: poll issue
+
+[33mcommit 6bb07bc6cb96ae4aa45c0bbcb6853202f93defed[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 21:30:54 2023 +0545
+
+    fixed: profile image
+
+[33mcommit fb0f97cf0bdc2a9ab9494223e1a4734c9729eea4[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 15:26:19 2023 +0100
+
+    some bugs fixed
+
+[33mcommit 57eb68ba04d59938979fb43878a715a3d3ff13e0[m
+Merge: 80321bf 84232e2
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 12:05:12 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 84232e20dc6a3c47b9b56e2de4d4128c928b81eb[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 16:47:05 2023 +0545
+
+    fixed: bulk action mail
+
+[33mcommit 80321bf0040a2e26f828ede1b9dc75b8f45d3224[m
+Merge: 21608af 294d5ed
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 11:56:01 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 294d5ed69dda0cf4aaf78176c7d204a595616056[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 14:27:47 2023 +0545
+
+    fixed: invite validation
+
+[33mcommit f238045a6a1221066fec203ea5f96902443d6222[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 14:12:39 2023 +0545
+
+    added: notification and fixed mail
+
+[33mcommit 21608afb2fa3a01cfa830933b6a57166a361793d[m
+Merge: d40e1b3 09129c3
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Wed Jan 25 04:24:03 2023 +0100
+
+    Merge branch 'feature/notification' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 09129c3b70e8512ecbcc97d242cb0a51bdadbb28[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 03:35:14 2023 +0545
+
+    stage I: redux along with server side
+
+[33mcommit 25c45471250796a85b0b01c31642c5cacc6b44e9[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Wed Jan 25 01:57:39 2023 +0545
+
+    lgtm: mail/message
+
+[33mcommit 433a90d227d2c0ba28f6a0a7bc486a749ec2fb1b[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 21:11:36 2023 +0545
+
+    fix: post image
+
+[33mcommit 92a0c905a1340a8eaa425b92ae771bc9570a80f4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 20:32:52 2023 +0545
+
+    fix: auth, mail
+
+[33mcommit 29394552dc876578f7895e62c0f191ba11ff365e[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 15:52:41 2023 +0545
+
+    fixed: most errors
+
+[33mcommit 663d36caf3b86fa6073893c37207b9eeb9297de3[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 13:06:41 2023 +0545
+
+    fixed: quick arrival and departure
+
+[33mcommit d40e1b3efb8af141c4a60687ef654fb179ca388c[m
+Merge: 9a49ff7 c953878
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Jan 24 03:52:55 2023 +0100
+
+    Merge branch 'fix/quick-location-fetch' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit c953878068bb3bcfc1f4fce9f6def2beae45a1d4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 04:47:05 2023 +0545
+
+    layer1 of quick arrival and departure fixed
+
+[33mcommit 7895bbd26489bdc60ba3128a11b4605d37bbfc8d[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 02:18:47 2023 +0545
+
+    fixed: profile activity
+
+[33mcommit 790d4a36c7b33dcbe2c1d6b058ccb05035220f19[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Tue Jan 24 01:21:31 2023 +0545
+
+    fix: interactive map & partial follower page
+
+[33mcommit 803efdf3b5aff390da2b16ca269a73371ff81ca4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 22:19:43 2023 +0545
+
+    completed: edit profile
+
+[33mcommit d4d156e9d12e390fd725b329a007f3023cad2b53[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 20:13:14 2023 +0545
+
+    fixed: edit profile and auth
+
+[33mcommit 9a49ff73347fee26b4240c272b069aae2b99fd49[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 23 11:22:08 2023 +0100
+
+    partner login refactor
+
+[33mcommit f06e1ab6e7279baf8cd102683e5b0722f8d90798[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 13:00:03 2023 +0545
+
+    reform: login form
+
+[33mcommit bad6de46bcdf43f0eca3a09cd733c3dba29b69e4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 10:50:15 2023 +0545
+
+    fix: partner and user register
+
+[33mcommit 86fe73538fd4973c804471442d402274bee783bc[m
+Merge: e835634 3fb2fc7
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 09:28:23 2023 +0545
+
+    Merge branch 'main' of github.com into samrat
+
+[33mcommit e835634d5eced734c0d2c624177fca10ab8d7228[m
+Merge: 47ecd1f b77a6c2
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Mon Jan 23 09:24:32 2023 +0545
+
+    Merge pull request #2 from webtopcoder/stephens
+
+[33mcommit 47ecd1fe9ba1cfbcf87a119b26f894c86d999cb3[m
+Merge: 5e8429c cd6f43e
+Author: Samrat Neupane <samratneupane215@gmail.com>
+Date:   Mon Jan 23 09:23:06 2023 +0545
+
+    Merge pull request #1 from webtopcoder/fix/user-register
+    
+    Fix/user register
+
+[33mcommit b77a6c24db58ec8c507baafb171809bd726c9ec3[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 23 01:43:17 2023 +0100
+
+    partner register refixed
+
+[33mcommit 29ed9ceb4e28943deeb284dc6e9a22c89e52fc5f[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 23 01:36:15 2023 +0100
+
+    partner validation fixed
+
+[33mcommit cd6f43e582b5ce83e2fc148d5bfb4cb6d4bc0419[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 01:46:33 2023 +0545
+
+    User & Partner Login
+
+[33mcommit 7fce411fab32122f253038213ba0059c4d684035[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 23 01:29:10 2023 +0545
+
+    [clean] partner register
+
+[33mcommit a95235cd2e94e78d563043e53a3debc21303fc47[m
+Author: hackerme <asnov101@gmail.com>
+Date:   Mon Jan 23 01:02:25 2023 +0545
+
+    fixed login and otp
+
+[33mcommit 3fb2fc710eea4df0820c4a2070c9f995a03107ca[m
+Merge: 5e8429c 9024bc7
+Author: Samrat Neupane <asnov101@gmail.com>
+Date:   Sun Jan 22 23:44:28 2023 +0545
+
+    Merge pull request from fix/user-register
+    
+    fixed auth register and created verify email
+
+[33mcommit 9024bc7ae133b4e7dee00ead73b46e546c7f2fa0[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 22 23:40:51 2023 +0545
+
+    [prettier]
+
+[33mcommit e5fc56544689775a74df33fee7c477bce9f24bec[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 22 23:35:08 2023 +0545
+
+    fix: partner register
+
+[33mcommit 60b7e0ff4c590105480cfee47f2df487d27fcd53[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 22 23:25:06 2023 +0545
+
+    fixed: categories issue
+
+[33mcommit 8766ddc62316dfa8315caf25f215f2779bec6d06[m
+Author: hackerme <asnov101@gmail.com>
+Date:   Sun Jan 22 22:33:25 2023 +0545
+
+    fixed auth register and created verify email
+
+[33mcommit 5e8429c08310e42e8bd0fbecabae354e2e9c163e[m
+Merge: 523870a 7ed691e
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 22 21:07:45 2023 +0545
+
+    Merge branch 'feature/component' into samrat
+
+[33mcommit 7ed691eba6a4a0b9af6bc2129d87379a3a35f280[m
+Author: hackerme <asnov101@gmail.com>
+Date:   Sun Jan 22 19:44:51 2023 +0545
+
+    created components for partner post
+
+[33mcommit eef64dd0d91312394f4d8256629ff94e9ad1c7cf[m
+Merge: 5eac694 8bf0399
+Author: hackerme <asnov101@gmail.com>
+Date:   Tue Jan 17 23:20:08 2023 +0545
+
+    eslint fixed and partner components created
+
+[33mcommit 523870a953ceb0468ac61ec034601b6972ddbd6b[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Tue Jan 17 05:44:29 2023 +0100
+
+    partner design 2 some fixed
+
+[33mcommit 4d17f92f38d81f0f345377c6f52db9abd1c5f68d[m
+Merge: d93d86c 8bf0399
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 15:34:01 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit d93d86c8e1b2862b88d3fe0de4f236df02571b84[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 15:33:22 2023 +0100
+
+    locations page fixed
+
+[33mcommit 8bf0399211eb57d5a557d2e9a758faf6089d0cd2[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 20:11:44 2023 +0545
+
+    added: dynamic header
+
+[33mcommit cfb3da773bdac871c852fae7fa0897137d58b907[m
+Merge: e231025 139dcfe
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 14:33:22 2023 +0100
+
+    Merge branch 'samrat' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit e23102575ace51be6e4d98defb3aa2659169a3ef[m
+Merge: 950de8c b9e1269
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 14:32:59 2023 +0100
+
+    locations individual page fixed
+
+[33mcommit 139dcfe38d24925900fffad7dc370f5f0e7c18bc[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 19:16:45 2023 +0545
+
+    fixed small css in location card
+
+[33mcommit b9e1269cac87d1fa0127ed8edba9a042fded1bac[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 13:02:39 2023 +0545
+
+    added: locations error fixed
+    
+    added: location
+
+[33mcommit 950de8c51a06d5961aa6afb9efe83235f34631fb[m
+Merge: 5734822 53070a6
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 13:41:18 2023 +0100
+
+    Merge branch 'feature/profile-locations' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 53070a671f8b76b7243756806f9ba566be88e8fb[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 18:25:40 2023 +0545
+
+    fixed css
+
+[33mcommit 57348222abf0d55fb5d433a855fa82a34c6b344b[m
+Merge: be31173 e14971e
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 13:40:25 2023 +0100
+
+    Merge branch 'feature/profile-locations' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit e14971ed075dce3f8bba111b9e0a0ce70810b86f[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 18:23:50 2023 +0545
+
+    added: individual location page made better
+
+[33mcommit be31173e8d42761e898b0eda858d9c85bf31c254[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Mon Jan 16 13:11:31 2023 +0100
+
+    locations page fixed
+
+[33mcommit 54706d4d11634bc0755c4b9ed186093bd8108ed8[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 17:49:59 2023 +0545
+
+    modified: location card to new
+
+[33mcommit 7cc483f4d9b6834dedb4746c7f8ae08f66b2d9c4[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 16:21:14 2023 +0545
+
+    added: location card
+
+[33mcommit 7eea321bd1dc04109e5642f46c5756918538b26b[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 15:33:02 2023 +0545
+
+    added: location
+
+[33mcommit 5eac694b59010416d65c3e055a9cacde372333de[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 13:02:39 2023 +0545
+
+    added: locations error fixed
+
+[33mcommit ad0f9bcdad75ef3acfebcea8d5aa9ce254e1d165[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Mon Jan 16 10:49:29 2023 +0545
+
+    modified: making common profile page
+
+[33mcommit a2fb33e62d661cde72bb5fc1285f1eac44fb0b86[m
+Author: hacker <asnov101@gmail.com>
+Date:   Sun Jan 15 22:39:27 2023 +0545
+
+    partner profile page
+
+[33mcommit 7139af7f5a33eda0d84fc6aec9972a5984d84740[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 15 22:38:21 2023 +0545
+
+    completed: unresponsive partnership page
+
+[33mcommit fbe563dba96bc17cab80c44a3167d7a605263b00[m
+Author: hacker <asnov101@gmail.com>
+Date:   Sun Jan 15 19:21:16 2023 +0545
+
+    fixed api call issue
+
+[33mcommit e1aac464d35f7e1eb583fcd224936bde491131a1[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 15 18:01:25 2023 +0545
+
+    fixed some fixes
+
+[33mcommit 7ffa6b9fc45ee8a97be2867d2d5b20fb061a19fd[m
+Author: h3cksamrat (mint) <53104092+h3cksamrat@users.noreply.github.com>
+Date:   Sun Jan 15 12:07:17 2023 +0545
+
+    resolved naming errors
+
+[33mcommit a413338a38fdab3064a76d2ed65296fba5098401[m
+Merge: 450cd80 0d1ba62
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Jan 14 20:54:42 2023 +0100
+
+    Merge branch 'master' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 0d1ba62969289635bbcfb64ac33b1ef916380f5e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Jan 14 20:51:53 2023 +0100
+
+    profile integrated
+
+[33mcommit 450cd8093b8df07d27fb2ca2dd5edd3c55434fbf[m
+Merge: b2c2825 d493011
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Jan 14 18:39:12 2023 +0100
+
+    some issues fix in setting
+
+[33mcommit b2c28257d93e9ef00f8135b70d31dfecfc2da45a[m
+Merge: a74d959 e21aefa
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Sat Jan 14 07:53:19 2023 +0100
+
+    memebership updated
+
+[33mcommit a74d959e5c6b47cf87da2abcf8fb8670a961f337[m
+Author: webtopcoder <rkvirtys109@gmail.com>
+Date:   Fri Jan 13 06:58:07 2023 -0800
+
+    fix
+
+[33mcommit d49301132fc9f87fc3bb07b4f9be5e378f781eba[m[33m ([m[1;31morigin/kayden[m[33m)[m
+Author: netprince1210-dev <ameliagenius3@gmail.com>
+Date:   Thu Jan 12 18:52:13 2023 -0800
+
+    partner's setting page 80% UI complete
+
+[33mcommit e21aefad18811d5d2a429f6e108a90c592f91765[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Fri Jan 13 01:06:27 2023 +0100
+
+    locations add, modify
+
+[33mcommit c8588a8f2133a2307f3ec240d9f6a4afb2c52b39[m
+Merge: c16876a 5dc3277
+Author: netprince1210-dev <ameliagenius3@gmail.com>
+Date:   Wed Jan 11 18:44:02 2023 -0800
+
+    Merge branch 'stephens' of https://github.com/webtopcoder/pinpoint into kayden
+
+[33mcommit c16876a7eaa1eb701230ad69f79b5560e7716544[m
+Author: netprince1210-dev <ameliagenius3@gmail.com>
+Date:   Wed Jan 11 12:59:48 2023 -0800
+
+    socket update
+
+[33mcommit e1e8cbb97638d500836976eedf2edf98cf33c8a5[m
+Merge: 5dc3277 c16876a
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Jan 11 14:56:32 2023 +0100
+
+    Merge branch 'kayden' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 5dc3277aabc74519aa408142cb54ff3a1e78ac9c[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Jan 11 14:55:47 2023 +0100
+
+    partner design 1 completed
+
+[33mcommit ab4b5e2b2561d80151961382a768cae3682b0602[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Tue Jan 10 02:34:04 2023 +0100
+
+    partner revision
+
+[33mcommit 2b5440769391cb6735c32ca9786b70ab4028f437[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Tue Jan 10 02:33:19 2023 +0100
+
+    partner design 1
+
+[33mcommit bc925de05245430e97041c65f086c17b5b9cd39a[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Fri Jan 6 14:51:11 2023 +0100
+
+    partner dashboard
+
+[33mcommit c2d25d94cf9ac50a888853176d2447d9c7cbbb38[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Jan 4 15:23:42 2023 +0100
+
+    map revise, pending invite
+
+[33mcommit dc9d5deb12e520aaf590b924cb5be363937283e8[m
+Merge: 15ebce7 3f350e0
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Jan 4 09:11:35 2023 +0100
+
+    Merge branch 'kayden' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 15ebce752b8ec44a87ea8d5979a78ddd9026d282[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Jan 4 09:03:54 2023 +0100
+
+    user side almost completed
+
+[33mcommit 3f350e033088d3c3cc9396f0a66a830dfba9b9f2[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Fri Dec 30 07:56:17 2022 -0800
+
+    add Socket
+
+[33mcommit 5e0da91208d8970576f52f2a37acf123ef21f60b[m
+Merge: c2c667f 7d14f34
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Thu Dec 29 10:13:21 2022 -0800
+
+    Merge branch 'stephens' of https://github.com/webtopcoder/pinpoint into kayden
+
+[33mcommit c2c667feea31f89e961b64868e53986334308d9a[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Thu Dec 29 10:12:12 2022 -0800
+
+    add socket module for notification
+
+[33mcommit 7d14f34280445346832ad347355e64a6451b50fd[m
+Merge: 4ee611e 4936332
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Thu Dec 29 10:11:34 2022 +0100
+
+    map
+
+[33mcommit 493633229e5e9650e072d17a63f9dadcf983cc9b[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Wed Dec 28 16:13:02 2022 -0800
+
+    almost complete google map on User page
+
+[33mcommit 4ee611e3b1a2534ab1f2d9aa4d8202e605073d0c[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 28 16:57:53 2022 +0100
+
+    delete file
+
+[33mcommit b07f23f9d8f7a356ab2c1718c81a6554becc1c4c[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 28 16:56:14 2022 +0100
+
+    test user
+
+[33mcommit 1c6ed3dbb95d75e62085e33dee035189d51aa132[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 28 10:35:57 2022 +0100
+
+    activity post completed
+
+[33mcommit 12cc2b2f5b42b1417506b6181d09ef055a426f86[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Tue Dec 27 19:33:40 2022 +0100
+
+    followers completed
+
+[33mcommit ff02d642ee723972e5205a3121f0d6fcae96a92f[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sun Dec 25 17:00:23 2022 +0100
+
+    update for build
+
+[33mcommit 2c0039f9d7ff00d630d896d2e2c0eb1487093538[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sun Dec 25 16:01:45 2022 +0100
+
+    npm run build
+
+[33mcommit 903afc13f0ebed686c6330ad161f03c379c53ca4[m
+Merge: 6b776c9 541cec0
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sat Dec 24 20:43:00 2022 +0100
+
+    edit profile
+
+[33mcommit 541cec0630b40d612c139c6fa9749db079109418[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Sat Dec 24 15:07:47 2022 -0800
+
+    update sidebar
+
+[33mcommit 6b776c9f0f7f458463bcbd2d0f04680c63192e1c[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sat Dec 24 15:07:40 2022 +0100
+
+    redux-persister
+
+[33mcommit af2584343b0ec07c303b441411a17e7bee9c4057[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sat Dec 24 10:00:48 2022 +0100
+
+    right side issue
+
+[33mcommit 780f46f9210c9f6cc71188f7b64363da74cd3b2e[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Fri Dec 23 08:44:16 2022 +0100
+
+    message almost completed
+
+[33mcommit debec7f3a3dc6323a992e690a439a1558b7b50bf[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Thu Dec 22 23:42:17 2022 +0100
+
+    antd styles update
+
+[33mcommit 9dc8fe0a17f8e6b45667d3b601fe5eb26947926e[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Thu Dec 22 23:18:49 2022 +0100
+
+    mail functionaly update
+
+[33mcommit fc60a9d5c067e00f054c83348f97f64f278092c9[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Thu Dec 22 10:02:42 2022 +0100
+
+    sent alomst finished
+
+[33mcommit 2312fb0f074cbd068ad788d3a41062845c08cc42[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 21 21:37:57 2022 +0100
+
+    inbox complete
+
+[33mcommit 53be55d08ac9c23b08acfcac4ba644af093d0997[m
+Merge: ac867b7 90414e7
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 21 18:50:34 2022 +0100
+
+    Merge branch 'kayden' of https://github.com/webtopcoder/pinpoint into stephens
+
+[33mcommit 90414e708123f1f7c9b0bd14ace2a0f0ba045251[m
+Merge: 188b490 377406e
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Wed Dec 21 11:05:48 2022 -0800
+
+    update Right Sidebar/popup user login or register
+
+[33mcommit ac867b7cb84a6288559e581ec6a609bb771d2afa[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 21 18:48:54 2022 +0100
+
+    mail compose, sent invite update
+
+[33mcommit 188b49019bc2fdf01140d81795fdf1a6b29c1863[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Wed Dec 21 09:36:47 2022 -0800
+
+    validate.css
+
+[33mcommit 377406e15779765a6c86f9ac43220ddbd2b88e6d[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 21 09:35:04 2022 +0100
+
+    validate css update
+
+[33mcommit 64b18f97753699d6311289fa459db01665c7461c[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 21 09:14:19 2022 +0100
+
+    delete files
+
+[33mcommit 84e46055d93ffda87e012983200cec7c32ccf407[m
+Merge: 36e6860 8af472c
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 21 06:29:42 2022 +0100
+
+    user last update
+
+[33mcommit 8af472c406b8d0bcdb6ed19799a9b8d557d356db[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Mon Dec 19 09:04:22 2022 -0800
+
+    update protected page
+
+[33mcommit 36e68608c978905c37c3300049a306c79e1c2791[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Mon Dec 19 16:21:11 2022 +0800
+
+    faq
+
+[33mcommit a6c7c57a99230b6db44a33c2fe7a9480dc0fdc3d[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Mon Dec 19 05:13:18 2022 +0800
+
+    contact form
+
+[33mcommit e202f6f839113200acd3da91a138291bf5e6b127[m
+Merge: 9ae3c83 8cb8486
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Mon Dec 19 03:08:23 2022 +0800
+
+    footer update
+
+[33mcommit 8cb8486c814e2f735a87ae788e7856c186a7855b[m
+Merge: da217d0 4c9d81c
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Sat Dec 17 13:44:44 2022 -0800
+
+    update layout
+
+[33mcommit da217d017c639bd7255644b0a7dc420c953a2826[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Sat Dec 17 09:35:55 2022 -0800
+
+    configure layout and auth-gurad
+
+[33mcommit 9ae3c83f8d5f66e23071dde4f8755670099cefc8[m
+Merge: 4c9d81c da217d0
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sat Dec 17 20:45:39 2022 +0800
+
+    stephens 1
+
+[33mcommit 4c9d81c219284ff5a5366d71d6e709900d243ae0[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sat Dec 17 16:32:18 2022 +0800
+
+    user update
+
+[33mcommit f9641b6e46131c07196fd663cc9ea493eeb11ac3[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Wed Dec 14 15:14:09 2022 +0100
+
+    fix warning
+
+[33mcommit 9fb44df0382cc58faa6a08fc221f0cbfd671febe[m
+Merge: da706db c829e0c
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Wed Dec 14 12:41:25 2022 +0100
+
+    Merge branch 'master' of https://github.com/webtopcoder/pinpoint
+
+[33mcommit da706db03adffb04df138709d2d503cd8f220f94[m
+Author: netprince1210 <netprince1210@gmail.com>
+Date:   Wed Dec 14 12:40:33 2022 +0100
+
+    add user message page inbox, sent, compose, send invite, but pending invite is not complete, because there is no figma
+
+[33mcommit c829e0c7f11c73a259b6acc978981edd5e8263ff[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 14 13:06:32 2022 +0800
+
+    htmlfor
+
+[33mcommit 6f43e333222566a64876099055c51536840a07db[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 14 02:03:08 2022 +0800
+
+    side bar remove
+
+[33mcommit 3fca69a26fe480a05edb9f0e90eddcfcffe51b62[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Tue Dec 13 21:28:06 2022 +0800
+
+    landing
+
+[33mcommit 5430d5d7fc8e96ee89a85974753045777efa29ef[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Sat Dec 10 13:33:45 2022 +0800
+
+    auth complete
+
+[33mcommit d5fa38eae938f15cb1b564f7769c93e441645f41[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Wed Dec 7 16:29:52 2022 +0800
+
+    second update
+
+[33mcommit 8c0eff094114a16919952afeb5201259035c9ae8[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Tue Dec 6 23:38:47 2022 +0800
+
+    first commit
+
+[33mcommit ae156923c905279460751af5379dbf860f7bd494[m
+Author: joseBarry109 <brandon0303weddle@gmail.com>
+Date:   Tue Dec 6 23:34:12 2022 +0800
+
+    first commit
