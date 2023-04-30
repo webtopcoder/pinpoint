@@ -203,6 +203,8 @@ function ModifyModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
+
+          console.log(addressForm.lat, addressForm.lng)
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
