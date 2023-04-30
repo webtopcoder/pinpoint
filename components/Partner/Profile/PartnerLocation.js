@@ -860,7 +860,6 @@ function LocationBanner({
                     </Text>
                   </Space>
                 </Col>
-
                 <Col span={8}>
                   <Space direction="vertical">
                     {location.isFavorite ? (

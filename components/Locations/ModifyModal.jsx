@@ -203,7 +203,6 @@ function ModifyModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
-
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
@@ -330,7 +329,7 @@ function ModifyModal({
                     listType="picture"
                     maxCount={1}
                     defaultFileList={
-                      locationInfo.images
+                      locationInfo.images.length > 0
                         ? [
                           {
                             uid: "0",

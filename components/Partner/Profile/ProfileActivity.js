@@ -72,6 +72,7 @@ const ProfileActivity = ({
   myallPhotos,
   onupdateProfileViews
 }) => {
+  
   const { notify } = useNotify();
   const pattern = /@\w+/g;
   const likePost = (id, cb) => {
@@ -319,7 +320,6 @@ const ProfileActivity = ({
                             style={{
                               width: "100%",
                             }}
-                            showCount
                             placeholder="input @ to mention user"
                             prefix={["@"]}
                             options={followAndFollowingList}
