@@ -19,6 +19,7 @@ import {
   Mentions,
   Progress,
 } from "antd";
+import Link from "next/link";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
 import { getActivity, getProfilePoll, votePoll, getAllphotos, updateProfileViews } from "@/redux/Profile/actions";
@@ -72,6 +73,7 @@ const ProfileActivity = ({
   onupdateProfileViews
 }) => {
   const { notify } = useNotify();
+  const pattern = /@\w+/g;
   const likePost = (id, cb) => {
     onrecommendPost(id, (res, error) => {
       if (error) {
@@ -317,6 +319,7 @@ const ProfileActivity = ({
                             style={{
                               width: "100%",
                             }}
+                            showCount
                             placeholder="input @ to mention user"
                             prefix={["@"]}
                             options={followAndFollowingList}
@@ -440,7 +443,21 @@ const ProfileActivity = ({
                                     })}
                                   />
                                   <div className="custom-list-content">
-                                    {item.content}
+                                    <div className="ql-snow">
+                                      <div
+                                        className="ql-editor"
+                                        dangerouslySetInnerHTML={{
+                                          __html: item.content.match(pattern) ? (item.content.match(pattern).map((mention, key) => {
+                                            item.content = item.content.replace(mention, `<a style="cursor:pointer" href="/profile/${item.shortlist[key]}/activity">${mention}</a>`)
+                                            if ((item.content.match(pattern)).length - 1 === key) {
+                                              return item.content;
+                                            }
+
+                                          }
+                                          )) : item.content
+                                        }}
+                                      />
+                                    </div>
                                   </div>
                                   {item.image ? (
                                     <div
