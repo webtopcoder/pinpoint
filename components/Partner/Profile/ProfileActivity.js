@@ -72,7 +72,7 @@ const ProfileActivity = ({
   myallPhotos,
   onupdateProfileViews
 }) => {
-  
+
   const { notify } = useNotify();
   const pattern = /@\w+/g;
   const likePost = (id, cb) => {
