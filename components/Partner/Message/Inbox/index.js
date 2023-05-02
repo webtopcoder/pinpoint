@@ -102,7 +102,7 @@ const Inbox = ({
     const myID = sessionStorage.getItem("user_id");
 
     upload_name.map((file) => form_data.append("files", file.originFileObj));
-    form_data.append("from", myID === record_detail?.to?._id ? record_detail?.to?._id : myID);
+    form_data.append("from", myID);
     form_data.append("role", record_detail?.to?.role);
     form_data.append("to", myID === record_detail?.to?._id ? record_detail?.from?._id : record_detail?.to?._id);
     form_data.append("reply", record_detail?._id);
@@ -305,60 +305,44 @@ const Inbox = ({
         <Form
           form={replyForm}
           onFinish={onFinish}
-          layout="inline"
+          layout="horizontal"
           autoComplete="off"
         >
-          <Col span={21}>
-            <Form.Item
-              hidden={expand}
-              name="message"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Message!",
-                },
-                {
-                  whitespace: true,
-                  message: "Please input Message!",
-                },
-              ]}
-            >
-              <TextArea
-                value={replymsg}
-                placeholder="Reply message"
-                autoSize={{
-                  minRows: 3,
-                  maxRows: 5,
-                }}
-                onChange={(e) => setReply(e.target.value)}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={3}>
-            <Form.Item name="fileupload" hidden={expand}
-            >
-              <Upload method="get" {...props}>
-                <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
-                  Upload
-                </Button>
-              </Upload>
-            </Form.Item>
-          </Col>
-          <Col span={21}>
-            <Form.Item name="submit" style={{
-              textAlign: 'right',
-              marginTop: '10px'
-            }} hidden={expand}
-            >
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="btn-submit"
-              >
-                SEND
+          <Form.Item
+            hidden={expand}
+            name="message"
+            rules={[
+              {
+                required: true,
+                message: "Please input Message!",
+              },
+              {
+                whitespace: true,
+                message: "Please input Message!",
+              },
+            ]}
+          >
+            <TextArea
+              value={replymsg}
+              placeholder="Reply message"
+              autoSize={{
+                minRows: 3,
+                maxRows: 5,
+              }}
+              onChange={(e) => setReply(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item name="fileupload" hidden={expand}
+          >
+            <Upload method="get" className="avatar-uploader" {...props}>
+              <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
+                Upload
               </Button>
-            </Form.Item>
-          </Col>
+            </Upload>
+            <Button style={{ float: 'right' }} className="btn-submit" type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
         {reply_detail?.length > 0 ?
           <>

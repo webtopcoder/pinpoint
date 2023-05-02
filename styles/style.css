@@ -13204,3 +13204,8 @@ h4 {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
 }
+
+.avatar-uploader {
+  float: left;
+  width: unset;
+}

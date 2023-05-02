@@ -16,7 +16,6 @@ import {
   Upload,
 } from "antd";
 import { useRouter } from "next/router";
-import { array } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
