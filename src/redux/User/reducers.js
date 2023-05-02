@@ -36,12 +36,12 @@ let avatar = "";
 
 if (typeof window !== "undefined") {
   // Perform localStorage action
-  token = sessionStorage.getItem("token");
-  username = sessionStorage.getItem("username");
-  role = sessionStorage.getItem("role");
-  user_id = sessionStorage.getItem("user_id");
-  avatar = sessionStorage.getItem("avatar");
-  usertype = sessionStorage.getItem("usertype");
+  token = localStorage.getItem("token");
+  username = localStorage.getItem("username");
+  role = localStorage.getItem("role");
+  user_id = localStorage.getItem("user_id");
+  avatar = localStorage.getItem("avatar");
+  usertype = localStorage.getItem("usertype");
 }
 
 const initialState = {
@@ -72,12 +72,12 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case USER_LOGIN_SUCCESS: {
-      sessionStorage.setItem("token", action?.payload?.tokens?.access?.token);
-      sessionStorage.setItem("role", action?.payload?.user?.role);
-      sessionStorage.setItem("username", action?.payload?.user?.username);
-      sessionStorage.setItem("user_id", action?.payload?.user?._id);
-      sessionStorage.setItem("usertype", action?.payload?.user?.role);
-      sessionStorage.setItem(
+      localStorage.setItem("token", action?.payload?.tokens?.access?.token);
+      localStorage.setItem("role", action?.payload?.user?.role);
+      localStorage.setItem("username", action?.payload?.user?.username);
+      localStorage.setItem("user_id", action?.payload?.user?._id);
+      localStorage.setItem("usertype", action?.payload?.user?.role);
+      localStorage.setItem(
         "avatar",
         action?.payload?.user?.profile?.avatar?.filepath
           ? action?.payload?.user?.profile?.avatar?.filepath
@@ -189,12 +189,12 @@ const userReducer = (state = initialState, action) => {
       return { loading: false, error: action.payload };
 
     case LOGOUT: {
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("role");
-      sessionStorage.removeItem("username");
-      sessionStorage.removeItem("avatar");
-      sessionStorage.removeItem("user_id");
-      sessionStorage.removeItem("usertype");
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("username");
+      localStorage.removeItem("avatar");
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("usertype");
       return {
         ...state,
         token: null,

@@ -11,7 +11,7 @@ const FooterNine = () => {
   const { notify } = useNotify();
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
+    setToken(localStorage.getItem("token"));
   }, []);
   const handlePageRender = (page) => {
     if (token) {

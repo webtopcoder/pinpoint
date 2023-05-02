@@ -19,7 +19,7 @@ const IconText = ({ text, onClick }) => (
 );
 const recommendPost = (postID) => {
   const movieObj = likeState.find((x) => x._id === postID);
-  const myID = sessionStorage.getItem("user_id");
+  const myID = localStorage.getItem("user_id");
   const found = movieObj?.like?.find((element) => element == myID);
 
   if (found !== undefined) {

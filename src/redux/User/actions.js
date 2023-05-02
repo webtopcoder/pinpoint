@@ -27,8 +27,6 @@ import {
   GET_ACTIVE_PARTNERS_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
-  GET_DEFAULT_AVATAR_REQUEST,
-  GET_DEFAULT_AVATAR_SUCCESS,
 } from "./types";
 import { NOTIFICATION_VIEWED, S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -60,8 +58,6 @@ export function loginUser(form, cb) {
         dispatch({
           type: S_NOTIFICATION,
         });
-
-        localStorage.setItem("userInfo", JSON.stringify(res.user));
         cb(res);
       })
       .catch((error) => {
@@ -82,9 +78,6 @@ export function registerUser(form, cb) {
           type: USER_REGISTER_SUCCESS,
           payload: res,
         });
-
-        // localStorage.setItem('userInfo', JSON.stringify(res));
-
         cb(res);
       })
       .catch((error) => {
@@ -216,7 +209,7 @@ export function getsubCategory(categoryID, cb) {
 
 export function getmyFollowers() {
 
-  const userId = sessionStorage.getItem("user_id");
+  const userId = localStorage.getItem("user_id");
   return (dispatch) =>
     api(`follow/${userId}/follower`, "get").then((res) => {
       dispatch({

@@ -102,7 +102,7 @@ const Inbox = ({
 
   const onFinish = (values) => {
     const form_data = new FormData();
-    const myID = sessionStorage.getItem("user_id");
+    const myID = localStorage.getItem("user_id");
 
     upload_name.map((file) => form_data.append("files", file.originFileObj));
     form_data.append("from", myID);

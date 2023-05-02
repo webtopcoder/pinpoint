@@ -81,7 +81,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
   const avatarImg = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
-    avatarImg = sessionStorage.getItem("avatar");
+    avatarImg = localStorage.getItem("avatar");
   }
 
   const avatarurl = `${apiBaseUrl}/avatar/`;
