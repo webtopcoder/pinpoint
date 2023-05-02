@@ -83,21 +83,24 @@ const Inbox = ({
 
   useEffect(() => {
     childFunc.current = bulkaction;
-    setLoading(true);
-    ongetInbox(tableParams, (res) => {
+    search(tableParams);
+  }, []);
+
+  async function search(filter) {
+    await setLoading(true);
+    await ongetInbox(filter, (res) => {
       setLoading(false);
       setTableParams({
-        ...tableParams,
+        ...filter,
         pagination: {
-          ...tableParams.pagination,
+          ...filter.pagination,
           total: res.totalResults,
         },
       });
     });
-  }, [JSON.stringify(tableParams)]);
+  }
 
   const onFinish = (values) => {
-
     const form_data = new FormData();
     const myID = sessionStorage.getItem("user_id");
 
@@ -146,13 +149,19 @@ const Inbox = ({
     },
   };
 
-  const handleTableChange = (pagination, filters, sorter) => {
+  async function handleTableChange(pagination, filters, sorter) {
     setTableParams({
       pagination,
       filters,
       ...sorter,
     });
-  };
+
+    await search({
+      pagination,
+      filters,
+      ...sorter,
+    });
+  }
 
   const [selectedRowkeyslist, setSelectRowkeys] = useState([]);
 

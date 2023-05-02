@@ -26,7 +26,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
   const [upload_name, setUploadFile] = useState([]);
   const [componentDisabled, setComponentDisabled] = useState(false);
   const [adminselected, setAdminSelected] = useState(false);
-
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
   const { notify } = useNotify();
 
@@ -56,8 +56,9 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
   };
 
   const onFinish = (values) => {
-    const form_data = new FormData();
 
+    setUpdating(true);
+    const form_data = new FormData();
     upload_name.map((file) => form_data.append("files", file.originFileObj));
 
     switch (values.isNotice) {
@@ -87,6 +88,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
           error?.response?.data?.message ?? "Something went wrong"
         );
       } else {
+        setUpdating(false);
         composeForm.resetFields();
         setUploadFile([]);
         notify("success", res.msg);
@@ -126,7 +128,6 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
             error?.response?.data?.message ?? "Something went wrong"
           );
         } else {
-
           composeForm.setFieldsValue({
             name: [{
               value: res,
@@ -217,6 +218,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
                     padding: "10px 40px",
                     height: "100%",
                   }}
+                  loading={updating}
                 >
                   SEND MESSAGE
                 </Button>

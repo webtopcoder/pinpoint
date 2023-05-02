@@ -69,19 +69,22 @@ const Sent = ({
 
   useEffect(() => {
     childFunc.current = bulkaction;
-    setLoading(true);
-    ongetSent(tableParams, (res) => {
+    search(tableParams);
+  }, []);
+
+  async function search(filter) {
+    await setLoading(true);
+    await ongetSent(filter, (res) => {
       setLoading(false);
       setTableParams({
-        ...tableParams,
+        ...filter,
         pagination: {
-          ...tableParams.pagination,
+          ...filter.pagination,
           total: res.totalResults,
         },
       });
     });
-  }, [JSON.stringify(tableParams)]);
-
+  }
 
   const onFinish = (values) => {
 
@@ -131,13 +134,19 @@ const Sent = ({
     },
   };
 
-  const handleTableChange = (pagination, filters, sorter) => {
+  async function handleTableChange(pagination, filters, sorter) {
     setTableParams({
       pagination,
       filters,
       ...sorter,
     });
-  };
+
+    await search({
+      pagination,
+      filters,
+      ...sorter,
+    });
+  }
 
   useEffect(() => {
     childlistfunc(selectedRowkeyslist);
