@@ -102,7 +102,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </div>
           <div className="thread-from">
             <div className="from">
-              <Tooltip title="View Profile" color={"blue"}>
+              {record?.from?.role !== "admin" ? <Tooltip title="View Profile" color={"blue"}>
                 <a
                   onClick={() =>
                     router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}/activity`)
@@ -111,7 +111,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                   @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>&nbsp;&nbsp;
-              </Tooltip>
+              </Tooltip> : <span>Administrator</span>}
             </div>
             <span className="activity">
               Received:{" "}

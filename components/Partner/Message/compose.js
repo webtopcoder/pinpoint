@@ -6,7 +6,6 @@ import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
-  Checkbox,
   Col,
   Form,
   Input,
@@ -14,6 +13,7 @@ import {
   Row,
   Select,
   Upload,
+  Radio
 } from "antd";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -25,6 +25,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
   const [composeForm] = Form.useForm();
   const [upload_name, setUploadFile] = useState([]);
   const [componentDisabled, setComponentDisabled] = useState(false);
+  const [adminselected, setAdminSelected] = useState(false);
 
   const router = useRouter();
   const { notify } = useNotify();
@@ -32,7 +33,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
   const { user: sendToUserId } = router.query;
 
   const options = myfollowerList?.map((follow) => ({
-    value: follow?.follower?._id,
+    value: follow?.follower?.username,
     label: follow?.follower?.username,
   }));
 
@@ -46,22 +47,35 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
     setComponentDisabled(e.target.checked);
   };
 
+  const onsendAdmin = (e) => {
+    setAdminSelected(e.target.checked);
+  };
+
+  const onChange = (e) => {
+    e.target.value !== "followers" && e.target.value !== "admin" ? setComponentDisabled(false) : setComponentDisabled(true)
+  };
+
   const onFinish = (values) => {
     const form_data = new FormData();
 
     upload_name.map((file) => form_data.append("files", file.originFileObj));
 
-    if (componentDisabled) {
-      form_data.append("isNotice", componentDisabled.toString());
-    } else {
-      if (!sendToUserId) {
-        form_data.append("to", values.name);
-      }
-      else {
-        const followingUser = Array();
-        followingUser.push(values.name[0].value)
-        form_data.append("to", followingUser);
-      }
+    switch (values.isNotice) {
+      case "admin":
+        form_data.append("to", values.isNotice);
+        break;
+      case "followers":
+        form_data.append("isNotice", componentDisabled.toString());
+        break;
+      default:
+        if (!sendToUserId) {
+          form_data.append("to", values.name);
+        }
+        else {
+          const followingUser = Array();
+          followingUser.push(values.name[0].value)
+          form_data.append("to", followingUser);
+        }
     }
 
     form_data.append("subject", values.subject);
@@ -105,9 +119,6 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
 
   useEffect(() => {
     if (sendToUserId && options?.length > 0) {
-      const sendToUser = options.find(
-        (option) => option.value === sendToUserId
-      );
       ongetuserInfoByID(sendToUserId, (res, error) => {
         if (error) {
           notify(
@@ -118,7 +129,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
 
           composeForm.setFieldsValue({
             name: [{
-              value: sendToUserId,
+              value: res,
               label: res
             }],
           });
@@ -137,18 +148,25 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
             layout="vertical"
             autoComplete="off"
           >
+            <Form.Item name="isNotice" label="">
+              <Radio.Group disabled={sendToUserId ? true : false} onChange={onChange} defaultValue="custom">
+                {role === "partner" ? <Radio.Button value="followers">To Followers(Notice)</Radio.Button> : ''}
+                <Radio.Button value="admin">To Administrator</Radio.Button>
+                <Radio.Button value="custom">Custom</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
             <Form.Item
               name="name"
               label="Send To (Username or Friend's Name)"
               rules={[
                 {
-                  required: !componentDisabled,
+                  required: componentDisabled || adminselected ? false : true,
                   message: "Please input your Username!",
                 },
               ]}
             >
               <Select
-                disabled={sendToUserId || componentDisabled ? true : false}
+                disabled={sendToUserId || componentDisabled || adminselected ? true : false}
                 mode="multiple"
                 size="middle"
                 placeholder="Please select Users"
@@ -158,11 +176,6 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
                 options={options}
               />
             </Form.Item>
-            {role === "partner" ? (
-              <Form.Item name="notice">
-                <Checkbox onChange={onCheck}>This is a notice.</Checkbox>
-              </Form.Item>
-            ) : null}
             <Form.Item name="subject" label="Subject">
               <Input
                 style={{
@@ -212,7 +225,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
           </Form>
         </Card>
       </Col>
-    </Row>
+    </Row >
   );
 };
 

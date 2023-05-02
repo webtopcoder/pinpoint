@@ -236,7 +236,7 @@ const Inbox = ({
               <div className="message-metadata">
                 <Avatar shape="square" size={50} src={avatarurl + record_detail?.from?.profile?.avatar?.filepath} />
                 <div className="message-metadata-head">
-                  <Tooltip title="View Profile" color={"blue"}>
+                  {record_detail?.from?.role !== "admin" ? <Tooltip title="View Profile" color={"blue"}>
                     <a
                       onClick={() =>
                         router.push(`/profile/${record_detail?.from?._id}/activity`)
@@ -245,7 +245,7 @@ const Inbox = ({
                       @{record_detail?.from?.username}
                       <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                     </a>
-                  </Tooltip>
+                  </Tooltip> : <span>Administrator</span>}
                   <div className="message-meta">
                     <span className="activity">
                       {new Date(record_detail.createdAt).toLocaleDateString(
@@ -379,7 +379,7 @@ const Inbox = ({
                   <Skeleton avatar title={false} loading={item.loading} active>
                     <List.Item.Meta
                       avatar={<Avatar shape="square" size={50} src={avatarurl + item?.from?.profile?.avatar?.filepath} />}
-                      title={<Link href={`/profile/${item.from.id}/activity`}>{"@" + item?.from?.username}</Link>}
+                      title={item.from.role !== "admin" ? <Link href={`/profile/${item.from.id}/activity`}>{"@" + item?.from?.username}</Link> : <span>Admin</span>}
                       description={item?.message}
                     />
                   </Skeleton>
