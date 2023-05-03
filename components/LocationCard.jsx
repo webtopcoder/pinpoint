@@ -278,7 +278,17 @@ const LocationCard = ({
                     color: "white",
                   }}
                 >
-                  last seen {getDiffToNow(location.lastSeen)} ago
+                  Last Departure: {
+                    new Date(location?.departureAt).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      hour12: true,
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })
+                  }
                 </Text>
               </Space>
               <Space>

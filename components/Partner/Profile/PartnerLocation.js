@@ -6,7 +6,8 @@ import {
   EnvironmentFilled,
   LikeOutlined,
   EnvironmentOutlined,
-  DownOutlined
+  DownOutlined,
+  ClockCircleFilled
 } from "@ant-design/icons";
 import Link from "next/link";
 import {
@@ -309,7 +310,7 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
             </div>
             <div style={{ display: "flex", marginTop: "30px" }}>
               <div>
-                {new Date(arrival?.updatedAt).toLocaleDateString(undefined, {
+                {new Date(arrival?.departureAt).toLocaleDateString(undefined, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -825,7 +826,18 @@ function LocationBanner({
                           color: "white",
                         }}
                       >
-                        last seen {getDiffToNow(location.lastSeen)} ago
+                        <ClockCircleFilled />&nbsp;&nbsp;
+                        Last Departure: {
+                          new Date(location?.departureAt).toLocaleDateString(undefined, {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "numeric",
+                            hour12: true,
+                            minute: "2-digit",
+                            second: "2-digit",
+                          })
+                        }
                       </Text>
                     </Space>
                     <Space direction="vertical">

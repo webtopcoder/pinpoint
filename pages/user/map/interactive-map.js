@@ -74,7 +74,16 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
           <div class="card-body">
             <h5 class="card-title">${data?.title}</h5>
             <p class="card-text">${data?.description}</p>
-            <p class="card-text"><small class="text-muted">Last updated ${getDiffToNow(data?.createdAt)} ago</small></p>
+            <p class="card-text"><small class="text-muted">Last Departure: ${new Date(data?.departureAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  hour12: true,
+                  minute: "2-digit",
+                  second: "2-digit",
+                })
+      }</small></p>
             <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
         </div>
       </div>
