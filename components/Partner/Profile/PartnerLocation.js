@@ -827,7 +827,8 @@ function LocationBanner({
                         }}
                       >
                         <ClockCircleFilled />&nbsp;&nbsp;
-                        Last Departure: {
+                        {location?.isActive ? "Departure Time" : "Last Departure"}
+                        : {
                           new Date(location?.departureAt).toLocaleDateString(undefined, {
                             year: "numeric",
                             month: "long",
