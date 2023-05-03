@@ -278,7 +278,8 @@ const LocationCard = ({
                     color: "white",
                   }}
                 >
-                  Last Departure: {
+                  {location?.isActive ? "Departure Time" : "Last Departure"}
+                  : {
                     new Date(location?.departureAt).toLocaleDateString(undefined, {
                       year: "numeric",
                       month: "long",
