@@ -13209,3 +13209,11 @@ h4 {
   float: left;
   width: unset;
 }
+
+.review-divider::before{
+  background-color: #d6dee1;
+}
+
+.review-divider::after{
+  background-color: #d6dee1;
+}

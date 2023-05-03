@@ -28,6 +28,7 @@ import {
   message,
   Upload,
   Badge,
+  Divider
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
@@ -192,6 +193,9 @@ const PartnerLocation = ({
                 ""
               )}
               <div className="avatar-area green-color">
+                <Divider className="review-divider"  style={{
+                  color: "#fff",
+                }} orientation="left">Reviews</Divider>
                 <div className="avatar-respond">
                   <div className="avatar-form">
                     <div className="row">
