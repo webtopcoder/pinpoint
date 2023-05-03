@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { connect } from "react-redux";
 import Link from "next/link";
-import Logo from "@/public/images/landing/logo.png";
+import Logo from "@/public/images/logo.png";
 import mailIcon from "@/public/images/landing/user-mail.png";
 import LIcon from "@/public/images/landing/l.png";
 import {
