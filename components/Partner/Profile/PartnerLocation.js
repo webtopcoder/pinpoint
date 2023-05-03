@@ -225,7 +225,6 @@ const PartnerLocation = ({
 function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArrival, checkIncount, expand, setExpand }) {
 
   const { notify } = useNotify();
-
   return (
     <div>
       <div className="avatar-area green-color">
@@ -761,7 +760,6 @@ function LocationBanner({
                     />
                   </Space>
                 </Col>
-
                 <Col
                   span={8}
                   style={{
