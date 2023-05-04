@@ -27,25 +27,27 @@ const PendingInvite = ({
 
   useEffect(() => {
     setLoading(true);
-    ongetPending(tableParams, (res) => {
+    search(tableParams);
+  }, []);
+
+  async function search(filter) {
+    await setLoading(true);
+    ongetPending(filter, (res) => {
       setLoading(false);
       setTableParams({
-        ...tableParams,
+        ...filter,
         pagination: {
-          ...tableParams.pagination,
+          ...filter.pagination,
           total: res.totalResults,
         },
       });
     });
-  }, [JSON.stringify(tableParams)]);
+  }
 
-  const handleTableChange = (pagination, filters, sorter) => {
-    setTableParams({
-      pagination,
-      filters,
-      ...sorter,
-    });
-  };
+  async function handleTableChange(pagination, filters, sorter) {
+    setTableParams({ pagination, filters, ...sorter });
+    await search({ pagination, filters, ...sorter });
+  }
 
   return (
     <>
