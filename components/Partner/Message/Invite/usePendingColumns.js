@@ -4,7 +4,6 @@ import { Button, Space, Tooltip, Tag } from "antd";
 function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
   const { notify } = useNotify();
   const resendPending = (mailId) => {
-    console.log({ mailId });
     onResendInvite(mailId, (res, error) => {
       if (error) {
         notify(

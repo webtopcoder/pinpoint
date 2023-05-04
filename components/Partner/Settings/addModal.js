@@ -79,7 +79,6 @@ const AddUserModal = ({
       });
     } else {
       const additionalUserSettingsArray = additionalUserSettings.value;
-      console.log(additionalUserSettingsArray)
       const filtered = additionalUserSettingsArray.filter(
         (user) => user.email != form.email
       );

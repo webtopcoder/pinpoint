@@ -40,7 +40,6 @@ const PendingInvite = ({
   }, [JSON.stringify(tableParams)]);
 
   const handleTableChange = (pagination, filters, sorter) => {
-    console.log(pagination);
     setTableParams({
       pagination,
       filters,

@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { getHeader, unfollow } from "@/redux/Profile/actions";
-import { postFollower, getInfo } from "@/redux/Profile/actions";
+import { postFollower } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
@@ -70,7 +70,7 @@ const Header = ({
         setLoading(false);
       });
     }
-  }, [router.isReady, view_user_id]);
+  }, [view_user_id]);
 
   return (
     <div className="container">
@@ -214,7 +214,7 @@ const Header = ({
                     }}
                   >
                     {headerInfo && (
-                      <b className="fn">{headerInfo?.profile?.favorites}</b>
+                      <b className="fn">{headerInfo?.profile?.rating}</b>
                     )}
                   </Card>
                 </Col>

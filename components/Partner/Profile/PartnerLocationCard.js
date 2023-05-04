@@ -52,7 +52,6 @@ function PartnerLocationCard({ location }) {
               {location.name}
             </Text>
           </Space>
-
           <Space
             wrap
             style={{

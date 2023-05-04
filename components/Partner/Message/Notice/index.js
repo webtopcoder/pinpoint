@@ -43,7 +43,6 @@ const Notices = ({ ondeleteSent, ongetNotice, noticelist }) => {
   }, [JSON.stringify(tableParams)]);
 
   const handleTableChange = (pagination, filters, sorter) => {
-    console.log(pagination);
     setTableParams({
       pagination,
       filters,

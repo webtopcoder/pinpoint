@@ -119,7 +119,9 @@ const LocationCard = ({
     },
   ];
 
-  const [rating, setRating] = useState(location.rating ?? 0);
+  const [rating, setRating] = useState(location.reviews.length > 0 ? (location.reviews.reduce((acc, review) => {
+    return acc + review.rating;
+  }, 0)) / location.reviews.length : 0);
 
   return (
     <>
@@ -217,7 +219,7 @@ const LocationCard = ({
                       color: "white",
                     }}
                   >
-                    {location.like?.count ?? 0}
+                    {location.totalLike ?? 0}
                   </Text>
                 }
                 key="list-vertical-like-o"
@@ -239,7 +241,7 @@ const LocationCard = ({
                       color: "white",
                     }}
                   >
-                    {location.reviewCount ?? 0}
+                    {location.reviews.length ?? 0}
                   </Text>
                 }
                 key="list-vertical-message"
@@ -296,9 +298,7 @@ const LocationCard = ({
                 <Rate
                   disabled
                   allowHalf
-                  defaultValue={2}
                   tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-                  onChange={(value) => setRating(value)}
                   value={rating}
                 />
               </Space>

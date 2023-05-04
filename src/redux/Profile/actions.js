@@ -185,7 +185,7 @@ export function getPartnerships(cb) {
 
 export function updateProfileViews(id) {
   return (dispatch) => {
-    api(`updateProfileView/${id}`, "get")
+    api(`/profile/updateProfileView/${id}`, "get")
       .then((res) => {
         console.log(res)
       })
