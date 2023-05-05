@@ -44,6 +44,7 @@ import {
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
 import { getDiffToNow } from "@/utils/date";
+import { optimizeFonts } from "next.config";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -139,7 +140,15 @@ const PartnerLocation = ({
 
   useEffect(() => {
     if (location.reviews) {
-      setReviews(temporarySwapHalf(location.reviews));
+
+      const activeReviews = location.reviews.reduce(
+        (acc, option, index) => {
+          option.status === "active" ? acc.push(option) : ''
+          return acc;
+        },
+        []
+      );
+      setReviews(temporarySwapHalf(activeReviews));
     }
   }, [location.reviews]);
 
@@ -687,12 +696,12 @@ function Post({ review, likeReview, location, router }) {
             }}
           >
             <Antimage.PreviewGroup>
-              {review.images.map((item1, index) => (
-                <Antimage
+              {review.images.map((item, index) => (
+                item.status === "active" ? <Antimage
                   width={"25%"}
-                  src={imgurl + item1?.filepath}
+                  src={imgurl + item?.filepath}
                   key={index}
-                />
+                /> : ''
               ))}
             </Antimage.PreviewGroup>
           </div>

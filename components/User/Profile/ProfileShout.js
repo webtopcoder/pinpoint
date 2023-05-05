@@ -203,12 +203,13 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                 >
                                   <Antimage.PreviewGroup>
                                     {item.post?.images?.map((image, index) => (
-                                      <Antimage
-                                        loader={myLoader}
-                                        width={"25%"}
-                                        src={imgurl + image.filepath}
-                                        key={index}
-                                      />
+                                      image.status === "active" ?
+                                        <Antimage
+                                          loader={myLoader}
+                                          width={"25%"}
+                                          src={imgurl + image.filepath}
+                                          key={index}
+                                        /> : ''
                                     ))}
                                   </Antimage.PreviewGroup>
                                 </div>
