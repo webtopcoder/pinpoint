@@ -645,13 +645,13 @@ const ProfileActivity = ({
                           <Antimage.PreviewGroup>
                             {myallPhotos &&
                               myallPhotos.map((image, index) => (
-                                image.status === "active"?
-                                <Antimage
-                                  key={index}
-                                  loader={myLoader}
-                                  width={"25%"}
-                                  src={imgurl + image?.filepath}
-                                />:
+                                image.status === "active" ?
+                                  <Antimage
+                                    key={index}
+                                    loader={myLoader}
+                                    width={"25%"}
+                                    src={imgurl + image?.filepath}
+                                  /> : ''
                               ))}
                           </Antimage.PreviewGroup>
                         </div>
