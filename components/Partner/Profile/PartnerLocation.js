@@ -113,7 +113,8 @@ const PartnerLocation = ({
   onFavoriteLocation,
   onUnFavoriteLocation,
   checkIncount,
-  expiredArrivals
+  expiredArrivals,
+  userRole
 }) => {
 
   const router = useRouter();
@@ -160,6 +161,7 @@ const PartnerLocation = ({
             location={location}
             onFavoriteLocation={onFavoriteLocation}
             onUnFavoriteLocation={onUnFavoriteLocation}
+            userRole={userRole}
           />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
@@ -706,6 +708,7 @@ function LocationBanner({
   location,
   onFavoriteLocation,
   onUnFavoriteLocation,
+  userRole
 }) {
   const { notify } = useNotify();
   if (!location) return <Skeleton active />;
@@ -862,60 +865,62 @@ function LocationBanner({
                     </Text>
                   </Space>
                 </Col>
-                <Col span={8}>
-                  <Space direction="vertical">
-                    {location.isFavorite ? (
-                      <Button
-                        style={{
-                          marginRight: "10px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          onUnFavoriteLocation(location._id, (_, error) => {
-                            if (error) {
-                              notify(
-                                "error",
-                                error?.response?.data?.message ||
-                                "Something went wrong"
-                              );
-                              return;
-                            }
+                {userRole !== "partner" ?
+                  <Col span={8}>
+                    <Space direction="vertical">
+                      {location.isFavorite ? (
+                        <Button
+                          style={{
+                            marginRight: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            onUnFavoriteLocation(location._id, (_, error) => {
+                              if (error) {
+                                notify(
+                                  "error",
+                                  error?.response?.data?.message ||
+                                  "Something went wrong"
+                                );
+                                return;
+                              }
 
-                            notify(
-                              "success",
-                              "Location removed from Favorites"
-                            );
-                          });
-                        }}
-                      >
-                        Remove from Favorites
-                      </Button>
-                    ) : (
-                      <Button
-                        style={{
-                          marginRight: "10px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          onFavoriteLocation(location._id, (_, error) => {
-                            if (error) {
                               notify(
-                                "error",
-                                error?.response?.data?.message ||
-                                "Something went wrong"
+                                "success",
+                                "Location removed from Favorites"
                               );
-                              return;
-                            }
+                            });
+                          }}
+                        >
+                          Remove from Favorites
+                        </Button>
+                      ) : (
+                        <Button
+                          style={{
+                            marginRight: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            onFavoriteLocation(location._id, (_, error) => {
+                              if (error) {
+                                notify(
+                                  "error",
+                                  error?.response?.data?.message ||
+                                  "Something went wrong"
+                                );
+                                return;
+                              }
 
-                            notify("success", "Location added to Favorites");
-                          });
-                        }}
-                      >
-                        Add to Favorites
-                      </Button>
-                    )}
-                  </Space>
-                </Col>
+                              notify("success", "Location added to Favorites");
+                            });
+                          }}
+                        >
+                          Add to Favorites
+                        </Button>
+                      )}
+                    </Space>
+                  </Col> : ''}
+
               </Row>
             </Card>
           </Badge.Ribbon>
@@ -941,7 +946,9 @@ function temporarySwapHalf(array) {
 const mapStateToProps = (state) => ({
   location: state.location.location,
   checkIncount: state.location.checkIncount,
-  expiredArrivals: state.location.expiredArrivals
+  expiredArrivals: state.location.expiredArrivals,
+  userRole: state.user.role,
+
 });
 
 const mapDispatchToProp = (dispatch) => {
