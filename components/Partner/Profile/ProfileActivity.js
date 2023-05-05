@@ -452,7 +452,6 @@ const ProfileActivity = ({
                                             if ((item.content.match(pattern)).length - 1 === key) {
                                               return item.content;
                                             }
-
                                           }
                                           )) : item.content
                                         }}
@@ -597,7 +596,6 @@ const ProfileActivity = ({
                                       {" "}
                                       {item.content}
                                     </Text>
-
                                     <Button
                                       onClick={() => {
                                         onvotePoll(
@@ -647,12 +645,13 @@ const ProfileActivity = ({
                           <Antimage.PreviewGroup>
                             {myallPhotos &&
                               myallPhotos.map((image, index) => (
+                                image.status === "active"?
                                 <Antimage
                                   key={index}
                                   loader={myLoader}
                                   width={"25%"}
                                   src={imgurl + image?.filepath}
-                                />
+                                />:
                               ))}
                           </Antimage.PreviewGroup>
                         </div>
