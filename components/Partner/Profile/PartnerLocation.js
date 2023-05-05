@@ -193,7 +193,7 @@ const PartnerLocation = ({
                 ""
               )}
               <div className="avatar-area green-color">
-                <Divider className="review-divider"  style={{
+                <Divider className="review-divider" style={{
                   color: "#fff",
                 }} orientation="left">Reviews</Divider>
                 <div className="avatar-respond">
@@ -285,20 +285,6 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
                     </span>
                   </p>
                 </p>
-              </div>
-              <div style={{ marginLeft: "auto", order: "2" }}>
-                <Button
-                  onClick={() => {
-                    onCheckInArrival(arrival.id, (res, err) => {
-                      if (err) {
-                        notify("error", err?.response?.data?.message || "Error");
-                      }
-                      notify(res.type, res.message);
-                    });
-                  }}
-                >
-                  Check In
-                </Button>
               </div>
             </div>
             <div style={{ display: "flex" }}>
@@ -544,6 +530,7 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                       );
                     } else {
                       postForm.resetFields();
+                      setRating(0);
                       setUploadFile([]);
                       notify("success", "Review posted successfully");
                       getLocationInfo({ id: location._id, expand: expand }, (_, error) => {
