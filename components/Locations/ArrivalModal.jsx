@@ -2,6 +2,7 @@ import useNotify from "@/hooks/useNotify";
 import food from "@/public/images/landing/food.png";
 import { getLocations, quickArrival } from "@/src/redux/Location/actions";
 import { UploadOutlined } from "@ant-design/icons";
+import dayjs from 'dayjs';
 import {
   Button,
   Col,
@@ -10,9 +11,9 @@ import {
   Modal,
   Row,
   Select,
-  TimePicker,
   Typography,
   Upload,
+  DatePicker
 } from "antd";
 import Image from "next/image";
 import React, { memo, useEffect, useState } from "react";
@@ -38,25 +39,14 @@ function ArrivalModal({
 
   const { notify } = useNotify();
 
-  const disabledHours = () => {
-    const hours = [];
-    const currentHour = moment().hour();
-    for (let i = 0; i <= currentHour - 1; i++) {
-      hours.push(i);
-    }
+  const disabledDate = (current) => {
 
-    return hours;
-  };
+    // Get the start of today and tomorrow
+    const todayStart = dayjs().startOf('day');
+    const tomorrowStart = dayjs().add(2, 'day').startOf('day');
 
-  const disabledMinutes = (selectedHour) => {
-    const minutes = [];
-    const currentMinute = moment().minute();
-    if (selectedHour === moment().hour()) {
-      for (let i = 0; i <= currentMinute - 1; i++) {
-        minutes.push(i);
-      }
-    }
-    return minutes;
+    // Disable all dates before today and after tomorrow
+    return !current || current.isBefore(todayStart) || current.isAfter(tomorrowStart);
   };
 
   useEffect(() => {
@@ -138,31 +128,46 @@ function ArrivalModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
-
           formData.append("arrivalText", values.arrivalText);
           formData.append("departureAt", values.departureAt);
 
-          onquickArrival(
-            { locationId: values.locationId, form: formData },
-            (_, error) => {
+          const date1 = new Date(moment());
+          const date2 = new Date(values.departureAt);
+          const diffInMs = date2.getTime() - date1.getTime();
+          const diffInHours = diffInMs / (1000 * 60 * 60);
 
-              setArrivalModalOpen(false);
-              if (error) {
-                notify("error", error.response.data.message);
-                return;
-              }
-              arrivalForm.resetFields();
-              notify("success", "Successfully arrived");
-              ongetLocations({ partner: user_id }, (_, error) => {
+          if (diffInHours < 0) {
+            notify("error", "Selected Time is aleady passed.");
+            return;
+          }
+          else if (diffInHours > 12) {
+            notify("error", "Selected Time is over 12 hours.");
+            return;
+          }
+          else {
+            onquickArrival(
+              { locationId: values.locationId, form: formData },
+              (_, error) => {
+
+                setArrivalModalOpen(false);
                 if (error) {
-                  notify(
-                    "error",
-                    error?.response?.data?.message ?? "Something went wrong"
-                  );
+                  notify("error", error.response.data.message);
+                  return;
                 }
-              });
-            }
-          );
+                arrivalForm.resetFields();
+                notify("success", "Successfully arrived");
+                ongetLocations({ partner: user_id }, (_, error) => {
+                  if (error) {
+                    notify(
+                      "error",
+                      error?.response?.data?.message ?? "Something went wrong"
+                    );
+                  }
+                });
+              }
+            );
+          }
+
         }}
         layout="vertical"
       >
@@ -179,11 +184,14 @@ function ArrivalModal({
               required
               name="departureAt"
             >
-              <TimePicker
-                disabledHours={disabledHours}
-                disabledMinutes={disabledMinutes}
-                format="h:mm a"
-                use12Hours={true} />
+              <DatePicker
+                format="YYYY-MM-DD HH:mm:ss"
+                disabledDate={disabledDate}
+                use12Hours={true}
+                showTime={{
+                  defaultValue: dayjs('00:00:00', 'HH:mm:ss'),
+                }}
+              />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={18} lg={16} xl={16}>
