@@ -214,7 +214,7 @@ const Header = ({
                     }}
                   >
                     {headerInfo && (
-                      <b className="fn">{headerInfo?.profile?.rating}</b>
+                      <b className="fn">{headerInfo?.profile?.rating === "NaN" ? 0 : headerInfo?.profile?.rating}</b>
                     )}
                   </Card>
                 </Col>

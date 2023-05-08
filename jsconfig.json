@@ -5,17 +5,43 @@
     "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/public/*": ["public/*"],
-      "@/utils/*": ["utils/*"],
-      "@/src/*": ["src/*"],
-      "@/redux*": ["src/redux*"],
-      "@/utils*": ["utils/*"],
-      "@/constants/*": ["constants/*"],
-      "@/constants*": ["constants/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/hooks*": ["hooks/*"]
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/public/*": [
+        "public/*"
+      ],
+      "@/utils/*": [
+        "utils/*"
+      ],
+      "@/src/*": [
+        "src/*"
+      ],
+      "@/redux*": [
+        "src/redux*"
+      ],
+      "@/utils*": [
+        "utils/*"
+      ],
+      "@/services*": [
+        "src/services*"
+      ],
+      "@/constants/*": [
+        "constants/*"
+      ],
+      "@/constants*": [
+        "constants/*"
+      ],
+      "@/hooks/*": [
+        "hooks/*"
+      ],
+      "@/hooks*": [
+        "hooks/*"
+      ]
     }
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
 }
