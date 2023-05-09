@@ -54,6 +54,7 @@ const LocationCard = ({
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
+  let count = 0;
 
   const { notify } = useNotify();
   const router = useRouter();
@@ -120,8 +121,9 @@ const LocationCard = ({
   ];
 
   const [rating, setRating] = useState(location.reviews.length > 0 ? (location.reviews.reduce((acc, review) => {
+    if (review.rating !== 0) count++
     return acc + review.rating;
-  }, 0)) / location.reviews.length : 0);
+  }, 0)) / count : 0);
 
   return (
     <>
