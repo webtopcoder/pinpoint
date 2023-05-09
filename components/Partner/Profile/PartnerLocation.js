@@ -752,7 +752,6 @@ function LocationBanner({
                     <Rate
                       disabled
                       allowHalf
-                      defaultValue={2}
                       tooltips={[
                         "terrible",
                         "bad",
