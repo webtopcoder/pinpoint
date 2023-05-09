@@ -132,15 +132,6 @@ const Edit = ({
 
   const { notify } = useNotify();
 
-  const [form, setForm] = useState({
-    facebook: editInfo.social.facebook ? editInfo.social.facebook : "",
-    instagram: editInfo.social.instagram ? editInfo.social.instagram : "",
-    twitter: editInfo.social.twitter ? editInfo.social.twitter : "",
-    tiktok: editInfo.social.tiktok ? editInfo.social.tiktok : "",
-    snapchat: editInfo.social.snapchat ? editInfo.social.snapchat : "",
-    website: editInfo.social.website ? editInfo.social.website : "",
-  });
-
   const updateInfo = () => {
     const data = {
       about: editInfo.about,
@@ -162,15 +153,11 @@ const Edit = ({
     const field = e.target.name;
 
     const nextFormState = {
-      ...form,
+      ...editInfo.social,
       [field]: e.target.value,
     };
-    setForm(nextFormState);
+    dispatch(editSocial(nextFormState));
   };
-
-  useEffect(() => {
-    dispatch(editSocial(form));
-  }, [form]);
 
   const onSubmitForm = (e) => {
     e.preventDefault();
