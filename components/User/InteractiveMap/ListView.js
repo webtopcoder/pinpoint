@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { formatDate } from "@/utils/date";
 import baseUrl from "@/utils/baseUrl";
+import { useRouter } from "next/router";
 
 const { Title } = Typography;
 
@@ -21,6 +22,8 @@ function ListViewModal({
     locations,
     alllocations
 }) {
+
+    const router = useRouter();
 
     const columns = [
         {
