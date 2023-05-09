@@ -67,7 +67,7 @@ function ListViewModal({
             title: "Rating",
             dataIndex: "rating",
             render(rating) {
-                return <span>{rating.toFixed(1)}</span>;
+                return <span>{rating?.toFixed(1)}</span>;
             },
         },
         {
