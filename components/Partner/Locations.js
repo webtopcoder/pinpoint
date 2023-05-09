@@ -27,8 +27,6 @@ const { Content } = Layout;
 
 const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
 
-  const [loading, setLoading] = useState(false);
-
   const [uploadFile, setUploadFile] = useState([]);
 
   const [addModalOpen, setAddModalOpen] = useState(false);

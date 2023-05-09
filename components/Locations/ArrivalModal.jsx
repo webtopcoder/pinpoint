@@ -35,6 +35,7 @@ function ArrivalModal({
   locationInfo,
   uploadFile,
 }) {
+
   const [arrivalForm] = Form.useForm();
 
   const { notify } = useNotify();
@@ -185,11 +186,11 @@ function ArrivalModal({
               name="departureAt"
             >
               <DatePicker
-                format="YYYY-MM-DD HH:mm:ss"
+                format="YYYY-MM-DD h:mm a"
                 disabledDate={disabledDate}
                 use12Hours={true}
                 showTime={{
-                  defaultValue: dayjs('00:00:00', 'HH:mm:ss'),
+                  defaultValue: dayjs('00:00:00', 'HH:mm'),
                 }}
               />
             </Form.Item>
