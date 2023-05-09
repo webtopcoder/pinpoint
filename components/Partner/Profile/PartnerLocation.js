@@ -640,7 +640,7 @@ function Post({ review, likeReview, location, router }) {
   return (
     <List.Item
       actions={[
-        review.rating !== 0 ? <Rate disabled key={review.rating} defaultValue={review.rating} /> : '',
+        review.rating !== 0 ? <Rate disabled allowHalf key={review.rating} defaultValue={review.rating} /> : '',
         ,
         <IconText
           text={review?.like ? review.like.count : 0}

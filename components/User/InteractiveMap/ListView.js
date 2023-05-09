@@ -89,7 +89,7 @@ function ListViewModal({
             render(_, record) {
                 return (
                     <a
-                        onClick={() => router.push(`profile/${record?.partner?._id}/locations/${record?._id}`)}
+                        onClick={() => router.push(`/profile/${record?.partner?._id}/locations/${record?._id}`)}
                     >
                         <Button>
                             View Location
