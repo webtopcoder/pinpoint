@@ -577,8 +577,8 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                     style={{
                       width: "100%",
                     }}
-                    placeholder="input @ to mention user"
-                    prefix={["@"]}
+                    // placeholder="input @ to mention user"
+                    // prefix={["@"]}
                   />
                 </Form.Item>
                 <Row>
