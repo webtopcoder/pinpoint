@@ -70,7 +70,7 @@ const LostPassword = ({ onrecoveryPassword, onResendVerifyEmail }) => {
   };
 
   return (
-    <div className="col-lg-6 col-md-12">
+    <div className="col-lg-6 col-md-12 col-sm-12">
       <div className="login-form">
         <div className="logo-center">
           <Link href="/">
@@ -105,7 +105,7 @@ const LostPassword = ({ onrecoveryPassword, onResendVerifyEmail }) => {
 
           <div className="form-group">
             <div className="row">
-              <div className="col-lg-6 col-md-6 remember-me-wrap">
+              <div className="col-lg-6 col-md-6 col-sm-9 remember-me-wrap">
                 <a
                   style={{
                     cursor: "pointer",
@@ -126,7 +126,7 @@ const LostPassword = ({ onrecoveryPassword, onResendVerifyEmail }) => {
                 </a>
               </div>
               <div
-                className="col-lg-6 col-md-6 remember-me-wrap"
+                className="col-lg-6 col-md-6 col-sm-3 remember-me-wrap"
                 style={{
                   textAlign: "end",
                 }}

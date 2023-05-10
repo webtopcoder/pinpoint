@@ -3346,7 +3346,7 @@
 
   .login-form form button {
     padding: 12px 30px;
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .login-form form .remember-me-wrap .form-check {
@@ -3354,8 +3354,8 @@
   }
 
   .login-form form .lost-your-password-wrap {
-    text-align: start;
-    margin-top: 12px;
+    text-align: end;
+    /* margin-top: 12px; */
   }
 
   .login-form form .lost-your-password-wrap a {
@@ -6552,7 +6552,7 @@
 
   .login-form form button {
     padding: 13px 30px;
-    font-size: 30px;
+    font-size: 20px;
   }
 
   .login-form form .remember-me-wrap .form-check {

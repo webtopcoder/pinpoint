@@ -107,7 +107,7 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
             type="password"
           />
           <div className="row align-items-center">
-            <div className="col-lg-6 col-md-6 remember-me-wrap">
+            <div className="col-lg-6 col-md-6 col-sm-6 remember-me-wrap">
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -119,14 +119,14 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
                 </label>
               </div>
             </div>
-            <div className="col-lg-6 col-md-6 lost-your-password-wrap">
+            <div className="col-lg-6 col-md-6 col-sm-6 lost-your-password-wrap">
               <Link href="/authentication/lost-password">
-                <a className="lost-your-password">OOPS! I forgot my password</a>
+                <a className="lost-your-password">forgot password</a>
               </Link>
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-12">
+            <div className="col-lg-12 col-md-12 col-sm-12">
               <button className="loginsignButton" type="submit">Log In</button>
             </div>
           </div>
