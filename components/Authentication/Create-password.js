@@ -118,11 +118,9 @@ const CreatePassword = ({ onrecoveryPassword }) => {
             ) : null}
           </div>
           <div className="row">
-            <div className="col-lg-2"></div>
-            <div className="col-lg-8">
-              <button type="submit">Reset Password</button>
+            <div className="col-lg-12 col-md-12 col-sm-12">
+              <button className="loginsignButton" type="submit">Reset Password</button>
             </div>
-            <div className="col-lg-2"></div>
           </div>
           <div className="row auth-divider"></div>
           <div className="col-12">

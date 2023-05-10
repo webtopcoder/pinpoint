@@ -168,17 +168,6 @@ export function verifyUserEmail(form, cb) {
       });
 }
 
-export function sendVerificationEmail(form, cb) {
-  return (dispatch) =>
-    api(`auth/send-verification-email`, "post", form)
-      .then((res) => {
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
 export function getCategory() {
   return (dispatch) =>
     api(`categories`, "get").then((res) => {
@@ -238,24 +227,6 @@ export function recoveryPassword(form, cb) {
       });
 }
 
-export function forgotPassword(form, cb) {
-  return (dispatch) =>
-    api(`auth/forgot-password`, "post", form)
-      .then((res) => {
-        dispatch({
-          type: RESET_PASSWORD_REQUEST,
-        });
-
-        dispatch({
-          type: RESET_PASSWORD_SUCCESS,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
 
 export const logout = (cb) => (dispatch) => {
   dispatch({ type: LOGOUT });

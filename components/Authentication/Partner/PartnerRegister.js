@@ -341,7 +341,7 @@ const PartnerRegister = ({
             </div>
             <div className="row">
               <div className="col-lg-12">
-                <button className="loginsignButton" type="submit">REQUEST ACCESS</button>
+                <button className="loginsignButton" type="submit">Request Access</button>
               </div>
             </div>
             <div className="row auth-divider"></div>

@@ -10494,7 +10494,6 @@ Profile Authentication Area CSS
   border-radius: 5px;
   padding: 13px 30px;
   width: 100%;
-  font-size: var(--fontSizeForLogin);
   font-weight: 600;
 }
 
@@ -11639,7 +11638,7 @@ Sidebar Modal CSS
 }
 
 .loginsignButton {
-  font-size: 20px !important;
+  font-size: 20px;
 }
 
 .logo-center {
