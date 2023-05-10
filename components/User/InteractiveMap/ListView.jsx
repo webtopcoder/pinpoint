@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Col,
     Row,
@@ -11,8 +10,8 @@ import {
     Tabs
 } from "antd";
 import { formatDate } from "@/utils/date";
-import baseUrl from "@/utils/baseUrl";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 
 const { Title } = Typography;
 
@@ -22,8 +21,90 @@ function ListViewModal({
     locations,
     alllocations
 }) {
-
     const router = useRouter();
+    const isWebDevice = useMedia('(min-width:700px)');
+    const deviceColumns = [
+        {
+            key: '0',
+            title: "Partner Name",
+            dataIndex: "partner",
+            render(partner) {
+                return <span>{partner?.username}</span>;
+            },
+            responsive: ["xs"]
+        },
+        {
+            key: '1',
+            title: "Location Name",
+            dataIndex: "title",
+            responsive: ["xs"]
+        },
+        {
+            key: '2',
+            title: "City",
+            dataIndex: "mapLocation",
+            render(mapLocation) {
+                return <span>{mapLocation?.city ?? ""}</span>;
+            },
+            responsive: ["xs"]
+        },
+        {
+            key: '3',
+            title: "State",
+            dataIndex: "mapLocation",
+            render(mapLocation) {
+                return <span>{mapLocation?.state ?? ""}</span>;
+            },
+            responsive: ["xs"]
+        },
+        {
+            key: '4',
+            title: "Sub Categories",
+            dataIndex: "subCategories",
+            render(subCategories) {
+                return subCategories?.map((item) => (
+                    <Tag color="success">{item?.name}</Tag>
+                ));
+            },
+            responsive: ["xs"]
+        },
+        {
+            key: '5',
+            title: "Rating",
+            dataIndex: "rating",
+            render(rating) {
+                return <span>{rating?.toFixed(1)}</span>;
+            },
+            responsive: ["xs"]
+        },
+        {
+            key: '6',
+            title: "Sign Up Date",
+            dataIndex: "createdAt",
+            render(createdAt) {
+                return <span>{formatDate(createdAt)}</span>;
+            },
+            responsive: ["xs"]
+        },
+        {
+            key: '7',
+            title: "Actions",
+            dataIndex: "_id",
+            fixed: "right",
+            render(_, record) {
+                return (
+                    <a
+                        onClick={() => router.push(`/profile/${record?.partner?._id}/locations/${record?._id}`)}
+                    >
+                        <Button>
+                            View Location
+                        </Button>
+                    </a>
+                );
+            },
+            responsive: ["xs"]
+        },
+    ];
 
     const columns = [
         {
@@ -107,7 +188,7 @@ function ListViewModal({
             children: <>
                 <Table
                     dataSource={locations}
-                    columns={columns}
+                    columns={isWebDevice ? columns : deviceColumns}
                     pagination={false}
                     rowKey="id" />
             </>,
@@ -118,7 +199,7 @@ function ListViewModal({
             children: <>
                 <Table
                     dataSource={alllocations}
-                    columns={columns}
+                    columns={isWebDevice ? columns : deviceColumns}
                     pagination={false}
                     rowKey="id" />
             </>,
@@ -140,7 +221,6 @@ function ListViewModal({
                         defaultActiveKey="1"
                         type="card"
                         items={items} />
-
                 </Col>
             </Row>
         </Modal>

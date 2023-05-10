@@ -407,7 +407,7 @@ const InteractiveMap = () => {
               <div className="shout-metadata">
                 <p>Search Radius:</p>
                 <Row>
-                  <Col span={19}>
+                  <Col xs={24} sm={24} md={19} lg={19} xl={19}>
                     <Slider
                       tooltip={{
                         formatter,
@@ -424,7 +424,7 @@ const InteractiveMap = () => {
                       value={typeof inputValue === "number" ? inputValue : 0}
                     />
                   </Col>
-                  <Col span={3}>
+                  <Col xs={0} sm={0} md={3} lg={3} xl={3}>
                     <InputNumber
                       min={1}
                       max={500}
@@ -495,9 +495,7 @@ const InteractiveMap = () => {
             </div>
             <div className="shout-end-group">
               <div className="container">
-                <Space style={{
-                  width: '100%',
-                }} direction="horizontal" wrap>
+                <Space  direction="horizontal" wrap>
                   <Tooltip title="Full Screen">
                     <Button
                       type="primary"
