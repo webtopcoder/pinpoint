@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
 import ListViewModal from "@/components/User/InteractiveMap/ListView";
-
 import {
   Col,
   InputNumber,
@@ -18,19 +17,16 @@ import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
-import { getCategory, getsubCategory, getisFavorited } from "@/redux/User/actions";
-import { getAllLocations } from "@/redux/Location/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import { getDiffToNow } from "@/utils/date";
 import baseUrl from "@/utils/baseUrl";
+import { categoryService, locationService } from "@/services/index";
 
 const { Option } = Select;
 
 var cityCircle = null;
 var map;
 
-
-const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAllLocations, favoriteLocation, activeLocations, ongetisFavorited }) => {
+const InteractiveMap = () => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -45,26 +41,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     ],
   };
 
-  // function favoriteAction() {
-  //   console.log(234234);
-  // }
-
-  // function getFavorited(id) {
-  //   ongetisFavorited(id, (res) => {
-
-  //     res.success ? setFavoriteInfo({ flag: false, btn: "Add Favorite" }) : setFavoriteInfo({ flag: true, btn: "Remove Favorite" })
-  //     return res.success
-  //   });
-  // }
-
-
   const markerDescription = (data) => {
-    // const flag = ""
-    // ongetisFavorited(data?.id, (res) => {
-    //   flag = "OKAY"
-    //   res.success ? setFavoriteInfo({ flag: false, btn: "Add Favorite" }) : setFavoriteInfo({ flag: true, btn: "Remove Favorite" })
-    // });
-
     return `<div class="card mb-3" style="max-width: 640px;">
       <div class="row no-gutters">
         <div class="col-md-4">
@@ -87,45 +64,45 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
             <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
         </div>
       </div>
-    </div>`;
-  }
-
+    </div>`
+  };
 
   const [subcategoryList, setSubcategoryList] = useState([]);
+  const [activeLocations, setActiveLocations] = useState([]);
+  const [categoryInfo, setCategoryInfo] = useState([]);
   const [radiusLocations, setRadiusLocations] = useState([]);
-  const [favoriteInfo, setFavoriteInfo] = useState({
-    flag: false,
-    btn: ""
-  });
-  const onFinish = (Form) => {
-    ongetAllLocations(false, true, Form);
-    setRadiusLocations([]);
-  };
-
-  const onUpdateField = (value) => {
-    onsubgetCategory(value, (res) => {
-      const subarr = [];
-      res?.subCategories?.map((item, index) => {
-        const subitem = {
-          value: item._id,
-          label: item.name,
-        };
-        subarr.push(subitem);
-      });
-      setSubcategoryList(subarr);
-    });
-  };
-
   const faviconUrl = `${apiBaseUrl}/avatar/`;
-
   const formatter = (value) => `${value}mile`;
-
   const [position, setPosition] = useState({
     lat: 37.553326,
     lng: -94.8110983,
   });
-
   const [addModalOpen, setAddModalOpen] = useState(false);
+
+  async function onFinish(Form) {
+    const result = await locationService.getAllLocations(false, true, Form);
+    await setActiveLocations(result?.results)
+    await setRadiusLocations([]);
+  }
+
+  async function onUpdateField(value) {
+    const result = await categoryService.getSubcategory(value);
+    const subarr = [];
+    result?.subCategories?.map((item, index) => {
+      const subitem = {
+        value: item._id,
+        label: item.name,
+      };
+      subarr.push(subitem);
+    });
+    setSubcategoryList(subarr);
+  }
+
+  async function ongetCategory() {
+    const result = await categoryService.getCategory();
+    console.log(result)
+    await setCategoryInfo(result?.allcategories);
+  }
 
   let markers = [];
 
@@ -250,7 +227,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
     });
 
     ongetCategory();
-    ongetAllLocations(false, true, []);
+    onFinish(false, true, []);
   }, []);
 
 
@@ -272,6 +249,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
       mapTypeControlOptions: {
         mapTypeIds: [google.maps.MapTypeId.ROADMAP],
       },
+      gestureHandling: "greedy"
     });
 
     const centerControlDiv = document.createElement("div");
@@ -481,7 +459,7 @@ const InteractiveMap = ({ ongetCategory, onsubgetCategory, categoryInfo, ongetAl
                         size="large"
                         onChange={(e) => onUpdateField(e)}
                         placeholder="Select Category">
-                        <Option key={0} value="">All</Option>
+                        <Option key={0} value="all">All</Option>
                         {categoryInfo?.map((option, index) => (
                           <Option key={index + 1} value={option._id}>{option.name}</Option>
                         ))}
@@ -589,20 +567,5 @@ InteractiveMap.getLayout = function getLayout(page) {
 
 InteractiveMap.authenticate = true;
 
-const mapStateToProps = ({ user, location }) => ({
-  categoryInfo: user.partnerCategory.allcategories,
-  subcategoryInfo: user.partnersubCategory,
-  activeLocations: location.activeLocations
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  ongetCategory: () => dispatch(getCategory()),
-  onsubgetCategory: (categoryID, cb) =>
-    dispatch(getsubCategory(categoryID, cb)),
-  ongetisFavorited: (locationID, cb) =>
-    dispatch(getisFavorited(locationID, cb)),
-  ongetAllLocations: (pagination, status, form) =>
-    dispatch(getAllLocations(pagination, status, form)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(InteractiveMap);
+export default InteractiveMap;

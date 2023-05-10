@@ -2,8 +2,14 @@ import api from "@/utils/callApi";
 
 function LocationService() {
 
-  function getInfo() {
-    return api(`profile`, "get");
+  function getAllLocations(pagination, status, form) {
+    let apiquery;
+    form?.subcategory?.length > 0
+      ? (apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ""
+        }`)
+      : (apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${form?.category ? form.category : ""
+        }`);
+    return api(apiquery, "get");
   }
 
   function updateInfo(data) {
@@ -19,7 +25,7 @@ function LocationService() {
   }
 
   return {
-    getInfo,
+    getAllLocations,
     updateInfo,
     uploadAvatar,
     updatePoll

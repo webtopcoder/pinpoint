@@ -18,6 +18,7 @@ import useNotify from "@/hooks/useNotify";
 import { createLocation, getLocations } from "@/src/redux/Location/actions";
 import { getsubCategory } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
+import { categoryService, locationService } from "@/services/index";
 
 const { TextArea } = Input;
 

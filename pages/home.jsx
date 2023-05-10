@@ -54,7 +54,6 @@ const UserHome = () => {
         );
         return;
       });
-
   }
 
   function initMap() {
