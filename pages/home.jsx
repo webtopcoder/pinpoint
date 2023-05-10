@@ -68,6 +68,7 @@ const UserHome = () => {
     map = new google.maps.Map(document.getElementById("maps"), {
       center: { lat: 37.553326, lng: -94.8110983 },
       zoom: 4,
+      gestureHandling: "greedy"
     });
 
     // Create markers.
@@ -155,7 +156,7 @@ const UserHome = () => {
                     Promise
                   </div>
                   <div className="mobile">
-                    The pinpoint Promise
+                    The Pinpoint Promise
                   </div>
 
                 </h1>

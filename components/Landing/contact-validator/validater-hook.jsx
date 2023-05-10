@@ -6,7 +6,7 @@ import {
   emailValidator,
   subjectValidator,
   messageValidator,
-} from "./contact-validator.js";
+} from "./contact-validator.jsx";
 
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {

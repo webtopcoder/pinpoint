@@ -3,13 +3,6 @@ import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import Image from "next/image";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import userImg1 from "@/public/images/user/user1.jpg";
-import userImg2 from "@/public/images/user/user2.jpg";
-import userImg3 from "@/public/images/user/user3.jpg";
-import userImg4 from "@/public/images/user/user4.jpg";
-import {
-  Image as Antimage,
-} from "antd";
 
 const options = {
   margin: 25,
