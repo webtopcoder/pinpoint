@@ -1,14 +1,13 @@
 import { React, useState, useCallback } from "react";
-import { connect } from "react-redux";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./contact-validator/LoginForm.module.css";
 import { ContactFormValidator } from "./contact-validator/validater-hook";
-import { ContactUser } from "@/redux/Contact/actions";
 import useNotify from "@/hooks/useNotify";
+import { userService } from "@/services/index";
 
-const LandingContact = ({ onContactUser }) => {
+const LandingContact = () => {
   const { notify } = useNotify();
   const [form, setForm] = useState({
     usertype: "",
@@ -37,15 +36,14 @@ const LandingContact = ({ onContactUser }) => {
       });
   };
 
-  const onSubmitForm = (e) => {
+  async function onSubmitForm(e) {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
 
-    onContactUser(form, (res, err) => {
-      if (err) {
-        notify("error", err?.response?.data?.message || "Something went wrong");
-      } else {
+    await userService.submitContact(form)
+      .then(() => {
+        notify("success", "Submitted Successfully");
         const initialstate = {
           usertype: "",
           firstName: "",
@@ -55,14 +53,19 @@ const LandingContact = ({ onContactUser }) => {
           messageContent: "",
         };
         setForm(initialstate);
-        notify("success", "Submitted Successfully");
-      }
-    });
-  };
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   return (
     <div
-      className="col-lg-12 col-md-12 contactus"
+      className="col-lg-12 col-md-12 col-sm-12 contactus"
     >
       <div className="login-form">
         <div className="logo-center">
@@ -75,7 +78,7 @@ const LandingContact = ({ onContactUser }) => {
         <form onSubmit={onSubmitForm}>
           <div className="row">
             <div className="auth-space"></div>
-            <div className="col-lg-6 col-md-6">
+            <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label className="authen-text-attr">First Name</label>
                 <input
@@ -93,7 +96,7 @@ const LandingContact = ({ onContactUser }) => {
                 ) : null}
               </div>
             </div>
-            <div className="col-lg-6 col-md-6">
+            <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label className="authen-text-attr">Last Name </label>
                 <input
@@ -111,7 +114,7 @@ const LandingContact = ({ onContactUser }) => {
                 ) : null}
               </div>
             </div>
-            <div className="col-lg-12 col-md-12">
+            <div className="col-lg-12 col-md-12 col-sm-12">
               <div className="form-group">
                 <label className="authen-text-attr">Email</label>
                 <input
@@ -129,7 +132,7 @@ const LandingContact = ({ onContactUser }) => {
                 ) : null}
               </div>
             </div>
-            <div className="col-lg-12 col-md-12">
+            <div className="col-lg-12 col-md-12 col-sm-12">
               <div className="form-group">
                 <label className="authen-text-attr">Subject</label>
                 <input
@@ -147,7 +150,7 @@ const LandingContact = ({ onContactUser }) => {
                 ) : null}
               </div>
             </div>
-            <div className="col-lg-12 col-md-12">
+            <div className="col-lg-12 col-md-12 col-sm-12">
               <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
@@ -197,11 +200,9 @@ const LandingContact = ({ onContactUser }) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-2"></div>
-            <div className="col-lg-8">
+          <div className="col-lg-12 col-md-12 col-sm-12">
               <button type="submit">SEND</button>
             </div>
-            <div className="col-lg-2"></div>
           </div>
         </form>
       </div>
@@ -209,7 +210,4 @@ const LandingContact = ({ onContactUser }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onContactUser: (data, cb) => dispatch(ContactUser(data, cb)),
-});
-export default connect(undefined, mapDispatchToProps)(LandingContact);
+export default LandingContact;

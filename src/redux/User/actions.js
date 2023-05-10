@@ -3,8 +3,6 @@ import {
   USER_LOGIN_SUCCESS,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
   CATEGORY_GET_REQUEST,
   CATEGORY_GET_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
@@ -23,8 +21,6 @@ import {
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
-  GET_ACTIVE_PARTNERS_REQUEST,
-  GET_ACTIVE_PARTNERS_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -97,38 +93,9 @@ export function getDefaultAvatar(cb) {
       });
 }
 
-export function getActivepartners() {
-  return (dispatch) =>
-    api(`auth/partners?status=active`, "get")
-      .then((res) => {
-        dispatch({
-          type: GET_ACTIVE_PARTNERS_REQUEST,
-        });
-
-        dispatch({
-          type: GET_ACTIVE_PARTNERS_SUCCESS,
-          payload: res,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
 export function getisFavorited(locationID, cb) {
   return (dispatch) =>
     api(`profile/getFavortied/${locationID}`, "get")
-      .then((res) => {
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
-export function getTestimonials(cb) {
-  return (dispatch) =>
-    api(`admin/testimonial/all`, "get")
       .then((res) => {
         cb(res);
       })

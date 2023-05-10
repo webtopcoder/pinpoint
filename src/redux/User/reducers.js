@@ -20,7 +20,6 @@ import {
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_SUCCESS,
-  GET_ACTIVE_PARTNERS_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -52,7 +51,6 @@ const initialState = {
   loading: false,
   status: false,
   loginInfo: { success: false, msg: {} },
-  resetPasswordInfo: { success: false, msg: "" },
   partnerCategory: { success: false, categories: [] },
   partnersubCategory: { success: false, subCategories: [] },
   notifications: [],
@@ -61,7 +59,6 @@ const initialState = {
   myFollowers: [],
   followAndFollowing: [],
   faqs: [],
-  activePartners: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -119,12 +116,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         partnerCategory: action.payload,
-      };
-    }
-    case GET_ACTIVE_PARTNERS_SUCCESS: {
-      return {
-        ...state,
-        activePartners: action.payload,
       };
     }
 

@@ -2505,7 +2505,6 @@
   }
 
   #maps {
-    height: auto;
     margin-top: 25px;
   }
 
@@ -3695,8 +3694,7 @@
   }
 
   .section-landing-title {
-    margin-left: 0 !important;
-    margin-top: 20px;
+    margin-left: 0;
   }
 
   .single-footer-widget p {
@@ -3747,11 +3745,12 @@
     font-size: 35px;
     margin-top: 30px;
     border-right: none;
-    text-align: center;
+    padding: 10px;
   }
 
   .mtl-45 {
     margin-left: 0;
+    padding: 0px 30px;
   }
 
   .col-sm-3 {
@@ -3767,7 +3766,8 @@
   }
 
   .single-help-desk-box {
-    padding: 7px;
+    height: fit-content;
+    padding: 22px;
     border: 1px solid #eee;
   }
 

@@ -30,14 +30,14 @@ export const usertypeValidator = (usertype) => {
 
 export const subjectValidator = (subject) => {
   if (!subject) {
-    return "subject is required";
+    return "Subject is required";
   }
   return "";
 };
 
 export const messageValidator = (messageContent) => {
   if (!messageContent) {
-    return "message is required";
+    return "Message is required";
   }
   return "";
 };

@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import LandingContact from "@/components/Landing/LandingContact";
 import Testimonial from "@/components/Landing/Testimonial";
 import PageTitle from "@/components/Layout/PageTitle";
@@ -14,13 +13,49 @@ import bannerImg from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
-import { getActivepartners, getTestimonials } from "@/redux/User/actions";
+import { userService } from "@/services/index";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
 
-const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) => {
+const UserHome = () => {
   const faviconUrl = `${apiBaseUrl}/location.png`;
   const [testimonials, setTestimonial] = useState();
+  const [activePartners, setactivePartners] = useState();
+
+  useEffect(() => {
+    getActivepartnersAndTestimonials();
+  }, []);
+
+  useEffect(() => {
+    initMap();
+  }, [activePartners]);
+
+  async function getActivepartnersAndTestimonials() {
+    await userService.getActivepartners()
+      .then((res) => {
+        setactivePartners(res)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+
+    await userService.getTestimonials()
+      .then((res) => {
+        setTestimonial(res.data)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+
+  }
 
   function initMap() {
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
@@ -36,7 +71,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
     });
 
     // Create markers.
-    for (let i = 0; i < activePartners.length; i++) {
+    for (let i = 0; i < activePartners?.length; i++) {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(activePartners[i]?.address?.latitude, activePartners[i]?.address?.longitude),
         icon: {
@@ -49,21 +84,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
       });
     }
   }
-  useEffect(() => {
-    ongetActivepartners();
-    ongetTestimonials((res, error) => {
-      if (error) {
-        notify("error", error.response.data.message);
-        return;
-      }
 
-      setTestimonial(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    initMap();
-  }, [activePartners]);
   return (
     <>
       <PageTitle page="Home" />
@@ -171,6 +192,11 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                   <br /> Servicing
                 </h1>
               </div>
+              <div className="col-lg-4 col-md-12 overview-content mobile">
+                <h1 style={{ width: '100%', textAlign: 'center' }}>
+                  Currently Servicing
+                </h1>
+              </div>
               <div className="col-lg-8 col-md-12">
                 <div className="container mtl-45">
                   <div className="section-landing-title">
@@ -178,11 +204,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                   </div>
                   <div className="row">
                     <div
-                      className="col-lg-4 col-md-6 col-sm-6"
-                      data-aos="fade-up"
-                      data-aos-duration="1200"
-                      data-aos-delay="300"
-                    >
+                      className="col-lg-4 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={food} alt="icon" />
@@ -201,11 +223,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                       </div>
                     </div>
                     <div
-                      className="col-lg-4 col-md-6 col-sm-6"
-                      data-aos="fade-up"
-                      data-aos-duration="1200"
-                      data-aos-delay="200"
-                    >
+                      className="col-lg-4 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={coffee} alt="icon" />
@@ -225,11 +243,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                     </div>
 
                     <div
-                      className="col-lg-4 col-md-6 col-sm-6"
-                      data-aos="fade-up"
-                      data-aos-duration="1200"
-                      data-aos-delay="300"
-                    >
+                      className="col-lg-4 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={mobile} alt="icon" />
@@ -253,7 +267,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
               <div className="col-lg-11 col-md-12">
                 <div className="container mtl-45">
                   <div className="row">
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={farmers} alt="icon" />
@@ -262,7 +276,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                         <p>Everybody love them some fresh veggies!</p>
                       </div>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={christmas} alt="icon" />
@@ -272,7 +286,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                       </div>
                     </div>
 
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={pumkin} alt="icon" />
@@ -284,7 +298,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
                         </p>
                       </div>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="icon">
                           <Image src={fireworks} alt="icon" />
@@ -344,13 +358,7 @@ const UserHome = ({ ongetActivepartners, activePartners, ongetTestimonials }) =>
               </div>
               <div className="col-lg-6 col-md-12"></div>
               <div className="col-lg-4 col-md-12 overview-content landing-contact-subtitle">
-                <h1
-                  style={{
-                    textAlign: "right",
-                    paddingRight: 28,
-                    paddingTop: 46,
-                  }}
-                >
+                <h1 className="wherespinpoint desktop">
                   Whatcha <br />
                   Thinkin?
                 </h1>
@@ -373,15 +381,4 @@ UserHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-const mapStateToProps = ({ user }) => ({
-  activePartners: user.activePartners
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  ongetActivepartners: () =>
-    dispatch(getActivepartners()),
-  ongetTestimonials: (cb) => dispatch(getTestimonials(cb)),
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserHome);
+export default UserHome;

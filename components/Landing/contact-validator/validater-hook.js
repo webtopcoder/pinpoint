@@ -6,7 +6,6 @@ import {
   emailValidator,
   subjectValidator,
   messageValidator,
-  usertypeValidator,
 } from "./contact-validator.js";
 
 const touchErrors = (errors) => {
