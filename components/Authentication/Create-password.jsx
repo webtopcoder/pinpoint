@@ -1,15 +1,14 @@
 import { React, useEffect, useState } from "react";
-import { connect } from "react-redux";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
-import { recoveryPassword } from "@/redux/User/actions";
 import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
+import { authService } from "@/services/index";
 
-const CreatePassword = ({ onrecoveryPassword }) => {
+const CreatePassword = () => {
   const router = useRouter();
   const [form, setForm] = useState({
     password: "",
@@ -28,8 +27,7 @@ const CreatePassword = ({ onrecoveryPassword }) => {
     }
   }, [token]);
 
-  const { errors, validateForm, onBlurField } =
-    useCreatePasswordFormValidator(form);
+  const { errors, validateForm, onBlurField } = useCreatePasswordFormValidator(form);
   const onUpdateField = (e) => {
     const field = e.target.name;
     const nextFormState = {
@@ -45,26 +43,27 @@ const CreatePassword = ({ onrecoveryPassword }) => {
       });
   };
 
-  const onSubmitForm = (e) => {
+  async function onSubmitForm(e) {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
 
-    onrecoveryPassword(
-      {
-        password: form.password,
-        token: form.token,
-      },
-      (_, error) => {
-        if (error) {
-          notify("error", error?.response?.data?.message || "Error");
-        } else {
-          notify("success", "Password has been changed");
-          router.push("/");
-        }
-      }
-    );
-  };
+    await authService.resetPassword({
+      password: form.password,
+      token: form.token,
+    },)
+      .then(() => {
+        notify("success", "Password has been changed");
+        router.push("/");
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   return (
     <div className="col-lg-6 col-md-12">
@@ -79,10 +78,8 @@ const CreatePassword = ({ onrecoveryPassword }) => {
         <form onSubmit={onSubmitForm}>
           <div className="auth-space"></div>
           <p className="text-center">
-            Lost your password? Please enter your username or email address. You
-            will receive a link to create a new password via email.
+            Please submit your new password.
           </p>
-
           <div className="form-group">
             <label className="authen-text-attr">Password</label>
             <input
@@ -92,7 +89,6 @@ const CreatePassword = ({ onrecoveryPassword }) => {
               onChange={onUpdateField}
               onBlur={onBlurField}
               className="form-control"
-              placeholder="Password"
             />
             {errors.password.dirty && errors.password.error ? (
               <p className={styles.formFieldErrorMessage}>
@@ -109,7 +105,6 @@ const CreatePassword = ({ onrecoveryPassword }) => {
               value={form.confirmPassword}
               onChange={onUpdateField}
               onBlur={onBlurField}
-              placeholder="Confirm Password"
             />
             {errors.confirmPassword.dirty && errors.confirmPassword.error ? (
               <p className={styles.formFieldErrorMessage}>
@@ -136,8 +131,4 @@ const CreatePassword = ({ onrecoveryPassword }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onrecoveryPassword: (data, cb) => dispatch(recoveryPassword(data, cb)),
-});
-
-export default connect(undefined, mapDispatchToProps)(CreatePassword);
+export default CreatePassword;

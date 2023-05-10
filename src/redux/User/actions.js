@@ -208,26 +208,6 @@ export function getmyFollowers() {
     });
 }
 
-export function recoveryPassword(form, cb) {
-  return (dispatch) =>
-    api(`auth/reset-password`, "post", form)
-      .then((res) => {
-        dispatch({
-          type: RESET_PASSWORD_REQUEST,
-        });
-
-        dispatch({
-          type: RESET_PASSWORD_SUCCESS,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-
 export const logout = (cb) => (dispatch) => {
   dispatch({ type: LOGOUT });
   cb();

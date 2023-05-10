@@ -10,19 +10,14 @@ function AuthService() {
     return api(`auth/forgot-password`, "post", data)
   }
 
-  function uploadAvatar(data) {
-    return api(`profile/avatar`, "post", data)
-  }
-
-  function updatePoll(data) {
-    return api(`profile/poll`, "patch", data)
+  function resetPassword(data) {
+    return api(`auth/reset-password`, "post", data)
   }
 
   return {
     resendverifyEmail,
     recoveryPassword,
-    uploadAvatar,
-    updatePoll
+    resetPassword,
   };
 }
 

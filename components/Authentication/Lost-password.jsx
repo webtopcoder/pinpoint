@@ -96,7 +96,6 @@ const LostPassword = () => {
               className="form-control"
               value={form.userInfo}
               onChange={onUpdateField}
-              placeholder="Username or email"
               onBlur={onBlurField}
             />
             {errors.userInfo.dirty && errors.userInfo.error ? (

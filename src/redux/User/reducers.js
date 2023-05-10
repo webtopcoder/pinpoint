@@ -4,8 +4,6 @@ import {
   USER_LOGIN_FAIL,
   LOGOUT,
   USER_REGISTER_SUCCESS,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
   CATEGORY_GET_REQUEST,
   CATEGORY_GET_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
@@ -111,15 +109,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         status: action.payload.success,
-      };
-    }
-    case RESET_PASSWORD_REQUEST:
-      return { ...state, loading: true };
-
-    case RESET_PASSWORD_SUCCESS: {
-      return {
-        ...state,
-        resetPasswordInfo: action.payload,
       };
     }
 
