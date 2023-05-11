@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
 import ListViewModal from "@/components/User/InteractiveMap/ListView";
 import {
@@ -321,7 +320,7 @@ const InteractiveMap = () => {
       setMapOnAll(map);
     }
 
-    map.addListener("click", (e) => {
+    map.addListener("dblclick", (e) => {
       // setMapOnAll(null);
       map.setZoom(11);
       // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
@@ -419,7 +418,7 @@ const InteractiveMap = () => {
                         background: "white",
                       }}
                       min={1}
-                      max={500}
+                      max={50}
                       onChange={onChange}
                       value={typeof inputValue === "number" ? inputValue : 0}
                     />
@@ -427,7 +426,7 @@ const InteractiveMap = () => {
                   <Col xs={0} sm={0} md={3} lg={3} xl={3}>
                     <InputNumber
                       min={1}
-                      max={500}
+                      max={50}
                       style={{
                         width: 60,
                         margin: "0 16px",
@@ -471,7 +470,9 @@ const InteractiveMap = () => {
                     >
                       <Select
                         mode="multiple"
+                        showSearch={false}
                         allowClear
+                        maxTagCount={2}
                         style={{
                           width: "100%",
                         }}
@@ -564,6 +565,5 @@ InteractiveMap.getLayout = function getLayout(page) {
 };
 
 InteractiveMap.authenticate = true;
-
 
 export default InteractiveMap;
