@@ -33,8 +33,9 @@ function ProfileService() {
     return api(`/profile/updateProfileView/${id}`, "get");
   }
 
-  function getmyFollowers() {
-    return api(`follow/follower`, "get")
+  function getmyFollowers(id, count, search) {
+    return api(`follow/${id}/follower?page=${count}&q=${search}`, "get")
+
   }
 
   function getFollowerAndFollowings() {

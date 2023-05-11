@@ -31,7 +31,7 @@ import {
   Divider
 } from "antd";
 import food from "@/public/images/landing/food.png";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import {
   checkInArrival,
   favoriteLocation,
@@ -43,8 +43,8 @@ import {
 } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
-import { getDiffToNow } from "@/utils/date";
-import { optimizeFonts } from "next.config";
+import useMedia from "@/hooks/useMedia";
+
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -77,11 +77,14 @@ const IconText = ({ reviewId, text, likeReview }) => {
 
 const LikeArrvial = ({ likeArrival, arrvialID, text }) => {
   const [like, setLike] = useState(text);
+  const isWebDevice = useMedia('(min-width:700px)');
   useEffect(() => {
     setLike(text);
   }, [text]);
   return (
-    <Space>
+    <Space style={{
+      float: isWebDevice ? '' : 'right'
+    }}>
       <Button
         type="primary"
         onClick={() => {
@@ -126,7 +129,6 @@ const PartnerLocation = ({
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
-
       getLocationInfo({ id: locationId, expand: expand }, (_, err) => {
         if (err) {
           notify(
@@ -140,7 +142,6 @@ const PartnerLocation = ({
 
   useEffect(() => {
     if (location.reviews) {
-
       const activeReviews = location.reviews.reduce(
         (acc, option, index) => {
           option.status === "active" ? acc.push(option) : ''
@@ -238,9 +239,8 @@ const PartnerLocation = ({
   );
 };
 
-function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArrival, checkIncount, expand, setExpand }) {
-
-  const { notify } = useNotify();
+function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, expand, setExpand }) {
+  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <div>
       <div className="avatar-area green-color">
@@ -301,15 +301,20 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, onCheckInArri
             <div style={{ display: "flex" }}>
               <div style={{ marginTop: "20px" }}>{arrival.arrivalText}</div>
               <div style={{ marginLeft: "auto" }}>
-                <Image
-                  src={imgurl + arrival?.images[0]?.filepath}
-                  alt="img"
-                  width="100px"
-                  height="100px"
-                />
+                {
+                  arrival?.images[0]?.filepath ? (
+                    <Image
+                      src={imgurl + arrival?.images[0]?.filepath}
+                      height="100px"
+                      width="100px"
+                      alt="avatar"
+                    />
+                  ) : ""
+                }
+
               </div>
             </div>
-            <div style={{ display: "flex", marginTop: "30px" }}>
+            <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
               <div>
                 {new Date(arrival?.departureAt).toLocaleDateString(undefined, {
                   year: "numeric",
@@ -437,15 +442,19 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
           <div style={{ display: "flex" }}>
             <div style={{ marginTop: "20px" }}>{arrivalText}</div>
             <div style={{ marginLeft: "auto" }}>
-              <Image
-                src={imgurl + arrivalImage}
-                alt="img"
-                width="100px"
-                height="100px"
-              />
+              {
+                arrivalImage ? (
+                  <Image
+                    src={imgurl + arrivalImage}
+                    height="100px"
+                    width="100px"
+                    alt="img"
+                  />
+                ) : ""
+              }
             </div>
           </div>
-          <div style={{ display: "flex", marginTop: "30px" }}>
+          <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
             <div>
               {new Date(date).toLocaleDateString(undefined, {
                 year: "numeric",
@@ -457,6 +466,7 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
                 second: "2-digit",
               })}
             </div>
+
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
                 {checkIncount} checked in
@@ -478,6 +488,7 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
 function PostForm({ location, onPostReview, getLocationInfo, expand }) {
   const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
+  const isWebDevice = useMedia('(min-width:700px)');
   const [uploadFile, setUploadFile] = useState([]);
   const uploadProps = {
     name: "upload",
@@ -577,12 +588,12 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                     style={{
                       width: "100%",
                     }}
-                    // placeholder="input @ to mention user"
-                    // prefix={["@"]}
+                  // placeholder="input @ to mention user"
+                  // prefix={["@"]}
                   />
                 </Form.Item>
                 <Row>
-                  <Col span={8}>
+                  <Col xs={12} sm={12} md={8} lg={8} xl={8} >
                     <Form.Item name="images">
                       <Upload listType="picture" method="get" {...uploadProps}>
                         <Button
@@ -594,7 +605,7 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                       </Upload>
                     </Form.Item>
                   </Col>
-                  <Col span={5} offset={2}>
+                  <Col xs={11} sm={11} md={8} lg={8} xl={8} offset={isWebDevice ? 0 : 1} >
                     <Form.Item name="rating">
                       <Rate
                         allowHalf
@@ -611,7 +622,7 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                       />
                     </Form.Item>
                   </Col>
-                  <Col span={8} offset={1}>
+                  <Col xs={12} sm={12} md={8} lg={8} xl={8} offset={isWebDevice ? 0 : 11} >
                     <Button
                       type="primary"
                       htmlType="submit"
@@ -720,11 +731,12 @@ function LocationBanner({
   userRole
 }) {
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
   if (!location) return <Skeleton active />;
   return (
     <>
       <Row>
-        <Col span={18} offset={3} style={{}}>
+        <Col span={isWebDevice ? 18 : 24} offset={isWebDevice ? 3 : 0} style={{}}>
           <Badge.Ribbon
             text={location.isActive ? "Active" : "Inactive"}
             placement="start"
@@ -747,7 +759,7 @@ function LocationBanner({
                   textAlign: "center",
                 }}
               >
-                <Col span={8}>
+                <Col span={10}>
                   <Space>
                     <Rate
                       disabled
@@ -764,37 +776,34 @@ function LocationBanner({
                   </Space>
                 </Col>
                 <Col
-                  span={8}
+                  span={6}
                   style={{
                     top: -100,
                   }}
                 >
                   <Space direction="vertical">
-                    <Link
-                      href={`/profile/${location.partner?._id}/locations/${location._id}`}
-                    >
-                      <Avatar
-                        style={{
-                          border: "3px solid black",
-                          cursor: "pointer",
-                          background: "rgb(223 216 216)",
-                        }}
-                        size={150}
-                        icon={
-                          location.images?.length > 0 &&
-                            location.images[0]?.filepath ? (
-                            <Image
-                              src={avatarurl + location.images[0]?.filepath}
-                              height={200}
-                              width={200}
-                              alt="locationImage"
-                            />
-                          ) : (
-                            <EnvironmentFilled />
-                          )
-                        }
-                      />
-                    </Link>
+
+                    <Avatar
+                      style={{
+                        border: "3px solid black",
+                        cursor: "pointer",
+                        background: "rgb(223 216 216)",
+                      }}
+                      size={150}
+                      icon={
+                        location.images?.length > 0 &&
+                          location.images[0]?.filepath ? (
+                          <Image
+                            src={avatarurl + location.images[0]?.filepath}
+                            height={200}
+                            width={200}
+                            alt="locationImage"
+                          />
+                        ) : (
+                          <EnvironmentFilled />
+                        )
+                      }
+                    />
                     <Text
                       style={{
                         color: "white",
@@ -854,9 +863,9 @@ function LocationBanner({
                     </Space>
                   </Space>
                 </Col>
-                <Col span={8} />
+                <Col span={isWebDevice ? 3 : 0} />
                 <Col
-                  span={8}
+                  span={isWebDevice ? 18 : 24}
                   style={{
                     top: -5,
                   }}

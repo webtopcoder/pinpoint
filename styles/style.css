@@ -13218,3 +13218,13 @@ h4 {
 .review-divider::after {
   background-color: #d6dee1;
 }
+
+.main-follower-list{
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+}
+
+.location-dashboard{
+  margin: 60px 100px;
+}

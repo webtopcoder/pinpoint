@@ -121,10 +121,13 @@ const ProfileActivity = ({
     const followingList = await profileService.getFollowerAndFollowings();
     await setfollowAndFollowing(followingList?.data);
     await allActivities(profileId, 1, "");
-    if (localStorage.getItem('role') === "partner") {
-      const profilePoll = await profileService.getProfilePoll(profileId);
-      await setProfilePoll(profilePoll);
-    }
+    await profileService.getProfilePoll(profileId).then((res) => {
+      setProfilePoll(res);
+    }).catch((error) => {
+      console.log(error?.response?.data?.message)
+      return;
+    });;
+
   }
 
   const totalPollVoteCount = myprofilePoll.votes?.reduce(

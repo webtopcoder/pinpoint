@@ -36,9 +36,7 @@ const PartnerLocations = ({ locations, ongetLocations }) => {
       }}
     >
       <Content
-        style={{
-          margin: "60px 100px",
-        }}
+        className="location-dashboard"
       >
         <Row
           gutter={[32, { xs: 8, sm: 16, md: 24, lg: 32 }]}
