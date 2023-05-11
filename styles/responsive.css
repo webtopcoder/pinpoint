@@ -3881,6 +3881,11 @@
   .vst-profile {
     color: #eb3535;
   }
+
+  .pin-post-label {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 /* Min width 576px to Max width 767px */
