@@ -3862,14 +3862,24 @@
     margin-bottom: 10px;
   }
 
-  .pin-faq .faq-accordion-content .faq__question{
+  .pin-faq .faq-accordion-content .faq__question {
     padding: 16px 0 16px 0;
   }
-  .profile-location .title{
-    font-size:30px
+
+  .profile-location .title {
+    font-size: 30px
   }
-  .location-dashboard{
-    margin:30px 30px;
+
+  .location-dashboard {
+    margin: 30px 30px;
+  }
+
+  .mailbox-banner-area-css .mail-container .mailbox-container {
+    padding: 10px 20px !important;
+  }
+
+  .vst-profile {
+    color: #eb3535;
   }
 }
 

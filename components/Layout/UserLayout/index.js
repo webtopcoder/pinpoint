@@ -48,8 +48,4 @@ const UserLayout = ({ children }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  auth: user.token,
-});
-
-export default connect(mapStateToProps, null)(UserLayout);
+export default UserLayout;

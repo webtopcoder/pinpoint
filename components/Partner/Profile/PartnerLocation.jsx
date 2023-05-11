@@ -9,7 +9,6 @@ import {
   DownOutlined,
   ClockCircleFilled
 } from "@ant-design/icons";
-import Link from "next/link";
 import {
   Image as Antimage,
   Button,
@@ -44,7 +43,6 @@ import {
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";
-
 
 const { Content } = Layout;
 const { Text } = Typography;

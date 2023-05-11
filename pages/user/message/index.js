@@ -14,10 +14,11 @@ import MailSendInvite from "@/components/Partner/Message/Invite/sent";
 import MailPendingInvite from "@/components/Partner/Message/Invite/pending";
 import Layout from "../../../layout";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 
 const Index = () => {
   const router = useRouter();
-
+  const isWebDevice = useMedia('(min-width:700px)');
   const { user } = router.query;
 
   useEffect(() => {
@@ -136,33 +137,33 @@ const Index = () => {
                       options={
                         tab == "inbox"
                           ? [
-                              {
-                                value: "bluk",
-                                label: "Bluk Action",
-                              },
-                              {
-                                value: "read",
-                                label: "Mark Read",
-                              },
-                              {
-                                value: "unread",
-                                label: "Mark Unread",
-                              },
-                              {
-                                value: "delete",
-                                label: "Delete",
-                              },
-                            ]
+                            {
+                              value: "bluk",
+                              label: "Bluk Action",
+                            },
+                            {
+                              value: "read",
+                              label: "Mark Read",
+                            },
+                            {
+                              value: "unread",
+                              label: "Mark Unread",
+                            },
+                            {
+                              value: "delete",
+                              label: "Delete",
+                            },
+                          ]
                           : [
-                              {
-                                value: "bluk",
-                                label: "Bluk Action",
-                              },
-                              {
-                                value: "delete",
-                                label: "Delete",
-                              },
-                            ]
+                            {
+                              value: "bluk",
+                              label: "Bluk Action",
+                            },
+                            {
+                              value: "delete",
+                              label: "Delete",
+                            },
+                          ]
                       }
                     />
                     <Button
@@ -184,17 +185,17 @@ const Index = () => {
               </Col>
             </Row>
             <Row justify="space-around" vgutter={8}>
-              <Col span={6}>
+              <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                 <Menu
                   className="user-message-menu"
                   selectedKeys={[tab]}
-                  mode="inline"
+                  mode={isWebDevice ? "inline" : "horizontal"}
                   items={items}
                   onClick={onClickTab}
                 />
               </Col>
 
-              <Col span={17}>
+              <Col xs={24} sm={24} md={17} lg={17} xl={17}>
                 <div className="mail-content">
                   {tab === "inbox" && (
                     <MailInbox
