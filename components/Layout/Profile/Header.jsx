@@ -41,7 +41,6 @@ const Header = ({
           error?.response?.data?.message ?? "Something went wrong"
         );
       } else {
-
         notify(res.data.type, res.data.message);
         ongetHeader(view_user_id);
       }
@@ -82,8 +81,8 @@ const Header = ({
           lg: 32,
         }}
         style={{
-          marginTop: 40,
-          marginBottom: 40,
+          marginTop: 20,
+          marginBottom: 20,
         }}
       >
         <Col
@@ -175,7 +174,7 @@ const Header = ({
           </Card>
         </Col>
         <Col
-          className="gutter-row"
+          className="gutter-row header-card"
           span={12}
           xs={24}
           sm={24}
@@ -183,7 +182,7 @@ const Header = ({
           lg={12}
           xl={12}
           style={{
-            marginTop: 40,
+            marginTop: 20,
           }}
         >
           <Row
@@ -196,7 +195,9 @@ const Header = ({
           >
             {headerInfo?.profile?.usertype == "partner" && (
               <>
-                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+                <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{
+                  paddingBottom: 4
+                }}>
                   <Card
                     title="Rating"
                     bordered={false}

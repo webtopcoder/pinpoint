@@ -10,7 +10,6 @@ import {
   HEADER_GET_SUCCESS,
   NOTIFICATION_CHANGE_SUCCESS,
   POST_FOLLOWER_SUCCESS,
-  POST_LIKE_SUCCESS,
   SOCIAL_CHANGE_SUCCESS,
   THINK_POST_SUCCESS,
   UN_FRIEND_SUCCESS,
@@ -392,22 +391,6 @@ export function postThink({ userId, formData }, cb) {
       })
       .catch((error) => {
         console.log(error);
-      });
-}
-
-export function recommendPost(id, cb) {
-  return (dispatch) =>
-    api(`post/${id}/like`, "post")
-      .then((res) => {
-        dispatch({
-          type: POST_LIKE_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        cb(null, error);
       });
 }
 

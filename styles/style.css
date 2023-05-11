@@ -12758,7 +12758,7 @@ h4 {
 }
 
 .ant-list-lg .ant-list-item {
-  padding: 23px 24px !important;
+  padding: 23px 24px;
 }
 
 .custom-list-content {

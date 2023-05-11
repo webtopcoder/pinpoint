@@ -13,6 +13,7 @@ import bannerImg from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
+import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
@@ -21,6 +22,7 @@ const UserHome = () => {
   const faviconUrl = `${apiBaseUrl}/location.png`;
   const [testimonials, setTestimonial] = useState();
   const [activePartners, setactivePartners] = useState();
+  const { notify } = useNotify();
 
   useEffect(() => {
     getActivepartnersAndTestimonials();

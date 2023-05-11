@@ -3,31 +3,16 @@ import Image from "next/image";
 import { connect } from "react-redux";
 import { UploadOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
 import {
-  Image as Antimage,
-  Divider,
-  Button,
-  Upload,
-  message,
-  Form,
-  Row,
-  Col,
-  Avatar,
-  Typography,
-  List,
-  Space,
-  Skeleton,
-  Mentions,
-  Progress,
+  Image as Antimage, Divider, Button, Upload, message, Form, Row, Col, Avatar, Typography, List, Space, Skeleton, Mentions, Progress,
 } from "antd";
-import Link from "next/link";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
-import { getActivity, getProfilePoll, votePoll, getAllphotos, updateProfileViews } from "@/redux/Profile/actions";
-import { getFollowerAndFollowing, getmyFollowers } from "@/redux/User/actions";
-import { postThink } from "@/redux/Profile/actions";
-import { recommendPost } from "@/redux/Profile/actions";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { votePoll } from "@/redux/Profile/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
+import { profileService } from "@/services/index";
+import useMedia from "@/hooks/useMedia";
+
 const { Text } = Typography;
 
 const IconText = ({ postID, text, likePost }) => {
@@ -57,50 +42,103 @@ const IconText = ({ postID, text, likePost }) => {
 };
 
 const ProfileActivity = ({
-  onrecommendPost,
-  ongetmyFollowers,
-  ongetActivity,
-  onpostThink,
-  activityInfo,
-  ongetProfilePoll,
-  profilePoll,
   onvotePoll,
-  ongetFollowerAndFollowings,
-  followAndFollowing,
   profileRole,
-  ongetAllphotos,
-  myallPhotos,
-  onupdateProfileViews
 }) => {
 
+  const isWebDevice = useMedia('(min-width:700px)');
   const { notify } = useNotify();
   const pattern = /@\w+/g;
-  const likePost = (id, cb) => {
-    onrecommendPost(id, (res, error) => {
-      if (error) {
+  const myLoader = ({ src }) => {
+    return src;
+  };
+  const imgurl = `${apiBaseUrl}/avatar/`;
+  const avatarurl = `${apiBaseUrl}/avatar/`;
+  const [paginationInfo, setPageInfo] = useState({
+    pagination: {
+      current: 1,
+      pageSize: 20,
+    },
+  });
+  const [initLoading, setInitLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(1);
+  const [data, setData] = useState([]);
+  const [myallPhotos, setAllphotos] = useState([]);
+  const [myprofilePoll, setProfilePoll] = useState([]);
+  const [followAndFollowing, setfollowAndFollowing] = useState([]);
+  const [activityInfo, setactivityInfo] = useState([]);
+  const [list, setList] = useState([]);
+  const router = useRouter();
+  const profile = router.query?.profile;
+
+  async function likePost(id, callback) {
+    await profileService.recommendPost(id)
+      .then((res) => {
+        callback(res.liked);
+      })
+      .catch((error) => {
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
         );
-      } else {
-        cb(res.liked);
-      }
-    });
-  };
+        return;
+      });
+  }
 
-  const totalPollVoteCount = profilePoll.votes?.reduce(
+  async function allActivities(id, count, search) {
+    await profileService.getActivity(id, count, search)
+      .then((res) => {
+        if (res.success) {
+          setInitLoading(false);
+          setLoading(false);
+          setactivityInfo(res);
+          if (count !== 1) {
+            const newData = data.concat(res.posts);
+            setData(newData);
+            setList(newData);
+          }
+          else {
+            setData(res.posts);
+            setList(res.posts);
+          }
+          window.dispatchEvent(new Event("resize"));
+        } else notify("error", res.msg);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
+  async function initFunc(profileId) {
+    const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
+    await setAllphotos(allphotos?.image.slice(0, 8));
+    await profileService.updateProfileViewsCount(profileId);
+    const followingList = await profileService.getFollowerAndFollowings();
+    await setfollowAndFollowing(followingList?.data);
+    await allActivities(profileId, 1, "");
+    if (localStorage.getItem('role') === "partner") {
+      const profilePoll = await profileService.getProfilePoll(profileId);
+      await setProfilePoll(profilePoll);
+    }
+  }
+
+  const totalPollVoteCount = myprofilePoll.votes?.reduce(
     (a, vote) => a + vote,
     0
   );
-  const partnerPollQuestion = profilePoll.question;
-  const partnerPollOptions = profilePoll.options.reduce(
+  const partnerPollQuestion = myprofilePoll.question;
+  const partnerPollOptions = myprofilePoll.options?.reduce(
     (acc, option, index) => {
       const content = option;
-      const voteCount = profilePoll.votes[index];
+      const voteCount = myprofilePoll.votes[index];
       const votePercentage = ((voteCount / totalPollVoteCount) * 100).toFixed(
         0
       );
-
       acc.push({
         content,
         votePercentage,
@@ -130,45 +168,8 @@ const ProfileActivity = ({
     value: username,
   }));
 
-  const myLoader = ({ src }) => {
-    return src;
-  };
-  const imgurl = `${apiBaseUrl}/avatar/`;
-  const avatarurl = `${apiBaseUrl}/avatar/`;
-
-  const [paginationInfo, setPageInfo] = useState({
-    pagination: {
-      current: 1,
-      pageSize: 20,
-    },
-  });
-
-  const [initLoading, setInitLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState(1);
-  const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
-
-  const router = useRouter();
-  const profile = router.query?.profile;
-
   useEffect(() => {
-    const { profile } = router.query;
-    ongetAllphotos(profile, paginationInfo);
-    onupdateProfileViews(profile);
-    ongetmyFollowers();
-    ongetFollowerAndFollowings();
-    ongetActivity(profile, 1, "", (res) => {
-      if (res.success) {
-        setInitLoading(false);
-        setLoading(false);
-        setData(res.posts);
-        setList(res.posts);
-        window.dispatchEvent(new Event("resize"));
-      } else notify("error", res.msg);
-    });
-    ongetProfilePoll(profile);
-
+    initFunc(profile);
   }, [router.isReady, profile]);
 
   useEffect(() => {
@@ -184,15 +185,7 @@ const ProfileActivity = ({
 
     if (router.isReady) {
       const { profile } = router.query;
-      ongetActivity(profile, count, "", (res) => {
-        if (res.success) {
-          const newData = data.concat(res.posts);
-          setData(newData);
-          setList(newData);
-          setLoading(false);
-          window.dispatchEvent(new Event("resize"));
-        } else notify("error", res.msg);
-      });
+      allActivities(profile, count, "");
     }
   }, [count]);
 
@@ -215,14 +208,11 @@ const ProfileActivity = ({
     ) : null;
 
   const view_user_id = router.query.profile;
-
   const [composeForm] = Form.useForm();
-
   const [upload_name, setUploadFile] = useState([]);
 
-  const onFinish = (values) => {
+  async function onFinish(values) {
     const form_data = new FormData();
-
     upload_name.map((file) => form_data.append("images", file.originFileObj));
     form_data.append("content", values.message);
 
@@ -231,22 +221,23 @@ const ProfileActivity = ({
       formData: form_data,
     };
 
-    onpostThink(data, (res) => {
-      if (res.success) {
-        composeForm.resetFields();
-        setUploadFile([]);
-        notify("success", res.msg);
-        ongetActivity(profile, 1, "", (res) => {
-          if (res.success) {
-            setInitLoading(false);
-            setData(res.posts);
-            setList(res.posts);
-            window.dispatchEvent(new Event("resize"));
-          } else notify("error", res.msg);
-        });
-      } else notify("error", res.msg);
-    });
-  };
+    await profileService.postThink(data)
+      .then((res) => {
+        if (res.success) {
+          composeForm.resetFields();
+          setUploadFile([]);
+          notify("success", res.msg);
+          allActivities(profile, 1, "");
+        } else notify("error", res.msg);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   const props = {
     name: "upload",
@@ -409,7 +400,7 @@ const ProfileActivity = ({
                                     }
                                     title={
                                       <>
-                                        <Space direction="vertical">
+                                        <Space size={0} direction={isWebDevice ? "vertical" : 'horizontal'}>
                                           <a
                                             onClick={() => router.push(`/profile/${item?.from_user?._id}/activity`)}
                                             className="custom-userName">
@@ -584,7 +575,7 @@ const ProfileActivity = ({
                             {partnerPollQuestion}
                           </p>
                           <div className="partner-poll-options">
-                            {partnerPollOptions.map((item, index) => {
+                            {partnerPollOptions?.map((item, index) => {
                               return (
                                 <div key={index}>
                                   <Space.Compact block size="small">
@@ -769,25 +760,12 @@ const ProfileActivity = ({
 
 const mapStateToProps = ({ profile, user }) => {
   return {
-    activityInfo: profile.activityInfo,
-    myfollowerList: user.myFollowers?.followers || [],
-    profilePoll: profile.profilePoll,
     followAndFollowing: user.followAndFollowing,
     profileRole: profile.headerInfo?.profile?.usertype,
-    myallPhotos: profile.allphotosInfo.slice(0, 8),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onpostThink: (data, cb) => dispatch(postThink(data, cb)),
-  onupdateProfileViews: (data) => dispatch(updateProfileViews(data)),
-  onrecommendPost: (id, cb) => dispatch(recommendPost(id, cb)),
-  ongetActivity: (data, count, search, cb) =>
-    dispatch(getActivity(data, count, search, cb)),
-  ongetmyFollowers: () => dispatch(getmyFollowers()),
-  ongetProfilePoll: (id) => dispatch(getProfilePoll(id)),
   onvotePoll: (id, option, cb) => dispatch(votePoll(id, option, cb)),
-  ongetFollowerAndFollowings: (cb) => dispatch(getFollowerAndFollowing(cb)),
-  ongetAllphotos: (id, pageInfo) => dispatch(getAllphotos(id, pageInfo)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);

@@ -1,7 +1,6 @@
 import {
     Col,
     Row,
-    Divider,
     Modal,
     Typography,
     Table,
@@ -12,8 +11,6 @@ import {
 import { formatDate } from "@/utils/date";
 import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";
-
-const { Title } = Typography;
 
 function ListViewModal({
     open,
