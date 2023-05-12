@@ -3951,6 +3951,10 @@
   .single-footer-widget .btn-style-one {
     font-size: 13px;
   }
+
+  .btn-style-one {
+    padding: 11px 40px 11px 18px;
+  }
 }
 
 /* Min width 576px to Max width 767px */
