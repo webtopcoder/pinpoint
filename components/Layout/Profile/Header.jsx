@@ -10,7 +10,7 @@ import { getHeader, unfollow } from "@/redux/Profile/actions";
 import { postFollower } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import { Avatar, Card, Space, Typography, Button, Row, Col } from "antd";
 const { Meta } = Card;
 const { Title } = Typography;

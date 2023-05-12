@@ -30,12 +30,12 @@ const Header = ({
   notificationCount,
   role,
 }) => {
+
+  const router = useRouter();
   const [menu, setMenu] = React.useState(true);
   const toggleNavbar = () => {
     setMenu(!menu);
   };
-  const router = useRouter();
-
   const avatarurl = `${apiBaseUrl}/avatar/`;
 
   const { notify } = useNotify();
@@ -78,6 +78,10 @@ const Header = ({
       }
     );
   }, [notificationPage]);
+
+  useEffect(() => {
+    setMenu(true);
+  }, [router.pathname]);
 
   const onLoadMore = () => {
     setNotificationLoading(true);
