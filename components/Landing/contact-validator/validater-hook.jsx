@@ -58,7 +58,7 @@ export const ContactFormValidator = (form) => {
     // Create a deep copy of the errors
     let nextErrors = JSON.parse(JSON.stringify(errors));
 
-    // Force validate all the fields
+    // Force validate all the fieldsdsfsdfsdfsdf
     if (forceTouchErrors) {
       nextErrors = touchErrors(errors);
     }
