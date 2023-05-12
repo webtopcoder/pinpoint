@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import logo from "@/public/images/logo.png";
 import useNotify from "@/hooks/useNotify";
+import useMedia from "@/hooks/useMedia";
 
 const FooterNine = () => {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -27,11 +29,11 @@ const FooterNine = () => {
       <div className="container plr-100">
         <div className="row">
           <div className="col-lg-2 col-md-6 col-sm-5"></div>
-          <div className="col-lg-8 col-md-6 col-sm-5">
+          <div className="col-lg-8 col-md-6 ">
             <div className="single-footer-widget">
               <Link href="/">
                 <a className="logo">
-                  <Image src={logo} width={500} height={150} alt="logo" />
+                  <Image src={logo} width={isWebDevice ? 500 : 300} height={isWebDevice ? 150 : 80} alt="logo" />
                 </a>
               </Link>
             </div>
@@ -58,10 +60,9 @@ const FooterNine = () => {
               </div>
             </div>
           </div> */}
-          <div className="col-lg-6 col-md-6 col-sm-5">
+          <div className="col-lg-6 col-md-6 col-sm-7">
             <div className="single-footer-widget">
               <p>Stay social with us...</p>
-
               <ul className="social-links">
                 <li>
                   <a
@@ -102,7 +103,7 @@ const FooterNine = () => {
               </ul>
             </div>
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-8">
+          <div className="col-lg-6 col-md-6 col-sm-5">
             <div className="single-footer-widget">
               <button
                 onClick={() => handlePageRender("/user/map/interactive-map")}

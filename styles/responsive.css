@@ -3618,11 +3618,16 @@
   }
 
   .view-map-button {
-    margin-top: 10px;
+    margin-top: 36px;
+  }
+
+  .template-footer-nine .single-footer-widget .logo {
+    margin-bottom: 0px;
   }
 
   .template-footer-nine .single-footer-widget {
     margin-bottom: 0px;
+    margin-top: 16px;
   }
 
   .avatar-panel {
@@ -3697,10 +3702,6 @@
     margin-left: 0;
   }
 
-  .single-footer-widget p {
-    margin-top: 20px;
-  }
-
   .section-landing-title .sub-landing-title {
     border-top: none !important;
     border-bottom: none !important;
@@ -3759,6 +3760,14 @@
 
   .col-sm-6 {
     width: 50%;
+  }
+
+  .col-sm-7 {
+    width: 58%;
+  }
+
+  .col-sm-5 {
+    width: 42%;
   }
 
   .col-sm-9 {
@@ -3934,8 +3943,13 @@
   .ant-modal-content {
     max-height: 650px;
   }
-  .ant-divider-horizontal{
+
+  .ant-divider-horizontal {
     margin: 11px 0px;
+  }
+
+  .single-footer-widget .btn-style-one {
+    font-size: 13px;
   }
 }
 

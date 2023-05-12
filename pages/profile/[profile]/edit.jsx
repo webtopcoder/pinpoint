@@ -5,18 +5,20 @@ import LeftSidebar from "@/components/Layout/Partner/Sidebar";
 import Edit from "@/components/Partner/Profile/Edit";
 import { Layout } from "antd";
 import { connect } from "react-redux";
+import useMedia from "@/hooks/useMedia";
 
 const PartnerEdit = ({ role }) => {
+  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
       <PageTitle page="Profile Edit" />
       <div className="page-partner-area">
         <Layout
           style={{
-            minHeight: "130vh",
+            minHeight: isWebDevice ? "130vh" : 'auto',
           }}
         >
-          {role === "partner" && <LeftSidebar />}
+          {role === "partner" && isWebDevice ? <LeftSidebar /> : ""}
           <Edit />
         </Layout>
       </div>
