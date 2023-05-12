@@ -4,8 +4,10 @@ import BasicLayout from "../../../layout";
 import LeftSidebar from "@/components/Layout/Partner/Sidebar";
 import Mail from "@/components/Partner/Message";
 import { Layout } from "antd";
+import useMedia from "@/hooks/useMedia";
 
 const PartnerMail = () => {
+  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
       <PageTitle page="Message" />
@@ -15,7 +17,7 @@ const PartnerMail = () => {
             minHeight: "130vh",
           }}
         >
-          <LeftSidebar />
+          {isWebDevice ? <LeftSidebar /> : ""}
           <Mail />
         </Layout>
       </div>

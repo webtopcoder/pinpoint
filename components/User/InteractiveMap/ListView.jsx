@@ -2,7 +2,6 @@ import {
     Col,
     Row,
     Modal,
-    Typography,
     Table,
     Tag,
     Button,

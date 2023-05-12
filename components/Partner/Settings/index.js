@@ -58,9 +58,7 @@ const Setting = ({
       }}
     >
       <Content
-        style={{
-          margin: "100px 100px",
-        }}
+        className="partner-layout"
       >
         <div className="site-card-wrapper">
           {settings ? (

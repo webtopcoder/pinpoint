@@ -3874,17 +3874,68 @@
     margin: 30px 30px;
   }
 
-  .mailbox-banner-area-css .mail-container .mailbox-container {
-    padding: 10px 20px !important;
+  .mailbox-banner-area-css .mail-container .mailbox-container,
+  .mail-container .mailbox-container {
+    padding: 35px 10px !important;
   }
 
   .vst-profile {
     color: #eb3535;
   }
 
-  .pin-post-label {
+  /* .pin-post-label {
     flex: 0 0 100%;
     max-width: 100%;
+  } */
+
+  .user-message-menu {
+    height: auto;
+    padding: 4px;
+    margin-bottom: 10px;
+  }
+
+  .user-message-menu .ant-menu-overflow-item.ant-menu-item {
+    padding-inline: 27px !important;
+  }
+
+  .mail-content .ant-form .ant-form-item {
+    margin-bottom: 12px;
+  }
+
+  .mailbox-banner-area-css {
+    padding-top: 100px !important;
+  }
+
+  .page-partner-area {
+    padding-top: 90px
+  }
+
+  .partner-layout {
+    margin: 45px 20px;
+  }
+
+  .custom-subcontent {
+    padding: 15px;
+  }
+
+  .custom-subcontent .ant-list .ant-list-item {
+    padding: 12px 0px;
+  }
+
+  .ant-picker-panels {
+    flex-direction: column;
+  }
+
+  .ant-picker-panel-container {
+    width: 330px;
+    overflow: auto !important;
+  }
+
+  .ant-modal-content {
+    max-height: 650px;
+  }
+  .ant-divider-horizontal{
+    margin: 11px 0px;
   }
 }
 

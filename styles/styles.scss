@@ -74,8 +74,8 @@
     padding-right: 30px;
 
     @media only screen and (max-width: 900px) {
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 5px;
+      padding-right: 5px;
     }
 
     .mailbox-container {
@@ -116,7 +116,7 @@
           border-radius: 10px;
           background-color: #f7f7f7;
           padding: 20px;
-          border-left: 5px solid yellow;
+          border-left: 5px solid #1677ff;
           width: 100%;
           margin-bottom: 30px;
         }
@@ -272,3 +272,4 @@ $focus-color: #ff0;
     transform: scale(0.75);
   }
 }
+

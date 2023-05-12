@@ -165,8 +165,9 @@ export function getsubCategory(categoryID, cb) {
 
 export function getmyFollowers() {
 
+  const user_id = localStorage.getItem('user_id')
   return (dispatch) =>
-    api(`follow/follower`, "get").then((res) => {
+    api(`follow/${user_id}/follower`, "get").then((res) => {
       dispatch({
         type: GET_MYFOLLOWER_SUCCESS,
         payload: res,

@@ -1,8 +1,10 @@
 import useNotify from "@/hooks/useNotify";
 import { Button, Space, Tooltip, Tag } from "antd";
+import useMedia from "@/hooks/useMedia";
 
 function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
   const resendPending = (mailId) => {
     onResendInvite(mailId, (res, error) => {
       if (error) {
@@ -64,6 +66,7 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
           </div>
         </div>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
     {
       title: "Invite Message",
@@ -80,6 +83,7 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
           </p>
         </div>
       ),
+      responsive: isWebDevice ? false : ["sm"]
     },
     {
       title: "Actions",
@@ -103,6 +107,7 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
           </Button>
         </Space>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
   ];
 

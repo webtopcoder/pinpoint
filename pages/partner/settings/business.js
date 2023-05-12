@@ -4,19 +4,21 @@ import BasicLayout from "../../../layout";
 import LeftSidebar from "@/components/Layout/Partner/Sidebar";
 import { Layout } from "antd";
 import Business from "@/components/Partner/Settings/business";
+import useMedia from "@/hooks/useMedia";
 
 const SettingBusiness = () => {
+  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
       <PageTitle page="Settings | Modifiy Business Details" />
       <div className="page-partner-area">
         <Layout
           style={{
-            minHeight: "130vh",
+            minHeight: isWebDevice ? "130vh" : '50vh',
             backgroundColor: "#272753",
           }}
         >
-          <LeftSidebar />
+          {isWebDevice ? <LeftSidebar /> : ""}
           <Business />
         </Layout>
       </div>

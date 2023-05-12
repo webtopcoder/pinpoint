@@ -3,9 +3,6 @@ import styles from "./settings.module.css";
 import useNotify from "@/hooks/useNotify";
 import { useRegisterFormValidator } from "../../Authentication/Partner/hooks/use-partner-register-validator";
 import { Col, Row, Layout, Button } from "antd";
-import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
 import {
   DoubleLeftOutlined,
 } from "@ant-design/icons";
@@ -165,9 +162,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
       }}
     >
       <Content
-        style={{
-          margin: "100px 100px",
-        }}
+        className="partner-layout"
       >
         <div className="site-card-wrapper">
           <Row className="mb-5">
@@ -187,7 +182,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
               <form onSubmit={onUpdateInfoForm}>
                 <div className="row">
                   <div className="auth-space"></div>
-                  <div className="col-lg-12 col-md-12">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="form-group">
                       <label className="authen-text-attr">
                         Business Legal Name *
@@ -208,7 +203,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-6 col-md-6 col-sm-12" >
                     <div className="form-group">
                       <label className="authen-text-attr">
                         Owner First Name *
@@ -228,7 +223,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-6 col-md-6 col-sm-12">
                     <div className="form-group">
                       <label className="authen-text-attr">
                         Owner Last Name *
@@ -248,7 +243,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-lg-12 col-md-12">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="form-group">
                       <label className="authen-text-attr">
                         Business Physcial Address(Corporate) *
@@ -270,7 +265,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-6 col-md-6 col-sm-12">
                     <div className="form-group">
                       <label className="authen-text-attr">State *</label>
                       <input
@@ -282,7 +277,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-6 col-md-6 col-sm-12">
                     <div className="form-group">
                       <label className="authen-text-attr">City *</label>
                       <input
@@ -294,7 +289,7 @@ const Business = ({ userinfo, onBusinessUpdate }) => {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-12 col-md-12">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="form-group">
                       <label className="authen-text-attr">Email *</label>
                       <input

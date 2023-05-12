@@ -15,16 +15,15 @@ import MailSendInvite from "@/components/Partner/Message/Invite/sent";
 import MailPendingInvite from "@/components/Partner/Message/Invite/pending";
 import MailNotices from "@/components/Partner/Message/Notice";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 const { Content } = Layout;
 
 const Mail = () => {
+  const isWebDevice = useMedia('(min-width:700px)');
   const router = useRouter();
   const { user } = router.query;
-
-  let emailID = "";
   useEffect(() => {
     user && setTab("compose");
-
   }, [user]);
 
   const childFunc = useRef(null);
@@ -143,11 +142,7 @@ const Mail = () => {
         background: "#211f1f",
       }}
     >
-      <Content
-        style={{
-          margin: "60px 16px",
-        }}
-      >
+      <Content className="partner-layout">
         <div className="mailbox-banner-area-partner">
           <div className="mail-container">
             <div className="mailbox-container">
@@ -166,7 +161,7 @@ const Mail = () => {
                 gutter={[16, 10]}
                 justify="space-around"
                 style={{
-                  marginTop: 50,
+                  marginTop: isWebDevice ? 50 : 20,
                 }}
               >
                 <Col span={24}>

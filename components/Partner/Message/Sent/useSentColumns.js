@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Space, Tooltip, Button, Tag } from "antd";
-import { DeleteFilled } from "@ant-design/icons";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { DeleteFilled, ReadOutlined } from "@ant-design/icons";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { formatDate } from "@/utils/date";
+import useMedia from "@/hooks/useMedia";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSaveReply, ongetReply }) {
   const [record_detail, setSaveSentDetail] = useState();
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const selectedSentinfo = (recordInfo) => {
     ongetReply(recordInfo._id, (res, error) => {
@@ -86,6 +88,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
           </div>
         </div>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
     {
       title: "Subject",
@@ -105,6 +108,8 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
           </p>
         </div>
       ),
+      responsive: isWebDevice ? false : ["sm"]
+
     },
     {
       title: "Actions",
@@ -112,6 +117,10 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
       align: "center",
       render: (_, record) => (
         <Space size="middle">
+          {isWebDevice ? false :
+            <a onClick={() => selectedSentinfo(record)} className="view-read"><ReadOutlined className="eye-style" />
+            </a>
+          }
           <Tooltip title="Are you sure?" color={"blue"}>
             <a onClick={() => deleteMail(record._id)} className="mail-delete">
               <DeleteFilled className="delete-style" />
@@ -119,6 +128,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
           </Tooltip>
         </Space>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
   ];
 

@@ -20,7 +20,7 @@ import {
   logout,
 } from "@/src/redux/User/actions";
 import { getIsReadEmails } from "@/src/redux/Mail/actions";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import  { apiBaseUrl } from "@/utils/baseUrl";
 import NotificationDrawer from "@/components/Profile/NotificationDrawer";
 
 const { Sider } = Layout;

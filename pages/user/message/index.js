@@ -126,8 +126,8 @@ const Index = () => {
         <div className="mail-container">
           <div className="mailbox-container">
             <Row justify="space-around" vgutter={8}>
-              <Col span={6}></Col>
-              <Col span={17}>
+              <Col span={isWebDevice ? 6 : 0}></Col>
+              <Col span={isWebDevice ? 17 : 24}>
                 {tab === "inbox" || tab === "sent" ? (
                   <>
                     <Select
@@ -194,7 +194,6 @@ const Index = () => {
                   onClick={onClickTab}
                 />
               </Col>
-
               <Col xs={24} sm={24} md={17} lg={17} xl={17}>
                 <div className="mail-content">
                   {tab === "inbox" && (

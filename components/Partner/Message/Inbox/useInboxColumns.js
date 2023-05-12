@@ -1,15 +1,17 @@
 import useNotify from "@/hooks/useNotify";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import {
   DeleteFilled,
   EyeInvisibleOutlined,
   EyeOutlined,
+  ReadOutlined
 } from "@ant-design/icons";
 import { Space, Tooltip, Tag, Button, Badge } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
@@ -17,6 +19,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
   const [record_detail, setSaveInboxDetail] = useState();
   const { notify } = useNotify();
   const router = useRouter();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const selectedInboxinfo = (recordInfo) => {
     ongetReply(recordInfo._id, (res, error) => {
@@ -120,6 +123,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </div>
         </div >
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
     {
       title: "Subject",
@@ -140,13 +144,18 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </p>
         </div>
       ),
+      responsive: isWebDevice ? false : ["sm"]
     },
     {
       title: "Actions",
       key: "action",
       align: "center",
       render: (_, record) => (
-        <Space size="middle">
+        <Space size={isWebDevice ? "middle" : "small"}>
+          {isWebDevice ? false :
+            <a onClick={() => selectedInboxinfo(record)} className="view-read"><ReadOutlined className="eye-style" />
+            </a>
+          }
           {!record.is_read ? (
             <Tooltip title="Mark as Read" color={"blue"}>
               <a
@@ -173,6 +182,8 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </Tooltip>
         </Space>
       ),
+      fixed: "right",
+      responsive: isWebDevice ? false : ["xs"]
     },
   ];
   return {

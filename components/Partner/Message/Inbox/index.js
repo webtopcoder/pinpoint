@@ -299,7 +299,6 @@ const Inbox = ({
             </div>
           </div>
         )}
-
         <Button
           style={{
             fontSize: 12,

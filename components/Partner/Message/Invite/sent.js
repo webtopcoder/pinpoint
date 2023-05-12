@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { Row, Col, Card, Form, Input, Button } from "antd";
 import { sentInvite } from "@/redux/Mail/actions";
 import useNotify from "@/hooks/useNotify";
+import useMedia from "@/hooks/useMedia";
 
 const SentInvite = ({ onsentInvite }) => {
   const { notify } = useNotify();
-
+  const isWebDevice = useMedia('(min-width:700px)');
   const [composeForm] = Form.useForm();
   const onFinish = (values) => {
     onsentInvite(values, (res, error) => {
@@ -64,7 +65,20 @@ const SentInvite = ({ onsentInvite }) => {
               <Input.TextArea rows={4} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="btn-submit"
+                style={{
+                  display: "table",
+                  justifyContent: "space-between",
+                  margin: "10px auto 0",
+                  padding: "10px 40px",
+                  height: "100%",
+                  width: isWebDevice ? "auto" : "100%",
+                  float: isWebDevice ? "right" : "left"
+                }}
+              >
                 Submit
               </Button>
             </Form.Item>

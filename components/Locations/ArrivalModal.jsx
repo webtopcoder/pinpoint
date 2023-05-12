@@ -69,7 +69,7 @@ function ArrivalModal({
       centered
       open={openArrival}
       width={700}
-      closable={false}
+      closable={true}
       onOk={() => {
         arrivalForm.submit();
       }}

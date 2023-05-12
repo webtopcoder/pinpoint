@@ -15,7 +15,6 @@ import LIcon from "@/public/images/landing/l.png";
 import logo from "@/public/images/logo.png";
 import { connect } from "react-redux";
 import rightToggle from "@/public/images/landing/right-toggle.png";
-import config from "@/utils/config";
 import useNotify from "@/hooks/useNotify";
 import { getNotifications, logout } from "@/src/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
@@ -157,20 +156,6 @@ const Header = ({
                     />
                   </a>
                 </div>
-                <button
-                  onClick={toggleNavbar}
-                  className={classTwo}
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span className="icon-bar top-bar"></span>
-                  <span className="icon-bar middle-bar"></span>
-                  <span className="icon-bar bottom-bar"></span>
-                </button>
               </div>
             ) : (
               ""
@@ -186,7 +171,6 @@ const Header = ({
                   <Image src={mobilelogo} alt="site logo" />
                 </a>
               </Link>
-
               <div
                 className={classOne}
                 style={{
@@ -337,79 +321,136 @@ const Header = ({
                       </>
                     )}
                   </li>
-                  <li className="nav-item">
-                    <a
-                      className="dropdown-toggle nav-link"
-                      onClick={() => handleOriginPageRender("/home")}
-                    >
-                      Home
-                    </a>
-                  </li>
+                  {token && role == "partner" ? <>
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() => handleOriginPageRender("/partner/dashboard")}
+                      >
+                        Dashboard
+                      </a>
+                    </li>
 
-                  <li className="nav-item megamenu">
-                    <a
-                      className="dropdown-toggle nav-link"
-                      onClick={() =>
-                        handlePageRender("/user/map/interactive-map")
-                      }
-                    >
-                      Interactive Map
-                    </a>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link href="#" activeClassName="active">
+                    <li className="nav-item megamenu">
                       <a
                         className="dropdown-toggle nav-link"
                         onClick={() =>
-                          handleOriginPageRender("/home/#pinpoint_location")
+                          handlePageRender("/partner/message")
                         }
+                      >
+                        Message
+                      </a>
+                    </li>
+
+                    <li className="nav-item">
+                      <Link href="#" activeClassName="active">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() =>
+                            handleOriginPageRender(`/profile/${user_id}/followers`)
+                          }
+                        >
+                          Followers
+                        </a>
+                      </Link>
+                    </li>
+
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() =>
+                          handleOriginPageRender("/partner/settings")
+                        }
+                      >
+                        Settings
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() => handleOriginPageRender(`/partner/locations`)}
                       >
                         Locations
                       </a>
-                    </Link>
-                  </li>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() => handleOriginPageRender(`/partner/partnership`)}
+                      >
+                        Partnership
+                      </a>
+                    </li>
+                  </> : <>
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() => handleOriginPageRender("/home")}
+                      >
+                        Home
+                      </a>
+                    </li>
 
-                  <li className="nav-item">
-                    <a
-                      className="dropdown-toggle nav-link"
-                      onClick={() =>
-                        handleOriginPageRender("/home/#pinpoint_contactus")
-                      }
-                    >
-                      Contact Us
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="dropdown-toggle nav-link"
-                      onClick={() => handleOriginPageRender("/faq")}
-                    >
-                      FAQ
-                    </a>
-                  </li>
+                    <li className="nav-item megamenu">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() =>
+                          handlePageRender("/user/map/interactive-map")
+                        }
+                      >
+                        Interactive Map
+                      </a>
+                    </li>
+
+                    <li className="nav-item">
+                      <Link href="#" activeClassName="active">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() =>
+                            handleOriginPageRender("/home/#pinpoint_location")
+                          }
+                        >
+                          Locations
+                        </a>
+                      </Link>
+                    </li>
+
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() =>
+                          handleOriginPageRender("/home/#pinpoint_contactus")
+                        }
+                      >
+                        Contact Us
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="dropdown-toggle nav-link"
+                        onClick={() => handleOriginPageRender("/faq")}
+                      >
+                        FAQ
+                      </a>
+                    </li></>}
                 </ul>
               </div>
             </div>
             <div className="others-option">
-              {role !== "partner" ? (
-                <button
-                  onClick={toggleNavbar}
-                  className={classTwo}
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span className="icon-bar top-bar"></span>
-                  <span className="icon-bar middle-bar"></span>
-                  <span className="icon-bar bottom-bar"></span>
-                </button>
-              ) : (
-                ""
-              )}
+              <button
+                onClick={toggleNavbar}
+                className={classTwo}
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="icon-bar top-bar"></span>
+                <span className="icon-bar middle-bar"></span>
+                <span className="icon-bar bottom-bar"></span>
+              </button>
             </div>
           </nav>
         </div>

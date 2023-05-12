@@ -25,6 +25,7 @@ import {
 import Image from "next/image";
 import { getsubCategory } from "@/src/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import useMedia from "@/hooks/useMedia";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -61,6 +62,7 @@ function ModifyModal({
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const [addressForm, setaddressForm] = useState({
     address: locationInfo?.mapLocation?.address,
@@ -150,7 +152,7 @@ function ModifyModal({
       centered
       open={modalOpen}
       width={700}
-      closable={false}
+      closable={true}
       onOk={() => setModalOpen(false)}
       onCancel={() => setModalOpen(false)}
       footer={null}
@@ -158,8 +160,8 @@ function ModifyModal({
       <Row>
         <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
         <Col
-          xs={20}
-          sm={20}
+          xs={24}
+          sm={24}
           md={8}
           lg={22}
           xl={22}
@@ -183,8 +185,8 @@ function ModifyModal({
           </Paragraph>
         </Col>
         <Col
-          xs={4}
-          sm={4}
+          xs={0}
+          sm={0}
           md={8}
           lg={2}
           xl={2}
@@ -324,7 +326,7 @@ function ModifyModal({
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item name="images">
               <Row>
-                <Col span={8}>
+                <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                   <Upload
                     method="get"
                     listType="picture"
@@ -354,9 +356,10 @@ function ModifyModal({
                   </Upload>
                 </Col>
                 <Col
-                  span={16}
+                  xs={24} sm={24} md={16} lg={16} xl={16}
                   style={{
-                    textAlign: "right",
+                    textAlign: isWebDevice ? "right" : 'center',
+                    marginTop: isWebDevice ? 0 : 10
                   }}
                 >
                   <Space>
