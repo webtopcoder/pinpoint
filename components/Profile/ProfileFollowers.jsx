@@ -162,7 +162,7 @@ const ProfileFollowers = ({
                             size={isWebDevice ? "default" : "small"}
                             key="button-view-profile"
                           >
-                            {isWebDevice ? "View Profile" : "View"}
+                            {isWebDevice ? "View Profile" : "Profile"}
                           </Button>) : '',
                           userRole ? (
                             user_id !== profile ? (
@@ -259,7 +259,7 @@ const ProfileFollowers = ({
                                   size={isWebDevice ? "default" : "small"}
                                   key="button-unfriend"
                                 >
-                                  {isWebDevice ? "UnFriend" : "Cancel"}
+                                  Unfriend
                                 </Button>
                               </Space>
                             )

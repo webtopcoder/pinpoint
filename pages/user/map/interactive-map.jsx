@@ -69,6 +69,7 @@ const InteractiveMap = () => {
   const [subcategoryList, setSubcategoryList] = useState([]);
   const [activeLocations, setActiveLocations] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
+  const [mapzoom, setZoom] = useState(10);
   const [radiusLocations, setRadiusLocations] = useState([]);
   const faviconUrl = `${apiBaseUrl}/avatar/`;
   const formatter = (value) => `${value}mile`;
@@ -242,7 +243,7 @@ const InteractiveMap = () => {
   function success(pos) {
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
-      zoom: 5,
+      zoom: mapzoom,
       fullscreenControl: false,
       streetViewControl: false,
       mapTypeControlOptions: {
@@ -322,7 +323,7 @@ const InteractiveMap = () => {
 
     map.addListener("dblclick", (e) => {
       // setMapOnAll(null);
-      map.setZoom(11);
+      map.setZoom(mapzoom);
       // map.setCenter(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2)))
       map.setCenter(
         new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng)
@@ -332,6 +333,11 @@ const InteractiveMap = () => {
       cityCircle.setCenter(
         new google.maps.LatLng(e.latLng.toJSON().lat, e.latLng.toJSON().lng)
       );
+    });
+
+    google.maps.event.addDomListener(map, 'zoom_changed', function() {
+      var zoom = map.getZoom();
+      setZoom(zoom);
     });
   }
   const fullScreen = () => {
@@ -496,7 +502,7 @@ const InteractiveMap = () => {
             </div>
             <div className="shout-end-group">
               <div className="container">
-                <Space  direction="horizontal" wrap>
+                <Space direction="horizontal" wrap>
                   <Tooltip title="Full Screen">
                     <Button
                       type="primary"
