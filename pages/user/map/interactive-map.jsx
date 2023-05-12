@@ -170,7 +170,7 @@ const InteractiveMap = () => {
               url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
-              anchor: new google.maps.Point(0, 0), // anchor
+              anchor: new google.maps.Point(0, 60), // anchor
             },
 
             map: map,
@@ -295,7 +295,7 @@ const InteractiveMap = () => {
             url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
+            anchor: new google.maps.Point(0, 60), // anchor
           },
           map: map,
         });

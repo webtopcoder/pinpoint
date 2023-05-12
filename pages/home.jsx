@@ -68,7 +68,7 @@ const UserHome = () => {
     let map;
     map = new google.maps.Map(document.getElementById("maps"), {
       center: { lat: 37.553326, lng: -94.8110983 },
-      zoom: 4,
+      zoom: 2,
       gestureHandling: "greedy"
     });
 
@@ -80,7 +80,7 @@ const UserHome = () => {
           url: faviconUrl,
           scaledSize: new google.maps.Size(30, 50), // scaled size
           origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(0, 0), // anchor
+          anchor: new google.maps.Point(0, 60), // anchor
         },
         map: map,
       });
