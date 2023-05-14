@@ -10,6 +10,7 @@ import useSentColumns from "./useSentColumns";
 import { getDiffToNow } from "@/utils/date";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
 
@@ -48,6 +49,7 @@ const Sent = ({
   const [loading, setLoading] = useState(false);
   const [reply_detail, setSaveReply] = useState();
   const router = useRouter();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const { columns, record_detail } = useSentColumns({
     setOpen,
@@ -256,7 +258,7 @@ const Sent = ({
                 </div>
                 <div className="message-star-actions">
                   {record_detail.files.length !== 0 ? (
-                    <Dropdown.Button
+                    isWebDevice ? <Dropdown.Button
                       menu={{
                         items: record_detail.files.map((item) => ({
                           key: item.filepath,
@@ -266,8 +268,23 @@ const Sent = ({
                       }}
                       icon={<DownloadOutlined />}
                     >
-                      Attached Files
-                    </Dropdown.Button>
+                      Attached files
+                    </Dropdown.Button> :
+                      <Dropdown
+                        menu={{
+                          items: record_detail.files.map((item) => ({
+                            key: item.filepath,
+                            label: item.filepath,
+                          })),
+                          onClick: onMenuClick,
+                        }}
+                        placement="bottomLeft"
+                        arrow={{
+                          pointAtCenter: true,
+                        }}
+                      >
+                        <Button><DownloadOutlined /></Button>
+                      </Dropdown>
                   ) : (
                     ""
                   )}

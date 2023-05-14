@@ -273,10 +273,10 @@ const Inbox = ({
                   </div>
                 </div>
                 <div className="message-star-actions">
-                  {record_detail?.files?.length !== 0 ? (
-                    <Dropdown.Button
+                  {record_detail.files.length !== 0 ? (
+                    isWebDevice ? <Dropdown.Button
                       menu={{
-                        items: record_detail?.files?.map((item) => ({
+                        items: record_detail.files.map((item) => ({
                           key: item.filepath,
                           label: item.filepath,
                         })),
@@ -284,8 +284,23 @@ const Inbox = ({
                       }}
                       icon={<DownloadOutlined />}
                     >
-                      Attached Files
-                    </Dropdown.Button>
+                      Attached files
+                    </Dropdown.Button> :
+                      <Dropdown
+                        menu={{
+                          items: record_detail.files.map((item) => ({
+                            key: item.filepath,
+                            label: item.filepath,
+                          })),
+                          onClick: onMenuClick,
+                        }}
+                        placement="bottomLeft"
+                        arrow={{
+                          pointAtCenter: true,
+                        }}
+                      >
+                        <Button><DownloadOutlined /></Button>
+                      </Dropdown>
                   ) : (
                     ""
                   )}
