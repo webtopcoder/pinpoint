@@ -2,19 +2,40 @@ import useNotify from "@/hooks/useNotify";
 import { getFaqs } from "@/src/redux/User/actions";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-
 import { LoadingOutlined } from "@ant-design/icons";
-
 import Accordion from "./Accordion";
 import { Spin } from "antd";
+import { faqService } from "@/services/index";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
 const FaqOne = ({ fetchFaqs, faqs }) => {
   const [loading, setLoading] = React.useState(false);
   const { notify } = useNotify();
+
+
+  async function handleResendEmail() {
+    const data = {
+      email: form.userInfo,
+    };
+
+    await authService.getFaqs()
+      .then(() => {
+        notify("success", "Email sent successfully");
+        router.push(`/email-verification?email=${form.userInfo}`);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
   useEffect(() => {
     setLoading(true);
+    getFaqs();
     fetchFaqs((_, err) => {
       setLoading(false);
       if (err) {

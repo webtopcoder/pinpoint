@@ -17,7 +17,9 @@ import { connect } from "react-redux";
 import rightToggle from "@/public/images/landing/right-toggle.png";
 import useNotify from "@/hooks/useNotify";
 import { getNotifications, logout } from "@/src/redux/User/actions";
+import { getIsReadEmails } from "@/src/redux/Mail/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import NotificationDrawer from "@/components/Profile/NotificationDrawer";
 
 const Header = ({
   toggle,
@@ -29,6 +31,9 @@ const Header = ({
   notifications,
   notificationCount,
   role,
+  onGetIsReadEmails,
+  isReadEmails,
+  newNotification
 }) => {
 
   const router = useRouter();
@@ -81,6 +86,7 @@ const Header = ({
 
   useEffect(() => {
     setMenu(true);
+    onGetIsReadEmails();
   }, [router.pathname]);
 
   const onLoadMore = () => {
@@ -190,7 +196,8 @@ const Header = ({
                           <div style={{ marginBottom: 20 }}>
                             <Link href="/user/message">
                               <a>
-                                <Badge dot={true} className="mailboxLIcon">
+                                <Badge dot={isReadEmails.length > 0 ? true : false}
+                                  className="mailboxLIcon">
                                   <Image
                                     src={mailIcon}
                                     alt="mail"
@@ -205,8 +212,9 @@ const Header = ({
                         {token && (
                           <div>
                             <Badge
-                              dot={true}
-                              className="mailboxIcon"
+                              dot={
+                                newNotification || notifications.length > 0 ? true : false
+                              } className="mailboxIcon"
                               onClick={showDrawer}
                             >
                               <Image
@@ -458,62 +466,11 @@ const Header = ({
             </div>
           </nav>
         </div>
-        <Drawer
-          title="Notifications"
-          placement="right"
-          closable={true}
+        <NotificationDrawer
           onClose={onClose}
           open={notificationDrawerOpen}
-          bodyStyle={{
-            color: "white",
-            background: "#2f2f2f",
-          }}
-          headerStyle={{
-            color: "white",
-          }}
-        >
-          <List
-            loadMore={loadMore}
-            loading={initLoading}
-            size="small"
-            dataSource={notifications}
-            pagination={{
-              onChange: (page) => {
-                setNotificationPage(page);
-              },
-              pageSize: 10,
-            }}
-            renderItem={(item) => (
-              <List.Item
-                style={{
-                  color: "white",
-                  borderBlockEnd: "1px solid white",
-                }}
-              >
-                <List.Item.Meta
-                  title={
-                    <span
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      <Link href={item.url ?? ""}>{item.title}</Link>
-                    </span>
-                  }
-                  description={
-                    <span
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      {item.description}
-                    </span>
-                  }
-                />
-              </List.Item>
-            )}
-          />
-        </Drawer>
+          placement="right"
+        />
       </div>
     </div>
   );
@@ -527,12 +484,15 @@ const mapStateToProps = (state) => {
     role: state.user.role,
     avatarImg: state.user.avatar,
     notifications: state.user.notifications,
+    newNotification: state.socket.newNotification,
     notificationCount: state.user.notificationCount,
+    isReadEmails: state?.mail?.isreadlist,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
   onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
+  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

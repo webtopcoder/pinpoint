@@ -111,7 +111,9 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                     router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}/activity`)
                   }
                 >
-                  @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
+                  @{user_id === record?.from?._id ?
+                    (record?.to?.username?.length > 12 ? isWebDevice ? record?.to?.username : record?.to?.username?.substring(0, 12) + "..." : record?.to?.username) :
+                    (record?.from?.username?.length > 12 ? isWebDevice ? record?.from?.username : record?.from?.username?.substring(0, 12) + "..." : record?.from?.username)}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>&nbsp;&nbsp;
               </Tooltip> : <span>Administrator</span>}

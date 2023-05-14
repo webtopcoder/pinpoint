@@ -28,7 +28,7 @@ const Index = () => {
   const childFunc = useRef(null);
   const items = [
     {
-      label: "INBOX",
+      label: isWebDevice ? "INBOX" : '',
       key: "inbox",
       icon: (
         <Avatar
@@ -43,7 +43,7 @@ const Index = () => {
       ),
     },
     {
-      label: "SENT",
+      label: isWebDevice ? "SENT" : '',
       key: "sent",
       icon: (
         <Avatar
@@ -58,7 +58,7 @@ const Index = () => {
       ),
     },
     {
-      label: "COMPOSE",
+      label: isWebDevice ? "COMPOSE" : '',
       key: "compose",
       icon: (
         <Avatar
@@ -73,7 +73,7 @@ const Index = () => {
       ),
     },
     {
-      label: "SEND INVITES",
+      label: isWebDevice ? "SEND INVITES" : '',
       key: "send_invites",
       icon: (
         <Avatar
@@ -88,7 +88,7 @@ const Index = () => {
       ),
     },
     {
-      label: "PENDING_INVITES",
+      label: isWebDevice ? "PENDING INVITES" : '',
       key: "pending_invites",
       icon: (
         <Avatar

@@ -76,7 +76,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
                 <a
                   onClick={() => router.push(`/profile/${record?.to?._id}/activity`)}
                 >
-                  @{record?.to?.username}
+                  @{isWebDevice ? record.to?.username : record.to?.username.length > 12 ? record?.to?.username?.substring(0, 12) + "..." : record.to_invite_email}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>
               </Tooltip>

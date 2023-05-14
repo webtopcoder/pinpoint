@@ -101,7 +101,7 @@ function NotificationDrawer({
     <Drawer
       title="Notifications"
       placement={placement}
-      closable={false}
+      closable={true}
       onClose={onClose}
       open={open}
       bodyStyle={{

@@ -3751,7 +3751,7 @@
 
   .mtl-45 {
     margin-left: 0;
-    padding: 0px 30px;
+    padding: 0px 14px;
   }
 
   .col-sm-3 {
@@ -3904,7 +3904,7 @@
   }
 
   .user-message-menu .ant-menu-overflow-item.ant-menu-item {
-    padding-inline: 27px !important;
+    padding-inline: 13px !important;
   }
 
   .mail-content .ant-form .ant-form-item {
@@ -3954,6 +3954,15 @@
 
   .btn-style-one {
     padding: 11px 40px 11px 18px;
+  }
+
+  .view-read,
+  .mark-read,
+  .mail-delete {
+    padding: 5px 2px 11px 2px
+  }
+  .ant-drawer-content-wrapper{
+    width: 360px;
   }
 }
 
