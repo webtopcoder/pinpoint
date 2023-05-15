@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { UploadOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
+import { UploadOutlined, LikeOutlined, PlusOutlined, DownloadOutlined } from "@ant-design/icons";
 import {
-  Image as Antimage, Divider, Button, Upload, message, Form, Row, Col, Avatar, Typography, List, Space, Skeleton, Mentions, Progress,
+  Image as Antimage, Divider, Button, Upload, message, Form, Row, Col, Avatar, Dropdown, Typography, List, Space, Skeleton, Mentions, Progress,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
@@ -12,8 +12,12 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
 import useMedia from "@/hooks/useMedia";
-
+import {
+  downloadFile,
+} from "@/redux/Mail/actions";
 const { Text } = Typography;
+
+const attachurl = `${apiBaseUrl}/avatar/`;
 
 const IconText = ({ postID, text, likePost }) => {
   const [like, setLike] = useState(text);
@@ -44,6 +48,7 @@ const IconText = ({ postID, text, likePost }) => {
 const ProfileActivity = ({
   onvotePoll,
   profileRole,
+  ondownloadFile
 }) => {
 
   const isWebDevice = useMedia('(min-width:700px)');
@@ -71,6 +76,11 @@ const ProfileActivity = ({
   const [list, setList] = useState([]);
   const router = useRouter();
   const profile = router.query?.profile;
+
+  const onMenuClick = (e) => {
+    ondownloadFile(e.key);
+    window.open(attachurl + e.key, "_blank");
+  };
 
   async function likePost(id, callback) {
     await profileService.recommendPost(id)
@@ -242,6 +252,19 @@ const ProfileActivity = ({
       });
   }
 
+  const beforeUpload = (file) => {
+
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'application/pdf';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG/PDF file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 10;
+    if (!isLt2M) {
+      message.error('Attached File must smaller than 10MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
   const props = {
     name: "upload",
     onChange(info) {
@@ -319,19 +342,25 @@ const ProfileActivity = ({
                             options={followAndFollowingList}
                           />
                         </Form.Item>
-                        <Form.Item name="fileupload">
+                        <Form.Item name="fileupload"
+                          help={`File must smaller than 10MB! Only accept ${process.env.NEXT_PUBLIC_IMAGE_ACCPET}.`}>
                           <Row>
-                            <Col span={8}>
+                            <Col span={8} style={{
+                              margin: 'auto'
+                            }}>
                               <Upload
                                 listType="picture"
                                 method="get"
+                                beforeUpload={beforeUpload}
                                 {...props}
+                                multiple
+
                               >
                                 <Button
                                   icon={<UploadOutlined />}
                                   style={{ marginRight: 10 }}
                                 >
-                                  Upload a Photo
+                                  Upload Files
                                 </Button>
                               </Upload>
                             </Col>
@@ -461,7 +490,7 @@ const ProfileActivity = ({
                                     >
                                       <Antimage.PreviewGroup>
                                         {item.image.map((item, index) => (
-                                          item.status === "active" ?
+                                          item.status === "active" && item.mimetype === "image/jpeg" || item.mimetype === "image/png" || item.mimetype === "image/jpg" ?
                                             <Antimage
                                               key={index}
                                               loader={myLoader}
@@ -470,6 +499,19 @@ const ProfileActivity = ({
                                             /> : ''
                                         ))}
                                       </Antimage.PreviewGroup>
+                                      {item.image.filter((image) => image.mimetype === "application/pdf").length > 0 ?
+                                        <Dropdown.Button
+                                          menu={{
+                                            items: item.image?.map((item) => ({
+                                              key: item.filepath,
+                                              label: item.filepath,
+                                            })),
+                                            onClick: onMenuClick,
+                                          }}
+                                          icon={<DownloadOutlined />}
+                                        >
+                                          PDF Files
+                                        </Dropdown.Button> : ""}
                                     </div>
                                   ) : (
                                     ""
@@ -770,5 +812,6 @@ const mapStateToProps = ({ profile, user }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onvotePoll: (id, option, cb) => dispatch(votePoll(id, option, cb)),
+  ondownloadFile: (filename) => dispatch(downloadFile(filename)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);
