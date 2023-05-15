@@ -90,7 +90,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
     {
       title: "From",
       align: "center",
-      width: "40%",
+      width: isWebDevice ? "40%" : '80%',
       sorter: true,
       render: (_, record) => (
         <div className="thread-sender">
@@ -151,9 +151,10 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
     {
       title: "Actions",
       key: "action",
+      winth: isWebDevice ? '' : '10%',
       align: "center",
       render: (_, record) => (
-        <Space size={isWebDevice ? "middle" : "small"}>
+        <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size={isWebDevice ? "middle" : "small"}>
           {isWebDevice ? false :
             <a onClick={() => selectedInboxinfo(record)} className="view-read"><ReadOutlined className="eye-style" />
             </a>

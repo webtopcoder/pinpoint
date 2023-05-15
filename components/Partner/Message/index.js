@@ -29,7 +29,7 @@ const Mail = () => {
   const childFunc = useRef(null);
   const items = [
     {
-      label: "INBOX",
+      label: isWebDevice ? "INBOX" : '',
       key: "inbox",
       icon: (
         <Avatar
@@ -44,7 +44,7 @@ const Mail = () => {
       ),
     },
     {
-      label: "SENT",
+      label: isWebDevice ? "SENT" : '',
       key: "sent",
       icon: (
         <Avatar
@@ -59,7 +59,7 @@ const Mail = () => {
       ),
     },
     {
-      label: "COMPOSE",
+      label: isWebDevice ? "COMPOSE" : '',
       key: "compose",
       icon: (
         <Avatar
@@ -74,7 +74,7 @@ const Mail = () => {
       ),
     },
     {
-      label: "NOTICES",
+      label: isWebDevice ? "NOTICES" : '',
       key: "notices",
       icon: (
         <Avatar
@@ -90,7 +90,7 @@ const Mail = () => {
       ),
     },
     {
-      label: "SEND INVITES",
+      label: isWebDevice ? "SEND INVITES" : '',
       key: "send_invites",
       icon: (
         <Avatar
@@ -105,7 +105,7 @@ const Mail = () => {
       ),
     },
     {
-      label: "PENDING INVITES",
+      label: isWebDevice ? "PENDING INVITES" : '',
       key: "pending_invites",
       icon: (
         <Avatar
@@ -142,7 +142,7 @@ const Mail = () => {
         background: "#211f1f",
       }}
     >
-      <Content className="partner-layout">
+      <Content>
         <div className="mailbox-banner-area-partner">
           <div className="mail-container">
             <div className="mailbox-container">

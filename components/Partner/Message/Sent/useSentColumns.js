@@ -58,7 +58,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
     {
       title: "To",
       align: "center",
-      width: "40%",
+      width: isWebDevice ? "40%" : '80%',
       sorter: true,
       render: (_, record) => (
         <div className="thread-sender">
@@ -116,8 +116,9 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
       title: "Actions",
       key: "action",
       align: "center",
+      winth: isWebDevice ? '' : '10%',
       render: (_, record) => (
-        <Space size="middle">
+        <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size="middle">
           {isWebDevice ? false :
             <a onClick={() => selectedSentinfo(record)} className="view-read"><ReadOutlined className="eye-style" />
             </a>

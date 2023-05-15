@@ -3965,6 +3965,17 @@
   .ant-drawer-content-wrapper {
     width: 360px;
   }
+
+  .page-interactive-area {
+    padding-top: 125px;
+  }
+
+  .ant-menu-horizontal .ant-menu-item {
+    padding-inline: 8px;
+  }
+  .thread-from{
+    text-align: center;
+  }
 }
 
 /* Min width 576px to Max width 767px */

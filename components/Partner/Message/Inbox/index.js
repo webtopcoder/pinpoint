@@ -18,6 +18,7 @@ import useInboxColumns from "./useInboxColumns";
 import { getDiffToNow } from "@/utils/date";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
 const avatarurl = `${apiBaseUrl}/avatar/`;
@@ -53,6 +54,7 @@ const Inbox = ({
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [reply_detail, setSaveReply] = useState();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const { notify } = useNotify();
   const router = useRouter();
