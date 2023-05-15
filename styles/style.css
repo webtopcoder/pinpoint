@@ -13215,6 +13215,7 @@ h4 {
 .avatar-uploader {
   float: left;
   width: unset;
+  margin-top: 10px;
 }
 
 .review-divider::before {
@@ -13225,16 +13226,20 @@ h4 {
   background-color: #d6dee1;
 }
 
-.main-follower-list{
+.main-follower-list {
   background-color: white;
   padding: 20px 40px;
   border-radius: 10px;
 }
 
-.location-dashboard{
+.location-dashboard {
   margin: 60px 100px;
 }
 
-.partner-layout{
+.partner-layout {
   margin: 60px 40px;
+}
+
+.ql-container .ql-snow {
+  height: 100px;
 }
