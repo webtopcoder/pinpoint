@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Badge, Popconfirm, Button, Avatar, Drawer, List } from "antd";
+import { Badge, Popconfirm, Button, Avatar, Divider, List, Space } from "antd";
 import {
   ExportOutlined,
   LoginOutlined,
   UserAddOutlined,
   UserOutlined,
+  IdcardFilled,
+  MailFilled,
+  NotificationFilled,
+  EnvironmentFilled
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import mobilelogo from "@/public/images/mobilelogo.png";
-import mailIcon from "@/public/images/landing/user-mail.png";
-import LIcon from "@/public/images/landing/l.png";
 import logo from "@/public/images/logo.png";
 import { connect } from "react-redux";
 import rightToggle from "@/public/images/landing/right-toggle.png";
@@ -54,6 +56,7 @@ const Header = ({
   const SignupOrLogin = (path) => {
     router.push(path);
   };
+
 
   const handlePageRender = (page) => {
     if (token) {
@@ -194,15 +197,12 @@ const Header = ({
                       <div className="avatar-left">
                         {token && (
                           <div style={{ marginBottom: 20 }}>
-                            <Link href="/user/message">
+                            <Link href={role === "partner" ? `/partner/message` : "/user/message"}>
                               <a>
                                 <Badge dot={isReadEmails.length > 0 ? true : false}
                                   className="mailboxLIcon">
-                                  <Image
-                                    src={mailIcon}
-                                    alt="mail"
-                                    width={60}
-                                    height={40}
+                                  <MailFilled
+                                    style={{ color: "#686868", fontSize: 40 }}
                                   />
                                 </Badge>
                               </a>
@@ -217,11 +217,8 @@ const Header = ({
                               } className="mailboxIcon"
                               onClick={showDrawer}
                             >
-                              <Image
-                                src={LIcon}
-                                alt="l"
-                                width={40}
-                                height={40}
+                              <NotificationFilled
+                                style={{ color: "#686868", fontSize: 40 }}
                               />
                             </Badge>
                           </div>
@@ -234,7 +231,7 @@ const Header = ({
                               style={{
                                 border: "3px solid gray",
                               }}
-                              size={100}
+                              size={140}
                               src={avatarurl + avatarImg}
                             />
                           ) : (
@@ -248,12 +245,22 @@ const Header = ({
                           )}
                         </div>
                       </div>
-                      <div className="avatar-right">
+                      <div className="avatar-left">
                         {token && (
-                          <ExportOutlined
-                            style={{ color: "#686868", fontSize: 40 }}
-                            onClick={() => onLogoutHandler()}
-                          />
+                          <div style={{ marginBottom: 20 }}>
+                            <EnvironmentFilled
+                              style={{ color: "#686868", fontSize: 40 }}
+                              onClick={() => handlePageRender("/user/map/interactive-map")}
+                            />
+                          </div>
+                        )}
+                        {token && (
+                          <div style={{ marginBottom: 20 }}>
+                            <ExportOutlined
+                              style={{ color: "#686868", fontSize: 40 }}
+                              onClick={() => onLogoutHandler()}
+                            />
+                          </div>
                         )}
                       </div>
                     </div>
@@ -311,28 +318,45 @@ const Header = ({
                       </div>
                     )}
                     {token && (
-                      <>
-                        <div
+                      <Space className="vst-profile" wrap>
+                        <Button
                           onClick={() =>
                             handleOriginPageRender(
                               `/profile/${user_id}/activity`
                             )
                           }
-                          className="vst-profile"
-                        >
-                          View Profile
-                        </div>
-                        <div
+                          type="primary">View Profile</Button>
+                        <Button
                           onClick={() =>
                             handleOriginPageRender(`/profile/${user_id}/edit`)
                           }
-                          className="vst-edit-profile"
-                        >
-                          edit profile
-                        </div>
-                      </>
+                        >Edit Profile</Button>
+                      </Space>
+
+                      // <>
+                      //   <div
+                      //     onClick={() =>
+                      //       handleOriginPageRender(
+                      //         `/profile/${user_id}/activity`
+                      //       )
+                      //     }
+                      //     className="vst-profile"
+                      //   >
+                      //     View Profile
+                      //   </div>
+                      //   <div
+                      //     onClick={() =>
+                      //       handleOriginPageRender(`/profile/${user_id}/edit`)
+                      //     }
+                      //     className="vst-edit-profile"
+                      //   >
+                      //     edit profile
+                      //   </div>
+                      // </>
                     )}
                   </li>
+                  <Divider />
+
                   {token && role == "partner" ? <>
                     <li className="nav-item">
                       <a

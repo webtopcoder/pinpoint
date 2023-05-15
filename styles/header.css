@@ -767,9 +767,9 @@
   color: var(--redLightColor);
 }
 
-.main-nav .navbar .navbar-nav .nav-item .dropdown-toggle {
+/* .main-nav .navbar .navbar-nav .nav-item .dropdown-toggle {
   padding-right: 18px;
-}
+} */
 
 .main-nav .navbar .navbar-nav .nav-item .dropdown-toggle::after {
   display: none;
@@ -1672,7 +1672,6 @@
     padding-top: 5px;
     overflow-y: auto;
     max-height: 70vh;
-    padding-right: 15px;
   }
   .main-nav .navbar .navbar-nav::-webkit-scrollbar {
     width: 12px;
