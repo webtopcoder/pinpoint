@@ -7,7 +7,6 @@ import {
   LoginOutlined,
   UserAddOutlined,
   UserOutlined,
-  IdcardFilled,
   MailFilled,
   NotificationFilled,
   EnvironmentFilled
@@ -332,27 +331,6 @@ const Header = ({
                           }
                         >Edit Profile</Button>
                       </Space>
-
-                      // <>
-                      //   <div
-                      //     onClick={() =>
-                      //       handleOriginPageRender(
-                      //         `/profile/${user_id}/activity`
-                      //       )
-                      //     }
-                      //     className="vst-profile"
-                      //   >
-                      //     View Profile
-                      //   </div>
-                      //   <div
-                      //     onClick={() =>
-                      //       handleOriginPageRender(`/profile/${user_id}/edit`)
-                      //     }
-                      //     className="vst-edit-profile"
-                      //   >
-                      //     edit profile
-                      //   </div>
-                      // </>
                     )}
                   </li>
                   <Divider />
@@ -367,7 +345,7 @@ const Header = ({
                       </a>
                     </li>
 
-                    <li className="nav-item megamenu">
+                    <li className="nav-item">
                       <a
                         className="dropdown-toggle nav-link"
                         onClick={() =>
@@ -427,7 +405,7 @@ const Header = ({
                       </a>
                     </li>
 
-                    <li className="nav-item megamenu">
+                    <li className="nav-item">
                       <a
                         className="dropdown-toggle nav-link"
                         onClick={() =>

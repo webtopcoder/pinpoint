@@ -13240,6 +13240,6 @@ h4 {
   margin: 60px 40px;
 }
 
-.ql-container .ql-snow {
+.ql-toolbar.ql-snow + .ql-container.ql-snow{
   height: 100px;
 }
