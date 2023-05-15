@@ -111,7 +111,7 @@ function NotificationDrawer({
       headerStyle={{
         color: "white",
       }}
-      width={415}
+      width={366}
       extra={
         <Space>
           <Button type="link" onClick={() => {
