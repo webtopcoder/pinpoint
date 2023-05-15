@@ -15,6 +15,7 @@ import Link from "next/link";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { useRouter } from "next/router";
 import { getDiffToNow } from "@/utils/date";
+import useMedia from "@/hooks/useMedia";
 
 function NotificationDrawer({
   placement = "left",
@@ -30,6 +31,7 @@ function NotificationDrawer({
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
   const router = useRouter();
   const notificationRead = (flag, item) => {
     onUpdatedNotifications(item?._id, (res) => {
@@ -111,7 +113,7 @@ function NotificationDrawer({
       headerStyle={{
         color: "white",
       }}
-      width={366}
+      width={isWebDevice ? 416 : 366}
       extra={
         <Space>
           <Button type="link" onClick={() => {
@@ -170,8 +172,7 @@ function NotificationDrawer({
                     }}
                   >
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      {getDiffToNow(item.createdAt)} ago
-                    
+                    {getDiffToNow(item.createdAt)} ago
                   </span>
                 </>
               }
