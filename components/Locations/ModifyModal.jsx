@@ -69,7 +69,7 @@ function ModifyModal({
     city: locationInfo?.mapLocation?.city,
     state: locationInfo?.mapLocation?.state,
     lat: locationInfo?.mapLocation?.latitude ?? 0,
-    lng: locationInfo?.mapLocation?.lngitude ?? 0,
+    lng: locationInfo?.mapLocation?.longitude ?? 0,
   });
 
   useEffect(() => {
@@ -99,6 +99,8 @@ function ModifyModal({
           if (address_component.types[0] == "administrative_area_level_1")
             itemState = address_component.long_name;
         });
+
+        console.log(place.geometry.location.lat(), place.geometry.location.lng())
 
         setaddressForm({
           ...addressForm,
@@ -206,6 +208,7 @@ function ModifyModal({
             formData.append("images", file.originFileObj)
           );
 
+          console.log(addressForm)
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
