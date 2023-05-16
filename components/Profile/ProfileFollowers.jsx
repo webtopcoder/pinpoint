@@ -10,19 +10,18 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { getFollowers, getHeader, unFriend, acceptFollowerRequest } from "@/redux/Profile/actions";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { getHeader, unFriend, acceptFollowerRequest } from "@/redux/Profile/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import Link from "next/link";
-
+import { profileService } from "@/services/index";
+import useMedia from "@/hooks/useMedia";
 import binavatar from "@/public/images/landing/avatar.png";
 
 const { Search } = Input;
 const { Content } = Layout;
 
 const ProfileFollowers = ({
-  ongetFollowers,
-  followersList,
   user_id,
   onunFriend,
   ongetHeader,
@@ -30,37 +29,48 @@ const ProfileFollowers = ({
   onacceptFollowerRequest
 }) => {
   const { notify } = useNotify();
-
+  const isWebDevice = useMedia('(min-width:700px)');
   const avatarurl = `${apiBaseUrl}/avatar/`;
-
   const router = useRouter();
   const { profile } = router.query;
-
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(1);
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    console.log({
-      profile,
-      user_id,
-      followersList,
-    });
-  }, [followersList]);
+  async function ongetFollowers(profile, count, search) {
+    let mounted;
+    await profileService.getmyFollowers(profile, count, search)
+      .then((res) => {
+        if (res.success) {
+          if (count === 1) {
+            setInitLoading(false);
+            setLoading(false);
+            setData(res.data.results);
+          }
+          else {
+            mounted || setInitLoading(false);
+            setData((data) => [...data, ...res.data.results]);
+            mounted || window.dispatchEvent(new Event("resize"));
+            mounted = true;
+          }
+
+        } else notify("error", "Something went wrong");
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   useEffect(() => {
-    let mounted;
     if (router.isReady) {
-      ongetFollowers(profile, count, search, (res) => {
-        if (res.success) {
-          mounted || setInitLoading(false);
-          setData((data) => [...data, ...res.data.results]);
-          mounted || window.dispatchEvent(new Event("resize"));
-          mounted = true;
-        } else notify("error", "Something went wrong");
-      });
+      setInitLoading(true);
+      ongetFollowers(profile, count, search);
     }
   }, [router.isReady, count]);
 
@@ -69,14 +79,7 @@ const ProfileFollowers = ({
       setLoading(true);
       if (!error) {
         notify("success", "Unfriend successfully");
-        ongetFollowers(profile, count, search, (res, error) => {
-          if (error) {
-            notify("error", "Something went wrong");
-          }
-          setInitLoading(false);
-          setLoading(false);
-          setData(res.data.results);
-        });
+        ongetFollowers(profile, count, search);
         ongetHeader(profile);
       }
     });
@@ -101,15 +104,9 @@ const ProfileFollowers = ({
     ) : null;
 
   const onSearch = (value) => {
+    setInitLoading(true);
     setSearch(value);
-    ongetFollowers(profile, count, value, (res) => {
-      if (res.success) {
-        setInitLoading(false);
-        setLoading(false);
-        setData(res.data.results);
-      }
-      else notify("error", res.msg);
-    });
+    ongetFollowers(profile, count, value);
   };
 
   return (
@@ -121,7 +118,7 @@ const ProfileFollowers = ({
     >
       <Content
         style={{
-          margin: "60px 16px",
+          margin: "0px 16px",
         }}
       >
         <div className="blog-details-area">
@@ -143,14 +140,13 @@ const ProfileFollowers = ({
                 </div>
               </div>
               <div className="follower-list col-xl-12 col-lg-12 col-md-12">
-                <div
-                  style={{
-                    backgroundColor: "white",
-                    padding: "20px 40px",
-                    borderRadius: 10,
-                  }}
-                >
+                <div className="main-follower-list">
                   <List
+                    grid={isWebDevice ? false : {
+                      column: 1,
+                      xs: 1,
+                      sm: 2,
+                    }}
                     className="demo-loadmore-list"
                     itemLayout="horizontal"
                     loading={initLoading}
@@ -163,10 +159,10 @@ const ProfileFollowers = ({
                             onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
                             type="primary"
                             icon={<UserOutlined />}
-                            size={"default"}
+                            size={isWebDevice ? "default" : "small"}
                             key="button-view-profile"
                           >
-                            View Profile
+                            {isWebDevice ? "View Profile" : "Profile"}
                           </Button>) : '',
                           userRole ? (
                             user_id !== profile ? (
@@ -194,7 +190,7 @@ const ProfileFollowers = ({
                                   }
                                   type="primary"
                                   icon={<CheckOutlined />}
-                                  size={"default"}
+                                  size={isWebDevice ? "default" : "small"}
                                   key="button-message"
                                 >
                                   Accept
@@ -205,14 +201,7 @@ const ProfileFollowers = ({
                                       setLoading(true);
                                       if (!error) {
                                         notify("success", "Declined successfully");
-                                        ongetFollowers(profile, count, search, (res, error) => {
-                                          if (error) {
-                                            notify("error", "Something went wrong");
-                                          }
-                                          setInitLoading(false);
-                                          setLoading(false);
-                                          setData(res.data.results);
-                                        });
+                                        ongetFollowers(profile, count, search);
                                         ongetHeader(profile);
                                       }
                                     });
@@ -229,7 +218,7 @@ const ProfileFollowers = ({
                                   danger
                                   type="primary"
                                   icon={<CloseOutlined />}
-                                  size={"default"}
+                                  size={isWebDevice ? "default" : "small"}
                                   key="button-unfriend"
                                 >
                                   Decline
@@ -248,7 +237,7 @@ const ProfileFollowers = ({
                                   onClick={() => router.push(`/${userRole}/message?user=${item?.follower?._id}`)}
                                   type="primary"
                                   icon={<MessageFilled />}
-                                  size={"default"}
+                                  size={isWebDevice ? "default" : "small"}
                                   key="button-message"
                                 >
                                   Message
@@ -267,10 +256,10 @@ const ProfileFollowers = ({
                                   danger
                                   type="primary"
                                   icon={<UserDeleteOutlined />}
-                                  size={"default"}
+                                  size={isWebDevice ? "default" : "small"}
                                   key="button-unfriend"
                                 >
-                                  UnFriend
+                                  Unfriend
                                 </Button>
                               </Space>
                             )
@@ -280,7 +269,7 @@ const ProfileFollowers = ({
                                 onClick={() => router.push(`/${userRole}/message?user=${item?.follower?.id}`)}
                                 type="primary"
                                 icon={<MessageFilled />}
-                                size={"default"}
+                                size={isWebDevice ? "default" : "small"}
                                 key="button-message"
                               >
                                 Accept
@@ -299,34 +288,13 @@ const ProfileFollowers = ({
                                 danger
                                 type="primary"
                                 icon={<UserDeleteOutlined />}
-                                size={"default"}
+                                size={isWebDevice ? "default" : "small"}
                                 key="button-unfriend"
                               >
                                 Decline
                               </Button>
                             </Space>
                           ),
-                          // user_id == profile ? (
-                          //   <Button
-                          //     onClick={() => unfriend(item?.follower?._id)}
-                          //     style={
-                          //       user_id == profile
-                          //         ? {
-                          //           display: "block",
-                          //         }
-                          //         : {
-                          //           display: "none",
-                          //         }
-                          //     }
-                          //     danger
-                          //     type="primary"
-                          //     icon={<UserDeleteOutlined />}
-                          //     size={"default"}
-                          //     key="button-unfriend"
-                          //   >
-                          //     UnFriend
-                          //   </Button>
-                          // ) : null,
                         ]}
                       >
                         <Skeleton avatar title={false} loading={loading} active>
@@ -346,16 +314,13 @@ const ProfileFollowers = ({
                               />
                             }
                             title={
-                              <Link
-                                href={
-                                  "/profile/" + item?.follower?._id + "/activity"
-                                }
-                              >
-                                <>
+                              <Space size={0} direction={isWebDevice ? "vertical" : 'horizontal'}>
+                                <Link href={"/profile/" + item?.follower?._id + "/activity"}>
                                   {item?.follower?.name}
-                                  <p> @{item?.follower?.username}</p>
-                                </>
-                              </Link>
+
+                                </Link>
+                                <p> @{item?.follower?.username}</p>
+                              </Space>
                             }
                             description={new Date(
                               item.updatedAt
@@ -383,17 +348,14 @@ const ProfileFollowers = ({
   );
 };
 
-const mapStateToProps = ({ profile, user }) => {
+const mapStateToProps = ({ user }) => {
   return {
-    followersList: profile.followersInfo,
     user_id: user.user_id,
     userRole: user.role,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetFollowers: (data, count, search, cb) =>
-    dispatch(getFollowers(data, count, search, cb)),
   onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
   onacceptFollowerRequest: (id, type, cb) => dispatch(acceptFollowerRequest(id, type, cb)),
   ongetHeader: (id) => dispatch(getHeader(id)),

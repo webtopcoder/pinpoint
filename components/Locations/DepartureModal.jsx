@@ -46,10 +46,10 @@ function DepartureModal({
       footer={null}
     >
       <Row>
-        <Col xs={2} sm={4} md={8} lg={8} xl={8}></Col>
+        <Col xs={0} sm={0} md={8} lg={8} xl={8}></Col>
         <Col
-          xs={2}
-          sm={4}
+          xs={16}
+          sm={16}
           md={8}
           lg={8}
           xl={8}
@@ -68,8 +68,8 @@ function DepartureModal({
           </Title>
         </Col>
         <Col
-          xs={2}
-          sm={4}
+          xs={8}
+          sm={8}
           md={8}
           lg={8}
           xl={8}
@@ -80,7 +80,6 @@ function DepartureModal({
           <Image src={food} alt="Snow" width={50} height={70} />
         </Col>
       </Row>
-
       <Form
         form={departureForm}
         onFinish={(values) => {
@@ -136,11 +135,10 @@ function DepartureModal({
               ></Select>
             </Form.Item>
           </Col>
-
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Row>
-              <Col xs={2} sm={4} md={6} lg={8} xl={10}></Col>
-              <Col xs={2} sm={4} md={8} lg={8} xl={14}>
+              <Col xs={10} sm={10} md={6} lg={8} xl={10}></Col>
+              <Col xs={14} sm={14} md={8} lg={8} xl={14}>
                 <Button
                   type="primary"
                   htmlType="submit"

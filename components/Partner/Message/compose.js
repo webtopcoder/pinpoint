@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
 
@@ -29,7 +30,7 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
   const [updating, setUpdating] = useState(false);
   const router = useRouter();
   const { notify } = useNotify();
-
+  const isWebDevice = useMedia('(min-width:700px)');
   const { user: sendToUserId } = router.query;
 
   const options = myfollowerList?.map((follow) => ({
@@ -43,13 +44,6 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
     }
   }, [router.isReady]);
 
-  const onCheck = (e) => {
-    setComponentDisabled(e.target.checked);
-  };
-
-  const onsendAdmin = (e) => {
-    setAdminSelected(e.target.checked);
-  };
 
   const onChange = (e) => {
     e.target.value !== "followers" && e.target.value !== "admin" ? setComponentDisabled(false) : setComponentDisabled(true)
@@ -170,18 +164,19 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
                 disabled={sendToUserId || componentDisabled || adminselected ? true : false}
                 mode="multiple"
                 size="middle"
+                showSearch={false}
                 placeholder="Please select Users"
-                style={{
+                style={isWebDevice ? {
                   width: "50%",
-                }}
+                } : { width: "100%" }}
                 options={options}
               />
             </Form.Item>
             <Form.Item name="subject" label="Subject">
               <Input
-                style={{
+                style={isWebDevice ? {
                   width: "50%",
-                }}
+                } : { width: "100%" }}
               />
             </Form.Item>
             <Form.Item
@@ -214,9 +209,10 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
                   style={{
                     display: "table",
                     justifyContent: "space-between",
-                    margin: "0 auto 0",
+                    margin: "10px auto 0",
                     padding: "10px 40px",
                     height: "100%",
+                    width: isWebDevice ? "auto" : "100%"
                   }}
                   loading={updating}
                 >

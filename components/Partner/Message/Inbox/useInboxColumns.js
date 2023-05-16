@@ -1,15 +1,17 @@
 import useNotify from "@/hooks/useNotify";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import {
   DeleteFilled,
   EyeInvisibleOutlined,
   EyeOutlined,
+  ReadOutlined
 } from "@ant-design/icons";
 import { Space, Tooltip, Tag, Button, Badge } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
 import { useRouter } from "next/router";
+import useMedia from "@/hooks/useMedia";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
@@ -17,6 +19,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
   const [record_detail, setSaveInboxDetail] = useState();
   const { notify } = useNotify();
   const router = useRouter();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const selectedInboxinfo = (recordInfo) => {
     ongetReply(recordInfo._id, (res, error) => {
@@ -87,7 +90,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
     {
       title: "From",
       align: "center",
-      width: "40%",
+      width: isWebDevice ? "40%" : '80%',
       sorter: true,
       render: (_, record) => (
         <div className="thread-sender">
@@ -108,7 +111,9 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                     router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}/activity`)
                   }
                 >
-                  @{user_id === record?.from?._id ? record?.to?.username : record?.from?.username}
+                  @{user_id === record?.from?._id ?
+                    (record?.to?.username?.length > 12 ? isWebDevice ? record?.to?.username : record?.to?.username?.substring(0, 12) + "..." : record?.to?.username) :
+                    (record?.from?.username?.length > 12 ? isWebDevice ? record?.from?.username : record?.from?.username?.substring(0, 12) + "..." : record?.from?.username)}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>&nbsp;&nbsp;
               </Tooltip> : <span>Administrator</span>}
@@ -120,6 +125,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </div>
         </div >
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
     {
       title: "Subject",
@@ -140,13 +146,19 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </p>
         </div>
       ),
+      responsive: isWebDevice ? false : ["sm"]
     },
     {
       title: "Actions",
       key: "action",
+      winth: isWebDevice ? '' : '10%',
       align: "center",
       render: (_, record) => (
-        <Space size="middle">
+        <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size={isWebDevice ? "middle" : "small"}>
+          {isWebDevice ? false :
+            <a onClick={() => selectedInboxinfo(record)} className="view-read"><ReadOutlined className="eye-style" />
+            </a>
+          }
           {!record.is_read ? (
             <Tooltip title="Mark as Read" color={"blue"}>
               <a
@@ -173,6 +185,8 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
           </Tooltip>
         </Space>
       ),
+      fixed: "right",
+      responsive: isWebDevice ? false : ["xs"]
     },
   ];
   return {

@@ -205,12 +205,6 @@ const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case POST_LIKE_SUCCESS: {
-      return {
-        ...state,
-      };
-    }
-
     case GET_SHOOT_OUT_SUCCESS: {
       return {
         ...state,

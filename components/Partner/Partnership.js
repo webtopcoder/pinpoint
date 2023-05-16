@@ -10,7 +10,6 @@ import {
   Badge,
   Typography,
   Space,
-  Modal,
   Popconfirm,
 } from "antd";
 import {
@@ -26,9 +25,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { DeleteOutlined } from "@ant-design/icons";
 import { formartUnixtime, formatDate } from "@/utils/date";
+import useMedia from "@/hooks/useMedia";
 
 const { Text, Paragraph } = Typography;
-
 const { Content } = Layout;
 
 const stripePromise = loadStripe(
@@ -221,6 +220,7 @@ const Partnership = ({
   // const partnerShipPlans = usePartnerShipPlans();
   const router = useRouter();
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   useEffect(() => {
     if (router.isReady) {
@@ -238,10 +238,10 @@ const Partnership = ({
   return (
     <Elements stripe={stripePromise}>
       <Layout className="site-layout" style={{ background: "#211f1f" }}>
-        <Content style={{ margin: "100px 40px" }}>
+        <Content className="partner-layout">
           <div className="site-card-wrapper">
             <Row gutter={[32, 32]}>
-              <Col xs={24} sm={24} md={20} lg={20} xl={20} offset={2}>
+              <Col xs={24} sm={24} md={20} lg={20} xl={20} offset={isWebDevice ? 2 : 0}>
                 <Paragraph
                   style={{
                     color: "white",

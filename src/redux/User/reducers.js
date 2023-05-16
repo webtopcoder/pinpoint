@@ -4,8 +4,6 @@ import {
   USER_LOGIN_FAIL,
   LOGOUT,
   USER_REGISTER_SUCCESS,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
   CATEGORY_GET_REQUEST,
   CATEGORY_GET_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
@@ -22,7 +20,6 @@ import {
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
   GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_SUCCESS,
-  GET_ACTIVE_PARTNERS_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -54,7 +51,6 @@ const initialState = {
   loading: false,
   status: false,
   loginInfo: { success: false, msg: {} },
-  resetPasswordInfo: { success: false, msg: "" },
   partnerCategory: { success: false, categories: [] },
   partnersubCategory: { success: false, subCategories: [] },
   notifications: [],
@@ -63,7 +59,6 @@ const initialState = {
   myFollowers: [],
   followAndFollowing: [],
   faqs: [],
-  activePartners: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -113,15 +108,6 @@ const userReducer = (state = initialState, action) => {
         status: action.payload.success,
       };
     }
-    case RESET_PASSWORD_REQUEST:
-      return { ...state, loading: true };
-
-    case RESET_PASSWORD_SUCCESS: {
-      return {
-        ...state,
-        resetPasswordInfo: action.payload,
-      };
-    }
 
     case CATEGORY_GET_REQUEST:
       return { ...state, loading: true };
@@ -130,12 +116,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         partnerCategory: action.payload,
-      };
-    }
-    case GET_ACTIVE_PARTNERS_SUCCESS: {
-      return {
-        ...state,
-        activePartners: action.payload,
       };
     }
 

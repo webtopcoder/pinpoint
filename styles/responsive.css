@@ -2505,7 +2505,6 @@
   }
 
   #maps {
-    height: auto;
     margin-top: 25px;
   }
 
@@ -3619,11 +3618,16 @@
   }
 
   .view-map-button {
-    margin-top: 10px;
+    margin-top: 36px;
+  }
+
+  .template-footer-nine .single-footer-widget .logo {
+    margin-bottom: 0px;
   }
 
   .template-footer-nine .single-footer-widget {
     margin-bottom: 0px;
+    margin-top: 16px;
   }
 
   .avatar-panel {
@@ -3695,12 +3699,7 @@
   }
 
   .section-landing-title {
-    margin-left: 0 !important;
-    margin-top: 20px;
-  }
-
-  .single-footer-widget p {
-    margin-top: 20px;
+    margin-left: 0;
   }
 
   .section-landing-title .sub-landing-title {
@@ -3747,11 +3746,12 @@
     font-size: 35px;
     margin-top: 30px;
     border-right: none;
-    text-align: center;
+    padding: 10px;
   }
 
   .mtl-45 {
     margin-left: 0;
+    padding: 0px 14px;
   }
 
   .col-sm-3 {
@@ -3762,12 +3762,21 @@
     width: 50%;
   }
 
+  .col-sm-7 {
+    width: 58%;
+  }
+
+  .col-sm-5 {
+    width: 42%;
+  }
+
   .col-sm-9 {
     width: 75%;
   }
 
   .single-help-desk-box {
-    padding: 7px;
+    height: fit-content;
+    padding: 22px;
     border: 1px solid #eee;
   }
 
@@ -3804,6 +3813,181 @@
   .single-why-choose-us-box {
     padding: 30px;
     border: 1px solid #eee;
+  }
+
+  .header-card .ant-card .ant-card-body {
+    padding: 10px
+  }
+
+  .avatar-area {
+    padding-top: 0px;
+  }
+
+  .ant-list-lg .ant-list-item {
+    padding: 23px 0px;
+  }
+
+  .ant-space-item span,
+  .ant-space-item a {
+    font-size: 13px;
+  }
+
+  .custom-userName {
+    font-size: 15px;
+  }
+
+  .custom-list-content {
+    margin-inline-start: 0px
+  }
+
+  .ql-editor {
+    padding: 0px !important;
+  }
+
+  .avatar-area .avatar-respond {
+    padding: 0 20px 20px 20px;
+  }
+
+  .ant-card-meta-title {
+    margin-bottom: 0px;
+  }
+
+  .ant-card-meta-title h3 {
+    margin-bottom: 0px;
+  }
+
+  .follower-list {
+    padding: 9px 3px
+  }
+
+  .main-follower-list {
+    background-color: white;
+    padding: 20px 0px;
+    border-radius: 10px;
+  }
+
+  .main-follower-list .ant-list-item-action {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .pin-faq .faq-accordion-content .faq__question {
+    padding: 16px 0 16px 0;
+  }
+
+  .profile-location .title {
+    font-size: 30px
+  }
+
+  .location-dashboard {
+    margin: 30px 30px;
+  }
+
+  .mailbox-banner-area-css .mail-container .mailbox-container,
+  .mail-container .mailbox-container {
+    padding: 35px 10px !important;
+  }
+
+  .vst-profile {
+    color: #eb3535;
+  }
+
+  /* .pin-post-label {
+    flex: 0 0 100%;
+    max-width: 100%;
+  } */
+
+  .user-message-menu {
+    height: auto;
+    padding: 4px;
+    margin-bottom: 10px;
+  }
+
+  .user-message-menu .ant-menu-overflow-item.ant-menu-item {
+    padding-inline: 13px !important;
+  }
+
+  .mail-content .ant-form .ant-form-item {
+    margin-bottom: 12px;
+  }
+
+  .mailbox-banner-area-css {
+    padding-top: 100px !important;
+  }
+
+  .page-partner-area {
+    padding-top: 90px
+  }
+
+  .partner-layout {
+    margin: 45px 20px;
+  }
+
+  .custom-subcontent {
+    padding: 15px;
+  }
+
+  .custom-subcontent .ant-list .ant-list-item {
+    padding: 12px 0px;
+  }
+
+  .ant-picker-panels {
+    flex-direction: column;
+  }
+
+  .ant-picker-panel-container {
+    width: 330px;
+    overflow: auto !important;
+  }
+
+  .ant-modal-content {
+    max-height: 650px;
+  }
+
+  .ant-divider-horizontal {
+    margin: 11px 0px;
+  }
+
+  .single-footer-widget .btn-style-one {
+    font-size: 13px;
+  }
+
+  .btn-style-one {
+    padding: 11px 40px 11px 18px;
+  }
+
+  .view-read,
+  .mark-read,
+  .mail-delete {
+    padding: 5px 2px 11px 2px
+  }
+
+  .ant-drawer-content-wrapper {
+    width: 360px;
+  }
+
+  .page-interactive-area {
+    padding-top: 125px;
+  }
+
+  .ant-menu-horizontal .ant-menu-item {
+    padding-inline: 5px;
+  }
+
+  .thread-from {
+    text-align: center;
+  }
+
+  .ant-picker-date-panel {
+    order: 2;
+  }
+
+  .ant-picker-now {
+    order: 2;
+  }
+
+  .ant-picker-ok {
+    margin-inline-start: inherit !important;
   }
 }
 

@@ -69,7 +69,7 @@ function ArrivalModal({
       centered
       open={openArrival}
       width={700}
-      closable={false}
+      closable={true}
       onOk={() => {
         arrivalForm.submit();
       }}
@@ -189,6 +189,7 @@ function ArrivalModal({
                 format="YYYY-MM-DD h:mm a"
                 disabledDate={disabledDate}
                 use12Hours={true}
+                inputReadOnly 
                 showTime={{
                   defaultValue: dayjs('00:00:00', 'HH:mm'),
                 }}

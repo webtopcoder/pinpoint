@@ -10494,7 +10494,6 @@ Profile Authentication Area CSS
   border-radius: 5px;
   padding: 13px 30px;
   width: 100%;
-  font-size: var(--fontSizeForLogin);
   font-weight: 600;
 }
 
@@ -11639,7 +11638,7 @@ Sidebar Modal CSS
 }
 
 .loginsignButton {
-  font-size: 20px !important;
+  font-size: 20px;
 }
 
 .logo-center {
@@ -12595,6 +12594,12 @@ h4 {
   border-radius: 3px;
 }
 
+.view-read {
+  background-color: var(--crimsonColor);
+  padding: 11px 5px 16px 5px;
+  border-radius: 3px;
+}
+
 .eye-style {
   font-size: 26px !important;
   width: 35px !important;
@@ -12759,7 +12764,7 @@ h4 {
 }
 
 .ant-list-lg .ant-list-item {
-  padding: 23px 24px !important;
+  padding: 23px 24px;
 }
 
 .custom-list-content {
@@ -13210,6 +13215,7 @@ h4 {
 .avatar-uploader {
   float: left;
   width: unset;
+  margin-top: 10px;
 }
 
 .review-divider::before {
@@ -13218,4 +13224,26 @@ h4 {
 
 .review-divider::after {
   background-color: #d6dee1;
+}
+
+.main-follower-list {
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+}
+
+.location-dashboard {
+  margin: 60px 100px;
+}
+
+.partner-layout {
+  margin: 60px 40px;
+}
+
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
+  height: 100px;
+}
+
+.ant-card .ant-card-meta-title {
+  white-space: normal;
 }

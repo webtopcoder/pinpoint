@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Space, Tooltip, Button, Tag } from "antd";
-import { DeleteFilled } from "@ant-design/icons";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { DeleteFilled, ReadOutlined } from "@ant-design/icons";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { formatDate } from "@/utils/date";
+import useMedia from "@/hooks/useMedia";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSaveReply, ongetReply }) {
   const [record_detail, setSaveSentDetail] = useState();
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const selectedSentinfo = (recordInfo) => {
     ongetReply(recordInfo._id, (res, error) => {
@@ -56,7 +58,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
     {
       title: "To",
       align: "center",
-      width: "40%",
+      width: isWebDevice ? "40%" : '80%',
       sorter: true,
       render: (_, record) => (
         <div className="thread-sender">
@@ -74,7 +76,8 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
                 <a
                   onClick={() => router.push(`/profile/${record?.to?._id}/activity`)}
                 >
-                  @{record?.to?.username}
+                  @{isWebDevice ? record.to?.username : record.to?.username.length > 12 ? record?.to?.username?.substring(0, 12) + "..." : record.to?.username}
+
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
                 </a>
               </Tooltip>
@@ -86,6 +89,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
           </div>
         </div>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
     {
       title: "Subject",
@@ -105,13 +109,20 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
           </p>
         </div>
       ),
+      responsive: isWebDevice ? false : ["sm"]
+
     },
     {
       title: "Actions",
       key: "action",
       align: "center",
+      winth: isWebDevice ? '' : '10%',
       render: (_, record) => (
-        <Space size="middle">
+        <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size="middle">
+          {isWebDevice ? false :
+            <a onClick={() => selectedSentinfo(record)} className="view-read"><ReadOutlined className="eye-style" />
+            </a>
+          }
           <Tooltip title="Are you sure?" color={"blue"}>
             <a onClick={() => deleteMail(record._id)} className="mail-delete">
               <DeleteFilled className="delete-style" />
@@ -119,6 +130,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
           </Tooltip>
         </Space>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
   ];
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import Footer from "./Footer";
 import { useRouter } from "next/router";
 
@@ -48,8 +47,4 @@ const UserLayout = ({ children }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  auth: user.token,
-});
-
-export default connect(mapStateToProps, null)(UserLayout);
+export default UserLayout;

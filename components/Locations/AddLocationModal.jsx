@@ -18,6 +18,8 @@ import useNotify from "@/hooks/useNotify";
 import { createLocation, getLocations } from "@/src/redux/Location/actions";
 import { getsubCategory } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
+import { categoryService, locationService } from "@/services/index";
+import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
 
@@ -48,7 +50,7 @@ function AddLocationModal({
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
-
+  const isWebDevice = useMedia('(min-width:700px)');
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -121,15 +123,15 @@ function AddLocationModal({
       centered
       open={open}
       width={700}
-      closable={false}
+      closable={true}
       onCancel={() => setModalOpen(false)}
       footer={null}
     >
       <Row>
         <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
         <Col
-          xs={20}
-          sm={20}
+          xs={24}
+          sm={24}
           md={8}
           lg={22}
           xl={22}
@@ -153,8 +155,8 @@ function AddLocationModal({
           </Paragraph>
         </Col>
         <Col
-          xs={4}
-          sm={4}
+          xs={0}
+          sm={0}
           md={8}
           lg={2}
           xl={2}
@@ -227,7 +229,6 @@ function AddLocationModal({
               <Input placeholder="This will be your individual locations name" />
             </Form.Item>
           </Col>
-
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item
               label="Address(Location)"
@@ -266,6 +267,7 @@ function AddLocationModal({
             >
               <Select
                 mode="multiple"
+                showSearch={false}
                 allowClear
                 style={{
                   width: "100%",
@@ -275,7 +277,6 @@ function AddLocationModal({
               />
             </Form.Item>
           </Col>
-
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item label="Location Description" name="description">
               <TextArea

@@ -1,8 +1,12 @@
 import useNotify from "@/hooks/useNotify";
+import { SendOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Space, Tooltip, Tag } from "antd";
+import useMedia from "@/hooks/useMedia";
+import { DecodeError } from "next/dist/shared/lib/utils";
 
 function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
   const { notify } = useNotify();
+  const isWebDevice = useMedia('(min-width:700px)');
   const resendPending = (mailId) => {
     onResendInvite(mailId, (res, error) => {
       if (error) {
@@ -46,7 +50,7 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
           <div className="thread-from">
             <div className="from">
               <p className="pending_email">
-                {record.to_invite_email}
+                {isWebDevice ? record.to_invite_email : record.to_invite_email.length > 20 ? record?.to_invite_email?.substring(0, 20) + "..." : record.to_invite_email}
                 <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
               </p>
             </div>
@@ -64,6 +68,7 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
           </div>
         </div>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
     {
       title: "Invite Message",
@@ -80,29 +85,34 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
           </p>
         </div>
       ),
+      responsive: isWebDevice ? false : ["sm"]
     },
     {
       title: "Actions",
       key: "action",
       align: "center",
+      width: '20%',
       render: (_, record) => (
         <Space size="middle">
           {record.is_read ? (
             <Tag color="success">Accepted</Tag>
           ) : (
-            <Button onClick={() => resendPending(record._id)} type="primary">
-              Resend
+            <Button icon={isWebDevice ? '' : <SendOutlined />}
+              onClick={() => resendPending(record._id)} type="primary">
+              {isWebDevice ? "Resend" : ''}
             </Button>
           )}
           <Button
+            icon={isWebDevice ? '' : <DeleteOutlined />}
             onClick={() => deleteInvitation(record._id)}
             type="primary"
             danger
           >
-            Delete
+            {isWebDevice ? "Delete" : ''}
           </Button>
         </Space>
       ),
+      responsive: isWebDevice ? false : ["xs"]
     },
   ];
 

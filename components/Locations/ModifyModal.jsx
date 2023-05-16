@@ -25,6 +25,7 @@ import {
 import Image from "next/image";
 import { getsubCategory } from "@/src/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import useMedia from "@/hooks/useMedia";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -61,13 +62,14 @@ function ModifyModal({
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();
+  const isWebDevice = useMedia('(min-width:700px)');
 
   const [addressForm, setaddressForm] = useState({
     address: locationInfo?.mapLocation?.address,
     city: locationInfo?.mapLocation?.city,
     state: locationInfo?.mapLocation?.state,
     lat: locationInfo?.mapLocation?.latitude ?? 0,
-    lng: locationInfo?.mapLocation?.lngitude ?? 0,
+    lng: locationInfo?.mapLocation?.longitude ?? 0,
   });
 
   useEffect(() => {
@@ -97,6 +99,8 @@ function ModifyModal({
           if (address_component.types[0] == "administrative_area_level_1")
             itemState = address_component.long_name;
         });
+
+        console.log(place.geometry.location.lat(), place.geometry.location.lng())
 
         setaddressForm({
           ...addressForm,
@@ -150,7 +154,7 @@ function ModifyModal({
       centered
       open={modalOpen}
       width={700}
-      closable={false}
+      closable={true}
       onOk={() => setModalOpen(false)}
       onCancel={() => setModalOpen(false)}
       footer={null}
@@ -158,8 +162,8 @@ function ModifyModal({
       <Row>
         <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
         <Col
-          xs={20}
-          sm={20}
+          xs={24}
+          sm={24}
           md={8}
           lg={22}
           xl={22}
@@ -183,8 +187,8 @@ function ModifyModal({
           </Paragraph>
         </Col>
         <Col
-          xs={4}
-          sm={4}
+          xs={0}
+          sm={0}
           md={8}
           lg={2}
           xl={2}
@@ -204,6 +208,7 @@ function ModifyModal({
             formData.append("images", file.originFileObj)
           );
 
+          console.log(addressForm)
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
@@ -324,7 +329,7 @@ function ModifyModal({
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item name="images">
               <Row>
-                <Col span={8}>
+                <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                   <Upload
                     method="get"
                     listType="picture"
@@ -354,9 +359,10 @@ function ModifyModal({
                   </Upload>
                 </Col>
                 <Col
-                  span={16}
+                  xs={24} sm={24} md={16} lg={16} xl={16}
                   style={{
-                    textAlign: "right",
+                    textAlign: isWebDevice ? "right" : 'center',
+                    marginTop: isWebDevice ? 0 : 10
                   }}
                 >
                   <Space>

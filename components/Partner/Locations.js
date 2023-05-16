@@ -17,20 +17,16 @@ import LocationCard from "../LocationCard";
 import { getLocations } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import AddLocationModal from "../Locations/AddLocationModal";
+import useMedia from "@/hooks/useMedia";
 
-
-const { TextArea } = Input;
-
-const { Title, Paragraph } = Typography;
-
+const { Title } = Typography;
 const { Content } = Layout;
 
 const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
 
   const [uploadFile, setUploadFile] = useState([]);
-
+  const isWebDevice = useMedia('(min-width:700px)');
   const [addModalOpen, setAddModalOpen] = useState(false);
-
   const { notify } = useNotify();
 
   const uploadProps = {
@@ -75,16 +71,14 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
       }}
     >
       <Content
-        style={{
-          margin: "60px 40px",
-        }}
+        className="partner-layout"
       >
         <div className="site-card-wrapper">
           <Content className="custom-subcontent">
             <Row gutter={16}>
               <Col
                 className="gutter-row"
-                xs={24} sm={24} md={8} lg={8} xl={6}
+                xs={12} sm={12} md={8} lg={8} xl={6}
                 style={{
                   marginTop: 30,
                 }}
@@ -98,7 +92,7 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
                 </Button>
               </Col>
               <Col className="gutter-row"
-                xs={24} sm={24} md={8} lg={8} xl={12}
+                xs={0} sm={0} md={8} lg={8} xl={12}
               >
                 <Title
                   style={{
@@ -110,7 +104,7 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
               </Col>
               <Col
                 className="gutter-row"
-                span={6}
+                span={isWebDevice ? 6 : 12}
                 style={{
                   textAlign: "right",
                 }}
