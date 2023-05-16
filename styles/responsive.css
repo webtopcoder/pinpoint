@@ -3973,8 +3973,21 @@
   .ant-menu-horizontal .ant-menu-item {
     padding-inline: 5px;
   }
-  .thread-from{
+
+  .thread-from {
     text-align: center;
+  }
+
+  .ant-picker-date-panel {
+    order: 2;
+  }
+
+  .ant-picker-now {
+    order: 2;
+  }
+
+  .ant-picker-ok {
+    margin-inline-start: inherit !important;
   }
 
 }
