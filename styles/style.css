@@ -13240,6 +13240,10 @@ h4 {
   margin: 60px 40px;
 }
 
-.ql-toolbar.ql-snow + .ql-container.ql-snow{
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
   height: 100px;
+}
+
+.ant-card .ant-card-meta-title {
+  white-space: normal;
 }

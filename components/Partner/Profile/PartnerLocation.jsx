@@ -364,6 +364,7 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
   const arrivalImage = location?.isArrival?.images[0]?.filepath;
   const arrivalID = location?.isArrival?.id;
   const date = location?.updatedAt;
+  const isWebDevice = useMedia('(min-width:700px)');
 
   return (
     <div>
@@ -730,6 +731,7 @@ function LocationBanner({
 }) {
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
+  
   if (!location) return <Skeleton active />;
   return (
     <>
@@ -935,7 +937,6 @@ function LocationBanner({
                       )}
                     </Space>
                   </Col> : ''}
-
               </Row>
             </Card>
           </Badge.Ribbon>
