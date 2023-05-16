@@ -731,7 +731,7 @@ function LocationBanner({
 }) {
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
-  
+
   if (!location) return <Skeleton active />;
   return (
     <>
@@ -759,7 +759,7 @@ function LocationBanner({
                   textAlign: "center",
                 }}
               >
-                <Col span={10}>
+                <Col xs={0} sm={0} md={8} lg={8} xl={8}>
                   <Space>
                     <Rate
                       disabled
@@ -776,13 +776,12 @@ function LocationBanner({
                   </Space>
                 </Col>
                 <Col
-                  span={6}
+                  xs={24} sm={24} md={8} lg={8} xl={8}
                   style={{
                     top: -100,
                   }}
                 >
-                  <Space direction="vertical">
-
+                  <Space size="small" direction="vertical">
                     <Avatar
                       style={{
                         border: "3px solid black",
@@ -813,6 +812,20 @@ function LocationBanner({
                     >
                       {location?.title}
                     </Text>
+                    {isWebDevice ? '' :
+                      <Rate
+                        disabled
+                        allowHalf
+                        tooltips={[
+                          "terrible",
+                          "bad",
+                          "normal",
+                          "good",
+                          "wonderful",
+                        ]}
+                        value={location.rating}
+                      />}
+
                   </Space>
                 </Col>
                 <Col
