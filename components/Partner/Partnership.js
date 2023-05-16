@@ -25,7 +25,7 @@ import CheckoutForm from "./checkoutform";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { DeleteOutlined } from "@ant-design/icons";
-import { formartUnixtime } from "@/utils/date";
+import { formartUnixtime, formatDate } from "@/utils/date";
 
 const { Text, Paragraph } = Typography;
 
@@ -42,14 +42,12 @@ const PartnerShipPayment = ({
   applyIn,
   stripePriceId,
   isActive,
-  renewalDate,
   createCustomer,
   subscriptionId,
   cancelSubscription,
   getUserInfo,
-  renewdate
+  renewdate,
 }) => {
-
   const [priceId, setPriceId] = useState("");
   const [customer, setCustomer] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
@@ -78,6 +76,8 @@ const PartnerShipPayment = ({
     await cancelSubscription(data, (res, error) => {
       if (error) {
         console.log("error");
+        notify("error", "Fail");
+        return;
       }
       notify("success", "Subscription Cancelled");
     });
@@ -126,25 +126,34 @@ const PartnerShipPayment = ({
             <>
               <Space>
                 <Text style={{ color: "green" }}>
-                  {formartUnixtime(renewdate)}</Text>
+                  {formatDate(renewdate, "MM/DD/YYYY")}
+                </Text>
               </Space>
               <Space>
-                <Popconfirm
-                  title="Cancel PartnerShip?"
-                  description="Are you sure you want to unsubscribe from this plan?"
-                  okText="Yes"
-                  cancelText="No"
-                  onConfirm={(e) => handleCancelSubscription(e, subscriptionId)}
-                >
-                  <Button
-                    size="large"
-                    shape="round"
-                    icon={<DeleteOutlined />}
-                    danger
+                {subscriptionId ? (
+                  <Popconfirm
+                    title="Cancel PartnerShip?"
+                    description="Are you sure you want to unsubscribe from this plan?"
+                    okText="Yes"
+                    cancelText="No"
+                    onConfirm={(e) =>
+                      handleCancelSubscription(e, subscriptionId)
+                    }
                   >
-                    Cancel Partnership
+                    <Button
+                      size="large"
+                      shape="round"
+                      icon={<DeleteOutlined />}
+                      danger
+                    >
+                      Cancel Partnership
+                    </Button>
+                  </Popconfirm>
+                ) : (
+                  <Button size="large" shape="round" disabled danger>
+                    Will be cancelled on {formatDate(renewdate, "MM/DD/YYYY")}
                   </Button>
-                </Popconfirm>
+                )}
               </Space>
             </>
           ) : (
@@ -295,7 +304,8 @@ const mapStateToProps = ({ profile }) => {
     partnershipPlans: profile.partnershipsInfo,
     user_partnership: profile.userinfo.activePartnership,
     user_subscriptionId: profile.userinfo?.activeSubscription?.id,
-    partnershipPriceRenewalDate: profile.userinfo?.activeSubscription?.current_period_end,
+    partnershipPriceRenewalDate:
+      profile.userinfo?.partnershipPriceRenewalDate ?? "",
   };
 };
 
