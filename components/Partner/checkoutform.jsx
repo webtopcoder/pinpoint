@@ -2,9 +2,8 @@ import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   getUserInfo,
-  postTransaction,
   subscribe,
-  removePartnership
+  removePartnership,
 } from "@/src/redux/Profile/actions";
 import { connect, useDispatch } from "react-redux";
 import useNotify from "@/hooks/useNotify";
@@ -18,11 +17,9 @@ const CheckoutForm = ({
   customerId,
   priceId,
   onCheckout,
-  onPayment,
   showModal,
   onCancel,
   setShowModal,
-  ongetUser
 }) => {
   const [error, setError] = useState(undefined);
   const [loading, setLoading] = useState(false);
@@ -33,7 +30,6 @@ const CheckoutForm = ({
   const dispatch = useDispatch();
 
   function handleCardInputChange(event) {
-
     setDisabled(event?.empty);
     setError(event?.error?.message ?? "");
   }
@@ -72,14 +68,6 @@ const CheckoutForm = ({
             },
           }
         );
-
-        data = {
-          order: `${stripePayload.id} - trial`,
-          amount: 0,
-          currency: "usd",
-          priceId,
-          trial: true,
-        };
       } else {
         stripePayload = await stripe.confirmCardPayment(
           subscription.clientSecret, // returned by subscribe endpoint
@@ -89,13 +77,6 @@ const CheckoutForm = ({
             },
           }
         );
-
-        data = {
-          order: stripePayload?.paymentIntent,
-          amount: stripePayload?.paymentIntent?.amount,
-          currency: stripePayload?.paymentIntent?.currency,
-          priceId,
-        };
       }
       if (stripePayload.error) {
         dispatch(removePartnership());
@@ -103,20 +84,11 @@ const CheckoutForm = ({
         notify("error", stripePayload.error.message);
         setLoading(false);
         return;
-      }
-      else {
-        await onPayment(data, (res, error) => {
-          if (error) {
-            console.log(error);
-            notify("error", "Transaction send failed");
-          }
-        });
-        setLoading(false);
+      } else {
         notify("success", "Subscription purchase successful");
+        setLoading(false);
         setShowModal(false);
       }
-
-
     });
   }
 
@@ -130,7 +102,12 @@ const CheckoutForm = ({
         <Button key="back" onClick={onCancel}>
           cancel
         </Button>,
-        <Button key="submit" type="primary" loading={loading} onClick={handleCheckoutFormSubmit}>
+        <Button
+          key="submit"
+          type="primary"
+          loading={loading}
+          onClick={handleCheckoutFormSubmit}
+        >
           Pay Now
         </Button>,
       ]}
@@ -190,7 +167,6 @@ const CheckoutForm = ({
 
 const mapDispatchToProps = (dispatch) => ({
   onCheckout: (data, cb) => dispatch(subscribe(data, cb)),
-  onPayment: (data, cb) => dispatch(postTransaction(data, cb)),
   ongetUser: (cb) => dispatch(getUserInfo(cb)),
 });
 export default connect(undefined, mapDispatchToProps)(CheckoutForm);

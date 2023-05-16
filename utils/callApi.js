@@ -9,7 +9,9 @@ export default async function callAPI(endpoint, method = "get", data, params) {
   }
   const configs = {
     method,
-    url: `${process.env.NEXT_PUBLIC_API_BASE_URL}${config.baseURL}/${endpoint}`,
+    url: `${process.env.NEXT_PUBLIC_API_BASE_URL}${config.baseURL}/${
+      endpoint ? (endpoint.startsWith("/") ? endpoint.slice(1) : endpoint) : ""
+    }`,
     params,
     headers: {
       Authorization: `Bearer ${token}`,
