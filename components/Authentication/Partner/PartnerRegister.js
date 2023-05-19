@@ -1,5 +1,4 @@
 // @ts-nocheck
-import toast from "@/components/Toast";
 import useNotify from "@/hooks/useNotify";
 import logo from "@/public/images/logo.png";
 import { registerUser, getDefaultAvatar, getCategory } from "@/redux/User/actions";
@@ -9,7 +8,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-
 import FormGroup from "../FormGroup";
 import styles from "../validate.module.css";
 
@@ -42,7 +40,6 @@ const PartnerRegister = ({
     password: "",
     confirmPassword: "",
   });
-
   const [addressForm, setaddressForm] = useState({
     address: "",
     city: "",
@@ -50,8 +47,8 @@ const PartnerRegister = ({
     lat: "",
     lng: "",
   });
-
   const router = useRouter();
+  
   useEffect(() => {
     if (token) {
       router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
@@ -194,10 +191,13 @@ const PartnerRegister = ({
         return;
       }
       notify("success", "Register successfully");
-
-      localStorage.setItem("registration_email", form.email);
-      localStorage.setItem("thankyou_id", "Partner");
-      router.push("/authentication/thank-you");
+      router.push({
+        pathname: '/authentication/thank-you',
+        query: {
+          type: 'Partner',
+          registration_email: form.email
+        }
+      });
     });
   };
 
