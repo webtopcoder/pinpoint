@@ -17,9 +17,13 @@ function AuthService() {
   function VerifyUserEmail(data) {
     return api(`auth/verify-email`, "post", data)
   }
-  
-  function ResendVerifyEmail(data) {
-    return api(`auth/verify-email`, "post", data)
+
+  function getDefaultAvatar() {
+    return api(`auth/getDefaultAvatar`, "get")
+  }
+
+  function RegisterUser(data) {
+    return api(`auth/register`, "post", data)
   }
 
   return {
@@ -27,6 +31,8 @@ function AuthService() {
     recoveryPassword,
     resetPassword,
     VerifyUserEmail,
+    getDefaultAvatar,
+    RegisterUser
   };
 }
 

@@ -3,15 +3,14 @@ import { useState } from "react";
 import {
   FirstNameValidator,
   LastNameValidator,
-  LegalNameValidator,
-  AddressValidator,
+  UserNameValidator,
+  BirthdayValidator,
   CityValidator,
   StateValidator,
-  CategoryValidator,
   emailValidator,
   passwordValidator,
   confirmPasswordValidator,
-} from "../partner-validator.js";
+} from "../user-validator.jsx";
 
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
@@ -23,7 +22,7 @@ const touchErrors = (errors) => {
   }, {});
 };
 
-export const useRegisterFormValidator = (form, addressForm) => {
+export const useRegisterFormValidator = (form) => {
   const [errors, setErrors] = useState({
     firstName: {
       dirty: false,
@@ -40,7 +39,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
       error: false,
       message: "",
     },
-    address: {
+    dob: {
       dirty: false,
       error: false,
       message: "",
@@ -51,11 +50,6 @@ export const useRegisterFormValidator = (form, addressForm) => {
       message: "",
     },
     state: {
-      dirty: false,
-      error: false,
-      message: "",
-    },
-    category: {
       dirty: false,
       error: false,
       message: "",
@@ -77,13 +71,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
     },
   });
 
-  const validateForm = ({
-    form,
-    addressForm,
-    field = undefined,
-    errors,
-    forceTouchErrors = false,
-  }) => {
+  const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
     let isValid = true;
 
     // Create a deep copy of the errors
@@ -98,71 +86,65 @@ export const useRegisterFormValidator = (form, addressForm) => {
       firstName,
       lastName,
       username,
-      category,
+      city,
+      dob,
+      state,
       email,
       password,
       confirmPassword,
     } = form;
-    const { address, city, state } = addressForm;
 
     if (nextErrors.firstName.dirty && (field ? field === "firstName" : true)) {
-      const ownerfirstNameMessage = FirstNameValidator(firstName);
-      nextErrors.firstName.error = !!ownerfirstNameMessage;
-      nextErrors.firstName.message = ownerfirstNameMessage;
-      if (!!ownerfirstNameMessage) isValid = false;
+      const firstNameMessage = FirstNameValidator(firstName, form);
+      nextErrors.firstName.error = !!firstNameMessage;
+      nextErrors.firstName.message = firstNameMessage;
+      if (!!firstNameMessage) isValid = false;
     }
 
     if (nextErrors.lastName.dirty && (field ? field === "lastName" : true)) {
-      const ownerlastNameMessage = LastNameValidator(lastName);
-      nextErrors.lastName.error = !!ownerlastNameMessage;
-      nextErrors.lastName.message = ownerlastNameMessage;
-      if (!!ownerlastNameMessage) isValid = false;
+      const lastNameMessage = LastNameValidator(lastName, form);
+      nextErrors.lastName.error = !!lastNameMessage;
+      nextErrors.lastName.message = lastNameMessage;
+      if (!!lastNameMessage) isValid = false;
     }
 
     if (nextErrors.username.dirty && (field ? field === "username" : true)) {
-      const legalNameMessage = LegalNameValidator(username);
-      nextErrors.username.error = !!legalNameMessage;
-      nextErrors.username.message = legalNameMessage;
-      if (!!legalNameMessage) isValid = false;
+      const userNameMessage = UserNameValidator(username, form);
+      nextErrors.username.error = !!userNameMessage;
+      nextErrors.username.message = userNameMessage;
+      if (!!userNameMessage) isValid = false;
     }
 
     if (nextErrors.email.dirty && (field ? field === "email" : true)) {
-      const emailMessage = emailValidator(email);
+      const emailMessage = emailValidator(email, form);
       nextErrors.email.error = !!emailMessage;
       nextErrors.email.message = emailMessage;
       if (!!emailMessage) isValid = false;
     }
 
-    if (nextErrors.address.dirty && (field ? field === "address" : true)) {
-      const addressMessage = AddressValidator(address);
-      nextErrors.address.error = !!addressMessage;
-      nextErrors.address.message = addressMessage;
-      if (!!addressMessage) isValid = false;
+    if (nextErrors.dob.dirty && (field ? field === "dob" : true)) {
+      const dobMessage = BirthdayValidator(dob, form);
+      nextErrors.dob.error = !!dobMessage;
+      nextErrors.dob.message = dobMessage;
+      if (!!dobMessage) isValid = false;
     }
 
     if (nextErrors.city.dirty && (field ? field === "city" : true)) {
-      const cityMessage = CityValidator(city);
+      const cityMessage = CityValidator(city, form);
       nextErrors.city.error = !!cityMessage;
       nextErrors.city.message = cityMessage;
       if (!!cityMessage) isValid = false;
     }
 
     if (nextErrors.state.dirty && (field ? field === "state" : true)) {
-      const stateMessage = StateValidator(state);
+      const stateMessage = StateValidator(state, form);
       nextErrors.state.error = !!stateMessage;
       nextErrors.state.message = stateMessage;
       if (!!stateMessage) isValid = false;
     }
 
-    if (nextErrors.category.dirty && (field ? field === "category" : true)) {
-      const categoryMessage = CategoryValidator(category);
-      nextErrors.category.error = !!categoryMessage;
-      nextErrors.category.message = categoryMessage;
-      if (!!categoryMessage) isValid = false;
-    }
-
     if (nextErrors.password.dirty && (field ? field === "password" : true)) {
-      const passwordMessage = passwordValidator(password);
+      const passwordMessage = passwordValidator(password, form);
       nextErrors.password.error = !!passwordMessage;
       nextErrors.password.message = passwordMessage;
       if (!!passwordMessage) isValid = false;
@@ -202,7 +184,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
       },
     };
 
-    validateForm({ form, addressForm, field, errors: updatedErrors });
+    validateForm({ form, field, errors: updatedErrors });
   };
 
   return {

@@ -5,7 +5,7 @@ import LostPassword from "@/components/Authentication/Lost-password";
 const lostPassword = () => {
   return (
     <>
-      <PageTitle page="RESET PASSWORD" />
+      <PageTitle page="RESET PASSWORD | PINPOINT" />
       <div className="profile-authentication-area ptb-100">
         <div className="container">
           <div className="page-title-content">

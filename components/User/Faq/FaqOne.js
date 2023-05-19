@@ -13,26 +13,6 @@ const FaqOne = ({ fetchFaqs, faqs }) => {
   const [loading, setLoading] = React.useState(false);
   const { notify } = useNotify();
 
-
-  async function handleResendEmail() {
-    const data = {
-      email: form.userInfo,
-    };
-
-    await authService.getFaqs()
-      .then(() => {
-        notify("success", "Email sent successfully");
-        router.push(`/email-verification?email=${form.userInfo}`);
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
-
   useEffect(() => {
     setLoading(true);
     getFaqs();

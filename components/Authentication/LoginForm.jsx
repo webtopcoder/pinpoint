@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "@/public/images/logo.png";
 import { loginUser } from "@/redux/User/actions";
 import Image from "next/image";
 import Link from "next/link";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { connect } from "react-redux";
 import FormGroup from "./FormGroup";
 import { useLoginFormValidator } from "./hooks/useLoginValidator";
 import useNotify from "@/hooks/useNotify";
 
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
+
 const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -48,11 +59,11 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   const onSubmitForm = (e) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
-
     if (!isValid) return;
+    setLoading(true);
     onLoginUser({ ...form, role }, (res, error) => {
+      setLoading(false);
       if (error) {
-        console.log(error)
         notify(
           "error",
           error?.response?.data?.message ?? "Something went wrong"
@@ -127,7 +138,9 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
-              <button className="loginsignButton" type="submit">Log In</button>
+              <Spin spinning={loading} indicator={antIcon}>
+                <button className="loginsignButton" type="submit">Log In</button>
+              </Spin>
             </div>
           </div>
           <div className="row auth-divider"></div>

@@ -5,14 +5,25 @@ import csc from "country-state-city";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import styles from "../validate.module.css";
 import { useRegisterFormValidator } from "./hooks/use-user-register-form-validator";
-import { registerUser, getDefaultAvatar } from "@/redux/User/actions";
 import "react-datepicker/dist/react-datepicker.css";
 import FormGroup from "../FormGroup";
 import useNotify from "@/hooks/useNotify";
+import { authService } from "@/services/index";
 
-const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar }) => {
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
+
+const UserRegister = ({ token, loggedInRole }) => {
   const countryCode = "US";
   const country = csc.getCountryByCode(countryCode);
   const states = csc.getStatesOfCountry(country.isoCode);
@@ -31,10 +42,9 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
     password: "",
     confirmPassword: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const [cityList, setCityList] = useState([]);
   const { notify } = useNotify();
-
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
 
   useEffect(() => {
@@ -44,14 +54,13 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
   }, [token]);
 
   useEffect(() => {
-    ongetDefaultAvatar((res, error) => {
-      if (error) {
-        console.log("error");
-      } else {
-        setAvatar(res?.result);
-      }
-    })
+    ongetDefaultAvatar();
   }, []);
+
+  async function ongetDefaultAvatar() {
+    const result = await authService.getDefaultAvatar();
+    await setAvatar(result.result);
+  }
 
   const onUpdateField = (e) => {
     const field = e.target.name;
@@ -74,10 +83,11 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
       });
   };
 
-  const onSubmitForm = (e) => {
+  async function onSubmitForm(e) {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
+    setLoading(true);
     const fields = [
       "role",
       "dob",
@@ -100,14 +110,10 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
       }
     };
 
-    onRegisterUser(formRequest, (res, error) => {
-      if (error) {
-        console.log("error");
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-      } else {
+    await authService.RegisterUser(formRequest)
+      .then(() => {
+        setLoading(false);
+        notify("success", "Register successfully");
         router.push({
           pathname: '/authentication/thank-you',
           query: {
@@ -115,8 +121,16 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
             registration_email: formRequest.email
           }
         });
-      }
-    });
+      })
+      .catch((error) => {
+        setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+
   };
 
   return (
@@ -263,11 +277,12 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
           </div>
           <div className="row">
             <div className="col-lg-12">
-              <button className="loginsignButton" type="submit">Create Account</button>
+              <Spin spinning={loading} indicator={antIcon}>
+                <button className="loginsignButton" type="submit">Create Account</button>
+              </Spin>
             </div>
           </div>
           <div className="row auth-divider"></div>
-
           <div className="col-12">
             <p className="account-desc">
               Already have an account? Login{" "}
@@ -295,9 +310,4 @@ const mapStateToProps = ({ user }) => ({
   token: user.token,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
-  ongetDefaultAvatar: (cb) => dispatch(getDefaultAvatar(cb)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserRegister);
+export default connect(mapStateToProps, undefined)(UserRegister);

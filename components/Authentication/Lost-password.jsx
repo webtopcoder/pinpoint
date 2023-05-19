@@ -3,15 +3,24 @@ import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
 import useNotify from "@/hooks/useNotify";
-import { useRouter } from "next/router";
 import { authService } from "@/services/index";
 
-const LostPassword = () => {
-  const router = useRouter();
-  const { notify } = useNotify();
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
+const LostPassword = () => {
+  const { notify } = useNotify();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     userInfo: "",
   });
@@ -20,11 +29,10 @@ const LostPassword = () => {
     const data = {
       email: form.userInfo,
     };
-
-    await authService.resendverifyEmail(data)
+    setLoading(true);
+    await authService.recoveryPassword(data)
       .then(() => {
-        notify("success", "Email sent successfully");
-        router.push(`/email-verification?email=${form.userInfo}`);
+        notify("success", "Email has been resent");
       })
       .catch((error) => {
         notify(
@@ -124,7 +132,7 @@ const LostPassword = () => {
                   }}
                   className="lost-your-password"
                 >
-                  Resend Email Verification
+                  Resend Email
                 </a>
               </div>
               <div
@@ -141,7 +149,9 @@ const LostPassword = () => {
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
-              <button className="loginsignButton" type="submit">Submit</button>
+              <Spin spinning={loading} indicator={antIcon}>
+                <button className="loginsignButton" type="submit">Submit</button>
+              </Spin>
             </div>
           </div>
           <div className="row auth-divider"></div>

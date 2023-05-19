@@ -1,7 +1,6 @@
 import React from "react";
 import useNotify from "@/hooks/useNotify";
 import {
-  EnvironmentFilled,
   MessageOutlined,
   LikeOutlined,
   EllipsisOutlined,
@@ -27,7 +26,6 @@ import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
 import { quickDeparture, getLocations } from "@/src/redux/Location/actions";
-import { getDiffToNow } from "@/utils/date";
 import { useRouter } from "next/router";
 
 import Image from "next/image";

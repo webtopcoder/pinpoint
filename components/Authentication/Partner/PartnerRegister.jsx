@@ -1,23 +1,28 @@
 // @ts-nocheck
+import React, { useEffect, useRef, useState } from "react";
 import useNotify from "@/hooks/useNotify";
 import logo from "@/public/images/logo.png";
-import { registerUser, getDefaultAvatar, getCategory } from "@/redux/User/actions";
 import Image from "next/image";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
-import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import FormGroup from "../FormGroup";
 import styles from "../validate.module.css";
-
 import { useRegisterFormValidator } from "./hooks/use-partner-register-validator";
+import { categoryService, authService } from "@/services/index";
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
 const PartnerRegister = ({
-  onRegisterUser,
-  ongetCategory,
-  ongetDefaultAvatar,
-  categoryInfo,
   loggedInRole,
   token,
 }) => {
@@ -25,6 +30,7 @@ const PartnerRegister = ({
   let itemLocality = "";
   let itemState = "";
   const [defaultAvatar, setAvatar] = useState();
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
     role: "partner",
     firstName: "",
@@ -47,8 +53,9 @@ const PartnerRegister = ({
     lat: "",
     lng: "",
   });
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  
+
   useEffect(() => {
     if (token) {
       router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
@@ -71,6 +78,16 @@ const PartnerRegister = ({
     ],
   };
 
+  async function ongetCategory() {
+    const result = await categoryService.getCategory();
+    await setCategories(result.allcategories);
+  }
+
+  async function ongetDefaultAvatar() {
+    const result = await authService.getDefaultAvatar();
+    await setAvatar(result.result);
+  }
+
   useEffect(() => {
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
@@ -79,7 +96,6 @@ const PartnerRegister = ({
 
     autoCompleteRef.current?.addListener("place_changed", async function () {
       const place = await autoCompleteRef.current.getPlace();
-
       place.address_components.map((address_component, _) => {
         if (address_component.types[0] == "locality")
           itemLocality = address_component.long_name;
@@ -98,14 +114,7 @@ const PartnerRegister = ({
     });
 
     ongetCategory();
-    ongetDefaultAvatar((res, error) => {
-      if (error) {
-        console.log("error");
-      } else {
-        setAvatar(res?.result);
-      }
-    })
-
+    ongetDefaultAvatar();
   }, []);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(
@@ -146,7 +155,7 @@ const PartnerRegister = ({
     }
   };
 
-  const onSubmitForm = (e) => {
+  async function onSubmitForm(e) {
     e.preventDefault();
     setForm({
       ...form,
@@ -165,6 +174,7 @@ const PartnerRegister = ({
     });
 
     if (!isValid) return;
+    setLoading(true);
     const data = {
       role: form.role,
       firstName: form.firstName,
@@ -185,22 +195,27 @@ const PartnerRegister = ({
       password: form.password,
     };
 
-    onRegisterUser(data, (res, error) => {
-      if (error) {
-        notify("error", error.response.data.message);
+    await authService.RegisterUser(data)
+      .then(() => {
+        setLoading(false);
+        notify("success", "Register successfully");
+        router.push({
+          pathname: '/authentication/thank-you',
+          query: {
+            type: 'Partner',
+            registration_email: form.email
+          }
+        });
+      })
+      .catch((error) => {
+        setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
         return;
-      }
-      notify("success", "Register successfully");
-      router.push({
-        pathname: '/authentication/thank-you',
-        query: {
-          type: 'Partner',
-          registration_email: form.email
-        }
       });
-    });
   };
-
   return (
     <>
       <div className="col-lg-6 col-md-12">
@@ -292,7 +307,7 @@ const PartnerRegister = ({
                     onBlur={onBlurField}
                   >
                     <option value="0">Select Category</option>
-                    {categoryInfo?.map((option, index) => (
+                    {categories?.map((option, index) => (
                       <option key={index} value={option._id}>
                         {option.name}
                       </option>
@@ -341,7 +356,9 @@ const PartnerRegister = ({
             </div>
             <div className="row">
               <div className="col-lg-12">
-                <button className="loginsignButton" type="submit">Request Access</button>
+                <Spin spinning={loading} indicator={antIcon}>
+                  <button className="loginsignButton" type="submit">Request Access</button>
+                </Spin>
               </div>
             </div>
             <div className="row auth-divider"></div>
@@ -368,17 +385,8 @@ const PartnerRegister = ({
   );
 };
 const mapStateToProps = ({ user }) => ({
-  categoryInfo: user.partnerCategory.allcategories,
   token: user.token,
   loggedInRole: user.role,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRegisterUser: (data, cb) => dispatch(registerUser(data, cb)),
-    ongetDefaultAvatar: (cb) => dispatch(getDefaultAvatar(cb)),
-    ongetCategory: () => dispatch(getCategory()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PartnerRegister);
+export default connect(mapStateToProps, undefined)(PartnerRegister);

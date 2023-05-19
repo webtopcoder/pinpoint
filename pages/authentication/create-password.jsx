@@ -5,7 +5,7 @@ import PasswordCreate from "@/components/Authentication/Create-password";
 const createPassword = () => {
   return (
     <>
-      <PageTitle page="CREATE PASSWORD" />
+      <PageTitle page="CREATE PASSWORD | PINPOINT" />
       <div className="profile-authentication-area ptb-100">
         <div className="container">
           <div className="page-title-content">

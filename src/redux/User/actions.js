@@ -1,10 +1,6 @@
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
-  CATEGORY_GET_REQUEST,
-  CATEGORY_GET_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   LOGOUT,
@@ -62,37 +58,6 @@ export function loginUser(form, cb) {
       });
 }
 
-export function registerUser(form, cb) {
-  return (dispatch) =>
-    api(`auth/register`, "post", form)
-      .then((res) => {
-        dispatch({
-          type: USER_REGISTER_REQUEST,
-        });
-
-        dispatch({
-          type: USER_REGISTER_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function getDefaultAvatar(cb) {
-  return (dispatch) =>
-    api(`auth/getDefaultAvatar`, "get")
-      .then((res) => {
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        cb(res);
-      });
-}
-
 export function getisFavorited(locationID, cb) {
   return (dispatch) =>
     api(`profile/getFavortied/${locationID}`, "get")
@@ -133,19 +98,6 @@ export function verifyUserEmail(form, cb) {
       .catch((error) => {
         cb(null, error);
       });
-}
-
-export function getCategory() {
-  return (dispatch) =>
-    api(`categories`, "get").then((res) => {
-      dispatch({
-        type: CATEGORY_GET_REQUEST,
-      });
-      dispatch({
-        type: CATEGORY_GET_SUCCESS,
-        payload: res,
-      });
-    });
 }
 
 export function getsubCategory(categoryID, cb) {

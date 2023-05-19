@@ -10,7 +10,7 @@ const Locations = () => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Locations" />
+      <PageTitle page="LOCATIONS | PINPOINT" />
       <div className="page-partner-area">
         <Layout
           style={{
