@@ -9,7 +9,8 @@ import farmers from "@/public/images/landing/farmers.png";
 import fireworks from "@/public/images/landing/fireworks.png";
 import food from "@/public/images/landing/food.png";
 import location from "@/public/images/landing/location.png";
-import bannerImg from "@/public/images/landing/map-4-points.png";
+import bannerImgDesktop from "@/public/images/landing/map.png";
+import bannerImgMobile from "@/public/images/landing/map-4-points.png";
 import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
@@ -17,11 +18,13 @@ import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
+import useMedia from "@/hooks/useMedia";
 
 const UserHome = () => {
   const faviconUrl = `${apiBaseUrl}/location.png`;
   const [testimonials, setTestimonial] = useState();
   const [activePartners, setactivePartners] = useState();
+  const isWebDevice = useMedia('(min-width:700px)');
   const { notify } = useNotify();
 
   useEffect(() => {
@@ -110,10 +113,37 @@ const UserHome = () => {
                 <div>
                   <Image
                     className="main-banner"
-                    src={bannerImg}
+                    src={isWebDevice ? bannerImgDesktop : bannerImgMobile}
                     alt="banner-image"
                   />
                 </div>
+                {isWebDevice ? <>
+                  <div className="ping-img1">
+                    <Image
+                      src={christmas}
+                      alt="banner-image"
+                    />
+                  </div>
+                  <div className="ping-img2">
+                    <Image
+                      src={coffee}
+                      alt="banner-image"
+                    />
+                  </div>
+                  <div className="ping-img3">
+                    <Image
+                      src={food}
+                      alt="banner-image"
+                    />
+                  </div>
+                  <div className="ping-img4">
+                    <Image
+                      src={mobile}
+                      alt="banner-image"
+                    />
+                  </div>
+                </> : ""}
+
               </div>
             </div>
           </div>

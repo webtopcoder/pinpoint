@@ -16,6 +16,7 @@ import "react-modal-video/css/modal-video.min.css";
 import "/styles/global.css";
 import "/styles/style.css";
 import "/styles/header.css";
+// import "/styles/header.scss";
 import "/styles/footer.css";
 import "/styles/responsive.css";
 import "/styles/styles.scss";

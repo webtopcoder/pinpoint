@@ -717,6 +717,43 @@ Software Banner Area CSS
   border-radius: 50%;
 }
 
+.ping-img1 {
+  top: 39%;
+  left: 61%;
+  position: absolute;
+  -webkit-animation: bounce2 2s ease infinite;
+  animation: bounce2 2s ease infinite;
+}
+.ping-img2 {
+  top: 5%;
+  left: 47%;
+  position: absolute;
+  -webkit-animation: bounce2 2s ease infinite;
+  animation: bounce2 2s ease infinite;
+}
+
+.ping-img3 {
+  top: 5%;
+  left: 69%;
+  position: absolute;
+  -webkit-animation: bounce2 3s ease infinite;
+  animation: bounce2 3s ease infinite;
+}
+
+.ping-img4 {
+  top: 27%;
+  left: 31%;
+  position: absolute;
+  -webkit-animation: bounce2 3s ease infinite;
+  animation: bounce2 3s ease infinite;
+}
+
+@keyframes bounce2 {
+	0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+	40% {transform: translateY(-30px);}
+	60% {transform: translateY(-15px);}
+}
+
 .banner-sub-description {
   background: #5275993d;
   margin-top: -208px;
@@ -13247,4 +13284,3 @@ h4 {
 .ant-card .ant-card-meta-title {
   white-space: normal;
 }
-

@@ -4,8 +4,6 @@ import {
   SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   LOGOUT,
-  USER_EMAIL_VERIFICATION_REQUEST,
-  USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
   UPDATE_NOTIFICATION_REQUEST,
@@ -77,26 +75,6 @@ export function getuserInfoByID(id, cb) {
       })
       .catch((error) => {
         console.log(error);
-      });
-}
-
-export function verifyUserEmail(form, cb) {
-  return (dispatch) =>
-    api(`auth/verify-email`, "post", form)
-      .then((res) => {
-        dispatch({
-          type: USER_EMAIL_VERIFICATION_REQUEST,
-        });
-
-        dispatch({
-          type: USER_EMAIL_VERIFICATION_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
       });
 }
 
