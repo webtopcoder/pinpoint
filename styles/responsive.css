@@ -3989,6 +3989,11 @@
   .ant-picker-ok {
     margin-inline-start: inherit !important;
   }
+
+  .otpField input {
+    width: 40px;
+    padding: 7px 3px;
+  }
 }
 
 /* Min width 576px to Max width 767px */

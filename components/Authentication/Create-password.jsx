@@ -51,7 +51,7 @@ const CreatePassword = () => {
     await authService.resetPassword({
       password: form.password,
       token: form.token,
-    },)
+    })
       .then(() => {
         notify("success", "Password has been changed");
         router.push("/");

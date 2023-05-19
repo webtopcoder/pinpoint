@@ -1,127 +1,102 @@
 // @ts-nocheck
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import AuthCode from "react-auth-code-input";
-import { sendVerificationEmail, verifyUserEmail } from "@/redux/User/actions";
-import { connect } from "react-redux";
-
+import PageTitle from "@/components/Layout/PageTitle";
 import thankYouImg from "@/public/images/thank-you.png";
 import { useRouter } from "next/router";
-import toast from "@/components/Toast";
+import useNotify from "@/hooks/useNotify";
+import { authService } from "@/services/index";
 
-const ThankYou = ({ onVerifyUserEmail, onResendVerifyEmail }) => {
+const ThankYou = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [thankyou_id, setThankyouId] = useState("");
-  const [result, setResult] = useState("");
-  const handleOnChange = (res) => {
-    setResult(res);
-  };
+  const { notify } = useNotify();
+  const { type, registration_email } = router.query;
 
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
-  useEffect(() => {
-    if (window.localStorage.getItem("registration_email")) {
-      setEmail(window.localStorage.getItem("registration_email"));
+  async function handleOnChange(res) {
+    if (res.length === 6) {
+      const data = {
+        email: registration_email,
+        otp: res,
+      };
+      await authService.VerifyUserEmail(data)
+        .then(() => {
+          notify("success", "Email verified successfully");
+          router.push(`/authentication/${type.toLowerCase()}/login`);
+        })
+        .catch((error) => {
+          notify(
+            "error",
+            error?.response?.data?.message || "Something went wrong"
+          );
+          return;
+        });
     }
-    setThankyouId(localStorage.getItem("thankyou_id"));
-  }, []);
-
-  const backLogin = thankyou_id.toLowerCase();
-
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      email: email,
-      otp: result,
-    };
-    onVerifyUserEmail(data, (_, error) => {
-      if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      }
-      notify("success", "Email verified successfully");
-      router.push(`/authentication/${backLogin}/login`);
-    });
   };
 
-  const handleResendEmail = () => {
+  async function handleResendEmail() {
     const data = {
-      email: email,
+      email: registration_email,
     };
-    onResendVerifyEmail(data, (_, error) => {
-      if (error) {
+
+    await authService.resendverifyEmail(data)
+      .then(() => {
+        notify("success", "Email sent successfully");
+      })
+      .catch((error) => {
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
         );
         return;
-      }
-      notify("success", "Email sent successfully");
-    });
+      });
   };
 
   return (
-    <div className="thank-you-area">
-      <div className="d-table">
-        <div className="d-table-cell">
-          <div className="container">
-            <div className="thank-you-content">
-              <Image src={thankYouImg} alt="thank-you" />
-              <h3>THANK YOU FOR JOINING PINPOINT!</h3>
-              <p>
-                PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A
-                OTP TO THE EMAIL GIVEN!
-              </p>
-              <form onSubmit={handleOnSubmit}>
-                <div className="otpField">
-                  <AuthCode
-                    allowedCharacters="numeric"
-                    onChange={handleOnChange}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  style={{
-                    marginTop: 20,
-                  }}
-                  className="btn-style-one red-light-color"
-                >
-                  Verify Email
-                </button>
-                <div className="authSubText">
-                  <p>Didn&#8217;t receive the code?</p>
-                  <a role="button" onClick={handleResendEmail}>
-                    <span>Send again</span>
-                  </a>
-                </div>
-              </form>
-
-              <div className="col-12">
-                <p className="account-desc">
-                  <Link href={`/authentication/${backLogin}/login`}>
-                    <a className="login-dashboard-a-color">
-                      Back to {thankyou_id} Login{" "}
-                    </a>
-                  </Link>
+    <>
+      <PageTitle page="THANK YOU" />
+      <div className="thank-you-area">
+        <div className="d-table">
+          <div className="d-table-cell">
+            <div className="container">
+              <div className="thank-you-content">
+                <Image src={thankYouImg} alt="thank-you" />
+                <h3>THANK YOU FOR JOINING PINPOINT!</h3>
+                <p>
+                  PLEASE VERIFY YOUR ACCOUNT TO GAIN ACCESS...WE JUST SENT YOU A
+                  OTP TO THE EMAIL GIVEN!
                 </p>
+                <form>
+                  <div className="otpField">
+                    <AuthCode
+                      allowedCharacters="numeric"
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                  <div className="authSubText">
+                    <p>Didn&#8217;t receive the code?</p>
+                    <a role="button" onClick={handleResendEmail}>
+                      <span>Send again</span>
+                    </a>
+                  </div>
+                </form>
+                <div className="col-12">
+                  <p className="account-desc">
+                    <Link href={`/authentication/${type.toLowerCase()}/login`}>
+                      <a className="login-dashboard-a-color">
+                        Back to {type} Login{" "}
+                      </a>
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onVerifyUserEmail: (data, cb) => dispatch(verifyUserEmail(data, cb)),
-  onResendVerifyEmail: (data, cb) => dispatch(sendVerificationEmail(data, cb)),
-});
-export default connect(undefined, mapDispatchToProps)(ThankYou);
+export default ThankYou;

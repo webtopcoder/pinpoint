@@ -7,7 +7,8 @@ import {
   LikeOutlined,
   EnvironmentOutlined,
   DownOutlined,
-  ClockCircleFilled
+  ClockCircleFilled,
+  UserOutlined
 } from "@ant-design/icons";
 import {
   Image as Antimage,
@@ -43,6 +44,9 @@ import {
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";
+
+const { Meta } = Card;
+const { Title } = Typography;
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -249,7 +253,6 @@ function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, expand, setEx
                 <p className="comment-notes">
                   <Avatar
                     style={{
-                      border: "3px solid black",
                       cursor: "pointer",
                       background: "rgb(223 216 216)",
                     }}
@@ -372,10 +375,39 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
         <div className="avatar-respond">
           <div style={{ display: "flex" }} className="pin-post-header-section">
             <div className="pin-post-label">
+              {/* <Card
+                style={{
+                  marginTop: 16,
+                  border: "0px",
+                }}
+            
+              // loading={loading}
+              >
+                <Meta
+                  avatar={
+                    location.images.length !== 0 &&
+                      location.images[0]?.filepath ? (
+                      <Avatar
+                        height={64}
+                        width={64}
+                        src={avatarurl + location.images[0]?.filepath}
+                      />
+                    ) : (
+                      <Avatar size={64} icon={<UserOutlined />} />
+                    )
+                  }
+                  title={<Title level={4}>{location?.title}</Title>}
+                  description={
+                    <Space direction="vertical" size="middle">
+                      <Title level={5}> at {location?.mapLocation?.city}</Title>
+                    </Space>
+                  }
+                />
+              </Card> */}
+
               <p className="comment-notes">
                 <Avatar
                   style={{
-                    border: "3px solid black",
                     cursor: "pointer",
                     background: "rgb(223 216 216)",
                   }}
@@ -784,7 +816,6 @@ function LocationBanner({
                   <Space size="small" direction="vertical">
                     <Avatar
                       style={{
-                        border: "3px solid black",
                         cursor: "pointer",
                         background: "rgb(223 216 216)",
                       }}

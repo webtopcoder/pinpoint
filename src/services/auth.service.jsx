@@ -14,10 +14,19 @@ function AuthService() {
     return api(`auth/reset-password`, "post", data)
   }
 
+  function VerifyUserEmail(data) {
+    return api(`auth/verify-email`, "post", data)
+  }
+  
+  function ResendVerifyEmail(data) {
+    return api(`auth/verify-email`, "post", data)
+  }
+
   return {
     resendverifyEmail,
     recoveryPassword,
     resetPassword,
+    VerifyUserEmail,
   };
 }
 

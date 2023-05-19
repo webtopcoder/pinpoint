@@ -188,7 +188,6 @@ const PartnerShipPayment = ({
               )}
             </>
           )}
-
           <Divider />
         </Space>
         {features.map((feature, index) => (

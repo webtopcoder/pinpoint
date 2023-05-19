@@ -55,7 +55,6 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
 
   const onUpdateField = (e) => {
     const field = e.target.name;
-
     if (e.target.name == "state") {
       const citiesbystate = csc.getCitiesOfState(countryCode, e.target.value);
       setCityList(citiesbystate);
@@ -100,10 +99,7 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
         avatar: defaultAvatar
       }
     };
-    const savedEmail = localStorage.setItem(
-      "registration_email",
-      formRequest.email
-    );
+
     onRegisterUser(formRequest, (res, error) => {
       if (error) {
         console.log("error");
@@ -112,8 +108,13 @@ const UserRegister = ({ onRegisterUser, token, loggedInRole, ongetDefaultAvatar 
           error?.response?.data?.message || "Something went wrong"
         );
       } else {
-        router.push("/authentication/thank-you");
-        localStorage.setItem("thankyou_id", "User");
+        router.push({
+          pathname: '/authentication/thank-you',
+          query: {
+            type: 'User',
+            registration_email: formRequest.email
+          }
+        });
       }
     });
   };
