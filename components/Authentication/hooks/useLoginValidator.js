@@ -3,7 +3,7 @@ import {
   emailValidator,
   passwordValidator,
   RoleValidator
-} from "../User/user-validator.js";
+} from "../User/user-validator.jsx";
 
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
