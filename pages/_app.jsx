@@ -37,9 +37,9 @@ Router.events.on("routeChangeError", () => NProgress.done());
 function MyApp({ Component, pageProps, permission }) {
 
   var socket = null;
-
   React.useEffect(() => {
 
+    // - client side
     AOS.init();
     if (store.getState().user.user_id && socket == null) {
       socket = io(DOMAIN);

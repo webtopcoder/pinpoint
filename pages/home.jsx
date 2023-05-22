@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import { setCookie, getCookie, hasCookie } from 'cookies-next';
 import LandingContact from "@/components/Landing/LandingContact";
 import Testimonial from "@/components/Landing/Testimonial";
 import PageTitle from "@/components/Layout/PageTitle";
@@ -16,18 +17,65 @@ import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
 import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
-import { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";     
 import Layout from "../layout";
+import { Button, notification, Space, Typography } from 'antd';
 import useMedia from "@/hooks/useMedia";
+import { browserName } from 'react-device-detect';
+
+const { Paragraph, Text } = Typography;
+
+const close = () => {
+  console.log(
+    'Notification was closed. Either the close button was clicked or duration time elapsed.',
+  );
+};
 
 const UserHome = () => {
   const faviconUrl = `${apiBaseUrl}/location.png`;
   const [testimonials, setTestimonial] = useState();
   const [activePartners, setactivePartners] = useState();
   const isWebDevice = useMedia('(min-width:700px)');
+  const [api, contextHolder] = notification.useNotification();
   const { notify } = useNotify();
 
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Space>
+        <Button type="link" size="small" onClick={() => {
+          setCookie('notify', true); // - client side
+          api.destroy()
+        }}>
+          Don't display agian
+        </Button>
+        <Button type="primary" size="small" onClick={() => api.destroy()}>
+          Cancel
+        </Button>
+      </Space>
+    );
+    api.info({
+      message: 'Info',
+      description: <>
+        <Paragraph>
+          To view google map in safari browser, you need to configure following step.
+        </Paragraph>
+        <Paragraph>
+          <Text strong>
+            Safari-&gt;Preferences-Advanced-&gt;check "SHow Develop menu in menu bar". Now from the Develop menu select "Experiemental Features" and scroll down to "WebGL via Metal" and uncheck it.',
+          </Text>
+        </Paragraph>
+      </>,
+      btn,
+      placement: 'bottomLeft',
+      duration: null,
+      onClose: close,
+    });
+  }
+
   useEffect(() => {
+    const flag = getCookie('notify');
+    browserName === "Safari" && flag === true ? openNotification() : '';
     getActivepartnersAndTestimonials();
   }, []);
 
@@ -92,7 +140,8 @@ const UserHome = () => {
 
   return (
     <>
-      <PageTitle page="Home" />
+      {contextHolder}
+      <PageTitle page="HOME | PINPOINT" />
       <div className="software-banner-area">
         <div className="container">
           <div className="row">
@@ -408,6 +457,7 @@ const UserHome = () => {
     </>
   );
 };
+
 
 UserHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

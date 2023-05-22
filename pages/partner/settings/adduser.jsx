@@ -4,19 +4,21 @@ import BasicLayout from "../../../layout";
 import LeftSidebar from "@/components/Layout/Partner/Sidebar";
 import { Layout } from "antd";
 import AddUsers from "@/components/Partner/Settings/addUser";
+import useMedia from "@/hooks/useMedia";
 
 const AddUser = () => {
+  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
       <PageTitle page="Settings | Additional Users" />
       <div className="page-partner-area">
         <Layout
           style={{
-            minHeight: "130vh",
+            minHeight: isWebDevice ? "130vh" : '50vh',
             backgroundColor: "#272753",
           }}
         >
-          <LeftSidebar />
+          {isWebDevice ? <LeftSidebar /> : ""}
           <AddUsers />
         </Layout>
       </div>

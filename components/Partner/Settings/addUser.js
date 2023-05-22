@@ -1,64 +1,56 @@
 import React, { useEffect, useState } from "react";
 import styles from "./settings.module.css";
-import { Col, Row, Layout, Button, Popconfirm, List } from "antd";
+import { Col, Row, Layout, Button, Popconfirm, List, Space } from "antd";
 import { useRouter } from "next/router";
-import {
-  DoubleLeftOutlined,
-  PlusOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { DoubleLeftOutlined, PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AddUserModal from "./addModal";
-import { getSettingsValue, postSettingsValue } from "@/src/redux/User/actions";
-import { connect } from "react-redux";
+import EditUserModal from "./editModal";
 import useNotify from "@/hooks/useNotify";
+import { settingService, locationService } from "@/services/index";
 
 const { Content } = Layout;
 
-const SettingAddUser = ({
-  user_settings,
-  onGetSettingsValue,
-  onSettingsToggle,
-}) => {
+const SettingAddUser = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
+  const [locations, setLocations] = useState([]);
   const { notify } = useNotify();
-
   const [showModal, setShowModal] = useState(false);
+  const [additionalUsers, setadditionalUsers] = useState();
   const handleCancel = () => setShowModal(false);
   const handleOk = () => {
     setShowModal(false);
   };
-  useEffect(() => {
-    onGetSettingsValue((res, error) => {
-      if (error) {
-        console.log("error");
-      }
-    });
-  }, [onGetSettingsValue]);
 
-  useEffect(() => {
-    const additionalUserSettings = user_settings.find(
+  async function getSettingUsers() {
+    const result = await settingService.GetSettingsValue();
+    const filtered = result?.results?.find(
       (setting) => setting.key == "user:additionalUser"
     );
-    if (additionalUserSettings?.value) {
-      setData(additionalUserSettings.value);
+    await setData(result.results);
+    if (filtered?.value) {
+      await setadditionalUsers(filtered.value);
     }
-  }, [user_settings]);
 
-  const handleDelete = (e, deleteData) => {
+    const res_locations = await locationService.getLocations({ partner: localStorage.getItem('user_id'), isActive: null });
+    await setLocations(res_locations.results)
+  }
+
+  useEffect(() => {
+    getSettingUsers();
+  }, []);
+
+  async function handleDelete(e, deleteData) {
     e.preventDefault();
-    const filtered = data.filter((user) => user != deleteData);
+    const filtered = additionalUsers.filter((user) => user != deleteData);
     const newData = {
       key: `user:additionalUser`,
       value: filtered,
     };
-    onSettingsToggle(newData, (res, error) => {
-      if (error) {
-        console.log("error");
-      } else {
-        notify("success", "Settings Changed.");
-      }
-    });
+
+    const res = await settingService.SettingsToggle(newData);
+    await getSettingUsers();
+    notify("success", "Settings Changed.");
   };
 
   return (
@@ -69,9 +61,7 @@ const SettingAddUser = ({
       }}
     >
       <Content
-        style={{
-          margin: "100px 100px",
-        }}
+        className="partner-layout"
       >
         <div className="site-card-wrapper">
           <Row className="mb-5">
@@ -98,7 +88,7 @@ const SettingAddUser = ({
           </Row>
           <List
             itemLayout="horizontal"
-            dataSource={data}
+            dataSource={additionalUsers}
             renderItem={(user) => (
               <Row className={styles.list + " mt-3"}>
                 <Col md={16} xs={24} sm={24} className={styles.left_pane}>
@@ -106,21 +96,24 @@ const SettingAddUser = ({
                   <div className={styles.role}>{user.role}</div>
                 </Col>
                 <Col md={8} xs={24} sm={24} className={styles.right_pane}>
-                  <Popconfirm
-                    title="Delete User?"
-                    description="Are you sure to delete this user?"
-                    okText="Yes"
-                    cancelText="No"
-                    onConfirm={(e) => handleDelete(e, user)}
-                  >
-                    <Button
-                      type="primary"
-                      shape="round"
-                      icon={<DeleteOutlined />}
+                  <Space>
+                    <Button type="primary"  onClick={() => setShowModal(true)} icon={<EditOutlined />}>Edit</Button>
+                    <Popconfirm
+                      title="Delete User?"
+                      description="Are you sure to delete this user?"
+                      okText="Yes"
+                      cancelText="No"
+                      onConfirm={(e) => handleDelete(e, user)}
                     >
-                      Delete
-                    </Button>
-                  </Popconfirm>
+                      <Button
+                        type="primary"
+                        icon={<DeleteOutlined />}
+                        danger
+                      >
+                        Delete
+                      </Button>
+                    </Popconfirm>
+                  </Space>
                 </Col>
               </Row>
             )}
@@ -128,6 +121,17 @@ const SettingAddUser = ({
           <AddUserModal
             modal={showModal}
             onOk={handleOk}
+            user_settings={data}
+            getSettingUsers={getSettingUsers}
+            locations={locations}
+            onCancel={handleCancel}
+          />
+          <EditUserModal
+            modal={showModal}
+            onOk={handleOk}
+            user_settings={data}
+            getSettingUsers={getSettingUsers}
+            locations={locations}
             onCancel={handleCancel}
           />
         </div>
@@ -136,13 +140,4 @@ const SettingAddUser = ({
   );
 };
 
-const matchStateToProps = ({ user }) => {
-  return {
-    user_settings: user.settings,
-  };
-};
-const mapDispatchToProps = (dispatch) => ({
-  onGetSettingsValue: (cb) => dispatch(getSettingsValue(cb)),
-  onSettingsToggle: (data, cb) => dispatch(postSettingsValue(data, cb)),
-});
-export default connect(matchStateToProps, mapDispatchToProps)(SettingAddUser);
+export default SettingAddUser;

@@ -12,23 +12,17 @@ function LocationService() {
     return api(apiquery, "get");
   }
 
-  function updateInfo(data) {
-    return api(`profile/edit`, "patch", data)
-  }
-
-  function uploadAvatar(data) {
-    return api(`profile/avatar`, "post", data)
-  }
-
-  function updatePoll(data) {
-    return api(`profile/poll`, "patch", data)
+  function getLocations({ pagination = false, partner, isActive }) {
+    return api(
+      `locations?pagination=${pagination}&partner=${partner}${isActive != null ? "&isActive=" + isActive : ""
+      }`,
+      "get"
+    )
   }
 
   return {
     getAllLocations,
-    updateInfo,
-    uploadAvatar,
-    updatePoll
+    getLocations
   };
 }
 

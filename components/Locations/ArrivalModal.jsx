@@ -16,7 +16,7 @@ import {
   DatePicker
 } from "antd";
 import Image from "next/image";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect } from "react";
 import { connect } from "react-redux";
 import moment from 'moment';
 
@@ -189,7 +189,7 @@ function ArrivalModal({
                 format="YYYY-MM-DD h:mm a"
                 disabledDate={disabledDate}
                 use12Hours={true}
-                inputReadOnly 
+                inputReadOnly
                 showTime={{
                   defaultValue: dayjs('00:00:00', 'HH:mm'),
                 }}

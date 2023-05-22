@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
+import { setCookie, getCookie } from 'cookies-next';
 import ListViewModal from "@/components/User/InteractiveMap/ListView";
 import {
   Col,
@@ -10,7 +11,9 @@ import {
   Tooltip,
   Select,
   Form,
-  Space
+  Space,
+  notification,
+  Typography
 } from "antd";
 import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import Image from "next/image";
@@ -19,9 +22,15 @@ import Layout from "../../../layout";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import baseUrl from "@/utils/baseUrl";
 import { categoryService, locationService } from "@/services/index";
+import { browserName } from 'react-device-detect';
 
 const { Option } = Select;
-
+const { Paragraph, Text } = Typography;
+const close = () => {
+  console.log(
+    'Notification was closed. Either the close button was clicked or duration time elapsed.',
+  );
+};
 var cityCircle = null;
 var map;
 
@@ -70,6 +79,7 @@ const InteractiveMap = () => {
   const [activeLocations, setActiveLocations] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [mapzoom, setZoom] = useState(10);
+  const [api, contextHolder] = notification.useNotification();
   const [radiusLocations, setRadiusLocations] = useState([]);
   const faviconUrl = `${apiBaseUrl}/avatar/`;
   const formatter = (value) => `${value}mile`;
@@ -78,6 +88,40 @@ const InteractiveMap = () => {
     lng: -94.8110983,
   });
   const [addModalOpen, setAddModalOpen] = useState(false);
+
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Space>
+        <Button type="link" size="small" onClick={() => {
+          setCookie('notify', true); // - client side
+          api.destroy()
+        }}>
+          Don't display agian
+        </Button>
+        <Button type="primary" size="small" onClick={() => api.destroy()}>
+          Cancel
+        </Button>
+      </Space>
+    );
+    api.info({
+      message: 'Info',
+      description: <>
+        <Paragraph>
+          To view google map in safari browser, you need to configure following step.
+        </Paragraph>
+        <Paragraph>
+          <Text strong>
+            Safari-&gt;Preferences-Advanced-&gt;check "SHow Develop menu in menu bar". Now from the Develop menu select "Experiemental Features" and scroll down to "WebGL via Metal" and uncheck it.',
+          </Text>
+        </Paragraph>
+      </>,
+      btn,
+      placement: 'bottomLeft',
+      duration: null,
+      onClose: close,
+    });
+  }
 
   async function onFinish(Form) {
     const result = await locationService.getAllLocations(false, true, Form);
@@ -200,6 +244,9 @@ const InteractiveMap = () => {
   }
 
   useEffect(() => {
+
+    const flag = getCookie('notify');
+    browserName === "Safari" && flag === true ? openNotification() : openNotification();
 
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
       console.log(error);
@@ -335,7 +382,7 @@ const InteractiveMap = () => {
       );
     });
 
-    google.maps.event.addDomListener(map, 'zoom_changed', function() {
+    google.maps.event.addDomListener(map, 'zoom_changed', function () {
       var zoom = map.getZoom();
       setZoom(zoom);
     });
@@ -384,6 +431,7 @@ const InteractiveMap = () => {
 
   return (
     <>
+      {contextHolder}
       <PageTitle page="Interactive Map" />
       <div className="page-interactive-area bg-black">
         <div className="container">
