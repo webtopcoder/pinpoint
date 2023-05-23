@@ -10,13 +10,15 @@ import FormGroup from "./FormGroup";
 
 const AdditionUser = () => {
   const router = useRouter();
+  const { token, partner, user, partnerID } = router.query;
   const [form, setForm] = useState({
     password: "",
     confirmPassword: "",
+    username: partner,
+    email: user
   });
 
   const { notify } = useNotify();
-  const { token, partner, user, partnerID } = router.query;
 
   useEffect(() => {
     if (token) {
@@ -86,7 +88,7 @@ const AdditionUser = () => {
           <FormGroup
             label="Partner"
             errors={errors}
-            value={partner}
+            value={form.username}
             onChange={onUpdateField}
             onBlur={onBlurField}
             name="username"
@@ -95,7 +97,7 @@ const AdditionUser = () => {
           />
           <FormGroup
             label="Email"
-            value={user}
+            value={form.email}
             onChange={onUpdateField}
             onBlur={onBlurField}
             name="email"
@@ -112,12 +114,12 @@ const AdditionUser = () => {
             type="password"
           />
           <FormGroup
+            errors={errors}
             label="Confirm Password"
-            value={form?.password}
+            value={form.confirmPassword}
             onChange={onUpdateField}
             onBlur={onBlurField}
             name="confirmPassword"
-            errors={errors}
             type="password"
           />
           <div className="row">
