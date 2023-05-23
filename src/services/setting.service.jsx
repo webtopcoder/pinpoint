@@ -18,6 +18,10 @@ function SettingService() {
     return api(`setting/updateUser/${id}`, "post", data);
   }
 
+  function updateAdditionalWithPassword(data) {
+    return api(`setting/updateUserWithPassword`, "post", data);
+  }
+
   function getAdditionalUser(id) {
     return api(`setting/getUser/${id}`, "post");
   }
@@ -28,7 +32,8 @@ function SettingService() {
     GetSettingsValue,
     deleteAdditionUser,
     updateAdditionalUser,
-    getAdditionalUser
+    getAdditionalUser,
+    updateAdditionalWithPassword
   };
 }
 

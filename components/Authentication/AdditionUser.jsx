@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
-import { authService } from "@/services/index";
+import { settingService } from "@/services/index";
 import FormGroup from "./FormGroup";
 
 const AdditionUser = () => {
@@ -16,7 +16,7 @@ const AdditionUser = () => {
   });
 
   const { notify } = useNotify();
-  const { token, partner, user } = router.query;
+  const { token, partner, user, partnerID } = router.query;
 
   useEffect(() => {
     if (token) {
@@ -48,7 +48,9 @@ const AdditionUser = () => {
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
 
-    await authService.resetPassword({
+    await settingService.updateAdditionalWithPassword({
+      owner: partnerID,
+      email: user,
       password: form.password,
       token: form.token,
     })
