@@ -1,6 +1,5 @@
 import { Avatar, Card, Rate, Row, Space } from "antd";
 import { EnvironmentFilled } from "@ant-design/icons";
-import { connect } from "react-redux";
 
 const { Text } = Typography;
 
@@ -106,4 +105,4 @@ function PartnerLocationCard({ location }) {
     </Card>
   );
 }
-export default connect(undefined, undefined)(PartnerLocationCard);
+export default PartnerLocationCard;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./settings.module.css";
-import { Col, Row, Layout, Button, Popconfirm, List, Space } from "antd";
+import { Col, Row, Layout, Button, Popconfirm, List, Space, Tag, Switch } from "antd";
 import { useRouter } from "next/router";
 import { DoubleLeftOutlined, PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AddUserModal from "./addModal";
@@ -12,12 +12,14 @@ const { Content } = Layout;
 
 const SettingAddUser = () => {
   const router = useRouter();
-  const [data, setData] = useState([]);
   const [locations, setLocations] = useState([]);
   const { notify } = useNotify();
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [userInfo, setUserInfo] = useState();
+  const [showEditModal, setShowEditModal] = useState(false);
   const [additionalUsers, setadditionalUsers] = useState();
-  const handleCancel = () => setShowModal(false);
+  const handleAddCancel = () => setShowAddModal(false);
+  const handleEditCancel = () => setShowEditModal(false);
   const handleOk = () => {
     setShowModal(false);
   };
@@ -27,28 +29,26 @@ const SettingAddUser = () => {
     const filtered = result?.results?.find(
       (setting) => setting.key == "user:additionalUser"
     );
-    await setData(result.results);
-    if (filtered?.value) {
-      await setadditionalUsers(filtered.value);
-    }
 
+    if (filtered?.extra) {
+      await setadditionalUsers(filtered.extra);
+    }
     const res_locations = await locationService.getLocations({ partner: localStorage.getItem('user_id'), isActive: null });
     await setLocations(res_locations.results)
   }
+
+  async function handleCheck(checked, id) {
+    await settingService.updateAdditionalUser(id, { status: checked ? 'active' : 'inactive' });
+    await getSettingUsers();
+  };
 
   useEffect(() => {
     getSettingUsers();
   }, []);
 
-  async function handleDelete(e, deleteData) {
+  async function handleDelete(e, id) {
     e.preventDefault();
-    const filtered = additionalUsers.filter((user) => user != deleteData);
-    const newData = {
-      key: `user:additionalUser`,
-      value: filtered,
-    };
-
-    const res = await settingService.SettingsToggle(newData);
+    await settingService.deleteAdditionUser(id);
     await getSettingUsers();
     notify("success", "Settings Changed.");
   };
@@ -80,7 +80,7 @@ const SettingAddUser = () => {
                 type="primary"
                 shape="round"
                 icon={<PlusOutlined />}
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowAddModal(true)}
               >
                 Add User
               </Button>
@@ -92,18 +92,23 @@ const SettingAddUser = () => {
             renderItem={(user) => (
               <Row className={styles.list + " mt-3"}>
                 <Col md={16} xs={24} sm={24} className={styles.left_pane}>
-                  <div>{user.email}</div>
+                  <div>{user.email}{" "}<Tag color={user.status === "pending" ? "magenta" : (user.status === "active" ? 'green' : 'red')}>{user.status}</Tag></div>
                   <div className={styles.role}>{user.role}</div>
                 </Col>
                 <Col md={8} xs={24} sm={24} className={styles.right_pane}>
                   <Space>
-                    <Button type="primary"  onClick={() => setShowModal(true)} icon={<EditOutlined />}>Edit</Button>
+                    {user.status !== "pending" ? <Switch checkedChildren="Active" onChange={(checked) => handleCheck(checked, user._id)} unCheckedChildren="Inactive" defaultChecked={user.status === "active" ? true : false} />
+                      : ""}
+                    <Button type="primary" onClick={async () => {
+                      await setUserInfo(user);
+                      await setShowEditModal(true);
+                    }} icon={<EditOutlined />}>Edit</Button>
                     <Popconfirm
                       title="Delete User?"
                       description="Are you sure to delete this user?"
                       okText="Yes"
                       cancelText="No"
-                      onConfirm={(e) => handleDelete(e, user)}
+                      onConfirm={(e) => handleDelete(e, user._id)}
                     >
                       <Button
                         type="primary"
@@ -118,23 +123,22 @@ const SettingAddUser = () => {
               </Row>
             )}
           />
-          <AddUserModal
-            modal={showModal}
-            onOk={handleOk}
-            user_settings={data}
-            getSettingUsers={getSettingUsers}
-            locations={locations}
-            onCancel={handleCancel}
-          />
-          <EditUserModal
-            modal={showModal}
-            onOk={handleOk}
-            user_settings={data}
-            getSettingUsers={getSettingUsers}
-            locations={locations}
-            onCancel={handleCancel}
-          />
         </div>
+        <AddUserModal
+          modal={showAddModal}
+          onOk={handleOk}
+          getSettingUsers={getSettingUsers}
+          locations={locations}
+          onCancel={handleAddCancel}
+        />
+        <EditUserModal
+          modal={showEditModal}
+          onOk={handleOk}
+          userinfo={userInfo}
+          getSettingUsers={getSettingUsers}
+          locations={locations}
+          onCancel={handleEditCancel}
+        />
       </Content>
     </Layout>
   );

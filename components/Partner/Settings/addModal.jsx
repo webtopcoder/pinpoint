@@ -39,41 +39,16 @@ const AddUserModal = ({
 
   async function handleOnOk(values) {
     setLoading(true);
-    const additionalUserSettings = user_settings.find(
-      (setting) => setting.key == "user:additionalUser"
-    );
+    const data = {
+      key: `user:additionalUser`,
+      value: values,
+    };
 
-    if (!additionalUserSettings) {
-      const additionalUserSettingsArray = [];
-      additionalUserSettingsArray.push(values);
-
-      const data = {
-        key: `user:additionalUser`,
-        value: additionalUserSettingsArray,
-      };
-
-      await settingService.SettingsToggle(data);
-      await setLoading(false);
-      await getSettingUsers();
-      form.resetFields();
-      notify("success", "Settings Changed.");
-    } else {
-      const additionalUserSettingsArray = additionalUserSettings.value;
-      const filtered = additionalUserSettingsArray.filter(
-        (user) => user.email != form.email
-      );
-      filtered.push(values);
-      const data = {
-        key: `user:additionalUser`,
-        value: filtered,
-      };
-
-      await settingService.SettingsToggle(data);
-      await setLoading(false);
-      await getSettingUsers();
-      form.resetFields();
-      notify("success", "Settings Changed.");
-    }
+    await settingService.SettingsToggle(data);
+    await setLoading(false);
+    await getSettingUsers();
+    form.resetFields();
+    notify("success", "Settings Changed.");
   };
 
   return (

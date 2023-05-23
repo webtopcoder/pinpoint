@@ -3,6 +3,8 @@ import { useState } from "react";
 import {
   passwordValidator,
   confirmPasswordValidator,
+  emailValidator,
+  UserNameValidator
 } from "../user-validator.jsx";
 
 const touchErrors = (errors) => {
@@ -17,6 +19,16 @@ const touchErrors = (errors) => {
 
 export const useCreatePasswordFormValidator = (form) => {
   const [errors, setErrors] = useState({
+    username: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    email: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
     password: {
       dirty: false,
       error: false,
@@ -40,7 +52,21 @@ export const useCreatePasswordFormValidator = (form) => {
       nextErrors = touchErrors(errors);
     }
 
-    const { password, confirmPassword } = form;
+    const { username, email, password, confirmPassword } = form;
+
+    if (nextErrors.username.dirty && (field ? field === "username" : true)) {
+      const userNameMessage = UserNameValidator(username, form);
+      nextErrors.username.error = !!userNameMessage;
+      nextErrors.username.message = userNameMessage;
+      if (!!userNameMessage) isValid = false;
+    }
+
+    if (nextErrors.email.dirty && (field ? field === "email" : true)) {
+      const emailMessage = emailValidator(email, form);
+      nextErrors.email.error = !!emailMessage;
+      nextErrors.email.message = emailMessage;
+      if (!!emailMessage) isValid = false;
+    }
 
     if (nextErrors.password.dirty && (field ? field === "password" : true)) {
       const passwordMessage = passwordValidator(password, form);

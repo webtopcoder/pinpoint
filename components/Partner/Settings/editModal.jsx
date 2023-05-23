@@ -22,15 +22,15 @@ const validateMessages = {
 const EditUserModal = ({
   modal,
   onCancel,
-  user_settings,
   getSettingUsers,
-  locations
+  locations,
+  userinfo
 }) => {
 
   const isWebDevice = useMedia('(min-width:700px)');
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [type, setType] = useState("");
+  const [type, setType] = useState(userinfo?.role);
   const { notify } = useNotify();
 
   async function changeType(value) {
@@ -39,41 +39,20 @@ const EditUserModal = ({
 
   async function handleOnOk(values) {
     setLoading(true);
-    const additionalUserSettings = user_settings.find(
-      (setting) => setting.key == "user:additionalUser"
-    );
-
-    if (!additionalUserSettings) {
-      const additionalUserSettingsArray = [];
-      additionalUserSettingsArray.push(values);
-
-      const data = {
-        key: `user:additionalUser`,
-        value: additionalUserSettingsArray,
-      };
-
-      await settingService.SettingsToggle(data);
+    await settingService.updateAdditionalUser(userinfo._id, values).then(async () => {
       await setLoading(false);
       await getSettingUsers();
+      onCancel();
       form.resetFields();
       notify("success", "Settings Changed.");
-    } else {
-      const additionalUserSettingsArray = additionalUserSettings.value;
-      const filtered = additionalUserSettingsArray.filter(
-        (user) => user.email != form.email
-      );
-      filtered.push(values);
-      const data = {
-        key: `user:additionalUser`,
-        value: filtered,
-      };
-
-      await settingService.SettingsToggle(data);
-      await setLoading(false);
-      await getSettingUsers();
-      form.resetFields();
-      notify("success", "Settings Changed.");
-    }
+    })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
   };
 
   return (
@@ -104,7 +83,7 @@ const EditUserModal = ({
             }}
             level={isWebDevice ? 2 : 4}
           >
-            Add Additional User
+            Update Info
           </Title>
         </Col>
         <Col
@@ -124,6 +103,22 @@ const EditUserModal = ({
         form={form}
         onFinish={handleOnOk}
         layout="vertical"
+        fields={[
+          {
+            name: ["email"],
+            value: userinfo?.email,
+          },
+          {
+            name: ["role"],
+            value: userinfo?.role,
+          },
+          {
+            name: ["locations"],
+            value: userinfo?.locations?.map(
+              (item) => item
+            ),
+          },
+        ]}
         validateMessages={validateMessages}
       >
         <Row>
@@ -157,8 +152,8 @@ const EditUserModal = ({
                 style={{
                   width: "100%",
                 }}
-                options={[{ label: 'owner', value: 'Owner' }, { label: 'Location Manager', value: 'Location Manager' }]}
-                onChange={changeType}
+                options={[{ label: 'Owner', value: 'Owner' }, { label: 'Location Manager', value: 'Location Manager' }]}
+              // onChange={changeType}
               />
             </Form.Item>
           </Col>
@@ -166,15 +161,10 @@ const EditUserModal = ({
             <Form.Item
               tooltip="This is a required field for Location manager"
               label="Access Locations"
-              rules={[
-                {
-                  required: type === "Location Manager" ? true : false
-                },
-              ]}
               name="locations"
             >
               <Select
-                disabled={type === "Location Manager" ? false : true}
+                disabled={type === "Location Manager" || userinfo?.role === "Location Manager" ? false : true}
                 mode="multiple"
                 showSearch={false}
                 allowClear
@@ -211,7 +201,7 @@ const EditUserModal = ({
           <Space size="small">
             <Button type="primary" loading={loading}
               htmlType="submit">
-              Add User
+              Update
             </Button>
             <Button onClick={onCancel}>
               Cancel

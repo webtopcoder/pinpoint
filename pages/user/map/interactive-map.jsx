@@ -246,7 +246,7 @@ const InteractiveMap = () => {
   useEffect(() => {
 
     const flag = getCookie('notify');
-    browserName === "Safari" && flag === true ? openNotification() : openNotification();
+    browserName === "Safari" && flag === true ? openNotification() : "";
 
     window.navigator.geolocation.getCurrentPosition(success, (error) => {
       console.log(error);
