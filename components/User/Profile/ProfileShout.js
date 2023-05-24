@@ -1,9 +1,6 @@
-import toast from "@/components/Toast";
 import useNotify from "@/hooks/useNotify";
 import { getShoutout } from "@/redux/Profile/actions";
-import { recommendPost } from "@/redux/Profile/actions";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import config from "@/utils/config";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import { LikeOutlined } from "@ant-design/icons";
 import {
   Avatar,
@@ -239,7 +236,6 @@ const mapStateToProps = ({ profile }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onrecommendPost: (id, cb) => dispatch(recommendPost(id, cb)),
   ongetShoutout: (data, count, search, cb) =>
     dispatch(getShoutout(data, count, search, cb)),
 });

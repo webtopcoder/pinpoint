@@ -5,11 +5,8 @@ import {
   ADDITION_USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   LOGOUT,
-  USER_REGISTER_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
-  USER_EMAIL_VERIFICATION_REQUEST,
-  USER_EMAIL_VERIFICATION_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
   SETTINGS_VALUE_GET_REQUEST,
@@ -142,15 +139,6 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case USER_EMAIL_VERIFICATION_REQUEST:
-      return { ...state, loading: true };
-    case USER_EMAIL_VERIFICATION_SUCCESS: {
-      return {
-        ...state,
-        status: action.payload.success,
-      };
-    }
-
     case SUB_CATEGORY_GET_SUCCESS: {
       return {
         ...state,
@@ -225,12 +213,6 @@ const userReducer = (state = initialState, action) => {
         additionRole: "",
         notifications: [],
         notificationCount: 0,
-      };
-    }
-    case USER_REGISTER_SUCCESS: {
-      return {
-        ...state,
-        status: action.payload.success,
       };
     }
 

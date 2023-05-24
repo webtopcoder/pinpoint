@@ -1,15 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { connect } from "react-redux";
-import { UploadOutlined, LikeOutlined } from "@ant-design/icons";
 import { Image as Antimage, Divider, Button, Typography, Space } from "antd";
 import { useRouter } from "next/router";
 import { getActivity } from "@/redux/Profile/actions";
 import { getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
-import { recommendPost } from "@/redux/Profile/actions";
 import { getAllphotos } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
-import config from "@/utils/config";
 import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
@@ -255,7 +252,6 @@ const mapStateToProps = ({ profile, user }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onpostThink: (data, cb) => dispatch(postThink(data, cb)),
-  onrecommendPost: (id, cb) => dispatch(recommendPost(id, cb)),
   ongetActivity: (data, count, search, cb) =>
     dispatch(getActivity(data, count, search, cb)),
   ongetmyFollowers: () => dispatch(getmyFollowers()),
