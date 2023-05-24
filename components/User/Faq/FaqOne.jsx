@@ -1,7 +1,4 @@
-import useNotify from "@/hooks/useNotify";
-import { getFaqs } from "@/src/redux/User/actions";
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import Accordion from "./Accordion";
 import { Spin } from "antd";
@@ -9,19 +6,19 @@ import { faqService } from "@/services/index";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
-const FaqOne = ({ fetchFaqs, faqs }) => {
+const FaqOne = () => {
   const [loading, setLoading] = React.useState(false);
-  const { notify } = useNotify();
+  const [Faqs, setFaqs] = React.useState([]);
+
+  async function initializeFaq() {
+    const result = await faqService.getFaqs();
+    await setLoading(false);
+    await setFaqs(result.data);
+  }
 
   useEffect(() => {
     setLoading(true);
-    getFaqs();
-    fetchFaqs((_, err) => {
-      setLoading(false);
-      if (err) {
-        notify("error", err?.response?.data?.message ?? "Something went wrong");
-      }
-    });
+    initializeFaq();
   }, []);
   return (
     <div className="faq-area bg-black pb-75 pin-faq">
@@ -42,7 +39,7 @@ const FaqOne = ({ fetchFaqs, faqs }) => {
                   }}
                 />
               )}
-              <Accordion questionsAnswers={faqs} />
+              <Accordion questionsAnswers={Faqs} />
             </div>
           </div>
         </div>
@@ -51,12 +48,4 @@ const FaqOne = ({ fetchFaqs, faqs }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  faqs: state.user.faqs,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchFaqs: (cb) => dispatch(getFaqs(cb)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FaqOne);
+export default FaqOne;

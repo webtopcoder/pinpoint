@@ -177,7 +177,6 @@ const UserRegister = ({ token, loggedInRole }) => {
                 onBlur={onBlurField}
                 name="username"
                 type="text"
-                placeholder="Username"
               />
             </div>
             <div className="col-lg-12 col-md-12">
@@ -189,7 +188,6 @@ const UserRegister = ({ token, loggedInRole }) => {
                 onBlur={onBlurField}
                 name="dob"
                 type="date"
-                placeholder="Birthday"
               />
             </div>
 

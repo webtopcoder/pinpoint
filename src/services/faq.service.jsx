@@ -2,22 +2,12 @@ import api from "@/utils/callApi";
 
 function FaqService() {
 
-  function getActivepartners() {
-    return api(`auth/partners?status=active`, "get");
-  }
-
-  function getTestimonials() {
-    return api(`admin/testimonial/all`, "get")
-  }
-
-  function submitContact(data) {
-    return api(`contact`, "post", data)
+  function getFaqs() {
+    return api(`base/faq`, "get")
   }
 
   return {
-    getActivepartners,
-    getTestimonials,
-    submitContact,
+    getFaqs,
   };
 }
 

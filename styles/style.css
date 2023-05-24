@@ -724,6 +724,7 @@ Software Banner Area CSS
   -webkit-animation: bounce2 2s ease infinite;
   animation: bounce2 2s ease infinite;
 }
+
 .ping-img2 {
   top: 5%;
   left: 47%;
@@ -749,9 +750,22 @@ Software Banner Area CSS
 }
 
 @keyframes bounce2 {
-	0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-	40% {transform: translateY(-30px);}
-	60% {transform: translateY(-15px);}
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-30px);
+  }
+
+  60% {
+    transform: translateY(-15px);
+  }
 }
 
 .banner-sub-description {
@@ -11729,11 +11743,12 @@ Sidebar Modal CSS
   color: var(--whiteColor);
 }
 
-.account-desc a {
+.account-desc a,
+.account-desc-custom a {
   color: var(--redLightColor);
 }
 
-.account-desc a:hover {
+.account-desc a:hover,.account-desc-custom a:hover {
   color: var(--blueColor);
 }
 
@@ -13142,7 +13157,9 @@ h4 {
   text-align: center;
   font-size: 24px;
   margin-top: 10px;
+  padding: 13px 15px;
   justify-content: center;
+  word-break: break-word;
 }
 
 .vst-edit-profile {

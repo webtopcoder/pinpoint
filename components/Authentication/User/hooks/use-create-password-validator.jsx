@@ -19,12 +19,13 @@ const touchErrors = (errors) => {
 
 export const useCreatePasswordFormValidator = (form) => {
   const [errors, setErrors] = useState({
-    username: {
-      dirty: false,
-      error: false,
-      message: "",
-    },
+
     email: {
+      username: {
+        dirty: false,
+        error: false,
+        message: "",
+      },
       dirty: false,
       error: false,
       message: "",

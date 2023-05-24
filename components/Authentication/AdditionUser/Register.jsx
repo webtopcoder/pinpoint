@@ -2,13 +2,13 @@ import { React, useEffect, useState } from "react";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
-import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
+import { useCreatePasswordFormValidator } from "../User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { settingService } from "@/services/index";
-import FormGroup from "./FormGroup";
+import FormGroup from "../FormGroup";
 
-const AdditionUser = () => {
+const AdditionUserRegister = () => {
   const router = useRouter();
   const { token, partner, user, partnerID } = router.query;
   const [form, setForm] = useState({
@@ -57,7 +57,7 @@ const AdditionUser = () => {
       token: form.token,
     })
       .then(() => {
-        notify("success", "Password has been changed");
+        notify("success", "Profile Created Successfully");
         router.push("/");
       })
       .catch((error) => {
@@ -141,4 +141,4 @@ const AdditionUser = () => {
   );
 };
 
-export default AdditionUser;
+export default AdditionUserRegister;

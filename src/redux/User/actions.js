@@ -1,6 +1,8 @@
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  ADDITION_USER_LOGIN_REQUEST,
+  ADDITION_USER_LOGIN_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   LOGOUT,
@@ -12,7 +14,6 @@ import {
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_REQUEST,
   BUSINESS_UPDATE_INFO_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
@@ -20,7 +21,6 @@ import {
 } from "./types";
 import { NOTIFICATION_VIEWED, S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
-import { USER_INFO_SUCCESS } from "../Profile/types";
 
 export function loginUser(form, cb) {
   return (dispatch) =>
@@ -39,12 +39,34 @@ export function loginUser(form, cb) {
           type: USER_LOGIN_SUCCESS,
           payload: res,
         });
-
         dispatch({
-          type: USER_INFO_SUCCESS,
-          payload: res,
+          type: S_NOTIFICATION,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        console.error(error);
+        cb(null, error);
+      });
+}
+
+export function loginAdditionUser(form, cb) {
+  return (dispatch) =>
+    api(`setting/loginUser`, "post", form)
+      .then((res) => {
+        dispatch({
+          type: S_LOGIN,
+          payload: res.user?.owner?.id,
         });
 
+        dispatch({
+          type: ADDITION_USER_LOGIN_REQUEST,
+        });
+
+        dispatch({
+          type: ADDITION_USER_LOGIN_SUCCESS,
+          payload: res,
+        });
         dispatch({
           type: S_NOTIFICATION,
         });
@@ -205,22 +227,6 @@ export function getFollowerAndFollowing(cb) {
       .then((res) => {
         dispatch({
           type: GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-          payload: res,
-        });
-        cb && cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        cb && cb(null, error);
-      });
-}
-
-export function getFaqs(cb) {
-  return (dispatch) =>
-    api(`base/faq`, "get")
-      .then((res) => {
-        dispatch({
-          type: GET_FAQ_SUCCESS,
           payload: res,
         });
         cb && cb(res);

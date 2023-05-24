@@ -10,6 +10,10 @@ function SettingService() {
     return api(`setting`, "get")
   }
 
+  function getPartners(email) {
+    return api(`setting/getPartners/${email}`, "post")
+  }
+
   function deleteAdditionUser(id) {
     return api(`setting/deleteUser/${id}`, "post");
   }
@@ -26,6 +30,11 @@ function SettingService() {
     return api(`setting/getUser/${id}`, "post");
   }
 
+  function loginAdditionUser(data) {
+    return api(`setting/loginUser`, "post", data);
+  }
+
+
 
   return {
     SettingsToggle,
@@ -33,7 +42,9 @@ function SettingService() {
     deleteAdditionUser,
     updateAdditionalUser,
     getAdditionalUser,
-    updateAdditionalWithPassword
+    updateAdditionalWithPassword,
+    loginAdditionUser,
+    getPartners
   };
 }
 

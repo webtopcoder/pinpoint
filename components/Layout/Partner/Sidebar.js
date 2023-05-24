@@ -13,14 +13,14 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import { Layout, Menu, Avatar, Space, Badge } from "antd";
+import { Layout, Menu, Avatar, Space, Badge, Tag } from "antd";
 import {
   getNotifications,
   updatedNotifications,
   logout,
 } from "@/src/redux/User/actions";
 import { getIsReadEmails } from "@/src/redux/Mail/actions";
-import  { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import NotificationDrawer from "@/components/Profile/NotificationDrawer";
 
 const { Sider } = Layout;
@@ -46,9 +46,9 @@ function LeftSidebar({
   onGetIsReadEmails,
   isReadEmails,
   newNotification,
+  additionRole
 }) {
   const [open, setOpen] = useState(false);
-
   const router = useRouter();
   const pathurl = router.asPath;
   const [current, setCurrent] = useState(pathurl);
@@ -108,6 +108,12 @@ function LeftSidebar({
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
 
+  const Additionitems = [
+    getItem("Dashboard", "/partner/dashboard/", <DashboardFilled />),
+    getItem("Parter Locations", "/partner/locations/", <EnvironmentFilled />),
+    // getItem("Contact Pinpoint", "11", <ContactsFilled />),
+  ];
+
   useEffect(() => {
     if (router.pathname.indexOf("/partner/settings/") > -1) {
       setCurrent(router.pathname);
@@ -154,12 +160,13 @@ function LeftSidebar({
               </div>
             </div>
             <div className="avatar-vst-profile">{businessName}</div>
-            <div
+            {additionRole !== "Location Manager" ? <div
               className="vst-edit-profile"
               onClick={() => handleOriginPageRender(`/profile/${user_id}/edit`)}
             >
               edit profile
-            </div>
+            </div> : ''
+            }
             <div className="vst-edit-profile">
               <Space
                 size="large"
@@ -227,7 +234,7 @@ function LeftSidebar({
           selectedKeys={[current]}
           theme="dark"
           mode="inline"
-          items={items}
+          items={additionRole === "" || additionRole === "Owner" ? items : Additionitems}
           onClick={onClick}
         />
       </Sider>
@@ -240,9 +247,10 @@ const mapStateToProps = (state) => {
   return {
     ...state.Layout,
     token: state.user.token,
+    additionRole: state.user.additionRole,
     notifications: state.user.notifications,
     notificationCount: state.user.notificationCount,
-    avatar: state?.profile?.userinfo?.profile?.avatar?.filepath,
+    avatar: state?.user?.avatar,
     role: state?.user?.role,
     businessName: state?.user?.username,
     user_id: state?.user?.user_id,

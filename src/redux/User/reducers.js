@@ -1,11 +1,11 @@
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  ADDITION_USER_LOGIN_REQUEST,
+  ADDITION_USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   LOGOUT,
   USER_REGISTER_SUCCESS,
-  CATEGORY_GET_REQUEST,
-  CATEGORY_GET_SUCCESS,
   SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   USER_EMAIL_VERIFICATION_REQUEST,
@@ -16,7 +16,6 @@ import {
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  GET_FAQ_SUCCESS,
   BUSINESS_UPDATE_INFO_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
@@ -28,6 +27,11 @@ let role = "";
 let usertype = "";
 let user_id = "";
 let avatar = "";
+let additionID = "";
+let additionEmail = "";
+let additionRole = "";
+let additionFlag = "";
+
 
 if (typeof window !== "undefined") {
   // Perform localStorage action
@@ -37,6 +41,10 @@ if (typeof window !== "undefined") {
   user_id = localStorage.getItem("user_id");
   avatar = localStorage.getItem("avatar");
   usertype = localStorage.getItem("usertype");
+  additionID = localStorage.getItem("additionID");
+  additionEmail = localStorage.getItem("additionEmail");
+  additionRole = localStorage.getItem("additionRole");
+  additionFlag = localStorage.getItem("additionFlag");
 }
 
 const initialState = {
@@ -48,15 +56,17 @@ const initialState = {
   avatar: avatar,
   loading: false,
   status: false,
+  additionFlag: additionFlag ?? false,
+  additionID: additionID ?? "",
+  additionEmail: additionEmail ?? "",
+  additionRole: additionRole ?? "",
   loginInfo: { success: false, msg: {} },
-  partnerCategory: { success: false, categories: [] },
   partnersubCategory: { success: false, subCategories: [] },
   notifications: [],
   notificationCount: 0,
   settings: [],
   myFollowers: [],
   followAndFollowing: [],
-  faqs: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -87,6 +97,40 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
+    case ADDITION_USER_LOGIN_REQUEST:
+      return { ...state, loading: true };
+
+    case ADDITION_USER_LOGIN_SUCCESS: {
+      localStorage.setItem("token", action?.payload?.tokens?.access?.token);
+      localStorage.setItem("role", action?.payload?.user?.owner?.role);
+      localStorage.setItem("username", action?.payload?.user?.owner?.username);
+      localStorage.setItem("user_id", action?.payload?.user?.owner?._id);
+      localStorage.setItem("usertype", action?.payload?.user?.owner?.role);
+      localStorage.setItem("additionFlag", true);
+      localStorage.setItem("additionID", action.payload.user.id);
+      localStorage.setItem("additionEmail", action.payload.user.email);
+      localStorage.setItem("additionRole", action.payload.user.role);
+      localStorage.setItem(
+        "avatar",
+        action?.payload?.user?.owner?.profile?.avatar?.filepath
+          ? action?.payload?.user?.owner?.profile?.avatar?.filepath
+          : ""
+      );
+      return {
+        ...state,
+        additionFlag: true,
+        additionID: action.payload.user.id,
+        additionEmail: action.payload.user.email,
+        additionRole: action.payload.user.role,
+        token: action?.payload?.tokens?.access?.token,
+        role: action?.payload?.user?.owner?.role,
+        username: action?.payload?.user?.owner?.username,
+        user_id: action?.payload?.user?.owner?._id,
+        usertype: action?.payload?.user?.owner?.role,
+        avatar: action?.payload?.user?.owner?.profile?.avatar?.filepath,
+      };
+    }
+
     case BUSINESS_UPDATE_INFO_SUCCESS: {
       return {
         ...state,
@@ -104,16 +148,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         status: action.payload.success,
-      };
-    }
-
-    case CATEGORY_GET_REQUEST:
-      return { ...state, loading: true };
-
-    case CATEGORY_GET_SUCCESS: {
-      return {
-        ...state,
-        partnerCategory: action.payload,
       };
     }
 
@@ -173,6 +207,10 @@ const userReducer = (state = initialState, action) => {
       localStorage.removeItem("avatar");
       localStorage.removeItem("user_id");
       localStorage.removeItem("usertype");
+      localStorage.removeItem("additionFlag");
+      localStorage.removeItem("additionID");
+      localStorage.removeItem("additionEmail");
+      localStorage.removeItem("additionRole");
       return {
         ...state,
         token: null,
@@ -181,6 +219,10 @@ const userReducer = (state = initialState, action) => {
         user_id: "",
         usertype: "",
         avatar: "",
+        additionFlag: "",
+        additionID: "",
+        additionEmail: "",
+        additionRole: "",
         notifications: [],
         notificationCount: 0,
       };
@@ -217,13 +259,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         followAndFollowing: action.payload.data,
-      };
-    }
-
-    case GET_FAQ_SUCCESS: {
-      return {
-        ...state,
-        faqs: action.payload.data,
       };
     }
 

@@ -10,7 +10,7 @@ const Dashboard = () => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="DASHBOARD | PINPOINT" />
+      <PageTitle page="DASHBOARD" />
       <div className="page-partner-area">
         <Layout
           style={{
