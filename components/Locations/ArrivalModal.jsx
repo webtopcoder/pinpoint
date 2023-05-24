@@ -1,6 +1,6 @@
 import useNotify from "@/hooks/useNotify";
 import food from "@/public/images/landing/food.png";
-import { getLocations, quickArrival } from "@/src/redux/Location/actions";
+import { quickArrival } from "@/src/redux/Location/actions";
 import { UploadOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
 import {
@@ -16,28 +16,30 @@ import {
   DatePicker
 } from "antd";
 import Image from "next/image";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import moment from 'moment';
+import { locationService } from "@/services/index";
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
 function ArrivalModal({
-  locations,
   openArrival,
   setArrivalModalOpen,
   formInitialValues,
   uploadProps,
   onquickArrival,
-  ongetLocations,
   user_id,
   locationInfo,
   uploadFile,
+  additionLocatoins,
+  setLocations,
+  locations
 }) {
 
   const [arrivalForm] = Form.useForm();
-
+  const [loading, setLoading] = useState(true);
   const { notify } = useNotify();
 
   const disabledDate = (current) => {
@@ -50,17 +52,30 @@ function ArrivalModal({
     return !current || current.isBefore(todayStart) || current.isAfter(tomorrowStart);
   };
 
-  useEffect(() => {
-    if (openArrival) {
-      ongetLocations({ partner: user_id, isActive: false }, (_, error) => {
-        if (error) {
-          notify(
-            "error",
-            error?.response?.data?.message ?? "Something went wrong"
-          );
+  async function initialize(status) {
+    await locationService.getLocations({ partner: user_id, isActive: status })
+      .then(async (res) => {
+        setLoading(false);
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setLocations(filteredData);
         }
+        else
+          await setLocations(res.results);
+      })
+      .catch((error) => {
+        setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
       });
-    }
+  }
+
+  useEffect(() => {
+    if (openArrival)
+      initialize(false);
   }, []);
 
   return (
@@ -157,14 +172,7 @@ function ArrivalModal({
                 }
                 arrivalForm.resetFields();
                 notify("success", "Successfully arrived");
-                ongetLocations({ partner: user_id }, (_, error) => {
-                  if (error) {
-                    notify(
-                      "error",
-                      error?.response?.data?.message ?? "Something went wrong"
-                    );
-                  }
-                });
+                initialize(null)
               }
             );
           }
@@ -281,14 +289,13 @@ function ArrivalModal({
   );
 }
 
-const mapStateToProps = ({ location, user }) => ({
-  locations: location.userLocations,
+const mapStateToProps = ({ user }) => ({
   user_id: user.user_id,
+  additionLocatoins: user.additionLocatoins,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onquickArrival: (payload, cb) => dispatch(quickArrival(payload, cb)),
-  ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(ArrivalModal));

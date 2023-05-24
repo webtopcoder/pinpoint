@@ -30,6 +30,7 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
   });
   const [partners, setPartners] = useState([])
   const [loading, setLoading] = useState(false);
+  const [initLoading, setInitLoading] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { notify } = useNotify();
   const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
@@ -70,12 +71,15 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
   }
 
   async function handleLogin(values, ownerID) {
+    setInitLoading(true);
     onLoginAdditionUser({
       email: form.email,
       owner: ownerID,
       password: values.password,
     }, (res) => {
       setLoading(false);
+      setInitLoading(false);
+
       // if (error) {
       //   notify(
       //     "error",
@@ -89,7 +93,7 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
       //     return false;
       //   }
       //   else {
-      notify("success", `wwwWelcome ${res.user.owner.firstName} ${res.user.owner.lastName}`);
+      notify("success", `Welcome to Login as ${res.user.role}`);
       router.push("/partner/dashboard");
       //   }
       // }
@@ -142,6 +146,7 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
       <PartnerModal
         open={addModalOpen}
         setModalOpen={setAddModalOpen}
+        loading={initLoading}
         partners={partners}
         handleLogin={(values, owner) => handleLogin(values, owner)}
       />

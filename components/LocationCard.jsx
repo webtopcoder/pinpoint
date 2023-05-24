@@ -25,9 +25,9 @@ import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyModal from "./Locations/ModifyModal";
-import { quickDeparture, getLocations } from "@/src/redux/Location/actions";
+import { quickDeparture } from "@/src/redux/Location/actions";
 import { useRouter } from "next/router";
-
+import { locationService } from "@/services/index";
 import Image from "next/image";
 
 const { Text } = Typography;
@@ -43,15 +43,19 @@ const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const LocationCard = ({
   onDepartureSet,
-  ongetLocations,
   location,
   showActions = false,
   user_id,
+  setLocations,
+  locations,
+  additionLocatoins,
 }) => {
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   let count = 0;
 
   const { notify } = useNotify();
@@ -80,6 +84,29 @@ const LocationCard = ({
     },
   };
 
+  async function initialize(status) {
+    await locationService.getLocations({ partner: user_id, isActive: status })
+      .then(async (res) => {
+        setLoading(false);
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setLocations(filteredData);
+        }
+        else {
+          console.log(res.results, 23232)
+          await setLocations(res.results);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
   const departure = (location_id) => {
     const form = {
       locationId: location_id,
@@ -90,14 +117,7 @@ const LocationCard = ({
         return;
       }
       notify("success", "Successfully departed");
-      ongetLocations({ partner: user_id }, (_, error) => {
-        if (error) {
-          notify(
-            "error",
-            error?.response?.data?.message ?? "Something went wrong"
-          );
-        }
-      });
+      initialize(null);
     });
   };
 
@@ -310,12 +330,16 @@ const LocationCard = ({
         openArrival={arrivalModalOpen}
         setArrivalModalOpen={setArrivalModalOpen}
         uploadProps={uploadProps}
+        setLocations={setLocations}
+        locations={locations}
         locationInfo={location}
         uploadFile={uploadFile}
       />
       <DepartureModal
         modalOpen={departureModalOpen}
         setModalOpen={setDepartureModalOpen}
+        setLocations={setLocations}
+        locations={locations}
       />
       <ModifyModal
         modalOpen={modifyModalOpen}
@@ -330,6 +354,7 @@ const LocationCard = ({
 
 const matchStateToProps = ({ user }) => {
   return {
+    additionLocatoins: user.additionLocatoins,
     user_id: user.user_id,
   };
 };
@@ -337,8 +362,6 @@ const matchStateToProps = ({ user }) => {
 const matchDispatchToProps = (dispatch) => {
   return {
     onDepartureSet: (data, cb) => dispatch(quickDeparture(data, cb)),
-    ongetLocations: (payload, callback) =>
-      dispatch(getLocations(payload, callback)),
   };
 };
 

@@ -28,6 +28,7 @@ let additionID = "";
 let additionEmail = "";
 let additionRole = "";
 let additionFlag = "";
+let additionLocatoins = [];
 
 
 if (typeof window !== "undefined") {
@@ -40,6 +41,7 @@ if (typeof window !== "undefined") {
   usertype = localStorage.getItem("usertype");
   additionID = localStorage.getItem("additionID");
   additionEmail = localStorage.getItem("additionEmail");
+  additionLocatoins = localStorage.getItem("additionLocatoins");
   additionRole = localStorage.getItem("additionRole");
   additionFlag = localStorage.getItem("additionFlag");
 }
@@ -56,6 +58,7 @@ const initialState = {
   additionFlag: additionFlag ?? false,
   additionID: additionID ?? "",
   additionEmail: additionEmail ?? "",
+  additionLocatoins: additionLocatoins ?? [],
   additionRole: additionRole ?? "",
   loginInfo: { success: false, msg: {} },
   partnersubCategory: { success: false, subCategories: [] },
@@ -106,6 +109,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("additionFlag", true);
       localStorage.setItem("additionID", action.payload.user.id);
       localStorage.setItem("additionEmail", action.payload.user.email);
+      localStorage.setItem("additionLocatoins", action.payload.user.locations);
       localStorage.setItem("additionRole", action.payload.user.role);
       localStorage.setItem(
         "avatar",
@@ -118,6 +122,7 @@ const userReducer = (state = initialState, action) => {
         additionFlag: true,
         additionID: action.payload.user.id,
         additionEmail: action.payload.user.email,
+        additionLocatoins: action.payload.user.locations,
         additionRole: action.payload.user.role,
         token: action?.payload?.tokens?.access?.token,
         role: action?.payload?.user?.owner?.role,
@@ -199,6 +204,8 @@ const userReducer = (state = initialState, action) => {
       localStorage.removeItem("additionID");
       localStorage.removeItem("additionEmail");
       localStorage.removeItem("additionRole");
+      localStorage.removeItem("additionLocatoins");
+
       return {
         ...state,
         token: null,
@@ -211,6 +218,7 @@ const userReducer = (state = initialState, action) => {
         additionID: "",
         additionEmail: "",
         additionRole: "",
+        additionLocatoins: [],
         notifications: [],
         notificationCount: 0,
       };

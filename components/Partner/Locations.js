@@ -8,25 +8,27 @@ import {
   Button,
   Typography,
   message,
-  Input,
-  List
+  List,
+  Spin
 } from "antd";
 import food from "@/public/images/landing/food.png";
-import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import LocationCard from "../LocationCard";
-import { getLocations } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
 import AddLocationModal from "../Locations/AddLocationModal";
 import useMedia from "@/hooks/useMedia";
+import { locationService } from "@/services/index";
 
 const { Title } = Typography;
 const { Content } = Layout;
+const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
-const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
-
+const PartnerLocations = ({ user_id, additionLocatoins }) => {
   const [uploadFile, setUploadFile] = useState([]);
   const isWebDevice = useMedia('(min-width:700px)');
+  const [loading, setLoading] = useState(true);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [locations, setLocations] = useState([]);
   const { notify } = useNotify();
 
   const uploadProps = {
@@ -52,15 +54,29 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
     },
   };
 
-  useEffect(() => {
-    ongetLocations({ partner: user_id }, (_, error) => {
-      if (error) {
+  async function initialize() {
+    await locationService.getLocations({ partner: user_id, isActive: null })
+      .then(async (res) => {
+        setLoading(false);
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setLocations(filteredData);
+        }
+        else
+          await setLocations(res.results);
+      })
+      .catch((error) => {
+        setLoading(false);
         notify(
           "error",
-          error?.response?.data?.message ?? "Something went wrong"
+          error?.response?.data?.message || "Something went wrong"
         );
-      }
-    });
+        return;
+      });
+  }
+
+  useEffect(() => {
+    initialize();
   }, []);
 
   return (
@@ -73,76 +89,88 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
       <Content
         className="partner-layout"
       >
-        <div className="site-card-wrapper">
-          <Content className="custom-subcontent">
-            <Row gutter={16}>
-              <Col
-                className="gutter-row"
-                xs={12} sm={12} md={8} lg={8} xl={6}
+        <Spin
+          indicator={antIcon}
+          spinning={loading}
+          style={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+
+          <div className="site-card-wrapper">
+            <Content className="custom-subcontent">
+              <Row gutter={16}>
+                <Col
+                  className="gutter-row"
+                  xs={12} sm={12} md={8} lg={8} xl={6}
+                  style={{
+                    marginTop: 30,
+                  }}
+                >
+                  <Button
+                    type="primary"
+                    onClick={() => setAddModalOpen(true)}
+                    icon={<PlusCircleOutlined />}
+                  >
+                    Add Location
+                  </Button>
+                </Col>
+                <Col className="gutter-row"
+                  xs={0} sm={0} md={8} lg={8} xl={12}
+                >
+                  <Title
+                    style={{
+                      textAlign: "center",
+                    }}
+                  >
+                    Partner Locations
+                  </Title>
+                </Col>
+                <Col
+                  className="gutter-row"
+                  span={isWebDevice ? 6 : 12}
+                  style={{
+                    textAlign: "right",
+                  }}
+                >
+                  <Image src={food} alt="Snow" width={50} height={70} />
+                </Col>
+              </Row>
+              <Row
+                gutter={16}
                 style={{
                   marginTop: 30,
                 }}
+                xs={24} sm={24} md={8} lg={8} xl={6}
+                justify="space-around"
               >
-                <Button
-                  type="primary"
-                  onClick={() => setAddModalOpen(true)}
-                  icon={<PlusCircleOutlined />}
-                >
-                  Add Location
-                </Button>
-              </Col>
-              <Col className="gutter-row"
-                xs={0} sm={0} md={8} lg={8} xl={12}
-              >
-                <Title
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  Partner Locations
-                </Title>
-              </Col>
-              <Col
-                className="gutter-row"
-                span={isWebDevice ? 6 : 12}
-                style={{
-                  textAlign: "right",
-                }}
-              >
-                <Image src={food} alt="Snow" width={50} height={70} />
-              </Col>
-            </Row>
-            <Row
-              gutter={16}
-              style={{
-                marginTop: 30,
-              }}
-              xs={24} sm={24} md={8} lg={8} xl={6}
-              justify="space-around"
-            >
-              <Col className="gutter-row" span={24}>
-                <List
-                  grid={{
-                    gutter: 16,
-                    xs: 1,
-                    sm: 1,
-                    md: 1,
-                    lg: 2,
-                    xl: 3,
-                    xxl: 3,
-                  }}
-                  dataSource={locations}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <LocationCard location={item} showActions={true} />
-                    </List.Item>
-                  )}
-                />
-              </Col>
+                <Col className="gutter-row" span={24}>
+                  <List
+                    grid={{
+                      gutter: 16,
+                      xs: 1,
+                      sm: 1,
+                      md: 1,
+                      lg: 2,
+                      xl: 3,
+                      xxl: 3,
+                    }}
+                    dataSource={locations}
+                    renderItem={(item) => (
+                      <List.Item>
+                        <LocationCard locations={locations} setLocations={setLocations} location={item} showActions={true} />
+                      </List.Item>
+                    )}
+                  />
+                </Col>
 
-            </Row>
-          </Content>
-        </div>
+              </Row>
+            </Content>
+          </div>
+        </Spin>
       </Content>
       <AddLocationModal
         open={addModalOpen}
@@ -154,17 +182,11 @@ const PartnerLocations = ({ locations, user_id, ongetLocations }) => {
   );
 };
 
-const mapStateToProps = ({ user, location }) => {
+const mapStateToProps = ({ user }) => {
   return {
-    locations: location.userLocations,
     user_id: user.user_id,
+    additionLocatoins: user.additionLocatoins,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PartnerLocations);
+export default connect(mapStateToProps, undefined)(PartnerLocations);

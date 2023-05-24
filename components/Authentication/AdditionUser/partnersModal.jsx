@@ -9,11 +9,11 @@ function PartnersModal({
     open,
     setModalOpen,
     partners,
-    handleLogin
+    handleLogin,
+    loading,
 }) {
     const router = useRouter();
     const isWebDevice = useMedia('(min-width:700px)');
-    const [initLoading, setInitLoading] = useState(false);
     const avatarurl = `${apiBaseUrl}/avatar/`;
 
     return (
@@ -30,7 +30,6 @@ function PartnersModal({
                 <Col md={24} sm={24} xs={24}>
                     <List
                         className="demo-loadmore-list"
-                        loading={initLoading}
                         itemLayout="horizontal"
                         dataSource={partners}
                         renderItem={(item) => (
@@ -63,7 +62,7 @@ function PartnersModal({
                                                 span: 16,
                                             }}
                                         >
-                                            <Button type="primary" htmlType="submit">
+                                            <Button loading={loading} type="primary" htmlType="submit">
                                                 Submit
                                             </Button>
                                         </Form.Item>
@@ -73,9 +72,9 @@ function PartnersModal({
                             >
                                 <Skeleton avatar title={false} loading={item.loading} active>
                                     <List.Item.Meta
-                                        avatar={<Avatar src={avatarurl + item.owner?.profile?.avatar?.filepath} />}
-                                        title={<a href="https://ant.design">{item.owner.email}</a>}
-                                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                        avatar={<Avatar size={50} src={avatarurl + item.owner?.profile?.avatar?.filepath} />}
+                                        title={<a>{item.owner.email}</a>}
+                                        description={<span>The partner invited you as {item.role}</span>}
                                     />
                                 </Skeleton>
                             </List.Item>

@@ -1,10 +1,11 @@
 import useNotify from "@/hooks/useNotify";
 import food from "@/public/images/landing/food.png";
-import { getLocations, quickDeparture } from "@/src/redux/Location/actions";
+import { quickDeparture } from "@/src/redux/Location/actions";
 import { Button, Col, Form, Modal, Row, Select, Typography } from "antd";
 import Image from "next/image";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { locationService } from "@/services/index";
 
 const { Title } = Typography;
 
@@ -12,23 +13,41 @@ function DepartureModal({
   modalOpen,
   setModalOpen,
   locations,
+  setLocations,
   onquickDeparture,
-  ongetLocations,
+  additionLocatoins,
   user_id,
 }) {
   const [departureForm] = Form.useForm();
   const { notify } = useNotify();
+  const [loading, setLoading] = useState(true);
+
+  async function initialize(status) {
+    await locationService.getLocations({ partner: user_id, isActive: status })
+      .then(async (res) => {
+        setLoading(false);
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setLocations(filteredData);
+        }
+        else {
+          console.log(res.results, 23232)
+          await setLocations(res.results);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   useEffect(() => {
     if (modalOpen) {
-      ongetLocations({ partner: user_id, isActive: true }, (_, error) => {
-        if (error) {
-          notify(
-            "error",
-            error?.response?.data?.message ?? "Something went wrong"
-          );
-        }
-      });
+      initialize(true);
     }
   }, [modalOpen]);
   return (
@@ -90,20 +109,12 @@ function DepartureModal({
             (_, error) => {
               setModalOpen(false);
               if (error) {
-                notify("error", "Error");
+                notify("error", error.response.data.message);
                 return;
               }
-
               departureForm.resetFields();
               notify("success", "Successfully departed");
-              ongetLocations({ partner: user_id }, (_, error) => {
-                if (error) {
-                  notify(
-                    "error",
-                    error?.response?.data?.message ?? "Something went wrong"
-                  );
-                }
-              });
+              initialize(null);
             }
           );
         }}
@@ -159,14 +170,12 @@ function DepartureModal({
   );
 }
 
-const mapStateToProps = ({ location, user }) => ({
-  locations: location.userLocations,
+const mapStateToProps = ({ user }) => ({
+  additionLocatoins: user.additionLocatoins,
   user_id: user.user_id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetLocations: (payload, callback) =>
-    dispatch(getLocations(payload, callback)),
   onquickDeparture: (payload, callback) =>
     dispatch(quickDeparture(payload, callback)),
 });

@@ -1,7 +1,6 @@
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
 import {
-  getLocations,
   quickDeparture as quickDepartureAction,
   quickArrival as quickArrivalAction,
 } from "@/src/redux/Location/actions";
@@ -15,17 +14,19 @@ import ArrivalModal from "../Locations/ArrivalModal";
 import DepartureModal from "../Locations/DepartureModal";
 import toast from "../Toast";
 import useMedia from "@/hooks/useMedia";
+import { locationService } from "@/services/index";
 
 const { Content } = Layout;
 
 const PartnerDashboard = ({
   userId,
-  ongetLocations,
   ongetDashboardInfo,
   dashboardInfo,
+  additionLocatoins,
 }) => {
   const router = useRouter();
   const [upload_name, setUploadFile] = useState([]);
+  const [locations, setLocations] = useState([]);
   const isWebDevice = useMedia('(min-width:700px)');
   const [arrivalModalOpen, setModal2Open] = useState(false);
   const [departureModalOpen, setModal1Open] = useState(false);
@@ -56,25 +57,32 @@ const PartnerDashboard = ({
     },
   };
 
+  async function initialize(status) {
+    await locationService.getLocations({ partner: userId, isActive: status })
+      .then(async (res) => {
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setLocations(filteredData);
+        }
+        else {
+          await setLocations(res.results);
+        }
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
   useEffect(() => {
     if (router.isReady) {
-      if (arrivalModalOpen) {
-        ongetLocations({ isActive: false, partner: userId }, (_, error) => {
-          if (error) {
-            notify("error", "Something went wrong!");
-            return;
-          }
-        });
-      }
-
-      if (departureModalOpen) {
-        ongetLocations({ isActive: true, partner: userId }, (_, error) => {
-          if (error) {
-            notify("error", "Something went wrong!");
-            return;
-          }
-        });
-      }
+      if (arrivalModalOpen)
+        initialize(false);
+      if (departureModalOpen)
+        initialize(true);
     }
   }, [departureModalOpen, arrivalModalOpen, router.isReady]);
 
@@ -211,19 +219,23 @@ const PartnerDashboard = ({
         setArrivalModalOpen={setModal2Open}
         uploadProps={uploadProps}
         uploadFile={upload_name}
+        setLocations={setLocations}
+        locations={locations}
       />
       {/* Departure Modal */}
       <DepartureModal
         modalOpen={departureModalOpen}
         setModalOpen={setModal1Open}
         uploadProps={uploadProps}
+        setLocations={setLocations}
+        locations={locations}
       />
     </Layout>
   );
 };
-const matchStateToProps = ({ location, profile, user }) => {
+const matchStateToProps = ({ profile, user }) => {
   return {
-    locations: location.userLocations,
+    additionLocatoins: user.additionLocatoins,
     userId: user.user_id,
     dashboardInfo: profile.dashboardInfo,
   };
@@ -232,7 +244,6 @@ const matchStateToProps = ({ location, profile, user }) => {
 const matchDispatchToProps = (dispatch) => ({
   onquickArrival: (data, cb) => dispatch(quickArrivalAction(data, cb)),
   onquickDeparture: (data, cb) => dispatch(quickDepartureAction(data, cb)),
-  ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
   ongetDashboardInfo: (cb) => dispatch(getDashboardInfo(cb)),
 });
 
