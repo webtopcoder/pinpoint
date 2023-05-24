@@ -57,8 +57,8 @@ const AdditionUserRegister = () => {
       token: form.token,
     })
       .then(() => {
-        notify("success", "Profile Created Successfully");
-        router.push("/");
+        notify("success", "Added Successfully");
+        router.push("/authentication/additionuser/login");
       })
       .catch((error) => {
         notify(
