@@ -110,6 +110,7 @@ const PartnerLocations = ({ user_id, additionLocatoins }) => {
                   }}
                 >
                   <Button
+                    disabled={additionLocatoins.length > 0 ? true : false}
                     type="primary"
                     onClick={() => setAddModalOpen(true)}
                     icon={<PlusCircleOutlined />}

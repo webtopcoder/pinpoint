@@ -132,7 +132,7 @@ const AddUserModal = ({
                 style={{
                   width: "100%",
                 }}
-                options={[{ label: 'owner', value: 'Owner' }, { label: 'Location Manager', value: 'Location Manager' }]}
+                options={[{ label: 'Owner', value: 'Owner' }, { label: 'Location Manager', value: 'Location Manager' }]}
                 onChange={changeType}
               />
             </Form.Item>

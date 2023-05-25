@@ -379,7 +379,7 @@ function ModifyModal({
                       cancelText="No"
                     >
                       <Button
-                        disabled={locationInfo?.isActive ? true : false}
+                        hidden={locationInfo?.isActive || additionLocatoins.length > 0 ? true : false}
                         type="primary"
                         htmlType="submit"
                         className="btn-submit"
