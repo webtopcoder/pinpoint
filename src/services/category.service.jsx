@@ -10,19 +10,9 @@ function CategoryService() {
     return api(`categories`, "get");
   }
 
-  function uploadAvatar(data) {
-    return api(`profile/avatar`, "post", data);
-  }
-
-  function updatePoll(data) {
-    return api(`profile/poll`, "patch", data);
-  }
-
   return {
     getSubcategory,
     getCategory,
-    uploadAvatar,
-    updatePoll,
   };
 }
 
