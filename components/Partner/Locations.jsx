@@ -99,7 +99,6 @@ const PartnerLocations = ({ user_id, additionLocatoins }) => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-
           <div className="site-card-wrapper">
             <Content className="custom-subcontent">
               <Row gutter={16}>
@@ -150,7 +149,7 @@ const PartnerLocations = ({ user_id, additionLocatoins }) => {
                 <Col className="gutter-row" span={24}>
                   <List
                     grid={{
-                      gutter: 16,
+                      gutter: 10,
                       xs: 1,
                       sm: 1,
                       md: 1,
@@ -174,9 +173,12 @@ const PartnerLocations = ({ user_id, additionLocatoins }) => {
       </Content>
       <AddLocationModal
         open={addModalOpen}
+        locations={locations}
+        setLocations={setLocations}
         setModalOpen={setAddModalOpen}
         uploadProps={uploadProps}
         uploadFile={uploadFile}
+        additionLocatoins={additionLocatoins}
       />
     </Layout>
   );

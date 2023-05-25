@@ -24,7 +24,7 @@ import ArrivalModal from "./Locations/ArrivalModal";
 import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
-import ModifyModal from "./Locations/ModifyModal";
+import ModifyLocationModal from "./Locations/ModifyLocationModal";
 import { quickDeparture } from "@/src/redux/Location/actions";
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
@@ -341,9 +341,11 @@ const LocationCard = ({
         setLocations={setLocations}
         locations={locations}
       />
-      <ModifyModal
+      <ModifyLocationModal
         modalOpen={modifyModalOpen}
         setModalOpen={setModifyModalOpen}
+        setLocations={setLocations}
+        additionLocatoins={additionLocatoins}
         locationInfo={location}
         uploadProps={uploadProps}
         uploadFile={uploadFile}

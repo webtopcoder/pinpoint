@@ -2,8 +2,8 @@ import { Avatar, Button, Modal, Row, Col, Skeleton, List, Input, Form } from 'an
 import { useEffect, useState } from 'react';
 import { formatDate } from "@/utils/date";
 import { useRouter } from "next/router";
-import useMedia from "@/hooks/useMedia";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import useMedia from "@/hooks/useMedia";
 
 function PartnersModal({
     open,
@@ -30,16 +30,18 @@ function PartnersModal({
                 <Col md={24} sm={24} xs={24}>
                     <List
                         className="demo-loadmore-list"
-                        itemLayout="horizontal"
+                        itemLayout={isWebDevice ? "horizontal" : "vertical"}
                         dataSource={partners}
                         renderItem={(item) => (
                             <List.Item
                                 actions={[
                                     <Form
-
+                                        wrapperCol={{
+                                        }}
                                         name="basic"
                                         style={{
                                             maxWidth: 600,
+                                            marginLeft: 60
                                         }}
                                         onFinish={(values) => handleLogin(values, item.owner._id)}
                                         layout='inline'
@@ -57,10 +59,7 @@ function PartnersModal({
                                             <Input.Password placeholder='Password' />
                                         </Form.Item>
                                         <Form.Item
-                                            wrapperCol={{
-                                                offset: 8,
-                                                span: 16,
-                                            }}
+
                                         >
                                             <Button loading={loading} type="primary" htmlType="submit">
                                                 Submit
@@ -70,7 +69,7 @@ function PartnersModal({
                                     ,
                                 ]}
                             >
-                                <Skeleton avatar title={false} loading={item.loading} active>
+                                <Skeleton direction={isWebDevice ? "vertical" : 'horizontal'} avatar title={false} loading={item.loading} active>
                                     <List.Item.Meta
                                         avatar={<Avatar size={50} src={avatarurl + item.owner?.profile?.avatar?.filepath} />}
                                         title={<a>{item.owner.email}</a>}

@@ -34,7 +34,8 @@ const Header = ({
   role,
   onGetIsReadEmails,
   isReadEmails,
-  newNotification
+  newNotification,
+  additionRole
 }) => {
 
   const router = useRouter();
@@ -196,16 +197,17 @@ const Header = ({
                       <div className="avatar-left">
                         {token && (
                           <div style={{ marginBottom: 20 }}>
-                            <Link href={role === "partner" ? `/partner/message` : "/user/message"}>
-                              <a>
-                                <Badge dot={isReadEmails.length > 0 ? true : false}
-                                  className="mailboxLIcon">
-                                  <MailFilled
-                                    style={{ color: "#686868", fontSize: 40 }}
-                                  />
-                                </Badge>
-                              </a>
-                            </Link>
+                            {additionRole === "" || additionRole === "Owner" ?
+                              <Link href={role === "partner" ? `/partner/message` : "/user/message"}>
+                                <a>
+                                  <Badge dot={isReadEmails.length > 0 ? true : false}
+                                    className="mailboxLIcon">
+                                    <MailFilled
+                                      style={{ color: "#686868", fontSize: 40 }}
+                                    />
+                                  </Badge>
+                                </a>
+                              </Link> : ''}
                           </div>
                         )}
                         {token && (
@@ -325,128 +327,148 @@ const Header = ({
                             )
                           }
                           type="primary">View Profile</Button>
-                        <Button
-                          onClick={() =>
-                            handleOriginPageRender(`/profile/${user_id}/edit`)
-                          }
-                        >Edit Profile</Button>
+
+                        {additionRole === "" || additionRole === "Owner" ?
+                          <Button
+                            onClick={() =>
+                              handleOriginPageRender(`/profile/${user_id}/edit`)
+                            }
+                          >Edit Profile</Button> : ''}
+
                       </Space>
                     )}
                   </li>
                   <Divider />
 
-                  {token && role == "partner" ? <>
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() => handleOriginPageRender("/partner/dashboard")}
-                      >
-                        Dashboard
-                      </a>
-                    </li>
-
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() =>
-                          handlePageRender("/partner/message")
-                        }
-                      >
-                        Message
-                      </a>
-                    </li>
-
-                    <li className="nav-item">
-                      <Link href="#" activeClassName="active">
+                  {token && role == "partner" ?
+                    additionRole === "" || additionRole === "Owner" ? <>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender("/partner/dashboard")}
+                        >
+                          Dashboard
+                        </a>
+                      </li>
+                      <li className="nav-item">
                         <a
                           className="dropdown-toggle nav-link"
                           onClick={() =>
-                            handleOriginPageRender(`/profile/${user_id}/followers`)
+                            handlePageRender("/partner/message")
                           }
                         >
-                          Followers
+                          Message
                         </a>
-                      </Link>
-                    </li>
+                      </li>
 
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() =>
-                          handleOriginPageRender("/partner/settings")
-                        }
-                      >
-                        Settings
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() => handleOriginPageRender(`/partner/locations`)}
-                      >
-                        Locations
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() => handleOriginPageRender(`/partner/partnership`)}
-                      >
-                        Partnership
-                      </a>
-                    </li>
-                  </> : <>
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() => handleOriginPageRender("/home")}
-                      >
-                        Home
-                      </a>
-                    </li>
+                      <li className="nav-item">
+                        <Link href="#" activeClassName="active">
+                          <a
+                            className="dropdown-toggle nav-link"
+                            onClick={() =>
+                              handleOriginPageRender(`/profile/${user_id}/followers`)
+                            }
+                          >
+                            Followers
+                          </a>
+                        </Link>
+                      </li>
 
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() =>
-                          handlePageRender("/user/map/interactive-map")
-                        }
-                      >
-                        Interactive Map
-                      </a>
-                    </li>
-
-                    <li className="nav-item">
-                      <Link href="#" activeClassName="active">
+                      <li className="nav-item">
                         <a
                           className="dropdown-toggle nav-link"
                           onClick={() =>
-                            handleOriginPageRender("/home/#pinpoint_location")
+                            handleOriginPageRender("/partner/settings")
                           }
+                        >
+                          Settings
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender(`/partner/locations`)}
                         >
                           Locations
                         </a>
-                      </Link>
-                    </li>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender(`/partner/partnership`)}
+                        >
+                          Partnership
+                        </a>
+                      </li></> : <>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender("/partner/dashboard")}
+                        >
+                          Dashboard
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender(`/partner/locations`)}
+                        >
+                          Locations
+                        </a>
+                      </li>
+                    </>
+                    : <>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender("/home")}
+                        >
+                          Home
+                        </a>
+                      </li>
 
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() =>
-                          handleOriginPageRender("/home/#pinpoint_contactus")
-                        }
-                      >
-                        Contact Us
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="dropdown-toggle nav-link"
-                        onClick={() => handleOriginPageRender("/faq")}
-                      >
-                        FAQ
-                      </a>
-                    </li></>}
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() =>
+                            handlePageRender("/user/map/interactive-map")
+                          }
+                        >
+                          Interactive Map
+                        </a>
+                      </li>
+
+                      <li className="nav-item">
+                        <Link href="#" activeClassName="active">
+                          <a
+                            className="dropdown-toggle nav-link"
+                            onClick={() =>
+                              handleOriginPageRender("/home/#pinpoint_location")
+                            }
+                          >
+                            Locations
+                          </a>
+                        </Link>
+                      </li>
+
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() =>
+                            handleOriginPageRender("/home/#pinpoint_contactus")
+                          }
+                        >
+                          Contact Us
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="dropdown-toggle nav-link"
+                          onClick={() => handleOriginPageRender("/faq")}
+                        >
+                          FAQ
+                        </a>
+                      </li></>}
                 </ul>
               </div>
             </div>
@@ -489,6 +511,7 @@ const mapStateToProps = (state) => {
     newNotification: state.socket.newNotification,
     notificationCount: state.user.notificationCount,
     isReadEmails: state?.mail?.isreadlist,
+    additionRole: state.user.additionRole,
   };
 };
 

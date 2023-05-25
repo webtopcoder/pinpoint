@@ -1,6 +1,5 @@
 import useNotify from "@/hooks/useNotify";
 import food from "@/public/images/landing/food.png";
-import { quickArrival } from "@/src/redux/Location/actions";
 import { UploadOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
 import {
@@ -29,7 +28,6 @@ function ArrivalModal({
   setArrivalModalOpen,
   formInitialValues,
   uploadProps,
-  onquickArrival,
   user_id,
   locationInfo,
   uploadFile,
@@ -39,7 +37,6 @@ function ArrivalModal({
 }) {
 
   const [arrivalForm] = Form.useForm();
-  const [loading, setLoading] = useState(true);
   const { notify } = useNotify();
 
   const disabledDate = (current) => {
@@ -55,7 +52,6 @@ function ArrivalModal({
   async function initialize(status) {
     await locationService.getLocations({ partner: user_id, isActive: status })
       .then(async (res) => {
-        setLoading(false);
         if (additionLocatoins.length > 0) {
           const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
           await setLocations(filteredData);
@@ -64,7 +60,6 @@ function ArrivalModal({
           await setLocations(res.results);
       })
       .catch((error) => {
-        setLoading(false);
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
@@ -139,7 +134,7 @@ function ArrivalModal({
             ]
             : ""
         }
-        onFinish={(values) => {
+        onFinish={async (values) => {
           const formData = new FormData();
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
@@ -161,22 +156,21 @@ function ArrivalModal({
             return;
           }
           else {
-            onquickArrival(
-              { locationId: values.locationId, form: formData },
-              (_, error) => {
-
-                setArrivalModalOpen(false);
-                if (error) {
-                  notify("error", error.response.data.message);
-                  return;
-                }
+            await locationService.quickArrival({ locationId: values.locationId, form: formData })
+              .then(async () => {
+                await setArrivalModalOpen(false);
                 arrivalForm.resetFields();
                 notify("success", "Successfully arrived");
-                initialize(null)
-              }
-            );
+                initialize(null);
+              })
+              .catch((error) => {
+                notify(
+                  "error",
+                  error?.response?.data?.message || "Something went wrong"
+                );
+                return;
+              });
           }
-
         }}
         layout="vertical"
       >
@@ -294,8 +288,4 @@ const mapStateToProps = ({ user }) => ({
   additionLocatoins: user.additionLocatoins,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onquickArrival: (payload, cb) => dispatch(quickArrival(payload, cb)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(memo(ArrivalModal));
+export default connect(mapStateToProps)(memo(ArrivalModal));

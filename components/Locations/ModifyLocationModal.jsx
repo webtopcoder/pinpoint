@@ -17,15 +17,10 @@ import {
   Space,
   Popconfirm
 } from "antd";
-import {
-  deleteLocationById,
-  getLocations,
-  updateLocationById,
-} from "@/src/redux/Location/actions";
 import Image from "next/image";
-import { getsubCategory } from "@/src/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useMedia from "@/hooks/useMedia";
+import { locationService, categoryService } from "@/services/index";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -48,18 +43,14 @@ function ModifyModal({
   modalOpen,
   setModalOpen,
   locationInfo,
-  onDeleteLocation,
-  ongetLocations,
-  onUpdateLocationByID,
   user_id,
   uploadFile,
-  onGetSubCategories,
-  subCategories,
   userCategoryId,
+  setLocations,
+  additionLocatoins
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
-
   const autoCompleteRef = useRef();
   const inputRef = useRef();
   const isWebDevice = useMedia('(min-width:700px)');
@@ -71,16 +62,42 @@ function ModifyModal({
     lat: locationInfo?.mapLocation?.latitude ?? 0,
     lng: locationInfo?.mapLocation?.longitude ?? 0,
   });
+  const [subCategories, setsubCategories] = useState([]);
+
 
   useEffect(() => {
     if (userCategoryId) {
-      onGetSubCategories(userCategoryId, (_, error) => {
-        if (error) {
-          notify("error", "Error occurred");
-        }
-      });
+      GetSubCategories();
     }
   }, [userCategoryId]);
+
+  async function GetSubCategories() {
+    const res = await categoryService.getSubcategory(userCategoryId)
+    const subcategoryList = res?.subCategories.map((item) => ({
+      label: item.name,
+      value: item._id,
+    }));
+    await setsubCategories(subcategoryList);
+  }
+
+  async function initialize(status) {
+    await locationService.getLocations({ partner: user_id, isActive: status })
+      .then(async (res) => {
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setLocations(filteredData);
+        }
+        else
+          await setLocations(res.results);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   useEffect(() => {
     if (inputRef.current) {
@@ -99,8 +116,6 @@ function ModifyModal({
           if (address_component.types[0] == "administrative_area_level_1")
             itemState = address_component.long_name;
         });
-
-        console.log(place.geometry.location.lat(), place.geometry.location.lng())
 
         setaddressForm({
           ...addressForm,
@@ -123,30 +138,24 @@ function ModifyModal({
     setaddressForm(nextFormState);
   };
 
-  const delete_location = (e, id) => {
+  async function delete_location(e, id) {
     e.preventDefault();
-    onDeleteLocation(id, (res, error) => {
-      if (error) {
-        console.log("error");
-      } else {
+    await locationService.DeleteLocation(id)
+      .then(async () => {
         setModalOpen(false);
-        notify("success", "Deleted Successfully.");
-        ongetLocations({ partner: user_id }, (_, error) => {
-          if (error) {
-            notify(
-              "error",
-              error?.response?.data?.message ?? "Something went wrong"
-            );
-          }
-        });
-      }
-    });
-  };
+        notify("success", "Location Deleted successfully");
+        await initialize(null);
+      })
+      .catch((error) => {
+        setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
 
-  const subcategoryList = subCategories?.map((item) => ({
-    label: item.name,
-    value: item._id,
-  }));
+  };
 
   return (
     <Modal
@@ -202,13 +211,12 @@ function ModifyModal({
       <Divider style={{}} dashed></Divider>
       <Form
         form={form}
-        onFinish={(values) => {
+        onFinish={async (values) => {
           const formData = new FormData();
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
 
-          console.log(addressForm)
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
@@ -217,24 +225,19 @@ function ModifyModal({
           formData.append("lat", addressForm.lat);
           formData.append("lng", addressForm.lng);
           formData.append("subCategories", values.subCategories);
-          onUpdateLocationByID(locationInfo._id, formData, (_, err) => {
-            if (err) {
+
+          await locationService.UpdateLocationByID(locationInfo._id, formData)
+            .then(async () => {
+              notify("success", "Location Updated successfully");
+              await initialize(null);
+            })
+            .catch((error) => {
               notify(
                 "error",
-                err?.response?.data?.message || "Something went error"
+                error?.response?.data?.message || "Something went wrong"
               );
               return;
-            }
-            notify("success", "Location Changed successfully");
-            ongetLocations({ partner: user_id }, (_, error) => {
-              if (error) {
-                notify(
-                  "error",
-                  error?.response?.data?.message ?? "Something went wrong"
-                );
-              }
             });
-          });
         }}
         layout="vertical"
         fields={[
@@ -313,7 +316,7 @@ function ModifyModal({
                   width: "100%",
                 }}
                 placeholder="Select all that apply"
-                options={subcategoryList}
+                options={subCategories}
               />
             </Form.Item>
           </Col>
@@ -415,16 +418,7 @@ function ModifyModal({
 const mapStateToProps = ({ user, profile }) => ({
   user_id: user.user_id,
   userCategoryId: profile.userinfo.category,
-  subCategories: user.partnersubCategory?.subCategories,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onDeleteLocation: (data, cb) => dispatch(deleteLocationById(data, cb)),
-  onUpdateLocationByID: (locationID, data, cb) =>
-    dispatch(updateLocationById(locationID, data, cb)),
-  ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
-  onGetSubCategories: (categoryId, cb) =>
-    dispatch(getsubCategory(categoryId, cb)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModifyModal);
+export default connect(mapStateToProps, undefined)(ModifyModal);

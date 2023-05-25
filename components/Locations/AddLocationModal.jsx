@@ -15,14 +15,11 @@ import {
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
-import { createLocation, getLocations } from "@/src/redux/Location/actions";
-import { getsubCategory } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
-import { categoryService, locationService } from "@/services/index";
+import { locationService, categoryService } from "@/services/index";
 import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
-
 const { Title, Paragraph } = Typography;
 
 const mapAutoCompleteOptions = {
@@ -42,18 +39,16 @@ function AddLocationModal({
   setModalOpen,
   uploadProps,
   uploadFile,
-  onAddLocation,
-  ongetLocations,
-  onGetSubCategories,
-  subCategories,
   userCategoryId,
+  setLocations,
+  additionLocatoins
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
   const autoCompleteRef = useRef();
   const inputRef = useRef();
-
+  const [subCategories, setsubCategories] = useState([]);
   const [addressForm, setaddressForm] = useState({
     address: "",
     city: "",
@@ -64,13 +59,18 @@ function AddLocationModal({
 
   useEffect(() => {
     if (userCategoryId) {
-      onGetSubCategories(userCategoryId, (_, error) => {
-        if (error) {
-          notify(error, "error");
-        }
-      });
+      GetSubCategories();
     }
   }, [userCategoryId]);
+
+  async function GetSubCategories() {
+    const res = await categoryService.getSubcategory(userCategoryId)
+    const subcategoryList = res?.subCategories.map((item) => ({
+      label: item.name,
+      value: item._id,
+    }));
+    await setsubCategories(subcategoryList);
+  }
 
   useEffect(() => {
     if (inputRef.current) {
@@ -111,11 +111,6 @@ function AddLocationModal({
     };
     setaddressForm(nextFormState);
   };
-
-  const subcategoryList = subCategories?.map((item) => ({
-    label: item.name,
-    value: item._id,
-  }));
 
   return (
     <Modal
@@ -170,13 +165,11 @@ function AddLocationModal({
       <Divider style={{}} dashed></Divider>
       <Form
         form={form}
-        onFinish={(values) => {
+        onFinish={async (values) => {
           const formData = new FormData();
-
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
-
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("address", addressForm.address);
@@ -186,30 +179,41 @@ function AddLocationModal({
           formData.append("lng", addressForm.lng);
           formData.append("subCategories", values.subCategories);
 
-          onAddLocation(formData, (_, err) => {
-            if (err) {
+          await locationService.AddLocation(formData)
+            .then(async () => {
+              notify("success", "Location added successfully");
+              form.resetFields();
+              await setaddressForm({
+                address: "",
+                city: "",
+                state: "",
+              });
+
+              await locationService.getLocations({ partner: user_id, isActive: null })
+                .then(async (res) => {
+                  if (additionLocatoins.length > 0) {
+                    const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+                    await setLocations(filteredData);
+                  }
+                  else
+                    await setLocations(res.results);
+                })
+                .catch((error) => {
+                  notify(
+                    "error",
+                    error?.response?.data?.message || "Something went wrong"
+                  );
+                  return;
+                });
+            })
+            .catch((error) => {
+              setLoading(false);
               notify(
                 "error",
-                err?.response?.data?.message || "Something went error"
+                error?.response?.data?.message || "Something went wrong"
               );
               return;
-            }
-            notify("success", "Location added successfully");
-            form.resetFields();
-            setaddressForm({
-              address: "",
-              city: "",
-              state: "",
             });
-            ongetLocations({ partner: user_id }, (_, error) => {
-              if (error) {
-                notify(
-                  "error",
-                  error?.response?.data?.message ?? "Something went wrong"
-                );
-              }
-            });
-          });
         }}
         layout="vertical"
       >
@@ -273,7 +277,7 @@ function AddLocationModal({
                   width: "100%",
                 }}
                 placeholder="Select all that apply"
-                options={subcategoryList}
+                options={subCategories}
               />
             </Form.Item>
           </Col>
@@ -324,14 +328,7 @@ function AddLocationModal({
 const mapStateToProps = ({ user, profile }) => ({
   user_id: user.user_id,
   userCategoryId: profile.userinfo.category,
-  subCategories: user.partnersubCategory?.subCategories,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  ongetLocations: (data, cb) => dispatch(getLocations(data, cb)),
-  onAddLocation: (data, cb) => dispatch(createLocation(data, cb)),
-  onGetSubCategories: (categoryId, cb) =>
-    dispatch(getsubCategory(categoryId, cb)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddLocationModal);
+export default connect(mapStateToProps, undefined)(AddLocationModal);

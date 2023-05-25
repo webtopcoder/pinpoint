@@ -1,6 +1,5 @@
 import useNotify from "@/hooks/useNotify";
 import food from "@/public/images/landing/food.png";
-import { quickDeparture } from "@/src/redux/Location/actions";
 import { Button, Col, Form, Modal, Row, Select, Typography } from "antd";
 import Image from "next/image";
 import React, { memo, useEffect, useState } from "react";
@@ -14,7 +13,6 @@ function DepartureModal({
   setModalOpen,
   locations,
   setLocations,
-  onquickDeparture,
   additionLocatoins,
   user_id,
 }) {
@@ -31,7 +29,6 @@ function DepartureModal({
           await setLocations(filteredData);
         }
         else {
-          console.log(res.results, 23232)
           await setLocations(res.results);
         }
       })
@@ -101,22 +98,21 @@ function DepartureModal({
       </Row>
       <Form
         form={departureForm}
-        onFinish={(values) => {
-          onquickDeparture(
-            {
-              locationId: values.departureLocation,
-            },
-            (_, error) => {
-              setModalOpen(false);
-              if (error) {
-                notify("error", error.response.data.message);
-                return;
-              }
+        onFinish={async (values) => {
+          await locationService.quickDeparture({ locationId: values.departureLocation })
+            .then(async () => {
+              await setModalOpen(false);
               departureForm.resetFields();
               notify("success", "Successfully departed");
-              initialize(null);
-            }
-          );
+              await initialize(null);
+            })
+            .catch((error) => {
+              notify(
+                "error",
+                error?.response?.data?.message || "Something went wrong"
+              );
+              return;
+            });
         }}
         layout="vertical"
       >
@@ -175,12 +171,4 @@ const mapStateToProps = ({ user }) => ({
   user_id: user.user_id,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onquickDeparture: (payload, callback) =>
-    dispatch(quickDeparture(payload, callback)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(DepartureModal));
+export default connect(mapStateToProps)(memo(DepartureModal));

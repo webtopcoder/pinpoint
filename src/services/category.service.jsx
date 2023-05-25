@@ -22,7 +22,7 @@ function CategoryService() {
     getSubcategory,
     getCategory,
     uploadAvatar,
-    updatePoll
+    updatePoll,
   };
 }
 

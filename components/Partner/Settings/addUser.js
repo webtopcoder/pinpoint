@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "./settings.module.css";
-import { Col, Row, Layout, Button, Popconfirm, List, Space, Tag, Switch } from "antd";
+import {
+  Col, Row, Layout, Button, Popconfirm, List, Space, Tag, Switch, Spin
+} from "antd";
 import { useRouter } from "next/router";
-import { DoubleLeftOutlined, PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DoubleLeftOutlined, PlusOutlined, DeleteOutlined, EditOutlined, LoadingOutlined } from "@ant-design/icons";
 import AddUserModal from "./addModal";
 import EditUserModal from "./editModal";
 import useNotify from "@/hooks/useNotify";
 import { settingService, locationService } from "@/services/index";
 
+const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 const { Content } = Layout;
 
 const SettingAddUser = () => {
@@ -16,6 +19,7 @@ const SettingAddUser = () => {
   const { notify } = useNotify();
   const [showAddModal, setShowAddModal] = useState(false);
   const [userInfo, setUserInfo] = useState();
+  const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
   const [additionalUsers, setadditionalUsers] = useState();
   const handleAddCancel = () => setShowAddModal(false);
@@ -31,7 +35,9 @@ const SettingAddUser = () => {
     );
 
     if (filtered?.extra) {
+      await setLoading(false);
       await setadditionalUsers(filtered.extra);
+
     }
     const res_locations = await locationService.getLocations({ partner: localStorage.getItem('user_id'), isActive: null });
     await setLocations(res_locations.results)
@@ -86,43 +92,56 @@ const SettingAddUser = () => {
               </Button>
             </Col>
           </Row>
-          <List
-            itemLayout="horizontal"
-            dataSource={additionalUsers}
-            renderItem={(user) => (
-              <Row className={styles.list + " mt-3"}>
-                <Col md={16} xs={24} sm={24} className={styles.left_pane}>
-                  <div>{user.email}{" "}<Tag color={user.status === "pending" ? "magenta" : (user.status === "active" ? 'green' : 'red')}>{user.status}</Tag></div>
-                  <div className={styles.role}>{user.role}</div>
-                </Col>
-                <Col md={8} xs={24} sm={24} className={styles.right_pane}>
-                  <Space>
-                    {user.status !== "pending" ? <Switch checkedChildren="Active" onChange={(checked) => handleCheck(checked, user._id)} unCheckedChildren="Inactive" defaultChecked={user.status === "active" ? true : false} />
-                      : ""}
-                    <Button type="primary" onClick={async () => {
-                      await setUserInfo(user);
-                      await setShowEditModal(true);
-                    }} icon={<EditOutlined />}>Edit</Button>
-                    <Popconfirm
-                      title="Delete User?"
-                      description="Are you sure to delete this user?"
-                      okText="Yes"
-                      cancelText="No"
-                      onConfirm={(e) => handleDelete(e, user._id)}
-                    >
-                      <Button
-                        type="primary"
-                        icon={<DeleteOutlined />}
-                        danger
+          <Spin
+            indicator={antIcon}
+            spinning={loading}
+            style={{
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+
+            <List
+              itemLayout="horizontal"
+              // loading={loading}
+              dataSource={additionalUsers}
+              renderItem={(user) => (
+                <Row className={styles.list + " mt-3"}>
+                  <Col md={16} xs={24} sm={24} className={styles.left_pane}>
+                    <div>{user.email}{" "}<Tag color={user.status === "pending" ? "magenta" : (user.status === "active" ? 'green' : 'red')}>{user.status}</Tag></div>
+                    <div className={styles.role}>{user.role}</div>
+                  </Col>
+                  <Col md={8} xs={24} sm={24} className={styles.right_pane}>
+                    <Space>
+                      {user.status !== "pending" ? <Switch checkedChildren="Active" onChange={(checked) => handleCheck(checked, user._id)} unCheckedChildren="Inactive" defaultChecked={user.status === "active" ? true : false} />
+                        : ""}
+                      <Button type="primary" onClick={async () => {
+                        await setUserInfo(user);
+                        await setShowEditModal(true);
+                      }} icon={<EditOutlined />}>Edit</Button>
+                      <Popconfirm
+                        title="Delete User?"
+                        description="Are you sure to delete this user?"
+                        okText="Yes"
+                        cancelText="No"
+                        onConfirm={(e) => handleDelete(e, user._id)}
                       >
-                        Delete
-                      </Button>
-                    </Popconfirm>
-                  </Space>
-                </Col>
-              </Row>
-            )}
-          />
+                        <Button
+                          type="primary"
+                          icon={<DeleteOutlined />}
+                          danger
+                        >
+                          Delete
+                        </Button>
+                      </Popconfirm>
+                    </Space>
+                  </Col>
+                </Row>
+              )}
+            />
+          </Spin>
         </div>
         <AddUserModal
           modal={showAddModal}

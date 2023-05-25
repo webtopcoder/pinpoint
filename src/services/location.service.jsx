@@ -20,9 +20,34 @@ function LocationService() {
     )
   }
 
+  function AddLocation(data) {
+    return api(`locations`, "post", data)
+  }
+
+  function UpdateLocationByID(locationID, form) {
+    return api(`locations/${locationID}`, "patch", form)
+  }
+
+  function DeleteLocation(id) {
+    return api(`locations/${id}`, "delete")
+  }
+
+  function quickArrival({ form, locationId }) {
+    return api(`locations/${locationId}/quick-arrival`, "post", form)
+  }
+
+  function quickDeparture({ locationId }) {
+    return api(`locations/${locationId}/quick-departure`, "post")
+  }
+
   return {
     getAllLocations,
-    getLocations
+    getLocations,
+    AddLocation,
+    UpdateLocationByID,
+    DeleteLocation,
+    quickArrival,
+    quickDeparture
   };
 }
 
