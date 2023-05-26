@@ -202,7 +202,7 @@ const PartnerRegister = ({
         router.push({
           pathname: '/authentication/thank-you',
           query: {
-            type: 'Partner',
+            type: 'partner',
             registration_email: form.email
           }
         });

@@ -117,7 +117,7 @@ const UserRegister = ({ token, loggedInRole }) => {
         router.push({
           pathname: '/authentication/thank-you',
           query: {
-            type: 'User',
+            type: 'user',
             registration_email: formRequest.email
           }
         });

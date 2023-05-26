@@ -27,7 +27,7 @@ const ThankYou = () => {
         .then(() => {
           setLoading(false);
           notify("success", "Email verified successfully");
-          router.push(`/authentication/${type.toLowerCase()}/login`);
+          router.push(`/authentication/${type}/login`);
         })
         .catch((error) => {
           setLoading(false);
@@ -91,7 +91,7 @@ const ThankYou = () => {
                   </form>
                   <div className="col-12">
                     <p className="account-desc">
-                      <Link href={`/authentication/${type.toLowerCase()}/login`}>
+                      <Link href={`/authentication/${type}/login`}>
                         <a className="login-dashboard-a-color">
                           Back to {type} Login{" "}
                         </a>
