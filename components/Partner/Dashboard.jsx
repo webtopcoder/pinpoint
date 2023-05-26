@@ -1,9 +1,5 @@
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
-import {
-  quickDeparture as quickDepartureAction,
-  quickArrival as quickArrivalAction,
-} from "@/src/redux/Location/actions";
 import { getDashboardInfo } from "@/src/redux/Profile/actions";
 import { Card, Col, Layout, message, Row } from "antd";
 import Image from "next/image";
@@ -242,8 +238,6 @@ const matchStateToProps = ({ profile, user }) => {
 };
 
 const matchDispatchToProps = (dispatch) => ({
-  onquickArrival: (data, cb) => dispatch(quickArrivalAction(data, cb)),
-  onquickDeparture: (data, cb) => dispatch(quickDepartureAction(data, cb)),
   ongetDashboardInfo: (cb) => dispatch(getDashboardInfo(cb)),
 });
 

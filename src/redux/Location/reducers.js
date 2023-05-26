@@ -9,13 +9,10 @@ import {
   LOCATION_REVIEW_SUCCESS,
   LOCATION_CHECKIN_REQUEST,
   LOCATION_CHECKIN_SUCCESS,
-  USER_LOCATION_ADD_SUCCESS,
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
-  USER_LOCATION_SUCCESS,
   USER_EXPIRED_ARRIVAL_REQUEST,
   USER_EXPIRED_ARRIVAL_SUCCESS,
-  GET_ALL_ACTIVE_LOCATIONS_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -45,17 +42,7 @@ const locationReducer = (state = initialState, action) => {
       };
     case USER_LOCATION_REQUEST:
       return { ...state, loading: true };
-    case USER_LOCATION_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        userLocations: action.payload.results,
-      };
-    case USER_LOCATION_ADD_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
+
     case USER_LOCATION_ID_SUCCESS:
       return {
         ...state,
@@ -96,12 +83,6 @@ const locationReducer = (state = initialState, action) => {
         loading: false,
         favoriteLocations: action.payload,
       };
-    case GET_ALL_ACTIVE_LOCATIONS_SUCCESS: {
-      return {
-        ...state,
-        activeLocations: action.payload.results,
-      };
-    }
 
     case LOCATION_CHECKIN_SUCCESS: {
       return {

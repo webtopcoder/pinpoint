@@ -25,7 +25,6 @@ import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import DepartureModal from "./Locations/DepartureModal";
 import ModifyLocationModal from "./Locations/ModifyLocationModal";
-import { quickDeparture } from "@/src/redux/Location/actions";
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
 import Image from "next/image";
@@ -93,7 +92,6 @@ const LocationCard = ({
           await setLocations(filteredData);
         }
         else {
-          console.log(res.results, 23232)
           await setLocations(res.results);
         }
       })
@@ -169,7 +167,20 @@ const LocationCard = ({
               </Button>
             ),
             location.isActive ? (
-              <Button type="link" onClick={() => departure(location._id)}>
+              <Button type="link" onClick={async () => {
+                await locationService.quickDeparture({ locationId: location._id })
+                  .then(async () => {
+                    notify("success", "Successfully departed");
+                    await initialize(null);
+                  })
+                  .catch((error) => {
+                    notify(
+                      "error",
+                      error?.response?.data?.message || "Something went wrong"
+                    );
+                    return;
+                  });
+              }}>
                 Departure
               </Button>
             ) : (
@@ -361,10 +372,4 @@ const matchStateToProps = ({ user }) => {
   };
 };
 
-const matchDispatchToProps = (dispatch) => {
-  return {
-    onDepartureSet: (data, cb) => dispatch(quickDeparture(data, cb)),
-  };
-};
-
-export default connect(matchStateToProps, matchDispatchToProps)(LocationCard);
+export default connect(matchStateToProps, undefined)(LocationCard);
