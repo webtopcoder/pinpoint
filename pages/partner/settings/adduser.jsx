@@ -26,6 +26,7 @@ const AddUser = () => {
   );
 };
 
+AddUser.requireAuth = true;
 AddUser.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

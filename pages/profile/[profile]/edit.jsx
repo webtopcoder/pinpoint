@@ -26,6 +26,8 @@ const PartnerEdit = ({ role }) => {
   );
 };
 
+
+PartnerEdit.requireAuth = true;
 PartnerEdit.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

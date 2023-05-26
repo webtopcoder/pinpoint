@@ -4,7 +4,6 @@ import ProfileFollowers from "@/components/Profile/ProfileFollowers";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import BasicLayout from "../../../layout";
-import { connect } from "react-redux";
 
 const Followers = () => {
   return (
@@ -21,8 +20,9 @@ const Followers = () => {
   );
 };
 
+Followers.requireAuth = true;
 Followers.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };
 
-export default connect()(Followers);
+export default Followers;

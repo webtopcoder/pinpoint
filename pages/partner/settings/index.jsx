@@ -25,6 +25,7 @@ const Settings = () => {
   );
 };
 
+Settings.requireAuth = true;
 Settings.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

@@ -618,6 +618,6 @@ InteractiveMap.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-InteractiveMap.authenticate = true;
+InteractiveMap.requireAuth = true;
 
 export default InteractiveMap;

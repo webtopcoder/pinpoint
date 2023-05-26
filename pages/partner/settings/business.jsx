@@ -26,6 +26,7 @@ const SettingBusiness = () => {
   );
 };
 
+SettingBusiness.requireAuth = true;
 SettingBusiness.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

@@ -25,6 +25,8 @@ const Dashboard = () => {
   );
 };
 
+Dashboard.requireAuth = true;
+
 Dashboard.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

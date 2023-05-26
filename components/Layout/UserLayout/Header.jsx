@@ -392,14 +392,15 @@ const Header = ({
                           Locations
                         </a>
                       </li>
-                      <li className="nav-item">
+                      {additionRole === "Owner" ? '' : <li className="nav-item">
                         <a
                           className="dropdown-toggle nav-link"
                           onClick={() => handleOriginPageRender(`/partner/partnership`)}
                         >
                           Partnership
                         </a>
-                      </li></> : <>
+                      </li>}
+                    </> : <>
                       <li className="nav-item">
                         <a
                           className="dropdown-toggle nav-link"

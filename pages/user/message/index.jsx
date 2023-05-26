@@ -225,6 +225,7 @@ const Index = () => {
   );
 };
 
+Index.requireAuth = true;
 Index.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

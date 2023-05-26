@@ -25,6 +25,7 @@ const PartnerMail = () => {
   );
 };
 
+PartnerMail.requireAuth = true;
 PartnerMail.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

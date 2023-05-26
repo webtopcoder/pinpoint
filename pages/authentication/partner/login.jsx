@@ -25,8 +25,6 @@ const partnerLogin = () => {
   );
 };
 
-partnerLogin.authenticate = false;
-
 const mapStateToProps = (state) => {
   return {
     token: state.user.token,

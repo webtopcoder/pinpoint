@@ -104,7 +104,8 @@ function LeftSidebar({
     getItem("Settings", `/partner/settings/`, <SettingFilled />),
     getItem("Parter Locations", "/partner/locations/", <EnvironmentFilled />),
     getItem("View Profile", `/profile/${user_id}/activity`, <ProfileFilled />),
-    getItem("Partnership", "/partner/partnership/", <GiftOutlined />),
+    additionRole === "Owner" ? "" :
+      getItem("Partnership", "/partner/partnership/", <GiftOutlined />),
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
 

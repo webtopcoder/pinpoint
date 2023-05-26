@@ -20,6 +20,7 @@ const Favorites = () => {
   );
 };
 
+Favorites.requireAuth = true;
 Favorites.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

@@ -25,6 +25,7 @@ const Partnership = () => {
   );
 };
 
+Partnership.requireAuth = true;
 Partnership.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };

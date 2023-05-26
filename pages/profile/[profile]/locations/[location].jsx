@@ -4,7 +4,6 @@ import PartnerLocation from "@/components/Partner/Profile/PartnerLocation";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import Layout from "../../../../layout";
-import { connect } from "react-redux";
 
 const Location = () => {
   return (
@@ -22,8 +21,9 @@ const Location = () => {
   );
 };
 
+Location.requireAuth = true;
 Location.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default connect()(Location);
+export default Location;

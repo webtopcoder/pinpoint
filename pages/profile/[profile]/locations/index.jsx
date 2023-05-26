@@ -21,6 +21,7 @@ const Locations = () => {
   );
 };
 
+Locations.requireAuth = true;
 Locations.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

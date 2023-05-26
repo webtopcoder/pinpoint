@@ -21,6 +21,7 @@ const Activity = () => {
   );
 };
 
+Activity.requireAuth = true;
 Activity.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

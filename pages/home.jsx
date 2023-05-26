@@ -141,7 +141,7 @@ const UserHome = () => {
   return (
     <>
       {contextHolder}
-      <PageTitle page="HOME | PINPOINT" />
+      <PageTitle page="HOME" />
       <div className="software-banner-area">
         <div className="container">
           <div className="row">

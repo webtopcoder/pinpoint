@@ -80,6 +80,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("username", action?.payload?.user?.username);
       localStorage.setItem("user_id", action?.payload?.user?._id);
       localStorage.setItem("usertype", action?.payload?.user?.role);
+      localStorage.setItem("additionRole", '');
       localStorage.setItem(
         "avatar",
         action?.payload?.user?.profile?.avatar?.filepath

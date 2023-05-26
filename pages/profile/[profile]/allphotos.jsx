@@ -20,6 +20,7 @@ const Allphotos = () => {
   );
 };
 
+Allphotos.requireAuth = true;
 Allphotos.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

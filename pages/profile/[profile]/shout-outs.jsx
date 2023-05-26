@@ -20,6 +20,7 @@ const Shout = () => {
   );
 };
 
+Shout.requireAuth = true;
 Shout.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
