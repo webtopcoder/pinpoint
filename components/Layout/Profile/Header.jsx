@@ -115,7 +115,7 @@ const Header = ({
                   <Avatar size={120} icon={<UserOutlined />} />
                 )
               }
-              title={<Title level={3}>{headerInfo?.profile?.fullname}</Title>}
+              title={<Title level={3}>{headerInfo?.profile?.businessname}</Title>}
               description={
                 <Space direction="vertical" size="middle">
                   <Title level={5}>@{headerInfo?.profile?.username}</Title>

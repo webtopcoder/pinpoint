@@ -14,6 +14,10 @@ function SettingService() {
     return api(`setting/getPartners/${email}`, "post")
   }
 
+  function getPartnerInfo() {
+    return api(`auth/me`, "get")
+  }
+
   function deleteAdditionUser(id) {
     return api(`setting/deleteUser/${id}`, "post");
   }
@@ -34,7 +38,9 @@ function SettingService() {
     return api(`setting/loginUser`, "post", data);
   }
 
-
+  function partnerProfileUpdate(data) {
+    return api(`profile`, "patch", data);
+  }
 
   return {
     SettingsToggle,
@@ -44,7 +50,9 @@ function SettingService() {
     getAdditionalUser,
     updateAdditionalWithPassword,
     loginAdditionUser,
-    getPartners
+    getPartners,
+    partnerProfileUpdate,
+    getPartnerInfo
   };
 }
 
