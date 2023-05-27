@@ -76,12 +76,12 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
           return false;
         }
         else {
-          notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
+          notify("success", `Welcome ${res.user.businessname}`);
           router.push("/partner/dashboard");
         }
       }
       else {
-        notify("success", `Welcome ${res.user.firstName} ${res.user.lastName}`);
+        notify("success", `Welcome ${res.user.businessname}`);
         router.push("/home");
       }
     });

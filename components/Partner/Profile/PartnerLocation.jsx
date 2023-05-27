@@ -706,7 +706,7 @@ function Post({ review, likeReview, location, router }) {
                 <a
                   onClick={() => router.push(`/profile/${review?.user?._id}/activity`)}
                   className="custom-userName">
-                  {review?.user?.firstName}{" "}{review?.user?.lastName}
+                  {review?.user?.businessname}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                 </a>
                 <span>

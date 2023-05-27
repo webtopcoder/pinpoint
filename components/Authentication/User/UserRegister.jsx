@@ -101,6 +101,8 @@ const UserRegister = ({ token, loggedInRole }) => {
     let formRequest = Object.fromEntries(fields.map((f) => [f, form[f]]));
     formRequest = {
       ...formRequest,
+      username: form.username.replace(/\b\s\b/g, "-"),
+      businessname: form.firstName + " " + form.lastName,
       address: {
         city: form.city,
         state: form.state,

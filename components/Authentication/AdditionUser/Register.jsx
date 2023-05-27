@@ -14,8 +14,8 @@ const AdditionUserRegister = () => {
   const [form, setForm] = useState({
     password: "",
     confirmPassword: "",
-    username: partner,
-    email: user
+    username: "",
+    email: ""
   });
 
   const { notify } = useNotify();
@@ -25,6 +25,8 @@ const AdditionUserRegister = () => {
       setForm({
         ...form,
         token,
+        username: partner,
+        email: user
       });
     }
   }, [token]);

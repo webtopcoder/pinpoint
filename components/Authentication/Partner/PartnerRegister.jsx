@@ -36,6 +36,7 @@ const PartnerRegister = ({
     firstName: "",
     lastName: "",
     username: "",
+    businessname: '',
     address: "",
     city: "",
     state: "",
@@ -179,7 +180,8 @@ const PartnerRegister = ({
       role: form.role,
       firstName: form.firstName,
       lastName: form.lastName,
-      username: form.username,
+      username: form.username.replace(/\b\s\b/g, "-"),
+      businessname: form.businessname,
       address: {
         address: addressForm.address,
         city: addressForm.city,
@@ -233,7 +235,18 @@ const PartnerRegister = ({
               <div className="col-lg-12 col-md-12">
                 <FormGroup
                   errors={errors}
-                  label="Business Legal Name(no spaces) *"
+                  label="Business Legal Name *"
+                  value={form.businessname}
+                  onChange={onUpdateField}
+                  onBlur={onBlurField}
+                  name="businessname"
+                  type="text"
+                />
+              </div>
+              <div className="col-lg-12 col-md-12">
+                <FormGroup
+                  errors={errors}
+                  label="Username *"
                   value={form.username}
                   onChange={onUpdateField}
                   onBlur={onBlurField}

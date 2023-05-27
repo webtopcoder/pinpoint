@@ -170,7 +170,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                       <a
                                         onClick={() => router.push(`/profile/${item?.from?._id}/activity`)}
                                         className="custom-userName">
-                                        {item?.from?.firstName}{" "}{item?.from?.lastName}
+                                        {item?.from?.businessname}
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                       </a>
                                       <span>

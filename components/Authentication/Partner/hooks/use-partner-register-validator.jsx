@@ -4,6 +4,7 @@ import {
   FirstNameValidator,
   LastNameValidator,
   LegalNameValidator,
+  BusinessNameValidator,
   AddressValidator,
   CityValidator,
   StateValidator,
@@ -36,6 +37,11 @@ export const useRegisterFormValidator = (form, addressForm) => {
       message: "",
     },
     username: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    businessname: {
       dirty: false,
       error: false,
       message: "",
@@ -98,6 +104,7 @@ export const useRegisterFormValidator = (form, addressForm) => {
       firstName,
       lastName,
       username,
+      businessname,
       category,
       email,
       password,
@@ -124,6 +131,13 @@ export const useRegisterFormValidator = (form, addressForm) => {
       nextErrors.username.error = !!legalNameMessage;
       nextErrors.username.message = legalNameMessage;
       if (!!legalNameMessage) isValid = false;
+    }
+
+    if (nextErrors.businessname.dirty && (field ? field === "businessname" : true)) {
+      const businessNameMessage = BusinessNameValidator(businessname);
+      nextErrors.businessname.error = !!businessNameMessage;
+      nextErrors.businessname.message = businessNameMessage;
+      if (!!businessNameMessage) isValid = false;
     }
 
     if (nextErrors.email.dirty && (field ? field === "email" : true)) {

@@ -29,7 +29,17 @@ export const LastNameValidator = (lastName) => {
 
 export const LegalNameValidator = (userName) => {
   if (!userName) {
-    return "Legal Name is required";
+    return "User Name is required";
+  }
+  else if(/\s/.test(userName)){
+    return "User Name can not contain whitespace."
+  }
+  return "";
+};
+
+export const BusinessNameValidator = (businessName) => {
+  if (!businessName) {
+    return "Business Name is required";
   }
   return "";
 };

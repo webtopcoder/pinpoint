@@ -436,7 +436,7 @@ const ProfileActivity = ({
                                           <a
                                             onClick={() => router.push(`/profile/${item?.from_user?._id}/activity`)}
                                             className="custom-userName">
-                                            {item?.from_user?.firstname}{" "}{item?.from_user?.lastname}
+                                            {item?.from_user?.businessname}
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                           </a>
                                           <span>
@@ -535,7 +535,7 @@ const ProfileActivity = ({
                                           <a
                                             onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
                                             className="custom-userName">
-                                            {item?.follower?.firstname}{" "}{item?.follower?.lastname}
+                                            {item?.follower?.businessname}
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                           </a>
                                           <span>

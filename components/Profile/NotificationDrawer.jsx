@@ -151,7 +151,7 @@ function NotificationDrawer({
                     cursor: "pointer",
                   }}
                 >
-                  {item.actor.firstName}{" "}{item.actor.lastName}
+                  {item.actor.businessname}
                 </span>
               }
               onClick={() => notificationRead(true, item)}
