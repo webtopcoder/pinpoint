@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 const Activity = () => {
   return (
     <>
-      <PageTitle page="Activity" />
+      <PageTitle page="PROFILE - ACTIVITY" />
       <div className="page-pin-area">
         <Profileheader />
         <div className="pin-profile-section">

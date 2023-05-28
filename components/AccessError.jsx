@@ -1,4 +1,15 @@
 import React from "react";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
 export default function AccessError() {
   return (
@@ -7,10 +18,10 @@ export default function AccessError() {
         <div className="d-table-cell">
           <div className="container">
             <div className="not-found-content">
-              <h3>Wait for a second, access checking</h3>
-              <p>
-                Please sign in to access this page.
-              </p>
+              <Spin indicator={antIcon} />
+              <h3 style={{
+                marginTop: 20
+              }}>Wait for a second, access checking</h3>
             </div>
           </div>
         </div>

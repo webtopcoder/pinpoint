@@ -8,7 +8,7 @@ import BasicLayout from "../../../layout";
 const Followers = () => {
   return (
     <>
-      <PageTitle page="Profile Followers" />
+      <PageTitle page="PROFILE - FOLLOWERS" />
       <div className="page-pin-area">
         <Profileheader />
         <div className="pin-profile-section">

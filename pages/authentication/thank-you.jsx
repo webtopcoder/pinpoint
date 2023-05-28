@@ -62,7 +62,7 @@ const ThankYou = () => {
 
   return (
     <>
-      <PageTitle page="THANK YOU | PINPOINT" />
+      <PageTitle page="THANK YOU" />
       <div className="thank-you-area">
         <div className="d-table">
           <div className="d-table-cell">

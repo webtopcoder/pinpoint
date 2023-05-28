@@ -432,7 +432,7 @@ const InteractiveMap = () => {
   return (
     <>
       {contextHolder}
-      <PageTitle page="Interactive Map" />
+      <PageTitle page="INTERACTIVE MAP" />
       <div className="page-interactive-area bg-black">
         <div className="container">
           <div className="page-interactive-content">

@@ -11748,7 +11748,8 @@ Sidebar Modal CSS
   color: var(--redLightColor);
 }
 
-.account-desc a:hover,.account-desc-custom a:hover {
+.account-desc a:hover,
+.account-desc-custom a:hover {
   color: var(--blueColor);
 }
 
@@ -13157,7 +13158,7 @@ h4 {
   text-align: center;
   font-size: 24px;
   margin-top: 10px;
-  padding: 13px 15px;
+  padding: 0px 15px;
   justify-content: center;
   word-break: break-word;
 }

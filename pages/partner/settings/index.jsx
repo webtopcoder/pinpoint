@@ -10,7 +10,7 @@ const Settings = () => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Settings" />
+      <PageTitle page="SETTINGS" />
       <div className="page-partner-area">
         <Layout
           style={{

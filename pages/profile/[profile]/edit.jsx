@@ -11,7 +11,7 @@ const PartnerEdit = ({ role }) => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Profile Edit" />
+      <PageTitle page="PROFILE - EDIT" />
       <div className="page-partner-area">
         <Layout
           style={{

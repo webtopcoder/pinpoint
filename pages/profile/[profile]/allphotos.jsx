@@ -8,7 +8,7 @@ import Layout from "../../../layout";
 const Allphotos = () => {
   return (
     <>
-      <PageTitle page="All Photos" />
+      <PageTitle page="PROFILE - All PHOTOS" />
       <div className="page-pin-area">
         <Profileheader />
         <div className="pin-profile-section">

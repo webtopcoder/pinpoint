@@ -121,7 +121,7 @@ const Index = () => {
 
   return (
     <>
-      <PageTitle page="Message" />
+      <PageTitle page="MESSAGE" />
       <div className="mailbox-banner-area-css">
         <div className="mail-container">
           <div className="mailbox-container">

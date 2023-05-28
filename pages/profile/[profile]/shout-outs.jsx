@@ -8,7 +8,7 @@ import Layout from "../../../layout";
 const Shout = () => {
   return (
     <>
-      <PageTitle page="Shout outs" />
+      <PageTitle page="PROFILE - SHOUT OUT" />
       <div className="page-pin-area">
         <Profileheader />
         <div className="pin-profile-section">

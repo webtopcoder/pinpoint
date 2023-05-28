@@ -10,7 +10,7 @@ const AddUser = () => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Settings | Additional Users" />
+      <PageTitle page="ADDITIONAL USERS" />
       <div className="page-partner-area">
         <Layout
           style={{

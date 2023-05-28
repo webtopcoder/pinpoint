@@ -10,7 +10,7 @@ const PartnerMail = () => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Message" />
+      <PageTitle page="MESSAGE" />
       <div className="page-partner-area">
         <Layout
           style={{

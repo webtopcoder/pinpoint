@@ -10,7 +10,7 @@ const SettingBusiness = () => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Settings | Modifiy Business Details" />
+      <PageTitle page="MODIFY BUSINESS DETAILS" />
       <div className="page-partner-area">
         <Layout
           style={{

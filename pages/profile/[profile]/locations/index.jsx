@@ -8,7 +8,7 @@ import Layout from "../../../../layout";
 const Locations = () => {
   return (
     <>
-      <PageTitle page="Locations" />
+      <PageTitle page="PROFILE - LOCATIONS" />
 
       <div className="page-pin-area">
         <Profileheader />
