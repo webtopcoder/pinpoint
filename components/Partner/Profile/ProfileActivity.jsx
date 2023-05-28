@@ -531,7 +531,7 @@ const ProfileActivity = ({
                                     }
                                     title={
                                       <>
-                                        <Space direction="vertical">
+                                        <Space size={0} direction={isWebDevice ? "vertical" : 'horizontal'}>
                                           <a
                                             onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
                                             className="custom-userName">
