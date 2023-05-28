@@ -27,8 +27,7 @@ import { getmyFollowers } from "@/redux/User/actions";
 import { postThink } from "@/redux/Profile/actions";
 import { recommendPost } from "@/redux/Profile/actions";
 import toast from "@/components/Toast";
-import config from "@/utils/config";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
 const ProfileActivity = ({

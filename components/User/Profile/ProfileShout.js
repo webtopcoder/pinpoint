@@ -166,7 +166,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                                 }
                                 title={
                                   <>
-                                    <Space direction="vertical">
+                                    <Space size={0} direction="vertical">
                                       <a
                                         onClick={() => router.push(`/profile/${item?.from?._id}/activity`)}
                                         className="custom-userName">
