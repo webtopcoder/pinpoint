@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { setCookie, getCookie, hasCookie } from 'cookies-next';
 import LandingContact from "@/components/Landing/LandingContact";
 import Testimonial from "@/components/Landing/Testimonial";
+import Newpartners from "@/components/Landing/Newpartners";
 import PageTitle from "@/components/Layout/PageTitle";
 import christmas from "@/public/images/landing/christmas.png";
 import coffee from "@/public/images/landing/coffee.png";
@@ -17,7 +18,7 @@ import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
 import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
-import { apiBaseUrl } from "@/utils/baseUrl";     
+import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
 import { Button, notification, Space, Typography } from 'antd';
 import useMedia from "@/hooks/useMedia";
@@ -34,6 +35,7 @@ const close = () => {
 const UserHome = () => {
   const faviconUrl = `${apiBaseUrl}/location.png`;
   const [testimonials, setTestimonial] = useState();
+  const [newpartners, setNewpartner] = useState();
   const [activePartners, setactivePartners] = useState();
   const isWebDevice = useMedia('(min-width:700px)');
   const [api, contextHolder] = notification.useNotification();
@@ -99,6 +101,18 @@ const UserHome = () => {
     await userService.getTestimonials()
       .then((res) => {
         setTestimonial(res.data)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+
+    await userService.getNewpartners()
+      .then((res) => {
+        setNewpartner(res.data)
       })
       .catch((error) => {
         notify(
@@ -430,6 +444,7 @@ const UserHome = () => {
         </div>
       </div>
       <Testimonial testimonials={testimonials} />
+      <Newpartners newpartners={newpartners} />
       <div className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">

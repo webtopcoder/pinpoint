@@ -10,6 +10,10 @@ function UserService() {
     return api(`admin/testimonial/all`, "get")
   }
 
+  function getNewpartners() {
+    return api(`admin/newpartners/all`, "get")
+  }
+
   function submitContact(data) {
     return api(`contact`, "post", data)
   }
@@ -18,6 +22,7 @@ function UserService() {
     getActivepartners,
     getTestimonials,
     submitContact,
+    getNewpartners
   };
 }
 

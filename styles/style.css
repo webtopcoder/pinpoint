@@ -3852,6 +3852,7 @@ Testimonials Area CSS
 .single-testimonials-item .client-info img {
   border-radius: 50%;
   width: 70px !important;
+  height: 70px !important;
   display: inline-block !important;
   border: 3px solid var(--whiteColor);
 }
