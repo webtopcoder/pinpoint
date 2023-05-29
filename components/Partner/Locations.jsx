@@ -13,7 +13,7 @@ import {
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { PlusCircleOutlined, LoadingOutlined } from "@ant-design/icons";
-import LocationCard from "../LocationCard";
+import LocationCard from "../Locations/LocationCard";
 import useNotify from "@/hooks/useNotify";
 import AddLocationModal from "../Locations/AddLocationModal";
 import useMedia from "@/hooks/useMedia";

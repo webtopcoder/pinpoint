@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import ProfileActivity from "@/components/Partner/Profile/ProfileActivity";
+import ProfileActivity from "@/components/Profile/ProfileActivity";
 import Layout from "../../../layout";
-import { connect } from "react-redux";
 
 const Activity = () => {
   return (

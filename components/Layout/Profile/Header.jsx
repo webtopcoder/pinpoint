@@ -6,20 +6,16 @@ import {
   UserAddOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { getHeader, unfollow } from "@/redux/Profile/actions";
-import { postFollower } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import { profileService } from "@/services/index";
 import { Avatar, Card, Space, Typography, Button, Row, Col } from "antd";
+
 const { Meta } = Card;
 const { Title } = Typography;
 
 const Header = ({
-  ongetHeader,
-  headerInfo,
-  onpostFollower,
-  ondeleteFollower,
   user_id,
   userRole,
 }) => {
@@ -28,46 +24,50 @@ const Header = ({
   const router = useRouter();
   const { notify } = useNotify();
   const [loading, setLoading] = useState(true);
-
+  const [headerInfo, setHeaderInfo] = useState();
   const view_user_id = router.query.profile;
-
   const own_page = user_id === view_user_id;
 
-  const follow = () => {
-    onpostFollower(view_user_id, (res, error) => {
-      if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
-      } else {
-        notify(res.data.type, res.data.message);
-        ongetHeader(view_user_id);
-      }
-    });
-  };
+  async function getHeader() {
+    const result = await profileService.getHeader(view_user_id);
+    await setHeaderInfo(result)
+    setLoading(false);
+  }
 
-  const unfollow = () => {
-    ondeleteFollower(view_user_id, (res, error) => {
-      if (error) {
+  async function follow() {
+    await profileService.postFollower(view_user_id)
+      .then(async (res) => {
+        notify(res.data.type, res.data.message);
+        await getHeader();
+      })
+      .catch((error) => {
         notify(
           "error",
-          error?.response?.data?.message ?? "Something went wrong"
+          error?.response?.data?.message || "Something went wrong"
         );
-      } else {
+        return;
+      });;
+  }
+
+  async function unfollow() {
+    await profileService.deleteFollower(view_user_id)
+      .then(async (res) => {
         notify("success", "Unfollowed");
-        ongetHeader(view_user_id);
-      }
-    });
-  };
+        await getHeader();
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });;
+  }
 
   useEffect(() => {
     setLoading(true);
     if (router.isReady) {
-      const { profile } = router.query;
-      ongetHeader(profile).then(() => {
-        setLoading(false);
-      });
+      getHeader();
     }
   }, [view_user_id]);
 
@@ -291,17 +291,11 @@ const Header = ({
   );
 };
 
-const mapStateToProps = ({ profile, user }) => {
+const mapStateToProps = ({ user }) => {
   return {
-    headerInfo: profile.headerInfo,
     user_id: user.user_id,
     userRole: user.role,
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  ongetHeader: (data) => dispatch(getHeader(data)),
-  onpostFollower: (id, cb) => dispatch(postFollower(id, cb)),
-  ondeleteFollower: (id, cb) => dispatch(unfollow(id, cb)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

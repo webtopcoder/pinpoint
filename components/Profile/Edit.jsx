@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { connect, useDispatch } from "react-redux";
-import { getInfo } from "@/redux/Profile/actions";
 import {
   updateInfo,
   editAbout,
   editSocial,
   uploadAvatar,
+  getInfo
 } from "@/redux/Profile/actions";
 import { message, Upload, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import EditPoll from "./EditPoll";
 import useNotify from "@/hooks/useNotify";
-import ToggleSettings from "@/components/User/Profile/profileEdit/ToggleSettings";
+import ToggleSettings from "@/components/Profile/profileEdit/ToggleSettings";
 import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Content } = Layout;

@@ -2,7 +2,7 @@ import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import BasicLayout from "../../../layout";
 import LeftSidebar from "@/components/Layout/Partner/Sidebar";
-import Edit from "@/components/Partner/Profile/Edit";
+import Edit from "@/components/Profile/Edit";
 import { Layout } from "antd";
 import { connect } from "react-redux";
 import useMedia from "@/hooks/useMedia";

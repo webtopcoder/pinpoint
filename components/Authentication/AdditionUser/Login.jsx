@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const antIcon = (
   />
 );
 
-const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
+const AdditionUserLogin = ({ onLoginAdditionUser }) => {
   const router = useRouter();
   const [form, setForm] = useState({
     password: "",
@@ -79,24 +79,14 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
     }, (res) => {
       setLoading(false);
       setInitLoading(false);
-
-      // if (error) {
-      //   notify(
-      //     "error",
-      //     error?.response?.data?.message ?? "Something went wrong"
-      //   );
-      //   return;
-      // }
-      // if (loggedInRole === 'partner') {
-      //   if (res.user.owner.status !== 'active') {
-      //     notify("error", 'Not Allowed');
-      //     return false;
-      //   }
-      //   else {
-      notify("success", `Welcome to Login as ${res.user.role}`);
-      router.push("/partner/dashboard");
-      //   }
-      // }
+      if (res.user.owner.status !== 'active') {
+        notify("error", 'The partner account is on inactive.');
+        return false;
+      }
+      else {
+        notify("success", `Welcome to Login as ${res.user.role}`);
+        router.push("/partner/dashboard");
+      }
     });
   }
 
@@ -112,11 +102,6 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
         </div>
         <form onSubmit={onSubmitForm}>
           <div className="auth-space"></div>
-          <p className="text-center">
-            {/* A Partner With Pinpoint has invited you to help manager their page.<br />
-            To access this partners page, please creat a login below */}
-          </p>
-
           <FormGroup
             label="Email"
             value={form.email}
@@ -154,14 +139,8 @@ const AdditionUserLogin = ({ onLoginAdditionUser, loggedInRole }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  loginInfo: user.loginInfo,
-  loggedInRole: user.role,
-  token: user.token,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   onLoginAdditionUser: (data, cb) => dispatch(loginAdditionUser(data, cb)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdditionUserLogin);
+export default connect(undefined, mapDispatchToProps)(AdditionUserLogin);

@@ -278,7 +278,7 @@ const UserRegister = ({ token, loggedInRole }) => {
           <div className="row">
             <div className="col-lg-12">
               <Spin spinning={loading} indicator={antIcon}>
-                <button className="loginsignButton" type="submit">Create Account</button>
+                <button className="loginsignButton" type="submit">CREATE ACCOUNT</button>
               </Spin>
             </div>
           </div>

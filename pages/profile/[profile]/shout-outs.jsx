@@ -2,7 +2,7 @@ import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import ProfileShoutout from "@/components/User/Profile/ProfileShout";
+import ProfileShoutout from "@/components/Profile/ProfileShout";
 import Layout from "../../../layout";
 
 const Shout = () => {

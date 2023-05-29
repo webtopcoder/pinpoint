@@ -58,6 +58,19 @@ function ProfileService() {
     return api(`profile/${id}/poll`, "post", { option })
   }
 
+  function postFollower(id) {
+    return api(`follow/${id}`, "post")
+  }
+
+  function deleteFollower(id) {
+    return api(`follow/${id}`, "delete")
+  }
+
+  function getHeader(id) {
+    return api(`profile/${id}/header`, "get")
+  }
+
+
   return {
     getInfo,
     updateInfo,
@@ -71,7 +84,10 @@ function ProfileService() {
     getActivity,
     postThink,
     getProfilePoll,
-    votePoll
+    votePoll,
+    postFollower,
+    deleteFollower,
+    getHeader
   };
 }
 

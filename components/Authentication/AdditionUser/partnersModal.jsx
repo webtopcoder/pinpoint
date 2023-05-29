@@ -1,6 +1,4 @@
 import { Avatar, Button, Modal, Row, Col, Skeleton, List, Input, Form } from 'antd';
-import { useEffect, useState } from 'react';
-import { formatDate } from "@/utils/date";
 import { useRouter } from "next/router";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useMedia from "@/hooks/useMedia";

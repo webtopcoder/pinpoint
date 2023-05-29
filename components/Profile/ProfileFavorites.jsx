@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { getFavouriteLocations } from "@/src/redux/Location/actions";
 import { Col, Row } from "antd";
-import LocationCard from "@/components/LocationCard";
+import LocationCard from "@/components/Locations/LocationCard";
 
 const ProfileFavorites = ({ ongetFavoriteLocations, favoriteLocations }) => {
   const router = useRouter();

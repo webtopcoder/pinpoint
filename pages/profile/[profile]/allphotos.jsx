@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import ProfileAllPhotos from "@/components/User/Profile/ProfileAllPhotos";
+import ProfileAllPhotos from "@/components/Profile/ProfileAllPhotos";
 import Layout from "../../../layout";
 
 const Allphotos = () => {

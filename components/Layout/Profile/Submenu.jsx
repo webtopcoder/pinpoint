@@ -1,17 +1,21 @@
-import { getHeader } from "@/src/redux/Profile/actions";
+import { profileService } from "@/services/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
 
-const Submenu = ({ headerInfo, ongetHeader }) => {
+const Submenu = () => {
   const router = useRouter();
   const view_user_id = router.query.profile;
+  const [headerInfo, setHeaderInfo] = useState();
+
+  async function getHeader() {
+    const result = await profileService.getHeader(view_user_id);
+    await setHeaderInfo(result)
+  }
 
   useEffect(() => {
     if (router.isReady) {
-      const { profile } = router.query;
-      ongetHeader(profile);
+      getHeader();
     }
   }, [router.isReady]);
 
@@ -60,7 +64,7 @@ const Submenu = ({ headerInfo, ongetHeader }) => {
                 </a>
               </Link>
             </li>
-            {headerInfo?.profile?.usertype == "partner" ? (
+            {headerInfo?.profile?.usertype === "partner" ? (
               <li>
                 <Link href={`/profile/${view_user_id}/locations`}>
                   <a
@@ -96,15 +100,6 @@ const Submenu = ({ headerInfo, ongetHeader }) => {
   );
 };
 
-const mapStateToProps = ({ profile, user }) => {
-  return {
-    user_id: user.loginInfo.id,
-    headerInfo: profile.headerInfo,
-  };
-};
 
-const mapDispatchToProps = (dispatch) => ({
-  ongetHeader: (data) => dispatch(getHeader(data)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Submenu);
+export default Submenu;

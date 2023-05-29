@@ -20,11 +20,11 @@ import {
 import { Avatar, Card } from "antd";
 import Link from "next/link";
 import { useState } from "react";
-import ArrivalModal from "./Locations/ArrivalModal";
+import ArrivalModal from "./ArrivalModal";
 import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import DepartureModal from "./Locations/DepartureModal";
-import ModifyLocationModal from "./Locations/ModifyLocationModal";
+import DepartureModal from "./DepartureModal";
+import ModifyLocationModal from "./ModifyLocationModal";
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
 import Image from "next/image";

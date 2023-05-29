@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import PartnerLocation from "@/components/Partner/Profile/PartnerLocation";
+import PartnerLocation from "@/components/Locations/PartnerLocation";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import Layout from "../../../../layout";

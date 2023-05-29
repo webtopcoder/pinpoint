@@ -2,7 +2,7 @@ import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import ProfileFavorites from "@/components/User/Profile/ProfileFavorites";
+import ProfileFavorites from "@/components/Profile/ProfileFavorites";
 import Layout from "../../../layout";
 
 const Favorites = () => {

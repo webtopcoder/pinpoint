@@ -128,12 +128,12 @@ const Setting = () => {
           ) : (
             ""
           )}
-          {/* <Row
+          <Row
             className={styles.list_round + " mt-3"}
             onClick={() => router.push("/partner/settings/adduser")}
           >
             Additional Users
-          </Row> */}
+          </Row>
           <Row
             className={styles.list_round + " mt-3"}
             onClick={() => router.push("/partner/settings/business")}

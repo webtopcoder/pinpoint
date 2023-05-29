@@ -1,4 +1,4 @@
-import { React, useState, useCallback } from "react";
+import { React, useState } from "react";
 import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
@@ -6,6 +6,7 @@ import styles from "./contact-validator/LoginForm.module.css";
 import { ContactFormValidator } from "./contact-validator/validater-hook";
 import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
+import FormGroup from "../Authentication/FormGroup";
 
 const LandingContact = () => {
   const { notify } = useNotify();
@@ -79,76 +80,48 @@ const LandingContact = () => {
           <div className="row">
             <div className="auth-space"></div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <div className="form-group">
-                <label className="authen-text-attr">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  className="form-control"
-                  value={form.firstName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                />
-                {errors.firstName.dirty && errors.firstName.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.firstName.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                errors={errors}
+                label="FIrst Name"
+                value={form.firstName}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="firstName"
+                type="text"
+              />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Last Name </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  className="form-control"
-                  value={form.lastName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                />
-                {errors.lastName.dirty && errors.lastName.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.lastName.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                errors={errors}
+                label="Last Name"
+                value={form.lastName}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="lastName"
+                type="text"
+              />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Email</label>
-                <input
-                  type="Email"
-                  name="email"
-                  value={form.email}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  className="form-control"
-                />
-                {errors.email.dirty && errors.email.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.email.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                errors={errors}
+                label="Email"
+                value={form.email}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="email"
+                type="Email"
+              />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12">
-              <div className="form-group">
-                <label className="authen-text-attr">Subject</label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={form.subject}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  className="form-control"
-                />
-                {errors.subject.dirty && errors.subject.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.subject.message}
-                  </p>
-                ) : null}
-              </div>
+              <FormGroup
+                errors={errors}
+                label="Subject"
+                value={form.subject}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+                name="subject"
+                type="text"
+              />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12">
               <div className="form-check form-check-inline">
@@ -200,7 +173,7 @@ const LandingContact = () => {
             </div>
           </div>
           <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12">
+            <div className="col-lg-12 col-md-12 col-sm-12">
               <button type="submit">SEND</button>
             </div>
           </div>

@@ -370,7 +370,7 @@ const PartnerRegister = ({
             <div className="row">
               <div className="col-lg-12">
                 <Spin spinning={loading} indicator={antIcon}>
-                  <button className="loginsignButton" type="submit">Request Access</button>
+                  <button className="loginsignButton" type="submit">REQUEST ACCESS</button>
                 </Spin>
               </div>
             </div>
@@ -402,4 +402,4 @@ const mapStateToProps = ({ user }) => ({
   loggedInRole: user.role,
 });
 
-export default connect(mapStateToProps, undefined)(PartnerRegister);
+export default connect(mapStateToProps)(PartnerRegister);

@@ -1,4 +1,4 @@
-import LocationCard from "@/components/LocationCard";
+import LocationCard from "@/components/Locations/LocationCard";
 import useNotify from "@/hooks/useNotify";
 import { Col, Layout, Row, Result, Spin } from "antd";
 import { FrownOutlined, LoadingOutlined } from "@ant-design/icons";
