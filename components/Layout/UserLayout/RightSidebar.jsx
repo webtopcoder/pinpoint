@@ -228,7 +228,6 @@ const RightSidebar = ({
             </>
           )}
           <Row
-          style={{marginTop: 100}}
             className="sidebar-menu-item"
             onClick={() => handleOriginPageRender("/home")}
           >

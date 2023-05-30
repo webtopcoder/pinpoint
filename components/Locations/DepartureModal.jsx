@@ -135,7 +135,7 @@ function DepartureModal({
                 style={{
                   width: "100%",
                 }}
-                options={locations.map((location) => ({
+                options={locations?.map((location) => ({
                   value: location._id,
                   label: location.title,
                 }))}
