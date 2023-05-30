@@ -8,8 +8,8 @@ const Newpartners = ({ newpartners }) => {
     <div className="testimonials-area bg-black ptb-100">
       <div className="container">
         <div className="section-title white-color">
-          <span className="sub-title">New On Pinpoint</span>
-          <h2>Here’s Our Recent Joined Partners</h2>
+          <span className="sub-title">NEW ON PINPOINT</span>
+          <h2>Shout Out to Our New Partners</h2>
         </div>
         <div className="testimonials-slides">
           <Carousel
