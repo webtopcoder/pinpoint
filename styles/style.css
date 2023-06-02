@@ -11940,18 +11940,20 @@ Sidebar Modal CSS
   font-size: 32px;
 }
 
-#maps {
+/* #maps {
   height: 400px;
 }
 
-#interactive-map {
-  height: 600px;
-  width: 100%;
-}
+
 
 #interactive-map iframe {
   height: 100%;
   width: 100%;
+} */
+
+#interactive-map {
+  height: 600px;
+  /* width: 100%; */
 }
 
 .main-banner {
@@ -12800,20 +12802,6 @@ h4 {
   padding: 9px 40px;
 }
 
-#floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: "Roboto", "sans-serif";
-  line-height: 30px;
-  padding-left: 10px;
-}
-
 .ant-list-item-meta-title {
   margin-block-end: 4px;
 }
@@ -13303,4 +13291,99 @@ h4 {
 
 .ant-card .ant-card-meta-title {
   white-space: normal;
+}
+
+
+#container {
+  height: 100%;
+  display: flex;
+}
+
+#interactive-map {
+  flex-basis: 0;
+  flex-grow: 4;
+}
+
+#sidebar {
+  flex-basis: 15rem;
+  flex-grow: 1;
+  padding: 1rem;
+  max-width: 30rem;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+  padding: 15px;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+
+#interactive-map {
+  flex: auto;
+}
+
+#sidebar {
+  flex: 0 1 auto;
+  padding: 0;
+}
+
+#sidebar>div {
+  padding: 0.5rem;
+}
+
+#direction-title {
+  color: #fff;
+  background-color: #4d90fe;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+
+.pac-controls {
+  display: inline-block;
+  padding: 5px 11px;
+}
+
+.pac-controls label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+
+.search-direction-form .search-field {
+  border: 0;
+  width: 85%;
+  height: 55px;
+  float: left;
+  display: block;
+  border-radius: 5px;
+  padding: 0 15px 0 20px;
+  font-size: var(--fontSize);
+  background-color: #f9f9f9;
+}
+
+.search-direction-form button {
+  float: left;
+  right: 0;
+  width: 50px;
+  height: 55px;
+  border: none;
+  font-size: 20px;
+  color: var(--whiteColor);
+  border-radius: 0 5px 5px 0;
+  transition: var(--transition);
+  background-color: var(--redLightColor);
+}
+
+.direction-marker {
+  display: none;
 }

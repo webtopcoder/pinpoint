@@ -18,6 +18,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Alex+Brush"
             rel="stylesheet"
           />
+          
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAG6Xy390W6KIWFx3DFQAtIDVnW3gqCFQ&libraries=places&callback=Function.prototype" />
           <script
             src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"

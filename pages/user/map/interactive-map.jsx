@@ -13,9 +13,14 @@ import {
   Form,
   Space,
   notification,
-  Typography
+  Typography,
+  Badge,
+  Drawer,
+  Spin,
+  Segmented,
+  Avatar
 } from "antd";
-import { FullscreenOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { FullscreenOutlined, UnorderedListOutlined, RollbackOutlined, CheckOutlined, LoadingOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
@@ -23,9 +28,22 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import baseUrl from "@/utils/baseUrl";
 import { categoryService, locationService } from "@/services/index";
 import { browserName } from 'react-device-detect';
+import './Home.module.css';
+import useNotify from "@/hooks/useNotify";
+import useMedia from "@/hooks/useMedia";
 
 const { Option } = Select;
 const { Paragraph, Text } = Typography;
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
+
 const close = () => {
   console.log(
     'Notification was closed. Either the close button was clicked or duration time elapsed.',
@@ -53,7 +71,7 @@ const InteractiveMap = () => {
     return `<div class="card mb-3" style="max-width: 640px;">
       <div class="row no-gutters">
         <div class="col-md-4">
-          <img src="${faviconUrl}${data?.arrivalImages[0]?.filepath}" class="card-img" alt="...">
+          <img src="${faviconUrl}/avatar/${data?.arrivalImages[0]?.filepath}" class="card-img" alt="...">
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -73,21 +91,35 @@ const InteractiveMap = () => {
         </div>
       </div>
     </div>`
-  };
+  }
 
+  const isWebDevice = useMedia('(min-width:700px)');
+  const [open, setOpen] = useState(false);
   const [subcategoryList, setSubcategoryList] = useState([]);
+  const [floatPanel, setFloatPanel] = useState();
+  const [directionbox, setDirectionbox] = useState(true);
   const [activeLocations, setActiveLocations] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [mapzoom, setZoom] = useState(10);
   const [api, contextHolder] = notification.useNotification();
   const [radiusLocations, setRadiusLocations] = useState([]);
-  const faviconUrl = `${apiBaseUrl}/avatar/`;
+  const faviconUrl = `${apiBaseUrl}`;
   const formatter = (value) => `${value}mile`;
-  const [position, setPosition] = useState({
-    lat: 37.553326,
-    lng: -94.8110983,
-  });
+  const [position, setPosition] = useState();
+  const [selectedlo, setSelectlo] = useState();
+  let selectedItem = ""
+  let selectedMode = "DRIVING";
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dirService, setDirservice] = useState();
+  const [dirRender, setDirrender] = useState();
+  let map;
+  let directionsService, directionsRenderer;
+  const { notify } = useNotify();
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const openNotification = () => {
     const key = `open${Date.now()}`;
@@ -144,7 +176,6 @@ const InteractiveMap = () => {
 
   async function ongetCategory() {
     const result = await categoryService.getCategory();
-    console.log(result)
     await setCategoryInfo(result?.allcategories);
   }
 
@@ -179,9 +210,9 @@ const InteractiveMap = () => {
     cityCircle.setRadius(newValue * 1000 * 1.6);
   };
 
-  function createCenterControl(map) {
-    const controlButton = document.createElement("button");
+  function createCenterControl() {
 
+    const controlButton = document.createElement("button");
     // Set CSS for the control.
     controlButton.style.backgroundColor = "#fff";
     controlButton.style.border = "2px solid #fff";
@@ -208,19 +239,34 @@ const InteractiveMap = () => {
 
         for (var i = 0; i < activeLocations?.length; i++) {
 
+          const location = `${activeLocations[i]?.mapLocation?.latitude},${activeLocations[i]?.mapLocation?.longitude}`
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
             icon: {
-              url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
+              url: faviconUrl + "/avatar/" + activeLocations[i]?.partner?.category?.image?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
-              anchor: new google.maps.Point(0, 60), // anchor
+              anchor: new google.maps.Point(30, 46), // anchor
             },
+            draggable: true,
+            map: map,
+          });
 
+          const markerDirection = new google.maps.Marker({
+            position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
+            icon: {
+              url: faviconUrl + "/direction.png",
+              scaledSize: new google.maps.Size(30, 30), // scaled size
+              origin: new google.maps.Point(0, 0), // origin
+              anchor: new google.maps.Point(5, 55), // anchor
+              className: "direction-marker"
+            },
+            draggable: true,
             map: map,
           });
 
           markers.push(marker);
+          markers.push(markerDirection);
 
           const infowindow = new google.maps.InfoWindow({
             content: markerDescription(activeLocations[i]),
@@ -232,26 +278,34 @@ const InteractiveMap = () => {
               map,
             });
           });
+
+          markerDirection.addListener("click", () => {
+            setOpen(true);
+            setLoading(true);
+            selectedItem = location;
+            setSelectlo(location);
+            document.getElementById("sidebar").innerHTML = "";
+            directionsRenderer.setPanel(document.getElementById("sidebar"));
+            calculateAndDisplayRoute1(directionsService, directionsRenderer, location);
+          });
           // marker.addListener("click", () => {
           //   infowindow.close();
           // });
         }
+
       } else {
         hideMarkers();
       }
     });
+
     return controlButton;
   }
 
   useEffect(() => {
-
     const flag = getCookie('notify');
     browserName === "Safari" && flag === true ? openNotification() : "";
-
-    window.navigator.geolocation.getCurrentPosition(success, (error) => {
-      console.log(error);
-    });
-
+    const control = document.getElementById("floating-panel");
+    setFloatPanel(control)
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       setPosition({
@@ -268,8 +322,8 @@ const InteractiveMap = () => {
     autoCompleteRef.current.addListener("place_changed", async function () {
       const place = await autoCompleteRef.current.getPlace();
       setPosition({
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
+        lat: place.geometry?.location.lat(),
+        lng: place.geometry?.location.lng(),
       });
     });
 
@@ -279,15 +333,6 @@ const InteractiveMap = () => {
 
 
   useEffect(() => {
-    function initMap() {
-      window.navigator.geolocation.getCurrentPosition(success, (error) => {
-        const { latitude, longitude } = success.coords;
-      });
-    }
-    initMap();
-  }, [position, activeLocations]);
-
-  function success(pos) {
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
       zoom: mapzoom,
@@ -298,14 +343,32 @@ const InteractiveMap = () => {
       },
       gestureHandling: "greedy"
     });
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer({
+      suppressMarkers: true, // Suppress default markers
+      map: map
+    });
+    setDirservice(directionsService);
+    setDirrender(directionsRenderer);
+    initMap();
+  }, [position, activeLocations]);
+
+  const handleSeg = (value) => {
+    setLoading(true);
+    dirRender.setPanel(document.getElementById("sidebar"));
+    calculateAndDisplayRoute2(dirService, dirRender, value, selectedlo);
+  };
+
+  function initMap() {
 
     const centerControlDiv = document.createElement("div");
-    // Create the control.
     const centerControl = createCenterControl(map);
 
     // Append the control to the DIV.
     centerControlDiv.appendChild(centerControl);
+
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(floatPanel);
 
     cityCircle = new google.maps.Circle({
       strokeColor: "#276f85",
@@ -334,15 +397,29 @@ const InteractiveMap = () => {
 
 
       if (d < inputValue * 1000 * 1.6) {
+
+        const location = `${activeLocations[i]?.mapLocation?.latitude},${activeLocations[i]?.mapLocation?.longitude}`
         radiusLocations.push(activeLocations[i]);
         setRadiusLocations(radiusLocations);
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
           icon: {
-            url: faviconUrl + activeLocations[i]?.partner?.category?.image?.filepath,
+            url: faviconUrl + "/avatar/" + activeLocations[i]?.partner?.category?.image?.filepath,
             scaledSize: new google.maps.Size(30, 50), // scaled size
             origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 60), // anchor
+            anchor: new google.maps.Point(15, 46), // anchor
+          },
+          map: map,
+        });
+
+        const markerDirection = new google.maps.Marker({
+          position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
+          icon: {
+            url: faviconUrl + "/direction.png",
+            scaledSize: new google.maps.Size(30, 30), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(0, 46), // anchor
+            className: "direction-marker"
           },
           map: map,
         });
@@ -352,12 +429,25 @@ const InteractiveMap = () => {
           // content: markerDescription(activeLocations[i]?.arrivalImages[0]?.filepath, activeLocations[i]?.title, activeLocations[i]?.description),
           ariaLabel: "Food Truck",
         });
+
         marker.addListener("click", () => {
           infowindow.open({
             anchor: marker,
             map,
           });
         });
+
+        markerDirection.addListener("click", () => {
+          setOpen(true);
+          setLoading(true);
+          selectedItem = location;
+          setSelectlo(location);
+          document.getElementById("sidebar").innerHTML = "";
+          directionsRenderer.setPanel(document.getElementById("sidebar"));
+          calculateAndDisplayRoute1(directionsService, directionsRenderer, location);
+        });
+
+
         // marker.addListener("mouseout", () => {
         //   infowindow.close();
         // });
@@ -387,6 +477,87 @@ const InteractiveMap = () => {
       setZoom(zoom);
     });
   }
+
+
+  function calculateAndDisplayRoute1(directionsService, directionsRenderer, location) {
+    let mainMode;
+    const end = location?.split(",");
+    switch (selectedMode) {
+      case 'BICYCLING':
+        mainMode = google.maps.TravelMode.BICYCLING;
+        break;
+      case 'TRANSIT':
+        mainMode = google.maps.TravelMode.TRANSIT;
+        break;
+      case 'WALKING':
+        mainMode = google.maps.TravelMode.WALKING;
+        break;
+      default:
+        mainMode = google.maps.TravelMode.DRIVING;
+        break;
+    }
+
+    if (selectedItem !== "") {
+      directionsService
+        .route({
+          origin: new google.maps.LatLng(position?.lat, position?.lng),
+          destination: new google.maps.LatLng(end[0], end[1]),
+          travelMode: mainMode,
+        })
+        .then((response) => {
+          directionsRenderer.setDirections(response);
+          setLoading(false);
+        })
+        .catch((e) => {
+          setLoading(false);
+          notify(
+            "error",
+            "No Support"
+          );
+        });
+    }
+  }
+
+  function calculateAndDisplayRoute2(directionsService, directionsRenderer, mode, location) {
+    selectedMode = mode;
+    let mainMode;
+    const end = location?.split(",");
+    switch (selectedMode) {
+      case 'BICYCLING':
+        mainMode = google.maps.TravelMode.BICYCLING;
+        break;
+      case 'TRANSIT':
+        mainMode = google.maps.TravelMode.TRANSIT;
+        break;
+      case 'WALKING':
+        mainMode = google.maps.TravelMode.WALKING;
+        break;
+      default:
+        mainMode = google.maps.TravelMode.DRIVING;
+        break;
+    }
+
+    if (location !== "") {
+      directionsService
+        .route({
+          origin: new google.maps.LatLng(position?.lat, position?.lng),
+          destination: new google.maps.LatLng(end[0], end[1]),
+          travelMode: mainMode,
+        })
+        .then((response) => {
+          directionsRenderer.setDirections(response);
+          setLoading(false);
+        })
+        .catch((e) => {
+          setLoading(false);
+          notify(
+            "error",
+            "No Support"
+          );
+        });
+    }
+  }
+
   const fullScreen = () => {
     const elementToSendFullscreen = map.getDiv().firstChild;
     if (isFullscreen(elementToSendFullscreen)) {
@@ -432,7 +603,7 @@ const InteractiveMap = () => {
   return (
     <>
       {contextHolder}
-      <PageTitle page="INTERACTIVE MAP" />
+      <PageTitle page="Interactive Map INTERACTIVE" />
       <div className="page-interactive-area bg-black">
         <div className="container">
           <div className="page-interactive-content">
@@ -589,18 +760,34 @@ const InteractiveMap = () => {
               </div>
             </div>
           </div>
+          <div id="floating-panel">
+            <Space direction="vertical">
+              <Badge
+                count={
+                  directionbox ? <CheckOutlined
+                    style={{
+                      color: '#ffffff',
+                    }}
+                  /> : ''
+                }
+                style={{
+                  backgroundColor: '#52c41a',
+                }}
+              >
+                <Button type="primary" onClick={() => {
+                  setDirectionbox(!directionbox);
+                  const imgElements = document.querySelectorAll('img[src$="/direction.png"]');
+                  imgElements.forEach(img => {
+                    img.style.display = !directionbox ? "block" : "none";
+                  });
+                }} icon={<RollbackOutlined />} />
+              </Badge>
+            </Space>
+          </div>
           <div className="google-map-area green-color">
-            <div id="interactive-map">
-              <div id="floating-panel">
-                <input id="hide-markers" type="button" value="Hide Markers" />
-                <input id="show-markers" type="button" value="Show Markers" />
-                <input
-                  id="delete-markers"
-                  type="button"
-                  value="Delete Markers"
-                />
-              </div>
-            </div>
+            <Spin spinning={loading} indicator={antIcon}>
+              <div id="interactive-map"></div>
+            </Spin>
           </div>
           <ListViewModal
             open={addModalOpen}
@@ -608,6 +795,81 @@ const InteractiveMap = () => {
             locations={radiusLocations}
             alllocations={activeLocations}
           />
+          <Drawer
+            mask={false}
+            maskClosable={false}
+            title="Instruction"
+            placement={isWebDevice ? "right" : "bottom"}
+            onClose={onClose}
+            open={open}
+            width={500}
+            extra={
+              <Space>
+                <Button onClick={onClose}>Cancel</Button>
+              </Space>
+            }
+          >
+            <Spin spinning={loading} indicator={antIcon}>
+              <Segmented
+                onChange={handleSeg}
+                options={[
+                  {
+                    label: (
+                      <div
+                        style={{
+                          padding: 4,
+                        }}
+                      >
+                        <Avatar src={`${faviconUrl}/car.png`} />
+                        <div>DRIVING</div>
+                      </div>
+                    ),
+                    value: 'DRIVING',
+                  },
+                  {
+                    label: (
+                      <div
+                        style={{
+                          padding: 4,
+                        }}
+                      >
+                        <Avatar src={`${faviconUrl}/bike.png`} />
+                        <div>BICYCLING</div>
+                      </div>
+                    ),
+                    value: 'BICYCLING',
+                  },
+                  {
+                    label: (
+                      <div
+                        style={{
+                          padding: 4,
+                        }}
+                      >
+                        <Avatar src={`${faviconUrl}/walking.png`} />
+                        <div>WALKING</div>
+                      </div>
+                    ),
+                    value: 'WALKING',
+                  },
+                  {
+                    label: (
+                      <div
+                        style={{
+                          padding: 4,
+                        }}
+                      >
+                        <Avatar src={`${faviconUrl}/bus.png`} />
+                        <div>TRANSIT</div>
+                      </div>
+                    ),
+                    value: 'TRANSIT',
+                  },
+                ]}
+              />
+              <div id="sidebar"></div>
+            </Spin>
+          </Drawer>
         </div>
       </div>
     </>

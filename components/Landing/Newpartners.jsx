@@ -29,7 +29,7 @@ const Newpartners = ({ newpartners }) => {
                   <img src={imgurl + "/" + item?.image?.filepath}
                     alt="user" />
                   <div className="info">
-                    <h3>{item?.username}</h3>
+                    <h3>{item?.username + " from " + item?.state + ", " + item?.city} </h3>
                     <span>{item?.category.name}</span>
                   </div>
                 </div>

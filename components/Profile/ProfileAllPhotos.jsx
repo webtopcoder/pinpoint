@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { connect } from "react-redux";
-import { Image as Antimage, Divider, Button, Typography, Space } from "antd";
+import { Image as Antimage, Divider, Button, Typography, Popover } from "antd";
 import { useRouter } from "next/router";
 import { getActivity } from "@/redux/Profile/actions";
 import { getmyFollowers } from "@/redux/User/actions";
@@ -10,13 +10,20 @@ import toast from "@/components/Toast";
 import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 
-const ProfileAllPhotos = ({
-  ongetAllphotos,
-  ongetActivity,
-  activityInfo,
-  myallPhotos,
-}) => {
+const content = (
+  <div>
+    <p>Content</p>
+    <p>Content</p>
+  </div>
+);
+
+const ProfileAllPhotos = () => {
   const [current, setCurrent] = useState(1);
+  const [initLoading, setInitLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [myallPhotos, setAllphotos] = useState([]);
+  const [activityInfo, setactivityInfo] = useState([]);
+  const [list, setList] = useState([]);
   const [paginationInfo, setPageInfo] = useState({
     pagination: {
       current: 1,
@@ -35,14 +42,49 @@ const ProfileAllPhotos = ({
   const imgurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
 
+  async function allActivities(id, count, search) {
+    await profileService.getActivity(id, count, search)
+      .then((res) => {
+        if (res.success) {
+          setInitLoading(false);
+          setLoading(false);
+          setactivityInfo(res);
+          if (count !== 1) {
+            const newData = data.concat(res.posts);
+            setData(newData);
+            setList(newData);
+          }
+          else {
+            setData(res.posts);
+            setList(res.posts);
+          }
+          window.dispatchEvent(new Event("resize"));
+        } else notify("error", res.msg);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
+  async function initialize(profileId) {
+    const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
+    await setAllphotos(allphotos?.image);
+    await allActivities(profileId, 1, "");
+  }
+
   useEffect(() => {
     if (router.isReady) {
       const { profile } = router.query;
-      ongetAllphotos(profile, paginationInfo);
-      ongetActivity(profile, 1, "", (res) => {
-        if (res.success) {
-        } else notify("error", res.msg);
-      });
+      initialize(profile);
+      // ongetAllphotos(profile, paginationInfo);
+      // ongetActivity(profile, 1, "", (res) => {
+      //   if (res.success) {
+      //   } else notify("error", res.msg);
+      // });
     }
   }, [router.isReady]);
 
@@ -70,15 +112,19 @@ const ProfileAllPhotos = ({
                       <Antimage.PreviewGroup>
                         {myallPhotos &&
                           myallPhotos?.map((image, index) => (
-                            <Antimage
-                              loader={myLoader}
-                              style={{
-                                padding: "5px",
-                              }}
-                              width={"20%"}
-                              src={imgurl + image?.filepath}
-                              key={index}
-                            />
+                            <Popover content={content} title="Title" trigger="hover">
+                              <Antimage
+                                loader={myLoader}
+                                style={{
+                                  padding: "5px",
+                                }}
+                                width={"20%"}
+                                src={imgurl + image?.filepath}
+                                key={index}
+                                alt="ewrwerwerwe"
+                              />
+                            </Popover>
+
                           ))}
                       </Antimage.PreviewGroup>
                       {/* <Pagination
@@ -251,10 +297,8 @@ const mapStateToProps = ({ profile, user }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onpostThink: (data, cb) => dispatch(postThink(data, cb)),
   ongetActivity: (data, count, search, cb) =>
     dispatch(getActivity(data, count, search, cb)),
-  ongetmyFollowers: () => dispatch(getmyFollowers()),
   ongetAllphotos: (id, pageInfo) => dispatch(getAllphotos(id, pageInfo)),
 });
 
