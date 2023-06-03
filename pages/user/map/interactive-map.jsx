@@ -292,8 +292,8 @@ const InteractiveMap = () => {
     autoCompleteRef.current.addListener("place_changed", async function () {
       const place = await autoCompleteRef.current.getPlace();
       setPosition({
-        lat: place.geometry?.location.lat(),
-        lng: place.geometry?.location.lng(),
+        lat: place.geometry?.location?.lat(),
+        lng: place.geometry?.location?.lng(),
       });
     });
 
@@ -360,7 +360,7 @@ const InteractiveMap = () => {
     for (var i = 0; i < activeLocations?.length; i++) {
       var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
         // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
-        new google.maps.LatLng(position.lat, position.lng),
+        new google.maps.LatLng(position?.lat, position?.lng),
         new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude)
       ))?.toFixed(2);
 
