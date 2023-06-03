@@ -33,11 +33,9 @@ const SettingAddUser = () => {
     const filtered = result?.results?.find(
       (setting) => setting.key == "user:additionalUser"
     );
-
+    await setLoading(false);
     if (filtered?.extra) {
-      await setLoading(false);
       await setadditionalUsers(filtered.extra);
-
     }
     const res_locations = await locationService.getLocations({ partner: localStorage.getItem('user_id'), isActive: null });
     await setLocations(res_locations.results)

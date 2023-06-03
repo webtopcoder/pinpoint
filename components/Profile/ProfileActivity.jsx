@@ -683,8 +683,14 @@ const ProfileActivity = ({
                               myallPhotos.map((image, index) => (
                                 image.status === "active" ?
                                   <Antimage
+                                    onClick={() => {
+                                      console.log(234234)
+                                    }}
                                     key={index}
                                     loader={myLoader}
+                                    style={{
+                                      padding: "2px",
+                                    }}
                                     width={"25%"}
                                     src={imgurl + image?.filepath}
                                   /> : ''

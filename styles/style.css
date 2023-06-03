@@ -13387,3 +13387,12 @@ h4 {
 .direction-marker {
   display: none;
 }
+
+.custom-image-preview-mask {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.custom-image-preview-content {
+  color: #fff;
+  text-align: center;
+}

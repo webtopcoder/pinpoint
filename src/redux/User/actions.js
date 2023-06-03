@@ -14,8 +14,6 @@ import {
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  BUSINESS_UPDATE_INFO_REQUEST,
-  BUSINESS_UPDATE_INFO_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -237,22 +235,3 @@ export function getFollowerAndFollowing(cb) {
       });
 }
 
-export function updateBusinessDetail(info, cb) {
-  return (dispatch) =>
-    api(`profile`, "patch", info)
-      .then((res) => {
-        dispatch({
-          type: BUSINESS_UPDATE_INFO_REQUEST,
-        });
-
-        dispatch({
-          type: BUSINESS_UPDATE_INFO_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}

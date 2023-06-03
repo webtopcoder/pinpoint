@@ -24,7 +24,7 @@ function ProfileService() {
 
   function getAllphotos(id, paginationInfo) {
     return api(
-      `profile/${id}/image/all?page=${paginationInfo.pagination.current}&limit=${paginationInfo.pagination.pageSize}`,
+      `profile/${id}/image/all?page=${paginationInfo.current}&limit=${paginationInfo.pageSize}`,
       "get"
     )
   }

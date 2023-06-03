@@ -1,11 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { connect } from "react-redux";
-import { Image as Antimage, Divider, Button, Typography, Popover } from "antd";
+import { Image as Antimage, Divider, Button, Typography, Popover, Pagination, Spin, Drawer, Space } from "antd";
 import { useRouter } from "next/router";
-import { getActivity } from "@/redux/Profile/actions";
-import { getmyFollowers } from "@/redux/User/actions";
-import { postThink } from "@/redux/Profile/actions";
-import { getAllphotos } from "@/redux/Profile/actions";
+import { profileService } from "@/services/index";
 import toast from "@/components/Toast";
 import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
@@ -18,21 +14,44 @@ const content = (
 );
 
 const ProfileAllPhotos = () => {
-  const [current, setCurrent] = useState(1);
-  const [initLoading, setInitLoading] = useState(true);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myallPhotos, setAllphotos] = useState([]);
   const [activityInfo, setactivityInfo] = useState([]);
-  const [list, setList] = useState([]);
-  const [paginationInfo, setPageInfo] = useState({
-    pagination: {
+  const [sidebarImage, setSideImage] = useState([]);
+  const [total, setTotal] = useState();
+  const [paginationInfo, setPageInfo] = useState(
+    {
       current: 1,
-      pageSize: 500,
+      pageSize: 50,
     },
-  });
+  );
 
-  const onChange = (page, pageSize) => {
-    setCurrent(page);
+  const router = useRouter();
+  const { profile } = router.query;
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  async function onShowSizeChange(current, pageSize) {
+    await setPageInfo({
+      current: current,
+      pageSize: pageSize
+    }
+    )
+  };
+
+  async function onChange(current, pageSize) {
+
+    await setPageInfo({
+      current: current,
+      pageSize: pageSize
+    })
   };
 
   const myLoader = ({ src }) => {
@@ -40,25 +59,12 @@ const ProfileAllPhotos = () => {
   };
 
   const imgurl = `${apiBaseUrl}/avatar/`;
-  const router = useRouter();
 
   async function allActivities(id, count, search) {
     await profileService.getActivity(id, count, search)
       .then((res) => {
         if (res.success) {
-          setInitLoading(false);
-          setLoading(false);
           setactivityInfo(res);
-          if (count !== 1) {
-            const newData = data.concat(res.posts);
-            setData(newData);
-            setList(newData);
-          }
-          else {
-            setData(res.posts);
-            setList(res.posts);
-          }
-          window.dispatchEvent(new Event("resize"));
         } else notify("error", res.msg);
       })
       .catch((error) => {
@@ -71,22 +77,18 @@ const ProfileAllPhotos = () => {
   }
 
   async function initialize(profileId) {
+    await setLoading(true);
     const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
     await setAllphotos(allphotos?.image);
+    await setSideImage(allphotos?.sidebarImage)
+    await setLoading(false);
+    await setTotal(allphotos.total);
     await allActivities(profileId, 1, "");
   }
 
   useEffect(() => {
-    if (router.isReady) {
-      const { profile } = router.query;
-      initialize(profile);
-      // ongetAllphotos(profile, paginationInfo);
-      // ongetActivity(profile, 1, "", (res) => {
-      //   if (res.success) {
-      //   } else notify("error", res.msg);
-      // });
-    }
-  }, [router.isReady]);
+    initialize(profile);
+  }, [router.isReady, paginationInfo.current, paginationInfo.pageSize]);
 
   const notify = useCallback((type, message) => {
     toast({ type, message });
@@ -109,11 +111,18 @@ const ProfileAllPhotos = () => {
                       <Divider orientation="left">
                         <span className="all-photos">All Photos</span>
                       </Divider>
-                      <Antimage.PreviewGroup>
-                        {myallPhotos &&
-                          myallPhotos?.map((image, index) => (
-                            <Popover content={content} title="Title" trigger="hover">
+                      <Spin spinning={loading} delay={500}>
+                        <Antimage.PreviewGroup
+                          // onVisibleChange
+                        >
+                          {myallPhotos &&
+                            myallPhotos?.map((image, index) => (
+                              // <Popover content={content} title="Title" trigger="hover">
                               <Antimage
+
+                                // onClick={() => {
+                                //   showDrawer(true)
+                                //     }}
                                 loader={myLoader}
                                 style={{
                                   padding: "5px",
@@ -123,17 +132,24 @@ const ProfileAllPhotos = () => {
                                 key={index}
                                 alt="ewrwerwerwe"
                               />
-                            </Popover>
+                              // </Popover>
 
-                          ))}
-                      </Antimage.PreviewGroup>
-                      {/* <Pagination
-                                                total={85}
-                                                showTotal={(total) => `Total ${total} items`}
-                                                defaultPageSize={20}
-                                                onChange={onChange}
-                                                current={paginationInfo.pagination.current}
-                                            /> */}
+                            ))}
+                        </Antimage.PreviewGroup>
+                      </Spin>
+                      <Pagination
+                        style={{
+                          marginTop: 10
+                        }}
+                        total={total}
+                        showSizeChanger
+                        onShowSizeChange={onShowSizeChange}
+                        onChange={onChange}
+                        showTotal={(total) => `Total ${total} items`}
+                        defaultPageSize={50}
+                        current={paginationInfo.current}
+                        defaultCurrent={paginationInfo.current}
+                      />
                     </div>
                   </div>
                 </div>
@@ -171,11 +187,14 @@ const ProfileAllPhotos = () => {
                         </h4>
                         <div className="row">
                           <Antimage.PreviewGroup>
-                            {myallPhotos &&
-                              (myallPhotos.slice(0, 8)).map((image, index) => (
+                            {sidebarImage &&
+                              sidebarImage.map((image, index) => (
                                 <Antimage
                                   key={index}
                                   loader={myLoader}
+                                  style={{
+                                    padding: "2px",
+                                  }}
                                   width={"25%"}
                                   src={imgurl + image?.filepath}
                                 />
@@ -279,6 +298,29 @@ const ProfileAllPhotos = () => {
                       </div>
                     </div>
                   </div>
+                  <Drawer
+                    title="Drawer with extra actions"
+                    placement="bottom"
+                    width={500}
+                    height={200}
+                    onClose={onClose}
+                    open={open}
+                    zIndex={10000}
+                    mask={false}
+                    maskClosable={false}
+                    extra={
+                      <Space>
+                        <Button onClick={onClose}>Cancel</Button>
+                        <Button type="primary" onClick={onClose}>
+                          OK
+                        </Button>
+                      </Space>
+                    }
+                  >
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                  </Drawer>F
                 </div>
               </aside>
             </div>
@@ -289,17 +331,4 @@ const ProfileAllPhotos = () => {
   );
 };
 
-const mapStateToProps = ({ profile, user }) => {
-  return {
-    activityInfo: profile.activityInfo,
-    myallPhotos: profile.allphotosInfo,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  ongetActivity: (data, count, search, cb) =>
-    dispatch(getActivity(data, count, search, cb)),
-  ongetAllphotos: (id, pageInfo) => dispatch(getAllphotos(id, pageInfo)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileAllPhotos);
+export default ProfileAllPhotos;

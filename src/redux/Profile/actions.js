@@ -4,14 +4,12 @@ import { LOGOUT } from "../User/types";
 
 import {
   ABOUT_CHANGE_SUCCESS,
-  GET_ALL_PHOTOS_SUCCESS,
   GET_FOLLOWERS_LIST_SUCCESS,
   GET_SHOOT_OUT_SUCCESS,
   HEADER_GET_SUCCESS,
   NOTIFICATION_CHANGE_SUCCESS,
   POST_FOLLOWER_SUCCESS,
   SOCIAL_CHANGE_SUCCESS,
-  THINK_POST_SUCCESS,
   UN_FRIEND_SUCCESS,
   USER_ACTIVITY_REQUEST,
   USER_ACTIVITY_SUCCESS,
@@ -378,21 +376,6 @@ export function editNotification(rating, follow, mention, favorite) {
     });
 }
 
-export function postThink({ userId, formData }, cb) {
-  return (dispatch) =>
-    api(`profile/${userId}/post`, "post", formData)
-      .then((res) => {
-        dispatch({
-          type: THINK_POST_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
 
 export function getHeader(id) {
   return (dispatch) =>
@@ -435,38 +418,6 @@ export function votePoll(id, option, cb) {
       })
       .catch((error) => {
         console.log(error);
-        cb(null, error);
-      });
-}
-
-export function getAllphotos(id, paginationInfo) {
-  return (dispatch) =>
-    api(
-      `profile/${id}/image/all?page=${paginationInfo.pagination.current}&limit=${paginationInfo.pagination.pageSize}`,
-      "get"
-    )
-      .then((res) => {
-        dispatch({
-          type: GET_ALL_PHOTOS_SUCCESS,
-          payload: res,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
-export function postFollower(id, cb) {
-  return (dispatch) =>
-    api(`follow/${id}`, "post")
-      .then((res) => {
-        dispatch({
-          type: POST_FOLLOWER_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
         cb(null, error);
       });
 }

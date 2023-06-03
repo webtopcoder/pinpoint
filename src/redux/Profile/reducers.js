@@ -1,6 +1,5 @@
 import {
   ABOUT_CHANGE_SUCCESS,
-  GET_ALL_PHOTOS_SUCCESS,
   GET_FOLLOWERS_LIST_SUCCESS,
   GET_SHOOT_OUT_SUCCESS,
   HEADER_GET_SUCCESS,
@@ -136,7 +135,6 @@ const profileReducer = (state = initialState, action) => {
     }
 
     case ABOUT_CHANGE_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         editInfo: {
@@ -189,13 +187,6 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         followersInfo: action.payload.data.results,
-      };
-    }
-
-    case GET_ALL_PHOTOS_SUCCESS: {
-      return {
-        ...state,
-        allphotosInfo: action.payload.image,
       };
     }
 

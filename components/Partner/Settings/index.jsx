@@ -34,6 +34,7 @@ const Setting = () => {
     };
 
     await settingService.SettingsToggle(data).then(() => {
+      getSettingUsers();
       notify("success", "Settings Changed.");
     })
       .catch((error) => {
@@ -58,7 +59,7 @@ const Setting = () => {
         <div className="site-card-wrapper">
           {settings ? (
             <>
-              {/* <Row className={styles.list}>
+              <Row className={styles.list}>
                 <Col md={16} xs={16} sm={16} className={styles.left_pane}>
                   Notify me when I receive a like, comment or rating.
                 </Col>
@@ -108,8 +109,8 @@ const Setting = () => {
                     }}
                   />
                 </Col>
-              </Row> */}
-              {/* <Row className={styles.list + " mt-3"}>
+              </Row>
+              <Row className={styles.list + " mt-3"}>
                 <Col md={16} xs={16} sm={16} className={styles.left_pane}>
                   Notify me when I have a Location status change.
                 </Col>
@@ -123,7 +124,7 @@ const Setting = () => {
                     }}
                   />
                 </Col>
-              </Row> */}
+              </Row>
             </>
           ) : (
             ""

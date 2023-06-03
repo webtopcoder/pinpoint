@@ -13,7 +13,6 @@ import {
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
   GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-  BUSINESS_UPDATE_INFO_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -131,17 +130,6 @@ const userReducer = (state = initialState, action) => {
         user_id: action?.payload?.user?.owner?._id,
         usertype: action?.payload?.user?.owner?.role,
         avatar: action?.payload?.user?.owner?.profile?.avatar?.filepath,
-      };
-    }
-
-    case BUSINESS_UPDATE_INFO_SUCCESS: {
-      return {
-        ...state,
-        role: action?.payload?.data?.role,
-        username: action?.payload?.data?.username,
-        user_id: action?.payload?.data?._id,
-        usertype: action?.payload?.data?.role,
-        avatar: action?.payload?.data?.profile?.avatar?.filepath,
       };
     }
 
