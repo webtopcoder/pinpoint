@@ -3,24 +3,9 @@ import PageTitle from "@/components/Layout/PageTitle";
 import { setCookie, getCookie } from 'cookies-next';
 import ListViewModal from "@/components/User/InteractiveMap/ListView";
 import {
-  Col,
-  InputNumber,
-  Row,
-  Slider,
-  Button,
-  Tooltip,
-  Select,
-  Form,
-  Space,
-  notification,
-  Typography,
-  Badge,
-  Drawer,
-  Spin,
-  Segmented,
-  Avatar
+  Col, InputNumber, Row, Slider, Button, Tooltip, Select, Form, Space, notification, Typography, Drawer, Spin, Segmented, Avatar
 } from "antd";
-import { FullscreenOutlined, UnorderedListOutlined, RollbackOutlined, CheckOutlined, LoadingOutlined } from "@ant-design/icons";
+import { FullscreenOutlined, UnorderedListOutlined, LoadingOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import Layout from "../../../layout";
@@ -28,7 +13,6 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import baseUrl from "@/utils/baseUrl";
 import { categoryService, locationService } from "@/services/index";
 import { browserName } from 'react-device-detect';
-import './Home.module.css';
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
 
@@ -50,7 +34,6 @@ const close = () => {
   );
 };
 var cityCircle = null;
-var map;
 
 const InteractiveMap = () => {
   const autoCompleteRef = useRef();
@@ -110,30 +93,26 @@ const InteractiveMap = () => {
     }
   }
 
+  let selectedItem = "", selectedMode = "DRIVING", map, directionsService, directionsRenderer, markers = [];
+  const formatter = (value) => `${value}mile`;
   const isWebDevice = useMedia('(min-width:700px)');
   const [open, setOpen] = useState(false);
   const [subcategoryList, setSubcategoryList] = useState([]);
-  const [floatPanel, setFloatPanel] = useState();
-  const [directionbox, setDirectionbox] = useState(true);
   const [activeLocations, setActiveLocations] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [mapzoom, setZoom] = useState(10);
   const [api, contextHolder] = notification.useNotification();
   const [radiusLocations, setRadiusLocations] = useState([]);
   const faviconUrl = `${apiBaseUrl}`;
-  const formatter = (value) => `${value}mile`;
   const [position, setPosition] = useState();
   const [selectedlo, setSelectlo] = useState();
-  let selectedItem = ""
-  let selectedMode = "DRIVING";
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dirService, setDirservice] = useState();
   const [dirRender, setDirrender] = useState();
-  let map;
-  let directionsService, directionsRenderer;
-  const { notify } = useNotify();
+  const [inputValue, setInputValue] = useState(5);
 
+  const { notify } = useNotify();
   const onClose = () => {
     setOpen(false);
   };
@@ -196,8 +175,6 @@ const InteractiveMap = () => {
     await setCategoryInfo(result?.allcategories);
   }
 
-  let markers = [];
-
   function setMapOnAll() {
     for (let i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
@@ -221,7 +198,6 @@ const InteractiveMap = () => {
     document.querySelector(".search-field").value = ""
   }
 
-  const [inputValue, setInputValue] = useState(5);
   const onChange = (newValue) => {
     setInputValue(newValue);
     cityCircle.setRadius(newValue * 1000 * 1.6);
@@ -229,7 +205,6 @@ const InteractiveMap = () => {
 
   function createCenterControl() {
     let currentInfoWindow = null; // Track the currently opened info window
-
     const controlButton = document.createElement("button");
     // Set CSS for the control.
     controlButton.style.backgroundColor = "#fff";
@@ -256,7 +231,6 @@ const InteractiveMap = () => {
       if (controlButton.textContent === "Hide All Active") {
 
         for (var i = 0; i < activeLocations?.length; i++) {
-
           const location = `${activeLocations[i]?.mapLocation?.latitude},${activeLocations[i]?.mapLocation?.longitude}`
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
@@ -281,12 +255,10 @@ const InteractiveMap = () => {
             if (currentInfoWindow) {
               currentInfoWindow.close();
             }
-
             infowindow.open({
               anchor: marker,
               map,
             });
-
             currentInfoWindow = infowindow; // Update the currently opened info window
           });
 
@@ -304,8 +276,6 @@ const InteractiveMap = () => {
   useEffect(() => {
     const flag = getCookie('notify');
     browserName === "Safari" && flag === true ? openNotification() : "";
-    const control = document.getElementById("floating-panel");
-    setFloatPanel(control)
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       setPosition({
@@ -368,7 +338,6 @@ const InteractiveMap = () => {
     centerControlDiv.appendChild(centerControl);
 
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(floatPanel);
 
     cityCircle = new google.maps.Circle({
       strokeColor: "#276f85",
@@ -585,7 +554,7 @@ const InteractiveMap = () => {
   return (
     <>
       {contextHolder}
-      <PageTitle page="Interactive Map INTERACTIVE" />
+      <PageTitle page="INTERACTIVE MPA" />
       <div className="page-interactive-area bg-black">
         <div className="container">
           <div className="page-interactive-content">
@@ -740,30 +709,6 @@ const InteractiveMap = () => {
                 </Space>
               </div>
             </div>
-          </div>
-          <div id="floating-panel">
-            <Space direction="vertical">
-              <Badge
-                count={
-                  directionbox ? <CheckOutlined
-                    style={{
-                      color: '#ffffff',
-                    }}
-                  /> : ''
-                }
-                style={{
-                  backgroundColor: '#52c41a',
-                }}
-              >
-                <Button type="primary" onClick={() => {
-                  setDirectionbox(!directionbox);
-                  const imgElements = document.querySelectorAll('img[src$="/direction.png"]');
-                  imgElements.forEach(img => {
-                    img.style.display = !directionbox ? "block" : "none";
-                  });
-                }} icon={<RollbackOutlined />} />
-              </Badge>
-            </Space>
           </div>
           <div className="google-map-area green-color">
             <Spin spinning={loading} indicator={antIcon}>
