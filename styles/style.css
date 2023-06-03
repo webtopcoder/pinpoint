@@ -13396,3 +13396,7 @@ h4 {
   color: #fff;
   text-align: center;
 }
+
+#directionButton:hover{
+  opacity: 0.7;
+}

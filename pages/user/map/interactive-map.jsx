@@ -88,9 +88,26 @@ const InteractiveMap = () => {
     })
       }</small></p>
             <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
-        </div>
+            <a id="directionButton" type="button" ><img width="30" height="30" src="${faviconUrl}/direction.png"/></a>&nbsp&nbsp
+            </div>
       </div>
     </div>`
+  }
+
+  function directionbuttonfun() {
+    setOpen(true);
+    setLoading(true);
+    setSelectlo(selectedItem);
+    document.getElementById("sidebar").innerHTML = "";
+    directionsRenderer.setPanel(document.getElementById("sidebar"));
+    calculateAndDisplayRoute1(directionsService, directionsRenderer, selectedItem);
+  }
+
+  function attachEventToDirectionButton() {
+    const directionButton = document.getElementById("directionButton");
+    if (directionButton) {
+      directionButton.addEventListener("click", directionbuttonfun);
+    }
   }
 
   const isWebDevice = useMedia('(min-width:700px)');
@@ -211,6 +228,7 @@ const InteractiveMap = () => {
   };
 
   function createCenterControl() {
+    let currentInfoWindow = null; // Track the currently opened info window
 
     const controlButton = document.createElement("button");
     // Set CSS for the control.
@@ -246,51 +264,33 @@ const InteractiveMap = () => {
               url: faviconUrl + "/avatar/" + activeLocations[i]?.partner?.category?.image?.filepath,
               scaledSize: new google.maps.Size(30, 50), // scaled size
               origin: new google.maps.Point(0, 0), // origin
-              anchor: new google.maps.Point(30, 46), // anchor
-            },
-            draggable: true,
-            map: map,
-          });
-
-          const markerDirection = new google.maps.Marker({
-            position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
-            icon: {
-              url: faviconUrl + "/direction.png",
-              scaledSize: new google.maps.Size(30, 30), // scaled size
-              origin: new google.maps.Point(0, 0), // origin
-              anchor: new google.maps.Point(5, 55), // anchor
-              className: "direction-marker"
+              anchor: new google.maps.Point(15, 46), // anchor
             },
             draggable: true,
             map: map,
           });
 
           markers.push(marker);
-          markers.push(markerDirection);
-
           const infowindow = new google.maps.InfoWindow({
             content: markerDescription(activeLocations[i]),
             ariaLabel: "Food Truck",
           });
+
           marker.addListener("click", () => {
+            selectedItem = location;
+            if (currentInfoWindow) {
+              currentInfoWindow.close();
+            }
+
             infowindow.open({
               anchor: marker,
               map,
             });
+
+            currentInfoWindow = infowindow; // Update the currently opened info window
           });
 
-          markerDirection.addListener("click", () => {
-            setOpen(true);
-            setLoading(true);
-            selectedItem = location;
-            setSelectlo(location);
-            document.getElementById("sidebar").innerHTML = "";
-            directionsRenderer.setPanel(document.getElementById("sidebar"));
-            calculateAndDisplayRoute1(directionsService, directionsRenderer, location);
-          });
-          // marker.addListener("click", () => {
-          //   infowindow.close();
-          // });
+          infowindow.addListener("domready", attachEventToDirectionButton);
         }
 
       } else {
@@ -360,7 +360,7 @@ const InteractiveMap = () => {
   };
 
   function initMap() {
-
+    let currentInfoWindow = null; // Track the currently opened info window
     const centerControlDiv = document.createElement("div");
     const centerControl = createCenterControl(map);
 
@@ -409,18 +409,7 @@ const InteractiveMap = () => {
             origin: new google.maps.Point(0, 0), // origin
             anchor: new google.maps.Point(15, 46), // anchor
           },
-          map: map,
-        });
-
-        const markerDirection = new google.maps.Marker({
-          position: new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude),
-          icon: {
-            url: faviconUrl + "/direction.png",
-            scaledSize: new google.maps.Size(30, 30), // scaled size
-            origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 46), // anchor
-            className: "direction-marker"
-          },
+          draggable: true,
           map: map,
         });
 
@@ -431,26 +420,20 @@ const InteractiveMap = () => {
         });
 
         marker.addListener("click", () => {
+          selectedItem = location;
+          if (currentInfoWindow) {
+            currentInfoWindow.close();
+          }
+
           infowindow.open({
             anchor: marker,
             map,
           });
+
+          currentInfoWindow = infowindow; // Update the currently opened info window
         });
 
-        markerDirection.addListener("click", () => {
-          setOpen(true);
-          setLoading(true);
-          selectedItem = location;
-          setSelectlo(location);
-          document.getElementById("sidebar").innerHTML = "";
-          directionsRenderer.setPanel(document.getElementById("sidebar"));
-          calculateAndDisplayRoute1(directionsService, directionsRenderer, location);
-        });
-
-
-        // marker.addListener("mouseout", () => {
-        //   infowindow.close();
-        // });
+        infowindow.addListener("domready", attachEventToDirectionButton);
       }
     }
 
@@ -477,7 +460,6 @@ const InteractiveMap = () => {
       setZoom(zoom);
     });
   }
-
 
   function calculateAndDisplayRoute1(directionsService, directionsRenderer, location) {
     let mainMode;
@@ -673,7 +655,6 @@ const InteractiveMap = () => {
                       maxWidth: 600,
                     }}
                     layout="vertical"
-
                   >
                     <Form.Item
                       name="category"
@@ -802,7 +783,7 @@ const InteractiveMap = () => {
             placement={isWebDevice ? "right" : "bottom"}
             onClose={onClose}
             open={open}
-            width={500}
+            width={400}
             extra={
               <Space>
                 <Button onClick={onClose}>Cancel</Button>
