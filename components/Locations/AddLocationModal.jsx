@@ -15,7 +15,6 @@ import {
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
-import { connect } from "react-redux";
 import { locationService, categoryService } from "@/services/index";
 import useMedia from "@/hooks/useMedia";
 
@@ -39,9 +38,9 @@ function AddLocationModal({
   setModalOpen,
   uploadProps,
   uploadFile,
-  userCategoryId,
   setLocations,
-  additionLocatoins
+  additionLocatoins,
+  userCategoryId
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
@@ -58,10 +57,8 @@ function AddLocationModal({
   });
 
   useEffect(() => {
-    if (userCategoryId) {
-      GetSubCategories();
-    }
-  }, [userCategoryId]);
+    GetSubCategories();
+  }, []);
 
   async function GetSubCategories() {
     const res = await categoryService.getSubcategory(userCategoryId)
@@ -325,10 +322,4 @@ function AddLocationModal({
   );
 }
 
-const mapStateToProps = ({ user, profile }) => ({
-  user_id: user.user_id,
-  userCategoryId: profile.userinfo.category,
-});
-
-
-export default connect(mapStateToProps, undefined)(AddLocationModal);
+export default AddLocationModal;

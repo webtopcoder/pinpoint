@@ -22,6 +22,7 @@ let username = "";
 let role = "";
 let usertype = "";
 let user_id = "";
+let category = "";
 let avatar = "";
 let additionID = "";
 let additionEmail = "";
@@ -36,6 +37,7 @@ if (typeof window !== "undefined") {
   username = localStorage.getItem("username");
   role = localStorage.getItem("role");
   user_id = localStorage.getItem("user_id");
+  category = localStorage.getItem("category");
   avatar = localStorage.getItem("avatar");
   usertype = localStorage.getItem("usertype");
   additionID = localStorage.getItem("additionID");
@@ -49,6 +51,7 @@ const initialState = {
   token: token,
   username: username,
   user_id: user_id,
+  category: category,
   role: role,
   usertype: usertype,
   avatar: avatar,
@@ -78,6 +81,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("role", action?.payload?.user?.role);
       localStorage.setItem("username", action?.payload?.user?.username);
       localStorage.setItem("user_id", action?.payload?.user?._id);
+      localStorage.setItem("category", action?.payload?.user?.category);
       localStorage.setItem("usertype", action?.payload?.user?.role);
       localStorage.setItem("additionRole", '');
       localStorage.setItem(
@@ -92,6 +96,7 @@ const userReducer = (state = initialState, action) => {
         role: action?.payload?.user?.role,
         username: action?.payload?.user?.username,
         user_id: action?.payload?.user?._id,
+        category: action?.payload?.user?.category,
         usertype: action?.payload?.user?.role,
         avatar: action?.payload?.user?.profile?.avatar?.filepath,
       };

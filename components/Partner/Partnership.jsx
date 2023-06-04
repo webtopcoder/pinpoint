@@ -223,6 +223,12 @@ const Partnership = ({
 
   useEffect(() => {
     if (router.isReady) {
+      ongetUser((res, error) => {
+        if (error) {
+          console.log(error);
+          notify("error", "Fail");
+        }
+      });
       ongetPartnershipplans((_, error) => {
         if (error) {
           notify(

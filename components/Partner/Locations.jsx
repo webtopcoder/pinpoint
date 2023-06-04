@@ -23,7 +23,7 @@ const { Title } = Typography;
 const { Content } = Layout;
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
-const PartnerLocations = ({ user_id, additionLocatoins }) => {
+const PartnerLocations = ({ user_id, additionLocatoins, userCategoryId }) => {
   const [uploadFile, setUploadFile] = useState([]);
   const isWebDevice = useMedia('(min-width:700px)');
   const [loading, setLoading] = useState(true);
@@ -179,6 +179,8 @@ const PartnerLocations = ({ user_id, additionLocatoins }) => {
         setModalOpen={setAddModalOpen}
         uploadProps={uploadProps}
         uploadFile={uploadFile}
+        user_id={user_id}
+        userCategoryId={userCategoryId}
         additionLocatoins={additionLocatoins}
       />
     </Layout>
@@ -189,7 +191,8 @@ const mapStateToProps = ({ user }) => {
   return {
     user_id: user.user_id,
     additionLocatoins: user.additionLocatoins,
+    userCategoryId: user.category
   };
 };
 
-export default connect(mapStateToProps, undefined)(PartnerLocations);
+export default connect(mapStateToProps)(PartnerLocations);

@@ -11,6 +11,8 @@ import { votePoll } from "@/redux/Profile/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
+import CommentDiv from "@/components/Layout/comment";
+
 import useMedia from "@/hooks/useMedia";
 import {
   downloadFile,
@@ -378,6 +380,10 @@ const ProfileActivity = ({
                               >
                                 POST
                               </Button>
+                            </Col>
+                            <Col span={24}>
+                              {/* <CommentDiv /> */}
+
                             </Col>
                           </Row>
                         </Form.Item>
