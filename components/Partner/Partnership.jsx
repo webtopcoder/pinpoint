@@ -26,6 +26,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { DeleteOutlined } from "@ant-design/icons";
 import { formartUnixtime, formatDate } from "@/utils/date";
 import useMedia from "@/hooks/useMedia";
+import { date } from "yup";
 
 const { Text, Paragraph } = Typography;
 const { Content } = Layout;
@@ -277,7 +278,7 @@ const Partnership = ({
             >
               {partnershipPlans.map((plan, index) => (
                 <Col xs={24} sm={24} md={12} lg={12} xl={8} key={index}>
-                  {user_partnership == plan._id ? (
+                  {user_partnership == plan._id && new Date(partnershipPriceRenewalDate) > new Date() ? (
                     <Badge.Ribbon text="Active" color="green">
                       <PartnerShipPayment
                         {...plan}

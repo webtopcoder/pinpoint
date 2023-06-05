@@ -59,7 +59,7 @@ const Setting = () => {
         <div className="site-card-wrapper">
           {settings ? (
             <>
-              <Row className={styles.list}>
+              {/* <Row className={styles.list}>
                 <Col md={16} xs={16} sm={16} className={styles.left_pane}>
                   Notify me when I receive a like, comment or rating.
                 </Col>
@@ -124,17 +124,17 @@ const Setting = () => {
                     }}
                   />
                 </Col>
-              </Row>
+              </Row> */}
             </>
           ) : (
             ""
           )}
-          <Row
+          {/* <Row
             className={styles.list_round + " mt-3"}
             onClick={() => router.push("/partner/settings/adduser")}
           >
             Additional Users
-          </Row>
+          </Row> */}
           <Row
             className={styles.list_round + " mt-3"}
             onClick={() => router.push("/partner/settings/business")}
