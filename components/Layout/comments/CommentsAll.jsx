@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { profileService } from "@/services/index";
+import { commentService } from "@/services/index";
 import CustomComment from "./Comment"
 import { List, Divider } from 'antd';
 import CommentForm from "./CommentForm"
@@ -13,7 +13,7 @@ const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComm
   }
 
   const addComment = (text, parentId) => {
-    profileService.createComment({ body: text, parentId: parentId, type: type, typeId: id }).then((comment) => {
+    commentService.createComment({ body: text, parentId: parentId, type: type, typeId: id }).then((comment) => {
       setBackendcomments([comment, ...backendComments]);
       setCommentCount((commentCount) => commentCount + 1);
       setExpandComments(true);
@@ -22,7 +22,7 @@ const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComm
   }
 
   const updateComment = (text, commentId) => {
-    profileService.updateComment({ body: text, id: commentId }).then(() => {
+    commentService.updateComment({ body: text, id: commentId }).then(() => {
       const updatedBackendComments = backendComments.map((backendComment) => {
         if (backendComment.id === commentId) {
           return { ...backendComment, body: text }
@@ -36,14 +36,15 @@ const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComm
   }
 
   const deleteComment = (commentId) => {
-    profileService.deleteComment({ id: commentId }).then(() => {
+    commentService.deleteComment({ id: commentId }).then(() => {
       const updatedBakendComments = backendComments.filter((backendComment) => backendComment.id !== commentId)
       setBackendcomments(updatedBakendComments);
+      setCommentCount((commentCount) => commentCount - 1);
     })
   }
 
   useEffect(() => {
-    profileService.getComments(id).then((data) => {
+    commentService.getComments(id).then((data) => {
       setBackendcomments(data);
     })
   }, [])

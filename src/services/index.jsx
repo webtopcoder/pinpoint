@@ -1,4 +1,5 @@
 export * from "./profile.service";
+export * from "./comment.service";
 export * from "./auth.service";
 export * from "./location.service";
 export * from "./user.service";

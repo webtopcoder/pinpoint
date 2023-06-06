@@ -19,6 +19,9 @@ function LocationService() {
       "get"
     )
   }
+  function getLocationInfo({ id, expand }) {
+    return api(`locations/${id}/${expand}`, "get")
+  }
 
   function AddLocation(data) {
     return api(`locations`, "post", data)
@@ -40,6 +43,14 @@ function LocationService() {
     return api(`locations/${locationId}/quick-departure`, "post")
   }
 
+  function favoriteLocation(locationId, flag) {
+    return api(`locations/${locationId}/favorite`, flag ? "post" : 'delete')
+  }
+
+  function CheckInArrival(arrivalID) {
+    return api(`locations/${arrivalID}/check-in`, "post")
+  }
+
   return {
     getAllLocations,
     getLocations,
@@ -47,7 +58,10 @@ function LocationService() {
     UpdateLocationByID,
     DeleteLocation,
     quickArrival,
-    quickDeparture
+    quickDeparture,
+    getLocationInfo,
+    favoriteLocation,
+    CheckInArrival
   };
 }
 

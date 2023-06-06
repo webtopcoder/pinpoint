@@ -190,12 +190,6 @@ const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case GET_SHOOT_OUT_SUCCESS: {
-      return {
-        ...state,
-        shoutoutInfo: action.payload,
-      };
-    }
     case PARTNERSHIPS_GET_SUCCESS: {
       return {
         ...state,

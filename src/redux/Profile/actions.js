@@ -5,7 +5,6 @@ import { LOGOUT } from "../User/types";
 import {
   ABOUT_CHANGE_SUCCESS,
   GET_FOLLOWERS_LIST_SUCCESS,
-  GET_SHOOT_OUT_SUCCESS,
   HEADER_GET_SUCCESS,
   NOTIFICATION_CHANGE_SUCCESS,
   POST_FOLLOWER_SUCCESS,
@@ -202,22 +201,6 @@ export function getActivity(id, count, search, cb) {
 
         dispatch({
           type: USER_ACTIVITY_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
-export function getShoutout(id, count, search, cb) {
-  return (dispatch) =>
-    api(`profile/shoutout/${id}?page=${count}`, "get")
-      .then((res) => {
-        dispatch({
-          type: GET_SHOOT_OUT_SUCCESS,
           payload: res,
         });
 

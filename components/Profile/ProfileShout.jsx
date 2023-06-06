@@ -1,7 +1,6 @@
 import useNotify from "@/hooks/useNotify";
-import { getShoutout } from "@/redux/Profile/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import { LikeOutlined } from "@ant-design/icons";
+import { LikeOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -13,7 +12,9 @@ import {
 } from "antd";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Comments from "@/components/Layout/comments/CommentsAll";
 import { connect } from "react-redux";
+import { commentService, profileService } from "@/services/index";
 
 const { Text } = Typography;
 const IconText = ({ postID, text, likePost }) => {
@@ -22,7 +23,10 @@ const IconText = ({ postID, text, likePost }) => {
     setLike(text);
   }, [text]);
   return (
-    <Space>
+    <Space style={{
+      marginRight: 20,
+      marginTop: 20
+    }} >
       <Button
         type="primary"
         onClick={() => {
@@ -38,31 +42,103 @@ const IconText = ({ postID, text, likePost }) => {
         icon={<LikeOutlined />}
       />
       <Text>{like}</Text>
-    </Space>
+    </Space >
   );
 };
 
-const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
-  const { notify } = useNotify();
-  const likePost = (id, cb) => {
-    onrecommendPost(id, (res, error) => {
-      if (error) {
+const CommentBody = ({ item, likePost, user_id }) => {
+
+  const [commentCount, setCommentCount] = useState();
+  const [expand, setExpand] = useState(true);
+  const [expandComments, setExpandComments] = useState(false);
+
+  useEffect(() => {
+    commentService.getComments(item._id)
+      .then((res) => {
+        setCommentCount(res.length);
+      })
+      .catch((error) => {
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
         );
-      } else {
-        cb(res.liked);
-      }
-    });
-  };
+        return;
+      });
+  }, []);
+
+  return (
+    <>
+      <div
+        className="custom-list-content"
+        style={{
+          marginTop: 10,
+        }}
+      >
+        <IconText
+          postID={item._id}
+          text={item.like ? item?.like?.count : 0}
+          likePost={likePost}
+          icon={<LikeOutlined />}
+          key="list-vertical-like-o"
+        />
+        <Space style={{
+          marginRight: 20,
+          marginTop: 20
+        }}>
+          <Button
+            type="primary"
+            shape="circle"
+            onClick={() => {
+              setExpand(!expand);
+            }}
+            icon={<MessageOutlined />}
+          />
+          <Text>{commentCount}</Text>
+        </Space>
+        <Space
+          hidden={commentCount === 0 ? true : false}
+          style={{
+            float: 'right',
+            marginTop: 20
+          }}
+        >
+          <Button type="link"
+            onClick={() => {
+              setExpandComments(!expandComments);
+            }}
+            block>
+            {expandComments ? <DownOutlined /> : <UpOutlined />}
+            View Comments
+          </Button>
+        </Space>
+      </div>
+      <Comments currentUserId={user_id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item._id} />
+    </>
+  );
+};
+
+const ProfileShout = ({ user_id }) => {
+  const { notify } = useNotify();
+
+  async function likePost(id, callback) {
+    await profileService.recommendPost(id)
+      .then((res) => {
+        callback(res.liked);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   const myLoader = ({ src }) => {
     return src;
   };
   const imgurl = `${apiBaseUrl}/avatar/`;
   const avatarurl = `${apiBaseUrl}/avatar/`;
-
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(1);
@@ -84,18 +160,24 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
 
     if (router.isReady) {
       const { profile } = router.query;
-      ongetShoutout(profile, count, "", (res, error) => {
-        if (error) {
-          console.log("error");
-        } else {
-          const newData = data.concat(res.results);
-          setData(newData);
-          setList(newData);
-          setLoading(false);
-          setInitLoading(false);
-          window.dispatchEvent(new Event("resize"));
-        }
-      });
+      profileService.getShoutout(profile, count, "")
+        .then((res) => {
+          if (res) {
+            const newData = data.concat(res.results);
+            setData(newData);
+            setList(newData);
+            setLoading(false);
+            setInitLoading(false);
+            window.dispatchEvent(new Event("resize"));
+          } else notify("error", res.msg);
+        })
+        .catch((error) => {
+          notify(
+            "error",
+            error?.response?.data?.message || "Something went wrong"
+          );
+          return;
+        });
     }
   }, [count, router.query]);
 
@@ -137,16 +219,6 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                         renderItem={(item, index) => (
                           <List.Item
                             key={index}
-                            actions={[
-                              <IconText
-                                postID={item.post?._id}
-                                text={
-                                  item.post?.like ? item.post?.like.count : 0
-                                }
-                                likePost={likePost}
-                                key="list-vertical-like-o"
-                              />,
-                            ]}
                           >
                             <Skeleton
                               avatar
@@ -213,6 +285,7 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
                               ) : (
                                 ""
                               )}
+                              <CommentBody item={item.post} likePost={likePost} user_id={user_id} />
                             </Skeleton>
                           </List.Item>
                         )}
@@ -229,14 +302,10 @@ const ProfileShout = ({ onrecommendPost, ongetShoutout, shoutInfo }) => {
   );
 };
 
-const mapStateToProps = ({ profile }) => {
+const mapStateToProps = ({ user }) => {
   return {
-    shoutInfo: profile.shoutoutInfo,
+    user_id: user.user_id,
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  ongetShoutout: (data, count, search, cb) =>
-    dispatch(getShoutout(data, count, search, cb)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileShout);
+export default connect(mapStateToProps)(ProfileShout);

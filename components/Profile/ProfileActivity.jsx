@@ -83,17 +83,19 @@ const CommentBody = ({ item, likePost, user_id }) => {
           />
           <Text>{commentCount}</Text>
         </Space>
-        <Space style={{
-          float: 'right',
-          marginTop: 20
-        }}
+        <Space
+          hidden={commentCount === 0 ? true : false}
+          style={{
+            float: 'right',
+            marginTop: 20
+          }}
         >
           <Button type="link"
             onClick={() => {
               setExpandComments(!expandComments);
             }}
             block>
-            {expandComments ? <UpOutlined /> : <DownOutlined />}
+            {expandComments ? <DownOutlined /> : <UpOutlined />}
             View Comments
           </Button>
         </Space>
@@ -442,7 +444,6 @@ const ProfileActivity = ({
                           </Row>
                         </Form.Item>
                       </Form>
-
                     </div>
                   </div>
                 </div>

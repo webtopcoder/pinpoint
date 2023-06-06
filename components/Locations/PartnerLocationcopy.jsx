@@ -12,34 +12,15 @@ import {
   UpOutlined,
 } from "@ant-design/icons";
 import {
-  Image as Antimage,
-  Button,
-  Form,
-  Row,
-  Col,
-  Avatar,
-  Typography,
-  Space,
-  Mentions,
-  Layout,
-  Card,
-  List,
-  Skeleton,
-  Rate,
-  message,
-  Upload,
-  Badge,
-  Divider
+  Image as Antimage, Button, Form, Row, Col, Avatar, Typography, Space, Mentions, Layout, Card, List, Skeleton, Rate, message, Upload, Badge, Divider
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import {
   checkInArrival,
-  favoriteLocation,
   likeArrival,
   likeLocationReview,
   postReview,
-  unfavoriteLocation,
   getLocationById,
 } from "@/src/redux/Location/actions";
 import useNotify from "@/hooks/useNotify";
@@ -145,7 +126,7 @@ const CommentBody = ({ item, likePost, user_id }) => {
               setExpandComments(!expandComments);
             }}
             block>
-            {expandComments ? <DownOutlined /> : <UpOutlined />}
+            {expandComments ? <UpOutlined /> : <DownOutlined />}
             View Comments
           </Button>
         </Space>
@@ -188,14 +169,12 @@ const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const PartnerLocation = ({
-  location,
+  // location,
   onPostReview,
   getLocationInfo,
   likeReview,
   onLikeArrival,
   onCheckInArrival,
-  onFavoriteLocation,
-  onUnFavoriteLocation,
   checkIncount,
   expiredArrivals,
   userRole,
@@ -206,33 +185,57 @@ const PartnerLocation = ({
   const { notify } = useNotify();
   const [reviews, setReviews] = useState([]);
   const [expand, setExpand] = useState(false);
+  const [location, setLocationInfo] = useState();
 
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
-      getLocationInfo({ id: locationId, expand: expand }, (_, err) => {
-        if (err) {
+      // getLocationInfo({ id: locationId, expand: expand }, (_, err) => {
+      //   if (err) {
+      //     notify(
+      //       "error",
+      //       err?.response?.data?.message || "Something went wrong"
+      //     );
+      //   }
+      // });
+
+      locationService.getLocationInfo({ id: locationId, expand: expand })
+        .then((res) => {
+          console.log(res)
+          setLocationInfo(res)
+          if (res.location.reviews) {
+            const activeReviews = res.location.reviews.reduce(
+              (acc, option, index) => {
+                option.status === "active" ? acc.push(option) : ''
+                return acc;
+              },
+              []
+            );
+            setReviews(temporarySwapHalf(activeReviews));
+          }
+        })
+        .catch((error) => {
           notify(
             "error",
-            err?.response?.data?.message || "Something went wrong"
+            error?.response?.data?.message || "Something went wrong"
           );
-        }
-      });
+          return;
+        });
     }
   }, [router.isReady, expand]);
 
-  useEffect(() => {
-    if (location.reviews) {
-      const activeReviews = location.reviews.reduce(
-        (acc, option, index) => {
-          option.status === "active" ? acc.push(option) : ''
-          return acc;
-        },
-        []
-      );
-      setReviews(temporarySwapHalf(activeReviews));
-    }
-  }, [location.reviews]);
+  // useEffect(() => {
+  //   if (location.location.reviews) {
+  //     const activeReviews = location.location.reviews.reduce(
+  //       (acc, option, index) => {
+  //         option.status === "active" ? acc.push(option) : ''
+  //         return acc;
+  //       },
+  //       []
+  //     );
+  //     setReviews(temporarySwapHalf(activeReviews));
+  //   }
+  // }, [location.location.reviews]);
 
   return (
     <Layout
@@ -250,15 +253,14 @@ const PartnerLocation = ({
         >
           <LocationBanner
             location={location}
-            onFavoriteLocation={onFavoriteLocation}
-            onUnFavoriteLocation={onUnFavoriteLocation}
             userRole={userRole}
+            setLocationInfo={setLocationInfo}
           />
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
-              {location.isActive ? (
+              {location?.location?.isActive ? (
                 <ArrivalBanner
-                  location={location}
+                  location={location?.location}
                   onLikeArrival={onLikeArrival}
                   onCheckInArrival={onCheckInArrival}
                   checkIncount={checkIncount}
@@ -267,14 +269,14 @@ const PartnerLocation = ({
                 ""
               )}
               <PostForm
-                location={location}
+                location={location?.location}
                 onPostReview={onPostReview}
                 getLocationInfo={getLocationInfo}
                 expand={expand}
               />
               {expiredArrivals.arrivalData?.length > 0 ? (
                 <ExpiredArrivalBanner
-                  location={location}
+                  location={location?.location}
                   arrivals={expiredArrivals}
                   onLikeArrival={onLikeArrival}
                   onCheckInArrival={onCheckInArrival}
@@ -448,6 +450,25 @@ function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount
   const arrivalID = location?.isArrival?.id;
   const date = location?.updatedAt;
   const isWebDevice = useMedia('(min-width:700px)');
+
+  async function CheckInArrival() {
+    setaction('liked');
+    await locationService.CheckInArrival(arrivalID)
+      .then((res) => {
+        if (res.liked) {
+          setlikes((likes) => likes + 1);
+        } else {
+          setlikes((likes) => (likes ? likes - 1 : likes));
+        }
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   return (
     <div>
@@ -760,8 +781,7 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
 
 function Post({ review, likeReview, location, router, user_id }) {
   return (
-    <List.Item
-    >
+    <List.Item>
       <Skeleton avatar title={false} loading={review?.loading} active>
         <List.Item.Meta
           avatar={
@@ -828,22 +848,39 @@ function Post({ review, likeReview, location, router, user_id }) {
 
 function LocationBanner({
   location,
-  onFavoriteLocation,
-  onUnFavoriteLocation,
-  userRole
+  userRole,
+  setLocationInfo
 }) {
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
 
-  if (!location) return <Skeleton active />;
+  async function favoriteLocation(flag) {
+    await locationService.favoriteLocation(location.location._id, flag)
+      .then(() => {
+        setLocationInfo(prevState => ({
+          ...prevState,
+          isFavorite: flag ? true : false
+        }));
+        console.log(location)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
+  if (!location?.location) return <Skeleton active />;
   return (
     <>
       <Row>
         <Col span={isWebDevice ? 18 : 24} offset={isWebDevice ? 3 : 0} style={{}}>
           <Badge.Ribbon
-            text={location.isActive ? "Active" : "Inactive"}
+            text={location?.location.isActive ? "Active" : "Inactive"}
             placement="start"
-            color={location.isActive ? "green" : "red"}
+            color={location?.location.isActive ? "green" : "red"}
           >
             <Card
               style={{
@@ -874,7 +911,7 @@ function LocationBanner({
                         "good",
                         "wonderful",
                       ]}
-                      value={location.rating}
+                      value={location?.location.rating}
                     />
                   </Space>
                 </Col>
@@ -892,10 +929,10 @@ function LocationBanner({
                       }}
                       size={150}
                       icon={
-                        location.images?.length > 0 &&
-                          location.images[0]?.filepath ? (
+                        location.location.images?.length > 0 &&
+                          location.location.images[0]?.filepath ? (
                           <Image
-                            src={avatarurl + location.images[0]?.filepath}
+                            src={avatarurl + location.location.images[0]?.filepath}
                             height={200}
                             width={200}
                             alt="locationImage"
@@ -912,7 +949,7 @@ function LocationBanner({
                         fontSize: 20,
                       }}
                     >
-                      {location?.title}
+                      {location?.location.title}
                     </Text>
                     {isWebDevice ? '' :
                       <Rate
@@ -925,7 +962,7 @@ function LocationBanner({
                           "good",
                           "wonderful",
                         ]}
-                        value={location.rating}
+                        value={location?.location.rating}
                       />}
 
                   </Space>
@@ -943,7 +980,7 @@ function LocationBanner({
                           color: "white",
                         }}
                       >
-                        {location?.description}
+                        {location?.location.description}
                       </Text>
                     </Space>
                     <Space>
@@ -953,9 +990,9 @@ function LocationBanner({
                         }}
                       >
                         <ClockCircleFilled />&nbsp;&nbsp;
-                        {location?.isActive ? "Departure Time" : "Last Departure"}
+                        {location?.location.isActive ? "Departure Time" : "Last Departure"}
                         : {
-                          new Date(location?.departureAt).toLocaleDateString(undefined, {
+                          new Date(location?.location.departureAt).toLocaleDateString(undefined, {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
@@ -973,7 +1010,7 @@ function LocationBanner({
                           color: "white",
                         }}
                       >
-                        <EnvironmentOutlined /> {location?.mapLocation?.address}
+                        <EnvironmentOutlined /> {location?.location.mapLocation?.address}
                       </Text>
                     </Space>
                   </Space>
@@ -991,7 +1028,7 @@ function LocationBanner({
                         color: "white",
                       }}
                     >
-                      {location?.subCategories
+                      {location?.location.subCategories
                         ?.map((item) => item.name)
                         .join(", ")}
                     </Text>
@@ -1006,23 +1043,7 @@ function LocationBanner({
                             marginRight: "10px",
                             cursor: "pointer",
                           }}
-                          onClick={() => {
-                            onUnFavoriteLocation(location._id, (_, error) => {
-                              if (error) {
-                                notify(
-                                  "error",
-                                  error?.response?.data?.message ||
-                                  "Something went wrong"
-                                );
-                                return;
-                              }
-
-                              notify(
-                                "success",
-                                "Location removed from Favorites"
-                              );
-                            });
-                          }}
+                          onClick={() => favoriteLocation(false)}
                         >
                           Remove from Favorites
                         </Button>
@@ -1032,20 +1053,8 @@ function LocationBanner({
                             marginRight: "10px",
                             cursor: "pointer",
                           }}
-                          onClick={() => {
-                            onFavoriteLocation(location._id, (_, error) => {
-                              if (error) {
-                                notify(
-                                  "error",
-                                  error?.response?.data?.message ||
-                                  "Something went wrong"
-                                );
-                                return;
-                              }
+                          onClick={() => favoriteLocation(true)}
 
-                              notify("success", "Location added to Favorites");
-                            });
-                          }}
                         >
                           Add to Favorites
                         </Button>
@@ -1075,12 +1084,11 @@ function temporarySwapHalf(array) {
 }
 
 const mapStateToProps = (state) => ({
-  location: state.location.location,
+  // location: state.location.location,
   checkIncount: state.location.checkIncount,
   expiredArrivals: state.location.expiredArrivals,
   userRole: state.user.role,
   user_id: state.user.user_id,
-
 });
 
 const mapDispatchToProp = (dispatch) => {
@@ -1092,10 +1100,6 @@ const mapDispatchToProp = (dispatch) => {
     onLikeArrival: (arrivalID, cb) => dispatch(likeArrival(arrivalID, cb)),
     onCheckInArrival: (locationId, cb) =>
       dispatch(checkInArrival(locationId, cb)),
-    onFavoriteLocation: (locationId, cb) =>
-      dispatch(favoriteLocation(locationId, cb)),
-    onUnFavoriteLocation: (locationId, cb) =>
-      dispatch(unfavoriteLocation(locationId, cb)),
   };
 };
 
