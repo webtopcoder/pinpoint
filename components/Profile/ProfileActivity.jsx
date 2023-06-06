@@ -98,7 +98,7 @@ const CommentBody = ({ item, likePost, user_id }) => {
           </Button>
         </Space>
       </div>
-      <Comments currentUserId={user_id} expand={expand} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
+      <Comments currentUserId={user_id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
     </>
   );
 };

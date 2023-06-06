@@ -8,14 +8,16 @@ const { TextArea } = Input;
 
 const CommentForm = ({ handleSubmit, submitLabel, hasCancelButton = false,
   initialText = "", handleCancel, expand }) => {
-
+  const [form] = Form.useForm();
   const isWebDevice = useMedia('(min-width:700px)');
   const onFinish = (values) => {
     handleSubmit(values.message);
+    form.resetFields();
   }
   return (
 
     <Form
+      form={form}
       hidden={expand}
       onFinish={onFinish}
       layout="inline"
