@@ -49,6 +49,60 @@ const IconText = ({ icon, postID, text, likePost }) => {
   );
 };
 
+const CommentBody = ({ item, likePost, user_id }) => {
+  const [commentCount, setCommentCount] = useState(item.comment ? item?.comment : 0);
+  const [expand, setExpand] = useState(true);
+  const [expandComments, setExpandComments] = useState(false);
+
+  return (
+    <>
+      <div
+        className="custom-list-content"
+        style={{
+          marginTop: 10,
+        }}
+      >
+        <IconText
+          postID={item._id}
+          text={item.like ? item?.like?.count : 0}
+          likePost={likePost}
+          icon={<LikeOutlined />}
+          key="list-vertical-like-o"
+        />
+        <Space style={{
+          marginRight: 20,
+          marginTop: 20
+        }}>
+          <Button
+            type="primary"
+            shape="circle"
+            onClick={() => {
+              setExpand(!expand);
+            }}
+            icon={<MessageOutlined />}
+          />
+          <Text>{commentCount}</Text>
+        </Space>
+        <Space style={{
+          float: 'right',
+          marginTop: 20
+        }}
+        >
+          <Button type="link"
+            onClick={() => {
+              setExpandComments(!expandComments);
+            }}
+            block>
+            {expandComments ? <UpOutlined /> : <DownOutlined />}
+            View Comments
+          </Button>
+        </Space>
+      </div>
+      <Comments currentUserId={user_id} expand={expand} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
+    </>
+  );
+};
+
 const ProfileActivity = ({
   onvotePoll,
   profileRole,
@@ -74,7 +128,6 @@ const ProfileActivity = ({
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(1);
   const [data, setData] = useState([]);
-  const [expand, setExpand] = useState(true);
   const [myallPhotos, setAllphotos] = useState([]);
   const [myprofilePoll, setProfilePoll] = useState([]);
   const [followAndFollowing, setfollowAndFollowing] = useState([]);
@@ -409,30 +462,6 @@ const ProfileActivity = ({
                         renderItem={(item, index) => (
                           <List.Item
                             key={index}
-                          // actions={
-                          //   item.type == "post" && [
-                          //     <IconText
-                          //       postID={item._id}
-                          //       text={item.like ? item?.like?.count : 0}
-                          //       likePost={likePost}
-                          //       icon={<LikeOutlined />}
-                          //       key="list-vertical-like-o"
-                          //     />,
-                          //     <IconText
-                          //       postID={item._id}
-                          //       text={item.like ? item?.like?.count : 0}
-                          //       icon={<MessageOutlined />}
-                          //       likePost={likePost}
-                          //       key="list-vertical-like-o"
-                          //     />,
-                          //     <Space>
-                          //       <Button type="link" block>
-                          //         Leave Comment...
-                          //       </Button>
-                          //     </Space>
-
-                          //   ]
-                          // }
                           >
                             <Skeleton
                               avatar
@@ -538,8 +567,8 @@ const ProfileActivity = ({
                                   ) : (
                                     ""
                                   )}
-
-                                  <div
+                                  <CommentBody item={item} likePost={likePost} user_id={user_id} />
+                                  {/* <div
                                     className="custom-list-content"
                                     style={{
                                       marginTop: 10,
@@ -578,7 +607,7 @@ const ProfileActivity = ({
                                       </Button>
                                     </Space>
                                   </div>
-                                  <Comments currentUserId={user_id} expand={expand} type="post" id={item._id} />
+                                  <Comments currentUserId={user_id} expand={expand} type="post" id={item._id} /> */}
                                 </>
                               ) : (
                                 <>

@@ -4,7 +4,7 @@ import CustomComment from "./Comment"
 import { List, Divider } from 'antd';
 import CommentForm from "./CommentForm"
 
-const Comments = ({ currentUserId, type, id, expand }) => {
+const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComments }) => {
   const [backendComments, setBackendcomments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
   const rootComments = backendComments.filter((backendComment) => backendComment.parentId === null);
@@ -15,6 +15,7 @@ const Comments = ({ currentUserId, type, id, expand }) => {
   const addComment = (text, parentId) => {
     profileService.createComment({ body: text, parentId: parentId, type: type, typeId: id }).then((comment) => {
       setBackendcomments([comment, ...backendComments]);
+      setCommentCount((commentCount) => commentCount + 1);
       setActiveComment(null)
     })
   }
@@ -50,7 +51,7 @@ const Comments = ({ currentUserId, type, id, expand }) => {
     <div className="comments">
       <CommentForm submitLabel="write" expand={expand} handleSubmit={addComment} />
       <div className="comments-container" style={{
-        display: backendComments.length > 0 ? 'block' : 'none'
+        display: backendComments.length > 0 && expandComments ? 'block' : 'none'
       }}>
         <Divider orientation="left">Comments</Divider>
         <List
