@@ -75,14 +75,38 @@ const UserHome = () => {
     });
   }
 
+  const getCurrentLocation = async () => {
+    if (browserName === "Edge") {
+      initMap(37.553326, -94.8110983)
+    }
+    else {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            initMap(latitude, longitude);
+          },
+          (error) => {
+            console.log(error)
+            console.error("Error retrieving geolocation:", error);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    }
+
+  };
+
   useEffect(() => {
     const flag = getCookie('notify');
     browserName === "Safari" && flag === true ? openNotification() : '';
     getActivepartnersAndTestimonials();
+    getCurrentLocation();
   }, []);
 
   useEffect(() => {
-    initMap();
+    getCurrentLocation();
   }, [activePartners]);
 
   async function getActivepartnersAndTestimonials() {
@@ -123,13 +147,7 @@ const UserHome = () => {
       });
   }
 
-  function initMap() {
-    window.navigator.geolocation.getCurrentPosition(success, (error) => {
-      console.log(error);
-    });
-  }
-
-  function success(pos) {
+  function initMap(latitude, longitude) {
     let map;
     map = new google.maps.Map(document.getElementById("maps"), {
       center: { lat: 37.553326, lng: -94.8110983 },
@@ -151,6 +169,7 @@ const UserHome = () => {
       });
     }
   }
+
 
   return (
     <>
@@ -444,7 +463,7 @@ const UserHome = () => {
         </div>
       </div>
       <Testimonial testimonials={testimonials} />
-      {/* <Newpartners newpartners={newpartners} /> */}
+      <Newpartners newpartners={newpartners} />
       <div className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">

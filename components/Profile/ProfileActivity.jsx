@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { connect } from "react-redux";
-import { UploadOutlined, LikeOutlined, PlusOutlined, DownloadOutlined } from "@ant-design/icons";
+import { UploadOutlined, LikeOutlined, PlusOutlined, DownloadOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import {
   Image as Antimage, Divider, Button, Upload, message, Form, Row, Col, Avatar, Dropdown, Typography, List, Space, Skeleton, Mentions, Progress,
 } from "antd";
@@ -11,8 +11,7 @@ import { votePoll } from "@/redux/Profile/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
-import CommentDiv from "@/components/Layout/comment";
-
+import Comments from "@/components/Layout/comments/CommentsAll";
 import useMedia from "@/hooks/useMedia";
 import {
   downloadFile,
@@ -21,13 +20,16 @@ const { Text } = Typography;
 
 const attachurl = `${apiBaseUrl}/avatar/`;
 
-const IconText = ({ postID, text, likePost }) => {
+const IconText = ({ icon, postID, text, likePost }) => {
   const [like, setLike] = useState(text);
   useEffect(() => {
     setLike(text);
   }, [text]);
   return (
-    <Space>
+    <Space style={{
+      marginRight: 20,
+      marginTop: 20
+    }}>
       <Button
         type="primary"
         onClick={() => {
@@ -40,7 +42,7 @@ const IconText = ({ postID, text, likePost }) => {
           });
         }}
         shape="circle"
-        icon={<LikeOutlined />}
+        icon={icon}
       />
       <Text>{like}</Text>
     </Space>
@@ -50,7 +52,8 @@ const IconText = ({ postID, text, likePost }) => {
 const ProfileActivity = ({
   onvotePoll,
   profileRole,
-  ondownloadFile
+  ondownloadFile,
+  user_id
 }) => {
 
   const isWebDevice = useMedia('(min-width:700px)');
@@ -71,6 +74,7 @@ const ProfileActivity = ({
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(1);
   const [data, setData] = useState([]);
+  const [expand, setExpand] = useState(true);
   const [myallPhotos, setAllphotos] = useState([]);
   const [myprofilePoll, setProfilePoll] = useState([]);
   const [followAndFollowing, setfollowAndFollowing] = useState([]);
@@ -381,13 +385,11 @@ const ProfileActivity = ({
                                 POST
                               </Button>
                             </Col>
-                            <Col span={24}>
-                              {/* <CommentDiv /> */}
 
-                            </Col>
                           </Row>
                         </Form.Item>
                       </Form>
+
                     </div>
                   </div>
                 </div>
@@ -407,16 +409,30 @@ const ProfileActivity = ({
                         renderItem={(item, index) => (
                           <List.Item
                             key={index}
-                            actions={
-                              item.type == "post" && [
-                                <IconText
-                                  postID={item._id}
-                                  text={item.like ? item?.like?.count : 0}
-                                  likePost={likePost}
-                                  key="list-vertical-like-o"
-                                />,
-                              ]
-                            }
+                          // actions={
+                          //   item.type == "post" && [
+                          //     <IconText
+                          //       postID={item._id}
+                          //       text={item.like ? item?.like?.count : 0}
+                          //       likePost={likePost}
+                          //       icon={<LikeOutlined />}
+                          //       key="list-vertical-like-o"
+                          //     />,
+                          //     <IconText
+                          //       postID={item._id}
+                          //       text={item.like ? item?.like?.count : 0}
+                          //       icon={<MessageOutlined />}
+                          //       likePost={likePost}
+                          //       key="list-vertical-like-o"
+                          //     />,
+                          //     <Space>
+                          //       <Button type="link" block>
+                          //         Leave Comment...
+                          //       </Button>
+                          //     </Space>
+
+                          //   ]
+                          // }
                           >
                             <Skeleton
                               avatar
@@ -522,6 +538,47 @@ const ProfileActivity = ({
                                   ) : (
                                     ""
                                   )}
+
+                                  <div
+                                    className="custom-list-content"
+                                    style={{
+                                      marginTop: 10,
+                                    }}
+                                  >
+                                    <IconText
+                                      postID={item._id}
+                                      text={item.like ? item?.like?.count : 0}
+                                      likePost={likePost}
+                                      icon={<LikeOutlined />}
+                                      key="list-vertical-like-o"
+                                    />
+                                    <Space style={{
+                                      marginRight: 20,
+                                      marginTop: 20
+                                    }}>
+                                      <Button
+                                        type="primary"
+                                        shape="circle"
+                                        icon={<MessageOutlined />}
+                                      />
+                                      <Text>{item.comment ? item?.comment : 0}</Text>
+                                    </Space>
+                                    <Space style={{
+                                      float: 'right',
+                                      marginTop: 20
+                                    }}
+                                    >
+                                      <Button type="link"
+                                        onClick={() => {
+                                          setExpand(!expand);
+                                        }}
+                                        block>
+                                        {expand ? <UpOutlined /> : <DownOutlined />}
+                                        Leave Comment
+                                      </Button>
+                                    </Space>
+                                  </div>
+                                  <Comments currentUserId={user_id} expand={expand} type="post" id={item._id} />
                                 </>
                               ) : (
                                 <>
@@ -817,6 +874,7 @@ const ProfileActivity = ({
 
 const mapStateToProps = ({ profile, user }) => {
   return {
+    user_id: user.user_id,
     followAndFollowing: user.followAndFollowing,
     profileRole: profile.headerInfo?.profile?.usertype,
   };

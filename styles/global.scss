@@ -80,16 +80,16 @@ img {
   height: auto;
 }
 
-p {
-  color: var(--paragraphColor);
-  font-size: var(--fontSize);
-  margin-bottom: 15px;
-  line-height: 1.8;
+// p {
+//   color: var(--paragraphColor);
+//   font-size: var(--fontSize);
+//   margin-bottom: 15px;
+//   line-height: 1.8;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
+//   &:last-child {
+//     margin-bottom: 0;
+//   }
+// }
 
 .border-tb {
   border: 1px solid #eee;
@@ -542,6 +542,7 @@ p {
 }
 
 @keyframes waviy {
+
   0%,
   40%,
   100% {

@@ -170,4 +170,4 @@ function Post(item, { index }, location) {
     </List.Item>
   );
 }
-export default connect(undefined, undefined)(Post);
+export default Post;

@@ -22,6 +22,26 @@ function ProfileService() {
     return api(`post/${id}/like`, "post");
   }
 
+  function recommendComment(id) {
+    return api(`profile/comment/${id}/like`, "post");
+  }
+
+  function getComments(typeId) {
+    return api(`profile/comment/${typeId}`, "get");
+  }
+
+  function createComment(formData) {
+    return api(`profile/comment`, "post", formData);
+  }
+
+  function deleteComment(formData) {
+    return api(`profile/comment`, "delete", formData);
+  }
+
+  function updateComment(formData) {
+    return api(`profile/comment`, "patch", formData);
+  }
+
   function getAllphotos(id, paginationInfo) {
     return api(
       `profile/${id}/image/all?page=${paginationInfo.current}&limit=${paginationInfo.pageSize}`,
@@ -87,7 +107,12 @@ function ProfileService() {
     votePoll,
     postFollower,
     deleteFollower,
-    getHeader
+    getHeader,
+    getComments,
+    createComment,
+    deleteComment,
+    updateComment,
+    recommendComment,
   };
 }
 

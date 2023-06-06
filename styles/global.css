@@ -47,6 +47,7 @@ label,
 a,
 span,
 h2 {
+  word-break: break-all;
   font-family: var(--fontFamily) !important;
 }
 

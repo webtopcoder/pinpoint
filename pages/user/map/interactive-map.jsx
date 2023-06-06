@@ -71,10 +71,10 @@ const InteractiveMap = () => {
     })
       }</small></p>
             <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
+            <a id="directionButton" type="button" ><img width="30" height="30" src="${faviconUrl}/direction.png"/></a>&nbsp&nbsp
             </div>
       </div>
     </div>`
-    // <a id="directionButton" type="button" ><img width="30" height="30" src="${faviconUrl}/direction.png"/></a>&nbsp&nbsp
   }
 
   function directionbuttonfun() {
@@ -104,7 +104,10 @@ const InteractiveMap = () => {
   const [api, contextHolder] = notification.useNotification();
   const [radiusLocations, setRadiusLocations] = useState([]);
   const faviconUrl = `${apiBaseUrl}`;
-  const [position, setPosition] = useState();
+  const [position, setPosition] = useState({
+    lat: 30.3321838,
+    lng: -81.65565099999999,
+  });
   const [selectedlo, setSelectlo] = useState();
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -303,6 +306,7 @@ const InteractiveMap = () => {
 
 
   useEffect(() => {
+    console.log(position)
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
       zoom: mapzoom,
@@ -554,7 +558,7 @@ const InteractiveMap = () => {
   return (
     <>
       {contextHolder}
-      <PageTitle page="INTERACTIVE MPA" />
+      <PageTitle page="INTERACTIVE MAP" />
       <div className="page-interactive-area bg-black">
         <div className="container">
           <div className="page-interactive-content">

@@ -11940,6 +11940,10 @@ Sidebar Modal CSS
   font-size: 32px;
 }
 
+#maps {
+  height: 400px;
+}
+
 /* #maps {
   height: 400px;
 }
@@ -12808,6 +12812,7 @@ h4 {
 
 .ant-list-lg .ant-list-item {
   padding: 23px 24px;
+  border-block-end: 2px solid rgba(5, 5, 5, 0.06)
 }
 
 .custom-list-content {
@@ -13397,6 +13402,57 @@ h4 {
   text-align: center;
 }
 
-#directionButton:hover{
+#directionButton:hover {
   opacity: 0.7;
+}
+
+.comments {
+  margin-top: 20px
+}
+
+.comments-title {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.comments-container {
+  margin-top: 14px;
+}
+
+.comments-form-title {
+  font-size: 22px;
+}
+
+.comment-form-textarea {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  border: 1px solid rgb(107, 114, 12)
+}
+
+.ant-comment-content-author-name {
+  font-size: 14px !important;
+  color: var(--blueColor) !important;
+}
+
+.ant-comment-content-author-name:hover {
+  color: var(--bs-link-hover-color);
+}
+
+.ant-comment p {
+  color: rgba(0, 0, 0, 0.88) !important;
+  font-size: 14px !important;
+}
+
+.ant-comment .ant-comment-inner {
+  padding-block: 10px;
+}
+
+.ant-comment .ant-comment-actions {
+  margin-top: 8px;
+}
+
+.ant-comment-nested{
+  margin-inline-start: 20px !important;
 }
