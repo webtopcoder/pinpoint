@@ -568,46 +568,6 @@ const ProfileActivity = ({
                                     ""
                                   )}
                                   <CommentBody item={item} likePost={likePost} user_id={user_id} />
-                                  {/* <div
-                                    className="custom-list-content"
-                                    style={{
-                                      marginTop: 10,
-                                    }}
-                                  >
-                                    <IconText
-                                      postID={item._id}
-                                      text={item.like ? item?.like?.count : 0}
-                                      likePost={likePost}
-                                      icon={<LikeOutlined />}
-                                      key="list-vertical-like-o"
-                                    />
-                                    <Space style={{
-                                      marginRight: 20,
-                                      marginTop: 20
-                                    }}>
-                                      <Button
-                                        type="primary"
-                                        shape="circle"
-                                        icon={<MessageOutlined />}
-                                      />
-                                      <Text>{item.comment ? item?.comment : 0}</Text>
-                                    </Space>
-                                    <Space style={{
-                                      float: 'right',
-                                      marginTop: 20
-                                    }}
-                                    >
-                                      <Button type="link"
-                                        onClick={() => {
-                                          setExpand(!expand);
-                                        }}
-                                        block>
-                                        {expand ? <UpOutlined /> : <DownOutlined />}
-                                        Leave Comment
-                                      </Button>
-                                    </Space>
-                                  </div>
-                                  <Comments currentUserId={user_id} expand={expand} type="post" id={item._id} /> */}
                                 </>
                               ) : (
                                 <>
