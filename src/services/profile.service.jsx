@@ -74,6 +74,20 @@ function ProfileService() {
     return api(`profile/${id}/header`, "get")
   }
 
+  function onunFriend(id) {
+    return api(`follow/${id}/unfriend`, "delete")
+  }
+
+  function acceptFollowerRequest(id, type) {
+    return api(`follow/accept?id=${id}&type=${type}`, "get")
+  }
+
+
+  function getDashboardInfo() {
+    return api(`profile/partner/dashboard`, "get")
+  }
+
+
   return {
     getInfo,
     updateInfo,
@@ -91,7 +105,10 @@ function ProfileService() {
     postFollower,
     deleteFollower,
     getHeader,
-    getShoutout
+    getShoutout,
+    onunFriend,
+    acceptFollowerRequest,
+    getDashboardInfo
   };
 }
 

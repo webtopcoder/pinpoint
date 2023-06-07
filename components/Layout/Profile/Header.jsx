@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   UserOutlined,
   MessageOutlined,
   UserDeleteOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
-import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { apiBaseUrl } from "@/utils/baseUrl";
@@ -16,23 +15,17 @@ const { Meta } = Card;
 const { Title } = Typography;
 
 const Header = ({
-  user_id,
   userRole,
+  headerInfo,
+  loading,
+  own_page,
+  getHeader
 }) => {
 
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
   const { notify } = useNotify();
-  const [loading, setLoading] = useState(true);
-  const [headerInfo, setHeaderInfo] = useState();
   const view_user_id = router.query.profile;
-  const own_page = user_id === view_user_id;
-
-  async function getHeader() {
-    const result = await profileService.getHeader(view_user_id);
-    await setHeaderInfo(result)
-    setLoading(false);
-  }
 
   async function follow() {
     await profileService.postFollower(view_user_id)
@@ -63,13 +56,6 @@ const Header = ({
         return;
       });;
   }
-
-  useEffect(() => {
-    setLoading(true);
-    if (router.isReady) {
-      getHeader();
-    }
-  }, [view_user_id]);
 
   return (
     <div className="container">
@@ -291,11 +277,6 @@ const Header = ({
   );
 };
 
-const mapStateToProps = ({ user }) => {
-  return {
-    user_id: user.user_id,
-    userRole: user.role,
-  };
-};
 
-export default connect(mapStateToProps)(Header);
+
+export default Header;

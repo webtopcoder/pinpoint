@@ -3,7 +3,6 @@ import {
   USER_LOGIN_SUCCESS,
   ADDITION_USER_LOGIN_REQUEST,
   ADDITION_USER_LOGIN_SUCCESS,
-  SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   LOGOUT,
   GET_NOTIFICATION_SUCCESS,
@@ -95,21 +94,6 @@ export function getuserInfoByID(id, cb) {
       })
       .catch((error) => {
         console.log(error);
-      });
-}
-
-export function getsubCategory(categoryID, cb) {
-  return (dispatch) =>
-    api(`categories/${categoryID}/subcategories`, "get")
-      .then((res) => {
-        dispatch({
-          type: SUB_CATEGORY_GET_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
       });
 }
 
@@ -218,20 +202,3 @@ export function postSettingsValue(data, cb) {
         console.log(error);
       });
 }
-
-export function getFollowerAndFollowing(cb) {
-  return (dispatch) =>
-    api(`follow`, "get")
-      .then((res) => {
-        dispatch({
-          type: GET_FOLLOW_AND_FOLLOWING_SUCCESS,
-          payload: res,
-        });
-        cb && cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        cb && cb(null, error);
-      });
-}
-

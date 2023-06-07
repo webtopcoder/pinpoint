@@ -1,12 +1,7 @@
 import {
   ABOUT_CHANGE_SUCCESS,
-  GET_FOLLOWERS_LIST_SUCCESS,
-  GET_SHOOT_OUT_SUCCESS,
-  HEADER_GET_SUCCESS,
   NOTIFICATION_CHANGE_SUCCESS,
   SOCIAL_CHANGE_SUCCESS,
-  USER_ACTIVITY_REQUEST,
-  USER_ACTIVITY_SUCCESS,
   USER_AVATAR_UPLOAD_SUCCESS,
   USER_INFO_REQUEST,
   USER_INFO_SUCCESS,
@@ -17,12 +12,10 @@ import {
   PARTNERSHIP_TRANSACTION_SUCCESS,
   PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
   PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
-  DASHBOARD_GET_SUCCESS,
 } from "./types";
 
 const initialState = {
   userinfo: {},
-  activityInfo: {},
   editInfo: {
     about: "",
     social: {
@@ -46,10 +39,6 @@ const initialState = {
       votes: [0, 0, 0, 0],
     },
   },
-  headerInfo: {},
-  followersInfo: [],
-  shoutoutInfo: {},
-  allphotosInfo: [],
   partnershipsInfo: [],
   profilePoll: {
     question: "",
@@ -68,16 +57,6 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         userinfo: action.payload?.user,
         avatar: action.payload?.user?.profile?.avatar?.filepath,
-      };
-    }
-
-    case USER_ACTIVITY_REQUEST:
-      return { ...state, loading: true };
-
-    case USER_ACTIVITY_SUCCESS: {
-      return {
-        ...state,
-        activityInfo: action.payload,
       };
     }
 
@@ -124,13 +103,6 @@ const profileReducer = (state = initialState, action) => {
           options: action.payload.options,
           votes: action.payload.votes,
         },
-      };
-    }
-
-    case HEADER_GET_SUCCESS: {
-      return {
-        ...state,
-        headerInfo: action.payload,
       };
     }
 
@@ -183,13 +155,6 @@ const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case GET_FOLLOWERS_LIST_SUCCESS: {
-      return {
-        ...state,
-        followersInfo: action.payload.data.results,
-      };
-    }
-
     case PARTNERSHIPS_GET_SUCCESS: {
       return {
         ...state,
@@ -211,13 +176,6 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         userinfo: action.payload
-      };
-    }
-
-    case DASHBOARD_GET_SUCCESS: {
-      return {
-        ...state,
-        dashboardInfo: action.payload,
       };
     }
 

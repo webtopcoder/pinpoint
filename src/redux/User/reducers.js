@@ -5,14 +5,12 @@ import {
   ADDITION_USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   LOGOUT,
-  SUB_CATEGORY_GET_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
   SETTINGS_VALUE_GET_REQUEST,
   PARNTER_SETTINGS_CHANGE,
   SETTINGS_VALUE_GET_SUCCESS,
-  GET_FOLLOW_AND_FOLLOWING_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -63,12 +61,10 @@ const initialState = {
   additionLocatoins: additionLocatoins ?? [],
   additionRole: additionRole ?? "",
   loginInfo: { success: false, msg: {} },
-  partnersubCategory: { success: false, subCategories: [] },
   notifications: [],
   notificationCount: 0,
   settings: [],
   myFollowers: [],
-  followAndFollowing: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -135,13 +131,6 @@ const userReducer = (state = initialState, action) => {
         user_id: action?.payload?.user?.owner?._id,
         usertype: action?.payload?.user?.owner?.role,
         avatar: action?.payload?.user?.owner?.profile?.avatar?.filepath,
-      };
-    }
-
-    case SUB_CATEGORY_GET_SUCCESS: {
-      return {
-        ...state,
-        partnersubCategory: action.payload,
       };
     }
 
@@ -236,13 +225,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         settings,
-      };
-    }
-
-    case GET_FOLLOW_AND_FOLLOWING_SUCCESS: {
-      return {
-        ...state,
-        followAndFollowing: action.payload.data,
       };
     }
 

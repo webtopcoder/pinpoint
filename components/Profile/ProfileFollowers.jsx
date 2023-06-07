@@ -9,8 +9,6 @@ import {
   SyncOutlined
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { connect } from "react-redux";
-import { getHeader, unFriend, acceptFollowerRequest } from "@/redux/Profile/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import Link from "next/link";
@@ -23,10 +21,8 @@ const { Content } = Layout;
 
 const ProfileFollowers = ({
   user_id,
-  onunFriend,
-  ongetHeader,
   userRole,
-  onacceptFollowerRequest
+  getHeader
 }) => {
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
@@ -74,16 +70,40 @@ const ProfileFollowers = ({
     }
   }, [router.isReady, count]);
 
-  const unfriend = (id) => {
-    onunFriend(id, (_, error) => {
-      setLoading(true);
-      if (!error) {
+
+  async function unfriend(id) {
+    await profileService.onunFriend(id)
+      .then(() => {
+        setLoading(true);
         notify("success", "Unfriend successfully");
         ongetFollowers(profile, count, search);
-        ongetHeader(profile);
-      }
-    });
-  };
+        getHeader(profile);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
+  async function AcceptFollowerRequest(id, type) {
+    await profileService.acceptFollowerRequest(id, type)
+      .then(() => {
+        setLoading(true);
+        notify("success", type === "active" ? "Accepted successfully" : 'Declined successfully');
+        ongetFollowers(profile, count, search);
+        getHeader(profile);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   const onLoadMore = () => {
     setCount(count + 1);
@@ -113,7 +133,7 @@ const ProfileFollowers = ({
     <Layout
       className="site-layout"
       style={{
-        background: "#211f1f",
+        background: "#000000",
       }}
     >
       <Content
@@ -170,24 +190,7 @@ const ProfileFollowers = ({
                             ) : item?.status !== "active" ? (
                               item?.status === "pending" ? (<Space direction="horizontal">
                                 <Button
-                                  onClick={() => {
-                                    onacceptFollowerRequest(item?._id, "active", (_, error) => {
-                                      setLoading(true);
-                                      if (!error) {
-                                        notify("success", "Accepted successfully");
-                                        ongetFollowers(profile, count, search, (res, error) => {
-                                          if (error) {
-                                            notify("error", "Something went wrong");
-                                          }
-                                          setInitLoading(false);
-                                          setLoading(false);
-                                          setData(res.data.results);
-                                        });
-                                        ongetHeader(profile);
-                                      }
-                                    });
-                                  }
-                                  }
+                                  onClick={() => AcceptFollowerRequest(item?._id, "active")}
                                   type="primary"
                                   icon={<CheckOutlined />}
                                   size={isWebDevice ? "default" : "small"}
@@ -196,16 +199,7 @@ const ProfileFollowers = ({
                                   Accept
                                 </Button>
                                 <Button
-                                  onClick={() => {
-                                    onacceptFollowerRequest(item?._id, "decline", (_, error) => {
-                                      setLoading(true);
-                                      if (!error) {
-                                        notify("success", "Declined successfully");
-                                        ongetFollowers(profile, count, search);
-                                        ongetHeader(profile);
-                                      }
-                                    });
-                                  }}
+                                  onClick={() => AcceptFollowerRequest(item?._id, "decline")}
                                   style={
                                     user_id == profile
                                       ? {
@@ -348,16 +342,4 @@ const ProfileFollowers = ({
   );
 };
 
-const mapStateToProps = ({ user }) => {
-  return {
-    user_id: user.user_id,
-    userRole: user.role,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onunFriend: (id, cb) => dispatch(unFriend(id, cb)),
-  onacceptFollowerRequest: (id, type, cb) => dispatch(acceptFollowerRequest(id, type, cb)),
-  ongetHeader: (id) => dispatch(getHeader(id)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileFollowers);
+export default ProfileFollowers;

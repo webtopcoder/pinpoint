@@ -6,8 +6,6 @@ import {
   USER_LOCATION_REQUEST,
   LOCATION_FAVORITE_REQUEST,
   LOCATION_FAVORITE_SUCCESS,
-  LOCATION_GET_FAVORITE_REQUEST,
-  LOCATION_GET_FAVORITE_SUCCESS,
   LOCATION_CHECKIN_REQUEST,
   LOCATION_CHECKIN_SUCCESS,
   USER_EXPIRED_ARRIVAL_REQUEST,
@@ -167,24 +165,3 @@ export function unfavoriteLocation(locationId, cb) {
         cb(null, error);
       });
 }
-
-export function getFavouriteLocations(userId, cb) {
-  return (dispatch) =>
-    api(`locations/favorite/${userId}`, "get")
-      .then((res) => {
-        dispatch({
-          type: LOCATION_GET_FAVORITE_REQUEST,
-        });
-
-        dispatch({
-          type: LOCATION_GET_FAVORITE_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-

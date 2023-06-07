@@ -1,6 +1,5 @@
 import quickArrival from "@/public/images/partner/quick_arrival.png";
 import quickDeparture from "@/public/images/partner/quick_departure.png";
-import { getDashboardInfo } from "@/src/redux/Profile/actions";
 import { Card, Col, Layout, message, Row } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -10,19 +9,18 @@ import ArrivalModal from "../Locations/ArrivalModal";
 import DepartureModal from "../Locations/DepartureModal";
 import toast from "../Toast";
 import useMedia from "@/hooks/useMedia";
-import { locationService } from "@/services/index";
+import { locationService, profileService } from "@/services/index";
 
 const { Content } = Layout;
 
 const PartnerDashboard = ({
   userId,
-  ongetDashboardInfo,
-  dashboardInfo,
   additionLocatoins,
 }) => {
   const router = useRouter();
   const [upload_name, setUploadFile] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [dashboardInfo, setDashboardInfo] = useState([]);
   const isWebDevice = useMedia('(min-width:700px)');
   const [arrivalModalOpen, setModal2Open] = useState(false);
   const [departureModalOpen, setModal1Open] = useState(false);
@@ -83,12 +81,17 @@ const PartnerDashboard = ({
   }, [departureModalOpen, arrivalModalOpen, router.isReady]);
 
   useEffect(() => {
-    ongetDashboardInfo((_, error) => {
-      if (error) {
-        notify("error", "Something went wrong!");
+    profileService.getDashboardInfo()
+      .then((res) => {
+        setDashboardInfo(res)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
         return;
-      }
-    });
+      });
   }, []);
 
   return (
@@ -229,19 +232,12 @@ const PartnerDashboard = ({
     </Layout>
   );
 };
-const matchStateToProps = ({ profile, user }) => {
+const matchStateToProps = ({ user }) => {
   return {
     additionLocatoins: user.additionLocatoins,
     userId: user.user_id,
-    dashboardInfo: profile.dashboardInfo,
   };
 };
 
-const matchDispatchToProps = (dispatch) => ({
-  ongetDashboardInfo: (cb) => dispatch(getDashboardInfo(cb)),
-});
 
-export default connect(
-  matchStateToProps,
-  matchDispatchToProps
-)(PartnerDashboard);
+export default connect(matchStateToProps)(PartnerDashboard);

@@ -4,14 +4,8 @@ import { LOGOUT } from "../User/types";
 
 import {
   ABOUT_CHANGE_SUCCESS,
-  GET_FOLLOWERS_LIST_SUCCESS,
-  HEADER_GET_SUCCESS,
   NOTIFICATION_CHANGE_SUCCESS,
-  POST_FOLLOWER_SUCCESS,
   SOCIAL_CHANGE_SUCCESS,
-  UN_FRIEND_SUCCESS,
-  USER_ACTIVITY_REQUEST,
-  USER_ACTIVITY_SUCCESS,
   USER_AVATAR_UPLOAD_SUCCESS,
   USER_INFO_REQUEST,
   USER_INFO_SUCCESS,
@@ -30,7 +24,6 @@ import {
   PARTNERSHIP_TRANSACTION_SUCCESS,
   PARTNERSHIP_CANCEL_SUBSCRIBE_REQUEST,
   PARTNERSHIP_CANCEL_SUBSCRIBE_SUCCESS,
-  DASHBOARD_GET_SUCCESS,
 } from "./types";
 
 export function getUserInfo(cb) {
@@ -177,38 +170,6 @@ export function getPartnerships(cb) {
         console.log(error);
       });
   };
-}
-
-export function updateProfileViews(id) {
-  return (dispatch) => {
-    api(`/profile/updateProfileView/${id}`, "get")
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-}
-
-export function getActivity(id, count, search, cb) {
-  return (dispatch) =>
-    api(`profile/${id}/activity?page=${count}&search=${search}`, "get")
-      .then((res) => {
-        dispatch({
-          type: USER_ACTIVITY_REQUEST,
-        });
-
-        dispatch({
-          type: USER_ACTIVITY_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 }
 
 export function updateInfo(info, cb) {
@@ -359,21 +320,6 @@ export function editNotification(rating, follow, mention, favorite) {
     });
 }
 
-
-export function getHeader(id) {
-  return (dispatch) =>
-    api(`profile/${id}/header`, "get")
-      .then((res) => {
-        dispatch({
-          type: HEADER_GET_SUCCESS,
-          payload: res,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
 export function getProfilePoll(id) {
   return (dispatch) =>
     api(`profile/${id}/poll`, "get")
@@ -403,84 +349,4 @@ export function votePoll(id, option, cb) {
         console.log(error);
         cb(null, error);
       });
-}
-
-export function acceptFollowerRequest(id, type, cb) {
-  return (dispatch) =>
-    api(`follow/accept?id=${id}&type=${type}`, "get")
-      .then((res) => {
-        dispatch({
-          type: POST_FOLLOWER_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function getFollowers(id, count, search, cb) {
-
-  return (dispatch) =>
-    api(`follow/${id}/follower?page=${count}&q=${search}`, "get")
-      .then((res) => {
-        dispatch({
-          type: GET_FOLLOWERS_LIST_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
-export function unfollow(id, cb) {
-  return (dispatch) =>
-    api(`follow/${id}`, "delete")
-      .then((res) => {
-        dispatch({
-          type: UN_FRIEND_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        cb(null, error);
-      });
-}
-
-export function unFriend(id, cb) {
-  return (dispatch) =>
-    api(`follow/${id}/unfriend`, "delete")
-      .then((res) => {
-        dispatch({
-          type: UN_FRIEND_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        cb(null, error);
-      });
-}
-
-export function getDashboardInfo(cb) {
-  return (dispatch) => {
-    api(`profile/partner/dashboard`, "get")
-      .then((res) => {
-        dispatch({
-          type: DASHBOARD_GET_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-  };
 }

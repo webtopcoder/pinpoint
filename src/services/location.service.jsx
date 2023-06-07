@@ -47,6 +47,10 @@ function LocationService() {
     return api(`locations/${locationId}/favorite`, flag ? "post" : 'delete')
   }
 
+  function getFavoriteLocations(profile) {
+    return api(`locations/favorite/${profile}`, "get")
+  }
+
   function CheckInArrival(arrivalID) {
     return api(`locations/${arrivalID}/check-in`, "post")
   }
@@ -61,7 +65,8 @@ function LocationService() {
     quickDeparture,
     getLocationInfo,
     favoriteLocation,
-    CheckInArrival
+    CheckInArrival,
+    getFavoriteLocations
   };
 }
 
