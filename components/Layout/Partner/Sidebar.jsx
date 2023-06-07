@@ -103,7 +103,13 @@ function LeftSidebar({
     ),
     getItem("Settings", `/partner/settings/`, <SettingFilled />),
     getItem("Parter Locations", "/partner/locations/", <EnvironmentFilled />),
-    getItem("View Profile", `/profile/${user_id}/activity`, <ProfileFilled />),
+    getItem("View Profile", 'sub1', <ProfileFilled />, [
+      getItem('Activity', `/profile/${user_id}/activity`),
+      getItem('Shout out', `/profile/${user_id}/shout-outs`),
+      getItem('Followers', `/profile/${user_id}/followers`),
+      getItem('Locations', `/profile/${user_id}/locations`),
+    ]),
+
     additionRole === "Owner" ? "" :
       getItem("Partnership", "/partner/partnership/", <GiftOutlined />),
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
