@@ -9,10 +9,6 @@ import {
   GET_NOTIFICATION_REQUEST,
   UPDATE_NOTIFICATION_REQUEST,
   UPDATE_NOTIFICATION_SUCCESS,
-  SETTINGS_VALUE_GET_REQUEST,
-  PARNTER_SETTINGS_CHANGE,
-  SETTINGS_VALUE_GET_SUCCESS,
-  GET_FOLLOW_AND_FOLLOWING_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -167,38 +163,4 @@ export function updatedNotifications(id, cb) {
       });
       cb(res);
     });
-}
-
-export function getSettingsValue(cb) {
-  return (dispatch) =>
-    api(`setting`, "get")
-      .then((res) => {
-        dispatch({
-          type: SETTINGS_VALUE_GET_REQUEST,
-        });
-        dispatch({
-          type: SETTINGS_VALUE_GET_SUCCESS,
-          payload: res,
-        });
-        cb(res);
-      })
-      .catch((err) => {
-        cb(null, err);
-      });
-}
-
-export function postSettingsValue(data, cb) {
-  return (dispatch) =>
-    api(`setting`, "post", data)
-      .then((res) => {
-        dispatch({
-          type: PARNTER_SETTINGS_CHANGE,
-          payload: data,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 }

@@ -160,7 +160,7 @@ function ArrivalModal({
               .then(async () => {
                 await setArrivalModalOpen(false);
                 arrivalForm.resetFields();
-                notify("success", "Successfully arrived");
+                notify("success", "Successfully Arrived");
                 initialize(null);
               })
               .catch((error) => {

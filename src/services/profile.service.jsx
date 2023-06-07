@@ -82,7 +82,6 @@ function ProfileService() {
     return api(`follow/accept?id=${id}&type=${type}`, "get")
   }
 
-
   function getDashboardInfo() {
     return api(`profile/partner/dashboard`, "get")
   }

@@ -33,7 +33,7 @@ const CustomComment = (
   const createdAt = new Date(comment.createdAt).toDateString();
   const isReplying = activeComment && activeComment.type === "replying" && activeComment.id === comment.id;
   const isEditing = activeComment && activeComment.type === "editing" && activeComment.id === comment.id;
-  const replyId = parentId ? parentId : comment.id
+  const replyId = parentId ? parentId : comment.id;
   const avatarUrl = `${apiBaseUrl}/avatar/`;
 
   async function like(id) {
@@ -84,7 +84,7 @@ const CustomComment = (
       }
     >
       {isReplying && (
-        <CommentForm submitLabel="Reply" handleSubmit={(text) => addComment(text, replyId)} />
+        <CommentForm submitLabel="Reply" handleSubmit={(text) => addComment(text, replyId, comment.userId.id)} />
       )}
       {isEditing && (
         <CommentForm submitLabel="Update" initialText={comment.body} handleSubmit={(text) => updateComment(text, comment.id)} />

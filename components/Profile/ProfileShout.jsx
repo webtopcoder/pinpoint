@@ -46,7 +46,7 @@ const IconText = ({ postID, text, likePost }) => {
   );
 };
 
-const CommentBody = ({ item, likePost, user_id }) => {
+const CommentBody = ({ item, likePost, user_id, path }) => {
 
   const [commentCount, setCommentCount] = useState();
   const [expand, setExpand] = useState(true);
@@ -112,7 +112,7 @@ const CommentBody = ({ item, likePost, user_id }) => {
           </Button>
         </Space>
       </div>
-      <Comments currentUserId={user_id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item._id} />
+      <Comments currentUserId={user_id} expand={expand} ownerId={item.from} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item._id} />
     </>
   );
 };
@@ -285,7 +285,7 @@ const ProfileShout = ({ user_id }) => {
                               ) : (
                                 ""
                               )}
-                              <CommentBody item={item.post} likePost={likePost} user_id={user_id} />
+                              <CommentBody path={router.asPath} item={item.post} likePost={likePost} user_id={user_id} />
                             </Skeleton>
                           </List.Item>
                         )}

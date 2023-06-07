@@ -1,50 +1,43 @@
 import useNotify from "@/hooks/useNotify";
-import { getSettingsValue, postSettingsValue } from "@/src/redux/User/actions";
 import { Col, Row, Switch } from "antd";
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
-
+import { settingService } from "@/services/index";
 import styles from "@/components/Partner/Settings/settings.module.css";
 
-function ToggleSettings({
-  onSettingsToggle,
-  onGettingSettingsValue,
-  user_settings,
-}) {
+function ToggleSettings() {
   const { notify } = useNotify();
   const [settings, setSettings] = useState();
 
-  useEffect(() => {
-    setSettings(
-      user_settings?.reduce(
+  async function getSettingUsers() {
+    const result = await settingService.GetSettingsValue();
+    await setSettings(
+      result?.results?.reduce(
         (acc, obj) => ({ ...acc, [obj.key]: obj.value }),
         {}
       )
     );
-  }, [user_settings]);
+  }
 
-  useEffect(() => {
-    onGettingSettingsValue((_, error) => {
-      if (error) {
-        console.log("error");
-      } else {
-      }
-    });
-  }, [onGettingSettingsValue]);
-
-  const optionToggle = (option, keyName) => {
+  async function optionToggle(option, keyName) {
     const data = {
       key: `user:${keyName}`,
       value: option.toString(),
     };
-    onSettingsToggle(data, (_, error) => {
-      if (error) {
-        console.log("error");
-      } else {
-        notify("success", "Settings Changed.");
-      }
-    });
+
+    await settingService.SettingsToggle(data).then(() => {
+      getSettingUsers();
+    })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });;
   };
+  useEffect(() => {
+    getSettingUsers();
+  }, []);
 
   return settings ? (
     <>
@@ -115,16 +108,5 @@ function ToggleSettings({
   ) : null;
 }
 
-const matchStateToProps = ({ user }) => {
-  return {
-    user_id: user.user_id,
-    user_settings: user.settings,
-  };
-};
 
-const mapDispatchToProps = (dispatch) => ({
-  onSettingsToggle: (data, cb) => dispatch(postSettingsValue(data, cb)),
-  onGettingSettingsValue: (cb) => dispatch(getSettingsValue(cb)),
-});
-
-export default connect(matchStateToProps, mapDispatchToProps)(ToggleSettings);
+export default ToggleSettings;

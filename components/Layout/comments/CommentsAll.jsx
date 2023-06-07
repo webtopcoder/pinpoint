@@ -4,7 +4,7 @@ import CustomComment from "./Comment"
 import { List, Divider } from 'antd';
 import CommentForm from "./CommentForm"
 
-const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComments, setExpandComments }) => {
+const Comments = ({ ownerId, currentUserId, type, id, expand, setCommentCount, expandComments, setExpandComments, path }) => {
   const [backendComments, setBackendcomments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
   const rootComments = backendComments.filter((backendComment) => backendComment.parentId === null);
@@ -12,8 +12,8 @@ const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComm
     return backendComments.filter(backendComment => backendComment.parentId === commentId).sort((a, b) => new Date(a.creaedAt).getTime() - new Date(b.createdAt).getTime())
   }
 
-  const addComment = (text, parentId) => {
-    commentService.createComment({ body: text, parentId: parentId, type: type, typeId: id }).then((comment) => {
+  const addComment = (text, parentId = null, oriuserId = null) => {
+    commentService.createComment({ body: text, parentId: parentId, type: type, typeId: id, path: path }, oriuserId).then((comment) => {
       setBackendcomments([comment, ...backendComments]);
       setCommentCount((commentCount) => commentCount + 1);
       setExpandComments(true);
@@ -51,7 +51,7 @@ const Comments = ({ currentUserId, type, id, expand, setCommentCount, expandComm
   return (
 
     <div className="comments">
-      <CommentForm submitLabel="write" expand={expand} handleSubmit={addComment} />
+      <CommentForm submitLabel="write" expand={expand} handleSubmit={(text) => addComment(text, null, ownerId)} />
       <div className="comments-container" style={{
         display: backendComments.length > 0 && expandComments ? 'block' : 'none'
       }}>

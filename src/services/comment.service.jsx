@@ -11,8 +11,8 @@ function CommentService() {
     return api(`comment/${typeId}`, "get");
   }
 
-  function createComment(formData) {
-    return api(`comment`, "post", formData);
+  function createComment(formData, oriuserId) {
+    return api(`comment/${oriuserId}`, "post", formData);
   }
 
   function deleteComment(formData) {

@@ -49,7 +49,7 @@ const IconText = ({ icon, postID, text, likePost }) => {
   );
 };
 
-const CommentBody = ({ item, likePost, user_id }) => {
+const CommentBody = ({ item, likePost, user_id, path }) => {
   const [commentCount, setCommentCount] = useState(item.comment ? item?.comment : 0);
   const [expand, setExpand] = useState(true);
   const [expandComments, setExpandComments] = useState(false);
@@ -100,7 +100,7 @@ const CommentBody = ({ item, likePost, user_id }) => {
           </Button>
         </Space>
       </div>
-      <Comments currentUserId={user_id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
+      <Comments currentUserId={user_id} path={path} ownerId={item.from_user._id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
     </>
   );
 };
@@ -568,7 +568,7 @@ const ProfileActivity = ({
                                   ) : (
                                     ""
                                   )}
-                                  <CommentBody item={item} likePost={likePost} user_id={user_id} />
+                                  <CommentBody item={item} path={router.asPath} likePost={likePost} user_id={user_id} />
                                 </>
                               ) : (
                                 <>

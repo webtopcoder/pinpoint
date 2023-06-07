@@ -457,7 +457,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                       <form className="avatar-form">
                         <div className="row">
                           <div className="col-lg-12 col-md-12 col-sm-12">
-                            {/* <div className="pin-post-footer-section mg-12 notify-border">
+                            <div className="pin-post-footer-section mg-12 notify-border">
                               <div className="pin-notification-edit-title">
                                 <p>
                                   Notify me when I receive a like, comment or
@@ -497,7 +497,7 @@ const profileEdit = ({ onupdateInfo, ongetInfo, editinfo, onuploadAvatar }) => {
                                   onChange={onmentionChange}
                                 />
                               </div>
-                            </div> */}
+                            </div>
                             <div className="pin-post-footer-section mg-12 notify-border">
                               <div className="pin-notification-edit-title">
                                 <p>Notify me when my favorites are active.</p>

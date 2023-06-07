@@ -83,7 +83,7 @@ const IconText = ({ reviewId, text, likeReview }) => {
   );
 };
 
-const CommentBody = ({ item, likePost, user_id }) => {
+const CommentBody = ({ item, likePost, user_id, path }) => {
 
   const [commentCount, setCommentCount] = useState();
   const [expand, setExpand] = useState(true);
@@ -150,7 +150,7 @@ const CommentBody = ({ item, likePost, user_id }) => {
           </Button>
         </Space>
       </div>
-      <Comments currentUserId={user_id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item._id} />
+      <Comments currentUserId={user_id} path={path} ownerId={item.user._id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="location" id={item._id} />
     </>
   );
 };
@@ -206,7 +206,6 @@ const PartnerLocation = ({
   const { notify } = useNotify();
   const [reviews, setReviews] = useState([]);
   const [expand, setExpand] = useState(false);
-
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
@@ -820,7 +819,7 @@ function Post({ review, likeReview, location, router, user_id }) {
         ) : (
           ""
         )}
-        <CommentBody item={review} likePost={likeReview} user_id={user_id} />
+        <CommentBody item={review} path={router.asPath} likePost={likeReview} user_id={user_id} />
       </Skeleton>
     </List.Item>
   );

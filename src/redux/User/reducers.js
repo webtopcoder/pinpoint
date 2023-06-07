@@ -8,9 +8,6 @@ import {
   GET_MYFOLLOWER_SUCCESS,
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_REQUEST,
-  SETTINGS_VALUE_GET_REQUEST,
-  PARNTER_SETTINGS_CHANGE,
-  SETTINGS_VALUE_GET_SUCCESS,
   CLEAR_NOTIFICATION_REQUEST,
   CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
@@ -63,7 +60,6 @@ const initialState = {
   loginInfo: { success: false, msg: {} },
   notifications: [],
   notificationCount: 0,
-  settings: [],
   myFollowers: [],
 };
 
@@ -204,27 +200,6 @@ const userReducer = (state = initialState, action) => {
         additionLocatoins: [],
         notifications: [],
         notificationCount: 0,
-      };
-    }
-
-    case SETTINGS_VALUE_GET_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
-    case SETTINGS_VALUE_GET_SUCCESS: {
-      return { ...state, settings: action.payload.results };
-    }
-
-    case PARNTER_SETTINGS_CHANGE: {
-      const settings = state.settings.filter(
-        (ob) => ob.key != action.payload.key
-      );
-      settings.push(action.payload);
-      return {
-        ...state,
-        settings,
       };
     }
 
