@@ -17,10 +17,10 @@ import logo from "@/public/images/logo.png";
 import { connect } from "react-redux";
 import rightToggle from "@/public/images/landing/right-toggle.png";
 import useNotify from "@/hooks/useNotify";
-import { getNotifications, logout } from "@/src/redux/User/actions";
-import { getIsReadEmails } from "@/src/redux/Mail/actions";
+import { logout } from "@/src/redux/User/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import NotificationDrawer from "@/components/Profile/NotificationDrawer";
+import { mailService, userService } from "@/services/index";
 
 const Header = ({
   toggle,
@@ -28,12 +28,7 @@ const Header = ({
   user_id,
   token,
   avatarImg,
-  onGetNotifications,
-  notifications,
-  notificationCount,
   role,
-  onGetIsReadEmails,
-  isReadEmails,
   newNotification,
   additionRole
 }) => {
@@ -57,7 +52,6 @@ const Header = ({
     router.push(path);
   };
 
-
   const handlePageRender = (page) => {
     if (token) {
       router.push(page);
@@ -70,38 +64,49 @@ const Header = ({
     router.push(page);
   };
 
+  async function onLoadMore() {
+    setInitLoading(true);
+    const result = await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 9999
+    });
+    await setNotifications(result);
+    setInitLoading(false);
+  };
+
   const [initLoading, setInitLoading] = useState(true);
+  const [notifications, setNotifications] = useState();
+  const [isreadEmails, setisreadEmails] = useState();
   const [notificationLoading, setNotificationLoading] = useState(false);
   const [notificationDrawerOpen, setOpen] = useState(false);
-  const [notificationPage, setNotificationPage] = useState(1);
 
-  useEffect(() => {
-    onGetNotifications(
-      {
-        sort: "createdAt:asc",
-        page: notificationPage,
-      },
-      () => {
-        setInitLoading(false);
-      }
-    );
-  }, [notificationPage]);
+  async function initialize() {
+    const IsreadEmails = await mailService.getIsReadEmails();
+    await setisreadEmails(IsreadEmails);
+    const result = await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 10
+    });
+    await setNotifications(result);
+  }
 
   useEffect(() => {
     setMenu(true);
-    onGetIsReadEmails();
+    initialize();
+
   }, [router.pathname]);
 
-  const onLoadMore = () => {
-    setNotificationLoading(true);
-
-    if (notificationCount / 10 > notificationPage) {
-      setNotificationPage(notificationPage + 1);
-    }
-  };
-
-  const showDrawer = () => {
+  async function showDrawer() {
     setOpen(true);
+    await setOpen(true);
+    const result = await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 10
+    });
+
+    console.log(result)
+    await setNotifications(result);
+    await setInitLoading(false);
   };
 
   const onClose = () => {
@@ -200,7 +205,7 @@ const Header = ({
                             {additionRole === "" || additionRole === "Owner" ?
                               <Link href={role === "partner" ? `/partner/message` : "/user/message"}>
                                 <a>
-                                  <Badge dot={isReadEmails.length > 0 ? true : false}
+                                  <Badge dot={isreadEmails?.length > 0 ? true : false}
                                     className="mailboxLIcon">
                                     <MailFilled
                                       style={{ color: "#686868", fontSize: 40 }}
@@ -214,7 +219,7 @@ const Header = ({
                           <div>
                             <Badge
                               dot={
-                                newNotification || notifications.length > 0 ? true : false
+                                newNotification || notifications?.results?.length > 0 ? true : false
                               } className="mailboxIcon"
                               onClick={showDrawer}
                             >
@@ -491,11 +496,7 @@ const Header = ({
             </div>
           </nav>
         </div>
-        <NotificationDrawer
-          onClose={onClose}
-          open={notificationDrawerOpen}
-          placement="right"
-        />
+        <NotificationDrawer onLoadMore={onLoadMore} initLoading={initLoading} notifications={notifications} onClose={onClose} open={notificationDrawerOpen} placement="right" />
       </div>
     </div>
   );
@@ -508,17 +509,13 @@ const mapStateToProps = (state) => {
     user_id: state.user.user_id,
     role: state.user.role,
     avatarImg: state.user.avatar,
-    notifications: state.user.notifications,
     newNotification: state.socket.newNotification,
-    notificationCount: state.user.notificationCount,
-    isReadEmails: state?.mail?.isreadlist,
     additionRole: state.user.additionRole,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
-  onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
-  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

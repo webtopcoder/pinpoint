@@ -15,13 +15,11 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Layout, Menu, Avatar, Space, Badge, Tag } from "antd";
 import {
-  getNotifications,
-  updatedNotifications,
   logout,
 } from "@/src/redux/User/actions";
-import { getIsReadEmails } from "@/src/redux/Mail/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import NotificationDrawer from "@/components/Profile/NotificationDrawer";
+import { mailService, userService } from "@/services/index";
 
 const { Sider } = Layout;
 
@@ -38,21 +36,20 @@ function getItem(label, key, icon, children) {
 
 function LeftSidebar({
   onLogout,
-  notifications,
   avatar,
   role,
   businessName,
   user_id,
-  onGetIsReadEmails,
-  isReadEmails,
   newNotification,
   additionRole
 }) {
   const [open, setOpen] = useState(false);
+  const [notifications, setNotifications] = useState();
+  const [isreadEmails, setisreadEmails] = useState();
+  const [initLoading, setInitLoading] = useState(true);
   const router = useRouter();
   const pathurl = router.asPath;
   const [current, setCurrent] = useState(pathurl);
-
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
 
   function getCurrentDimension() {
@@ -64,14 +61,41 @@ function LeftSidebar({
     }
   }
 
+  async function onLoadMore() {
+    setInitLoading(true);
+    const result = await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 9999
+    });
+    await setNotifications(result);
+    setInitLoading(false);
+  };
+
+
+  async function initialize() {
+    const IsreadEmails = await mailService.getIsReadEmails();
+    await setisreadEmails(IsreadEmails);
+    const result = await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 10
+    });
+    await setNotifications(result);
+    await setScreenSize(getCurrentDimension());
+    screenSize.width < 766 ? await setCollapsed(true) : await setCollapsed(false);
+  }
+
   useEffect(() => {
-    onGetIsReadEmails();
-    setScreenSize(getCurrentDimension());
-    screenSize.width < 766 ? setCollapsed(true) : setCollapsed(false);
+    initialize();
   }, []);
 
-  const showDrawer = () => {
-    setOpen(true);
+  async function showDrawer() {
+    await setOpen(true);
+    const result = await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 10
+    });
+    await setNotifications(result);
+    await setInitLoading(false);
   };
 
   const onClose = () => {
@@ -92,7 +116,7 @@ function LeftSidebar({
     getItem(
       "Messages",
       "/partner/message/",
-      <Badge dot={isReadEmails.length > 0 ? true : false}>
+      <Badge dot={isreadEmails?.length > 0 ? true : false}>
         <MessageFilled />
       </Badge>
     ),
@@ -183,7 +207,7 @@ function LeftSidebar({
               >
                 <Badge
                   dot={
-                    newNotification || notifications.length > 0 ? true : false
+                    newNotification || notifications?.results?.length > 0 ? true : false
                   }
                 >
                   <Avatar
@@ -245,7 +269,7 @@ function LeftSidebar({
           onClick={onClick}
         />
       </Sider>
-      <NotificationDrawer onClose={onClose} open={open} placement="left" />
+      <NotificationDrawer onLoadMore={onLoadMore} initLoading={initLoading} notifications={notifications} onClose={onClose} open={open} placement="left" />
     </>
   );
 }
@@ -255,22 +279,16 @@ const mapStateToProps = (state) => {
     ...state.Layout,
     token: state.user.token,
     additionRole: state.user.additionRole,
-    notifications: state.user.notifications,
-    notificationCount: state.user.notificationCount,
     avatar: state?.user?.avatar,
     role: state?.user?.role,
-    businessName: state?.user?.username,
+    businessName: state?.user?.businessname,
     user_id: state?.user?.user_id,
-    isReadEmails: state?.mail?.isreadlist,
     newNotification: state.socket.newNotification,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
-  onGetNotifications: (params, cb) => dispatch(getNotifications(params, cb)),
-  onUpdatedNotifications: (id, cb) => dispatch(updatedNotifications(id, cb)),
-  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftSidebar);

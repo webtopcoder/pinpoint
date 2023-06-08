@@ -18,11 +18,26 @@ function UserService() {
     return api(`contact`, "post", data)
   }
 
+  function getNotifications(params) {
+    return api(`notification`, "get", {}, params);
+  }
+
+  function UpdatedNotifications(id) {
+    return api(`notification/${id}/mark-as-read`, "post");
+  }
+
+  function clearNotifications() {
+    return api(`notification/clear`, "get")
+  }
+
   return {
     getActivepartners,
     getTestimonials,
     submitContact,
-    getNewpartners
+    getNewpartners,
+    getNotifications,
+    UpdatedNotifications,
+    clearNotifications
   };
 }
 

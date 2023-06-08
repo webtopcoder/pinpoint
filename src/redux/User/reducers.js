@@ -6,16 +6,12 @@ import {
   USER_LOGIN_FAIL,
   LOGOUT,
   GET_MYFOLLOWER_SUCCESS,
-  GET_NOTIFICATION_SUCCESS,
-  GET_NOTIFICATION_REQUEST,
-  CLEAR_NOTIFICATION_REQUEST,
-  CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
 
 let token = "";
 let username = "";
+let businessname = "";
 let role = "";
-let usertype = "";
 let user_id = "";
 let category = "";
 let avatar = "";
@@ -34,7 +30,7 @@ if (typeof window !== "undefined") {
   user_id = localStorage.getItem("user_id");
   category = localStorage.getItem("category");
   avatar = localStorage.getItem("avatar");
-  usertype = localStorage.getItem("usertype");
+  businessname = localStorage.getItem("businessname");
   additionID = localStorage.getItem("additionID");
   additionEmail = localStorage.getItem("additionEmail");
   additionLocatoins = localStorage.getItem("additionLocatoins");
@@ -48,7 +44,7 @@ const initialState = {
   user_id: user_id,
   category: category,
   role: role,
-  usertype: usertype,
+  businessname: businessname,
   avatar: avatar,
   loading: false,
   status: false,
@@ -74,7 +70,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("username", action?.payload?.user?.username);
       localStorage.setItem("user_id", action?.payload?.user?._id);
       localStorage.setItem("category", action?.payload?.user?.category);
-      localStorage.setItem("usertype", action?.payload?.user?.role);
+      localStorage.setItem("businessname", action?.payload?.user?.businessname);
       localStorage.setItem("additionRole", '');
       localStorage.setItem(
         "avatar",
@@ -89,7 +85,7 @@ const userReducer = (state = initialState, action) => {
         username: action?.payload?.user?.username,
         user_id: action?.payload?.user?._id,
         category: action?.payload?.user?.category,
-        usertype: action?.payload?.user?.role,
+        businessname: action?.payload?.user?.businessname,
         avatar: action?.payload?.user?.profile?.avatar?.filepath,
       };
     }
@@ -101,8 +97,8 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("token", action?.payload?.tokens?.access?.token);
       localStorage.setItem("role", action?.payload?.user?.owner?.role);
       localStorage.setItem("username", action?.payload?.user?.owner?.username);
+      localStorage.setItem("businessname", action?.payload?.user?.owner?.businessname);
       localStorage.setItem("user_id", action?.payload?.user?.owner?._id);
-      localStorage.setItem("usertype", action?.payload?.user?.owner?.role);
       localStorage.setItem("additionFlag", true);
       localStorage.setItem("additionID", action.payload.user.id);
       localStorage.setItem("additionEmail", action.payload.user.email);
@@ -123,9 +119,9 @@ const userReducer = (state = initialState, action) => {
         additionRole: action.payload.user.role,
         token: action?.payload?.tokens?.access?.token,
         role: action?.payload?.user?.owner?.role,
+        businessname: action?.payload?.user?.owner?.businessname,
         username: action?.payload?.user?.owner?.username,
         user_id: action?.payload?.user?.owner?._id,
-        usertype: action?.payload?.user?.owner?.role,
         avatar: action?.payload?.user?.owner?.profile?.avatar?.filepath,
       };
     }
@@ -137,38 +133,6 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case GET_NOTIFICATION_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
-
-    case GET_NOTIFICATION_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        notifications: action.payload.results,
-        notificationCount: action.payload.totalResults,
-      };
-    }
-
-    case CLEAR_NOTIFICATION_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
-
-    case CLEAR_NOTIFICATION_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        notifications: [],
-        notificationCount: 0,
-      };
-    }
-
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
 
@@ -176,9 +140,9 @@ const userReducer = (state = initialState, action) => {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       localStorage.removeItem("username");
+      localStorage.removeItem("businessname");
       localStorage.removeItem("avatar");
       localStorage.removeItem("user_id");
-      localStorage.removeItem("usertype");
       localStorage.removeItem("additionFlag");
       localStorage.removeItem("additionID");
       localStorage.removeItem("additionEmail");
@@ -191,7 +155,7 @@ const userReducer = (state = initialState, action) => {
         role: "",
         username: "",
         user_id: "",
-        usertype: "",
+        businessname: "",
         avatar: "",
         additionFlag: "",
         additionID: "",

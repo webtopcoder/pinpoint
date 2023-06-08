@@ -5,12 +5,6 @@ import {
   ADDITION_USER_LOGIN_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   LOGOUT,
-  GET_NOTIFICATION_SUCCESS,
-  GET_NOTIFICATION_REQUEST,
-  UPDATE_NOTIFICATION_REQUEST,
-  UPDATE_NOTIFICATION_SUCCESS,
-  CLEAR_NOTIFICATION_REQUEST,
-  CLEAR_NOTIFICATION_SUCCESS,
 } from "./types";
 import { NOTIFICATION_VIEWED, S_LOGIN, S_NOTIFICATION } from "../Socket/types";
 import api from "@/utils/callApi";
@@ -109,58 +103,3 @@ export const logout = (cb) => (dispatch) => {
   dispatch({ type: LOGOUT });
   cb();
 };
-
-export function getNotifications(params, cb) {
-  return (dispatch) =>
-    api(`notification`, "get", {}, params)
-      .then((res) => {
-        dispatch({
-          type: GET_NOTIFICATION_REQUEST,
-        });
-
-        dispatch({
-          type: GET_NOTIFICATION_SUCCESS,
-          payload: res,
-        });
-
-        dispatch({
-          type: NOTIFICATION_VIEWED,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function clearNotifications() {
-  return (dispatch) =>
-    api(`notification/clear`, "get")
-      .then((res) => {
-        dispatch({
-          type: CLEAR_NOTIFICATION_REQUEST,
-        });
-
-        dispatch({
-          type: CLEAR_NOTIFICATION_SUCCESS,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
-export function updatedNotifications(id, cb) {
-  return (dispatch) =>
-    api(`notification/${id}/mark-as-read`, "post").then((res) => {
-      dispatch({
-        type: UPDATE_NOTIFICATION_REQUEST,
-      });
-
-      dispatch({
-        type: UPDATE_NOTIFICATION_SUCCESS,
-      });
-      cb(res);
-    });
-}
