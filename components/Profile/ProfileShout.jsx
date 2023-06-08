@@ -285,7 +285,7 @@ const ProfileShout = ({ user_id }) => {
                               ) : (
                                 ""
                               )}
-                              <CommentBody path={router.asPath} item={item.post} likePost={likePost} user_id={user_id} />
+                              {/* <CommentBody path={router.asPath} item={item.post} likePost={likePost} user_id={user_id} /> */}
                             </Skeleton>
                           </List.Item>
                         )}

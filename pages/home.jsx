@@ -463,7 +463,7 @@ const UserHome = () => {
         </div>
       </div>
       <Testimonial testimonials={testimonials} />
-      <Newpartners newpartners={newpartners} />
+      {/* <Newpartners newpartners={newpartners} /> */}
       <div className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">

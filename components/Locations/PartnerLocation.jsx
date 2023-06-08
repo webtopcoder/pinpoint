@@ -819,7 +819,7 @@ function Post({ review, likeReview, location, router, user_id }) {
         ) : (
           ""
         )}
-        <CommentBody item={review} path={router.asPath} likePost={likeReview} user_id={user_id} />
+        {/* <CommentBody item={review} path={router.asPath} likePost={likeReview} user_id={user_id} /> */}
       </Skeleton>
     </List.Item>
   );

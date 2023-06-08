@@ -438,13 +438,13 @@ const Edit = ({
                     </div>
                   </div>
                 </div>
-                <div className="profile-location">
+                {/* <div className="profile-location">
                   <div className="container">
                     <div className="row">
                       <ToggleSettings userRole={userRole} />
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -559,7 +559,7 @@ const ProfileActivity = ({
                                   ) : (
                                     ""
                                   )}
-                                  <CommentBody item={item} path={router.asPath} likePost={likePost} user_id={user_id} />
+                                  {/* <CommentBody item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> */}
                                 </>
                               ) : (
                                 <>
