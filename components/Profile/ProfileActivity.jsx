@@ -7,15 +7,12 @@ import {
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
-import { votePoll } from "@/redux/Profile/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
 import Comments from "@/components/Layout/comments/CommentsAll";
 import useMedia from "@/hooks/useMedia";
-import {
-  downloadFile,
-} from "@/redux/Mail/actions";
+import { downloadFile } from "@/redux/Mail/actions";
 const { Text } = Typography;
 
 const attachurl = `${apiBaseUrl}/avatar/`;
@@ -106,8 +103,6 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
 };
 
 const ProfileActivity = ({
-  onvotePoll,
-  profileRole,
   ondownloadFile,
   user_id
 }) => {
@@ -128,6 +123,7 @@ const ProfileActivity = ({
   });
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [pollstatus, setPollstatus] = useState(false);
   const [count, setCount] = useState(1);
   const [data, setData] = useState([]);
   const [myallPhotos, setAllphotos] = useState([]);
@@ -194,11 +190,11 @@ const ProfileActivity = ({
     await allActivities(profileId, 1, "");
     await profileService.getProfilePoll(profileId).then((res) => {
       setProfilePoll(res);
+      setPollstatus(true);
     }).catch((error) => {
       console.log(error?.response?.data?.message)
       return;
     });;
-
   }
 
   const totalPollVoteCount = myprofilePoll.votes?.reduce(
@@ -440,7 +436,6 @@ const ProfileActivity = ({
                                 POST
                               </Button>
                             </Col>
-
                           </Row>
                         </Form.Item>
                       </Form>
@@ -461,9 +456,7 @@ const ProfileActivity = ({
                         loadMore={loadMore}
                         dataSource={list}
                         renderItem={(item, index) => (
-                          <List.Item
-                            key={index}
-                          >
+                          <List.Item key={index}>
                             <Skeleton
                               avatar
                               title={false}
@@ -497,9 +490,7 @@ const ProfileActivity = ({
                                         </Space>
                                         <Space>
                                           Posted to
-                                          <a
-                                            onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}
-                                          >
+                                          <a onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}>
                                             @{item?.to_user?.username}
                                           </a>
                                         </Space>
@@ -639,22 +630,20 @@ const ProfileActivity = ({
                       className="pin-post-header-section"
                       style={{
                         display: "block",
-                      }}
-                    >
+                      }}>
                       <div className="pin-about-section">
                         <h4 className="comment-notes">
                           <span id="email-notes">About Us</span>
                         </h4>
                         <div className="ql-snow">
-                          <div
-                            className="ql-editor"
+                          <div className="ql-editor"
                             dangerouslySetInnerHTML={{ __html: activityInfo && activityInfo?.about, }}
                           />
                         </div>
                       </div>
                     </div>
                   </div>
-                  {profileRole == "partner" && (
+                  {pollstatus && (
                     <div className="avatar-respond">
                       <div
                         className="pin-post-header-section"
@@ -686,26 +675,22 @@ const ProfileActivity = ({
                                       {item.content}
                                     </Text>
                                     <Button
-                                      onClick={() => {
-                                        onvotePoll(
-                                          profile,
-                                          index,
-                                          (_, error) => {
-                                            if (error) {
-                                              notify(
-                                                "error",
-                                                error?.response?.data
-                                                  ?.message ||
-                                                "Something went wrong"
-                                              );
-                                              return;
-                                            }
+                                      onClick={async () => {
+                                        await profileService.votePoll(profile, index)
+                                          .then((res) => {
+                                            setProfilePoll(res);
                                             notify(
                                               "success",
                                               "Successfully voted"
                                             );
-                                          }
-                                        );
+                                          })
+                                          .catch((error) => {
+                                            notify(
+                                              "error",
+                                              error?.response?.data?.message || "Something went wrong"
+                                            );
+                                            return;
+                                          });
                                       }}
                                       icon={<PlusOutlined />}
                                     />
@@ -866,12 +851,10 @@ const mapStateToProps = ({ profile, user }) => {
   return {
     user_id: user.user_id,
     followAndFollowing: user.followAndFollowing,
-    profileRole: profile.headerInfo?.profile?.usertype,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onvotePoll: (id, option, cb) => dispatch(votePoll(id, option, cb)),
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileActivity);

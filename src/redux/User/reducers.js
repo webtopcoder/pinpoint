@@ -4,6 +4,7 @@ import {
   ADDITION_USER_LOGIN_REQUEST,
   ADDITION_USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
+  USER_AVATAR_UPLOAD_SUCCESS,
   LOGOUT,
   GET_MYFOLLOWER_SUCCESS,
 } from "./types";
@@ -164,6 +165,15 @@ const userReducer = (state = initialState, action) => {
         additionLocatoins: [],
         notifications: [],
         notificationCount: 0,
+      };
+    }
+
+    case USER_AVATAR_UPLOAD_SUCCESS: {
+      localStorage.removeItem("avatar");
+      localStorage.setItem("avatar", action.payload.avatar.filepath);
+      return {
+        ...state,
+        avatar: action.payload.avatar.filepath,
       };
     }
 

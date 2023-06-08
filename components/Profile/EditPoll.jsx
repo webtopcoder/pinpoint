@@ -1,46 +1,55 @@
-import toast from "@/components/Toast";
-import { addPoll, editPoll } from "@/src/redux/Profile/actions";
-import React, { useCallback } from "react";
-import { connect } from "react-redux";
+import useNotify from "@/hooks/useNotify";
+import React, { useEffect, useState } from "react";
+import { profileService } from "@/services/index";
 
-function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+function EditPoll() {
 
-  const onSubmitForm = (e) => {
+  const { notify } = useNotify();
+  const [userPoll, setUserPoll] = useState();
+
+  async function onSubmitForm(e) {
     e.preventDefault();
 
-    onAddPoll(
-      {
-        poll: {
-          question: userPoll.question,
-          options: userPoll.options,
-        },
+    await profileService.updatePoll({
+      poll: {
+        question: userPoll.question,
+        options: userPoll.options,
       },
-      (res, error) => {
-        if (error) {
-          notify("error", error.message);
-          return;
-        }
+    })
+      .then(() => {
         notify("success", "Poll updated successfully");
-      }
-    );
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
   };
 
   const onUpdatePoll = (e) => {
     const field = e.target.name;
-    const options = userPoll.options;
+    const options = userPoll?.options;
 
-    if (field === "question") {
-      onEditPoll({ ...userPoll, question: e.target.value });
-    } else {
+    if (field === "question")
+      setUserPoll({ ...userPoll, question: e.target.value })
+    else {
       const index = field.split("-")[1];
-
       options[index] = e.target.value;
-      onEditPoll({ ...userPoll, options });
+      setUserPoll({ ...userPoll, options })
     }
   };
+
+  useEffect(() => {
+    profileService.getInfo()
+      .then((res) => {
+        console.log(res)
+        setUserPoll(res?.data?.poll)
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
+  }, []);
+
   return (
     <div className="avatar-respond">
       <div className="pin-about-section">
@@ -58,7 +67,7 @@ function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
                     <textarea
                       name="question"
                       className="form-control"
-                      value={userPoll.question}
+                      value={userPoll?.question}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -74,7 +83,7 @@ function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
                       type="text"
                       name="option-0"
                       className="form-control"
-                      value={userPoll.options[0]}
+                      value={userPoll?.options[0]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -90,7 +99,7 @@ function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
                       type="text"
                       name="option-1"
                       className="form-control"
-                      value={userPoll.options[1]}
+                      value={userPoll?.options[1]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -106,7 +115,7 @@ function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
                       type="text"
                       name="option-2"
                       className="form-control"
-                      value={userPoll.options[2]}
+                      value={userPoll?.options[2]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -122,7 +131,7 @@ function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
                       type="text"
                       name="option-3"
                       className="form-control"
-                      value={userPoll.options[3]}
+                      value={userPoll?.options[3]}
                       onChange={onUpdatePoll}
                     />
                   </div>
@@ -148,15 +157,4 @@ function EditPoll({ userPoll, onAddPoll, onEditPoll }) {
   );
 }
 
-const mapStateToProps = ({ profile }) => {
-  return {
-    userPoll: profile.editInfo.poll,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onAddPoll: (info, cb) => dispatch(addPoll(info, cb)),
-  onEditPoll: (info, cb) => dispatch(editPoll(info, cb)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditPoll);
+export default EditPoll;

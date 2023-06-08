@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { connect, useDispatch } from "react-redux";
-import {
-  updateInfo,
-  editAbout,
-  editSocial,
-  uploadAvatar,
-  getInfo
-} from "@/redux/Profile/actions";
+import { connect } from "react-redux";
+import { uploadAvatar } from "@/redux/User/actions";
 import { message, Upload, Layout } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import Image from "next/image";
@@ -15,6 +9,7 @@ import EditPoll from "./EditPoll";
 import useNotify from "@/hooks/useNotify";
 import ToggleSettings from "@/components/Profile/profileEdit/ToggleSettings";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import { profileService } from "@/services/index";
 
 const { Content } = Layout;
 
@@ -85,15 +80,15 @@ const beforeUpload = (file) => {
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const Edit = ({
-  onupdateInfo,
-  ongetInfo,
-  editInfo,
   onuploadAvatar,
   userRole,
 }) => {
+
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-  const handleChange = (info) => {
+  const [editInfo, setUserInfo] = useState();
+
+  async function handleChange(info) {
     if (info.file.status === "uploading") {
       setLoading(true);
       return;
@@ -128,54 +123,61 @@ const Edit = ({
     </div>
   );
 
-  const dispatch = useDispatch();
-
   const { notify } = useNotify();
 
-  const updateInfo = () => {
+  async function updateInfo() {
     const data = {
       about: editInfo.about,
     };
-
-    onupdateInfo(data, (_, error) => {
-      if (error) {
-        notify("error", error.message);
-      }
-      notify("success", "Profile updated successfully");
-    });
+    await profileService.updateInfo(data)
+      .then(() => {
+        notify("success", "Profile updated successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
   };
 
-  const changeAbout = (e) => {
-    dispatch(editAbout(e));
+  async function changeAbout(e) {
+    await setUserInfo({ ...editInfo, 'about': e });
   };
 
-  const onUpdateSocialField = (e) => {
+  async function onUpdateSocialField(e) {
     const field = e.target.name;
-
     const nextFormState = {
-      ...editInfo.social,
-      [field]: e.target.value,
+      ...editInfo, social: {
+        ...editInfo?.social,
+        [field]: e.target.value,
+      }
     };
-    dispatch(editSocial(nextFormState));
+    await setUserInfo(nextFormState);
   };
 
-  const onSubmitForm = (e) => {
+  async function onSubmitForm(e) {
     e.preventDefault();
     const data = {
-      social: editInfo.social,
+      social: editInfo?.social,
     };
-
-    onupdateInfo(data, (res, error) => {
-      if (error) {
-        notify("error", error.message);
+    await profileService.updateInfo(data)
+      .then(() => {
+        notify("success", "Social updated successfully");
+      })
+      .catch((error) => {
+        console.log(error);
         return;
-      }
-      notify("success", "Social updated successfully");
-    });
+      });
   };
 
   useEffect(() => {
-    ongetInfo();
+    profileService.getInfo()
+      .then((res) => {
+        setUserInfo(res?.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
   }, []);
 
   return (
@@ -207,11 +209,11 @@ const Edit = ({
                               <div className="col-lg-10 col-md-10 col-sm-12">
                                 <div className="form-group">
                                   <QuillNoSSRWrapper
-                                    name="aboutme"
+                                    name="about"
                                     modules={modules}
                                     formats={formats}
                                     theme="snow"
-                                    value={editInfo.about}
+                                    value={editInfo?.about}
                                     onChange={changeAbout}
                                   />
                                 </div>
@@ -237,9 +239,9 @@ const Edit = ({
                                       height={100}
                                       width={100}
                                     />
-                                  ) : editInfo.avatar ? (
+                                  ) : editInfo?.avatar ? (
                                     <img
-                                      src={avatarurl + editInfo.avatar}
+                                      src={avatarurl + editInfo?.avatar?.filepath}
                                       alt="avatar"
                                       style={{
                                         width: "100%",
@@ -305,7 +307,7 @@ const Edit = ({
                                         type="text"
                                         name="facebook"
                                         className="form-control"
-                                        value={editInfo.social.facebook}
+                                        value={editInfo?.social?.facebook}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -326,7 +328,7 @@ const Edit = ({
                                         type="text"
                                         name="instagram"
                                         className="form-control"
-                                        value={editInfo.social.instagram}
+                                        value={editInfo?.social?.instagram}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -347,7 +349,7 @@ const Edit = ({
                                         type="text"
                                         name="twitter"
                                         className="form-control"
-                                        value={editInfo.social.twitter}
+                                        value={editInfo?.social?.twitter}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -368,7 +370,7 @@ const Edit = ({
                                         type="text"
                                         name="tiktok"
                                         className="form-control"
-                                        value={editInfo.social.tiktok}
+                                        value={editInfo?.social?.tiktok}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -389,7 +391,7 @@ const Edit = ({
                                         type="text"
                                         name="snapchat"
                                         className="form-control"
-                                        value={editInfo.social.snapchat}
+                                        value={editInfo?.social?.snapchat}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -410,7 +412,7 @@ const Edit = ({
                                         type="text"
                                         name="website"
                                         className="form-control"
-                                        value={editInfo.social.website}
+                                        value={editInfo?.social?.website}
                                         onChange={onUpdateSocialField}
                                       />
                                     </div>
@@ -452,16 +454,13 @@ const Edit = ({
   );
 };
 
-const mapStateToProps = ({ user, profile }) => {
+const mapStateToProps = ({ user }) => {
   return {
-    editInfo: profile.editInfo,
     userRole: user.role,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetInfo: () => dispatch(getInfo()),
-  onupdateInfo: (info, cb) => dispatch(updateInfo(info, cb)),
   onuploadAvatar: (url, cb) => dispatch(uploadAvatar(url, cb)),
 });
 

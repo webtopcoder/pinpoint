@@ -2,6 +2,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   ADDITION_USER_LOGIN_REQUEST,
+  USER_AVATAR_UPLOAD_SUCCESS,
   ADDITION_USER_LOGIN_SUCCESS,
   GET_MYFOLLOWER_SUCCESS,
   LOGOUT,
@@ -88,7 +89,6 @@ export function getuserInfoByID(id, cb) {
 }
 
 export function getmyFollowers() {
-
   const user_id = localStorage.getItem('user_id')
   return (dispatch) =>
     api(`follow/${user_id}/follower`, "get").then((res) => {
@@ -97,6 +97,21 @@ export function getmyFollowers() {
         payload: res,
       });
     });
+}
+
+export function uploadAvatar(url, cb) {
+  return (dispatch) =>
+    api(`profile/avatar`, "post", url)
+      .then((res) => {
+        dispatch({
+          type: USER_AVATAR_UPLOAD_SUCCESS,
+          payload: res,
+        });
+        cb(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 }
 
 export const logout = (cb) => (dispatch) => {

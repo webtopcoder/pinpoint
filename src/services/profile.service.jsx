@@ -86,7 +86,6 @@ function ProfileService() {
     return api(`profile/partner/dashboard`, "get")
   }
 
-
   return {
     getInfo,
     updateInfo,
@@ -107,7 +106,7 @@ function ProfileService() {
     getShoutout,
     onunFriend,
     acceptFollowerRequest,
-    getDashboardInfo
+    getDashboardInfo,
   };
 }
 
