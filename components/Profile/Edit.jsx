@@ -441,7 +441,7 @@ const Edit = ({
                 <div className="profile-location">
                   <div className="container">
                     <div className="row">
-                      <ToggleSettings />
+                      <ToggleSettings userRole={userRole} />
                     </div>
                   </div>
                 </div>

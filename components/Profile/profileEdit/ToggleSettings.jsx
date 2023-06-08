@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { settingService } from "@/services/index";
 import styles from "@/components/Partner/Settings/settings.module.css";
 
-function ToggleSettings() {
+function ToggleSettings({ userRole }) {
   const { notify } = useNotify();
   const [settings, setSettings] = useState();
 
@@ -91,7 +91,7 @@ function ToggleSettings() {
       </Row>
       <Row className={styles.list + " mt-3"}>
         <Col md={16} xs={16} sm={16} className={styles.left_pane}>
-          Notify me when my favorites are active.
+          {userRole === 'partner' ? ' Notify me when I have a Location status change.' : ' Notify me when my favorites are active.'}
         </Col>
         <Col md={8} xs={8} sm={8} className={styles.right_pane}>
           <Switch
