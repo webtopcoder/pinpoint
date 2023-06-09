@@ -73,13 +73,20 @@ const RightSidebar = ({
   };
 
   async function initialize() {
-    const IsreadEmails = await mailService.getIsReadEmails();
-    await setisreadEmails(IsreadEmails);
-    const result = await userService.getNotifications({
+    await mailService.getIsReadEmails().then(async (res) => {
+      await setisreadEmails(res);
+    }).catch((error) => {
+      console.log(error)
+    });
+
+    await userService.getNotifications({
       sort: "createdAt:desc",
       limit: 10
-    });
-    await setNotifications(result);
+    }).then(async (res) => {
+      await setNotifications(res);
+    }).catch((error) => {
+      console.log(error)
+    })
   }
 
   useEffect(() => {

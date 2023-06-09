@@ -82,6 +82,12 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
                 </a>
               </Tooltip>
             </div>
+            <span style={{
+              color: 'black',
+              fontSize: 13
+            }}>
+              {isWebDevice ? record.to?.businessname : record.to?.businessname.length > 12 ? record?.to?.businessname?.substring(0, 12) + "..." : record.to?.businessname}
+            </span>
             <span className="activity">
               last sent:{" "}
               {formatDate(record.updatedAt)}

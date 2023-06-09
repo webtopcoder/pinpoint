@@ -81,7 +81,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
           icon={<LikeOutlined />}
           key="list-vertical-like-o"
         />
-        <Space style={{
+        {/* <Space style={{
           marginRight: 20,
           marginTop: 20
         }}>
@@ -94,8 +94,8 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
             icon={<MessageOutlined />}
           />
           <Text>{commentCount}</Text>
-        </Space>
-        <Space
+        </Space> */}
+        {/* <Space
           hidden={commentCount === 0 ? true : false}
           style={{
             float: 'right',
@@ -110,7 +110,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
             {expandComments ? <DownOutlined /> : <UpOutlined />}
             View Comments
           </Button>
-        </Space>
+        </Space> */}
       </div>
       <Comments currentUserId={user_id} expand={expand} ownerId={item.from} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item._id} />
     </>
@@ -285,7 +285,7 @@ const ProfileShout = ({ user_id }) => {
                               ) : (
                                 ""
                               )}
-                              {/* <CommentBody path={router.asPath} item={item.post} likePost={likePost} user_id={user_id} /> */}
+                              <CommentBody path={router.asPath} item={item.post} likePost={likePost} user_id={user_id} />
                             </Skeleton>
                           </List.Item>
                         )}

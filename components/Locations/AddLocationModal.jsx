@@ -55,6 +55,7 @@ function AddLocationModal({
     lat: "",
     lng: "",
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     GetSubCategories();
@@ -75,7 +76,6 @@ function AddLocationModal({
         inputRef.current,
         mapAutoCompleteOptions
       );
-
       autoCompleteRef.current?.addListener("place_changed", async function () {
         const place = await autoCompleteRef.current.getPlace();
         let itemLocality = "";
@@ -163,6 +163,7 @@ function AddLocationModal({
       <Form
         form={form}
         onFinish={async (values) => {
+          setLoading(true);
           const formData = new FormData();
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
@@ -178,6 +179,7 @@ function AddLocationModal({
 
           await locationService.AddLocation(formData)
             .then(async () => {
+              await setLoading(false);
               notify("success", "Location added successfully");
               form.resetFields();
               await setaddressForm({
@@ -302,6 +304,7 @@ function AddLocationModal({
                 </Col>
                 <Col span={8} offset={8}>
                   <Button
+                    loading={loading}
                     type="primary"
                     htmlType="submit"
                     className="btn-submit"

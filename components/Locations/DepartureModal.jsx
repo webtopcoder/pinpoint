@@ -99,8 +99,10 @@ function DepartureModal({
       <Form
         form={departureForm}
         onFinish={async (values) => {
+          await setLoading(true)
           await locationService.quickDeparture({ locationId: values.departureLocation })
             .then(async () => {
+              await setLoading(false)
               await setModalOpen(false);
               departureForm.resetFields();
               notify("success", "Successfully departed");
@@ -148,6 +150,7 @@ function DepartureModal({
               <Col xs={14} sm={14} md={8} lg={8} xl={14}>
                 <Button
                   type="primary"
+                  loading={loading}
                   htmlType="submit"
                   className="btn-submit"
                   style={{

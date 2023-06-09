@@ -38,6 +38,7 @@ function ArrivalModal({
 
   const [arrivalForm] = Form.useForm();
   const { notify } = useNotify();
+  const [loading, setLoading] = useState(false);
 
   const disabledDate = (current) => {
 
@@ -135,6 +136,7 @@ function ArrivalModal({
             : ""
         }
         onFinish={async (values) => {
+          await setLoading(true);
           const formData = new FormData();
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
@@ -158,6 +160,7 @@ function ArrivalModal({
           else {
             await locationService.quickArrival({ locationId: values.locationId, form: formData })
               .then(async () => {
+                await setLoading(false);
                 await setArrivalModalOpen(false);
                 arrivalForm.resetFields();
                 notify("success", "Successfully Arrived");
@@ -264,6 +267,7 @@ function ArrivalModal({
                 <Col span={8} offset={8}>
                   <Button
                     type="primary"
+                    loading={loading}
                     htmlType="submit"
                     className="btn-submit"
                     style={{

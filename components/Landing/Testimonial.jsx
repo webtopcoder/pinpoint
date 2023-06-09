@@ -36,6 +36,7 @@ const options = {
 
 const Testimonial = ({ testimonials }) => {
 
+  console.log(testimonials)
   const imgurl = `${apiBaseUrl}/avatar/`;
   const [display, setDisplay] = React.useState(false);
 
@@ -62,7 +63,7 @@ const Testimonial = ({ testimonials }) => {
             className="testimonials-slides-four owl-carousel owl-theme"
             {...options}
           >
-            {testimonials?.map((testimonial, index) => (
+            {/* {testimonials?.map((testimonial, index) => (
               <div className="testimonials-item">
                 <i className="flaticon-left-quotes-sign"></i>
                 <p>
@@ -73,13 +74,127 @@ const Testimonial = ({ testimonials }) => {
                   <span>{testimonial?.occupation}</span>
                 </div>
                 <div className="img">
-                  <Image loader={myLoader}
+                  <Image
                     src={imgurl + "/" + testimonial?.image?.filepath}
                     layout="fill"
                     alt="user" />
                 </div>
               </div>
-            ))}
+
+            ))} */}
+            {testimonials && testimonials[0] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[0]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[0]?.username}</h3>
+                <span>{testimonials[0]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[0]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+            {testimonials && testimonials[1] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[1]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[1]?.username}</h3>
+                <span>{testimonials[1]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[1]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+            { testimonials && testimonials[2] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[2]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[2]?.username}</h3>
+                <span>{testimonials[2]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[2]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+            {testimonials && testimonials[3] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[3]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[3]?.username}</h3>
+                <span>{testimonials[3]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[3]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+            { testimonials && testimonials[4] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[4]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[4]?.username}</h3>
+                <span>{testimonials[4]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[4]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+            {testimonials && testimonials[5] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[5]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[5]?.username}</h3>
+                <span>{testimonials[5]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[5]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+            {testimonials && testimonials[5] ? <div className="testimonials-item">
+              <i className="flaticon-left-quotes-sign"></i>
+              <p>
+                {testimonials[5]?.content}
+              </p>
+              <div className="info">
+                <h3>{testimonials[5]?.username}</h3>
+                <span>{testimonials[5]?.occupation}</span>
+              </div>
+              <div className="img">
+                <Image
+                  src={imgurl + "/" + testimonials[5]?.image?.filepath}
+                  layout="fill"
+                  alt="user" />
+              </div>
+            </div> : ''}
+
           </OwlCarousel>
         ) : (
           ""

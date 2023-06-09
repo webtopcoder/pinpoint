@@ -66,7 +66,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
           icon={<LikeOutlined />}
           key="list-vertical-like-o"
         />
-        <Space style={{
+        {/* <Space style={{
           marginRight: 20,
           marginTop: 20
         }}>
@@ -79,8 +79,8 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
             icon={<MessageOutlined />}
           />
           <Text>{commentCount}</Text>
-        </Space>
-        <Space
+        </Space> */}
+        {/* <Space
           hidden={commentCount === 0 ? true : false}
           style={{
             float: 'right',
@@ -95,7 +95,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
             {expandComments ? <DownOutlined /> : <UpOutlined />}
             View Comments
           </Button>
-        </Space>
+        </Space> */}
       </div>
       <Comments currentUserId={user_id} path={path} ownerId={item.from_user._id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
     </>
@@ -123,6 +123,7 @@ const ProfileActivity = ({
   });
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [postloading, setPostLoading] = useState(false);
   const [pollstatus, setPollstatus] = useState(false);
   const [count, setCount] = useState(1);
   const [data, setData] = useState([]);
@@ -282,6 +283,7 @@ const ProfileActivity = ({
   const [upload_name, setUploadFile] = useState([]);
 
   async function onFinish(values) {
+    setPostLoading(true);
     const form_data = new FormData();
     upload_name.map((file) => form_data.append("images", file.originFileObj));
     form_data.append("content", values.message);
@@ -294,6 +296,7 @@ const ProfileActivity = ({
     await profileService.postThink(data)
       .then((res) => {
         if (res.success) {
+          setPostLoading(false)
           composeForm.resetFields();
           setUploadFile([]);
           notify("success", res.msg);
@@ -424,6 +427,7 @@ const ProfileActivity = ({
                             <Col span={8} offset={8}>
                               <Button
                                 type="primary"
+                                loading={postloading}
                                 htmlType="submit"
                                 className="btn-submit"
                                 style={{
@@ -559,7 +563,7 @@ const ProfileActivity = ({
                                   ) : (
                                     ""
                                   )}
-                                  {/* <CommentBody item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> */}
+                                  <CommentBody item={item} path={router.asPath} likePost={likePost} user_id={user_id} />
                                 </>
                               ) : (
                                 <>

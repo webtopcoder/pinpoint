@@ -102,7 +102,7 @@ function NotificationDrawer({
             </Space.Compact>]}
           >
             <List.Item.Meta
-              avatar={<Avatar src={avatarurl + "/" + item?.actor?.profile?.avatar.filepath} />}
+              avatar={<Avatar src={avatarurl + "/" + item?.actor?.profile?.avatar?.filepath} />}
               title={
                 <span
                   style={{

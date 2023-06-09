@@ -115,13 +115,20 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
                     (record?.to?.username?.length > 12 ? isWebDevice ? record?.to?.username : record?.to?.username?.substring(0, 12) + "..." : record?.to?.username) :
                     (record?.from?.username?.length > 12 ? isWebDevice ? record?.from?.username : record?.from?.username?.substring(0, 12) + "..." : record?.from?.username)}
                   <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-                </a>&nbsp;&nbsp;
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;
               </Tooltip> : <span>Administrator</span>}
             </div>
+            <span style={{
+              color: 'black',
+              fontSize: 13
+            }}>{user_id === record?.from?._id ?
+              (record?.to?.businessname?.length > 12 ? isWebDevice ? record?.to?.businessname : record?.to?.businessname?.substring(0, 12) + "..." : record?.to?.businessname) :
+              (record?.from?.businessname?.length > 12 ? isWebDevice ? record?.from?.businessname : record?.from?.businessname?.substring(0, 12) + "..." : record?.from?.businessname)}</span>
             <span className="activity">
               Received:{" "}
               {formatDate(record.updatedAt)}
             </span>
+
           </div>
         </div >
       ),
