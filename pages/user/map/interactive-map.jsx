@@ -71,10 +71,10 @@ const InteractiveMap = () => {
     })
       }</small></p>
             <a onClick="window.open('${baseUrl}/profile/${data.partner?._id}/locations/${data._id}', '_blank')" type="button" class="btn btn-primary">View Detail</a>&nbsp&nbsp
+            <a id="directionButton" type="button" ><img width="30" height="30" src="${faviconUrl}/direction.png"/></a>&nbsp&nbsp
             </div>
       </div>
     </div>`
-    // <a id="directionButton" type="button" ><img width="30" height="30" src="${faviconUrl}/direction.png"/></a>&nbsp&nbsp
 
   }
 
