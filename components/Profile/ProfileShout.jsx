@@ -53,7 +53,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
   const [expandComments, setExpandComments] = useState(false);
 
   useEffect(() => {
-    commentService.getComments(item._id)
+    commentService.getComments(item?._id)
       .then((res) => {
         setCommentCount(res.length);
       })
@@ -75,8 +75,8 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
         }}
       >
         <IconText
-          postID={item._id}
-          text={item.like ? item?.like?.count : 0}
+          postID={item?._id}
+          text={item?.like ? item?.like?.count : 0}
           likePost={likePost}
           icon={<LikeOutlined />}
           key="list-vertical-like-o"
@@ -112,7 +112,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
           </Button>
         </Space>
       </div>
-      <Comments currentUserId={user_id} expand={expand} ownerId={item.from} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item._id} />
+      <Comments currentUserId={user_id} expand={expand} ownerId={item?.from} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="shoutout" id={item?._id} />
     </>
   );
 };
@@ -223,7 +223,7 @@ const ProfileShout = ({ user_id }) => {
                             <Skeleton
                               avatar
                               title={false}
-                              loading={item.loading}
+                              loading={item?.loading}
                               active
                             >
                               <List.Item.Meta
@@ -261,9 +261,9 @@ const ProfileShout = ({ user_id }) => {
                                 }
                               />
                               <div className="custom-list-content">
-                                {item.post?.content}
+                                {item?.post?.content}
                               </div>
-                              {item.post?.images ? (
+                              {item?.post?.images ? (
                                 <div
                                   className="custom-list-content"
                                   style={{
@@ -271,12 +271,12 @@ const ProfileShout = ({ user_id }) => {
                                   }}
                                 >
                                   <Antimage.PreviewGroup>
-                                    {item.post?.images?.map((image, index) => (
+                                    {item?.post?.images?.map((image, index) => (
                                       image.status === "active" ?
                                         <Antimage
                                           loader={myLoader}
                                           width={"25%"}
-                                          src={imgurl + image.filepath}
+                                          src={imgurl + image?.filepath}
                                           key={index}
                                         /> : ''
                                     ))}
@@ -285,7 +285,7 @@ const ProfileShout = ({ user_id }) => {
                               ) : (
                                 ""
                               )}
-                              <CommentBody path={router.asPath} item={item.post} likePost={likePost} user_id={user_id} />
+                              <CommentBody path={router.asPath} item={item?.post} likePost={likePost} user_id={user_id} />
                             </Skeleton>
                           </List.Item>
                         )}

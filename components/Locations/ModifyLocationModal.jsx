@@ -72,6 +72,7 @@ function ModifyModal({
   }, [userCategoryId]);
 
   async function GetSubCategories() {
+    console.log(userCategoryId)
     const res = await categoryService.getSubcategory(userCategoryId)
     const subcategoryList = res?.subCategories.map((item) => ({
       label: item.name,
@@ -417,7 +418,7 @@ function ModifyModal({
 
 const mapStateToProps = ({ user, profile }) => ({
   user_id: user.user_id,
-  userCategoryId: profile.userinfo.category,
+  userCategoryId: profile?.userinfo?.category?._id,
 });
 
 

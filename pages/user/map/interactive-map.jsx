@@ -51,8 +51,8 @@ const InteractiveMap = () => {
   };
 
   const markerDescription = (data) => {
-    return `<div class="card mb-3" style="max-width: 640px;">
-      <div class="row no-gutters">
+    return `<div class="card mb-3" style="max-width: 640px;"> 
+    <div class="row no-gutters">
         <div class="col-md-4">
           <img src="${faviconUrl}/avatar/${data?.arrivalImages[0]?.filepath}" class="card-img" alt="...">
         </div>

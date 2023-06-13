@@ -151,10 +151,12 @@ function ArrivalModal({
 
           if (diffInHours < 0) {
             notify("error", "Selected Time is aleady passed.");
+            await setLoading(false);
             return;
           }
           else if (diffInHours > 12) {
             notify("error", "Selected Time is over 12 hours.");
+            await setLoading(false);
             return;
           }
           else {

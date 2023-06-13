@@ -86,7 +86,7 @@ const Header = ({
     }).catch((error) => {
       console.log(error)
     });
-    
+
     await userService.getNotifications({
       sort: "createdAt:desc",
       limit: 10
@@ -351,7 +351,6 @@ const Header = ({
                     )}
                   </li>
                   <Divider />
-
                   {token && role == "partner" ?
                     additionRole === "" || additionRole === "Owner" ? <>
                       <li className="nav-item">

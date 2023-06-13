@@ -54,7 +54,7 @@ const { Title } = Typography;
 const { Content } = Layout;
 const { Text } = Typography;
 
-const IconText = ({ reviewId, text, likeReview }) => {
+const IconText = ({ postID, text, likePost }) => {
   const [like, setLike] = useState(text);
   useEffect(() => {
     setLike(text);
@@ -67,7 +67,7 @@ const IconText = ({ reviewId, text, likeReview }) => {
       <Button
         type="primary"
         onClick={() => {
-          likeReview(reviewId, (liked) => {
+          likePost(postID, (liked) => {
             if (liked) {
               setLike((like) => like + 1);
             } else {

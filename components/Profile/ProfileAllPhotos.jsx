@@ -5,6 +5,7 @@ import { profileService } from "@/services/index";
 import toast from "@/components/Toast";
 import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
+import { formatDate } from "@/utils/date";
 
 const content = (
   <div>
@@ -113,26 +114,25 @@ const ProfileAllPhotos = () => {
                       </Divider>
                       <Spin spinning={loading} delay={500}>
                         <Antimage.PreviewGroup
-                          // onVisibleChange
+                        // onVisibleChange
                         >
                           {myallPhotos &&
                             myallPhotos?.map((image, index) => (
-                              // <Popover content={content} title="Title" trigger="hover">
-                              <Antimage
-
-                                // onClick={() => {
-                                //   showDrawer(true)
-                                //     }}
-                                loader={myLoader}
-                                style={{
-                                  padding: "5px",
-                                }}
-                                width={"20%"}
-                                src={imgurl + image?.filepath}
-                                key={index}
-                                alt="ewrwerwerwe"
-                              />
-                              // </Popover>
+                              <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover">
+                                <Antimage
+                                  // onClick={() => {
+                                  //   showDrawer(true)
+                                  //     }}
+                                  loader={myLoader}
+                                  style={{
+                                    padding: "5px",
+                                  }}
+                                  width={"20%"}
+                                  src={imgurl + image?.filepath}
+                                  key={index}
+                                  alt="ewrwerwerwe"
+                                />
+                              </Popover>
 
                             ))}
                         </Antimage.PreviewGroup>
@@ -189,16 +189,19 @@ const ProfileAllPhotos = () => {
                           <Antimage.PreviewGroup>
                             {sidebarImage &&
                               sidebarImage.map((image, index) => (
-                                <Antimage
-                                  key={index}
-                                  loader={myLoader}
-                                  style={{
-                                    padding: "2px",
-                                  }}
-                                  width={"25%"}
-                                  src={imgurl + image?.filepath}
-                                />
+                                <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover">
+                                  <Antimage
+                                    key={index}
+                                    loader={myLoader}
+                                    style={{
+                                      padding: "2px",
+                                    }}
+                                    width={"25%"}
+                                    src={imgurl + image?.filepath}
+                                  />
+                                </Popover>
                               ))}
+
                           </Antimage.PreviewGroup>
                         </div>
                         <div className="row">

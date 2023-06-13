@@ -3,7 +3,7 @@ import Image from "next/image";
 import { connect } from "react-redux";
 import { UploadOutlined, LikeOutlined, PlusOutlined, DownloadOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import {
-  Image as Antimage, Divider, Button, Upload, message, Form, Row, Col, Avatar, Dropdown, Typography, List, Space, Skeleton, Mentions, Progress,
+  Image as Antimage, Divider, Popover, Button, Upload, message, Form, Row, Col, Avatar, Dropdown, Typography, List, Space, Skeleton, Mentions, Progress,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
@@ -13,10 +13,17 @@ import { profileService } from "@/services/index";
 import Comments from "@/components/Layout/comments/CommentsAll";
 import useMedia from "@/hooks/useMedia";
 import { downloadFile } from "@/redux/Mail/actions";
+import { formatDate } from "@/utils/date";
+
 const { Text } = Typography;
 
 const attachurl = `${apiBaseUrl}/avatar/`;
-
+const content = (
+  <div>
+    <p>Content</p>
+    <p>Content</p>
+  </div>
+);
 const IconText = ({ icon, postID, text, likePost }) => {
   const [like, setLike] = useState(text);
   useEffect(() => {
@@ -543,7 +550,8 @@ const ProfileActivity = ({
                                               loader={myLoader}
                                               width={"25%"}
                                               src={imgurl + item?.filepath}
-                                            /> : ''
+                                            />
+                                            : ''
                                         ))}
                                       </Antimage.PreviewGroup>
                                       {item.image.filter((image) => image.mimetype === "application/pdf").length > 0 ?
@@ -724,18 +732,23 @@ const ProfileActivity = ({
                             {myallPhotos &&
                               myallPhotos.map((image, index) => (
                                 image.status === "active" ?
-                                  <Antimage
-                                    onClick={() => {
-                                      console.log(234234)
-                                    }}
-                                    key={index}
-                                    loader={myLoader}
-                                    style={{
-                                      padding: "2px",
-                                    }}
-                                    width={"25%"}
-                                    src={imgurl + image?.filepath}
-                                  /> : ''
+                                  (
+                                    <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover">
+                                      <Antimage
+                                        onClick={() => {
+                                          console.log(234234)
+                                        }}
+                                        key={index}
+                                        loader={myLoader}
+                                        style={{
+                                          padding: "2px",
+                                        }}
+                                        width={"25%"}
+                                        src={imgurl + image?.filepath}
+                                      />
+                                    </Popover>
+                                  )
+                                  : ''
                               ))}
                           </Antimage.PreviewGroup>
                         </div>
@@ -846,8 +859,8 @@ const ProfileActivity = ({
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 
