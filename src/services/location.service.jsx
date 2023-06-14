@@ -55,6 +55,10 @@ function LocationService() {
     return api(`locations/${arrivalID}/check-in`, "post")
   }
 
+  function likeArrival(arrivalID) {
+    return api(`locations/${arrivalID}/like`, "post")
+  }
+
   return {
     getAllLocations,
     getLocations,
@@ -66,7 +70,8 @@ function LocationService() {
     getLocationInfo,
     favoriteLocation,
     CheckInArrival,
-    getFavoriteLocations
+    getFavoriteLocations,
+    likeArrival
   };
 }
 

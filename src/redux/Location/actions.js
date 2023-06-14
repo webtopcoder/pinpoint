@@ -6,8 +6,6 @@ import {
   USER_LOCATION_REQUEST,
   LOCATION_FAVORITE_REQUEST,
   LOCATION_FAVORITE_SUCCESS,
-  LOCATION_CHECKIN_REQUEST,
-  LOCATION_CHECKIN_SUCCESS,
   USER_EXPIRED_ARRIVAL_REQUEST,
   USER_EXPIRED_ARRIVAL_SUCCESS
 } from "./types";
@@ -82,44 +80,6 @@ export function likeLocationReview(reviewId, cb) {
         });
 
         cb(res.liked);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function likeArrival(arrivalID, cb) {
-  return (dispatch) =>
-    api(`locations/${arrivalID}/like`, "post")
-      .then((res) => {
-        dispatch({
-          type: LOCATION_REVIEW_REQUEST,
-        });
-
-        dispatch({
-          type: LOCATION_REVIEW_SUCCESS,
-        });
-
-        cb(res.liked);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function checkInArrival(arrivalID, cb) {
-  return (dispatch) =>
-    api(`locations/${arrivalID}/check-in`, "post")
-      .then((res) => {
-        dispatch({
-          type: LOCATION_CHECKIN_REQUEST,
-        });
-        dispatch({
-          type: LOCATION_CHECKIN_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
       })
       .catch((error) => {
         cb(null, error);

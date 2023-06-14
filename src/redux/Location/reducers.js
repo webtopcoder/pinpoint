@@ -4,9 +4,6 @@ import {
   LOCATION_QUICK_ARRIVAL_SUCCESS,
   LOCATION_QUICK_DEPARTURE_REQUEST,
   LOCATION_QUICK_DEPARTURE_SUCCESS,
-  LOCATION_REVIEW_REQUEST,
-  LOCATION_REVIEW_SUCCESS,
-  LOCATION_CHECKIN_SUCCESS,
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
   USER_EXPIRED_ARRIVAL_REQUEST,
@@ -48,13 +45,7 @@ const locationReducer = (state = initialState, action) => {
         expiredArrivals: action.payload.expiredArrival,
         checkIncount: action.payload.location.isArrival?.checkIn?.length
       };
-    case LOCATION_REVIEW_REQUEST:
-      return { ...state, loading: true };
-    case LOCATION_REVIEW_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
+  
     case USER_EXPIRED_ARRIVAL_REQUEST:
       return { ...state, loading: true };
     case USER_EXPIRED_ARRIVAL_SUCCESS:
@@ -75,12 +66,6 @@ const locationReducer = (state = initialState, action) => {
         },
       };
 
-    case LOCATION_CHECKIN_SUCCESS: {
-      return {
-        ...state,
-        checkIncount: action.payload.count,
-      };
-    }
     default:
       return {
         ...state,

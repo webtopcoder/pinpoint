@@ -10,6 +10,9 @@ import {
   ClockCircleFilled,
   MessageOutlined,
   UpOutlined,
+  TagFilled,
+  HeartFilled,
+  HeartOutlined
 } from "@ant-design/icons";
 import {
   Image as Antimage,
@@ -29,27 +32,26 @@ import {
   message,
   Upload,
   Badge,
-  Divider
+  Divider,
+  Tag,
 } from "antd";
-import food from "@/public/images/landing/food.png";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import {
-  checkInArrival,
   favoriteLocation,
-  likeArrival,
   likeLocationReview,
   postReview,
   unfavoriteLocation,
   getLocationById,
 } from "@/src/redux/Location/actions";
+import food from "@/public/images/landing/food.png";
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";
 import Comments from "@/components/Layout/comments/CommentsAll";
-import { commentService, locationService } from "@/services/index";
-
-const { Meta } = Card;
-const { Title } = Typography;
+import ArrivalBanner from "@/components/Locations/PartnerLocation/ArrivalBanner";
+// import PostForm from "@/components/Locations/PartnerLocation/PostForm";
+import ArrivalBannerExpired from "@/components/Locations/PartnerLocation/ArrivalBannerExpired";
+import { commentService } from "@/services/index";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -84,7 +86,6 @@ const IconText = ({ postID, text, likePost }) => {
 };
 
 const CommentBody = ({ item, likePost, user_id, path }) => {
-
   const [commentCount, setCommentCount] = useState();
   const [expand, setExpand] = useState(true);
   const [expandComments, setExpandComments] = useState(false);
@@ -155,45 +156,14 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
   );
 };
 
-const LikeArrvial = ({ likeArrival, arrvialID, text }) => {
-  const [like, setLike] = useState(text);
-  const isWebDevice = useMedia('(min-width:700px)');
-  useEffect(() => {
-    setLike(text);
-  }, [text]);
-  return (
-    <Space style={{
-      float: isWebDevice ? '' : 'right'
-    }}>
-      <Button
-        type="primary"
-        onClick={() => {
-          likeArrival(arrvialID, (liked) => {
-            if (liked) {
-              setLike((like) => like + 1);
-            } else {
-              setLike((like) => (like ? like - 1 : like));
-            }
-          });
-        }}
-        shape="circle"
-        icon={<LikeOutlined />}
-      />
-      <Text>{like}</Text>
-    </Space>
-  );
-};
-
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-const PartnerLocation = ({
+const index = ({
   location,
   onPostReview,
   getLocationInfo,
   likeReview,
-  onLikeArrival,
-  onCheckInArrival,
   onFavoriteLocation,
   onUnFavoriteLocation,
   checkIncount,
@@ -206,6 +176,10 @@ const PartnerLocation = ({
   const { notify } = useNotify();
   const [reviews, setReviews] = useState([]);
   const [expand, setExpand] = useState(false);
+  const [position, setPosition] = useState({
+    lat: 30.3321838,
+    lng: -81.65565099999999,
+  });
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
@@ -233,6 +207,16 @@ const PartnerLocation = ({
     }
   }, [location.reviews]);
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      setPosition({
+        lat: latitude,
+        lng: longitude,
+      });
+    });
+  }, []);
+
   return (
     <Layout
       className="site-layout"
@@ -257,9 +241,8 @@ const PartnerLocation = ({
             <div className="col-xl-8 col-lg-7 col-md-12">
               {location.isActive ? (
                 <ArrivalBanner
+                  position={position}
                   location={location}
-                  onLikeArrival={onLikeArrival}
-                  onCheckInArrival={onCheckInArrival}
                   checkIncount={checkIncount}
                 />
               ) : (
@@ -272,11 +255,9 @@ const PartnerLocation = ({
                 expand={expand}
               />
               {expiredArrivals.arrivalData?.length > 0 ? (
-                <ExpiredArrivalBanner
+                <ArrivalBannerExpired
                   location={location}
                   arrivals={expiredArrivals}
-                  onLikeArrival={onLikeArrival}
-                  onCheckInArrival={onCheckInArrival}
                   checkIncount={checkIncount}
                   expand={expand}
                   setExpand={setExpand}
@@ -320,281 +301,6 @@ const PartnerLocation = ({
   );
 };
 
-function ExpiredArrivalBanner({ location, arrivals, onLikeArrival, expand, setExpand }) {
-  const isWebDevice = useMedia('(min-width:700px)');
-  return (
-    <div>
-      <div className="avatar-area green-color">
-        {arrivals?.arrivalData.map((arrival, index) => (
-          <div className="avatar-respond">
-            <div style={{ display: "flex" }} className="pin-post-header-section">
-              <div className="pin-post-label">
-                <p className="comment-notes">
-                  <Avatar
-                    style={{
-                      cursor: "pointer",
-                      background: "rgb(223 216 216)",
-                    }}
-                    size={64}
-                    icon={
-                      location.images?.length !== 0 &&
-                        location.images[0]?.filepath ? (
-                        <Image
-                          src={avatarurl + location.images[0]?.filepath}
-                          height={64}
-                          width={64}
-                          alt="avatar"
-                        />
-                      ) : ""
-                    }>
-                    {location.images?.length !== 0 &&
-                      location.images[0]?.filepath ? "" : 'No Photo'}
-                  </Avatar>
-                  <p style={{ display: "inline-block", marginLeft: "10px" }}>
-                    {location?.title}
-                    <span style={{ marginLeft: "15px" }}>
-                      <div
-                        style={{
-                          height: "15px",
-                          width: "15px",
-                          backgroundColor: "#ff0000",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          marginRight: "5px",
-                          verticalAlign: "middle",
-                        }}
-                      />
-                      <p
-                        style={{
-                          fontSize: "10px",
-                          verticalAlign: "middle",
-                          display: "inline",
-                        }}
-                      >
-                        at {arrival?.location?.mapLocation?.city}
-                      </p>
-                    </span>
-                  </p>
-                </p>
-              </div>
-            </div>
-            <div style={{ display: "flex" }}>
-              <div style={{ marginTop: "20px" }}>{arrival.arrivalText}</div>
-              <div style={{ marginLeft: "auto" }}>
-                {
-                  arrival?.images[0]?.filepath ? (
-                    <Image
-                      src={imgurl + arrival?.images[0]?.filepath}
-                      height="100px"
-                      width="100px"
-                      alt="avatar"
-                    />
-                  ) : ""
-                }
-
-              </div>
-            </div>
-            <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
-              <div>
-                {new Date(arrival?.departureAt).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  hour12: true,
-                  minute: "2-digit",
-                  second: "2-digit",
-                })}
-              </div>
-              <div style={{ marginLeft: "auto", order: "2" }}>
-                <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
-                  {arrival.checkIn.length} checked in
-                </Button>
-                <LikeArrvial
-                  likeArrival={onLikeArrival}
-                  arrvialID={arrival.id}
-                  text={arrival.like ? arrival.like.count : 0}
-                  key="list-vertical-like-o"
-                />
-              </div>
-            </div>
-          </div>
-        ))}
-        {arrivals?.total > 3 ?
-          <a
-            style={{
-              marginTop: 15,
-              display: 'block',
-              textAlign: 'center',
-              fontSize: 15,
-              color: "rgb(255 255 255)"
-            }}
-            onClick={() => {
-              setExpand(!expand);
-            }}
-          ><DownOutlined rotate={expand ? 180 : 0} /> {expand ? "Hide" : `Show All(${arrivals?.total})`}
-          </a> : ""}
-      </div>
-    </div>
-  );
-}
-
-function ArrivalBanner({ location, onLikeArrival, onCheckInArrival, checkIncount }) {
-
-  const { notify } = useNotify();
-  const arrivalText = location?.isArrival?.arrivalText;
-  const arrivalImage = location?.isArrival?.images[0]?.filepath;
-  const arrivalID = location?.isArrival?.id;
-  const date = location?.updatedAt;
-  const isWebDevice = useMedia('(min-width:700px)');
-
-  return (
-    <div>
-      <div className="avatar-area green-color">
-        <div className="avatar-respond">
-          <div style={{ display: "flex" }} className="pin-post-header-section">
-            <div className="pin-post-label">
-              {/* <Card
-                style={{
-                  marginTop: 16,
-                  border: "0px",
-                }}
-            
-              // loading={loading}
-              >
-                <Meta
-                  avatar={
-                    location.images.length !== 0 &&
-                      location.images[0]?.filepath ? (
-                      <Avatar
-                        height={64}
-                        width={64}
-                        src={avatarurl + location.images[0]?.filepath}
-                      />
-                    ) : (
-                      <Avatar size={64} icon={<UserOutlined />} />
-                    )
-                  }
-                  title={<Title level={4}>{location?.title}</Title>}
-                  description={
-                    <Space direction="vertical" size="middle">
-                      <Title level={5}> at {location?.mapLocation?.city}</Title>
-                    </Space>
-                  }
-                />
-              </Card> */}
-
-              <p className="comment-notes">
-                <Avatar
-                  style={{
-                    cursor: "pointer",
-                    background: "rgb(223 216 216)",
-                  }}
-                  size={64}
-                  icon={
-                    location.images.length !== 0 &&
-                      location.images[0]?.filepath ? (
-                      <Image
-                        src={avatarurl + location.images[0]?.filepath}
-                        height={64}
-                        width={64}
-                        alt="avatar"
-                      />
-                    ) : ""
-                  }>
-                  {location.images?.length !== 0 &&
-                    location.images[0]?.filepath ? "" : 'No Photo'}
-                </Avatar>
-                <p style={{ display: "inline-block", marginLeft: "10px" }}>
-                  {location?.title}
-                  <span style={{ marginLeft: "15px" }}>
-                    <div
-                      style={{
-                        height: "15px",
-                        width: "15px",
-                        backgroundColor: location?.isActive
-                          ? "#05ff00"
-                          : "#ff0000",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        marginRight: "5px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                    <p
-                      style={{
-                        fontSize: "10px",
-                        verticalAlign: "middle",
-                        display: "inline",
-                      }}
-                    >
-                      at {location?.mapLocation?.city}
-                    </p>
-                  </span>
-                </p>
-              </p>
-            </div>
-            <div style={{ marginLeft: "auto", order: "2" }}>
-              <Button
-                onClick={() => {
-                  onCheckInArrival(arrivalID, (res, err) => {
-                    if (err) {
-                      notify("error", err?.response?.data?.message || "Error");
-                    }
-                    notify(res.type, res.message);
-                  });
-                }}
-              >
-                Check In
-              </Button>
-            </div>
-          </div>
-          <div style={{ display: "flex" }}>
-            <div style={{ marginTop: "20px" }}>{arrivalText}</div>
-            <div style={{ marginLeft: "auto" }}>
-              {
-                arrivalImage ? (
-                  <Image
-                    src={imgurl + arrivalImage}
-                    height="100px"
-                    width="100px"
-                    alt="img"
-                  />
-                ) : ""
-              }
-            </div>
-          </div>
-          <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
-            <div>
-              {new Date(date).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "2-digit",
-                second: "2-digit",
-              })}
-            </div>
-
-            <div style={{ marginLeft: "auto", order: "2" }}>
-              <Button disabled style={{ marginRight: "10px", cursor: "auto" }}>
-                {checkIncount} checked in
-              </Button>
-              <LikeArrvial
-                likeArrival={onLikeArrival}
-                arrvialID={arrivalID}
-                text={location.isArrival.like ? location.isArrival.like.count : 0}
-                key="list-vertical-like-o"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PostForm({ location, onPostReview, getLocationInfo, expand }) {
   const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
@@ -633,7 +339,9 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
               <span id="email-notes">Just a quick description about your arrival today!</span>
             </p>
           </div>
-          <div className="pin-post-logo">
+          <div className="pin-post-logo" style={{
+            display: isWebDevice ? 'block' : 'none'
+          }}>
             <Image src={food} alt="blog-details" width={50} height={70} />
           </div>
         </div>
@@ -759,8 +467,7 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
 
 function Post({ review, likeReview, location, router, user_id }) {
   return (
-    <List.Item
-    >
+    <List.Item>
       <Skeleton avatar title={false} loading={review?.loading} active>
         <List.Item.Meta
           avatar={
@@ -771,7 +478,7 @@ function Post({ review, likeReview, location, router, user_id }) {
           }
           title={
             <>
-              <Space direction="vertical">
+              <Space direction="vertical" size='small'>
                 <a
                   onClick={() => router.push(`/profile/${review?.user?._id}/activity`)}
                   className="custom-userName">
@@ -854,6 +561,75 @@ function LocationBanner({
                 textAlign: "center",
               }}
               className="partner-locations-card"
+              actions={[
+                <Rate
+                  disabled
+                  allowHalf
+                  tooltips={[
+                    "terrible",
+                    "bad",
+                    "normal",
+                    "good",
+                    "wonderful",
+                  ]}
+                  value={location.rating}
+                />,
+                userRole !== "partner" ?
+                  location.isFavorite ? (
+                    <Button
+                      type="primary"
+                      icon={<HeartFilled />}
+                      style={{
+                        marginRight: "10px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        onUnFavoriteLocation(location._id, (_, error) => {
+                          if (error) {
+                            notify(
+                              "error",
+                              error?.response?.data?.message ||
+                              "Something went wrong"
+                            );
+                            return;
+                          }
+
+                          notify(
+                            "success",
+                            "Location removed from Favorites"
+                          );
+                        });
+                      }}
+                    >
+                      {isWebDevice ? 'Remove from Favorites' : ''}
+                    </Button>
+                  ) : (
+                    <Button
+                      icon={<HeartOutlined />}
+                      style={{
+                        marginRight: "10px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        onFavoriteLocation(location._id, (_, error) => {
+                          if (error) {
+                            notify(
+                              "error",
+                              error?.response?.data?.message ||
+                              "Something went wrong"
+                            );
+                            return;
+                          }
+
+                          notify("success", "Location added to Favorites");
+                        });
+                      }}
+                    >
+
+                      {isWebDevice ? 'Add to Favorites' : ''}
+                    </Button>
+                  ) : ''
+              ]}
             >
               <Row
                 gutter={16}
@@ -862,20 +638,6 @@ function LocationBanner({
                 }}
               >
                 <Col xs={0} sm={0} md={8} lg={8} xl={8}>
-                  <Space>
-                    <Rate
-                      disabled
-                      allowHalf
-                      tooltips={[
-                        "terrible",
-                        "bad",
-                        "normal",
-                        "good",
-                        "wonderful",
-                      ]}
-                      value={location.rating}
-                    />
-                  </Space>
                 </Col>
                 <Col
                   xs={24} sm={24} md={8} lg={8} xl={8}
@@ -913,20 +675,6 @@ function LocationBanner({
                     >
                       {location?.title}
                     </Text>
-                    {isWebDevice ? '' :
-                      <Rate
-                        disabled
-                        allowHalf
-                        tooltips={[
-                          "terrible",
-                          "bad",
-                          "normal",
-                          "good",
-                          "wonderful",
-                        ]}
-                        value={location.rating}
-                      />}
-
                   </Space>
                 </Col>
                 <Col
@@ -984,73 +732,14 @@ function LocationBanner({
                     top: -5,
                   }}
                 >
-                  <Space>
-                    <Text
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      {location?.subCategories
-                        ?.map((item) => item.name)
-                        .join(", ")}
-                    </Text>
+                  <Space size={[0, 'small']} wrap>
+                    {location?.subCategories
+                      ?.map((item) => <Tag icon={<TagFilled />} color="processing" >{item.name}</Tag>)
+                    }
+
                   </Space>
+
                 </Col>
-                {userRole !== "partner" ?
-                  <Col span={8}>
-                    <Space direction="vertical">
-                      {location.isFavorite ? (
-                        <Button
-                          style={{
-                            marginRight: "10px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            onUnFavoriteLocation(location._id, (_, error) => {
-                              if (error) {
-                                notify(
-                                  "error",
-                                  error?.response?.data?.message ||
-                                  "Something went wrong"
-                                );
-                                return;
-                              }
-
-                              notify(
-                                "success",
-                                "Location removed from Favorites"
-                              );
-                            });
-                          }}
-                        >
-                          Remove from Favorites
-                        </Button>
-                      ) : (
-                        <Button
-                          style={{
-                            marginRight: "10px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            onFavoriteLocation(location._id, (_, error) => {
-                              if (error) {
-                                notify(
-                                  "error",
-                                  error?.response?.data?.message ||
-                                  "Something went wrong"
-                                );
-                                return;
-                              }
-
-                              notify("success", "Location added to Favorites");
-                            });
-                          }}
-                        >
-                          Add to Favorites
-                        </Button>
-                      )}
-                    </Space>
-                  </Col> : ''}
               </Row>
             </Card>
           </Badge.Ribbon>
@@ -1088,9 +777,6 @@ const mapDispatchToProp = (dispatch) => {
     onPostReview: (locationId, form, cb) =>
       dispatch(postReview(locationId, form, cb)),
     likeReview: (reviewId, cb) => dispatch(likeLocationReview(reviewId, cb)),
-    onLikeArrival: (arrivalID, cb) => dispatch(likeArrival(arrivalID, cb)),
-    onCheckInArrival: (locationId, cb) =>
-      dispatch(checkInArrival(locationId, cb)),
     onFavoriteLocation: (locationId, cb) =>
       dispatch(favoriteLocation(locationId, cb)),
     onUnFavoriteLocation: (locationId, cb) =>
@@ -1098,4 +784,4 @@ const mapDispatchToProp = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProp)(PartnerLocation);
+export default connect(mapStateToProps, mapDispatchToProp)(index);

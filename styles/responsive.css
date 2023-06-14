@@ -3685,6 +3685,11 @@
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
+  .pin-post-label{
+    flex: 0 0 100%;
+    max-width: 96%;
+
+  }
 
   .profile-edit-section-margin {
     margin: 20px 5px !important;

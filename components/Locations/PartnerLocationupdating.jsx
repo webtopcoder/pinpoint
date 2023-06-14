@@ -1054,7 +1054,6 @@ function LocationBanner({
                             cursor: "pointer",
                           }}
                           onClick={() => favoriteLocation(true)}
-
                         >
                           Add to Favorites
                         </Button>

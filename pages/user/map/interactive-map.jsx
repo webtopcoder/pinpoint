@@ -198,7 +198,6 @@ const InteractiveMap = () => {
         lng: longitude,
       });
     });
-
     document.querySelector(".search-field").value = ""
   }
 
@@ -307,7 +306,6 @@ const InteractiveMap = () => {
 
 
   useEffect(() => {
-    console.log(position)
     map = new google.maps.Map(document.getElementById("interactive-map"), {
       center: position,
       zoom: mapzoom,
@@ -364,7 +362,6 @@ const InteractiveMap = () => {
 
     for (var i = 0; i < activeLocations?.length; i++) {
       var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
-        // new google.maps.LatLng(JSON.parse(JSON.stringify(e.latLng.toJSON(), null, 2))),
         new google.maps.LatLng(position?.lat, position?.lng),
         new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude)
       ))?.toFixed(2);

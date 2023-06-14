@@ -12180,6 +12180,10 @@ h4 {
   text-align: end;
 }
 
+.avatar-form .ant-list-item-meta-title {
+  margin-block-end: 2px;
+}
+
 .pin-post-header-section {
   display: flex;
   flex-wrap: wrap;
@@ -13298,6 +13302,17 @@ h4 {
   white-space: normal;
 }
 
+.pin-post-label .ant-card .ant-card-body {
+  padding: 0px;
+}
+
+.pin-post-label .ant-card-meta-title {
+  margin-bottom: 3px !important;
+}
+
+.pin-post-label h4 {
+  margin-bottom: 0px;
+}
 
 #container {
   height: 100%;
