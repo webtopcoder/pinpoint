@@ -733,7 +733,7 @@ const ProfileActivity = ({
                               myallPhotos.map((image, index) => (
                                 image.status === "active" ?
                                   (
-                                    <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover">
+                                    <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="click">
                                       <Antimage
                                         onClick={() => {
                                           console.log(234234)

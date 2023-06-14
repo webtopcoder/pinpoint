@@ -6,6 +6,7 @@ import toast from "@/components/Toast";
 import { apiBaseUrl } from "@/utils/baseUrl";
 const { Text, Link } = Typography;
 import { formatDate } from "@/utils/date";
+import useMedia from "@/hooks/useMedia";
 
 const content = (
   <div>
@@ -21,6 +22,8 @@ const ProfileAllPhotos = () => {
   const [activityInfo, setactivityInfo] = useState([]);
   const [sidebarImage, setSideImage] = useState([]);
   const [total, setTotal] = useState();
+  const [currentImage, setCurrentImage] = useState();
+  const isWebDevice = useMedia('(min-width:700px)');
   const [paginationInfo, setPageInfo] = useState(
     {
       current: 1,
@@ -114,15 +117,32 @@ const ProfileAllPhotos = () => {
                       </Divider>
                       <Spin spinning={loading} delay={500}>
                         <Antimage.PreviewGroup
-                        // onVisibleChange
+                          preview={{
+                            countRender: (current) => setCurrentImage(myallPhotos[current - 1]),
+                            onVisibleChange: async (visible, prevVisible) => {
+                              !visible ? await onClose() : '';
+                            }
+                          }}
                         >
                           {myallPhotos &&
                             myallPhotos?.map((image, index) => (
-                              <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover">
+                              isWebDevice ?
+                                <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover" >
+                                  <Antimage
+                                    loader={myLoader}
+                                    style={{
+                                      padding: "5px",
+                                    }}
+                                    width={"20%"}
+                                    src={imgurl + image?.filepath}
+                                    key={index}
+                                    alt="ewrwerwerwe"
+                                  />
+                                </Popover> :
                                 <Antimage
-                                  // onClick={() => {
-                                  //   showDrawer(true)
-                                  //     }}
+                                  onClick={() => {
+                                    !isWebDevice ? showDrawer(true) : ''
+                                  }}
                                   loader={myLoader}
                                   style={{
                                     padding: "5px",
@@ -132,8 +152,6 @@ const ProfileAllPhotos = () => {
                                   key={index}
                                   alt="ewrwerwerwe"
                                 />
-                              </Popover>
-
                             ))}
                         </Antimage.PreviewGroup>
                       </Spin>
@@ -302,28 +320,23 @@ const ProfileAllPhotos = () => {
                     </div>
                   </div>
                   <Drawer
-                    title="Drawer with extra actions"
+                    title={currentImage?.type + ", " + formatDate(currentImage?.createdAt)}
                     placement="bottom"
                     width={500}
                     height={200}
-                    onClose={onClose}
+                    closable={false}
                     open={open}
                     zIndex={10000}
                     mask={false}
                     maskClosable={false}
                     extra={
-                      <Space>
-                        <Button onClick={onClose}>Cancel</Button>
-                        <Button type="primary" onClick={onClose}>
-                          OK
-                        </Button>
-                      </Space>
+                      null
                     }
                   >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                  </Drawer>F
+                    <p style={{
+                      color: "#000000",
+                    }}>{currentImage?.content}</p>
+                  </Drawer>
                 </div>
               </aside>
             </div>
