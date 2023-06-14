@@ -176,10 +176,10 @@ const index = ({
   const { notify } = useNotify();
   const [reviews, setReviews] = useState([]);
   const [expand, setExpand] = useState(false);
-  const [position, setPosition] = useState({
-    lat: 30.3321838,
-    lng: -81.65565099999999,
-  });
+  // const [position, setPosition] = useState({
+  //   lat: 30.3321838,
+  //   lng: -81.65565099999999,
+  // });
   useEffect(() => {
     if (router.isReady) {
       const locationId = router.query.location;
@@ -207,15 +207,15 @@ const index = ({
     }
   }, [location.reviews]);
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setPosition({
-        lat: latitude,
-        lng: longitude,
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(position => {
+  //     const { latitude, longitude } = position.coords;
+  //     setPosition({
+  //       lat: latitude,
+  //       lng: longitude,
+  //     });
+  //   });
+  // }, []);
 
   return (
     <Layout
@@ -240,12 +240,10 @@ const index = ({
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
               {location.isActive ? (
-                // <ArrivalBanner
-                //   position={position}
-                //   location={location}
-                //   checkIncount={checkIncount}
-                // />
-                <div>wwwww</div>
+                <ArrivalBanner
+                  location={location}
+                  checkIncount={checkIncount}
+                />
               ) : (
                 ""
               )}

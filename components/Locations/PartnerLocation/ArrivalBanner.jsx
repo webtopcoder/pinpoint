@@ -20,9 +20,13 @@ const { Meta } = Card;
 const { Title } = Typography;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-function ArrivalBanner({ position, location, checkIncount }) {
+function ArrivalBanner({ location, checkIncount }) {
 
   const { notify } = useNotify();
+  const [position, setPosition] = useState({
+    lat: 30.3321838,
+    lng: -81.65565099999999,
+  });
   const arrivalText = location?.isArrival?.arrivalText;
   const arrivalImage = location?.isArrival?.images[0]?.filepath;
   const arrivalID = location?.isArrival?.id;
@@ -34,6 +38,15 @@ function ArrivalBanner({ position, location, checkIncount }) {
   //   new google.maps.LatLng(32.7078751, -96.9209135), 
   // ))?.toFixed(2);
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      setPosition({
+        lat: latitude,
+        lng: longitude,
+      });
+    });
+  }, []);
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const earthRadius = 6371; // Radius of the earth in kilometers
 
