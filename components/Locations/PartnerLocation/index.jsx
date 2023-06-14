@@ -240,11 +240,12 @@ const index = ({
           <Row justify={"center"}>
             <div className="col-xl-8 col-lg-7 col-md-12">
               {location.isActive ? (
-                <ArrivalBanner
-                  position={position}
-                  location={location}
-                  checkIncount={checkIncount}
-                />
+                // <ArrivalBanner
+                //   position={position}
+                //   location={location}
+                //   checkIncount={checkIncount}
+                // />
+                <div>wwwww</div>
               ) : (
                 ""
               )}

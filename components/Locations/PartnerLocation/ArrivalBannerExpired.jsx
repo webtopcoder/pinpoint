@@ -18,6 +18,7 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 const { Meta } = Card;
 const { Title } = Typography;
 const imgurl = `${apiBaseUrl}/avatar/`;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function ArrivalBannerExpired({ location, arrivals, expand, setExpand }) {
   const { notify } = useNotify();

@@ -3,7 +3,7 @@ import {
   Button,
   Space,
   Typography,
-  Tooltip, 
+  Tooltip,
   Card,
   Tag,
   Avatar
@@ -14,9 +14,11 @@ import useMedia from "@/hooks/useMedia";
 import useNotify from "@/hooks/useNotify";
 import CheckInArrivalActive from "@/components/Locations/PartnerLocation/CheckInArrivalActive";
 import LikeArrvial from "@/components/Locations/PartnerLocation/LikeArrvial";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const { Meta } = Card;
 const { Title } = Typography;
+const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function ArrivalBanner({ position, location, checkIncount }) {
 
@@ -55,7 +57,7 @@ function ArrivalBanner({ position, location, checkIncount }) {
     return degrees * (Math.PI / 180);
   }
 
-  const distance = (calculateDistance(position?.lat, position.lat, location?.mapLocation?.latitude, location?.mapLocation?.longitude)) * 0.621371;
+  const distance = (calculateDistance(position?.lat, position?.lng, location?.mapLocation?.latitude, location?.mapLocation?.longitude)) * 0.621371;
   // const distance = (calculateDistance(30.2553469, -81.43374179999999, 30.1063112, -81.48166169999999)) * 0.621371;
   console.log(distance)
   return (
