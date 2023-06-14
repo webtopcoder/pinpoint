@@ -3,7 +3,7 @@ import Image from "next/image";
 import { connect } from "react-redux";
 import { UploadOutlined, LikeOutlined, PlusOutlined, DownloadOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import {
-  Image as Antimage, Divider, Popover, Button, Upload, message, Form, Row, Col, Avatar, Dropdown, Typography, List, Space, Skeleton, Mentions, Progress,
+  Image as Antimage, Drawer, Divider, Popover, Button, Upload, message, Form, Row, Col, Avatar, Dropdown, Typography, List, Space, Skeleton, Mentions, Progress,
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { useRouter } from "next/router";
@@ -128,6 +128,8 @@ const ProfileActivity = ({
       pageSize: 20,
     },
   });
+
+  const [open, setOpen] = useState(false);
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [postloading, setPostLoading] = useState(false);
@@ -141,6 +143,15 @@ const ProfileActivity = ({
   const [list, setList] = useState([]);
   const router = useRouter();
   const profile = router.query?.profile;
+  const [currentImage, setCurrentImage] = useState();
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const onMenuClick = (e) => {
     ondownloadFile(e.key);
@@ -728,25 +739,43 @@ const ProfileActivity = ({
                           <span id="email-notes">Photos</span>
                         </h4>
                         <div className="row">
-                          <Antimage.PreviewGroup>
+                          <Antimage.PreviewGroup
+                            preview={{
+                              countRender: (current) => setCurrentImage(myallPhotos[current - 1]),
+                              onVisibleChange: async (visible, prevVisible) => {
+                                !visible ? await onClose() : '';
+                              }
+                            }}>
                             {myallPhotos &&
                               myallPhotos.map((image, index) => (
                                 image.status === "active" ?
                                   (
-                                    <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="click">
+                                    isWebDevice ?
+                                      <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover" >
+                                        <Antimage
+                                          loader={myLoader}
+                                          style={{
+                                            padding: "5px",
+                                          }}
+                                          width={"25%"}
+                                          src={imgurl + image?.filepath}
+                                          key={index}
+                                          alt="ewrwerwerwe"
+                                        />
+                                      </Popover> :
                                       <Antimage
                                         onClick={() => {
-                                          console.log(234234)
+                                          !isWebDevice ? showDrawer(true) : ''
                                         }}
-                                        key={index}
                                         loader={myLoader}
                                         style={{
-                                          padding: "2px",
+                                          padding: "5px",
                                         }}
                                         width={"25%"}
                                         src={imgurl + image?.filepath}
+                                        key={index}
+                                        alt="ewrwerwerwe"
                                       />
-                                    </Popover>
                                   )
                                   : ''
                               ))}
@@ -854,6 +883,24 @@ const ProfileActivity = ({
                       </div>
                     </div>
                   </div>
+                  <Drawer
+                    title={currentImage?.type + ", " + formatDate(currentImage?.createdAt)}
+                    placement="bottom"
+                    width={500}
+                    height={200}
+                    closable={false}
+                    open={open}
+                    zIndex={10000}
+                    mask={false}
+                    maskClosable={false}
+                    extra={
+                      null
+                    }
+                  >
+                    <p style={{
+                      color: "#000000",
+                    }}>{currentImage?.content}</p>
+                  </Drawer>
                 </div>
               </aside>
             </div>

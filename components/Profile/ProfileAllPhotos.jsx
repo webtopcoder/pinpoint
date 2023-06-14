@@ -147,7 +147,7 @@ const ProfileAllPhotos = () => {
                                   style={{
                                     padding: "5px",
                                   }}
-                                  width={"20%"}
+                                  width={"25%"}
                                   src={imgurl + image?.filepath}
                                   key={index}
                                   alt="ewrwerwerwe"
@@ -204,20 +204,38 @@ const ProfileAllPhotos = () => {
                           <span id="email-notes">Photos</span>
                         </h4>
                         <div className="row">
-                          <Antimage.PreviewGroup>
+                          <Antimage.PreviewGroup
+                            preview={{
+                              onVisibleChange: async (visible, prevVisible) => {
+                                !visible ? await onClose() : '';
+                              }
+                            }}>
                             {sidebarImage &&
                               sidebarImage.map((image, index) => (
-                                <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover">
+                                isWebDevice ?
+                                  <Popover content={image?.content} title={image?.type + ", " + formatDate(image?.createdAt)} trigger="hover" >
+                                    <Antimage
+                                      loader={myLoader}
+
+                                      width={"25%"}
+                                      src={imgurl + image?.filepath}
+                                      key={index}
+                                      alt="ewrwerwerwe"
+                                    />
+                                  </Popover> :
                                   <Antimage
-                                    key={index}
+                                    onClick={() => {
+                                      !isWebDevice ? showDrawer(true) : ''
+                                    }}
                                     loader={myLoader}
                                     style={{
-                                      padding: "2px",
+                                      padding: "5px",
                                     }}
-                                    width={"25%"}
+                                    width={"20%"}
                                     src={imgurl + image?.filepath}
+                                    key={index}
+                                    alt="ewrwerwerwe"
                                   />
-                                </Popover>
                               ))}
 
                           </Antimage.PreviewGroup>
