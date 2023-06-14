@@ -1,9 +1,8 @@
 import { UploadOutlined } from "@ant-design/icons";
+import Image from "next/image";
 import {
   Button,
-  Space,
   Typography,
-  Tooltip,
   Form,
   Row,
   Col,
@@ -19,7 +18,7 @@ import { locationService } from "@/services/index";
 
 const { Text } = Typography;
 
-function PostForm({ location, onPostReview, getLocationInfo, expand }) {
+function PostForm({ location, getLocationInfo, expand }) {
   const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
   const isWebDevice = useMedia('(min-width:700px)');
@@ -73,20 +72,16 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                     rating: 0
                   }
                 }
-                onFinish={(values) => {
+                onFinish={async (values) => {
                   const formData = new FormData();
                   formData.append("rating", rating);
                   formData.append("text", values.text);
                   uploadFile.forEach((file) => {
                     formData.append("images", file.originFileObj);
                   });
-                  onPostReview(location._id, formData, (_, error) => {
-                    if (error) {
-                      notify(
-                        "error",
-                        error?.response?.data?.message || "Something went wrong"
-                      );
-                    } else {
+
+                  await locationService.PostReview(location?._id, formData)
+                    .then(async () => {
                       postForm.resetFields();
                       setRating(0);
                       setUploadFile([]);
@@ -100,8 +95,11 @@ function PostForm({ location, onPostReview, getLocationInfo, expand }) {
                           );
                         }
                       });
-                    }
-                  });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      return;
+                    });
                 }}
                 layout="vertical"
                 autoComplete="off"

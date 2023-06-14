@@ -1,11 +1,5 @@
 import { CheckOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Space,
-  Typography,
-  Tooltip,
-  Modal
-} from "antd";
+import { Button, Space, Typography, Tooltip, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import useMedia from "@/hooks/useMedia";
 import { locationService } from "@/services/index";

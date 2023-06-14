@@ -1,9 +1,7 @@
 import { EnvironmentFilled } from "@ant-design/icons";
 import {
-  Button,
   Space,
   Typography,
-  Tooltip,
   Card,
   Tag,
   Avatar
@@ -19,6 +17,7 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 const { Meta } = Card;
 const { Title } = Typography;
 const avatarurl = `${apiBaseUrl}/avatar/`;
+const imgurl = `${apiBaseUrl}/avatar/`;
 
 function ArrivalBanner({ location, checkIncount }) {
 
@@ -33,10 +32,6 @@ function ArrivalBanner({ location, checkIncount }) {
   const date = location?.updatedAt;
   const isWebDevice = useMedia('(min-width:700px)');
   const [checkIncounts, setCheckIncounts] = useState(checkIncount);
-  // var d = (google.maps.geometry?.spherical?.computeDistanceBetween(
-  //   new google.maps.LatLng(33.0235937, -96.98110070000001),
-  //   new google.maps.LatLng(32.7078751, -96.9209135), 
-  // ))?.toFixed(2);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -71,13 +66,16 @@ function ArrivalBanner({ location, checkIncount }) {
   }
 
   const distance = (calculateDistance(position?.lat, position?.lng, location?.mapLocation?.latitude, location?.mapLocation?.longitude)) * 0.621371;
-  // const distance = (calculateDistance(30.2553469, -81.43374179999999, 30.1063112, -81.48166169999999)) * 0.621371;
   console.log(distance)
   return (
     <div>
-      <div className="avatar-area green-color">
-        <div className="avatar-respond">
-          <div style={{ display: "flex" }} className="pin-post-header-section">
+      <div className="avatar-area green-color" style={{
+        paddingTop: 0
+      }}>
+        <div className="avatar-respond" style={{
+            marginTop: 5
+          }}>
+          <div style={{ display: "flex", marginTop: 0 }} className="pin-post-header-section">
             <div className="pin-post-label">
               <Card
                 style={{

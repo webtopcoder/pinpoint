@@ -59,6 +59,14 @@ function LocationService() {
     return api(`locations/${arrivalID}/like`, "post")
   }
 
+  function likeReview(reviewId) {
+    return api(`locations/review/${reviewId}/like`, "post")
+  }
+
+  function PostReview(locationId, form) {
+    return api(`locations/${locationId}/review`, "post", form)
+  }
+
   return {
     getAllLocations,
     getLocations,
@@ -71,7 +79,9 @@ function LocationService() {
     favoriteLocation,
     CheckInArrival,
     getFavoriteLocations,
-    likeArrival
+    likeArrival,
+    likeReview,
+    PostReview
   };
 }
 

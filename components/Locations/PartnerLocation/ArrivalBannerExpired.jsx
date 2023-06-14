@@ -1,9 +1,8 @@
 import { EnvironmentFilled, DownOutlined } from "@ant-design/icons";
 import {
-  Button,
   Space,
   Typography,
-  Tooltip, Card,
+  Card,
   Tag,
   Avatar
 } from "antd";
@@ -25,14 +24,20 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand }) {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <div>
-      <div className="avatar-area green-color">
+      <div className="avatar-area green-color" style={{
+        paddingTop: 0
+      }}>
         {arrivals?.arrivalData.map((arrival, index) => (
-          <div className="avatar-respond">
-            <div style={{ display: "flex" }} className="pin-post-header-section">
+          <div className="avatar-respond" style={{
+            marginTop: 15,
+            backgroundColor: 'rgb(241 241 241)'
+          }}>
+            <div style={{ display: "flex", marginTop: 0 }} className="pin-post-header-section">
               <div className="pin-post-label">
                 <Card
                   style={{
                     border: "0px",
+                    background: 'rgb(241 241 241)'
                   }}
                 >
                   <Meta
@@ -49,7 +54,7 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand }) {
                       )
                     }
                     title={
-                      <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size={isWebDevice ? 'large' : 'small'}>
+                      <Space direction={isWebDevice ? 'vertical' : 'vertical'} size="10">
                         <Title level={4}>{location?.title}</Title>
                         <Tag icon={<EnvironmentFilled />} color="rgb(245 60 60)">
                           {location?.mapLocation?.city}

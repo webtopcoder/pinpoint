@@ -45,7 +45,7 @@ const locationReducer = (state = initialState, action) => {
         expiredArrivals: action.payload.expiredArrival,
         checkIncount: action.payload.location.isArrival?.checkIn?.length
       };
-  
+
     case USER_EXPIRED_ARRIVAL_REQUEST:
       return { ...state, loading: true };
     case USER_EXPIRED_ARRIVAL_SUCCESS:

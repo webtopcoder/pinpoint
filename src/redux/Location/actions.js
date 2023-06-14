@@ -1,7 +1,5 @@
 import api from "@/utils/callApi";
 import {
-  LOCATION_REVIEW_REQUEST,
-  LOCATION_REVIEW_SUCCESS,
   USER_LOCATION_ID_SUCCESS,
   USER_LOCATION_REQUEST,
   LOCATION_FAVORITE_REQUEST,
@@ -41,45 +39,6 @@ export function getExpiredArrival({ id, ...params }, cb) {
           payload: res,
         });
         cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function postReview(locationId, form, cb) {
-  return (dispatch) =>
-    api(`locations/${locationId}/review`, "post", form)
-      .then((res) => {
-        dispatch({
-          type: LOCATION_REVIEW_REQUEST,
-        });
-
-        dispatch({
-          type: LOCATION_REVIEW_SUCCESS,
-          payload: res,
-        });
-
-        cb(res);
-      })
-      .catch((error) => {
-        cb(null, error);
-      });
-}
-
-export function likeLocationReview(reviewId, cb) {
-  return (dispatch) =>
-    api(`locations/review/${reviewId}/like`, "post")
-      .then((res) => {
-        dispatch({
-          type: LOCATION_REVIEW_REQUEST,
-        });
-
-        dispatch({
-          type: LOCATION_REVIEW_SUCCESS,
-        });
-
-        cb(res.liked);
       })
       .catch((error) => {
         cb(null, error);
