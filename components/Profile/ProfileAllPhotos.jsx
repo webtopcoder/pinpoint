@@ -4,16 +4,8 @@ import { useRouter } from "next/router";
 import { profileService } from "@/services/index";
 import toast from "@/components/Toast";
 import { apiBaseUrl } from "@/utils/baseUrl";
-const { Text, Link } = Typography;
 import { formatDate } from "@/utils/date";
 import useMedia from "@/hooks/useMedia";
-
-const content = (
-  <div>
-    <p>Content</p>
-    <p>Content</p>
-  </div>
-);
 
 const ProfileAllPhotos = () => {
   const [open, setOpen] = useState(false);
@@ -206,6 +198,7 @@ const ProfileAllPhotos = () => {
                         <div className="row">
                           <Antimage.PreviewGroup
                             preview={{
+                              countRender: (current) => setCurrentImage(myallPhotos[current - 1]),
                               onVisibleChange: async (visible, prevVisible) => {
                                 !visible ? await onClose() : '';
                               }
@@ -225,7 +218,7 @@ const ProfileAllPhotos = () => {
                                   </Popover> :
                                   <Antimage
                                     onClick={() => {
-                                      !isWebDevice ? showDrawer(true) : ''
+                                     showDrawer(true);
                                     }}
                                     loader={myLoader}
                                     style={{
