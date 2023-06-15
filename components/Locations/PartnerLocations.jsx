@@ -41,7 +41,7 @@ const PartnerLocations = () => {
     <Layout
       className="site-layout"
       style={{
-        background: "#211f1f",
+        background: "#000",
       }}
     >
       <Content

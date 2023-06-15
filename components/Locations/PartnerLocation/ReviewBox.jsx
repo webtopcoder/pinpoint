@@ -125,21 +125,6 @@ const CommentBody = ({ item, user_id, path }) => {
 
 function ReviewBox({ review, location, router, user_id }) {
 
-  async function likeReview() {
-    await api(`locations/review/${review?._id}/like`, "post")
-      .then(async (res) => {
-        if (res.liked) {
-          setLike((like) => like + 1);
-        } else {
-          setLike((like) => (like ? like - 1 : like));
-        };
-      })
-      .catch((error) => {
-        console.log(error);
-        return;
-      });
-  }
-
   return (
     <List.Item>
       <Skeleton avatar title={false} loading={review?.loading} active>

@@ -1,7 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Register from "@/components/Authentication/User/UserRegister";
-import { connect } from "react-redux";
 
 const userRegister = () => {
   return (
@@ -27,11 +26,4 @@ const userRegister = () => {
 
 userRegister.authenticate = false;
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.user.token,
-    role: state.user.role,
-  };
-};
-
-export default connect(mapStateToProps)(userRegister);
+export default userRegister;
