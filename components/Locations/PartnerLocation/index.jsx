@@ -141,7 +141,7 @@ const index = ({
                 <>
                   <Divider className="review-divider" style={{
                     color: "#fff",
-                  }} orientation="left">Expired Arrivals</Divider>
+                  }} orientation="left">Previous Arrivals</Divider>
                   <ArrivalBannerExpired
                     location={location}
                     arrivals={expiredArrivals}

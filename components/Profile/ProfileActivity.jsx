@@ -73,7 +73,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
           icon={<LikeOutlined />}
           key="list-vertical-like-o"
         />
-        <Space style={{
+        {/* <Space style={{
           marginRight: 20,
           marginTop: 20
         }}>
@@ -102,7 +102,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
             {expandComments ? <DownOutlined /> : <UpOutlined />}
             View Comments
           </Button>
-        </Space>
+        </Space> */}
       </div>
       <Comments currentUserId={user_id} path={path} ownerId={item.from_user._id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
     </>

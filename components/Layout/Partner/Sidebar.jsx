@@ -141,7 +141,7 @@ function LeftSidebar({
 
   const Additionitems = [
     getItem("Dashboard", "/partner/dashboard/", <DashboardFilled />),
-    getItem("Parter Locations", "/partner/locations/", <EnvironmentFilled />),
+    getItem("Locations", "/partner/locations/", <EnvironmentFilled />),
     // getItem("Contact Pinpoint", "11", <ContactsFilled />),
   ];
 

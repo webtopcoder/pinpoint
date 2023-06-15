@@ -14,6 +14,7 @@ import {
   Rate,
   Tag
 } from "antd";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
