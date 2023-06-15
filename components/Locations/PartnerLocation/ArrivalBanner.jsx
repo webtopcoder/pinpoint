@@ -149,7 +149,7 @@ function ArrivalBanner({ location, checkIncount }) {
                 />
                 <LikeArrvial
                   arrvialID={arrivalID}
-                  text={location.isArrival.like ? location.isArrival.like.count : 0}
+                  text={location.isArrival?.like ? location.isArrival?.like.count : 0}
                   key="list-vertical-like-o"
                 />
               </Space>

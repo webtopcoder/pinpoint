@@ -126,7 +126,7 @@ function LeftSidebar({
       <UnorderedListOutlined />
     ),
     getItem("Settings", `/partner/settings/`, <SettingFilled />),
-    getItem("Parter Locations", "/partner/locations/", <EnvironmentFilled />),
+    getItem("Locations", "/partner/locations/", <EnvironmentFilled />),
     getItem("View Profile", 'sub1', <ProfileFilled />, [
       getItem('Activity', `/profile/${user_id}/activity`),
       getItem('Shout out', `/profile/${user_id}/shout-outs`),

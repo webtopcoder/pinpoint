@@ -100,13 +100,13 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand }) {
               <div style={{ marginLeft: "auto", order: "2" }}>
                 <Space size="middle">
                   <CheckInArrivalExpired
-                    arrvialID={arrival.id}
-                    text={arrival.checkIn.length ? arrival.checkIn.length : 0}
+                    arrvialID={arrival?.id}
+                    text={arrival?.checkIn?.length ? arrival?.checkIn?.length : 0}
                     notify={notify}
                   />
                   <LikeArrvial
                     arrvialID={arrival.id}
-                    text={arrival.like ? arrival.like.count : 0}
+                    text={arrival?.like ? arrival?.like?.count : 0}
                     key="list-vertical-like-o"
                   />
                 </Space>

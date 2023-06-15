@@ -11,7 +11,7 @@ import { getDiffToNow } from "@/utils/date";
 import useMedia from "@/hooks/useMedia";
 import { userService } from "@/services/index";
 
-function NotificationDrawer({
+function PhotoDetailDrawer({
   placement = "left",
   open,
   onClose,
@@ -142,4 +142,4 @@ function NotificationDrawer({
   );
 }
 
-export default NotificationDrawer;
+export default PhotoDetailDrawer;
