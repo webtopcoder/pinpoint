@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
-function Posts({ loading, initLoading, user_id, list, data, setLoading, setList, allActivities }) {
+function Posts({ loading, initLoading, user_id, list, data, setLoading, setList, allActivities, ondownloadFile }) {
     const pattern = /@\w+/g;
     const router = useRouter();
     const { notify } = useNotify();

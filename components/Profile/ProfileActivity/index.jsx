@@ -6,14 +6,18 @@ import { profileService } from "@/services/index";
 import RightSider from "@/components/Profile/ProfileActivity/RightSider";
 import ComposePost from "@/components/Profile/ProfileActivity/ComposePost";
 import Posts from "@/components/Profile/ProfileActivity/Posts";
+import { downloadFile } from "@/redux/Mail/actions";
 
 const index = ({
+  ondownloadFile,
   user_id
 }) => {
+
   const { notify } = useNotify();
   const myLoader = ({ src }) => {
     return src;
   };
+
   const [paginationInfo, setPageInfo] = useState({
     pagination: {
       current: 1,
@@ -87,6 +91,7 @@ const index = ({
               setLoading={setLoading}
               setList={setList}
               allActivities={allActivities}
+              ondownloadFile={ondownloadFile}
             />
           </div>
           <RightSider
@@ -104,7 +109,11 @@ const index = ({
 const mapStateToProps = ({ user }) => {
   return {
     user_id: user.user_id,
+    followAndFollowing: user.followAndFollowing,
   };
 };
 
-export default connect(mapStateToProps)(index);
+const mapDispatchToProps = (dispatch) => ({
+  ondownloadFile: (filename) => dispatch(downloadFile(filename)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(index);
