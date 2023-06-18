@@ -27,4 +27,5 @@ Locations.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>
 }
 
-export default Locations;
+export default Locations
+

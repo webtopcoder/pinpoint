@@ -15,7 +15,7 @@ import { S_LOGIN } from '../Socket/types';
 import api from '@/utils/callApi'
 
 export function loginUser(form, cb) {
-    return dispatch => api(`auth/user/login`, 'post', form).then(
+    return dispatch => api(`auth/login`, 'post', form).then(
         res => {
             dispatch({
                 type: S_LOGIN,
@@ -38,7 +38,7 @@ export function loginUser(form, cb) {
 }
 
 export function registerUser(form, cb) {
-    return dispatch => api(`auth/user/register`, 'post', form).then(
+    return dispatch => api(`auth/register`, 'post', form).then(
         res => {
 
             dispatch({

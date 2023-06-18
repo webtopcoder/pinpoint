@@ -9,7 +9,7 @@ const partnerLogin = () => {
       <div className="profile-authentication-area ptb-100">
         <div className="container">
           <div className="page-title-content">
-            <span className="sub-title">PARTNER LOGIN</span>
+            <span className="sub-title">PARTER LOGIN</span>
           </div>
         </div>
         <div className="container">
@@ -26,4 +26,4 @@ const partnerLogin = () => {
   );
 };
 
-export default partnerLogin;
+export default partnerLogin

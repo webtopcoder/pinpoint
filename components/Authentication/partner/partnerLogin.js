@@ -44,16 +44,33 @@ const partnerLogin = ({ onLoginUser }) => {
 			});
 	};
 
+
+	const p = () => {
+		alert('p')
+	}
+
+	const n = () => {
+		alert('n')
+	}
+
+
 	const onSubmitForm = e => {
+
 		e.preventDefault();
 		const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
 		if (!isValid) return;
+
 		onLoginUser(form, res => {
-			res.success ? notify("success", res.msg) : notify("error", res.msg)
-			if (res.success) {
+			//alert(JSON.stringify(res))
+			//res.success ? notify("success", res.msg) : notify("error", res.msg)
+			//if (res.success) {
 				router.push('/partner/dashboard');
-			}
+			//}
 		});
+
+		router.push('/partner/dashboard')
+
+
 	};
 
 	return (

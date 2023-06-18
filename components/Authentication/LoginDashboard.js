@@ -43,7 +43,10 @@ const LoginDashboard = () => {
 				</form>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
-export default LoginDashboard;
+export default LoginDashboard
+
+
+
