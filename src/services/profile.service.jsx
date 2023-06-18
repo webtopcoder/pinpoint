@@ -6,6 +6,10 @@ function ProfileService() {
     return api(`profile`, "get");
   }
 
+  function getUserInfo() {
+    return api(`auth/me`, "get");
+  }
+
   function updateInfo(data) {
     return api(`profile/edit`, "patch", data)
   }
@@ -35,7 +39,6 @@ function ProfileService() {
 
   function getmyFollowers(id, count, search) {
     return api(`follow/${id}/follower?page=${count}&q=${search}`, "get")
-
   }
 
   function getFollowerAndFollowings() {
@@ -86,6 +89,22 @@ function ProfileService() {
     return api(`profile/partner/dashboard`, "get")
   }
 
+  function getPartnershipplans() {
+    return api(`/partnership`, "get")
+  }
+
+  function createCustomer() {
+    return api(`/partnership/create-customer`, "post")
+  }
+
+  function cancelSubscription(data) {
+    return api(`/partnership/cancel-subscribe`, "delete", data)
+  }
+
+  function Checkout(data) {
+    return api(`/partnership/subscribe`, "post", data)
+  }
+
   return {
     getInfo,
     updateInfo,
@@ -107,6 +126,11 @@ function ProfileService() {
     onunFriend,
     acceptFollowerRequest,
     getDashboardInfo,
+    getUserInfo,
+    getPartnershipplans,
+    createCustomer,
+    cancelSubscription,
+    Checkout
   };
 }
 

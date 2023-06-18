@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { Col, Row } from "antd";
-import LocationCard from "@/components/Locations/LocationCard";
+import LocationCard from "@/components/Partner/Locations/LocationCard";
 import { locationService } from "@/services/index";
 
 const ProfileFavorites = () => {

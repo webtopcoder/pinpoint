@@ -3,21 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-const Submenu = () => {
+const Submenu = ({ headerInfo }) => {
   const router = useRouter();
   const view_user_id = router.query.profile;
-  const [headerInfo, setHeaderInfo] = useState();
-
-  async function getHeader() {
-    const result = await profileService.getHeader(view_user_id);
-    await setHeaderInfo(result)
-  }
-
-  useEffect(() => {
-    if (router.isReady) {
-      getHeader();
-    }
-  }, [router.isReady]);
 
   return (
     <div className="container">
@@ -64,7 +52,7 @@ const Submenu = () => {
                 </a>
               </Link>
             </li>
-            {headerInfo?.profile?.usertype === "partner" ? (
+            {headerInfo?.profile?.usertype === "partner" ?
               <li>
                 <Link href={`/profile/${view_user_id}/locations`}>
                   <a
@@ -78,21 +66,36 @@ const Submenu = () => {
                   </a>
                 </Link>
               </li>
-            ) : (
-              <li>
-                <Link href={`/profile/${view_user_id}/favorites`}>
-                  <a
-                    className={
-                      router.pathname == `/profile/[profile]/favorites`
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    Favorites
-                  </a>
-                </Link>
-              </li>
-            )}
+              :
+              headerInfo?.profile?.usertype === "eventhost" ?
+                <li>
+                  <Link href={`/profile/${view_user_id}/events`}>
+                    <a
+                      className={
+                        router.pathname == `/profile/[profile]/events`
+                          ? "active"
+                          : ""
+                      }
+                    >
+                      Events
+                    </a>
+                  </Link>
+                </li>
+                :
+                <li>
+                  <Link href={`/profile/${view_user_id}/favorites`}>
+                    <a
+                      className={
+                        router.pathname == `/profile/[profile]/favorites`
+                          ? "active"
+                          : ""
+                      }
+                    >
+                      Favorites
+                    </a>
+                  </Link>
+                </li>
+            }
           </ul>
         </div>
       </div>

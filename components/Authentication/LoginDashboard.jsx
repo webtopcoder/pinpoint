@@ -38,6 +38,17 @@ const LoginDashboard = () => {
             </button>
           </Link>
           <div className="col-12">
+            <p className="account-desc-custom">OR</p>
+          </div>
+          <Link href="/authentication/eventhost/login">
+            <button className="login-dashboard-button" type="submit">
+              Event Holder
+              <p className="login-dashboard-button-subcaption">
+                *Login to post your event!
+              </p>
+            </button>
+          </Link>
+          <div className="col-12">
             <p className="account-desc">
               <Link href="/home">
                 <a className="login-dashboard-a-color">Just let me in..</a>

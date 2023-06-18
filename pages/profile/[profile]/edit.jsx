@@ -1,7 +1,8 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import BasicLayout from "../../../layout";
-import LeftSidebar from "@/components/Layout/Partner/Sidebar";
+import LeftSidebarPartner from "@/components/Layout/Partner/Sidebar";
+import LeftSidebarEventhost from "@/components/Layout/Eventhost/Sidebar";
 import Edit from "@/components/Profile/Edit";
 import { Layout } from "antd";
 import { connect } from "react-redux";
@@ -18,7 +19,10 @@ const PartnerEdit = ({ role }) => {
             minHeight: isWebDevice ? "130vh" : 'auto',
           }}
         >
-          {role === "partner" && isWebDevice ? <LeftSidebar /> : ""}
+          {role === "partner" && isWebDevice ?
+            <LeftSidebarPartner /> :
+            role === "eventhost" && isWebDevice ?
+              <LeftSidebarEventhost /> : ""}
           <Edit />
         </Layout>
       </div>

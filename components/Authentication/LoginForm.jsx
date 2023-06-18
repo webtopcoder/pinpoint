@@ -70,19 +70,31 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
         );
         return;
       }
-      if (role == 'partner') {
-        if (res.user.status !== 'active') {
-          notify("error", 'Not Allowed');
-          return false;
-        }
-        else {
+
+      switch (role) {
+        case 'partner':
+          if (res.user.status !== 'active') {
+            notify("error", 'Not Allowed');
+            return false;
+          }
+          else {
+            notify("success", `Welcome ${res.user.businessname}`);
+            router.push("/partner/dashboard");
+          }
+          break;
+        case 'eventhost':
+          if (res.user.status !== 'active') {
+            notify("error", 'Not Allowed');
+            return false;
+          }
+          else {
+            notify("success", `Welcome ${res.user.businessname}`);
+            router.push("/eventhost/dashboard");
+          }
+          break;
+        default:
           notify("success", `Welcome ${res.user.businessname}`);
-          router.push("/partner/dashboard");
-        }
-      }
-      else {
-        notify("success", `Welcome ${res.user.businessname}`);
-        router.push("/home");
+          router.push("/home");
       }
     });
   };

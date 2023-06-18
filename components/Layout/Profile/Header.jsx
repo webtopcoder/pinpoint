@@ -105,7 +105,6 @@ const Header = ({
               description={
                 <Space direction="vertical" size="middle">
                   <Title level={5}>@{headerInfo?.profile?.username}</Title>
-
                   {!own_page && (
                     <>
                       <Space
@@ -179,7 +178,7 @@ const Header = ({
               lg: 32,
             }}
           >
-            {headerInfo?.profile?.usertype == "partner" && (
+            {headerInfo?.profile?.usertype === "partner" || headerInfo?.profile?.usertype === "eventhost" ? (
               <>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{
                   paddingBottom: 4
@@ -207,7 +206,7 @@ const Header = ({
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Card
-                    title="Locations"
+                    title={headerInfo?.profile?.usertype === "partner" ? 'Locations' : 'Events'}
                     bordered={false}
                     style={{
                       textAlign: "center",
@@ -227,7 +226,7 @@ const Header = ({
                   </Card>
                 </Col>
               </>
-            )}
+            ) : ''}
             <Col xs={12} sm={12} md={6} lg={6} xl={6}>
               <Card
                 title="Likes"
@@ -276,7 +275,5 @@ const Header = ({
     </div >
   );
 };
-
-
 
 export default Header;

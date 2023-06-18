@@ -9,7 +9,7 @@ const Authentication = ({ token, role }) => {
   const router = useRouter();
   useEffect(() => {
     if (token) {
-      router.push(role == "partner" ? "/partner/dashboard" : "/home");
+      router.push(role == "partner" ? "/partner/dashboard" : role == "eventhost" ? '/eventhost/dashboard' : "/home");
     }
   }, [token]);
   return (

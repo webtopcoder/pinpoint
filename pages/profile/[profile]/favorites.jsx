@@ -31,9 +31,9 @@ const Favorites = ({ user_id, userRole }) => {
     <>
       <PageTitle page="PROFILE - FAVORITES" />
       <div className="page-pin-area">
-      <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
+        <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
         <div className="pin-profile-section">
-          <Submenu />
+          <Submenu headerInfo={headerInfo} />
           <ProfileFavorites />
         </div>
       </div>

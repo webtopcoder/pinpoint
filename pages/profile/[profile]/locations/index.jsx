@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import PartnerLocations from "@/components/Locations/PartnerLocations";
+import PartnerLocations from "@/components/Partner/Locations/PartnerLocations";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
 import Layout from "../../../../layout";
@@ -30,9 +30,9 @@ const Locations = ({ user_id, userRole }) => {
     <>
       <PageTitle page="PROFILE - LOCATIONS" />
       <div className="page-pin-area">
-      <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
+        <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
         <div className="pin-profile-section">
-          <Submenu />
+          <Submenu headerInfo={headerInfo} />
           <PartnerLocations />
         </div>
       </div>

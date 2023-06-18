@@ -3,6 +3,7 @@ export * from "./comment.service";
 export * from "./auth.service";
 export * from "./mail.service";
 export * from "./location.service";
+export * from "./event.service";
 export * from "./user.service";
 export * from "./setting.service";
 export * from "./faq.service";

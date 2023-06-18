@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Row, Badge, Popconfirm, Button, Avatar } from "antd";
+import { Row, Badge, Popconfirm, Button, Avatar, Dropdown, Space } from "antd";
 import {
   ExportOutlined,
   LoginOutlined,
   UserAddOutlined,
   UserOutlined,
+  UsergroupAddOutlined
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -13,9 +14,7 @@ import Link from "next/link";
 import Logo from "@/public/images/logo.png";
 import mailIcon from "@/public/images/landing/user-mail.png";
 import LIcon from "@/public/images/landing/l.png";
-import {
-  logout,
-} from "@/src/redux/User/actions";
+import { logout } from "@/src/redux/User/actions";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import useNotify from "@/hooks/useNotify";
@@ -38,6 +37,54 @@ const RightSidebar = ({
   const [isreadEmails, setisreadEmails] = useState();
   const [initLoading, setInitLoading] = useState(true);
   const [notificationDrawerOpen, setOpen] = useState(false);
+
+  const loginitems = [
+    {
+      key: '1',
+      label: (
+        <Link href="/authentication/user/login">User</Link>
+      ),
+      icon: <UserOutlined />,
+    },
+    {
+      key: '2',
+      label: (
+        <Link href="/authentication/partner/login">Partner</Link>
+      ),
+      icon: <UserOutlined />,
+    },
+    {
+      key: '3',
+      label: (
+        <Link href="/authentication/eventhost/login">Event Host</Link>
+      ),
+      icon: <UserOutlined />,
+    },
+  ];
+
+  const signupitems = [
+    {
+      key: '1',
+      label: (
+        <Link href="/authentication/user/register">User</Link>
+      ),
+      icon: <UserAddOutlined />,
+    },
+    {
+      key: '2',
+      label: (
+        <Link href="/authentication/partner/register">Partner</Link>
+      ),
+      icon: <UserAddOutlined />,
+    },
+    {
+      key: '3',
+      label: (
+        <Link href="/authentication/eventhost/register">Event Host</Link>
+      ),
+      icon: <UserAddOutlined />,
+    },
+  ];
 
   const { notify } = useNotify();
   const onLogoutHandler = () => {
@@ -188,51 +235,27 @@ const RightSidebar = ({
           {!token && (
             <div className="login-btn-panel">
               <div className="login-btn">
-                <Popconfirm
-                  style={{ position: "fixed" }}
-                  title="WHO AM I?"
-                  description="Who are you?"
-                  okText="User"
-                  cancelText="Partner"
-                  onCancel={() =>
-                    SignupOrLogin("/authentication/partner/login")
-                  }
-                  onConfirm={() => SignupOrLogin("/authentication/user/login")}
-                >
-                  <a href="#">
-                    <Button
-                      shape="round"
-                      style={{ width: 100 }}
-                      icon={<LoginOutlined />}
-                    >
-                      Login
-                    </Button>
-                  </a>
-                </Popconfirm>
+                <Dropdown menu={{
+                  items: loginitems,
+                }} arrow placement="bottom">
+                  <Button shape="round"
+                    style={{ width: 100 }}
+                    icon={<LoginOutlined />}>
+                    Login
+                  </Button>
+                </Dropdown>
               </div>
               <div className="signup-btn">
-                <Popconfirm
-                  title="WHO AM I?"
-                  description="Who are you?"
-                  okText="User"
-                  cancelText="Partner"
-                  onCancel={() =>
-                    SignupOrLogin("/authentication/partner/register")
-                  }
-                  onConfirm={() =>
-                    SignupOrLogin("/authentication/user/register")
-                  }
-                >
-                  <a href="#">
-                    <Button
-                      shape="round"
-                      style={{ width: 100 }}
-                      icon={<UserAddOutlined />}
-                    >
-                      Sign Up
-                    </Button>
-                  </a>
-                </Popconfirm>
+                <Dropdown menu={{
+                  items: signupitems,
+                }} arrow placement="bottom">
+                  <Button shape="round"
+                    type="primary"
+                    style={{ width: 100 }}
+                    icon={<UsergroupAddOutlined />}>
+                    Sign Up
+                  </Button>
+                </Dropdown>
               </div>
             </div>
           )}

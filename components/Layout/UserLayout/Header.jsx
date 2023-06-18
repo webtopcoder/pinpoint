@@ -169,7 +169,7 @@ const Header = ({
                 </a>
               </Link>
             </div>
-            {role !== "partner" ? (
+            {role !== "partner" && role !== "eventhost" ? (
               <div className="col-md-4 text-right desktop">
                 <div className="others-option">
                   <a onClick={toggle}>
