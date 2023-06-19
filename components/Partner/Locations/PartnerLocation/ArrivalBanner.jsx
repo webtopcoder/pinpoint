@@ -139,18 +139,24 @@ function ArrivalBanner({ location }) {
             </div>
           </div>
           <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
-            <FacebookShareButton
-              url={`https://www.facebook.com/sharer/sharer.php?u=&quote=${encodeURIComponent(location?.location?.title)}&description=${encodeURIComponent(arrivalText)}&picture=${encodeURIComponent(imgurl + arrivalImage)}`}     //eg. https://www.example.com
-              quotes="arrival Info"  //"Your Quotes"
-            >
-              <FacebookIcon style={{
-                width: '25',
-                height: '25'
-              }}/>
-            </FacebookShareButton>
+
+            {location && arrivalText && arrivalImage &&
+              <FacebookShareButton
+                style={{ display: 'none' }}
+                id="fbShareBtn"
+                url={`https://linkshare-production.up.railway.app/share?title=${location?.location?.title}&description=${arrivalText}&imageUrl=${encodeURIComponent(imgurl + arrivalImage)}`}
+                quotes={"Quotes"}  //"Your Quotes"
+                hashtag={"Hashtag"} // #hashTag
+              >
+                <FacebookIcon style={{
+                  width: '25',
+                  height: '25',
+                }}/>
+              </FacebookShareButton>}
+
+
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Space size="middle">
-
                 <CheckInArrivalActive
                   distance={distance}
                   setCheckIncounts={setCheckIncounts}
@@ -168,7 +174,7 @@ function ArrivalBanner({ location }) {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
