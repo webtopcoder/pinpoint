@@ -36,13 +36,6 @@ const PartnerShipPayment = ({
 
   async function handleSubscribeClick(priceID) {
     setPriceId(priceID);
-    // await createCustomer((res, error) => {
-    //   const customer = res.customer;
-    //   setCustomer(customer);
-    //   if (error) {
-    //     console.log("error");
-    //   }
-    // });
     await setShowModal(true);
 
     await profileService.createCustomer()
@@ -77,23 +70,11 @@ const PartnerShipPayment = ({
         );
         return;
       });
-
-    // await cancelSubscription(data, (res, error) => {
-    //   if (error) {
-    //     console.log("error");
-    //     notify("error", "Fail");
-    //     return;
-    //   }
-    //   notify("success", "Subscription Cancelled");
-    // });
-
-    // await getUserInfo((res, error) => {
-    //   if (error) {
-    //     console.log(error);
-    //     notify("error", "Fail");
-    //   }
-    // });
   }
+
+  async function getUserDetail() {
+    await getUserInfo();
+  };
 
   return (
     <Card
@@ -187,7 +168,7 @@ const PartnerShipPayment = ({
                   customerId={customer.id}
                   priceId={priceId}
                   setShowModal={setShowModal}
-                  getUserInfo={getUserInfo}
+                  getUserDetail={getUserDetail}
                 />
               ) : (
                 ""
@@ -211,6 +192,5 @@ const PartnerShipPayment = ({
     </Card>
   );
 };
-
 
 export default PartnerShipPayment;

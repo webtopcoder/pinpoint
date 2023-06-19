@@ -55,6 +55,7 @@ const Events = ({ user_id, additionLocatoins }) => {
   };
 
   async function initialize() {
+    console.log(32423434)
     await eventService.getEvents({ partner: user_id, isActive: null })
       .then(async (res) => {
         setLoading(false);

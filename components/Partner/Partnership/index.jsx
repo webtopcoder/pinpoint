@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import {
   Layout,
   Col,
@@ -7,10 +6,6 @@ import {
   Badge,
   Typography,
 } from "antd";
-// import {
-//   cancelSubscription,
-//   createCustomer,
-// } from "@/redux/Profile/actions";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import PartnerShipPayment from "./PartnerShipPayment";
@@ -35,11 +30,14 @@ const Index = () => {
   const [partnerShipPlans, setPartnerShipPlans] = useState();
 
   async function initializeGetUser() {
+    console.log(234234)
     await profileService.getUserInfo()
       .then((res) => {
+        console.log(res)
         setUserInfo(res?.user);
       })
       .catch((error) => {
+        console.log(error)
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
@@ -106,7 +104,7 @@ const Index = () => {
             >
               {partnerShipPlans?.map((plan, index) => (
                 <Col xs={24} sm={24} md={12} lg={12} xl={8} key={index}>
-                  {userInfo?.activePartnership == plan._id && new Date(partnershipPriceRenewalDate) > new Date() ? (
+                  {userInfo?.activePartnership == plan._id && new Date(userInfo?.partnershipPriceRenewalDate) > new Date() ? (
                     <Badge.Ribbon text="Active" color="green">
                       <PartnerShipPayment
                         {...plan}
@@ -121,7 +119,6 @@ const Index = () => {
                   ) : (
                     <PartnerShipPayment
                       {...plan}
-                    // createCustomer={onCreateCustomer}
                     />
                   )}
                 </Col>
@@ -133,10 +130,5 @@ const Index = () => {
     </Elements>
   );
 };
-
-// const mapDispatchToProps = (dispatch) => ({
-//   // onCancelSubscription: (data, cb) => dispatch(cancelSubscription(data, cb)),
-//   onCreateCustomer: (cb) => dispatch(createCustomer(cb)),
-// });
 
 export default Index;

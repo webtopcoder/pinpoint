@@ -17,7 +17,7 @@ const EventHostEvents = () => {
   const [loading, setLoading] = useState(true);
 
   async function initialize() {
-    await eventService.getEvents({ eventhost: profile, isActive: null })
+    await eventService.getEvents({ partner: profile, isActive: null })
       .then(async (res) => {
         setLoading(false);
         await setEvents(res.results);

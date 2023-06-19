@@ -6,6 +6,7 @@ import {
   Tag,
   Avatar
 } from "antd";
+import { FacebookShareButton, FacebookIcon } from 'react-share';
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import useMedia from "@/hooks/useMedia";
@@ -138,8 +139,18 @@ function ArrivalBanner({ location }) {
             </div>
           </div>
           <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
+            <FacebookShareButton
+              url={`https://www.facebook.com/sharer/sharer.php?u=&quote=${encodeURIComponent(location?.location?.title)}&description=${encodeURIComponent(arrivalText)}&picture=${encodeURIComponent(imgurl + arrivalImage)}`}     //eg. https://www.example.com
+              quotes="arrival Info"  //"Your Quotes"
+            >
+              <FacebookIcon style={{
+                width: '25',
+                height: '25'
+              }}/>
+            </FacebookShareButton>
             <div style={{ marginLeft: "auto", order: "2" }}>
               <Space size="middle">
+
                 <CheckInArrivalActive
                   distance={distance}
                   setCheckIncounts={setCheckIncounts}

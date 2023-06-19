@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {
-  getUserInfo,
-  subscribe,
   removePartnership,
 } from "@/src/redux/Profile/actions";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import useNotify from "@/hooks/useNotify";
 import { Modal, Row, Col, Typography, Button } from "antd";
 import Image from "next/image";
@@ -17,10 +15,10 @@ const { Title } = Typography;
 const CheckoutForm = ({
   customerId,
   priceId,
-  // getUserInfo,
   showModal,
   onCancel,
   setShowModal,
+  getUserDetail
 }) => {
   const [error, setError] = useState(undefined);
   const [loading, setLoading] = useState(false);
@@ -88,58 +86,19 @@ const CheckoutForm = ({
           return;
         } else {
           notify("success", "Subscription Purchase Successful");
-          setLoading(false);
-          setShowModal(false);
-          getUserInfo();
+          await setLoading(false);
+          await setShowModal(false);
+          await getUserDetail();
         }
       })
       .catch((error) => {
+        console.log(error)
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
         );
         return;
       });
-
-    // await onCheckout(data, async (res, error) => {
-    //   const subscription = res;
-    //   if (!subscription) {
-    //     setLoading(false);
-    //     notify("error", "Subscription purchase failed");
-    //     return;
-    //   }
-    //   let stripePayload, data;
-    //   if (subscription.status === "setupCard") {
-    //     stripePayload = await stripe.confirmCardSetup(
-    //       subscription.clientSecret,
-    //       {
-    //         payment_method: {
-    //           card: elements.getElement(CardElement),
-    //         },
-    //       }
-    //     );
-    //   } else {
-    //     stripePayload = await stripe.confirmCardPayment(
-    //       subscription.clientSecret, // returned by subscribe endpoint
-    //       {
-    //         payment_method: {
-    //           card: elements.getElement(CardElement),
-    //         },
-    //       }
-    //     );
-    //   }
-    //   if (stripePayload.error) {
-    //     dispatch(removePartnership());
-    //     setError(stripePayload.error.message);
-    //     notify("error", stripePayload.error.message);
-    //     setLoading(false);
-    //     return;
-    //   } else {
-    //     notify("success", "Subscription purchase successful");
-    //     setLoading(false);
-    //     setShowModal(false);
-    //   }
-    // });
   }
 
   return (
@@ -215,8 +174,4 @@ const CheckoutForm = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onCheckout: (data, cb) => dispatch(subscribe(data, cb)),
-  ongetUser: (cb) => dispatch(getUserInfo(cb)),
-});
-export default connect(undefined, mapDispatchToProps)(CheckoutForm);
+export default CheckoutForm;
