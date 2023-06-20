@@ -1,12 +1,4 @@
-import {
-    Col,
-    Row,
-    Modal,
-    Table,
-    Tag,
-    Button,
-    Tabs
-} from "antd";
+import { Col, Row, Modal, Table, Tag, Button, Tabs } from "antd";
 import { formatDate } from "@/utils/date";
 import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";

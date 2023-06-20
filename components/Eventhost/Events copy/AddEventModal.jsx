@@ -98,7 +98,7 @@ function AddEventModal({
               await setLoading(false);
               notify("success", "Event added successfully");
               form.resetFields();
-              await eventService.getEvents({ isActive: null })
+              await eventService.getEvents({ partner: user_id, isActive: null })
                 .then(async (res) => {
                   if (additionLocatoins.length > 0) {
                     const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));

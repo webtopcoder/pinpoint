@@ -12,9 +12,9 @@ function EventService() {
   //   return api(apiquery, "get");
   // }
 
-  function getEvents({ pagination = false, partner, isActive }) {
+  function getEvents({ pagination = false, isActive }) {
     return api(
-      `event?pagination=${pagination}&partner=${partner}${isActive != null ? "&isActive=" + isActive : ""
+      `event?pagination=${pagination}${isActive != null ? "&isActive=" + isActive : ""
       }`,
       "get"
     )
@@ -68,6 +68,10 @@ function EventService() {
     return api(`event/${eventId}/review`, "post", form)
   }
 
+  function AddEventSchedule(form) {
+    return api(`event/addeventschedule`, "post", form)
+  }
+
   return {
     // getAllLocations,
     getEvents,
@@ -81,7 +85,8 @@ function EventService() {
     // getFavoriteLocations,
     likeArrival,
     // likeReview,
-    PostReview
+    PostReview,
+    AddEventSchedule
   };
 }
 

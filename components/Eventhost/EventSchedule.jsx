@@ -13,9 +13,9 @@ import {
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { PlusCircleOutlined, LoadingOutlined } from "@ant-design/icons";
-import EventCard from "./Events/EventCard";
+import EventCard from "./EventSchedule/EventCard";
 import useNotify from "@/hooks/useNotify";
-import AddEventModal from "./Events/AddEventModal";
+import AddEventModal from "./EventSchedule/AddEventModal";
 import useMedia from "@/hooks/useMedia";
 import { eventService } from "@/services/index";
 
@@ -23,7 +23,7 @@ const { Title } = Typography;
 const { Content } = Layout;
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
-const Events = ({ user_id, additionLocatoins }) => {
+const EventSchedule = ({ user_id, additionLocatoins }) => {
   const [uploadFile, setUploadFile] = useState([]);
   const isWebDevice = useMedia('(min-width:700px)');
   const [loading, setLoading] = useState(true);
@@ -115,7 +115,7 @@ const Events = ({ user_id, additionLocatoins }) => {
                     onClick={() => setAddModalOpen(true)}
                     icon={<PlusCircleOutlined />}
                   >
-                    Add Event
+                    Add Schedule Event
                   </Button>
                 </Col>
                 <Col className="gutter-row"
@@ -126,7 +126,7 @@ const Events = ({ user_id, additionLocatoins }) => {
                       textAlign: "center",
                     }}
                   >
-                    Events
+                    Scheduled Events
                   </Title>
                 </Col>
                 <Col
@@ -174,7 +174,6 @@ const Events = ({ user_id, additionLocatoins }) => {
       </Content>
       <AddEventModal
         open={addModalOpen}
-        setEvents={setEvents}
         setModalOpen={setAddModalOpen}
         uploadProps={uploadProps}
         uploadFile={uploadFile}
@@ -192,4 +191,4 @@ const mapStateToProps = ({ user }) => {
   };
 };
 
-export default connect(mapStateToProps)(Events);
+export default connect(mapStateToProps)(EventSchedule);

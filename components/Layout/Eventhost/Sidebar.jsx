@@ -10,6 +10,7 @@ import {
   InfoCircleFilled,
   ExportOutlined,
   GiftOutlined,
+  CalendarOutlined 
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -127,6 +128,7 @@ function LeftSidebar({
     ),
     getItem("Settings", `/eventhost/settings/`, <SettingFilled />),
     getItem("Events", "/eventhost/events/", <EnvironmentFilled />),
+    getItem("Event Schedule", "/eventhost/event-schedule/", <CalendarOutlined />),
     getItem("View Profile", 'sub1', <ProfileFilled />, [
       getItem('Activity', `/profile/${user_id}/activity`),
       getItem('Shout out', `/profile/${user_id}/shout-outs`),

@@ -1,24 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import { setCookie, getCookie } from 'cookies-next';
 import ListViewModal from "@/components/User/InteractiveMap/ListView";
-import {
-  Col, InputNumber, Row, Slider, Button, Tooltip, Select, Form, Space, notification, Typography, Drawer, Spin, Segmented, Avatar
-} from "antd";
-import { FullscreenOutlined, UnorderedListOutlined, LoadingOutlined } from "@ant-design/icons";
-import Image from "next/image";
-import food from "@/public/images/landing/food.png";
+import { Button, Space, notification, Typography, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import Layout from "../../../layout";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import baseUrl from "@/utils/baseUrl";
-import { categoryService, locationService } from "@/services/index";
+import { locationService } from "@/services/index";
 import { browserName } from 'react-device-detect';
 import useNotify from "@/hooks/useNotify";
-import useMedia from "@/hooks/useMedia";
+import DirectionDrawer from "@/components/User/InteractiveMap/DirectionDrawer";
+import ToolBanner from "@/components/User/InteractiveMap/ToolBanner";
 
-const { Option } = Select;
 const { Paragraph, Text } = Typography;
-
+let cityCircle = null;
 const antIcon = (
   <LoadingOutlined
     style={{
@@ -28,28 +24,7 @@ const antIcon = (
   />
 );
 
-const close = () => {
-  console.log(
-    'Notification was closed. Either the close button was clicked or duration time elapsed.',
-  );
-};
-var cityCircle = null;
-
 const InteractiveMap = () => {
-  const autoCompleteRef = useRef();
-  const inputRef = useRef();
-
-  const options = {
-    componentRestrictions: { country: "us" },
-    fields: [
-      "address_components",
-      "adr_address",
-      "formatted_address",
-      "geometry",
-      "name",
-    ],
-  };
-
   const markerDescription = (data) => {
     return `<div class="card mb-3" style="max-width: 640px;"> 
     <div class="row no-gutters">
@@ -75,16 +50,6 @@ const InteractiveMap = () => {
             </div>
       </div>
     </div>`
-
-  }
-
-  function directionbuttonfun() {
-    setOpen(true);
-    setLoading(true);
-    setSelectlo(selectedItem);
-    document.getElementById("sidebar").innerHTML = "";
-    directionsRenderer.setPanel(document.getElementById("sidebar"));
-    calculateAndDisplayRoute1(directionsService, directionsRenderer, selectedItem);
   }
 
   function attachEventToDirectionButton() {
@@ -94,13 +59,9 @@ const InteractiveMap = () => {
     }
   }
 
-  let selectedItem = "", selectedMode = "DRIVING", map, directionsService, directionsRenderer, markers = [];
-  const formatter = (value) => `${value}mile`;
-  const isWebDevice = useMedia('(min-width:700px)');
+  let selectedItem = "", selectedMode, map, directionsService, directionsRenderer, markers = [];
   const [open, setOpen] = useState(false);
-  const [subcategoryList, setSubcategoryList] = useState([]);
   const [activeLocations, setActiveLocations] = useState([]);
-  const [categoryInfo, setCategoryInfo] = useState([]);
   const [mapzoom, setZoom] = useState(10);
   const [api, contextHolder] = notification.useNotification();
   const [radiusLocations, setRadiusLocations] = useState([]);
@@ -110,6 +71,7 @@ const InteractiveMap = () => {
     lng: -81.65565099999999,
   });
   const [selectedlo, setSelectlo] = useState();
+  const [transitMethod, setTransitMethod] = useState(undefined);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dirService, setDirservice] = useState();
@@ -120,6 +82,23 @@ const InteractiveMap = () => {
   const onClose = () => {
     setOpen(false);
   };
+
+  async function handleSeg(value) {
+    await setLoading(true);
+    selectedMode = value
+    await setTransitMethod(value);
+    await dirRender.setPanel(document.getElementById("sidebar"));
+    await calculateAndDisplayRoute2(dirService, dirRender, value, selectedlo);
+  };
+
+  async function directionbuttonfun() {
+    await setOpen(true);
+    await setLoading(true);
+    await setSelectlo(selectedItem);
+    document.getElementById("sidebar").innerHTML = "";
+    await directionsRenderer.setPanel(document.getElementById("sidebar"));
+    await calculateAndDisplayRoute2(directionsService, directionsRenderer, "DRIVING", selectedItem);
+  }
 
   const openNotification = () => {
     const key = `open${Date.now()}`;
@@ -151,7 +130,6 @@ const InteractiveMap = () => {
       btn,
       placement: 'bottomLeft',
       duration: null,
-      onClose: close,
     });
   }
 
@@ -159,24 +137,6 @@ const InteractiveMap = () => {
     const result = await locationService.getAllLocations(false, true, Form);
     await setActiveLocations(result?.results)
     await setRadiusLocations([]);
-  }
-
-  async function onUpdateField(value) {
-    const result = await categoryService.getSubcategory(value);
-    const subarr = [];
-    result?.subCategories?.map((item, index) => {
-      const subitem = {
-        value: item._id,
-        label: item.name,
-      };
-      subarr.push(subitem);
-    });
-    setSubcategoryList(subarr);
-  }
-
-  async function ongetCategory() {
-    const result = await categoryService.getCategory();
-    await setCategoryInfo(result?.allcategories);
   }
 
   function setMapOnAll() {
@@ -267,7 +227,6 @@ const InteractiveMap = () => {
 
           infowindow.addListener("domready", attachEventToDirectionButton);
         }
-
       } else {
         hideMarkers();
       }
@@ -279,29 +238,7 @@ const InteractiveMap = () => {
   useEffect(() => {
     const flag = getCookie('notify');
     browserName === "Safari" && flag === true ? openNotification() : "";
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setPosition({
-        lat: latitude,
-        lng: longitude,
-      });
-    });
-
-    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      options
-    );
-
-    autoCompleteRef.current.addListener("place_changed", async function () {
-      const place = await autoCompleteRef.current.getPlace();
-      setPosition({
-        lat: place.geometry?.location?.lat(),
-        lng: place.geometry?.location?.lng(),
-      });
-    });
-
-    ongetCategory();
-    onFinish(false, true, []);
+    onFinish([]);
   }, []);
 
 
@@ -325,12 +262,6 @@ const InteractiveMap = () => {
     setDirrender(directionsRenderer);
     initMap();
   }, [position, activeLocations]);
-
-  const handleSeg = (value) => {
-    setLoading(true);
-    dirRender.setPanel(document.getElementById("sidebar"));
-    calculateAndDisplayRoute2(dirService, dirRender, value, selectedlo);
-  };
 
   function initMap() {
     let currentInfoWindow = null; // Track the currently opened info window
@@ -366,9 +297,7 @@ const InteractiveMap = () => {
         new google.maps.LatLng(activeLocations[i]?.mapLocation?.latitude, activeLocations[i]?.mapLocation?.longitude)
       ))?.toFixed(2);
 
-
       if (d < inputValue * 1000 * 1.6) {
-
         const location = `${activeLocations[i]?.mapLocation?.latitude},${activeLocations[i]?.mapLocation?.longitude}`
         radiusLocations.push(activeLocations[i]);
         setRadiusLocations(radiusLocations);
@@ -408,10 +337,6 @@ const InteractiveMap = () => {
       }
     }
 
-    function showMarkers() {
-      setMapOnAll(map);
-    }
-
     map.addListener("dblclick", (e) => {
       // setMapOnAll(null);
       map.setZoom(mapzoom);
@@ -430,45 +355,6 @@ const InteractiveMap = () => {
       var zoom = map.getZoom();
       setZoom(zoom);
     });
-  }
-
-  function calculateAndDisplayRoute1(directionsService, directionsRenderer, location) {
-    let mainMode;
-    const end = location?.split(",");
-    switch (selectedMode) {
-      case 'BICYCLING':
-        mainMode = google.maps.TravelMode.BICYCLING;
-        break;
-      case 'TRANSIT':
-        mainMode = google.maps.TravelMode.TRANSIT;
-        break;
-      case 'WALKING':
-        mainMode = google.maps.TravelMode.WALKING;
-        break;
-      default:
-        mainMode = google.maps.TravelMode.DRIVING;
-        break;
-    }
-
-    if (selectedItem !== "") {
-      directionsService
-        .route({
-          origin: new google.maps.LatLng(position?.lat, position?.lng),
-          destination: new google.maps.LatLng(end[0], end[1]),
-          travelMode: mainMode,
-        })
-        .then((response) => {
-          directionsRenderer.setDirections(response);
-          setLoading(false);
-        })
-        .catch((e) => {
-          setLoading(false);
-          notify(
-            "error",
-            "No Support"
-          );
-        });
-    }
   }
 
   function calculateAndDisplayRoute2(directionsService, directionsRenderer, mode, location) {
@@ -563,155 +449,15 @@ const InteractiveMap = () => {
             <h1>Where are the goods at?</h1>
             <span className="sub-title">BROUGHT TO YOU BY PINPOINT</span>
           </div>
-          <div className="shout-area followers green-color">
-            <div className="shout-body">
-              <div className="shout-author vcard">
-                <div className="avatar desktop">
-                  <Image src={food} alt="user" className="shout-radius" />
-                </div>
-                <form className="search-form" action="javascript:void(0);">
-                  <input
-                    type="search"
-                    className="search-field"
-                    ref={inputRef}
-                    placeholder="Enter Address or Share Location"
-                  />
-                  <button onClick={getCurrentLocation}>
-                    <i className="bx bx-current-location"></i>
-                  </button>
-                </form>
-              </div>
-              <div className="shout-metadata">
-                <p>Search Radius:</p>
-                <Row>
-                  <Col xs={24} sm={24} md={19} lg={19} xl={19}>
-                    <Slider
-                      tooltip={{
-                        formatter,
-                      }}
-                      trackStyle={{
-                        background: "#175594",
-                      }}
-                      handleStyle={{
-                        background: "white",
-                      }}
-                      min={1}
-                      max={50}
-                      onChange={onChange}
-                      value={typeof inputValue === "number" ? inputValue : 0}
-                    />
-                  </Col>
-                  <Col xs={0} sm={0} md={3} lg={3} xl={3}>
-                    <InputNumber
-                      min={1}
-                      max={50}
-                      style={{
-                        width: 60,
-                        margin: "0 16px",
-                      }}
-                      value={inputValue}
-                      onChange={onChange}
-                    />
-                  </Col>
-                </Row>
-              </div>
-            </div>
-            <div className="shout-button-group">
-              <div className="container">
-                <div className="col-lg-12 col-md-12">
-                  <Form
-                    name="validate_other"
-                    onFinish={onFinish}
-                    style={{
-                      maxWidth: 600,
-                    }}
-                    layout="vertical"
-                  >
-                    <Form.Item
-                      name="category"
-                      hasFeedback
-                    >
-                      <Select
-                        size="large"
-                        onChange={(e) => onUpdateField(e)}
-                        placeholder="Select Category">
-                        <Option key={0} value="all">All</Option>
-                        {categoryInfo?.map((option, index) => (
-                          <Option key={index + 1} value={option._id}>{option.name}</Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="subcategory"
-                      hasFeedback
-                    >
-                      <Select
-                        mode="multiple"
-                        showSearch={false}
-                        allowClear
-                        maxTagCount={2}
-                        style={{
-                          width: "100%",
-                        }}
-                        size="large"
-                        placeholder="Select Subcategory"
-                        options={subcategoryList}
-                      />
-                    </Form.Item>
-                    <Form.Item label="">
-                      <Button
-                        size="large" style={{
-                          marginTop: 10,
-                          width: "100%",
-                        }} type="primary" htmlType="submit">
-                        Pinpoint
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </div>
-              </div>
-            </div>
-            <div className="shout-end-group">
-              <div className="container">
-                <Space direction="horizontal" wrap>
-                  <Tooltip title="Full Screen">
-                    <Button
-                      type="primary"
-                      style={{
-                        width: 70,
-                        height: 70,
-                      }}
-                      icon={
-                        <FullscreenOutlined
-                          style={{
-                            fontSize: 40,
-                          }}
-                        />
-                      }
-                      onClick={() => fullScreen()}
-                    />
-                  </Tooltip>
-                  <Tooltip title="List View">
-                    <Button
-                      type="primary"
-                      style={{
-                        width: 70,
-                        height: 70,
-                      }}
-                      onClick={() => setAddModalOpen(true)}
-                      icon={
-                        <UnorderedListOutlined
-                          style={{
-                            fontSize: 40,
-                          }}
-                        />
-                      }
-                    />
-                  </Tooltip>
-                </Space>
-              </div>
-            </div>
-          </div>
+          <ToolBanner
+            setPosition={setPosition}
+            getCurrentLocation={getCurrentLocation}
+            onChange={onChange}
+            inputValue={inputValue}
+            onFinish={onFinish}
+            fullScreen={fullScreen}
+            setAddModalOpen={setAddModalOpen}
+          />
           <div className="google-map-area green-color">
             <Spin spinning={loading} indicator={antIcon}>
               <div id="interactive-map"></div>
@@ -723,81 +469,7 @@ const InteractiveMap = () => {
             locations={radiusLocations}
             alllocations={activeLocations}
           />
-          <Drawer
-            mask={false}
-            maskClosable={false}
-            title="Instruction"
-            placement={isWebDevice ? "right" : "bottom"}
-            onClose={onClose}
-            open={open}
-            width={400}
-            extra={
-              <Space>
-                <Button onClick={onClose}>Cancel</Button>
-              </Space>
-            }
-          >
-            <Spin spinning={loading} indicator={antIcon}>
-              <Segmented
-                onChange={handleSeg}
-                options={[
-                  {
-                    label: (
-                      <div
-                        style={{
-                          padding: 4,
-                        }}
-                      >
-                        <Avatar src={`${faviconUrl}/car.png`} />
-                        <div>DRIVING</div>
-                      </div>
-                    ),
-                    value: 'DRIVING',
-                  },
-                  {
-                    label: (
-                      <div
-                        style={{
-                          padding: 4,
-                        }}
-                      >
-                        <Avatar src={`${faviconUrl}/bike.png`} />
-                        <div>BICYCLING</div>
-                      </div>
-                    ),
-                    value: 'BICYCLING',
-                  },
-                  {
-                    label: (
-                      <div
-                        style={{
-                          padding: 4,
-                        }}
-                      >
-                        <Avatar src={`${faviconUrl}/walking.png`} />
-                        <div>WALKING</div>
-                      </div>
-                    ),
-                    value: 'WALKING',
-                  },
-                  {
-                    label: (
-                      <div
-                        style={{
-                          padding: 4,
-                        }}
-                      >
-                        <Avatar src={`${faviconUrl}/bus.png`} />
-                        <div>TRANSIT</div>
-                      </div>
-                    ),
-                    value: 'TRANSIT',
-                  },
-                ]}
-              />
-              <div id="sidebar"></div>
-            </Spin>
-          </Drawer>
+          <DirectionDrawer loading={loading} handleSeg={handleSeg} onClose={onClose} open={open} />
         </div>
       </div>
     </>
