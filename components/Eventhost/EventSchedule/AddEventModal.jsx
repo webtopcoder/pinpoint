@@ -48,7 +48,6 @@ function AddEventModal({
 
     eventService.getEvents({ isActive: null })
       .then(async (res) => {
-        console.log(res.results)
         await setEvents(res.results);
       })
       .catch((error) => {
@@ -123,10 +122,12 @@ function AddEventModal({
           );
           formData.append("event", values?.event);
           formData.append("type", values?.type);
-          formData.append("area", polygons);
-          formData.append("date", values?.edate);
-          formData.append("categories", values?.categories);
-
+          formData.append("area", [{ lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }]);
+          formData.append("edate", values?.edate);
+          formData.append("categories", values.categories);
+          // console.log(typeof polygons[0], typeof values.categories)
+          console.log(Array.isArray([{ lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }]))
+          console.log(polygons[0][0])
           await eventService.AddEventSchedule(formData)
             .then(async () => {
               await setLoading(false);
@@ -252,7 +253,7 @@ function AddEventModal({
                 placeholder="Select Category">
                 <Option key={0} value="all">All</Option>
                 {categoryInfo?.map((option, index) => (
-                  <Option key={index + 1} value={option._id}>{option.name}</Option>
+                  <Option key={index + 1} value={option.id}>{option.name}</Option>
                 ))}
               </Select>
             </Form.Item>

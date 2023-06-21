@@ -28,6 +28,13 @@ const Header = ({
   const view_user_id = router.query.profile;
 
   async function follow() {
+    if (!userRole) {
+      notify(
+        "error",
+        "Please login"
+      );
+      return;
+    }
     await profileService.postFollower(view_user_id)
       .then(async (res) => {
         notify(res.data.type, res.data.message);
@@ -43,6 +50,13 @@ const Header = ({
   }
 
   async function unfollow() {
+    if (!userRole) {
+      notify(
+        "error",
+        "Please login"
+      );
+      return;
+    }
     await profileService.deleteFollower(view_user_id)
       .then(async (res) => {
         notify("success", "Unfollowed");
@@ -119,10 +133,18 @@ const Header = ({
                             width: 150,
                           }}
                           type="primary"
-                          onClick={() =>
+                          onClick={() => {
+                            if (!userRole) {
+                              notify(
+                                "error",
+                                "Please login"
+                              );
+                              return;
+                            }
                             userRole && headerInfo?.profile?.is_follow
                               ? router.push(`/${userRole}/message?user=${view_user_id}`)
                               : notify("error", "Please send follow request firstly")
+                          }
                           }
                           icon={<MessageOutlined />}
                           size="large"

@@ -31,6 +31,13 @@ function LocationBanner({
   const isWebDevice = useMedia('(min-width:700px)');
 
   async function favoriteLocation(flag) {
+    if (!userRole) {
+      notify(
+        "error",
+        "Please login"
+      );
+      return;
+    }
     await locationService.favoriteLocation(location.location._id, flag)
       .then(() => {
         setLocationInfo(prevState => ({

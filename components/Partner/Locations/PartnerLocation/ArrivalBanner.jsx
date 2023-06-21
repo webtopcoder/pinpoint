@@ -1,10 +1,11 @@
-import { EnvironmentFilled } from "@ant-design/icons";
+import { EnvironmentFilled, ShareAltOutlined } from "@ant-design/icons";
 import {
   Space,
   Typography,
   Card,
   Tag,
-  Avatar
+  Avatar,
+  Popover
 } from "antd";
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 import Image from "next/image";
@@ -12,22 +13,25 @@ import React, { useEffect, useState } from "react";
 import useMedia from "@/hooks/useMedia";
 import useNotify from "@/hooks/useNotify";
 import CheckInArrivalActive from "./CheckInArrivalActive";
-import LikeArrvial from ".//LikeArrvial";
-import { apiBaseUrl } from "@/utils/baseUrl";
+import LikeArrvial from "./LikeArrvial";
+import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
 import moment from 'moment'
+import { useRouter } from "next/router";
 
 const { Meta } = Card;
 const { Title } = Typography;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 const imgurl = `${apiBaseUrl}/avatar/`;
 
-function ArrivalBanner({ location }) {
+function ArrivalBanner({ location, user_id }) {
 
   const { notify } = useNotify();
   const [position, setPosition] = useState({
     lat: 30.3321838,
     lng: -81.65565099999999,
   });
+  const router = useRouter();
+  const url = baseUrl + router.asPath;
   const arrivallocation = location?.location?.title;
   const arrivalText = location?.location?.isArrival?.arrivalText;
   const arrivalImage = location?.location?.isArrival?.images[0]?.filepath;
@@ -70,11 +74,7 @@ function ArrivalBanner({ location }) {
   }
 
   const distance = (calculateDistance(position?.lat, position?.lng, location?.location?.mapLocation?.latitude, location?.location?.mapLocation?.longitude)) * 0.621371;
-
-
   let dateString = moment(date).format('DD-MM-YYYY');
-
-  console.log(`dateString : ${dateString} , type : ${typeof (dateString)}`)
 
   return (
     <div>
@@ -149,15 +149,13 @@ function ArrivalBanner({ location }) {
           <div style={{ display: isWebDevice ? "flex" : "block", marginTop: "30px" }}>
             <FacebookShareButton
               id="fbShareBtn"
-              //url={`https://linkshare-production.up.railway.app/share?title=${location?.location?.title}&description=${arrivalText}&imageUrl=${encodeURIComponent(imgurl + arrivalImage)}`}
-              url={`https://api.thepinpointsocial.com/api/v1/share?title=${arrivallocation}&description=${arrivalText}&city=${location?.location?.mapLocation?.city}&date=${dateString}&imageUrl=${encodeURIComponent('https://api.thepinpointsocial.com/avatar/BingWallpaper-1687135422481-64812c2eb641b5478f873a83.jpg')}`}
+              url={`https://api.thepinpointsocial.com/api/v1/share?title=${arrivallocation}&url=${url}&description=${arrivalText}&city=${location?.location?.mapLocation?.city}&date=${dateString}&imageUrl=${encodeURIComponent(imgurl + arrivalImage)}`}
 
               quotes={"Quotes"}  //"Your Quotes"
               hashtag={"Hashtag"} // #hashTag
             >
-              <FacebookIcon style={{
-                width: '25',
-                height: '25',
+              <ShareAltOutlined style={{
+                fontSize: 25
               }} />
             </FacebookShareButton>
             <div style={{ marginLeft: "auto", order: "2" }}>
@@ -168,11 +166,14 @@ function ArrivalBanner({ location }) {
                   arrvialID={arrivalID}
                   text={checkIncounts ? checkIncounts : 0}
                   notify={notify}
+                  user_id={user_id}
                 />
                 <LikeArrvial
                   arrvialID={arrivalID}
                   text={location?.location?.isArrival?.like ? location?.location?.isArrival?.like.count : 0}
                   key="list-vertical-like-o"
+                  user_id={user_id}
+                  notify={notify}
                 />
               </Space>
             </div>

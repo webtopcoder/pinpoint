@@ -6,7 +6,7 @@ import { locationService } from "@/services/index";
 
 const { Text } = Typography;
 
-const CheckInArrival = ({ arrvialID, text, notify, distance, setCheckIncounts }) => {
+const CheckInArrival = ({ arrvialID, text, notify, distance, setCheckIncounts, user_id }) => {
   const error = () => {
     Modal.error({
       title: "You can't check in this location.",
@@ -28,6 +28,13 @@ const CheckInArrival = ({ arrvialID, text, notify, distance, setCheckIncounts })
         <Button
           type="primary"
           onClick={async () => {
+            if (!user_id) {
+              notify(
+                "error",
+                "Please login"
+              );
+              return;
+            }
             distance > 0.25 ? error() :
               await locationService.CheckInArrival(arrvialID)
                 .then(async (res) => {

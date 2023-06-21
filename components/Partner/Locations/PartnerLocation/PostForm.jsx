@@ -18,7 +18,8 @@ import { locationService } from "@/services/index";
 
 const { Text } = Typography;
 
-function PostForm({ location, initialize }) {
+function PostForm({ location, initialize, user_id }) {
+  console.log(user_id)
   const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
   const isWebDevice = useMedia('(min-width:700px)');
@@ -73,6 +74,13 @@ function PostForm({ location, initialize }) {
                   }
                 }
                 onFinish={async (values) => {
+                  if (!user_id) {
+                    notify(
+                      "error",
+                      "Please login"
+                    );
+                    return;
+                  }
                   const formData = new FormData();
                   formData.append("rating", rating);
                   formData.append("text", values.text);

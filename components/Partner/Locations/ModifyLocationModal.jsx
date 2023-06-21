@@ -72,7 +72,6 @@ function ModifyModal({
   }, [userCategoryId]);
 
   async function GetSubCategories() {
-    console.log(userCategoryId)
     const res = await categoryService.getSubcategory(userCategoryId)
     const subcategoryList = res?.subCategories.map((item) => ({
       label: item.name,
@@ -214,10 +213,9 @@ function ModifyModal({
         form={form}
         onFinish={async (values) => {
           const formData = new FormData();
-          if (uploadFile.length > 0)
-            uploadFile.map((file) =>
-              formData.append("images", file.originFileObj)
-            );
+          uploadFile.map((file) =>
+            formData.append("images", file.originFileObj)
+          );
 
           formData.append("title", values.title);
           formData.append("description", values.description);

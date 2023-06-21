@@ -17,9 +17,14 @@ const Location = ({ user_id, userRole }) => {
 
   async function getHeader() {
     setLoading(true);
-    const result = await profileService.getHeader(view_user_id);
-    await setHeaderInfo(result)
-    setLoading(false);
+    await profileService.getHeader(view_user_id).then(async res => {
+      await setHeaderInfo(res);
+      setLoading(false);
+
+    }).catch((error) => {
+      setLoading(false);
+      console.log(error)
+    });
   }
 
   useEffect(() => {
@@ -39,7 +44,6 @@ const Location = ({ user_id, userRole }) => {
   );
 };
 
-Location.requireAuth = true;
 Location.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

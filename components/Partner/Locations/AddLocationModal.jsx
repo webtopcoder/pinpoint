@@ -40,6 +40,7 @@ function AddLocationModal({
   uploadFile,
   setLocations,
   additionLocatoins,
+  userCategoryId
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
@@ -55,6 +56,19 @@ function AddLocationModal({
     lng: "",
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    GetSubCategories();
+  }, []);
+
+  async function GetSubCategories() {
+    const res = await categoryService.getSubcategory(userCategoryId);
+    const subcategoryList = res?.subCategories.map((item) => ({
+      label: item.name,
+      value: item._id,
+    }));
+    await setsubCategories(subcategoryList);
+  }
 
   useEffect(() => {
     if (inputRef.current) {
@@ -161,7 +175,8 @@ function AddLocationModal({
           formData.append("state", addressForm.state);
           formData.append("lat", addressForm.lat);
           formData.append("lng", addressForm.lng);
-
+          formData.append("subCategories", values.subCategories);
+console.log(values.subCategories)
           await locationService.AddLocation(formData)
             .then(async () => {
               await setLoading(false);
@@ -235,6 +250,33 @@ function AddLocationModal({
                 onChange={onUpdateField}
                 name="address"
                 placeholder="This will be your individual locations address"
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              label="Location Sub Category"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Choose Subcategory",
+                  type: "array",
+                },
+              ]}
+              required
+              initialvalue={[]}
+              tooltip="This is a required field"
+              name="subCategories"
+            >
+              <Select
+                mode="multiple"
+                showSearch={false}
+                allowClear
+                style={{
+                  width: "100%",
+                }}
+                placeholder="Select all that apply"
+                options={subCategories}
               />
             </Form.Item>
           </Col>

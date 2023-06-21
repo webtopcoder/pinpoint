@@ -93,7 +93,7 @@ const index = ({
                   <Divider className="review-divider" style={{
                     color: "#fff",
                   }} orientation="left">Active Arrival</Divider>
-                  <ArrivalBanner location={location} />
+                  <ArrivalBanner user_id={user_id} location={location} />
                 </>
               ) : (
                 ""
@@ -101,6 +101,7 @@ const index = ({
               <PostForm
                 location={location}
                 initialize={initialize}
+                user_id={user_id}
               />
               <div className="avatar-area green-color">
                 <Divider className="review-divider" style={{
@@ -141,7 +142,6 @@ const index = ({
                     setExpand={setExpand}
                   />
                 </>
-
               ) : (
                 ""
               )}

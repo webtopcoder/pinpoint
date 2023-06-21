@@ -11,7 +11,7 @@ import { locationService } from "@/services/index";
 
 const { Text } = Typography;
 
-const LikeArrvial = ({ arrvialID, text }) => {
+const LikeArrvial = ({ arrvialID, text, user_id, notify }) => {
   const [like, setLike] = useState(text);
   const isWebDevice = useMedia('(min-width:700px)');
   useEffect(() => {
@@ -25,6 +25,13 @@ const LikeArrvial = ({ arrvialID, text }) => {
         <Button
           type="primary"
           onClick={async () => {
+            if (!user_id) {
+              notify(
+                "error",
+                "Please login"
+              );
+              return;
+            }
             await locationService.likeArrival(arrvialID)
               .then(async (res) => {
                 if (res.liked) {
