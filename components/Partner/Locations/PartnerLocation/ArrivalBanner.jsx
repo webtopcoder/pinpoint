@@ -5,7 +5,6 @@ import {
   Card,
   Tag,
   Avatar,
-  Popover
 } from "antd";
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 import Image from "next/image";
@@ -52,7 +51,6 @@ function ArrivalBanner({ location, user_id }) {
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const earthRadius = 6371; // Radius of the earth in kilometers
-
     // Convert latitude and longitude to radians
     const dLat = degreesToRadians(lat2 - lat1);
     const dLon = degreesToRadians(lon2 - lon1);
