@@ -176,7 +176,6 @@ function AddLocationModal({
           formData.append("lat", addressForm.lat);
           formData.append("lng", addressForm.lng);
           formData.append("subCategories", values.subCategories);
-console.log(values.subCategories)
           await locationService.AddLocation(formData)
             .then(async () => {
               await setLoading(false);
@@ -296,7 +295,6 @@ console.log(values.subCategories)
                     <Button
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
-                      maxCount={1}
                     >
                       Location Image
                     </Button>

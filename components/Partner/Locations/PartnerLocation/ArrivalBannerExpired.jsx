@@ -19,7 +19,7 @@ const { Title } = Typography;
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-function ArrivalBannerExpired({ location, arrivals, expand, setExpand }) {
+function ArrivalBannerExpired({ location, arrivals, expand, setExpand, user_id }) {
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
   return (
@@ -105,9 +105,10 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand }) {
                     notify={notify}
                   />
                   <LikeArrvial
+                    user_id={user_id}
                     arrvialID={arrival.id}
                     text={arrival?.like ? arrival?.like?.count : 0}
-                    key="list-vertical-like-o"
+                    notify={notify}
                   />
                 </Space>
               </div>

@@ -140,6 +140,7 @@ const index = ({
                     arrivals={location?.expiredArrival}
                     expand={expand}
                     setExpand={setExpand}
+                    user_id={user_id}
                   />
                 </>
               ) : (

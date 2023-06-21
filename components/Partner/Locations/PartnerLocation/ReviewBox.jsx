@@ -20,7 +20,7 @@ const { Meta } = Card;
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-const IconText = ({ postID, text }) => {
+const IconText = ({ postID, text, user_id }) => {
   const [like, setLike] = useState(text);
   useEffect(() => {
     setLike(text);
@@ -33,6 +33,13 @@ const IconText = ({ postID, text }) => {
       <Button
         type="primary"
         onClick={async () => {
+          if (!user_id) {
+            notify(
+              "error",
+              "Please login"
+            );
+            return;
+          }
           await locationService.likeReview(postID)
             .then(async (res) => {
               if (res.liked) {
@@ -82,6 +89,7 @@ const CommentBody = ({ item, user_id, path }) => {
         }}
       >
         <IconText
+          user_id={user_id}
           postID={item?._id}
           text={item.like ? item?.like?.count : 0}
           key="list-vertical-like-o"
@@ -94,6 +102,13 @@ const CommentBody = ({ item, user_id, path }) => {
             type="primary"
             shape="circle"
             onClick={() => {
+              if (!user_id) {
+                notify(
+                  "error",
+                  "Please login"
+                );
+                return;
+              }
               setExpand(!expand);
             }}
             icon={<MessageOutlined />}

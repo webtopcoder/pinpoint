@@ -114,6 +114,11 @@ function AddEventModal({
       <Divider style={{}} dashed></Divider>
       <Form
         form={form}
+        initialValues={
+          {
+            type: 'public'
+          }
+        }
         onFinish={async (values) => {
           setLoading(true);
           const formData = new FormData();
@@ -122,7 +127,7 @@ function AddEventModal({
           );
           formData.append("event", values?.event);
           formData.append("type", values?.type);
-          formData.append("area", [{ lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }]);
+          formData.append("area", [[{ lat: 234, lng: 2344 }], [{ lat: 234, lng: 2344 }], [{ lat: 234, lng: 2344 }]]);
           formData.append("edate", values?.edate);
           formData.append("categories", values.categories);
           // console.log(typeof polygons[0], typeof values.categories)
@@ -168,7 +173,7 @@ function AddEventModal({
               required
               name="type"
             >
-              <Radio.Group defaultValue="public" buttonStyle="solid">
+              <Radio.Group buttonStyle="solid">
                 <Radio.Button value="public">Open to Public</Radio.Button>
                 <Radio.Button value="private">Private/Ticketed Event</Radio.Button>
               </Radio.Group>
@@ -266,7 +271,6 @@ function AddEventModal({
                     <Button
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
-                      maxCount={1}
                     >
                       Event Image
                     </Button>

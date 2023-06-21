@@ -158,7 +158,6 @@ function AddEventModal({
                     <Button
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
-                      maxCount={1}
                     >
                       Event Image
                     </Button>
