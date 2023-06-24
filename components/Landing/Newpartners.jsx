@@ -9,7 +9,9 @@ const Newpartners = ({ newpartners }) => {
       <div className="container">
         <div className="section-title white-color">
           <span className="sub-title">NEW ON PINPOINT</span>
-          <h2>Shout Out to Our New Partners</h2>
+          <h2 style={{
+            wordBreak: 'break-word'
+          }}>Shout Out to Our New Partners</h2>
         </div>
         <div className="testimonials-slides">
           <Carousel

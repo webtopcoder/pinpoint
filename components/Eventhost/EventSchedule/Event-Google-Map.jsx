@@ -3,7 +3,7 @@ import { Autocomplete, DrawingManager, GoogleMap, Polygon, useJsApiLoader } from
 import deleteIcon from "@/public/images/landing/food.png";
 
 const libraries = ['places', 'drawing'];
-const MapComponent = ({ polygons, setPolygons }) => {
+const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
 	const mapRef = useRef();
 	const polygonRefs = useRef([]);
@@ -135,6 +135,23 @@ const MapComponent = ({ polygons, setPolygons }) => {
 			});
 			const area = window.google.maps.geometry.spherical.computeArea(newPolygon);
 			const center = polygonBounds.getCenter();
+
+			const geocoder = new window.google.maps.Geocoder();
+			geocoder.geocode({ location: center }, (results, status) => {
+				if (status === "OK" && results[0]) {
+					setCenterAddress(results[0].formatted_address);
+					setCenterAddress(results[0].formatted_address);
+					console.log('Selected Area:', {
+						area: area,
+						polygons: polygons,
+						center: {
+							lat: center.lat(),
+							lng: center.lng()
+						},
+						centerAddress: results[0].formatted_address
+					});
+				}
+			});
 			console.log('Selected Area:', {
 				area: area,
 				polygons: polygons,

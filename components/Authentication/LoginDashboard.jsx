@@ -50,7 +50,7 @@ const LoginDashboard = () => {
           </Link>
           <div className="col-12">
             <p className="account-desc">
-              <Link href="/home">
+              <Link href="/">
                 <a className="login-dashboard-a-color">Just let me in..</a>
               </Link>
             </p>

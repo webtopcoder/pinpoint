@@ -90,6 +90,7 @@
 
 .role_comment {
   text-align: center;
+  word-break: break-word;
 }
 
 .business_detail_content {

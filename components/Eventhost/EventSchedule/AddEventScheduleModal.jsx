@@ -11,8 +11,9 @@ import {
   Form,
   Input,
   Radio,
-  DatePicker,
-  Select
+  Select,
+  Space,
+  DatePicker
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
@@ -23,8 +24,9 @@ import dayjs from 'dayjs';
 
 const { Option } = Select;
 const { Title, Paragraph, Text } = Typography;
+const { RangePicker } = DatePicker;
 
-function AddEventModal({
+function AddEventScheduleModal({
   open,
   user_id,
   setModalOpen,
@@ -38,6 +40,7 @@ function AddEventModal({
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [event, setEvents] = useState([]);
   const [polygons, setPolygons] = useState();
+  const [centerAddress, setCenterAddress] = useState();
 
   useEffect(() => {
     categoryService.getCategory().then(async res => {
@@ -60,13 +63,18 @@ function AddEventModal({
 
   }, []);
 
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().endOf('day');
+  };
+
   return (
     <Modal
       className="dashboard-modal"
       centered
       open={open}
       width={800}
-      closable={true}
+      closable={false}
       onCancel={() => setModalOpen(false)}
       footer={null}
     >
@@ -125,19 +133,22 @@ function AddEventModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
+          console.log(values?.edate);
           formData.append("event", values?.event);
           formData.append("type", values?.type);
-          formData.append("area", [[{ lat: 234, lng: 2344 }], [{ lat: 234, lng: 2344 }], [{ lat: 234, lng: 2344 }]]);
-          formData.append("edate", values?.edate);
+          formData.append("title", values?.title);
+          formData.append("area", JSON.stringify(polygons[0]));
+          formData.append("startDate", values?.edate[0]);
+          formData.append("centerAddress", centerAddress);
+          formData.append("endDate", values?.edate[0]);
           formData.append("categories", values.categories);
-          // console.log(typeof polygons[0], typeof values.categories)
-          console.log(Array.isArray([{ lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }, { lat: 234, lng: 2344 }]))
-          console.log(polygons[0][0])
+
           await eventService.AddEventSchedule(formData)
             .then(async () => {
               await setLoading(false);
               notify("success", "Event added successfully");
               form.resetFields();
+              setPolygons(null);
               // await eventService.getEvents({ partner: user_id, isActive: null })
               //   .then(async (res) => {
               //     if (additionLocatoins.length > 0) {
@@ -167,7 +178,7 @@ function AddEventModal({
         layout="vertical"
       >
         <Row>
-          <Col xs={24} sm={24} md={24} lg={15} xl={15}>
+          <Col xs={24} sm={24} md={24} lg={13} xl={13}>
             <Form.Item
               label=""
               required
@@ -179,7 +190,7 @@ function AddEventModal({
               </Radio.Group>
             </Form.Item>
           </Col>
-          <Col xs={24} sm={24} md={24} lg={9} xl={9}>
+          <Col xs={24} sm={24} md={24} lg={11} xl={11}>
             <Form.Item
               label=""
               rules={[
@@ -191,14 +202,28 @@ function AddEventModal({
               required
               name="edate"
             >
-              <DatePicker
+              <RangePicker
+                disabledDate={disabledDate}
                 format="YYYY-MM-DD h:mm a"
-                use12Hours={true}
-                showTime={{
+                use12Hours={true} showTime={{
                   defaultValue: dayjs('00:00:00', 'HH:mm'),
-                }}
-              />
+                }} />
 
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Form.Item
+              label="Schedule Title"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Insert Schedule Title",
+                },
+              ]}
+              required
+              name="title"
+            >
+              <Input placeholder="This will be your individual Schedule Title" />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -213,13 +238,8 @@ function AddEventModal({
               required
               name="event"
             >
-              {/* <Input placeholder="This will be your individual event name" /> */}
               <Select
-                // mode="multiple"
-                // showSearch={false}
                 allowClear
-                // maxTagCount={3}
-                size="large"
                 placeholder="Select Event">
                 {event?.map((option, index) => (
                   <Option key={index + 1} value={option._id}>{option.title}</Option>
@@ -227,6 +247,7 @@ function AddEventModal({
               </Select>
             </Form.Item>
           </Col>
+
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item label="Please Select Your area For New Event" rules={[
               {
@@ -234,7 +255,7 @@ function AddEventModal({
                 message: "Please Insert Event Name",
               },
             ]}>
-              <EventArea polygons={polygons} setPolygons={setPolygons} />
+              <EventArea polygons={polygons} setCenterAddress={setCenterAddress} setPolygons={setPolygons} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -254,7 +275,6 @@ function AddEventModal({
                 showSearch={false}
                 allowClear
                 maxTagCount={3}
-                size="large"
                 placeholder="Select Category">
                 <Option key={0} value="all">All</Option>
                 {categoryInfo?.map((option, index) => (
@@ -277,18 +297,32 @@ function AddEventModal({
                   </Upload>
                 </Col>
                 <Col span={8} offset={8}>
-                  <Button
-                    loading={loading}
-                    type="primary"
-                    htmlType="submit"
-                    className="btn-submit"
-                    style={{
-                      display: "initial",
-                      float: "right",
-                    }}
-                  >
-                    Add To Schedule
-                  </Button>
+                  <Space>
+                    <Button
+                      danger
+                      style={{
+                        display: "initial",
+                        float: "right",
+                      }}
+                      onClick={() => {
+                        setModalOpen(false)
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      loading={loading}
+                      type="primary"
+                      htmlType="submit"
+                      className="btn-submit"
+                      style={{
+                        display: "initial",
+                        float: "right",
+                      }}
+                    >
+                      Add To Schedule
+                    </Button>
+                  </Space>
                 </Col>
               </Row>
             </Form.Item>
@@ -299,4 +333,4 @@ function AddEventModal({
   );
 }
 
-export default AddEventModal;
+export default AddEventScheduleModal;

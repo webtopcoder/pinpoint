@@ -218,7 +218,6 @@ function LocationBanner({
                     {location?.location?.subCategories
                       ?.map((item) => <Tag icon={<TagFilled />} color="processing" >{item.name}</Tag>)
                     }
-
                   </Space>
                 </Col>
               </Row>

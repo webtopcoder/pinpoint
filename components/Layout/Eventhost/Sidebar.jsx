@@ -147,7 +147,7 @@ function LeftSidebar({
   const [collapsed, setCollapsed] = useState(false);
   const onLogoutHandler = () => {
     onLogout(() => {
-      router.push("/home");
+      router.push("/");
     });
   };
 

@@ -56,7 +56,7 @@ const EventhostRegister = ({
 
   useEffect(() => {
     if (token) {
-      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/");
     }
   }, [token]);
 

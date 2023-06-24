@@ -26,7 +26,7 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
 
   useEffect(() => {
     if (token) {
-      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/");
     }
   }, [token]);
   const { notify } = useNotify();
@@ -94,7 +94,7 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
           break;
         default:
           notify("success", `Welcome ${res.user.businessname}`);
-          router.push("/home");
+          router.push("/");
       }
     });
   };
@@ -173,7 +173,7 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
           </div>
           <div className="col-12">
             <p className="account-desc">
-              <Link href="/">
+              <Link href="/login">
                 <a>WHO AM I?</a>
               </Link>
             </p>

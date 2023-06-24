@@ -49,7 +49,7 @@ const UserRegister = ({ token, loggedInRole }) => {
 
   useEffect(() => {
     if (token) {
-      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/home");
+      router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/");
     }
   }, [token]);
 
@@ -294,7 +294,7 @@ const UserRegister = ({ token, loggedInRole }) => {
           </div>
           <div className="col-12">
             <p className="account-desc">
-              <Link href="/">
+              <Link href="/login">
                 <a>WHO AM I?</a>
               </Link>
             </p>

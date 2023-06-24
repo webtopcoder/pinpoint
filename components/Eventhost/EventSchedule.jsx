@@ -15,7 +15,7 @@ import food from "@/public/images/landing/food.png";
 import { PlusCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import EventCard from "./EventSchedule/EventCard";
 import useNotify from "@/hooks/useNotify";
-import AddEventModal from "./EventSchedule/AddEventModal";
+import AddEventScheduleModal from "./EventSchedule/AddEventScheduleModal";
 import useMedia from "@/hooks/useMedia";
 import { eventService } from "@/services/index";
 
@@ -30,6 +30,12 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]);
   const { notify } = useNotify();
+  const [filter, setFilter] = useState({
+    time: '',
+    position: {},
+    range: 5,
+    flag: false
+  });
 
   const uploadProps = {
     name: "upload",
@@ -55,7 +61,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
   };
 
   async function initialize() {
-    await eventService.getEvents({ partner: user_id, isActive: null })
+    await eventService.getEventSchedule(filter)
       .then(async (res) => {
         setLoading(false);
         if (additionLocatoins.length > 0) {
@@ -140,23 +146,23 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                 </Col>
               </Row>
               <Row
-                gutter={16}
+                gutter={8}
                 style={{
                   marginTop: 30,
                 }}
-                xs={24} sm={24} md={8} lg={8} xl={6}
+                xs={24} sm={24} md={12} lg={8} xl={6}
                 justify="space-around"
               >
                 <Col className="gutter-row" span={24}>
                   <List
                     grid={{
-                      gutter: 10,
+                      gutter: 1,
                       xs: 1,
                       sm: 1,
                       md: 1,
                       lg: 2,
-                      xl: 3,
-                      xxl: 3,
+                      xl: 2,
+                      xxl: 2,
                     }}
                     dataSource={events}
                     renderItem={(item) => (
@@ -172,7 +178,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
           </div>
         </Spin>
       </Content>
-      <AddEventModal
+      <AddEventScheduleModal
         open={addModalOpen}
         setModalOpen={setAddModalOpen}
         uploadProps={uploadProps}

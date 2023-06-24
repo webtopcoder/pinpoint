@@ -11,7 +11,22 @@ function EventService() {
   //       }`);
   //   return api(apiquery, "get");
   // }
+  function getEventSchedule(filter) {
+    // function getEventSchedule({ time, pagination = false, isActive, flag }) {
+    return api(
 
+      `event/event-schedule`, "post", filter
+      // `event/event-schedule?pagination=${pagination}&time=${time}&flag=${flag}${isActive != null ? "&isActive=" + isActive : ""
+    )
+  }
+
+  function getEventScheduleByID(id) {
+    return api(
+      `event/${id}/event-scheduleById`, "post"
+    )
+  }
+
+  getEventScheduleByID
   function getEvents({ pagination = false, isActive }) {
     return api(
       `event?pagination=${pagination}${isActive != null ? "&isActive=" + isActive : ""
@@ -72,6 +87,11 @@ function EventService() {
     return api(`event/addeventschedule`, "post", form)
   }
 
+  function RequestAccess(id) {
+    return api(`event/${id}/request-access`, "post")
+  }
+
+
   return {
     // getAllLocations,
     getEvents,
@@ -86,7 +106,10 @@ function EventService() {
     likeArrival,
     // likeReview,
     PostReview,
-    AddEventSchedule
+    AddEventSchedule,
+    getEventSchedule,
+    RequestAccess,
+    getEventScheduleByID
   };
 }
 

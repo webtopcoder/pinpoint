@@ -1,4 +1,4 @@
-import { Row, Button, Space, Col, InputNumber, Slider, Form, Select, Tooltip } from "antd";
+import { Row, Button, Space, Col, InputNumber, Slider, Form, Select, Tooltip, Input } from "antd";
 import { UnorderedListOutlined, FullscreenOutlined } from '@ant-design/icons';
 import React, { useEffect, useState, useRef } from "react";
 import food from "@/public/images/landing/food.png";
@@ -30,9 +30,9 @@ function ToolBanner({
     ],
   };
 
-  const formatter = (value) => `${value}mile`;
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [subcategoryList, setSubcategoryList] = useState([]);
+  const formatter = (value) => `${value}mile`;
 
   async function onUpdateField(value) {
     const result = await categoryService.getSubcategory(value);

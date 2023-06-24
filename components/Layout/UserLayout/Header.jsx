@@ -44,7 +44,7 @@ const Header = ({
 
   const onLogoutHandler = () => {
     onLogout(() => {
-      router.push("/home");
+      router.push("/");
     });
   };
 
@@ -163,7 +163,7 @@ const Header = ({
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="col-md-4 desktop"></div>
             <div className="col-md-4 text-center desktop">
-              <Link href="/">
+              <Link href="/login">
                 <a className="navbar-brand">
                   <Image src={logo} alt="site logo" />
                 </a>
@@ -433,7 +433,7 @@ const Header = ({
                       <li className="nav-item">
                         <a
                           className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender("/home")}
+                          onClick={() => handleOriginPageRender("/")}
                         >
                           Home
                         </a>
@@ -455,7 +455,7 @@ const Header = ({
                           <a
                             className="dropdown-toggle nav-link"
                             onClick={() =>
-                              handleOriginPageRender("/home/#pinpoint_location")
+                              handleOriginPageRender("/#pinpoint_location")
                             }
                           >
                             Locations
@@ -467,7 +467,7 @@ const Header = ({
                         <a
                           className="dropdown-toggle nav-link"
                           onClick={() =>
-                            handleOriginPageRender("/home/#pinpoint_contactus")
+                            handleOriginPageRender("/#pinpoint_contactus")
                           }
                         >
                           Contact Us

@@ -102,6 +102,8 @@ const Edit = ({
         res.success
           ? notify("success", "Profile Avatar successfully updated")
           : notify("error", "Profile Avatar update failed");
+      }).catch((error) => {
+        error?.response?.data?.message || "Something went wrong"
       });
 
       getBase64(info.file.originFileObj, (url) => {

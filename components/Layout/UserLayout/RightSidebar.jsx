@@ -89,7 +89,7 @@ const RightSidebar = ({
   const { notify } = useNotify();
   const onLogoutHandler = () => {
     onLogout(() => {
-      router.push("/home");
+      router.push("/");
     });
   };
 
@@ -281,7 +281,7 @@ const RightSidebar = ({
           )}
           <Row
             className="sidebar-menu-item"
-            onClick={() => handleOriginPageRender("/home")}
+            onClick={() => handleOriginPageRender("/")}
           >
             Home
           </Row>
@@ -293,13 +293,13 @@ const RightSidebar = ({
           </Row>
           <Row
             className="sidebar-menu-item"
-            onClick={() => handleOriginPageRender("/home/#pinpoint_location")}
+            onClick={() => handleOriginPageRender("/#pinpoint_location")}
           >
             Locations
           </Row>
           <Row
             className="sidebar-menu-item"
-            onClick={() => handleOriginPageRender("/home/#pinpoint_contactus")}
+            onClick={() => handleOriginPageRender("/#pinpoint_contactus")}
           >
             Contact Us
           </Row>

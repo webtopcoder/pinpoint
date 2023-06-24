@@ -12562,7 +12562,7 @@ h4 {
   position: relative;
 }
 
-.page-interactive-area form .search-field {
+.search-form .search-field {
   border: 0;
   width: 100%;
   height: 55px;
@@ -12581,8 +12581,7 @@ h4 {
   margin-bottom: 13px;
 }
 
-
-.page-interactive-area .search-form button {
+.search-form button {
   right: 0;
   bottom: 0;
   width: 50px;
@@ -13474,4 +13473,43 @@ h4 {
 
 .ant-popover {
   width: 300px;
+}
+
+.event-sechedule .ant-form-item {
+  margin-bottom: 0px;
+}
+
+.event-sechedule label {
+  color: #d9d3d3 !important;
+}
+
+.event-sechedule span {
+  text-align: left;
+  color: white !important;
+}
+
+.event-sechedule .ant-form-item-control-input-content {
+  text-align: left;
+}
+
+.ant-descriptions-header {
+  margin-bottom: 8px !important;
+}
+
+.ant-descriptions-view {
+  border: 1px solid rgb(255 255 255 / 88%) !important;
+}
+
+.schedule-detail-content {
+  background: #00000036;
+  border-radius: 10px;
+  padding: 20px !important;
+}
+
+.ant-pagination-item-link {
+  color: rgb(255 255 255) !important;
+}
+
+.ant-descriptions-row{
+  border-bottom: 1px solid rgb(227 227 227 / 20%) !important;
 }

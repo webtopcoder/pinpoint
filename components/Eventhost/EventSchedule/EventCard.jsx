@@ -1,21 +1,22 @@
 import React from "react";
 import useNotify from "@/hooks/useNotify";
 import {
-  MessageOutlined,
-  LikeOutlined,
+  CheckCircleOutlined,
   EllipsisOutlined,
+  TagFilled,
+  CloseCircleOutlined
 } from "@ant-design/icons";
 import {
   Button,
   Col,
   Divider,
   Dropdown,
-  Rate,
   Row,
   Space,
   Tag,
   Typography,
   message,
+  Form
 } from "antd";
 import { Avatar, Card } from "antd";
 import Link from "next/link";
@@ -28,6 +29,7 @@ import ModifyEventModal from "./ModifyEventModal";
 import { useRouter } from "next/router";
 import { eventService, locationService } from "@/services/index";
 import Image from "next/image";
+import moment from 'moment';
 
 const { Text } = Typography;
 
@@ -55,7 +57,10 @@ const EventCard = ({
   const [uploadFile, setUploadFile] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  let count = 0;
+  const startDateObj = moment.utc(event?.startDate);
+  const startDate = startDateObj.local().format("M/D/YYYY h:mmA");
+  const endDateObj = moment.utc(event?.endDate);
+  const endDate = endDateObj.local().format("M/D/YYYY h:mmA");
 
   const { notify } = useNotify();
   const router = useRouter();
@@ -105,46 +110,9 @@ const EventCard = ({
       });
   }
 
-  const departure = (location_id) => {
-    const form = {
-      locationId: location_id,
-    };
-    onDepartureSet(form, (_, error) => {
-      if (error) {
-        notify("error", "Error");
-        return;
-      }
-      notify("success", "Successfully departed");
-      initialize(null);
-    });
-  };
-
-  const items = [
-    {
-      label: (
-        <Link
-          href={`${baseUrl}/profile/${event?.partner?._id ?? event?.partner}/events/${event._id}`}
-        >
-          View Event Profile
-        </Link>
-      ),
-      key: "0",
-    },
-    {
-      label: <a onClick={() => setModifyModalOpen(true)}>Modify Event</a>,
-      key: "1",
-    },
-  ];
-
-  const [rating, setRating] = useState(event?.reviews?.length > 0 ? (event?.reviews?.reduce((acc, review) => {
-    if (review.rating !== 0) count++
-    return acc + review.rating;
-  }, 0)) / count : 0);
-
   return (
     <>
       <Card
-        hoverable
         style={{
           color: "white",
           cursor: "pointer",
@@ -157,89 +125,82 @@ const EventCard = ({
         className="partner-locations-card"
         actions={
           showActions && [
-            event?.isActive ? (
-              <Button type="link" disabled>
-                Arrival
-              </Button>
-            ) : (
-              <Button type="link" onClick={() => setArrivalModalOpen(true)}>
-                Arrival
-              </Button>
-            ),
-            event.isActive ? (
-              <Button type="link" onClick={async () => {
-                await eventService.quickDeparture({ eventId: event?._id })
-                  .then(async () => {
-                    notify("success", "Successfully departed");
-                    await initialize(null);
-                  })
-                  .catch((error) => {
-                    notify(
-                      "error",
-                      error?.response?.data?.message || "Something went wrong"
-                    );
-                    return;
-                  });
-              }}>
-                Departure
-              </Button>
-            ) : (
-              <Button type="link" disabled>
-                Departure
-              </Button>
-            ),
-            <Dropdown
-              menu={{
-                items,
+            <Link
+              href={{
+                pathname: "/eventhost/event-schedule-detail",
+                query: { id: event?._id },
               }}
-              trigger={["click"]}
+              as={`/eventhost/event-schedule-detail?id=${event?._id}`}
             >
-              <EllipsisOutlined />
-            </Dropdown>,
+              <Button type="link">
+                View
+              </Button>
+            </Link>,
+            //    <Button
+            //    type="link"
+            //    onClick={() => {
+            //      router.push(`/eventhost/event-schedule-detail?id=${event?._id}`)
+            //    }}
+            //  >
+            //    View
+            //  </Button>,
+            <Button type="link" onClick={async () => {
+              await eventService.quickDeparture({ eventId: event?._id })
+                .then(async () => {
+                  notify("success", "Successfully departed");
+                  await initialize(null);
+                })
+                .catch((error) => {
+                  notify(
+                    "error",
+                    error?.response?.data?.message || "Something went wrong"
+                  );
+                  return;
+                });
+            }}>
+              Edit
+            </Button>
+            ,
+            <Button type="link">
+              Delete
+            </Button>,
           ]
         }
-
       >
-        <div onClick={() => {
-          router.push(`/profile/${event?.partner?._id ?? event?.partner}/events/${event?._id}`);
-        }}>
-          <Row
-            gutter={16}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            <Col span={24}>
-              <Avatar
-                style={{ border: "3px solid black", cursor: "pointer" }}
-                size={100}
-                icon={
-                  event?.images?.length !== 0 &&
-                    event?.images[0]?.filepath ? (
-                    <Image
-                      src={avatarurl + event?.images[0]?.filepath}
-                      height={200}
-                      width={200}
-                    />
-                  ) : ""
-                }>
-                {event?.images?.length !== 0 &&
-                  event?.images[0]?.filepath ? "" : 'No Photo'}
-              </Avatar>
-            </Col>
-          </Row>
-          <Row
-            gutter={16}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            <Col className="gutter-row" span={12}>
+        <Row
+          gutter={16}
+          style={{
+            textAlign: "center",
+            alignItems: 'center'
+          }}
+        >
+          <Col span={16}>
+            <Avatar
+              shape="square"
+              style={{ border: "3px solid black", cursor: "pointer" }}
+              size={200}
+              icon={
+                event?.images?.length !== 0 &&
+                  event?.images[0]?.filepath ? (
+                  <Image
+                    src={avatarurl + event?.images[0]?.filepath}
+                    height={200}
+                    width={200}
+                  />
+                ) : ""
+              }>
+              {event?.images?.length !== 0 &&
+                event?.images[0]?.filepath ? "" : 'No Photo'}
+            </Avatar>
+          </Col>
+          <Col span={8}>
+            <Space direction="vertical">
               <IconText
                 icon={
-                  <LikeOutlined
+                  <CheckCircleOutlined
                     style={{
-                      fontSize: 30,
+                      fontSize: 50,
+                      color: '#87d068'
                     }}
                   />
                 }
@@ -247,7 +208,7 @@ const EventCard = ({
                   <Text
                     style={{
                       fontSize: 40,
-                      color: "white",
+                      color: '#87d068'
                     }}
                   >
                     {event?.totalLike ?? 0}
@@ -255,13 +216,13 @@ const EventCard = ({
                 }
                 key="list-vertical-like-o"
               />
-            </Col>
-            <Col className="gutter-row" span={12}>
               <IconText
                 icon={
-                  <MessageOutlined
+                  <CloseCircleOutlined
                     style={{
-                      fontSize: 30,
+                      fontSize: 50,
+                      color: '#f50'
+
                     }}
                   />
                 }
@@ -269,7 +230,7 @@ const EventCard = ({
                   <Text
                     style={{
                       fontSize: 40,
-                      color: "white",
+                      color: '#f50'
                     }}
                   >
                     {event?.reviews?.length ?? 0}
@@ -277,26 +238,65 @@ const EventCard = ({
                 }
                 key="list-vertical-message"
               />
-            </Col>
-          </Row>
-          <Divider
-            style={{
-              borderColor: "white",
+            </Space>
+          </Col>
+        </Row>
+        <Divider
+          style={{
+            borderColor: "white",
+          }}
+          dashed
+        >
+          <Tag color="#108ee9">Schedule Details</Tag>
+
+        </Divider>
+        <Col
+          style={{
+            marginTop: 20,
+            textAlign: "center",
+          }}
+        >
+          <Form
+            className="event-sechedule"
+            name="basic"
+            labelCol={{
+              span: 6,
             }}
-            dashed
-          >
-            <Tag style={{}} color={event.isActive ? "#87d068" : "#ff4d4f"}>
-              {event?.isActive ? "Active" : "Inactive"}
-            </Tag>
-          </Divider>
-          <Col
+            wrapperCol={{
+              span: 18,
+            }}
             style={{
-              marginTop: 20,
-              textAlign: "center",
+              maxWidth: 600,
             }}
           >
-            <Space direction="vertical" className="gutter-row" span={24}>
-              {/* <Space>
+            <Form.Item
+              label="Event"
+            >
+              <Text strong>{event?.event?.title}</Text>
+            </Form.Item>
+
+            <Form.Item
+              label="Location"
+            >
+              <Text strong>{event?.centerAddress}</Text>
+            </Form.Item>
+            <Form.Item
+              label="Date & Time"
+            >
+              <Text strong>{`${startDate} ~ ${endDate}`}</Text>
+            </Form.Item>
+            <Form.Item
+              label="Categories"
+            >
+              <Space size={[0, 'small']} wrap>
+                {event?.categories
+                  ?.map((item) => <Tag icon={<TagFilled />} >{item.name}</Tag>)
+                }
+              </Space>
+            </Form.Item>
+          </Form>
+          <Space direction="vertical" className="gutter-row" span={24}>
+            {/* <Space>
                 <Text
                   style={{
                     color: "white",
@@ -305,7 +305,7 @@ const EventCard = ({
                   {event?.mapLocation?.address}
                 </Text>
               </Space> */}
-              <Space>
+            {/* <Space>
                 <Text
                   style={{
                     color: "white",
@@ -332,10 +332,9 @@ const EventCard = ({
                   tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
                   value={rating}
                 />
-              </Space>
-            </Space>
-          </Col>
-        </div>
+              </Space> */}
+          </Space>
+        </Col>
       </Card >
       <ArrivalModal
         openArrival={arrivalModalOpen}

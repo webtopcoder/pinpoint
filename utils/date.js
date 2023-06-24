@@ -4,6 +4,12 @@ export function formatDate(date, format = 'DD/MM/YYYY HH:mm:ss') {
     return moment(date).format(format);
 }
 
+export function formatDateEvent(date) {
+    const DateObj = moment.utc(date);
+    const Date = DateObj.local().format("M/D/YYYY h:mmA");
+    return Date;
+}
+
 export function getDiffToNow(date) {
     return moment(date).fromNow(true);
 }
