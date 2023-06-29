@@ -20,7 +20,7 @@ import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
-import { Button, notification, Space, Typography } from 'antd';
+import { Button, notification, Space, Typography, Badge } from 'antd';
 import useMedia from "@/hooks/useMedia";
 import { browserName } from 'react-device-detect';
 
@@ -383,6 +383,7 @@ const UserHome = () => {
                   <div className="row">
                     <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
+                        <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
                         <div className="icon">
                           <Image src={farmers} alt="icon" />
                         </div>
@@ -392,6 +393,7 @@ const UserHome = () => {
                     </div>
                     <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
+                      <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
                         <div className="icon">
                           <Image src={christmas} alt="icon" />
                         </div>
@@ -402,6 +404,7 @@ const UserHome = () => {
 
                     <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
+                        <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
                         <div className="icon">
                           <Image src={pumkin} alt="icon" />
                         </div>
@@ -413,7 +416,9 @@ const UserHome = () => {
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-6 col-sm-12">
+
                       <div className="single-help-desk-box">
+                        <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
                         <div className="icon">
                           <Image src={fireworks} alt="icon" />
                         </div>

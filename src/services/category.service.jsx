@@ -10,9 +10,14 @@ function CategoryService() {
     return api(`categories`, "get");
   }
 
+  function getCategoryByID(id) {
+    return api(`categories/${id}`, "get");
+  }
+
   return {
     getSubcategory,
     getCategory,
+    getCategoryByID,
   };
 }
 

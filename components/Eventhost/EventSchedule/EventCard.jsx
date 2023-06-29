@@ -3,6 +3,7 @@ import useNotify from "@/hooks/useNotify";
 import {
   CheckCircleOutlined,
   EllipsisOutlined,
+  LoadingOutlined,
   TagFilled,
   CloseCircleOutlined
 } from "@ant-design/icons";
@@ -10,61 +11,65 @@ import {
   Button,
   Col,
   Divider,
-  Dropdown,
+  Tooltip,
   Row,
   Space,
   Tag,
   Typography,
   message,
-  Form
+  Form,
+  Badge,
+  Popconfirm
 } from "antd";
 import { Avatar, Card } from "antd";
 import Link from "next/link";
+import useMedia from "@/hooks/useMedia";
 import { useState } from "react";
-import ArrivalModal from "./ArrivalModal";
 import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import DepartureModal from "./DepartureModal";
 import ModifyEventModal from "./ModifyEventModal";
 import { useRouter } from "next/router";
-import { eventService, locationService } from "@/services/index";
+import { eventService } from "@/services/index";
 import Image from "next/image";
-import moment from 'moment';
+import { formatDateEvent, getDiffeForEventSchedule } from "@/utils/date";
 
 const { Text } = Typography;
 
-const IconText = ({ icon, text }) => (
-  <Space>
-    {icon}
-    {text}
-  </Space>
+const IconText = ({ icon, text, tooltip }) => (
+  <Tooltip title={tooltip} placement="top">
+    <Space>
+      {icon}
+      {text}
+    </Space>
+  </Tooltip>
 );
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const EventCard = ({
-  onDepartureSet,
   event,
   showActions = false,
   user_id,
   setEvents,
   events,
   additionLocatoins,
+  initialize
 }) => {
+
+  const isWebDevice = useMedia('(min-width:700px)');
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const startDateObj = moment.utc(event?.startDate);
-  const startDate = startDateObj.local().format("M/D/YYYY h:mmA");
-  const endDateObj = moment.utc(event?.endDate);
-  const endDate = endDateObj.local().format("M/D/YYYY h:mmA");
-
   const { notify } = useNotify();
   const router = useRouter();
+  const isExpired = getDiffeForEventSchedule(event?.endDate) > 24 ? true : false;
 
+  const approvedCount = (event?.request.filter(obj => obj.isActive === "approve"))?.length;
+  const pendingCount = (event?.request.filter(obj => obj.isActive === "pending"))?.length;
+  const declinCount = (event?.request.filter(obj => obj.isActive === "decline"))?.length;
   const uploadProps = {
     name: "upload",
     onChange(info) {
@@ -112,245 +117,227 @@ const EventCard = ({
 
   return (
     <>
-      <Card
-        style={{
-          color: "white",
-          cursor: "pointer",
-        }}
-        headStyle={{
-          color: "white",
-          textAlign: "center",
-        }}
-        title={event?.title}
-        className="partner-locations-card"
-        actions={
-          showActions && [
-            <Link
-              href={{
-                pathname: "/eventhost/event-schedule-detail",
-                query: { id: event?._id },
-              }}
-              as={`/eventhost/event-schedule-detail?id=${event?._id}`}
-            >
-              <Button type="link">
-                View
-              </Button>
-            </Link>,
-            //    <Button
-            //    type="link"
-            //    onClick={() => {
-            //      router.push(`/eventhost/event-schedule-detail?id=${event?._id}`)
-            //    }}
-            //  >
-            //    View
-            //  </Button>,
-            <Button type="link" onClick={async () => {
-              await eventService.quickDeparture({ eventId: event?._id })
-                .then(async () => {
-                  notify("success", "Successfully departed");
-                  await initialize(null);
-                })
-                .catch((error) => {
-                  notify(
-                    "error",
-                    error?.response?.data?.message || "Something went wrong"
-                  );
-                  return;
-                });
-            }}>
-              Edit
-            </Button>
-            ,
-            <Button type="link">
-              Delete
-            </Button>,
-          ]
-        }
-      >
-        <Row
-          gutter={16}
+      <Badge.Ribbon color={isExpired ? "red" : "green"} text={isExpired ? "Expired" : "Active"}>
+        <Card
           style={{
-            textAlign: "center",
-            alignItems: 'center'
+            color: "white",
+            cursor: "pointer",
           }}
-        >
-          <Col span={16}>
-            <Avatar
-              shape="square"
-              style={{ border: "3px solid black", cursor: "pointer" }}
-              size={200}
-              icon={
-                event?.images?.length !== 0 &&
-                  event?.images[0]?.filepath ? (
-                  <Image
-                    src={avatarurl + event?.images[0]?.filepath}
-                    height={200}
-                    width={200}
-                  />
-                ) : ""
-              }>
-              {event?.images?.length !== 0 &&
-                event?.images[0]?.filepath ? "" : 'No Photo'}
-            </Avatar>
-          </Col>
-          <Col span={8}>
-            <Space direction="vertical">
-              <IconText
-                icon={
-                  <CheckCircleOutlined
-                    style={{
-                      fontSize: 50,
-                      color: '#87d068'
-                    }}
-                  />
-                }
-                text={
-                  <Text
-                    style={{
-                      fontSize: 40,
-                      color: '#87d068'
-                    }}
-                  >
-                    {event?.totalLike ?? 0}
-                  </Text>
-                }
-                key="list-vertical-like-o"
-              />
-              <IconText
-                icon={
-                  <CloseCircleOutlined
-                    style={{
-                      fontSize: 50,
-                      color: '#f50'
-
-                    }}
-                  />
-                }
-                text={
-                  <Text
-                    style={{
-                      fontSize: 40,
-                      color: '#f50'
-                    }}
-                  >
-                    {event?.reviews?.length ?? 0}
-                  </Text>
-                }
-                key="list-vertical-message"
-              />
-            </Space>
-          </Col>
-        </Row>
-        <Divider
-          style={{
-            borderColor: "white",
-          }}
-          dashed
-        >
-          <Tag color="#108ee9">Schedule Details</Tag>
-
-        </Divider>
-        <Col
-          style={{
-            marginTop: 20,
+          headStyle={{
+            color: "white",
             textAlign: "center",
           }}
+          title={event?.title}
+          className="partner-locations-card"
+          actions={
+            showActions && [
+              <Link
+                href={{
+                  pathname: "/eventhost/event-schedule-detail",
+                  query: { id: event?._id },
+                }}
+                as={`/eventhost/event-schedule-detail?id=${event?._id}`}
+              >
+                <Button type="link">
+                  View
+                </Button>
+              </Link>,
+              // <Button type="link" onClick={async () => {
+              //   await eventService.quickDeparture({ eventId: event?._id })
+              //     .then(async () => {
+              //       notify("success", "Successfully departed");
+              //       await initialize();
+              //     })
+              //     .catch((error) => {
+              //       notify(
+              //         "error",
+              //         error?.response?.data?.message || "Something went wrong"
+              //       );
+              //       return;
+              //     });
+              // }}>
+              //   Edit
+              // </Button>
+              // ,
+              <Popconfirm
+                title="Delete Event Schedule"
+                description="Are you sure you want to delete this schedule?"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={async () => {
+                  await eventService.deleteEventSchedule(event?._id)
+                    .then(async () => {
+                      notify("success", "Successfully Deleted");
+                      await initialize();
+                    })
+                    .catch((error) => {
+                      notify(
+                        "error",
+                        error?.response?.data?.message || "Something went wrong"
+                      );
+                      return;
+                    });
+                }
+                }
+              >
+                <Button type="link" >
+                  Delete
+                </Button>
+              </Popconfirm>
+              ,
+            ]
+          }
         >
-          <Form
-            className="event-sechedule"
-            name="basic"
-            labelCol={{
-              span: 6,
-            }}
-            wrapperCol={{
-              span: 18,
-            }}
+          <Row
+            gutter={16}
+            justify="left"
             style={{
-              maxWidth: 600,
+              alignItems: 'center'
             }}
           >
-            <Form.Item
-              label="Event"
-            >
-              <Text strong>{event?.event?.title}</Text>
-            </Form.Item>
-
-            <Form.Item
-              label="Location"
-            >
-              <Text strong>{event?.centerAddress}</Text>
-            </Form.Item>
-            <Form.Item
-              label="Date & Time"
-            >
-              <Text strong>{`${startDate} ~ ${endDate}`}</Text>
-            </Form.Item>
-            <Form.Item
-              label="Categories"
-            >
-              <Space size={[0, 'small']} wrap>
-                {event?.categories
-                  ?.map((item) => <Tag icon={<TagFilled />} >{item.name}</Tag>)
-                }
-              </Space>
-            </Form.Item>
-          </Form>
-          <Space direction="vertical" className="gutter-row" span={24}>
-            {/* <Space>
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  {event?.mapLocation?.address}
-                </Text>
-              </Space> */}
-            {/* <Space>
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  {event?.isActive ? "Departure Time" : "Last Departure"}
-                  : {
-                    new Date(event?.departureAt).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "numeric",
-                      hour12: true,
-                      minute: "2-digit",
-                      second: "2-digit",
-                    })
+            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+              <Avatar
+                shape="square"
+                style={{ border: "3px solid black", cursor: "pointer" }}
+                size={250}
+                icon={
+                  event?.images?.length !== 0 &&
+                    event?.images[0]?.filepath ? (
+                    <Image
+                      src={avatarurl + event?.images[0]?.filepath}
+                      height={250}
+                      width={250}
+                    />
+                  ) : ""
+                }>
+                {event?.images?.length !== 0 &&
+                  event?.images[0]?.filepath ? "" : 'No Photo'}
+              </Avatar>
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <Space direction={isWebDevice ? "vertical" : "horizontal"} size={isWebDevice ? "small" : 'large'}>
+                <IconText
+                  icon={
+                    <LoadingOutlined
+                      style={{
+                        fontSize: 40,
+                        color: '#2db7f5'
+                      }}
+                    />
                   }
-                </Text>
-              </Space>
-              <Space>
-                <Rate
-                  disabled
-                  allowHalf
-                  tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-                  value={rating}
+                  tooltip="Pending"
+                  text={
+                    <Text
+                      style={{
+                        fontSize: 40,
+                        color: '#2db7f5'
+                      }}
+                    >
+                      {pendingCount ?? 0}
+                    </Text>
+                  }
                 />
-              </Space> */}
-          </Space>
-        </Col>
-      </Card >
-      <ArrivalModal
-        openArrival={arrivalModalOpen}
-        setArrivalModalOpen={setArrivalModalOpen}
-        uploadProps={uploadProps}
-        setEvents={setEvents}
-        events={events}
-        event={event}
-        uploadFile={uploadFile}
-      />
-      <DepartureModal
-        modalOpen={departureModalOpen}
-        setModalOpen={setDepartureModalOpen}
-        setLocations={setEvents}
-        locations={events}
-      />
+                <IconText
+                  icon={
+                    <CheckCircleOutlined
+                      style={{
+                        fontSize: 40,
+                        color: '#87d068'
+                      }}
+                    />
+                  }
+                  tooltip="Approved"
+                  text={
+                    <Text
+                      style={{
+                        fontSize: 40,
+                        color: '#87d068'
+                      }}
+                    >
+                      {approvedCount ?? 0}
+                    </Text>
+                  }
+                />
+                <IconText
+                  icon={
+                    <CloseCircleOutlined
+                      style={{
+                        fontSize: 40,
+                        color: '#f50'
+                      }}
+                    />
+                  }
+                  tooltip="Declined"
+                  text={
+                    <Text
+                      style={{
+                        fontSize: 40,
+                        color: '#f50'
+                      }}
+                    >
+                      {declinCount ?? 0}
+                    </Text>
+                  }
+                />
+              </Space>
+            </Col>
+          </Row>
+          <Divider
+            style={{
+              borderColor: "white",
+            }}
+            dashed
+          >
+            <Tag color="#108ee9">{event?.type}</Tag>
+          </Divider>
+          <Col
+            style={{
+              marginTop: 20,
+              textAlign: "center",
+            }}
+          >
+            <Form
+              className="event-sechedule"
+              name="basic"
+              labelCol={{
+                span: 6,
+              }}
+              wrapperCol={{
+                span: 18,
+              }}
+              style={{
+                maxWidth: 600,
+              }}
+            >
+              <Form.Item
+                label="Event"
+              >
+                <Text strong>{event?.event?.title}</Text>
+              </Form.Item>
+              <Form.Item
+                label="Location"
+              >
+                <Text strong>{event?.centerAddress?.address}</Text>
+              </Form.Item>
+              <Form.Item
+                label="Date & Time"
+              >
+                <Text strong>{`${formatDateEvent(event?.startDate)} ~ ${formatDateEvent(event?.endDate)}`}</Text>
+              </Form.Item>
+              <Form.Item
+                label="Categories"
+              >
+                <Space size={[0, 'small']} wrap>
+                  {event?.categories
+                    ?.map((item) => <Tag icon={<TagFilled />} >{item.name}</Tag>)
+                  }
+                </Space>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Card>
+      </Badge.Ribbon >
+
       <ModifyEventModal
         modalOpen={modifyModalOpen}
         setModalOpen={setModifyModalOpen}

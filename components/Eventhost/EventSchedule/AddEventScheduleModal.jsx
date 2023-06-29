@@ -27,6 +27,7 @@ const { Title, Paragraph, Text } = Typography;
 const { RangePicker } = DatePicker;
 
 function AddEventScheduleModal({
+  initialize,
   open,
   user_id,
   setModalOpen,
@@ -40,7 +41,11 @@ function AddEventScheduleModal({
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [event, setEvents] = useState([]);
   const [polygons, setPolygons] = useState();
-  const [centerAddress, setCenterAddress] = useState();
+  const [centerAddress, setCenterAddress] = useState({
+    latitude: null,
+    longitude: null,
+    address: ''
+  });
 
   useEffect(() => {
     categoryService.getCategory().then(async res => {
@@ -133,13 +138,12 @@ function AddEventScheduleModal({
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
-          console.log(values?.edate);
           formData.append("event", values?.event);
           formData.append("type", values?.type);
           formData.append("title", values?.title);
           formData.append("area", JSON.stringify(polygons[0]));
           formData.append("startDate", values?.edate[0]);
-          formData.append("centerAddress", centerAddress);
+          formData.append("centerAddress", JSON.stringify(centerAddress));
           formData.append("endDate", values?.edate[0]);
           formData.append("categories", values.categories);
 
@@ -148,23 +152,8 @@ function AddEventScheduleModal({
               await setLoading(false);
               notify("success", "Event added successfully");
               form.resetFields();
-              setPolygons(null);
-              // await eventService.getEvents({ partner: user_id, isActive: null })
-              //   .then(async (res) => {
-              //     if (additionLocatoins.length > 0) {
-              //       const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
-              //       await setEvents(filteredData);
-              //     }
-              //     else
-              //       await setEvents(res.results);
-              //   })
-              //   .catch((error) => {
-              //     notify(
-              //       "error",
-              //       error?.response?.data?.message || "Something went wrong"
-              //     );
-              //     return;
-              //   });
+              await setPolygons(null);
+              await initialize();
             })
             .catch((error) => {
               setLoading(false);

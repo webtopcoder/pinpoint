@@ -17,7 +17,8 @@ import {
   Tag,
   Image,
   Descriptions,
-  Radio
+  Radio,
+  Badge
 } from "antd";
 import { SendOutlined, LoadingOutlined, SearchOutlined, EyeOutlined, SyncOutlined, TagFilled } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
@@ -25,7 +26,7 @@ import useMedia from "@/hooks/useMedia";
 import { eventService } from "@/services/index";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Link from "next/link";
-import { formatDateEvent } from "@/utils/date";
+import { formatDateEvent, getDiffeForEventSchedule } from "@/utils/date";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -49,7 +50,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
 
   const isWebDevice = useMedia('(min-width:700px)');
   const [loading, setLoading] = useState(true);
-  const [events, setEvents] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const [filter, setFilter] = useState({
     time: '',
     position: {},
@@ -96,18 +97,17 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
     await eventService.RequestAccess(id)
       .then(async (res) => {
         await setLoading(false);
-        const updatedEvents = events.map(event => {
-          if (event?._id === id) {
+        const updatedEvents = schedules.map(item => {
+          if (item?._id === id) {
             return {
-              ...event,
+              ...item,
               request: res.request
             };
           }
-          return event;
+          return item;
         });
 
-        await setEvents(updatedEvents);
-        console.log(events)
+        await setSchedules(updatedEvents);
         notify(
           "success",
           "Requested Successfully"
@@ -151,10 +151,10 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
         setLoading(false);
         if (additionLocatoins.length > 0) {
           const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
-          await setEvents(filteredData);
+          await setSchedules(filteredData);
         }
         else
-          await setEvents(res.results);
+          await setSchedules(res.results);
       })
       .catch(async (error) => {
         await setLoading(false);
@@ -282,23 +282,6 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                 </Radio.Group>
 
                 <Col span={24}>
-                  {/* <List
-                    grid={{
-                      gutter: 1,
-                      xs: 1,
-                      sm: 1,
-                      md: 1,
-                      lg: 2,
-                      xl: 2,
-                      xxl: 2,
-                    }}
-                    dataSource={events}
-                    renderItem={(item) => (
-                      <List.Item>
-                      </List.Item>
-                    )}
-                  /> */}
-
                   <List
                     itemLayout="vertical"
                     size="large"
@@ -308,9 +291,10 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                       },
                       pageSize: 10,
                     }}
-                    dataSource={events}
+                    dataSource={schedules}
                     renderItem={(item) => {
-                      const isApproved = item.request.some(obj => obj.eventhost === user_id);
+                      const isApproved = item.request.filter(obj => obj.id === user_id);
+                      const isExpired = getDiffeForEventSchedule(item?.endDate) > 24 ? true : false;
                       return (
                         <List.Item
                           key={item.title}
@@ -318,11 +302,17 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                             <Button icon={<EyeOutlined />}>
                               <Link href={`/profile/${item?.eventhost?._id}/activity`}> View Profile</Link>
                             </Button>,
-
-
-                            !isApproved ? <Button type="primary" onClick={() => onRequestAccess(item?._id)} icon={<SendOutlined />}>
+                            !isApproved.length > 0 ? <Button disabled={isExpired ? true : false} type="primary" onClick={() => onRequestAccess(item?._id)} icon={<SendOutlined />}>
                               Request Access
-                            </Button> : <Tag icon={<SyncOutlined spin />} color="processing">Requested</Tag>,
+                            </Button> :
+                              <Tag color={isApproved[0]?.isActive === "pending" ?
+                                "processing" : isApproved[0]?.isActive === "approve" ?
+                                  "success" : "error"} >
+                                {isApproved[0]?.isActive === "pending" ?
+                                  "Pending" : isApproved[0]?.isActive === "approve" ?
+                                    "Approved" : "Declined"}
+                              </Tag>,
+                            // </Button> : <Tag icon={<SyncOutlined spin />} color="processing">{isApproved[0]?.isActive}</Tag>,
                           ]}
                           extra={
                             <Image
@@ -339,22 +329,25 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                                 color: 'white'
                               }}> {`${item?.eventhost?.businessname},    @${item?.eventhost?.username}`}</Text>
                             }
-                            description={<Descriptions size="small" labelStyle={{
-                              color: "#dbdbdb"
-                            }}
-                              contentStyle={{
-                                color: "#dbdbdb"
-                              }}
-                              bordered title="">
-                              <Descriptions.Item label="Event Name" span={3}>{item?.title}</Descriptions.Item>
-                              <Descriptions.Item label="Address" span={3}>{item?.centerAddress}</Descriptions.Item>
-                              <Descriptions.Item label="Access" span={3}> {item?.categories
-                                ?.map((item) => <Tag style={{
+                            description={
+                              <Badge.Ribbon color={isExpired ? "red" : "green"} text={isExpired ? "Expired" : "Active"}>
+                                <Descriptions size="small" labelStyle={{
                                   color: "#dbdbdb"
-                                }} icon={<TagFilled />} >{item.name}</Tag>)
-                              }</Descriptions.Item>
-                              <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(item?.startDate)} ~ ${formatDateEvent(item?.endDate)}`}</Descriptions.Item>
-                            </Descriptions>}
+                                }}
+                                  contentStyle={{
+                                    color: "#dbdbdb"
+                                  }}
+                                  bordered title="">
+                                  <Descriptions.Item label="Event Name" span={3}>{item?.title}</Descriptions.Item>
+                                  <Descriptions.Item label="Address" span={3}>{item?.centerAddress}</Descriptions.Item>
+                                  <Descriptions.Item label="Access" span={3}> {item?.categories
+                                    ?.map((item) => <Tag style={{
+                                      color: "#dbdbdb"
+                                    }} icon={<TagFilled />} >{item.name}</Tag>)
+                                  }</Descriptions.Item>
+                                  <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(item?.startDate)} ~ ${formatDateEvent(item?.endDate)}`}</Descriptions.Item>
+                                </Descriptions>
+                              </Badge.Ribbon>}
                           />
                           {item.content}
                         </List.Item>

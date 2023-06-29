@@ -63,13 +63,8 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
   async function initialize() {
     await eventService.getEventSchedule(filter)
       .then(async (res) => {
-        setLoading(false);
-        if (additionLocatoins.length > 0) {
-          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
-          await setEvents(filteredData);
-        }
-        else
-          await setEvents(res.results);
+        await setLoading(false);
+        await setEvents(res?.results);
       })
       .catch((error) => {
         setLoading(false);
@@ -167,7 +162,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                     dataSource={events}
                     renderItem={(item) => (
                       <List.Item>
-                        <EventCard events={events} setEvents={setEvents} event={item} showActions={true} />
+                        <EventCard events={events} initialize={initialize} setEvents={setEvents} event={item} showActions={true} />
                       </List.Item>
                     )}
                   />
@@ -180,6 +175,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
       </Content>
       <AddEventScheduleModal
         open={addModalOpen}
+        initialize={initialize}
         setModalOpen={setAddModalOpen}
         uploadProps={uploadProps}
         uploadFile={uploadFile}

@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Autocomplete, DrawingManager, GoogleMap, Polygon, useJsApiLoader } from '@react-google-maps/api';
-import deleteIcon from "@/public/images/landing/food.png";
+import { Autocomplete, DrawingManager, GoogleMap, Polygon, Marker, InfoWindow } from '@react-google-maps/api';
+import { DeleteFilled } from "@ant-design/icons";
 
-const libraries = ['places', 'drawing'];
 const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
 	const mapRef = useRef();
@@ -11,17 +10,27 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 	const autocompleteRef = useRef();
 	const drawingManagerRef = useRef();
 
-	const { isLoaded, loadError } = useJsApiLoader({
-		googleMapsApiKey: 'AIzaSyBAG6Xy390W6KIWFx3DFQAtIDVnW3gqCFQ',
-		libraries
-	});
-
-
 	const defaultCenter = {
 		lat: 28.626137,
 		lng: 79.821603,
 	}
+
+	const markerOptions = {
+		icon: {
+			url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+			scaledSize: new window.google.maps.Size(32, 32),
+			origin: new window.google.maps.Point(0, 0),
+			anchor: new window.google.maps.Point(16, 32)
+		}
+	}
+
 	const [center, setCenter] = useState(defaultCenter);
+	const [selectedAreaCenter, setSelectedAreaCenter] = useState(null);
+	const [selectedMarker, setSelectedMarker] = useState(null);
+	const onMarkerClick = (marker) => {
+		// Handle marker click event
+		setSelectedMarker(marker);
+	}
 
 	const containerStyle = {
 		width: '100%',
@@ -47,13 +56,12 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
 	const deleteIconStyle = {
 		cursor: 'pointer',
-		backgroundImage: `url(${deleteIcon})`,
-		height: '23px',
+		padding: '4px',
+		height: '24px',
 		width: '24px',
 		marginTop: '5px',
 		backgroundColor: '#fff',
 		position: 'absolute',
-		top: "1px",
 		left: "53%",
 		zIndex: 99999
 	}
@@ -115,6 +123,14 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 		drawingManagerRef.current = drawingManager;
 	}
 
+	const calculatePolygonCenter = (polygon) => {
+		const bounds = new window.google.maps.LatLngBounds();
+		polygon.forEach((point) => {
+			bounds.extend(point);
+		});
+		return bounds.getCenter();
+	}
+
 	const onOverlayComplete = ($overlayEvent) => {
 		drawingManagerRef.current.setDrawingMode(null);
 		if ($overlayEvent.type === window.google.maps.drawing.OverlayType.POLYGON) {
@@ -139,8 +155,7 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 			const geocoder = new window.google.maps.Geocoder();
 			geocoder.geocode({ location: center }, (results, status) => {
 				if (status === "OK" && results[0]) {
-					setCenterAddress(results[0].formatted_address);
-					setCenterAddress(results[0].formatted_address);
+
 					console.log('Selected Area:', {
 						area: area,
 						polygons: polygons,
@@ -150,8 +165,16 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 						},
 						centerAddress: results[0].formatted_address
 					});
+					setCenterAddress({
+						address: results[0].formatted_address,
+						latitude: center.lat(),
+						longitude: center.lng()
+					})
 				}
 			});
+
+			const newCenter = calculatePolygonCenter(newPolygon);
+			setSelectedAreaCenter(newCenter);
 			console.log('Selected Area:', {
 				area: area,
 				polygons: polygons,
@@ -177,10 +200,10 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
 			const allPolygons = [...polygons];
 			allPolygons[index] = coordinates;
-			setPolygons(allPolygons)
+			setPolygons(allPolygons);
+			const newCenter = calculatePolygonCenter(allPolygons);
+			setSelectedAreaCenter(newCenter);
 		}
-
-		console.log(polygons)
 	}
 
 	useEffect(() => {
@@ -194,32 +217,31 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 	}, []);
 
 	return (
-
 		<div className='map-container' style={{ position: 'relative' }}>
 			{
 				drawingManagerRef.current
 				&&
-				<div
+				<DeleteFilled
 					onClick={onDeleteDrawing}
+					style={deleteIconStyle}
 					title='Delete shape'
-					style={deleteIconStyle}>
-				</div>
+				/>
 			}
-			{isLoaded ?
-				<GoogleMap
-					zoom={15}
-					center={center}
-					onLoad={onLoadMap}
-					mapContainerStyle={containerStyle}
-					onTilesLoaded={() => setCenter(null)}
-				>
-					<DrawingManager
-						onLoad={onLoadDrawingManager}
-						onOverlayComplete={onOverlayComplete}
-						options={drawingManagerOptions}
-					/>
-					{
-						polygons?.map((iterator, index) => (
+			<GoogleMap
+				zoom={15}
+				center={center}
+				onLoad={onLoadMap}
+				mapContainerStyle={containerStyle}
+				onTilesLoaded={() => setCenter(null)}
+			>
+				<DrawingManager
+					onLoad={onLoadDrawingManager}
+					onOverlayComplete={onOverlayComplete}
+					options={drawingManagerOptions}
+				/>
+				{
+					polygons?.map((iterator, index) => (
+						<React.Fragment key={index}>
 							<Polygon
 								key={index}
 								onLoad={(event) => onLoadPolygon(event, index)}
@@ -231,19 +253,39 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 								draggable
 								editable
 							/>
-						))
-					}
-					<Autocomplete
-						onLoad={onLoadAutocomplete}
-						onPlaceChanged={onPlaceChanged}
-					>
-						<input
-							type='text'
-							placeholder='Search Location'
-							style={autocompleteStyle}
-						/>
-					</Autocomplete>
-				</GoogleMap> : null}
+							{selectedAreaCenter && (
+								<Marker
+									position={selectedAreaCenter}
+									onClick={() => onMarkerClick(selectedAreaCenter)}
+									options={markerOptions}
+								/>
+
+							)}
+							{selectedMarker && (
+								<InfoWindow
+									anchor={selectedMarker}
+									onCloseClick={() => setSelectedMarker(null)}
+								>
+									<div>
+										<h3>Marker Info Window</h3>
+										<p>This is the info window content.</p>
+									</div>
+								</InfoWindow>
+							)}
+						</React.Fragment>
+					))
+				}
+				<Autocomplete
+					onLoad={onLoadAutocomplete}
+					onPlaceChanged={onPlaceChanged}
+				>
+					<input
+						type='text'
+						placeholder='Search Location'
+						style={autocompleteStyle}
+					/>
+				</Autocomplete>
+			</GoogleMap>
 		</div>
 
 	);

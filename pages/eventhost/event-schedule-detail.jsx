@@ -10,7 +10,7 @@ const EventSchedule = ({ id }) => {
   const isWebDevice = useMedia('(min-width:700px)');
   return (
     <>
-      <PageTitle page="Events" />
+      <PageTitle page="Event Schedule Detail" />
       <div className="page-partner-area">
         <Layout
           style={{

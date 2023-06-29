@@ -29,12 +29,14 @@ const LostPassword = () => {
     const data = {
       email: form.userInfo,
     };
-    setLoading(true);
+    await setLoading(true);
     await authService.recoveryPassword(data)
-      .then(() => {
+      .then(async () => {
+        await setLoading(false);
         notify("success", "Email has been resent");
       })
-      .catch((error) => {
+      .catch(async error => {
+        await setLoading(false);
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"

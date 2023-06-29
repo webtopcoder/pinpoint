@@ -19,7 +19,6 @@ class MyDocument extends Document {
             rel="stylesheet"
           />       
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAG6Xy390W6KIWFx3DFQAtIDVnW3gqCFQ&libraries=places,drawing&callback=initMap"></script>
-
           <script
             src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"
             referrerPolicy="origin"

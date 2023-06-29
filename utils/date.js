@@ -18,6 +18,21 @@ export function formartUnixtime(time) {
     return moment.unix(time).format("MM/DD/YYYY");
 }
 
+export function getDiffeForEventSchedule(date) {
+    const currentDate = moment();
+
+    // Set the other date to compare to
+    const otherDate = moment(date);
+
+    // Calculate the difference in milliseconds
+    let difference = currentDate.diff(otherDate);
+
+    // Convert milliseconds to seconds
+    difference = difference / 1000;
+
+    return difference / 3600;
+}
+
 export function formatTime(seconds, format) {
     const h = Math.floor(seconds / 3600);
     const hours = h < 10 ? `0${h}` : h;

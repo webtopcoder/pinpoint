@@ -148,7 +148,6 @@ function ArrivalBanner({ location, user_id }) {
             <FacebookShareButton
               id="fbShareBtn"
               url={`https://api.thepinpointsocial.com/api/v1/share?title=${arrivallocation}&url=${url}&description=${arrivalText}&city=${location?.location?.mapLocation?.city}&date=${dateString}&imageUrl=${encodeURIComponent(imgurl + arrivalImage)}`}
-
               quotes={"Quotes"}  //"Your Quotes"
               hashtag={"Hashtag"} // #hashTag
             >

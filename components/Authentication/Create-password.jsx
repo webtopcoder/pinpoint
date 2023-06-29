@@ -3,10 +3,21 @@ import Link from "next/link";
 import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { authService } from "@/services/index";
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
 const CreatePassword = () => {
   const router = useRouter();
@@ -14,7 +25,7 @@ const CreatePassword = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const { notify } = useNotify();
   const { token } = router.query;
 
@@ -47,16 +58,18 @@ const CreatePassword = () => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
-
+    await setLoading(true);
     await authService.resetPassword({
       password: form.password,
       token: form.token,
     })
-      .then(() => {
+      .then(async () => {
+        await setLoading(false);
         notify("success", "Password has been changed");
         router.push("/");
       })
-      .catch((error) => {
+      .catch(async (error) => {
+        await setLoading(false);
         notify(
           "error",
           error?.response?.data?.message || "Something went wrong"
@@ -114,7 +127,9 @@ const CreatePassword = () => {
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
-              <button className="loginsignButton" type="submit">Reset Password</button>
+              <Spin spinning={loading} indicator={antIcon}>
+                <button className="loginsignButton" type="submit">Reset Password</button>
+              </Spin>
             </div>
           </div>
           <div className="row auth-divider"></div>

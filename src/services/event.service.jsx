@@ -2,21 +2,9 @@ import api from "@/utils/callApi";
 
 function EventService() {
 
-  // function getAllLocations(pagination, status, form) {
-  //   let apiquery;
-  //   form?.subcategory?.length > 0
-  //     ? (apiquery = `locations?pagination=${pagination}&isActive=${status}&subCategory=${form?.subcategory ? form.subcategory : ""
-  //       }`)
-  //     : (apiquery = `locations?pagination=${pagination}&isActive=${status}&category=${form?.category ? form.category : ""
-  //       }`);
-  //   return api(apiquery, "get");
-  // }
   function getEventSchedule(filter) {
-    // function getEventSchedule({ time, pagination = false, isActive, flag }) {
     return api(
-
       `event/event-schedule`, "post", filter
-      // `event/event-schedule?pagination=${pagination}&time=${time}&flag=${flag}${isActive != null ? "&isActive=" + isActive : ""
     )
   }
 
@@ -26,7 +14,6 @@ function EventService() {
     )
   }
 
-  getEventScheduleByID
   function getEvents({ pagination = false, isActive }) {
     return api(
       `event?pagination=${pagination}${isActive != null ? "&isActive=" + isActive : ""
@@ -59,13 +46,9 @@ function EventService() {
     return api(`event/${eventId}/quick-departure`, "post")
   }
 
-  // function favoriteLocation(locationId, flag) {
-  //   return api(`locations/${locationId}/favorite`, flag ? "post" : 'delete')
-  // }
-
-  // function getFavoriteLocations(profile) {
-  //   return api(`locations/favorite/${profile}`, "get")
-  // }
+  function deleteEventSchedule(id) {
+    return api(`event/${id}/eventschedule`, "delete")
+  }
 
   function CheckInArrival(arrivalID) {
     return api(`event/${arrivalID}/check-in`, "post")
@@ -74,10 +57,6 @@ function EventService() {
   function likeArrival(arrivalID) {
     return api(`event/${arrivalID}/like`, "post")
   }
-
-  // function likeReview(reviewId) {
-  //   return api(`locations/review/${reviewId}/like`, "post")
-  // }
 
   function PostReview(eventId, form) {
     return api(`event/${eventId}/review`, "post", form)
@@ -91,9 +70,20 @@ function EventService() {
     return api(`event/${id}/request-access`, "post")
   }
 
+  function RequestAccessManually(id, data) {
+    return api(`event/${id}/request-access-manually`, "post", data)
+  }
+
+  function markStatus(id, data) {
+    return api(`event/${id}/markStatus`, "post", data)
+  }
+
+  function uploadExcel(scheduleId, data) {
+    return api(`event/${scheduleId}/uploadExcel`, "post", data)
+  }
 
   return {
-    // getAllLocations,
+    markStatus,
     getEvents,
     AddEvent,
     UpdateEventByID,
@@ -102,14 +92,15 @@ function EventService() {
     quickDeparture,
     getEventInfo,
     CheckInArrival,
-    // getFavoriteLocations,
     likeArrival,
-    // likeReview,
+    uploadExcel,
     PostReview,
     AddEventSchedule,
     getEventSchedule,
     RequestAccess,
-    getEventScheduleByID
+    RequestAccessManually,
+    getEventScheduleByID,
+    deleteEventSchedule
   };
 }
 

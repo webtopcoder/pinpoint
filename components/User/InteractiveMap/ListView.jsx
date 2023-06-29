@@ -11,7 +11,6 @@ function ListViewModal({
 }) {
     const router = useRouter();
     const isWebDevice = useMedia('(min-width:700px)');
-
     const columns = [
         {
             key: '0',
