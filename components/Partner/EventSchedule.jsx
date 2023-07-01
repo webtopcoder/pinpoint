@@ -65,28 +65,27 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
     setFilter({ ...filter, range: newValue });
   };
 
-  // async function initialize() {
-  //   await setLoading(true);
-  //   console.log(filter)
-  //   await eventService.getEventSchedule(filter)
-  //     .then(async (res) => {
-  //       setLoading(false);
-  //       if (additionLocatoins.length > 0) {
-  //         const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
-  //         await setEvents(filteredData);
-  //       }
-  //       else
-  //         await setEvents(res.results);
-  //     })
-  //     .catch(async (error) => {
-  //       await setLoading(false);
-  //       notify(
-  //         "error",
-  //         error?.response?.data?.message || "Something went wrong"
-  //       );
-  //       return;
-  //     });
-  // }
+  async function initialize() {
+    await setLoading(true);
+    await eventService.getEventSchedule(filter)
+      .then(async (res) => {
+        setLoading(false);
+        if (additionLocatoins.length > 0) {
+          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
+          await setSchedules(filteredData);
+        }
+        else
+          await setSchedules(res.results);
+      })
+      .catch(async (error) => {
+        await setLoading(false);
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
 
   async function onChangeRadio(e) {
     await setFilter({ ...filter, time: e.target.value });
@@ -144,26 +143,8 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
     });
   }, []);
 
-  useEffect(async () => {
-    await setLoading(true);
-    await eventService.getEventSchedule(filter)
-      .then(async (res) => {
-        setLoading(false);
-        if (additionLocatoins.length > 0) {
-          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
-          await setSchedules(filteredData);
-        }
-        else
-          await setSchedules(res.results);
-      })
-      .catch(async (error) => {
-        await setLoading(false);
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
+  useEffect(() => {
+    initialize();
   }, [filter]);
 
   return (
@@ -302,7 +283,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                             <Button icon={<EyeOutlined />}>
                               <Link href={`/profile/${item?.eventhost?._id}/activity`}> View Profile</Link>
                             </Button>,
-                            !isApproved.length > 0 ? <Button disabled={isExpired ? true : false} type="primary" onClick={() => onRequestAccess(item?._id)} icon={<SendOutlined />}>
+                            !isApproved.length > 0 ? <Button hidden={isExpired ? true : false} type="primary" onClick={() => onRequestAccess(item?._id)} icon={<SendOutlined />}>
                               Request Access
                             </Button> :
                               <Tag color={isApproved[0]?.isActive === "pending" ?

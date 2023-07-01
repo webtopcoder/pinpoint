@@ -13577,3 +13577,7 @@ h4 {
 .marker-description .ant-descriptions-view {
   border: 1px solid #d7cdcd !important;
 }
+
+.ant-descriptions span{
+  word-break: break-word;
+}

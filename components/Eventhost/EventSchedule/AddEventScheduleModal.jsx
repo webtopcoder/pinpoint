@@ -54,7 +54,7 @@ function AddEventScheduleModal({
       console.log(error)
     });
 
-    eventService.getEvents({ isActive: null })
+    eventService.getEvents({ partner: user_id, isActive: null })
       .then(async (res) => {
         await setEvents(res.results);
       })
