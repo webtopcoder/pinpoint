@@ -2,7 +2,6 @@ import React from "react";
 import useNotify from "@/hooks/useNotify";
 import {
   CheckCircleOutlined,
-  EllipsisOutlined,
   LoadingOutlined,
   TagFilled,
   CloseCircleOutlined

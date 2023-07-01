@@ -21,15 +21,14 @@ import {
 } from "antd";
 import * as XLSX from "xlsx";
 import * as FileSaver from "file-saver";
-import { TagFilled, LoadingOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { TagFilled, LoadingOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
 import { eventService } from "@/services/index";
 import AddAttendeeModal from "./AddAttendeeModal";
 import UploadExcelModal from "./UploadExcelModal";
 import { formatDateEvent, getDiffeForEventSchedule } from "@/utils/date";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import moment from 'moment';
+import baseUrl from "@/utils/baseUrl";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -61,28 +60,28 @@ const index = ({ user_id, additionLocatoins, id }) => {
       title: 'Owner First Name',
       key: 'firstName',
       render: (_, record) => (
-        <a>{record?.firstname}</a>
+        <a>{record?.firstname ?? "--"}</a>
       ),
     },
     {
       title: 'Owner Last Name',
       key: 'lastName',
       render: (_, record) => (
-        <a>{record?.lastname}</a>
+        <a>{record?.lastname ?? "--"}</a>
       ),
     },
     {
       title: 'Email',
       key: 'email',
       render: (_, record) => (
-        <a>{record?.email}</a>
+        <a>{record?.email ?? "--"}</a>
       )
     },
     {
       title: 'Business Name',
       key: 'businessName',
       render: (_, record) => (
-        <a>{record?.businessname}</a>
+        <a>{record?.businessname ?? "--"}</a>
       ),
     },
     {
@@ -192,8 +191,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                   },
                 ]
               }}
-              placement="topRight"
-            >
+              placement="topRight" >
               <Button>Others</Button>
             </Dropdown>
           </Space >
@@ -205,15 +203,19 @@ const index = ({ user_id, additionLocatoins, id }) => {
     {
       key: '1',
       label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "pending")?.length ?? 0} size="small" style={{
-        backgroundColor: '#52c41a',
-      }} offset={[5, 0]}>Pending</Badge>,
+        backgroundColor: '#2db7f5',
+      }} offset={[5, 0]}><LoadingOutlined style={{
+        color: '#2db7f5'
+      }} /> Pending</Badge>,
       children: <Table columns={columns} dataSource={schedule?.request?.filter(obj => obj.isActive === "pending")} />
     },
     {
       key: '2',
       label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "approve")?.length ?? 0} size="small" style={{
         backgroundColor: '#52c41a',
-      }} offset={[5, 0]}>Approved</Badge>,
+      }} offset={[5, 0]}><CheckCircleOutlined style={{
+        color: '#52c41a'
+      }} />Approved</Badge>,
       children:
         <Space direction="vertical" style={{
           width: '100%'
@@ -229,8 +231,10 @@ const index = ({ user_id, additionLocatoins, id }) => {
     {
       key: '3',
       label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "decline")?.length ?? 0} style={{
-        backgroundColor: '#52c41a',
-      }} size="small" offset={[5, 0]}>Declined</Badge>,
+        backgroundColor: '#f50',
+      }} size="small" offset={[5, 0]}><CloseCircleOutlined style={{
+        color: '#f50'
+      }} />Declined</Badge>,
       children:
         <Space direction="vertical" style={{
           width: '100%'
