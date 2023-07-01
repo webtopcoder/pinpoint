@@ -1,9 +1,26 @@
-import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import React, { useEffect, useState } from "react";
+import { userService } from "@/services/index";
 
-const Newpartners = ({ newpartners }) => {
+const Newpartners = () => {
   const imgurl = `${apiBaseUrl}/avatar/`;
+  const [newpartners, setNewpartner] = useState();
+
+  useEffect(async () => {
+    await userService.getNewpartners()
+      .then((res) => {
+        setNewpartner(res.data)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }, []);
+
   return (
     <div className="testimonials-area bg-black ptb-100">
       <div className="container">

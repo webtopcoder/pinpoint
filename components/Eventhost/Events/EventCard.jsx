@@ -49,6 +49,8 @@ const EventCard = ({
   events,
   additionLocatoins,
 }) => {
+
+  console.log()
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
@@ -198,7 +200,6 @@ const EventCard = ({
             </Dropdown>,
           ]
         }
-
       >
         <div onClick={() => {
           router.push(`/profile/${event?.partner?._id ?? event?.partner}/events/${event?._id}`);

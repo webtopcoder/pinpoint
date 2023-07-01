@@ -71,6 +71,8 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
         return;
       }
 
+      console.log(role)
+
       switch (role) {
         case 'partner':
           if (res.user.status !== 'active') {

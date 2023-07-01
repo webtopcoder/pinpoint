@@ -19,18 +19,17 @@ export function formartUnixtime(time) {
 }
 
 export function getDiffeForEventSchedule(date) {
-    const currentDate = moment();
 
-    // Set the other date to compare to
-    const otherDate = moment(date);
+    const timestamp1 = moment(date);
+    const timestamp2 = moment(new Date());
+    // Calculate the difference
+    const difference = timestamp1.diff(timestamp2);
+    // Convert the difference to the desired units (e.g., hours)
+    const duration = moment.duration(difference);
+    const hours = duration.asHours();
 
-    // Calculate the difference in milliseconds
-    let difference = currentDate.diff(otherDate);
+    return hours;
 
-    // Convert milliseconds to seconds
-    difference = difference / 1000;
-
-    return difference / 3600;
 }
 
 export function formatTime(seconds, format) {

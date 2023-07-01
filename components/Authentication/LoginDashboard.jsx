@@ -42,7 +42,7 @@ const LoginDashboard = () => {
           </div>
           <Link href="/authentication/eventhost/login">
             <button className="login-dashboard-button" type="submit">
-              Event Holder
+              Event Host
               <p className="login-dashboard-button-subcaption">
                 *Login to post your event!
               </p>

@@ -1,7 +1,8 @@
 
 import React, { useEffect, useState } from "react";
-import { setCookie, getCookie, hasCookie } from 'cookies-next';
+import { setCookie, getCookie } from 'cookies-next';
 import LandingContact from "@/components/Landing/LandingContact";
+import PartnerLocations from "@/components/Landing/PartnerLocations";
 import Testimonial from "@/components/Landing/Testimonial";
 import Newpartners from "@/components/Landing/Newpartners";
 import PageTitle from "@/components/Layout/PageTitle";
@@ -17,10 +18,8 @@ import mobile from "@/public/images/landing/mobile.png";
 import pumkin from "@/public/images/landing/pumkin.png";
 import Image from "next/image";
 import useNotify from "@/hooks/useNotify";
-import { userService } from "@/services/index";
-import { apiBaseUrl } from "@/utils/baseUrl";
 import Layout from "../layout";
-import { Button, notification, Space, Typography, Badge } from 'antd';
+import { Button, notification, Space, Typography } from 'antd';
 import useMedia from "@/hooks/useMedia";
 import { browserName } from 'react-device-detect';
 
@@ -33,10 +32,6 @@ const close = () => {
 };
 
 const UserHome = () => {
-  const faviconUrl = `${apiBaseUrl}/location.png`;
-  const [testimonials, setTestimonial] = useState();
-  const [newpartners, setNewpartner] = useState();
-  const [activePartners, setactivePartners] = useState();
   const isWebDevice = useMedia('(min-width:700px)');
   const [api, contextHolder] = notification.useNotification();
   const { notify } = useNotify();
@@ -75,101 +70,10 @@ const UserHome = () => {
     });
   }
 
-  const getCurrentLocation = async () => {
-    if (browserName === "Edge") {
-      initMap(37.553326, -94.8110983)
-    }
-    else {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            initMap(latitude, longitude);
-          },
-          (error) => {
-            console.log(error)
-            console.error("Error retrieving geolocation:", error);
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-      }
-    }
-
-  };
-
   useEffect(() => {
     const flag = getCookie('notify');
     browserName === "Safari" && flag === true ? openNotification() : '';
-    getActivepartnersAndTestimonials();
-    getCurrentLocation();
   }, []);
-
-  useEffect(() => {
-    getCurrentLocation();
-  }, [activePartners]);
-
-  async function getActivepartnersAndTestimonials() {
-    await userService.getActivepartners()
-      .then((res) => {
-        setactivePartners(res)
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-
-    await userService.getTestimonials()
-      .then((res) => {
-        setTestimonial(res.data)
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-
-    await userService.getNewpartners()
-      .then((res) => {
-        setNewpartner(res.data)
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
-
-  function initMap(latitude, longitude) {
-    let map;
-    map = new google.maps.Map(document.getElementById("maps"), {
-      center: { lat: 37.553326, lng: -94.8110983 },
-      zoom: 4,
-      gestureHandling: "greedy"
-    });
-
-    // Create markers.
-    for (let i = 0; i < activePartners?.length; i++) {
-      const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(activePartners[i]?.address?.latitude, activePartners[i]?.address?.longitude),
-        icon: {
-          url: faviconUrl,
-          scaledSize: new google.maps.Size(30, 50), // scaled size
-          origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(15, 60), // anchor
-        },
-        map: map,
-      });
-    }
-  }
-
 
   return (
     <>
@@ -225,7 +129,6 @@ const UserHome = () => {
                     />
                   </div>
                 </> : ""}
-
               </div>
             </div>
           </div>
@@ -393,7 +296,7 @@ const UserHome = () => {
                     </div>
                     <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
-                      <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
+                        <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
                         <div className="icon">
                           <Image src={christmas} alt="icon" />
                         </div>
@@ -401,7 +304,6 @@ const UserHome = () => {
                         <p>Choppin down or Pickin Up? We have all options.</p>
                       </div>
                     </div>
-
                     <div className="col-lg-3 col-md-6 col-sm-12">
                       <div className="single-help-desk-box">
                         <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
@@ -416,7 +318,6 @@ const UserHome = () => {
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-6 col-sm-12">
-
                       <div className="single-help-desk-box">
                         <div className="ribbon"><span className="ribbon__content">Coming Soon</span></div>
                         <div className="icon">
@@ -461,14 +362,14 @@ const UserHome = () => {
                 </div>
               </div>
               <div className="col-lg-8 col-md-12 overview-image">
-                <div id="maps"></div>
+                <PartnerLocations />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Testimonial testimonials={testimonials} />
-      <Newpartners newpartners={newpartners} />
+      <Testimonial />
+      <Newpartners />
       <div className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">
@@ -496,7 +397,6 @@ const UserHome = () => {
     </>
   );
 };
-
 
 UserHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

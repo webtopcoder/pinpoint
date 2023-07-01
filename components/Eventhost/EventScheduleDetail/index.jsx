@@ -29,6 +29,7 @@ import AddAttendeeModal from "./AddAttendeeModal";
 import UploadExcelModal from "./UploadExcelModal";
 import { formatDateEvent, getDiffeForEventSchedule } from "@/utils/date";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import moment from 'moment';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -71,6 +72,13 @@ const index = ({ user_id, additionLocatoins, id }) => {
       ),
     },
     {
+      title: 'Email',
+      key: 'email',
+      render: (_, record) => (
+        <a>{record?.email}</a>
+      )
+    },
+    {
       title: 'Business Name',
       key: 'businessName',
       render: (_, record) => (
@@ -85,13 +93,6 @@ const index = ({ user_id, additionLocatoins, id }) => {
           {record?.category}
         </Tag>
       ),
-    },
-    {
-      title: 'Email',
-      key: 'email',
-      render: (_, record) => (
-        <a>{record?.email}</a>
-      )
     },
     {
       title: 'Action',
@@ -203,12 +204,16 @@ const index = ({ user_id, additionLocatoins, id }) => {
   const items = [
     {
       key: '1',
-      label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "pending")?.length ?? 0} size="small" offset={[5, 0]}>Pending</Badge>,
+      label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "pending")?.length ?? 0} size="small" style={{
+        backgroundColor: '#52c41a',
+      }} offset={[5, 0]}>Pending</Badge>,
       children: <Table columns={columns} dataSource={schedule?.request?.filter(obj => obj.isActive === "pending")} />
     },
     {
       key: '2',
-      label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "approve")?.length ?? 0} size="small" offset={[5, 0]}>Approved</Badge>,
+      label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "approve")?.length ?? 0} size="small" style={{
+        backgroundColor: '#52c41a',
+      }} offset={[5, 0]}>Approved</Badge>,
       children:
         <Space direction="vertical" style={{
           width: '100%'
@@ -223,7 +228,9 @@ const index = ({ user_id, additionLocatoins, id }) => {
     },
     {
       key: '3',
-      label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "decline")?.length ?? 0} size="small" offset={[5, 0]}>Declined</Badge>,
+      label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "decline")?.length ?? 0} style={{
+        backgroundColor: '#52c41a',
+      }} size="small" offset={[5, 0]}>Declined</Badge>,
       children:
         <Space direction="vertical" style={{
           width: '100%'
@@ -240,7 +247,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
     await eventService.getEventScheduleByID(id)
       .then(async (res) => {
         await setLoading(false);
-        const isExpired = getDiffeForEventSchedule(res?.endDate) > 24 ? true : false;
+        const isExpired = getDiffeForEventSchedule(res?.endDate) < 24 ? true : false;
         await setIsExpired(isExpired);
         await setSchedule(res);
       })
@@ -297,7 +304,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                       color: 'white'
                     }}>{schedule?.title}</Title>} bordered>
                     <Descriptions.Item label="Event" span={3}>{schedule?.event?.title}</Descriptions.Item>
-                    <Descriptions.Item label="Location" span={3}>{schedule?.centerAddress}</Descriptions.Item>
+                    <Descriptions.Item label="Location" span={3}>{schedule?.centerAddress?.address}</Descriptions.Item>
                     <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(schedule?.startDate)} ~ ${formatDateEvent(schedule?.endDate)}`}</Descriptions.Item>
                     <Descriptions.Item label="Categories" span={3}> {schedule?.categories
                       ?.map((item) => <Tag style={{
@@ -307,7 +314,6 @@ const index = ({ user_id, additionLocatoins, id }) => {
                     <Descriptions.Item label="Status" span={3}>
                       <Text type={isExpired ? "danger" : "success"}>{isExpired ? "Expired" : "Active"}</Text>
                     </Descriptions.Item>
-
                   </Descriptions>
                   <Divider style={{
                     borderBlockStart: '2px solid gray'

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import Image from "next/image";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import { userService } from "@/services/index";
 
 const options = {
   margin: 25,
@@ -34,19 +35,31 @@ const options = {
   },
 };
 
-const Testimonial = ({ testimonials }) => {
+const Testimonial = () => {
 
-  console.log(testimonials)
   const imgurl = `${apiBaseUrl}/avatar/`;
+  const [testimonials, setTestimonial] = useState();
   const [display, setDisplay] = React.useState(false);
+
+  useEffect(async () => {
+    setDisplay(true);
+    await userService.getTestimonials()
+      .then((res) => {
+        setTestimonial(res?.data)
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }, []);
 
   const myLoader = ({ src }) => {
     return src;
   };
 
-  React.useEffect(() => {
-    setDisplay(true);
-  }, []);
   return (
     <div className="testimonials-area bg-black ptb-100">
       <div className="container">
@@ -114,7 +127,7 @@ const Testimonial = ({ testimonials }) => {
                   alt="user" />
               </div>
             </div> : ''}
-            { testimonials && testimonials[2] ? <div className="testimonials-item">
+            {testimonials && testimonials[2] ? <div className="testimonials-item">
               <i className="flaticon-left-quotes-sign"></i>
               <p>
                 {testimonials[2]?.content}
@@ -146,7 +159,7 @@ const Testimonial = ({ testimonials }) => {
                   alt="user" />
               </div>
             </div> : ''}
-            { testimonials && testimonials[4] ? <div className="testimonials-item">
+            {testimonials && testimonials[4] ? <div className="testimonials-item">
               <i className="flaticon-left-quotes-sign"></i>
               <p>
                 {testimonials[4]?.content}

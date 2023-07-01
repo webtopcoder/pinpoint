@@ -339,7 +339,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                                   }}
                                   bordered title="">
                                   <Descriptions.Item label="Event Name" span={3}>{item?.title}</Descriptions.Item>
-                                  <Descriptions.Item label="Address" span={3}>{item?.centerAddress}</Descriptions.Item>
+                                  <Descriptions.Item label="Address" span={3}>{item?.centerAddress?.address}</Descriptions.Item>
                                   <Descriptions.Item label="Access" span={3}> {item?.categories
                                     ?.map((item) => <Tag style={{
                                       color: "#dbdbdb"

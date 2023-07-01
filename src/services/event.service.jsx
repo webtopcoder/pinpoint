@@ -14,9 +14,9 @@ function EventService() {
     )
   }
 
-  function getEvents({ pagination = false, isActive }) {
+  function getEvents({ pagination = false, partner, isActive }) {
     return api(
-      `event?pagination=${pagination}${isActive != null ? "&isActive=" + isActive : ""
+      `event?partner=${partner}&pagination=${pagination}${isActive != null ? "&isActive=" + isActive : ""
       }`,
       "get"
     )

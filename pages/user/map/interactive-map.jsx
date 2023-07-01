@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import Layout from "../../../layout";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { apiBaseUrl } from "@/utils/baseUrl";
 import { locationService, eventService } from "@/services/index";
 import { DrawingManager, GoogleMap, Polygon, Marker, InfoWindow, Circle, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
-import { Button, Space, notification, Typography, Spin, Card, Image, Avatar, Tag } from "antd";
+import { Button, Space, notification, Typography } from "antd";
 import ToolBanner from "@/components/User/InteractiveMap/ToolBanner";
 import { EyeFilled, LoadingOutlined } from "@ant-design/icons";
 import DirectionDrawer from "@/components/User/InteractiveMap/DirectionDrawer";
@@ -35,7 +35,6 @@ const InteractiveMap = () => {
     lat: 28.626137,
     lng: 79.821603,
   }
-
   const isWebDevice = useMedia('(min-width:700px)');
   const [mapRef, setMapRef] = useState();
   const polygonRefs = useRef([]);
@@ -46,6 +45,7 @@ const InteractiveMap = () => {
   const [radiusLocations, setRadiusLocations] = useState([]);
   const [filterForm, setfilterForm] = useState([]);
   const [eventSchedules, setEventSchedules] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
   const [mapzoom, setZoom] = useState(10);
   const [flag, setFlag] = useState(true);
   const faviconUrl = `${apiBaseUrl}`;
@@ -73,7 +73,6 @@ const InteractiveMap = () => {
     padding: '15px'
   }
 
-
   const PublicpolygonOptions = {
     fillOpacity: 0.5,
     fillColor: '#108ee9',
@@ -87,7 +86,6 @@ const InteractiveMap = () => {
     strokeColor: '#f50',
     strokeWeight: 2,
   }
-
 
   const options = {
     strokeColor: '#531dab',
@@ -336,6 +334,7 @@ const InteractiveMap = () => {
 
   return (
     <>
+      {contextHolder}
       <PageTitle page="INTERACTIVE MAP" />
       <div className="page-interactive-area bg-black">
         <div className="container">

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Space,
@@ -12,6 +12,7 @@ import {
   Input,
   Select
 } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import food from "@/public/images/landing/food.png";
 import useNotify from "@/hooks/useNotify";
 import { categoryService, eventService } from "@/services/index";
@@ -110,49 +111,29 @@ function AddAttendee({
             });
         }}
         layout="vertical"
+        requiredMark="optional"
       >
         <Row gutter={[8, 16]}>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <Form.Item
               label="First Name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Insert Event Name",
-                },
-              ]}
-              required
               name="firstname"
             >
-              <Input placeholder="This will be your owner first name" />
+              <Input />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <Form.Item
               label="Last Name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Insert Event Name",
-                },
-              ]}
-              required
               name="lastname">
-              <Input placeholder="This will be your owner last name" />
+              <Input />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <Form.Item
               label="Email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Insert Event Email",
-                },
-              ]}
-              required
               name="email">
-              <Input placeholder="This will be your owner email" />
+              <Input />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -161,12 +142,12 @@ function AddAttendee({
               rules={[
                 {
                   required: true,
-                  message: "Please Insert Event Name",
+                  message: "Please Insert Business Name",
                 },
               ]}
               required
               name="businessname">
-              <Input placeholder="This will be your owner business name" />
+              <Input />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -202,12 +183,14 @@ function AddAttendee({
                   }}>
                     <Button
                       type="primary"
+                      onClick={() => setModalOpen(false)}
                       className="btn-submit"
                       danger>
                       cancel
                     </Button>
                     <Button
                       loading={loading}
+                      icon={<PlusOutlined />}
                       type="primary"
                       htmlType="submit"
                       className="btn-submit">
