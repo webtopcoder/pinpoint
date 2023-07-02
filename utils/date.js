@@ -27,7 +27,7 @@ export function getDiffeForEventSchedule(date) {
     // Convert the difference to the desired units (e.g., hours)
     const duration = moment.duration(difference);
     const hours = duration.asHours();
-
+    
     return hours;
 
 }

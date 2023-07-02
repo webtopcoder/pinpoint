@@ -66,7 +66,7 @@ const EventCard = ({
 
   const { notify } = useNotify();
   const router = useRouter();
-  const isExpired = getDiffeForEventSchedule(event?.endDate) > 24 ? true : false;
+  const isExpired = getDiffeForEventSchedule(event?.endDate) < 24 ? true : false;
 
   const approvedCount = (event?.request.filter(obj => obj.isActive === "approve"))?.length;
   const pendingCount = (event?.request.filter(obj => obj.isActive === "pending"))?.length;

@@ -275,7 +275,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                     dataSource={schedules}
                     renderItem={(item) => {
                       const isApproved = item.request.filter(obj => obj.id === user_id);
-                      const isExpired = getDiffeForEventSchedule(item?.endDate) > 24 ? true : false;
+                      const isExpired = getDiffeForEventSchedule(item?.endDate) < 24 ? true : false;
                       return (
                         <List.Item
                           key={item.title}
