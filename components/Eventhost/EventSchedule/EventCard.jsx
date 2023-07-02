@@ -4,7 +4,9 @@ import {
   CheckCircleOutlined,
   LoadingOutlined,
   TagFilled,
-  CloseCircleOutlined
+  CloseCircleOutlined,
+  DeleteOutlined,
+  EyeOutlined
 } from "@ant-design/icons";
 import {
   Button,
@@ -137,7 +139,7 @@ const EventCard = ({
                 }}
                 as={`/eventhost/event-schedule-detail?id=${event?._id}`}
               >
-                <Button type="link">
+                <Button type="link" icon={<EyeOutlined />}>
                   View
                 </Button>
               </Link>,
@@ -179,7 +181,7 @@ const EventCard = ({
                 }
                 }
               >
-                <Button type="link" >
+                <Button type="link" danger icon={<DeleteOutlined />}>
                   Delete
                 </Button>
               </Popconfirm>
