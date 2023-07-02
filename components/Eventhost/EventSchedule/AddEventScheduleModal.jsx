@@ -144,6 +144,7 @@ function AddEventScheduleModal({
           formData.append("area", JSON.stringify(polygons[0]));
           formData.append("startDate", values?.edate[0]);
           formData.append("centerAddress", JSON.stringify(centerAddress));
+          formData.append("coordinates", JSON.stringify([centerAddress.longitude, centerAddress.latitude]));
           formData.append("endDate", values?.edate[0]);
           formData.append("categories", values.categories);
 

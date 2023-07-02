@@ -61,7 +61,7 @@ const InteractiveMap = () => {
     time: '',
     position: {},
     range: 5,
-    flag: false
+    flag: true
   });
 
   const router = useRouter();
