@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import useNotify from "@/hooks/useNotify";
 import food from "@/public/images/landing/food.png";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, SaveOutlined } from "@ant-design/icons";
 import {
   Form,
   Modal,
@@ -11,11 +11,8 @@ import {
   Typography,
   Input,
   Divider,
-  Select,
   Upload,
   Button,
-  Space,
-  Popconfirm
 } from "antd";
 import Image from "next/image";
 import { apiBaseUrl } from "@/utils/baseUrl";
@@ -60,24 +57,6 @@ function ModifyModal({
       });
   }
 
-  async function delete_event(e, id) {
-    e.preventDefault();
-    await eventService.DeleteEvent(id)
-      .then(async () => {
-        setModalOpen(false);
-        notify("success", "Event Deleted successfully");
-        await initialize(null);
-      })
-      .catch((error) => {
-        setLoading(false);
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-
-  };
 
   return (
     <Modal
@@ -232,43 +211,18 @@ function ModifyModal({
                     marginTop: isWebDevice ? 0 : 10
                   }}
                 >
-                  <Space>
-                    <Popconfirm
-                      title="Delete this Event"
-                      description="Are you sure to delete?"
-                      okText="Yes"
-                      onConfirm={(e) => {
-                        delete_event(e, event?._id)
-                      }}
-                      cancelText="No"
-                    >
-                      <Button
-                        hidden={event?.isActive || additionLocatoins?.length > 0 ? true : false}
-                        type="primary"
-                        htmlType="submit"
-                        className="btn-submit"
-                        style={{
-                          display: "initial",
-                          float: "right",
-                        }}
-                        danger
-                      >
-                        Delete Event
-                      </Button>
-                    </Popconfirm>
-
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className="btn-submit"
-                      style={{
-                        display: "initial",
-                        float: "right",
-                      }}
-                    >
-                      Save Changes
-                    </Button>
-                  </Space>
+                  <Button
+                    icon={<SaveOutlined />}
+                    type="primary"
+                    htmlType="submit"
+                    className="btn-submit"
+                    style={{
+                      display: "initial",
+                      float: "right",
+                    }}
+                  >
+                    Save Changes
+                  </Button>
                 </Col>
               </Row>
             </Form.Item>

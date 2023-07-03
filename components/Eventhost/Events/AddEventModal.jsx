@@ -10,9 +10,10 @@ import {
   Typography,
   Form,
   Input,
+  Space,
 } from "antd";
 import food from "@/public/images/landing/food.png";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { eventService } from "@/services/index";
 
@@ -38,7 +39,7 @@ function AddEventModal({
       centered
       open={open}
       width={700}
-      closable={true}
+      closable={false}
       onCancel={() => setModalOpen(false)}
       footer={null}
     >
@@ -98,7 +99,7 @@ function AddEventModal({
               await setLoading(false);
               notify("success", "Event added successfully");
               form.resetFields();
-              await eventService.getEvents({ isActive: null })
+              await eventService.getEvents({ partner: user_id, isActive: null })
                 .then(async (res) => {
                   if (additionLocatoins.length > 0) {
                     const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
@@ -164,18 +165,33 @@ function AddEventModal({
                   </Upload>
                 </Col>
                 <Col span={8} offset={8}>
-                  <Button
-                    loading={loading}
-                    type="primary"
-                    htmlType="submit"
-                    className="btn-submit"
-                    style={{
-                      display: "initial",
-                      float: "right",
-                    }}
-                  >
-                    Add Event
-                  </Button>
+                  <Space size="small">
+                    <Button
+                      icon={<CloseOutlined />}
+                      onClick={() => setModalOpen(false)}
+                      type="primary"
+                      danger
+                      style={{
+                        display: "initial",
+                        float: "right",
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      icon={<PlusOutlined />}
+                      loading={loading}
+                      type="primary"
+                      htmlType="submit"
+                      className="btn-submit"
+                      style={{
+                        display: "initial",
+                        float: "right",
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </Space>
                 </Col>
               </Row>
             </Form.Item>

@@ -16,7 +16,7 @@ import {
   DatePicker
 } from "antd";
 import food from "@/public/images/landing/food.png";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { eventService, categoryService } from "@/services/index";
 import EventArea from "./Event-Google-Map";
@@ -289,6 +289,7 @@ function AddEventScheduleModal({
                 <Col span={8} offset={8}>
                   <Space>
                     <Button
+                      icon={<CloseOutlined />}
                       danger
                       style={{
                         display: "initial",
@@ -297,10 +298,12 @@ function AddEventScheduleModal({
                       onClick={() => {
                         setModalOpen(false)
                       }}
+                      type="primary"
                     >
                       Cancel
                     </Button>
                     <Button
+                      icon={<PlusOutlined />}
                       loading={loading}
                       type="primary"
                       htmlType="submit"
@@ -310,7 +313,7 @@ function AddEventScheduleModal({
                         float: "right",
                       }}
                     >
-                      Add To Schedule
+                      Add
                     </Button>
                   </Space>
                 </Col>

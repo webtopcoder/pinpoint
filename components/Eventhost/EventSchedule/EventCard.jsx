@@ -20,7 +20,8 @@ import {
   message,
   Form,
   Badge,
-  Popconfirm
+  Popconfirm,
+  Statistic
 } from "antd";
 import { Avatar, Card } from "antd";
 import Link from "next/link";
@@ -35,6 +36,7 @@ import Image from "next/image";
 import { formatDateEvent, getDiffeForEventSchedule } from "@/utils/date";
 
 const { Text } = Typography;
+const { Countdown } = Statistic;
 
 const IconText = ({ icon, text, tooltip }) => (
   <Tooltip title={tooltip} placement="top">
@@ -58,16 +60,12 @@ const EventCard = ({
 }) => {
 
   const isWebDevice = useMedia('(min-width:700px)');
-  const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
-  const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   const { notify } = useNotify();
-  const router = useRouter();
-  const isExpired = getDiffeForEventSchedule(event?.endDate) < 24 ? true : false;
-
+  const startEvent = getDiffeForEventSchedule(event?.startDate);
+  const endEvent = getDiffeForEventSchedule(event?.endDate);
+  const isActive = startEvent < 0 && endEvent > 0 ? "Active" : startEvent > 0 && endEvent > 0 ? "Inactive" : 'Expired'
   const approvedCount = (event?.request.filter(obj => obj.isActive === "approve"))?.length;
   const pendingCount = (event?.request.filter(obj => obj.isActive === "pending"))?.length;
   const declinCount = (event?.request.filter(obj => obj.isActive === "decline"))?.length;
@@ -118,7 +116,7 @@ const EventCard = ({
 
   return (
     <>
-      <Badge.Ribbon color={isExpired ? "red" : "green"} text={isExpired ? "Expired" : "Active"}>
+      <Badge.Ribbon color={isActive === "Active" ? "green" : isActive === "Inactive" ? "gold" : "red"} text={isActive}>
         <Card
           style={{
             color: "white",
@@ -321,8 +319,7 @@ const EventCard = ({
                 <Text strong>{event?.centerAddress?.address}</Text>
               </Form.Item>
               <Form.Item
-                label="Date & Time"
-              >
+                label="Date & Time">
                 <Text strong>{`${formatDateEvent(event?.startDate)} ~ ${formatDateEvent(event?.endDate)}`}</Text>
               </Form.Item>
               <Form.Item
@@ -334,11 +331,17 @@ const EventCard = ({
                   }
                 </Space>
               </Form.Item>
+              {isActive !== "Expired" ? <Form.Item
+                label={isActive === "Active" ? 'For End' : 'For Start'}
+              >
+                <Countdown valueStyle={{
+                  fontSize: 15
+                }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]" />
+              </Form.Item> : ''}
             </Form>
           </Col>
         </Card>
       </Badge.Ribbon >
-
       <ModifyEventModal
         modalOpen={modifyModalOpen}
         setModalOpen={setModifyModalOpen}

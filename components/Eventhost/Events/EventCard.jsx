@@ -3,13 +3,15 @@ import useNotify from "@/hooks/useNotify";
 import {
   MessageOutlined,
   LikeOutlined,
-  EllipsisOutlined,
+  EyeOutlined,
+  EditOutlined,
+  DeleteOutlined
 } from "@ant-design/icons";
 import {
   Button,
   Col,
   Divider,
-  Dropdown,
+  Popconfirm,
   Rate,
   Row,
   Space,
@@ -18,7 +20,6 @@ import {
   message,
 } from "antd";
 import { Avatar, Card } from "antd";
-import Link from "next/link";
 import { useState } from "react";
 import ArrivalModal from "./ArrivalModal";
 import { connect } from "react-redux";
@@ -29,7 +30,7 @@ import { useRouter } from "next/router";
 import { eventService, locationService } from "@/services/index";
 import Image from "next/image";
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -50,12 +51,12 @@ const EventCard = ({
   additionLocatoins,
 }) => {
 
-  console.log()
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ellipsis, setEllipsis] = useState(true);
 
   let count = 0;
 
@@ -107,36 +108,6 @@ const EventCard = ({
       });
   }
 
-  const departure = (location_id) => {
-    const form = {
-      locationId: location_id,
-    };
-    onDepartureSet(form, (_, error) => {
-      if (error) {
-        notify("error", "Error");
-        return;
-      }
-      notify("success", "Successfully departed");
-      initialize(null);
-    });
-  };
-
-  const items = [
-    {
-      label: (
-        <Link
-          href={`${baseUrl}/profile/${event?.partner?._id ?? event?.partner}/events/${event._id}`}
-        >
-          View Event Profile
-        </Link>
-      ),
-      key: "0",
-    },
-    {
-      label: <a onClick={() => setModifyModalOpen(true)}>Modify Event</a>,
-      key: "1",
-    },
-  ];
 
   const [rating, setRating] = useState(event?.reviews?.length > 0 ? (event?.reviews?.reduce((acc, review) => {
     if (review.rating !== 0) count++
@@ -159,184 +130,178 @@ const EventCard = ({
         className="partner-locations-card"
         actions={
           showActions && [
-            event?.isActive ? (
-              <Button type="link" disabled>
-                Arrival
-              </Button>
-            ) : (
-              <Button type="link" onClick={() => setArrivalModalOpen(true)}>
-                Arrival
-              </Button>
-            ),
-            event.isActive ? (
-              <Button type="link" onClick={async () => {
-                await eventService.quickDeparture({ eventId: event?._id })
+            <Button icon={<EyeOutlined />} type="link" onClick={() => {
+              router.push(`${baseUrl}/profile/${event?.partner?._id ?? event?.partner}/events/${event?._id}`)
+            }}>
+              View
+            </Button>,
+            <Button icon={<EditOutlined />} type="link" onClick={() => {
+              setModifyModalOpen(true)
+            }}>
+              Modify
+            </Button>,
+            <Popconfirm
+              title="Delete this Event"
+              description="Are you sure to delete?"
+              okText="Yes"
+              onConfirm={async (e) => {
+                e.preventDefault();
+                await eventService.DeleteEvent(event?._id)
                   .then(async () => {
-                    notify("success", "Successfully departed");
+                    setModifyModalOpen(false);
+                    notify("success", "Event Deleted successfully");
                     await initialize(null);
                   })
                   .catch((error) => {
+                    setLoading(false);
                     notify(
                       "error",
                       error?.response?.data?.message || "Something went wrong"
                     );
                     return;
                   });
-              }}>
-                Departure
-              </Button>
-            ) : (
-              <Button type="link" disabled>
-                Departure
-              </Button>
-            ),
-            <Dropdown
-              menu={{
-                items,
+
               }}
-              trigger={["click"]}
+              cancelText="No"
             >
-              <EllipsisOutlined />
-            </Dropdown>,
+              <Button icon={<DeleteOutlined />} type="link" danger>
+                Delete
+              </Button>
+            </Popconfirm>
+            ,
           ]
         }
       >
-        <div onClick={() => {
-          router.push(`/profile/${event?.partner?._id ?? event?.partner}/events/${event?._id}`);
-        }}>
-          <Row
-            gutter={16}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            <Col span={24}>
-              <Avatar
-                style={{ border: "3px solid black", cursor: "pointer" }}
-                size={100}
-                icon={
-                  event?.images?.length !== 0 &&
-                    event?.images[0]?.filepath ? (
-                    <Image
-                      src={avatarurl + event?.images[0]?.filepath}
-                      height={200}
-                      width={200}
-                    />
-                  ) : ""
-                }>
-                {event?.images?.length !== 0 &&
-                  event?.images[0]?.filepath ? "" : 'No Photo'}
-              </Avatar>
-            </Col>
-          </Row>
-          <Row
-            gutter={16}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            <Col className="gutter-row" span={12}>
-              <IconText
-                icon={
-                  <LikeOutlined
-                    style={{
-                      fontSize: 30,
-                    }}
+
+        <Row
+          gutter={16}
+          style={{
+            textAlign: "center",
+          }}
+        >
+          <Col span={24}>
+            <Avatar
+              style={{ border: "3px solid black", cursor: "pointer" }}
+              size={100}
+              icon={
+                event?.images?.length !== 0 &&
+                  event?.images[0]?.filepath ? (
+                  <Image
+                    src={avatarurl + event?.images[0]?.filepath}
+                    height={200}
+                    width={200}
                   />
-                }
-                text={
-                  <Text
-                    style={{
-                      fontSize: 40,
-                      color: "white",
-                    }}
-                  >
-                    {event?.totalLike ?? 0}
-                  </Text>
-                }
-                key="list-vertical-like-o"
-              />
-            </Col>
-            <Col className="gutter-row" span={12}>
-              <IconText
-                icon={
-                  <MessageOutlined
-                    style={{
-                      fontSize: 30,
-                    }}
-                  />
-                }
-                text={
-                  <Text
-                    style={{
-                      fontSize: 40,
-                      color: "white",
-                    }}
-                  >
-                    {event?.reviews?.length ?? 0}
-                  </Text>
-                }
-                key="list-vertical-message"
-              />
-            </Col>
-          </Row>
-          <Divider
-            style={{
-              borderColor: "white",
-            }}
-            dashed
-          >
-            <Tag style={{}} color={event.isActive ? "#87d068" : "#ff4d4f"}>
-              {event?.isActive ? "Active" : "Inactive"}
-            </Tag>
-          </Divider>
-          <Col
-            style={{
-              marginTop: 20,
-              textAlign: "center",
-            }}
-          >
-            <Space direction="vertical" className="gutter-row" span={24}>
-              {/* <Space>
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  {event?.mapLocation?.address}
-                </Text>
-              </Space> */}
-              <Space>
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  {event?.isActive ? "Departure Time" : "Last Departure"}
-                  : {
-                    new Date(event?.departureAt).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "numeric",
-                      hour12: true,
-                      minute: "2-digit",
-                      second: "2-digit",
-                    })
-                  }
-                </Text>
-              </Space>
-              <Space>
-                <Rate
-                  disabled
-                  allowHalf
-                  tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
-                  value={rating}
-                />
-              </Space>
-            </Space>
+                ) : ""
+              }>
+              {event?.images?.length !== 0 &&
+                event?.images[0]?.filepath ? "" : 'No Photo'}
+            </Avatar>
           </Col>
-        </div>
+        </Row>
+        <Row
+          gutter={16}
+          style={{
+            textAlign: "center",
+          }}
+        >
+          <Col className="gutter-row" span={12}>
+            <IconText
+              icon={
+                <LikeOutlined
+                  style={{
+                    fontSize: 30,
+                  }}
+                />
+              }
+              text={
+                <Text
+                  style={{
+                    fontSize: 40,
+                    color: "white",
+                  }}
+                >
+                  {event?.totalLike ?? 0}
+                </Text>
+              }
+              key="list-vertical-like-o"
+            />
+          </Col>
+          <Col className="gutter-row" span={12}>
+            <IconText
+              icon={
+                <MessageOutlined
+                  style={{
+                    fontSize: 30,
+                  }}
+                />
+              }
+              text={
+                <Text
+                  style={{
+                    fontSize: 40,
+                    color: "white",
+                  }}
+                >
+                  {event?.reviews?.length ?? 0}
+                </Text>
+              }
+              key="list-vertical-message"
+            />
+          </Col>
+        </Row>
+        <Col
+          style={{
+            marginTop: 20,
+            textAlign: "center",
+          }}
+        >
+          <Space direction="vertical" className="gutter-row" span={24}>
+            <Space>
+              <Paragraph
+                style={{
+                  color: "white",
+                  textAlign: 'left'
+                }}
+                ellipsis={
+                  ellipsis
+                    ? {
+                      rows: 2,
+                      expandable: true,
+                      symbol: 'more',
+                      onEllipsis: function (event) {
+                        console.log(event)
+                      },
+                      onExpand: function (event) {
+                        console.log(event)
+                      }
+                    }
+                    : {
+                      onEllipsis: function (event) {
+                        console.log(event)
+                      }
+                    }
+                }
+              >
+                {event?.description}
+              </Paragraph>
+              {/* <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  {event?.description}
+                </Text> */}
+            </Space>
+            <Space>
+              <Rate
+                disabled
+                allowHalf
+                tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
+                value={rating}
+              />
+            </Space>
+          </Space>
+        </Col>
       </Card >
       <ArrivalModal
         openArrival={arrivalModalOpen}

@@ -10,7 +10,7 @@ import {
   List,
   Spin,
   Slider,
-  Space,
+  Statistic,
   InputNumber,
   Divider,
   Avatar,
@@ -32,8 +32,9 @@ const { Title, Text } = Typography;
 const { Content } = Layout;
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 const avatarurl = `${apiBaseUrl}/avatar/`;
+const { Countdown } = Statistic;
 
-const EventSchedule = ({ user_id, additionLocatoins }) => {
+const EventSchedule = ({ user_id, additionLocatoins, user_category }) => {
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();
@@ -74,8 +75,12 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
           const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
           await setSchedules(filteredData);
         }
-        else
-          await setSchedules(res.results);
+        else {
+          const filteredArray = res.results.filter(obj =>
+            obj.categories.some(category => category._id === user_category)
+          );
+          await setSchedules(filteredArray);
+        }
       })
       .catch(async (error) => {
         await setLoading(false);
@@ -276,6 +281,10 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                     renderItem={(item) => {
                       const isApproved = item.request.filter(obj => obj.id === user_id);
                       const isExpired = getDiffeForEventSchedule(item?.endDate) < 24 ? true : false;
+                      const startEvent = getDiffeForEventSchedule(item?.startDate);
+                      const endEvent = getDiffeForEventSchedule(item?.endDate);
+                      const isActive = startEvent < 0 && endEvent > 0 ? "Active" : startEvent > 0 && endEvent > 0 ? "Inactive" : 'Expired'
+
                       return (
                         <List.Item
                           key={item.title}
@@ -311,7 +320,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                               }}> {`${item?.eventhost?.businessname},    @${item?.eventhost?.username}`}</Text>
                             }
                             description={
-                              <Badge.Ribbon color={isExpired ? "red" : "green"} text={isExpired ? "Expired" : "Active"}>
+                              <Badge.Ribbon color={isActive === "Active" ? "green" : isActive === "Inactive" ? "gold" : "red"} text={isActive}>
                                 <Descriptions size="small" labelStyle={{
                                   color: "#dbdbdb"
                                 }}
@@ -319,6 +328,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                                     color: "#dbdbdb"
                                   }}
                                   bordered title="">
+                                  <Descriptions.Item label="Type" span={3}><Tag color="#55acee">{item?.type}</Tag></Descriptions.Item>
                                   <Descriptions.Item label="Event Name" span={3}>{item?.title}</Descriptions.Item>
                                   <Descriptions.Item label="Address" span={3}>{item?.centerAddress?.address}</Descriptions.Item>
                                   <Descriptions.Item label="Access" span={3}> {item?.categories
@@ -327,6 +337,15 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
                                     }} icon={<TagFilled />} >{item.name}</Tag>)
                                   }</Descriptions.Item>
                                   <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(item?.startDate)} ~ ${formatDateEvent(item?.endDate)}`}</Descriptions.Item>
+                                  {isActive !== "Expired" ? <Descriptions.Item
+                                    label={isActive === "Active" ? 'For End' : 'For Start'}
+                                    span={3}
+                                  >
+                                    <Countdown valueStyle={{
+                                      fontSize: 15,
+                                      color: 'rgb(219, 219, 219)'
+                                    }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]" />
+                                  </Descriptions.Item> : ''}
                                 </Descriptions>
                               </Badge.Ribbon>}
                           />
@@ -348,6 +367,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
 const mapStateToProps = ({ user }) => {
   return {
     user_id: user.user_id,
+    user_category: user.category,
     additionLocatoins: user.additionLocatoins,
   };
 };

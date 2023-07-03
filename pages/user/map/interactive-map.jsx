@@ -60,6 +60,7 @@ const InteractiveMap = () => {
   const [filter, setFilter] = useState({
     time: '',
     position: {},
+    map: true,
     range: 5,
     flag: true
   });
@@ -434,8 +435,8 @@ const InteractiveMap = () => {
               {eventSchedules?.map((item) => (
                 <Marker key={item?._id} position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
                   icon={{
-                    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-                    scaledSize: new google.maps.Size(30, 50), // scaled size
+                    url: `${faviconUrl}/event.png`,
+                    scaledSize: new google.maps.Size(25, 40), // scaled size
                     origin: new google.maps.Point(0, 0), // origin
                     anchor: new google.maps.Point(15, 46), // anchor
                   }}

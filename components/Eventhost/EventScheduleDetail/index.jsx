@@ -8,7 +8,7 @@ import {
   Button,
   Typography,
   message,
-  List,
+  Statistic,
   Spin,
   Descriptions,
   Badge,
@@ -32,6 +32,7 @@ import baseUrl from "@/utils/baseUrl";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
+const { Countdown } = Statistic;
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
 const index = ({ user_id, additionLocatoins, id }) => {
@@ -39,7 +40,11 @@ const index = ({ user_id, additionLocatoins, id }) => {
   const [loading, setLoading] = useState(true);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [ExcelUploadOpen, setExcelUploadModalOpen] = useState(false);
-  const [isExpired, setIsExpired] = useState(false);
+  const [isActive, setIsExpired] = useState(false);
+  const [differTime, setDifferTime] = useState({
+    startEvent: null,
+    endEvent: null
+  });
   const [schedule, setSchedule] = useState({});
   const { notify } = useNotify();
 
@@ -251,8 +256,11 @@ const index = ({ user_id, additionLocatoins, id }) => {
     await eventService.getEventScheduleByID(id)
       .then(async (res) => {
         await setLoading(false);
-        const isExpired = getDiffeForEventSchedule(res?.endDate) < 24 ? true : false;
-        await setIsExpired(isExpired);
+        const startEvent = getDiffeForEventSchedule(res?.startDate);
+        const endEvent = getDiffeForEventSchedule(res?.endDate);
+        const isActive = startEvent < 0 && endEvent > 0 ? "Active" : startEvent > 0 && endEvent > 0 ? "Inactive" : 'Expired'
+        await setIsExpired(isActive);
+        await setDifferTime({ startEvent, endEvent })
         await setSchedule(res);
       })
       .catch((error) => {
@@ -307,6 +315,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                     title={<Title style={{
                       color: 'white'
                     }}>{schedule?.title}</Title>} bordered>
+                    <Descriptions.Item label="Type" span={3}><Tag color="#55acee">{schedule?.type}</Tag></Descriptions.Item>
                     <Descriptions.Item label="Event" span={3}>{schedule?.event?.title}</Descriptions.Item>
                     <Descriptions.Item label="Location" span={3}>{schedule?.centerAddress?.address}</Descriptions.Item>
                     <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(schedule?.startDate)} ~ ${formatDateEvent(schedule?.endDate)}`}</Descriptions.Item>
@@ -316,8 +325,19 @@ const index = ({ user_id, additionLocatoins, id }) => {
                       }} icon={<TagFilled />} >{item.name}</Tag>)
                     }</Descriptions.Item>
                     <Descriptions.Item label="Status" span={3}>
-                      <Text type={isExpired ? "danger" : "success"}>{isExpired ? "Expired" : "Active"}</Text>
+                      <Text type={isActive === "Active" ? "success" : isActive === "Inactive" ? "warning" : "danger"}>{isActive}</Text>
                     </Descriptions.Item>
+                    <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(schedule?.startDate)} ~ ${formatDateEvent(schedule?.endDate)}`}</Descriptions.Item>
+                    {isActive !== "Expired" ? <Descriptions.Item
+                      label={isActive === "Active" ? 'For End' : 'For Start'}
+                      span={3}
+                    >
+                      <Countdown valueStyle={{
+                        fontSize: 15,
+                        color: 'rgb(219, 219, 219)'
+                      }} value={isActive !== "Active" ? Date.now() + differTime.startEvent * 60 * 60 * 1000 : Date.now() + differTime.endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]" />
+                    </Descriptions.Item> : ''}
+
                   </Descriptions>
                   <Divider style={{
                     borderBlockStart: '2px solid gray'
