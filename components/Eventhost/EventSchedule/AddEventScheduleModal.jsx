@@ -15,6 +15,7 @@ import {
   Space,
   DatePicker
 } from "antd";
+import moment from 'moment';
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
@@ -25,6 +26,13 @@ import dayjs from 'dayjs';
 const { Option } = Select;
 const { Title, Paragraph, Text } = Typography;
 const { RangePicker } = DatePicker;
+const range = (start, end) => {
+  const result = [];
+  for (let i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
+};
 
 function AddEventScheduleModal({
   initialize,
@@ -40,6 +48,7 @@ function AddEventScheduleModal({
   const [loading, setLoading] = useState(false);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [event, setEvents] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(false);
   const [polygons, setPolygons] = useState();
   const [centerAddress, setCenterAddress] = useState({
     latitude: null,
@@ -68,9 +77,66 @@ function AddEventScheduleModal({
 
   }, []);
 
-  const disabledDate = (current) => {
+  useEffect(() => {
+    form.resetFields(['edate']);
+    setSelectedDate(false);
+  }, [selectedDate]);
+
+  const disabledDate = (current, value) => {
     // Can not select days before today and today
-    return current && current < dayjs().endOf('day');
+    const today = dayjs().startOf('day');
+
+    if (current && !(current >= today && current <= dayjs().add(2, 'day').endOf('day'))) {
+      return true;
+    }
+
+    if (value && value[0] && value[1]) {
+      const dateDiff = value[1].diff(value[0], 'days');
+      if (dateDiff > 16) {
+        form.resetFields(['edate']);
+      }
+    }
+    return false;
+  };
+
+  const disabledRangeTime = (current, type) => {
+    const currentDay = dayjs().startOf('day');
+    const isToday = current && current.isSame(currentDay, 'day');
+    const currentHour = dayjs().format('h');
+    const currentMinute = dayjs().minute();
+
+    if (type === 'start' && isToday) {
+      return {
+        disabledHours: () => range(0, 12).splice(0, currentHour),
+        disabledMinutes: () => range(0, 60).splice(0, currentMinute + 1),
+        disabledSeconds: () => [],
+      };
+    }
+
+    if (type === 'end' && isToday) {
+      return {
+        disabledHours: () => range(0, 12).splice(0, currentHour),
+        disabledMinutes: () => range(0, 60).splice(0, currentMinute + 1),
+        disabledSeconds: () => [],
+      };
+    }
+  };
+
+
+  const handleDateChange = (dates) => {
+    if (dates && dates.length === 2) {
+      const start = dayjs(dates[0]);
+      const end = dayjs(dates[1]);
+      const hoursDifference = end.diff(start, 'hour');
+      if (hoursDifference > 16) {
+        notify(
+          "error",
+          "The duration of schdule can'be over 16 hours"
+        )
+
+        setSelectedDate(true);
+      }
+    }
   };
 
   return (
@@ -135,6 +201,10 @@ function AddEventScheduleModal({
         onFinish={async (values) => {
           setLoading(true);
           const formData = new FormData();
+          if (polygons[0].length === 0) {
+            notify("error", "Please Select Area.");
+            return;
+          }
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
           );
@@ -145,7 +215,7 @@ function AddEventScheduleModal({
           formData.append("startDate", values?.edate[0]);
           formData.append("centerAddress", JSON.stringify(centerAddress));
           formData.append("coordinates", JSON.stringify([centerAddress.longitude, centerAddress.latitude]));
-          formData.append("endDate", values?.edate[0]);
+          formData.append("endDate", values?.edate[1]);
           formData.append("categories", values.categories);
 
           await eventService.AddEventSchedule(formData)
@@ -194,9 +264,13 @@ function AddEventScheduleModal({
             >
               <RangePicker
                 disabledDate={disabledDate}
+                disabledTime={disabledRangeTime}
                 format="YYYY-MM-DD h:mm a"
-                use12Hours={true} showTime={{
+                use12Hours={true}
+                onCalendarChange={handleDateChange}
+                showTime={{
                   defaultValue: dayjs('00:00:00', 'HH:mm'),
+                  hideDisabledOptions: true,
                 }} />
 
             </Form.Item>
@@ -213,7 +287,7 @@ function AddEventScheduleModal({
               required
               name="title"
             >
-              <Input placeholder="This will be your individual Schedule Title" />
+              <Input />
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -230,7 +304,7 @@ function AddEventScheduleModal({
             >
               <Select
                 allowClear
-                placeholder="Select Event">
+              >
                 {event?.map((option, index) => (
                   <Option key={index + 1} value={option._id}>{option.title}</Option>
                 ))}
@@ -239,12 +313,7 @@ function AddEventScheduleModal({
           </Col>
 
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item label="Please Select Your area For New Event" rules={[
-              {
-                required: true,
-                message: "Please Insert Event Name",
-              },
-            ]}>
+            <Form.Item label="Please Select Your Area For New Event">
               <EventArea polygons={polygons} setCenterAddress={setCenterAddress} setPolygons={setPolygons} />
             </Form.Item>
           </Col>
@@ -264,8 +333,7 @@ function AddEventScheduleModal({
                 mode="multiple"
                 showSearch={false}
                 allowClear
-                maxTagCount={3}
-                placeholder="Select Category">
+                maxTagCount={3}>
                 <Option key={0} value="all">All</Option>
                 {categoryInfo?.map((option, index) => (
                   <Option key={index + 1} value={option.id}>{option.name}</Option>

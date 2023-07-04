@@ -6,7 +6,10 @@ import {
   TagFilled,
   CloseCircleOutlined,
   DeleteOutlined,
-  EyeOutlined
+  EyeOutlined,
+  EditOutlined,
+  CheckOutlined,
+  CloseOutlined
 } from "@ant-design/icons";
 import {
   Button,
@@ -21,7 +24,8 @@ import {
   Form,
   Badge,
   Popconfirm,
-  Statistic
+  Statistic,
+  Switch
 } from "antd";
 import { Avatar, Card } from "antd";
 import Link from "next/link";
@@ -114,6 +118,10 @@ const EventCard = ({
       });
   }
 
+  const onFinish = async () => {
+    await initialize(null);
+  };
+
   return (
     <>
       <Badge.Ribbon color={isActive === "Active" ? "green" : isActive === "Inactive" ? "gold" : "red"} text={isActive}>
@@ -141,23 +149,11 @@ const EventCard = ({
                   View
                 </Button>
               </Link>,
-              // <Button type="link" onClick={async () => {
-              //   await eventService.quickDeparture({ eventId: event?._id })
-              //     .then(async () => {
-              //       notify("success", "Successfully departed");
-              //       await initialize();
-              //     })
-              //     .catch((error) => {
-              //       notify(
-              //         "error",
-              //         error?.response?.data?.message || "Something went wrong"
-              //       );
-              //       return;
-              //     });
-              // }}>
-              //   Edit
-              // </Button>
-              // ,
+              <Button type="link" icon={<EditOutlined />} onClick={() => setModifyModalOpen(true)}
+              >
+                Edit
+              </Button>
+              ,
               <Popconfirm
                 title="Delete Event Schedule"
                 description="Are you sure you want to delete this schedule?"
@@ -167,7 +163,7 @@ const EventCard = ({
                   await eventService.deleteEventSchedule(event?._id)
                     .then(async () => {
                       notify("success", "Successfully Deleted");
-                      await initialize();
+                      await initialize(null);
                     })
                     .catch((error) => {
                       notify(
@@ -313,6 +309,7 @@ const EventCard = ({
               >
                 <Text strong>{event?.event?.title}</Text>
               </Form.Item>
+
               <Form.Item
                 label="Location"
               >
@@ -336,18 +333,31 @@ const EventCard = ({
               >
                 <Countdown valueStyle={{
                   fontSize: 15
-                }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]" />
+                }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]"
+                  onFinish={onFinish}
+                />
               </Form.Item> : ''}
+              {isActive === "Active" ?
+                <Form.Item
+                  label="Departure"
+                >
+                  <Switch
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    defaultChecked
+                  />
+                </Form.Item> : ''}
             </Form>
           </Col>
         </Card>
       </Badge.Ribbon >
       <ModifyEventModal
-        modalOpen={modifyModalOpen}
+        open={modifyModalOpen}
+        initialize={initialize}
+        user_id={user_id}
+        schedule={event}
         setModalOpen={setModifyModalOpen}
-        setEvents={setEvents}
         additionLocatoins={additionLocatoins}
-        event={event}
         uploadProps={uploadProps}
         uploadFile={uploadFile}
       />

@@ -129,7 +129,7 @@ const EventCard = ({
         title={event?.title}
         className="partner-locations-card"
         actions={
-          showActions && [
+          showActions ? [
             <Button icon={<EyeOutlined />} type="link" onClick={() => {
               router.push(`${baseUrl}/profile/${event?.partner?._id ?? event?.partner}/events/${event?._id}`)
             }}>
@@ -169,10 +169,16 @@ const EventCard = ({
               </Button>
             </Popconfirm>
             ,
-          ]
+          ] :
+            [
+              <Button icon={<EyeOutlined />} type="link" onClick={() => {
+                router.push(`${baseUrl}/profile/${event?.partner?._id ?? event?.partner}/events/${event?._id}`)
+              }}>
+                View
+              </Button>,
+            ]
         }
       >
-
         <Row
           gutter={16}
           style={{

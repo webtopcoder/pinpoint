@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Autocomplete, DrawingManager, GoogleMap, Polygon, Marker, InfoWindow } from '@react-google-maps/api';
 import { DeleteFilled } from "@ant-design/icons";
+import { apiBaseUrl } from "@/utils/baseUrl";
 
 const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
@@ -9,6 +10,7 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 	const activePolygonIndex = useRef();
 	const autocompleteRef = useRef();
 	const drawingManagerRef = useRef();
+	const faviconUrl = `${apiBaseUrl}`;
 
 	const defaultCenter = {
 		lat: 28.626137,
@@ -17,7 +19,7 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
 	const markerOptions = {
 		icon: {
-			url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+			url: `${faviconUrl}/event.png`,
 			scaledSize: new window.google.maps.Size(32, 32),
 			origin: new window.google.maps.Point(0, 0),
 			anchor: new window.google.maps.Point(16, 32)
@@ -155,16 +157,6 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 			const geocoder = new window.google.maps.Geocoder();
 			geocoder.geocode({ location: center }, (results, status) => {
 				if (status === "OK" && results[0]) {
-
-					console.log('Selected Area:', {
-						area: area,
-						polygons: polygons,
-						center: {
-							lat: center.lat(),
-							lng: center.lng()
-						},
-						centerAddress: results[0].formatted_address
-					});
 					setCenterAddress({
 						address: results[0].formatted_address,
 						latitude: center.lat(),
@@ -175,14 +167,6 @@ const MapComponent = ({ polygons, setPolygons, setCenterAddress }) => {
 
 			const newCenter = calculatePolygonCenter(newPolygon);
 			setSelectedAreaCenter(newCenter);
-			console.log('Selected Area:', {
-				area: area,
-				polygons: polygons,
-				center: {
-					lat: center.lat(),
-					lng: center.lng()
-				}
-			});
 		}
 	}
 

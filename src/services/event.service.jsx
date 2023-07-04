@@ -82,6 +82,10 @@ function EventService() {
     return api(`event/${scheduleId}/uploadExcel`, "post", data)
   }
 
+  function UpdateEventScheduleById(scheduleId, form) {
+    return api(`event/${scheduleId}/eventschedule`, "patch", form)
+  }
+
   return {
     markStatus,
     getEvents,
@@ -100,7 +104,8 @@ function EventService() {
     RequestAccess,
     RequestAccessManually,
     getEventScheduleByID,
-    deleteEventSchedule
+    deleteEventSchedule,
+    UpdateEventScheduleById
   };
 }
 

@@ -13507,6 +13507,12 @@ h4 {
   padding: 20px !important;
 }
 
+
+.schedule-detail-content .ant-empty-description,
+.schedule-detail-content .ant-pagination-item {
+  color: white
+}
+
 .ant-pagination-item-link {
   color: rgb(255 255 255) !important;
 }
@@ -13570,7 +13576,8 @@ h4 {
   border: 5px solid #f19066;
 }
 
-.marker-description .ant-descriptions-item-label,.marker-description .ant-descriptions-item-content {
+.marker-description .ant-descriptions-item-label,
+.marker-description .ant-descriptions-item-content {
   padding: 6px 18px !important;
 }
 
@@ -13578,6 +13585,6 @@ h4 {
   border: 1px solid #d7cdcd !important;
 }
 
-.ant-descriptions span{
+.ant-descriptions span {
   word-break: break-word;
 }

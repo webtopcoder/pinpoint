@@ -272,6 +272,10 @@ const index = ({ user_id, additionLocatoins, id }) => {
       });
   }
 
+  const onFinish = async () => {
+    await initialize();
+  };
+
   useEffect(() => {
     initialize();
   }, []);
@@ -332,7 +336,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                       label={isActive === "Active" ? 'For End' : 'For Start'}
                       span={3}
                     >
-                      <Countdown valueStyle={{
+                      <Countdown onFinish={onFinish} valueStyle={{
                         fontSize: 15,
                         color: 'rgb(219, 219, 219)'
                       }} value={isActive !== "Active" ? Date.now() + differTime.startEvent * 60 * 60 * 1000 : Date.now() + differTime.endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]" />

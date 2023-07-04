@@ -113,7 +113,6 @@ function ModifyModal({
       <Form
         form={form}
         onFinish={async (values) => {
-          console.log(uploadFile.length)
           const formData = new FormData();
           if (uploadFile.length > 0)
             uploadFile.map((file) =>

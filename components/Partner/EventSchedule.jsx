@@ -152,6 +152,10 @@ const EventSchedule = ({ user_id, additionLocatoins, user_category }) => {
     initialize();
   }, [filter]);
 
+  const onFinish = async () => {
+    await initialize();
+  };
+
   return (
     <Layout
       className="site-layout"
@@ -341,7 +345,7 @@ const EventSchedule = ({ user_id, additionLocatoins, user_category }) => {
                                     label={isActive === "Active" ? 'For End' : 'For Start'}
                                     span={3}
                                   >
-                                    <Countdown valueStyle={{
+                                    <Countdown onFinish={onFinish} valueStyle={{
                                       fontSize: 15,
                                       color: 'rgb(219, 219, 219)'
                                     }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]" />
