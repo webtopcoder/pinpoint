@@ -34,7 +34,7 @@ const EventSchedule = ({ user_id, additionLocatoins }) => {
     time: '',
     position: {},
     range: 5,
-    flag: false
+    flag: false,
   });
 
   const uploadProps = {

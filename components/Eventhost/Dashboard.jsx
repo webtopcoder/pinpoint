@@ -192,7 +192,7 @@ const PartnerDashboard = ({
                 +
               </Card>
             </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            {/* <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <div
                 className="dashboard-imagebutton"
                 onClick={() => setModal2Open(true)}
@@ -208,8 +208,8 @@ const PartnerDashboard = ({
                   Event
                 </div>
               </div>
-            </Col>
-            <Col xs={12} sm={8} md={6} lg={8} xl={6}>
+            </Col> */}
+            {/* <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <div
                 className="dashboard-imagebutton"
                 onClick={() => setModal1Open(true)}
@@ -225,7 +225,7 @@ const PartnerDashboard = ({
                   Event
                 </div>
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </Content>

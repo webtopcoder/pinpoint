@@ -69,7 +69,7 @@ const EventCard = ({
   const { notify } = useNotify();
   const startEvent = getDiffeForEventSchedule(event?.startDate);
   const endEvent = getDiffeForEventSchedule(event?.endDate);
-  const isActive = startEvent < 0 && endEvent > 0 ? "Active" : startEvent > 0 && endEvent > 0 ? "Inactive" : 'Expired'
+  const isActive = startEvent < 0 && endEvent > 0 && event?.isActive ? "Active" : startEvent > 0 && endEvent > 0 ? "Inactive" : 'Expired'
   const approvedCount = (event?.request.filter(obj => obj.isActive === "approve"))?.length;
   const pendingCount = (event?.request.filter(obj => obj.isActive === "pending"))?.length;
   const declinCount = (event?.request.filter(obj => obj.isActive === "decline"))?.length;
@@ -122,6 +122,25 @@ const EventCard = ({
     await initialize(null);
   };
 
+  const handleSwitch = async (e) => {
+
+    const formData = new FormData();
+    formData.append("isActive", e);
+
+    await eventService.UpdateEventScheduleById(event?._id, formData)
+      .then(async () => {
+        await initialize(null);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  };
+
+
   return (
     <>
       <Badge.Ribbon color={isActive === "Active" ? "green" : isActive === "Inactive" ? "gold" : "red"} text={isActive}>
@@ -160,6 +179,10 @@ const EventCard = ({
                 okText="Yes"
                 cancelText="No"
                 onConfirm={async () => {
+                  if (isActive === "Active") {
+                    notify("error", "You can't delete because schedule is on active");
+                    return;
+                  }
                   await eventService.deleteEventSchedule(event?._id)
                     .then(async () => {
                       notify("success", "Successfully Deleted");
@@ -328,20 +351,21 @@ const EventCard = ({
                   }
                 </Space>
               </Form.Item>
-              {isActive !== "Expired" ? <Form.Item
-                label={isActive === "Active" ? 'For End' : 'For Start'}
-              >
-                <Countdown valueStyle={{
-                  fontSize: 15
-                }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]"
-                  onFinish={onFinish}
-                />
-              </Form.Item> : ''}
+              {isActive !== "Expired" ?
+                <Form.Item
+                  label={isActive === "Active" ? 'For End' : 'For Start'}>
+                  <Countdown valueStyle={{
+                    fontSize: 15
+                  }} value={isActive !== "Active" ? Date.now() + startEvent * 60 * 60 * 1000 : Date.now() + endEvent * 60 * 60 * 1000} format="D [days] H [hrs] m [mins] s[secs]"
+                    onFinish={onFinish}
+                  />
+                </Form.Item> : ''}
               {isActive === "Active" ?
                 <Form.Item
                   label="Departure"
                 >
                   <Switch
+                    onChange={handleSwitch}
                     checkedChildren={<CheckOutlined />}
                     unCheckedChildren={<CloseOutlined />}
                     defaultChecked
