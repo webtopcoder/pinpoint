@@ -81,7 +81,7 @@ const PartnerDashboard = ({
   }, [departureModalOpen, arrivalModalOpen, router.isReady]);
 
   useEffect(() => {
-    profileService.getDashboardInfo()
+    profileService.getDashboardInfoEventhost()
       .then((res) => {
         setDashboardInfo(res)
       })
@@ -168,7 +168,7 @@ const PartnerDashboard = ({
                 title="Scheduled Events"
                 bordered={false}
               >
-                {dashboardInfo?.checkIns}
+                {dashboardInfo?.scheduleEvnets}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
@@ -177,7 +177,7 @@ const PartnerDashboard = ({
                 title="Schedule Requests"
                 bordered={false}
               >
-                {dashboardInfo?.checkIns}
+                {dashboardInfo?.requestsCount}
               </Card>
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>

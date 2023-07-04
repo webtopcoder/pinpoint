@@ -84,11 +84,17 @@ function AddEventScheduleModal({
 
   const disabledDate = (current, value) => {
     // Can not select days before today and today
-    const today = dayjs().startOf('day');
-
-    if (current && !(current >= today && current <= dayjs().add(2, 'day').endOf('day'))) {
+    if (current && !(current >= dayjs().add(2, 'day').endOf('day'))) {
       return true;
     }
+
+    // if (value && current) {
+    //   const startDateTime = dayjs(value[0]);
+    //   const endDateTime = startDateTime.add(16, 'hour').endOf('hour');
+    //   if (current >= startDateTime.startOf('day') && current <= endDateTime.add(1, 'day').startOf('day')) {
+    //     return false;
+    //   }
+    // }
 
     if (value && value[0] && value[1]) {
       const dateDiff = value[1].diff(value[0], 'days');
@@ -99,28 +105,38 @@ function AddEventScheduleModal({
     return false;
   };
 
-  const disabledRangeTime = (current, type) => {
-    const currentDay = dayjs().startOf('day');
-    const isToday = current && current.isSame(currentDay, 'day');
-    const currentHour = dayjs().format('h');
-    const currentMinute = dayjs().minute();
+  // const disabledDate = (startValue) => {
+  //   if (!startValue) {
+  //     // No start date selected, enable all dates after 2 days from current
+  //     const twoDaysLater = moment().add(2, 'days');
+  //     return startValue && startValue.isBefore(twoDaysLater, 'day');
+  //   }
 
-    if (type === 'start' && isToday) {
-      return {
-        disabledHours: () => range(0, 12).splice(0, currentHour),
-        disabledMinutes: () => range(0, 60).splice(0, currentMinute + 1),
-        disabledSeconds: () => [],
-      };
-    }
+  //   // Disable dates before today
+  //   if (startValue && startValue.isBefore(Date.now(), 'day')) {
+  //     return true;
+  //   }
 
-    if (type === 'end' && isToday) {
-      return {
-        disabledHours: () => range(0, 12).splice(0, currentHour),
-        disabledMinutes: () => range(0, 60).splice(0, currentMinute + 1),
-        disabledSeconds: () => [],
-      };
-    }
-  };
+  //   return false;
+  // };
+
+  // const disabledDate = (startValue) => {
+  //   console.log(startValue)
+  //   // if (!startValue) {
+  //   //   // No start date selected, no need to disable any dates
+  //   //   return false;
+  //   // }
+
+  //   // const sixteenHoursLater = startValue.clone().add(16, 'hours');
+  //   // const now = moment();
+
+  //   // // Disable dates after 16 hours from the selected start date
+  //   // if (now.isAfter(sixteenHoursLater)) {
+  //   //   return true;
+  //   // }
+
+  //   // return true;
+  // };
 
 
   const handleDateChange = (dates) => {
@@ -133,11 +149,52 @@ function AddEventScheduleModal({
           "error",
           "The duration of schdule can'be over 16 hours"
         )
-
         setSelectedDate(true);
       }
     }
   };
+
+  // const [disabledEndDate, setDisabledEndDate] = useState(null);
+  // const [disabledTime, setDisabledTime] = useState(null);
+
+  // const disabledDate = current => {
+  //   // Disable all days before 2 days from the current date
+  //   if (current && !(current >= dayjs().add(2, 'day').endOf('day'))) {
+  //     return true;
+  //   }
+  // };
+
+  // const handleDateChange = dates => {
+  //   const [startDate] = dates;
+
+  //   // Disable all days after 16 hours from the selected start date
+  //   const endDateTime = dayjs(startDate).add(16, 'hour');
+  //   setDisabledEndDate(endDateTime);
+
+  //   // Disable time options after 16 hours from the current datetime
+  //   const currentTime = dayjs();
+  //   const disabledTimeOptions = {
+  //     disabledHours: () => {
+  //       if (startDate && startDate.isSame(currentTime, 'day')) {
+  //         return [...Array(currentTime.hour())];
+  //       }
+  //       return [];
+  //     },
+  //     disabledMinutes: () => {
+  //       if (startDate && startDate.isSame(currentTime, 'day')) {
+  //         return [...Array(currentTime.minute())];
+  //       }
+  //       return [];
+  //     },
+  //     disabledSeconds: () => {
+  //       if (startDate && startDate.isSame(currentTime, 'day')) {
+  //         return [...Array(currentTime.second())];
+  //       }
+  //       return [];
+  //     }
+  //   };
+  //   setDisabledTime(disabledTimeOptions);
+  // };
 
   return (
     <Modal
@@ -201,7 +258,8 @@ function AddEventScheduleModal({
         onFinish={async (values) => {
           setLoading(true);
           const formData = new FormData();
-          if (polygons[0].length === 0) {
+          if (polygons === undefined || polygons?.length === 0) {
+            setLoading(false);
             notify("error", "Please Select Area.");
             return;
           }
@@ -264,7 +322,6 @@ function AddEventScheduleModal({
             >
               <RangePicker
                 disabledDate={disabledDate}
-                disabledTime={disabledRangeTime}
                 format="YYYY-MM-DD h:mm a"
                 use12Hours={true}
                 onCalendarChange={handleDateChange}

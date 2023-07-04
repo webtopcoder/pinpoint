@@ -93,7 +93,7 @@ function ModifyEventScheduleModal({
 
   const disabledDate = (current, value) => {
     const today = dayjs().startOf('day');
-    if (current && !(current >= today && current <= dayjs().add(2, 'day').endOf('day'))) {
+    if (current && !(current >= dayjs().add(2, 'day').endOf('day'))) {
       return true;
     }
 
@@ -211,6 +211,11 @@ function ModifyEventScheduleModal({
         }
         onFinish={async (values) => {
           setLoading(true);
+          if (polygons === undefined || polygons?.length === 0) {
+            setLoading(false);
+            notify("error", "Please Select Area.");
+            return;
+          }
           const formData = new FormData();
           if (uploadFile.length > 0)
             uploadFile.map((file) =>

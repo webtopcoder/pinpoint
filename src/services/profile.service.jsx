@@ -89,6 +89,10 @@ function ProfileService() {
     return api(`profile/partner/dashboard`, "get")
   }
 
+  function getDashboardInfoEventhost() {
+    return api(`profile/eventhost/dashboard`, "get")
+  }
+
   function getPartnershipplans() {
     return api(`/partnership`, "get")
   }
@@ -130,7 +134,8 @@ function ProfileService() {
     getPartnershipplans,
     createCustomer,
     cancelSubscription,
-    Checkout
+    Checkout,
+    getDashboardInfoEventhost
   };
 }
 
