@@ -18,10 +18,11 @@ import {
   Table,
   Space,
   Dropdown,
+  Popconfirm
 } from "antd";
 import * as XLSX from "xlsx";
 import * as FileSaver from "file-saver";
-import { TagFilled, LoadingOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { TagFilled, LoadingOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
 import { eventService } from "@/services/index";
@@ -93,7 +94,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
       title: 'Category',
       key: 'category',
       render: (_, record) => (
-        <Tag color="geekblue">
+        <Tag icon={<TagFilled />} color="geekblue">
           {record?.category}
         </Tag>
       ),
@@ -104,9 +105,31 @@ const index = ({ user_id, additionLocatoins, id }) => {
       render: (_, record) => (
         !record.id ? <Space>
           <Tag color="success">Added Manually</Tag>
+          <Popconfirm
+            title="Delete Attendee"
+            description="Are you sure to delete?"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={async () => {
+              await eventService.DeleteManualRequest(id, record?._id)
+                .then(async (res) => {
+                  await initialize();
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  notify(
+                    "error",
+                    error?.response?.data?.message || "Something went wrong"
+                  );
+                  return;
+                });
+            }}
+          >
+            <Button type="primary" icon={<DeleteOutlined />} danger>Delete</Button>
+          </Popconfirm>
         </Space> :
           <Space>
-            <Button style={{
+            <Button icon={<CheckCircleOutlined />} style={{
               display: record?.isActive === "decline" || record?.isActive === "pending" ? "block" : 'none'
             }} type="primary" onClick={async () => {
               setLoading(true);
@@ -140,7 +163,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                   return;
                 });
             }}>Approve</Button>
-            <Button style={{
+            <Button icon={<CloseCircleOutlined />}  style={{
               display: record?.isActive === "approve" || record?.isActive === "pending" ? "block" : 'none'
             }} type="primary" onClick={async () => {
               await eventService.markStatus(schedule?._id, { id: record?.id, isActive: 'decline' })
@@ -209,7 +232,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
       key: '1',
       label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "pending")?.length ?? 0} size="small" style={{
         backgroundColor: '#2db7f5',
-      }} offset={[5, 0]}><LoadingOutlined style={{
+      }} offset={[8, 0]}><LoadingOutlined style={{
         color: '#2db7f5'
       }} /> Pending</Badge>,
       children: <Table columns={columns} dataSource={schedule?.request?.filter(obj => obj.isActive === "pending")} />
@@ -218,7 +241,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
       key: '2',
       label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "approve")?.length ?? 0} size="small" style={{
         backgroundColor: '#52c41a',
-      }} offset={[5, 0]}><CheckCircleOutlined style={{
+      }} offset={[8, 0]}><CheckCircleOutlined style={{
         color: '#52c41a'
       }} />Approved</Badge>,
       children:
@@ -227,8 +250,8 @@ const index = ({ user_id, additionLocatoins, id }) => {
         }}>
           <Space style={{ float: 'right' }}>
             <Button icon={<PlusOutlined />} onClick={() => setAddModalOpen(true)} type="primary" shape="round" ghost>Add Attendee</Button>
-            <Button icon={<UploadOutlined />} onClick={() => setExcelUploadModalOpen(true)} type="primary" shape="round" ghost>Import .xisx</Button>
-            <Button icon={<DownloadOutlined />} onClick={(e) => exportToCSV(schedule?.request?.filter(obj => obj.isActive === "approve"), formatDateEvent(new Date()) + "Approved")} type="primary" shape="round" ghost>Export .xisx</Button>
+            <Button icon={<UploadOutlined />} onClick={() => setExcelUploadModalOpen(true)} type="primary" shape="round" ghost>Import .xlsx</Button>
+            <Button icon={<DownloadOutlined />} onClick={(e) => exportToCSV(schedule?.request?.filter(obj => obj.isActive === "approve"), formatDateEvent(new Date()) + "Approved")} type="primary" shape="round" ghost>Export .xlsx</Button>
           </Space>
           <Table columns={columns} dataSource={schedule?.request?.filter(obj => obj.isActive === "approve")} />
         </Space>
@@ -237,7 +260,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
       key: '3',
       label: <Badge count={schedule?.request?.filter(obj => obj.isActive === "decline")?.length ?? 0} style={{
         backgroundColor: '#f50',
-      }} size="small" offset={[5, 0]}><CloseCircleOutlined style={{
+      }} size="small" offset={[8, 0]}><CloseCircleOutlined style={{
         color: '#f50'
       }} />Declined</Badge>,
       children:
@@ -322,7 +345,6 @@ const index = ({ user_id, additionLocatoins, id }) => {
                     <Descriptions.Item label="Type" span={3}><Tag color="#55acee">{schedule?.type}</Tag></Descriptions.Item>
                     <Descriptions.Item label="Event" span={3}>{schedule?.event?.title}</Descriptions.Item>
                     <Descriptions.Item label="Location" span={3}>{schedule?.centerAddress?.address}</Descriptions.Item>
-                    <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(schedule?.startDate)} ~ ${formatDateEvent(schedule?.endDate)}`}</Descriptions.Item>
                     <Descriptions.Item label="Categories" span={3}> {schedule?.categories
                       ?.map((item) => <Tag style={{
                         color: "#dbdbdb"
@@ -333,7 +355,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                     </Descriptions.Item>
                     <Descriptions.Item label="Date & Time" span={3}>{`${formatDateEvent(schedule?.startDate)} ~ ${formatDateEvent(schedule?.endDate)}`}</Descriptions.Item>
                     {isActive !== "Expired" ? <Descriptions.Item
-                      label={isActive === "Active" ? 'For End' : 'For Start'}
+                      label={isActive === "Active" ? 'Event End In' : 'Event Start In'}
                       span={3}
                     >
                       <Countdown onFinish={onFinish} valueStyle={{

@@ -38,6 +38,10 @@ function EventService() {
     return api(`event/${id}`, "delete")
   }
 
+  function DeleteManualRequest(scheduleId, requestId) {
+    return api(`event/delete-manual-request/${scheduleId}/${requestId}`, "get")
+  }
+
   function quickArrival({ form, eventId }) {
     return api(`event/${eventId}/quick-arrival`, "post", form)
   }
@@ -105,7 +109,8 @@ function EventService() {
     RequestAccessManually,
     getEventScheduleByID,
     deleteEventSchedule,
-    UpdateEventScheduleById
+    UpdateEventScheduleById,
+    DeleteManualRequest
   };
 }
 
