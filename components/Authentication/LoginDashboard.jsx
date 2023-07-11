@@ -37,7 +37,7 @@ const LoginDashboard = () => {
               </p>
             </button>
           </Link>
-          {/* <div className="col-12">
+          <div className="col-12">
             <p className="account-desc-custom">OR</p>
           </div>
           <Link href="/authentication/eventhost/login">
@@ -47,7 +47,7 @@ const LoginDashboard = () => {
                 *Login to post your event!
               </p>
             </button>
-          </Link> */}
+          </Link>
           <div className="col-12">
             <p className="account-desc">
               <Link href="/">
