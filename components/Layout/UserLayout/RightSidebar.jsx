@@ -53,13 +53,13 @@ const RightSidebar = ({
       ),
       icon: <UserOutlined />,
     },
-    {
-      key: '3',
-      label: (
-        <Link href="/authentication/eventhost/login">Event Host</Link>
-      ),
-      icon: <UserOutlined />,
-    },
+    // {
+    //   key: '3',
+    //   label: (
+    //     <Link href="/authentication/eventhost/login">Event Host</Link>
+    //   ),
+    //   icon: <UserOutlined />,
+    // },
   ];
 
   const signupitems = [
@@ -77,13 +77,13 @@ const RightSidebar = ({
       ),
       icon: <UserAddOutlined />,
     },
-    {
-      key: '3',
-      label: (
-        <Link href="/authentication/eventhost/register">Event Host</Link>
-      ),
-      icon: <UserAddOutlined />,
-    },
+    // {
+    //   key: '3',
+    //   label: (
+    //     <Link href="/authentication/eventhost/register">Event Host</Link>
+    //   ),
+    //   icon: <UserAddOutlined />,
+    // },
   ];
 
   const { notify } = useNotify();

@@ -25,17 +25,6 @@ import { locationService, categoryService } from "@/services/index";
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
 
-const mapAutoCompleteOptions = {
-  componentRestrictions: { country: "us" },
-  fields: [
-    "address_components",
-    "adr_address",
-    "formatted_address",
-    "geometry",
-    "name",
-  ],
-};
-
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function ModifyModal({
@@ -51,17 +40,7 @@ function ModifyModal({
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
-  const autoCompleteRef = useRef();
-  const inputRef = useRef();
   const isWebDevice = useMedia('(min-width:700px)');
-
-  const [addressForm, setaddressForm] = useState({
-    address: locationInfo?.mapLocation?.address,
-    city: locationInfo?.mapLocation?.city,
-    state: locationInfo?.mapLocation?.state,
-    lat: locationInfo?.mapLocation?.latitude ?? 0,
-    lng: locationInfo?.mapLocation?.longitude ?? 0,
-  });
   const [subCategories, setsubCategories] = useState([]);
 
 
@@ -98,45 +77,6 @@ function ModifyModal({
         return;
       });
   }
-
-  useEffect(() => {
-    if (inputRef.current) {
-      autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        mapAutoCompleteOptions
-      );
-
-      autoCompleteRef.current?.addListener("place_changed", async function () {
-        const place = await autoCompleteRef.current.getPlace();
-        let itemLocality = "";
-        let itemState = "";
-        place.address_components.map((address_component, _) => {
-          if (address_component.types[0] == "locality")
-            itemLocality = address_component.long_name;
-          if (address_component.types[0] == "administrative_area_level_1")
-            itemState = address_component.long_name;
-        });
-
-        setaddressForm({
-          ...addressForm,
-          address: place.formatted_address,
-          state: itemState,
-          city: itemLocality,
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-        });
-      });
-    }
-  }, [inputRef.current]);
-
-  const onUpdateField = (e) => {
-    const field = e.target.name;
-    const nextFormState = {
-      ...addressForm,
-      [field]: e.target.value,
-    };
-    setaddressForm(nextFormState);
-  };
 
   async function delete_location(e, id) {
     e.preventDefault();
@@ -219,11 +159,6 @@ function ModifyModal({
 
           formData.append("title", values.title);
           formData.append("description", values.description);
-          formData.append("address", addressForm.address);
-          formData.append("city", addressForm.city);
-          formData.append("state", addressForm.state);
-          formData.append("lat", addressForm.lat);
-          formData.append("lng", addressForm.lng);
           formData.append("subCategories", values.subCategories);
 
           await locationService.UpdateLocationByID(locationInfo._id, formData)
@@ -274,27 +209,6 @@ function ModifyModal({
             </Form.Item>
           </Col>
 
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item
-              label="Address(Location)"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Insert Location Address",
-                },
-              ]}
-              required
-            >
-              <input
-                ref={inputRef}
-                value={addressForm.address}
-                className="custom-placeautomate"
-                onChange={onUpdateField}
-                name="address"
-                placeholder="This will be your individual locations address"
-              />
-            </Form.Item>
-          </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item
               label="Location Sub Category"
