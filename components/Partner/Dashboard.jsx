@@ -23,6 +23,7 @@ const PartnerDashboard = ({
 }) => {
   const router = useRouter();
   const [upload_name, setUploadFile] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [locations, setLocations] = useState([]);
   const [dashboardInfo, setDashboardInfo] = useState([]);
   const isWebDevice = useMedia('(min-width:700px)');
@@ -65,6 +66,7 @@ const PartnerDashboard = ({
         else {
           await setLocations(res.results);
         }
+
       })
       .catch((error) => {
         notify(
@@ -94,7 +96,8 @@ const PartnerDashboard = ({
 
     await profileService.getDashboardInfo()
       .then((res) => {
-        setDashboardInfo(res)
+        setDashboardInfo(res);
+        setLoading(false);
       })
       .catch((error) => {
         notify(
@@ -121,6 +124,7 @@ const PartnerDashboard = ({
           <Row gutter={isWebDevice ? [32, 32] : [12, 12]}>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-style"
                 title="Partner Locations"
                 bordered={false}
@@ -130,6 +134,7 @@ const PartnerDashboard = ({
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-style"
                 title="Active Locations"
                 bordered={false}
@@ -139,6 +144,7 @@ const PartnerDashboard = ({
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-style"
                 title="Followers"
                 bordered={true}
@@ -148,6 +154,7 @@ const PartnerDashboard = ({
             </Col>
             <Col xs={12} sm={8} md={6} lg={6} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-style"
                 title="Profile Views"
                 bordered={false}
@@ -157,6 +164,7 @@ const PartnerDashboard = ({
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-style"
                 title="Business Rating"
                 bordered={false}
@@ -166,6 +174,7 @@ const PartnerDashboard = ({
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-style"
                 title="Check In's"
                 bordered={false}
@@ -175,6 +184,7 @@ const PartnerDashboard = ({
             </Col>
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <Card
+                loading={loading}
                 className="dashboard-card-quickpost-style"
                 title="Quick Post"
                 bordered={true}

@@ -52,7 +52,7 @@ function ArrivalModal({
   const [arrivalForm] = Form.useForm();
   const { notify } = useNotify();
   const [loading, setLoading] = useState(false);
-  const [addressHistory, setAddressHistory] = useState([]);
+  const [addressHistory, setAddressHistory] = useState(locationInfo !== undefined ? locationInfo?.history : []);
   const autoCompleteRef = useRef();
   const inputRef = useRef();
   const [addressForm, setaddressForm] = useState({
@@ -214,7 +214,7 @@ function ArrivalModal({
             : ""
         }
         onFinish={async (values) => {
-          // await setLoading(true);
+          await setLoading(true);
           const formData = new FormData();
           uploadFile.map((file) =>
             formData.append("images", file.originFileObj)
