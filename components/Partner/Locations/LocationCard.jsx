@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useNotify from "@/hooks/useNotify";
 import {
   MessageOutlined,
@@ -19,7 +19,6 @@ import {
 } from "antd";
 import { Avatar, Card } from "antd";
 import Link from "next/link";
-import { useState } from "react";
 import ArrivalModal from "./ArrivalModal";
 import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
@@ -28,6 +27,9 @@ import ModifyLocationModal from "./ModifyLocationModal";
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
 import Image from "next/image";
+import {
+  getUserInfo,
+} from "@/redux/Profile/actions";
 
 const { Text } = Typography;
 
@@ -48,7 +50,10 @@ const LocationCard = ({
   setLocations,
   locations,
   additionLocatoins,
+  userInfo,
+  ongetUser
 }) => {
+
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [departureModalOpen, setDepartureModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
@@ -141,6 +146,16 @@ const LocationCard = ({
     return acc + review.rating;
   }, 0)) / count : 0);
 
+
+  useEffect(async () => {
+    await ongetUser((res, error) => {
+      if (error) {
+        console.log(error);
+        notify("error", "Fail");
+      }
+    });
+  }, []);
+
   return (
     <>
       <Card
@@ -162,7 +177,15 @@ const LocationCard = ({
                 Arrival
               </Button>
             ) : (
-              <Button type="link" onClick={() => setArrivalModalOpen(true)}>
+              <Button type="link" onClick={() => {
+                if (userInfo?.activePartnership && userInfo?.activeSubscription && new Date(userInfo?.partnershipPriceRenewalDate) > new Date())
+                  setArrivalModalOpen(true)
+                else
+                  notify(
+                    "error",
+                    "You're not subscribed to this service"
+                  );
+              }}>
                 Arrival
               </Button>
             ),
@@ -312,7 +335,7 @@ const LocationCard = ({
                   }}
                 >
                   {location?.isActive ? "Departure Time" : "Last Departure"}
-                  : {
+                  : {location?.departureAt?
                     new Date(location?.departureAt).toLocaleDateString(undefined, {
                       year: "numeric",
                       month: "long",
@@ -321,7 +344,7 @@ const LocationCard = ({
                       hour12: true,
                       minute: "2-digit",
                       second: "2-digit",
-                    })
+                    }): "Not Available"
                   }
                 </Text>
               </Space>
@@ -365,11 +388,17 @@ const LocationCard = ({
   );
 };
 
-const matchStateToProps = ({ user }) => {
+const matchStateToProps = ({ user, profile }) => {
   return {
     additionLocatoins: user.additionLocatoins,
     user_id: user.user_id,
+    userInfo: profile.userinfo
   };
 };
 
-export default connect(matchStateToProps, undefined)(LocationCard);
+const mapDispatchToProps = (dispatch) => ({
+  ongetUser: (cb) => dispatch(getUserInfo(cb)),
+});
+
+
+export default connect(matchStateToProps, mapDispatchToProps)(LocationCard);

@@ -167,11 +167,11 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
               </Link>{" "}
               for free!
             </p>
-            <p className="account-desc-custom">
+            {/* <p className="account-desc-custom">
               <Link href={`/authentication/additionuser/login`}>
                 <a>Are you additional user for partner?</a>
               </Link>{" "}
-            </p>
+            </p> */}
           </div>
           <div className="col-12">
             <p className="account-desc">

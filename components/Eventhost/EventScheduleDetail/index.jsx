@@ -163,7 +163,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                   return;
                 });
             }}>Approve</Button>
-            <Button icon={<CloseCircleOutlined />}  style={{
+            <Button icon={<CloseCircleOutlined />} style={{
               display: record?.isActive === "approve" || record?.isActive === "pending" ? "block" : 'none'
             }} type="primary" onClick={async () => {
               await eventService.markStatus(schedule?._id, { id: record?.id, isActive: 'decline' })
@@ -198,7 +198,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                   return;
                 });
             }} danger>Decline</Button>
-            <Dropdown
+            <Dropdown.Button
               menu={{
                 items: [
                   {
@@ -220,8 +220,8 @@ const index = ({ user_id, additionLocatoins, id }) => {
                 ]
               }}
               placement="topRight" >
-              <Button>Others</Button>
-            </Dropdown>
+              Others
+            </Dropdown.Button>
           </Space >
       ),
     },

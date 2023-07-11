@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Upload,
@@ -11,6 +11,7 @@ import {
   Form,
   Input,
   Select,
+  Space
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
@@ -20,17 +21,6 @@ import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
-
-const mapAutoCompleteOptions = {
-  componentRestrictions: { country: "us" },
-  fields: [
-    "address_components",
-    "adr_address",
-    "formatted_address",
-    "geometry",
-    "name",
-  ],
-};
 
 function AddLocationModal({
   open,
@@ -44,17 +34,7 @@ function AddLocationModal({
 }) {
   const [form] = Form.useForm();
   const { notify } = useNotify();
-  const isWebDevice = useMedia('(min-width:700px)');
-  const autoCompleteRef = useRef();
-  const inputRef = useRef();
   const [subCategories, setsubCategories] = useState([]);
-  const [addressForm, setaddressForm] = useState({
-    address: "",
-    city: "",
-    state: "",
-    lat: "",
-    lng: "",
-  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -70,52 +50,13 @@ function AddLocationModal({
     await setsubCategories(subcategoryList);
   }
 
-  useEffect(() => {
-    if (inputRef.current) {
-      autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        mapAutoCompleteOptions
-      );
-      autoCompleteRef.current?.addListener("place_changed", async function () {
-        const place = await autoCompleteRef.current.getPlace();
-        let itemLocality = "";
-        let itemState = "";
-
-        place.address_components.map((address_component, _) => {
-          if (address_component.types[0] == "locality")
-            itemLocality = address_component.long_name;
-          if (address_component.types[0] == "administrative_area_level_1")
-            itemState = address_component.long_name;
-        });
-
-        setaddressForm({
-          ...addressForm,
-          address: place.formatted_address,
-          state: itemState,
-          city: itemLocality,
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-        });
-      });
-    }
-  }, [inputRef.current]);
-
-  const onUpdateField = (e) => {
-    const field = e.target.name;
-    const nextFormState = {
-      ...addressForm,
-      [field]: e.target.value,
-    };
-    setaddressForm(nextFormState);
-  };
-
   return (
     <Modal
       className="dashboard-modal"
       centered
       open={open}
       width={700}
-      closable={true}
+      closable={false}
       onCancel={() => setModalOpen(false)}
       footer={null}
     >
@@ -170,22 +111,12 @@ function AddLocationModal({
           );
           formData.append("title", values.title);
           formData.append("description", values.description);
-          formData.append("address", addressForm.address);
-          formData.append("city", addressForm.city);
-          formData.append("state", addressForm.state);
-          formData.append("lat", addressForm.lat);
-          formData.append("lng", addressForm.lng);
           formData.append("subCategories", values.subCategories);
           await locationService.AddLocation(formData)
             .then(async () => {
               await setLoading(false);
               notify("success", "Location added successfully");
               form.resetFields();
-              await setaddressForm({
-                address: "",
-                city: "",
-                state: "",
-              });
 
               await locationService.getLocations({ partner: user_id, isActive: null })
                 .then(async (res) => {
@@ -233,27 +164,6 @@ function AddLocationModal({
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item
-              label="Address(Location)"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Insert Location Address",
-                },
-              ]}
-              required
-            >
-              <input
-                ref={inputRef}
-                value={addressForm.address}
-                className="custom-placeautomate"
-                onChange={onUpdateField}
-                name="address"
-                placeholder="This will be your individual locations address"
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item
               label="Location Sub Category"
               rules={[
                 {
@@ -280,7 +190,14 @@ function AddLocationModal({
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item label="Location Description" name="description">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: "Please type the Location Description.",
+                },
+              ]}
+              label="Location Description" name="description">
               <TextArea
                 placeholder="Anything you want your customers to know"
                 rows={4}
@@ -288,7 +205,14 @@ function AddLocationModal({
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Form.Item name="images">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: "Please Upload the Location Photo.",
+                },
+              ]}
+              name="images">
               <Row>
                 <Col span={8}>
                   <Upload method="get" listType="picture" {...uploadProps}>
@@ -301,18 +225,30 @@ function AddLocationModal({
                   </Upload>
                 </Col>
                 <Col span={8} offset={8}>
-                  <Button
-                    loading={loading}
-                    type="primary"
-                    htmlType="submit"
-                    className="btn-submit"
-                    style={{
-                      display: "initial",
-                      float: "right",
-                    }}
-                  >
-                    Add Location
-                  </Button>
+                  <Space style={{
+                    float: "right",
+                  }}>
+                    <Button
+                      type="primary"
+                      danger
+                      onClick={() => setModalOpen(false)}
+                      className="btn-submit"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      loading={loading}
+                      type="primary"
+                      htmlType="submit"
+                      className="btn-submit"
+                      style={{
+                        display: "initial",
+                        float: "right",
+                      }}
+                    >
+                      Add Location
+                    </Button>
+                  </Space>
                 </Col>
               </Row>
             </Form.Item>

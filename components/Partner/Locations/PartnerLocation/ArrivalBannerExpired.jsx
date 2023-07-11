@@ -57,7 +57,7 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand, user_id }
                       <Space direction={isWebDevice ? 'vertical' : 'vertical'} size="10">
                         <Title level={4}>{location?.location?.title}</Title>
                         <Tag icon={<EnvironmentFilled />} color="rgb(245 60 60)">
-                          {location?.location?.mapLocation?.city}
+                          {arrival?.address?.city}
                         </Tag>
                       </Space>
                     }

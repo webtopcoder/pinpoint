@@ -10,12 +10,16 @@ import DepartureModal from "./Locations/DepartureModal";
 import toast from "../Toast";
 import useMedia from "@/hooks/useMedia";
 import { locationService, profileService } from "@/services/index";
-
+import {
+  getUserInfo,
+} from "@/redux/Profile/actions";
 const { Content } = Layout;
 
 const PartnerDashboard = ({
   userId,
   additionLocatoins,
+  userInfo,
+  ongetUser
 }) => {
   const router = useRouter();
   const [upload_name, setUploadFile] = useState([]);
@@ -80,8 +84,15 @@ const PartnerDashboard = ({
     }
   }, [departureModalOpen, arrivalModalOpen, router.isReady]);
 
-  useEffect(() => {
-    profileService.getDashboardInfo()
+  useEffect(async () => {
+    await ongetUser((res, error) => {
+      if (error) {
+        console.log(error);
+        notify("error", "Fail");
+      }
+    });
+
+    await profileService.getDashboardInfo()
       .then((res) => {
         setDashboardInfo(res)
       })
@@ -178,7 +189,15 @@ const PartnerDashboard = ({
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <div
                 className="dashboard-imagebutton"
-                onClick={() => setModal2Open(true)}
+                onClick={() => {
+                  if (userInfo?.activePartnership && userInfo?.activeSubscription && new Date(userInfo?.partnershipPriceRenewalDate) > new Date())
+                    setModal2Open(true)
+                  else
+                    notify(
+                      "error",
+                      "You're not subscribed to this service"
+                    );
+                }}
               >
                 <Image
                   className="imagebutton-img"
@@ -195,7 +214,15 @@ const PartnerDashboard = ({
             <Col xs={12} sm={8} md={6} lg={8} xl={6}>
               <div
                 className="dashboard-imagebutton"
-                onClick={() => setModal1Open(true)}
+                onClick={() => {
+                  if (userInfo?.activePartnership && userInfo?.activeSubscription && new Date(userInfo?.partnershipPriceRenewalDate) > new Date())
+                    setModal1Open(true)
+                  else
+                    notify(
+                      "error",
+                      "You're not subscribed to this service"
+                    );
+                }}
               >
                 <Image
                   className="imagebutton-img"
@@ -232,12 +259,18 @@ const PartnerDashboard = ({
     </Layout>
   );
 };
-const matchStateToProps = ({ user }) => {
+const matchStateToProps = ({ user, profile }) => {
   return {
     additionLocatoins: user.additionLocatoins,
     userId: user.user_id,
+    userInfo: profile.userinfo
   };
 };
 
 
-export default connect(matchStateToProps)(PartnerDashboard);
+const mapDispatchToProps = (dispatch) => ({
+  ongetUser: (cb) => dispatch(getUserInfo(cb)),
+});
+
+
+export default connect(matchStateToProps, mapDispatchToProps)(PartnerDashboard);

@@ -202,7 +202,7 @@ function LocationBanner({
                           color: "white",
                         }}
                       >
-                        <EnvironmentOutlined /> {location?.location?.mapLocation?.address}
+                        <EnvironmentOutlined /> {location?.location?.mapLocation?.address ?? "Not Available"}
                       </Text>
                     </Space>
                   </Space>
