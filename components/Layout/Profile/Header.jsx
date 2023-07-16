@@ -46,7 +46,7 @@ const Header = ({
           error?.response?.data?.message || "Something went wrong"
         );
         return;
-      });;
+      });
   }
 
   async function unfollow() {

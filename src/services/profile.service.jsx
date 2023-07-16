@@ -77,6 +77,10 @@ function ProfileService() {
     return api(`profile/${id}/header`, "get")
   }
 
+  function getAllMemebers(id, count, search) {
+    return api(`profile/${id}/getAllMemebers?page=${count}&q=${search}`, "get")
+  }
+
   function onunFriend(id) {
     return api(`follow/${id}/unfriend`, "delete")
   }
@@ -111,6 +115,7 @@ function ProfileService() {
 
   return {
     getInfo,
+    getAllMemebers,
     updateInfo,
     uploadAvatar,
     updatePoll,
