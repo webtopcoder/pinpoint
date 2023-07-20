@@ -369,7 +369,7 @@ const UserHome = () => {
         </div>
       </div>
       <Testimonial />
-      <Newpartners />
+      {/* <Newpartners /> */}
       <div className="overview-area ptb-100 bg-black">
         <div className="container">
           <div className="overview-box">
