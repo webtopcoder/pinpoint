@@ -2,24 +2,12 @@ import { LikeOutlined, MessageOutlined, DownOutlined, UpOutlined } from "@ant-de
 import {
     Space,
     Typography,
-    Drawer,
-    Progress,
-    Image as Antimage,
-    Divider,
     Button,
-    Popover
 } from "antd";
 import React, { useEffect, useState } from "react";
-import useMedia from "@/hooks/useMedia";
-import useNotify from "@/hooks/useNotify";
-import { apiBaseUrl } from "@/utils/baseUrl";
 import Comments from "@/components/Layout/comments/CommentsAll";
-import { formatDate } from "@/utils/date";
-import { profileService } from "@/services/index";
-import { useRouter } from "next/router";
 
 const { Text } = Typography;
-const imgurl = `${apiBaseUrl}/avatar/`;
 
 const IconText = ({ icon, postID, text, likePost }) => {
     const [like, setLike] = useState(text);
@@ -101,7 +89,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
                     </Button>
                 </Space>
             </div>
-            <Comments currentUserId={user_id} path={path} ownerId={item.from_user._id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
+            <Comments currentUserId={user_id} path={path} ownerId={item.user._id} expand={expand} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
         </>
     );
 };

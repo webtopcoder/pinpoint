@@ -117,21 +117,16 @@ const Header = ({
               }
               title={<Title level={3}>{headerInfo?.profile?.businessname}</Title>}
               description={
-                <Space direction="vertical" size="middle">
+                <Space direction="vertical" size="small">
                   <Title level={5}>@{headerInfo?.profile?.username}</Title>
                   {!own_page && (
                     <>
-                      <Space
-                        direction="vertical"
-                        size="middle"
+                      <Space.Compact block
                         style={{
                           display: "flex",
                         }}
                       >
                         <Button
-                          style={{
-                            width: 150,
-                          }}
                           type="primary"
                           onClick={() => {
                             if (!userRole) {
@@ -152,9 +147,7 @@ const Header = ({
                           Message
                         </Button>
                         <Button
-                          style={{
-                            width: 150,
-                          }}
+
                           type="primary"
                           onClick={
                             headerInfo?.profile?.is_follow ? unfollow : follow
@@ -172,7 +165,7 @@ const Header = ({
                             ? "Unfollow"
                             : "Follow"}
                         </Button>
-                      </Space>
+                      </Space.Compact>
                     </>
                   )}
                 </Space>

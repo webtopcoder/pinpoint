@@ -13,7 +13,8 @@ import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { profileService } from "@/services/index";
-import CommentBody from "@/components/Profile/ProfileActivity/CommentBody";
+import CommentBodyPost from "@/components/Profile/ProfileActivity/CommentBody";
+import CommentBodyReview from "@/components/Partner/Locations/PartnerLocation/CommentBody";
 import { useRouter } from "next/router";
 
 const imgurl = `${apiBaseUrl}/avatar/`;
@@ -65,7 +66,6 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
             });
     }
 
-
     useEffect(() => {
         setLoading(true);
         setList(
@@ -103,14 +103,14 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
                                             loading={item.loading}
                                             active
                                         >
-                                            {item.type == "post" ? (
+                                            {item.type !== "follow" ? (
                                                 <>
                                                     <List.Item.Meta
                                                         avatar={
                                                             <Avatar
                                                                 src={
                                                                     avatarurl +
-                                                                    item?.from_user?.avatar?.filepath
+                                                                    item?.user?.avatar?.filepath
                                                                 }
                                                                 size={64}
                                                             />
@@ -119,21 +119,28 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
                                                             <>
                                                                 <Space size={0} direction={isWebDevice ? "vertical" : 'horizontal'}>
                                                                     <a
-                                                                        onClick={() => router.push(`/profile/${item?.from_user?._id}/activity`)}
+                                                                        onClick={() => router.push(`/profile/${item?.user?._id}/activity`)}
                                                                         className="custom-userName">
-                                                                        {item?.from_user?.businessname}
+                                                                        {item?.user?.businessname}
                                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                                                     </a>
                                                                     <span>
-                                                                        @{item?.from_user?.username}
+                                                                        @{item?.user?.username}
                                                                     </span>
                                                                 </Space>
-                                                                <Space>
-                                                                    Posted to
-                                                                    <a onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}>
-                                                                        @{item?.to_user?.username}
-                                                                    </a>
-                                                                </Space>
+                                                                {item?.type === "post" ?
+                                                                    <Space>
+                                                                        Posted to
+                                                                        <a onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}>
+                                                                            @{item?.to_user?.username}
+                                                                        </a>
+                                                                    </Space> :
+                                                                    <Space>
+                                                                        Reviewed to
+                                                                        <a onClick={() => router.push(`/profile/${item?.user?._id}/activity`)}>
+                                                                            @{item?.location?.partner}'s location
+                                                                        </a>
+                                                                    </Space>}
                                                             </>
                                                         }
                                                         description={new Date(
@@ -153,7 +160,7 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
                                                             <div
                                                                 className="ql-editor"
                                                                 dangerouslySetInnerHTML={{
-                                                                    __html: item.content.match(pattern) ? (item.content.match(pattern).map((mention, key) => {
+                                                                    __html: item.content?.match(pattern) ? (item.content.match(pattern).map((mention, key) => {
                                                                         item.content = item.content.replace(mention, `<a style="cursor:pointer" href="/profile/${item.shortlist[key]}/activity">${mention}</a>`)
                                                                         if ((item.content.match(pattern)).length - 1 === key) {
                                                                             return item.content;
@@ -200,7 +207,10 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
                                                     ) : (
                                                         ""
                                                     )}
-                                                    <CommentBody item={item} path={router.asPath} likePost={likePost} user_id={user_id} />
+                                                    {item?.type === "post" ?
+                                                        <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> :
+                                                        <CommentBodyReview item={item} path={router.asPath} user_id={user_id} />
+                                                    }
                                                 </>
                                             ) : (
                                                 <>
@@ -237,17 +247,19 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
                                                                 </Space>
                                                             </>
                                                         }
-                                                        description={new Date(
-                                                            item?.updatedAt
-                                                        ).toLocaleDateString(undefined, {
-                                                            year: "numeric",
-                                                            month: "long",
-                                                            day: "numeric",
-                                                            hour: "numeric",
-                                                            hour12: true,
-                                                            minute: "2-digit",
-                                                            second: "2-digit",
-                                                        })}
+                                                        description={
+                                                            new Date(
+                                                                item?.updatedAt
+                                                            ).toLocaleDateString(undefined, {
+                                                                year: "numeric",
+                                                                month: "long",
+                                                                day: "numeric",
+                                                                hour: "numeric",
+                                                                hour12: true,
+                                                                minute: "2-digit",
+                                                                second: "2-digit",
+                                                            })
+                                                        }
                                                     />
                                                     <div className="custom-list-content"></div>
                                                 </>

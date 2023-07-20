@@ -158,7 +158,6 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
             </div>
           </div>
           <div className="row auth-divider"></div>
-
           <div className="col-12">
             <p className="account-desc">
               No Account Yet? Signup{" "}
