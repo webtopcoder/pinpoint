@@ -119,7 +119,7 @@ const CommentBody = ({ item, user_id, path }) => {
               setExpandComments(!expandComments);
             }}
             block>
-            {expandComments ? <DownOutlined /> : <UpOutlined />}
+            {expandComments ? <UpOutlined /> : <DownOutlined />}
             View Comments
           </Button>
         </Space>

@@ -53,6 +53,10 @@ function ProfileService() {
     return api(`profile/${id}/activity?page=${count}&search=${search}`, "get");
   }
 
+  function getSocials(id, count, search) {
+    return api(`profile/${id}/socials?page=${count}&search=${search}`, "get");
+  }
+
   function postThink({ userId, formData }) {
     return api(`profile/${userId}/post`, "post", formData);
   }
@@ -140,7 +144,8 @@ function ProfileService() {
     createCustomer,
     cancelSubscription,
     Checkout,
-    getDashboardInfoEventhost
+    getDashboardInfoEventhost,
+    getSocials
   };
 }
 

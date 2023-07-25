@@ -1,0 +1,7 @@
+.active {
+  background-color: var(--darkWhiteColor);
+  color:  #4096ff;
+  @media (max-width: 767px) {
+    background-color: #4096ff;
+  }
+}

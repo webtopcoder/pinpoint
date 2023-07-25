@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 const { Text } = Typography;
 const imgurl = `${apiBaseUrl}/avatar/`;
 
-function RightSider({ activityInfo, myallPhotos, view_user_id, myLoader }) {
+function RightSider({ activityInfo, myallPhotos, view_user_id, myLoader, role }) {
     const { notify } = useNotify();
     const router = useRouter();
     const isWebDevice = useMedia('(min-width:700px)');
@@ -80,7 +80,7 @@ function RightSider({ activityInfo, myallPhotos, view_user_id, myLoader }) {
                                 }}>
                                 <div className="pin-about-section">
                                     <h4 className="comment-notes">
-                                        <span id="email-notes">About Us</span>
+                                        <span id="email-notes">About {role === "partner" ? 'Us' : 'Me'} </span>
                                     </h4>
                                     <div className="ql-snow">
                                         <div className="ql-editor"

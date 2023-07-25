@@ -2,7 +2,6 @@ import { UploadOutlined } from "@ant-design/icons";
 import {
     Row,
     Col,
-    Typography,
     Mentions,
     Upload,
     Button,
@@ -12,11 +11,8 @@ import Image from "next/image";
 import food from "@/public/images/landing/food.png";
 import React, { useEffect, useState } from "react";
 import useNotify from "@/hooks/useNotify";
-import { apiBaseUrl } from "@/utils/baseUrl";
 import { profileService } from "@/services/index";
-
-const { Text } = Typography;
-const imgurl = `${apiBaseUrl}/avatar/`;
+import useMedia from "@/hooks/useMedia";
 
 function ComposePost({ view_user_id, allActivities }) {
     const { notify } = useNotify();
@@ -24,6 +20,7 @@ function ComposePost({ view_user_id, allActivities }) {
     const [followAndFollowing, setfollowAndFollowing] = useState([]);
     const [postloading, setPostLoading] = useState(false);
     const [upload_name, setUploadFile] = useState([]);
+    const isWebDevice = useMedia('(min-width:700px)');
 
     useEffect(() => {
         profileService.getFollowerAndFollowings()
@@ -128,18 +125,19 @@ function ComposePost({ view_user_id, allActivities }) {
             <div className="avatar-respond">
                 <div className="pin-post-header-section">
                     <div className="pin-post-label">
-                        <p className="comment-notes">
-                            <span id="email-notes">Let us know what you think!</span>
+                        <p>
+                            Let us know what you think!
                         </p>
                     </div>
-                    <div className="pin-post-logo">
+                    {isWebDevice ? <div className="pin-post-logo">
                         <Image
                             src={food}
                             alt="blog-details"
                             width={50}
                             height={70}
                         />
-                    </div>
+                    </div> : ''}
+
                 </div>
                 <div className="avatar-form">
                     <div className="row">

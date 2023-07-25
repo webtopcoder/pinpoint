@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
 import RightSider from "@/components/Profile/ProfileActivity/RightSider";
-import ComposePost from "@/components/Profile/ProfileActivity/ComposePost";
-import Posts from "@/components/Profile/ProfileActivity/Posts";
+import FollowerList from "@/components/Profile/ProfileSocial/FollowerList";
+import Posts from "@/components/Profile/ProfileSocial/Posts";
 import { downloadFile } from "@/redux/Mail/actions";
 
 const index = ({
@@ -30,18 +30,18 @@ const index = ({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [myallPhotos, setAllphotos] = useState([]);
-  const [activityInfo, setactivityInfo] = useState([]);
+  const [socialsInfo, setsocialsInfo] = useState([]);
   const [list, setList] = useState([]);
   const router = useRouter();
   const view_user_id = router?.query?.profile;
 
-  async function allActivities(id, count, search) {
-    await profileService.getActivity(id, count, search)
+  async function allSocials(id, count, search) {
+    await profileService.getSocials(id, count, search)
       .then((res) => {
         if (res.success) {
           setInitLoading(false);
           setLoading(false);
-          setactivityInfo(res);
+          setsocialsInfo(res);
           if (count !== 1) {
             const newData = data.concat(res.posts);
             setData(newData);
@@ -67,7 +67,7 @@ const index = ({
     const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
     await setAllphotos(allphotos?.image.slice(0, 8));
     await profileService.updateProfileViewsCount(profileId);
-    await allActivities(profileId, 1, "");
+    await allSocials(profileId, 1, "");
   }
 
   useEffect(() => {
@@ -79,9 +79,8 @@ const index = ({
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-xl-8 col-lg-7 col-md-12">
-            <ComposePost
+            <FollowerList
               view_user_id={view_user_id}
-              allActivities={allActivities}
             />
             <Posts
               initLoading={initLoading}
@@ -91,16 +90,16 @@ const index = ({
               data={data}
               setLoading={setLoading}
               setList={setList}
-              allActivities={allActivities}
+              allActivities={allSocials}
               ondownloadFile={ondownloadFile}
             />
           </div>
           <RightSider
-            activityInfo={activityInfo}
+            role={usertype}
+            activityInfo={socialsInfo}
             myallPhotos={myallPhotos}
             view_user_id={view_user_id}
             myLoader={myLoader}
-            role={usertype}
           />
         </div>
       </div>

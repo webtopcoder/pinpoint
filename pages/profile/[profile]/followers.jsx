@@ -32,7 +32,7 @@ const Followers = ({ user_id, userRole }) => {
       <div className="page-pin-area">
         <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
         <div className="pin-profile-section">
-          <Submenu headerInfo={headerInfo} />
+        <Submenu headerInfo={headerInfo} own_page={own_page} />
           <ProfileFollowers getHeader={getHeader} userRole={userRole} user_id={user_id} />
         </div>
       </div>

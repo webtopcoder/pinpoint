@@ -12007,7 +12007,7 @@ Sidebar Modal CSS
 }
 
 .avatar-area {
-  padding-top: 30px;
+  padding-top: 0px;
 }
 
 .avatar-area .avatar-body {
@@ -12101,6 +12101,12 @@ h4 {
   border-right: 3px solid var(--blackColor);
 }
 
+.user-profile-submenu-social li {
+  width: 2%;
+  float: left;
+  border-right: 3px solid var(--blackColor);
+}
+
 .user-profile-submenu li:last-child {
   border-right: none;
 }
@@ -12173,6 +12179,7 @@ h4 {
 .pin-post-label p {
   color: var(--blackColor);
   font-weight: 600;
+  margin-bottom: 10px;
 }
 
 .pin-post-logo {
@@ -12202,6 +12209,10 @@ h4 {
   align-items: center;
 }
 
+.pin-about-section{
+  width: 100%;
+
+}
 .pin-about-section h4 {
   color: var(--blackColor);
   border-bottom: 4px solid var(--blackColor);
@@ -12248,7 +12259,7 @@ h4 {
 }
 
 .pin-about-section .social-links {
-  text-align: end;
+  text-align: left;
   padding-left: 0;
   margin-bottom: 0;
   list-style-type: none;

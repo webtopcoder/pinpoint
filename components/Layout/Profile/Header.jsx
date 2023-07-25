@@ -115,11 +115,13 @@ const Header = ({
                   <Avatar size={120} icon={<UserOutlined />} />
                 )
               }
-              title={<Title level={3}>{headerInfo?.profile?.businessname}</Title>}
+              title={<Title level={3} style={{
+                marginBottom: 0
+              }}>{headerInfo?.profile?.businessname}</Title>}
               description={
                 <Space direction="vertical" size="small">
                   <Title level={5}>@{headerInfo?.profile?.username}</Title>
-                  {!own_page && (
+                  {!own_page ? (
                     <>
                       <Space.Compact block
                         style={{
@@ -167,7 +169,8 @@ const Header = ({
                         </Button>
                       </Space.Compact>
                     </>
-                  )}
+                  ) :
+                   ""}
                 </Space>
               }
             />
