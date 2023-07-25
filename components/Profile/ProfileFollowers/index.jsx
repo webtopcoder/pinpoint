@@ -67,7 +67,6 @@ const index = ({
     setInitLoading(true);
     await profileService.getAllMemebers(user_id, page, search)
       .then(async (res) => {
-        console.log(res);
         if (res.success) {
           res?.data?.results?.length === 0 ? setLoadMoreAll(true) : ''
           if (memeberCount === 1) {
@@ -80,7 +79,7 @@ const index = ({
             setMembers((data) => [...data, ...res.data.results]);
             mounted || window.dispatchEvent(new Event("resize"));
             mounted = true;
-            setLoadMoreAllRemain(res?.data?.totalResults - data?.length)
+            setLoadMoreAllRemain(res?.data?.totalResults - members?.length)
           }
         } else notify("error", "Something went wrong");
       })

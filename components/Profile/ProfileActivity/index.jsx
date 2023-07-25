@@ -31,6 +31,7 @@ const index = ({
   const [data, setData] = useState([]);
   const [myallPhotos, setAllphotos] = useState([]);
   const [activityInfo, setactivityInfo] = useState([]);
+  const [LoadMoreAllStatus, setLoadMoreAll] = useState(false);
   const [list, setList] = useState([]);
   const router = useRouter();
   const view_user_id = router?.query?.profile;
@@ -39,6 +40,7 @@ const index = ({
     await profileService.getActivity(id, count, search)
       .then((res) => {
         if (res.success) {
+          res?.posts?.length === 0 ? setLoadMoreAll(true) : ''
           setInitLoading(false);
           setLoading(false);
           setactivityInfo(res);
@@ -93,6 +95,7 @@ const index = ({
               setList={setList}
               allActivities={allActivities}
               ondownloadFile={ondownloadFile}
+              LoadMoreAllStatus={LoadMoreAllStatus}
             />
           </div>
           <RightSider

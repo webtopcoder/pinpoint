@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
-function Posts({ loading, initLoading, user_id, list, data, setLoading, setList, allActivities, ondownloadFile }) {
+function Posts({ loading, initLoading, user_id, list, data, setLoading, LoadMoreAllStatus, setList, allActivities, ondownloadFile }) {
     const pattern = /@\w+/g;
     const router = useRouter();
     const { notify } = useNotify();
@@ -93,7 +93,7 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, setList,
                                 itemLayout="vertical"
                                 size="large"
                                 loading={initLoading}
-                                loadMore={loadMore}
+                                loadMore={LoadMoreAllStatus ? null : loadMore}
                                 dataSource={list}
                                 renderItem={(item, index) => (
                                     <List.Item key={index}>

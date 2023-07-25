@@ -50,7 +50,7 @@ const AllList = ({
           lineHeight: "32px",
         }}
       >
-        <Button onClick={onLoadMore}>Load More({LoadMoreRemain})</Button>
+        <Button onClick={onLoadMore}>Load More</Button>
       </div>
     ) : null;
 

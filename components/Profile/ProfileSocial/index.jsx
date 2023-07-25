@@ -32,6 +32,7 @@ const index = ({
   const [myallPhotos, setAllphotos] = useState([]);
   const [socialsInfo, setsocialsInfo] = useState([]);
   const [list, setList] = useState([]);
+  const [LoadMoreAllStatus, setLoadMoreAll] = useState(false);
   const router = useRouter();
   const view_user_id = router?.query?.profile;
 
@@ -39,6 +40,7 @@ const index = ({
     await profileService.getSocials(id, count, search)
       .then((res) => {
         if (res.success) {
+          res?.posts?.length === 0 ? setLoadMoreAll(true) : ''
           setInitLoading(false);
           setLoading(false);
           setsocialsInfo(res);
@@ -88,6 +90,7 @@ const index = ({
               user_id={user_id}
               list={list}
               data={data}
+              LoadMoreAllStatus={LoadMoreAllStatus}
               setLoading={setLoading}
               setList={setList}
               allActivities={allSocials}
