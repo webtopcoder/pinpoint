@@ -137,7 +137,7 @@ const Submenu = ({ headerInfo, own_page }) => {
                   : ""
               }>
               <Link href={`/profile/${view_user_id}/events`}>
-                events
+                Events
               </Link>
             </NavItem> :
             <NavItem

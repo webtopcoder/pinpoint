@@ -163,7 +163,7 @@ const Header = ({
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="col-md-4 desktop"></div>
             <div className="col-md-4 text-center desktop">
-              <Link href="/login">
+              <Link href={role == "partner" ? "/partner/dashboard" : role == "eventhost" ? '/eventhost/dashboard' : "/"}>
                 <a className="navbar-brand">
                   <Image src={logo} alt="site logo" />
                 </a>

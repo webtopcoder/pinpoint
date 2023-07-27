@@ -66,8 +66,9 @@ const index = ({
   }
 
   async function initFunc(profileId) {
-    const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
-    await setAllphotos(allphotos?.image.slice(0, 8));
+    const allphotos = await profileService.getAllphotos(profileId, false, paginationInfo);
+    // await setAllphotos(allphotos?.image.slice(0, 8));
+    await setAllphotos(allphotos?.image);
     await profileService.updateProfileViewsCount(profileId);
     await allActivities(profileId, 1, "");
   }

@@ -26,9 +26,9 @@ function ProfileService() {
     return api(`post/${id}/like`, "post");
   }
 
-  function getAllphotos(id, paginationInfo) {
+  function getAllphotos(id, flag, paginationInfo) {
     return api(
-      `profile/${id}/image/all?page=${paginationInfo.current}&limit=${paginationInfo.pageSize}`,
+      `profile/${id}/${flag}/image/all?page=${paginationInfo.current}&limit=${paginationInfo.pageSize}`,
       "get"
     )
   }

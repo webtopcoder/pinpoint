@@ -145,11 +145,11 @@ const PartnerShipPayment = ({
           ) : (
             <>
               <Space>
-                <Text
+                {/* <Text
                   style={{
                     color: "green",
                   }}
-                ></Text>
+                ></Text> */}
               </Space>
               <Button
                 type="primary"

@@ -8,7 +8,8 @@ import {
   Col,
   Upload,
   Rate,
-  Mentions
+  Mentions,
+  message
 } from "antd";
 import food from "@/public/images/landing/food.png";
 import React, { useEffect, useState } from "react";
@@ -19,7 +20,6 @@ import { locationService } from "@/services/index";
 const { Text } = Typography;
 
 function PostForm({ location, initialize, user_id }) {
-  console.log(user_id)
   const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
   const isWebDevice = useMedia('(min-width:700px)');

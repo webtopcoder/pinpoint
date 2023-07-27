@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
-import RightSider from "@/components/Profile/ProfileActivity/RightSider";
+import RightSider from "@/components/Profile/ProfileSocial/RightSider";
 import FollowerList from "@/components/Profile/ProfileSocial/FollowerList";
 import Posts from "@/components/Profile/ProfileSocial/Posts";
 import { downloadFile } from "@/redux/Mail/actions";
@@ -22,12 +22,12 @@ const index = ({
   const [paginationInfo, setPageInfo] = useState({
     pagination: {
       current: 1,
-      pageSize: 20,
+      pageSize: 100000,
     },
   });
 
   const [initLoading, setInitLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [myallPhotos, setAllphotos] = useState([]);
   const [socialsInfo, setsocialsInfo] = useState([]);
@@ -66,8 +66,9 @@ const index = ({
   }
 
   async function initFunc(profileId) {
-    const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
-    await setAllphotos(allphotos?.image.slice(0, 8));
+    const allphotos = await profileService.getAllphotos(profileId, true, paginationInfo);
+    // await setAllphotos(allphotos?.image.slice(0, 40));
+    await setAllphotos(allphotos?.image);
     await profileService.updateProfileViewsCount(profileId);
     await allSocials(profileId, 1, "");
   }
@@ -99,7 +100,8 @@ const index = ({
           </div>
           <RightSider
             role={usertype}
-            activityInfo={socialsInfo}
+            loading={loading}
+            setLoading={setLoading}
             myallPhotos={myallPhotos}
             view_user_id={view_user_id}
             myLoader={myLoader}

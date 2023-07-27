@@ -74,7 +74,7 @@ const ProfileAllPhotos = () => {
 
   async function initialize(profileId) {
     await setLoading(true);
-    const allphotos = await profileService.getAllphotos(profileId, paginationInfo);
+    const allphotos = await profileService.getAllphotos(profileId, false, paginationInfo);
     await setAllphotos(allphotos?.image);
     await setSideImage(allphotos?.sidebarImage)
     await setLoading(false);
@@ -218,7 +218,7 @@ const ProfileAllPhotos = () => {
                                   </Popover> :
                                   <Antimage
                                     onClick={() => {
-                                     showDrawer(true);
+                                      showDrawer(true);
                                     }}
                                     loader={myLoader}
                                     style={{

@@ -161,6 +161,9 @@ function RightSider({ activityInfo, myallPhotos, view_user_id, myLoader, role })
                                 <div className="pin-about-section">
                                     <h4 className="comment-notes">
                                         <span id="email-notes">Photos</span>
+                                        <p className="total-votes-count">
+                                            {myallPhotos?.length}&nbsp;items
+                                        </p>
                                     </h4>
                                     <div className="row">
                                         <Antimage.PreviewGroup
@@ -171,7 +174,7 @@ function RightSider({ activityInfo, myallPhotos, view_user_id, myLoader, role })
                                                 }
                                             }}>
                                             {myallPhotos &&
-                                                myallPhotos.map((image, index) => (
+                                                myallPhotos.slice(0, 8).map((image, index) => (
                                                     image.status === "active" ?
                                                         (
                                                             isWebDevice ?

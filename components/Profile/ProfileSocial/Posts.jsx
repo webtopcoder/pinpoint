@@ -110,7 +110,7 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, LoadMore
                                                             <Avatar
                                                                 src={
                                                                     avatarurl +
-                                                                    item?.user?.avatar?.filepath
+                                                                    item?.from?.avatar?.filepath
                                                                 }
                                                                 size={64}
                                                             />
@@ -119,20 +119,20 @@ function Posts({ loading, initLoading, user_id, list, data, setLoading, LoadMore
                                                             <>
                                                                 <Space size={0} direction={isWebDevice ? "vertical" : 'horizontal'}>
                                                                     <a
-                                                                        onClick={() => router.push(`/profile/${item?.user?._id}/activity`)}
+                                                                        onClick={() => router.push(`/profile/${item?.from?._id}/activity`)}
                                                                         className="custom-userName">
-                                                                        {item?.user?.businessname}
+                                                                        {item?.from?.businessname}
                                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                                                                     </a>
                                                                     <span>
-                                                                        @{item?.user?.username}
+                                                                        @{item?.from?.username}
                                                                     </span>
                                                                 </Space>
                                                                 {item?.type === "post" ?
                                                                     <Space>
                                                                         Posted to
-                                                                        <a onClick={() => router.push(`/profile/${item?.to_user?._id}/activity`)}>
-                                                                            @{item?.to_user?.username}
+                                                                        <a onClick={() => router.push(`/profile/${item?.to?._id}/activity`)}>
+                                                                            @{item?.to?.username}
                                                                         </a>
                                                                     </Space> :
                                                                     <Space>

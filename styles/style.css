@@ -12209,10 +12209,11 @@ h4 {
   align-items: center;
 }
 
-.pin-about-section{
+.pin-about-section {
   width: 100%;
 
 }
+
 .pin-about-section h4 {
   color: var(--blackColor);
   border-bottom: 4px solid var(--blackColor);
@@ -13002,7 +13003,7 @@ h4 {
 
 .total-votes-count {
   display: inline-block;
-  margin-left: 30%;
+  float: right;
   font-weight: 400;
   font-style: italic;
 }
