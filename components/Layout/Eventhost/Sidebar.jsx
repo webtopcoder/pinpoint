@@ -10,7 +10,7 @@ import {
   InfoCircleFilled,
   ExportOutlined,
   GiftOutlined,
-  CalendarOutlined 
+  CalendarOutlined
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -134,6 +134,7 @@ function LeftSidebar({
       getItem('Shout out', `/profile/${user_id}/shout-outs`),
       getItem('Followers', `/profile/${user_id}/followers`),
       getItem('Events', `/profile/${user_id}/events`),
+      getItem('Pinpoint Soical', `/profile/${user_id}/social`),
     ]),
     getItem("Partnership", "/eventhost/partnership/", <GiftOutlined />),
   ];

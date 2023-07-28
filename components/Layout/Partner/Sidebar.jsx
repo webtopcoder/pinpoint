@@ -128,12 +128,13 @@ function LeftSidebar({
     ),
     getItem("Settings", `/partner/settings/`, <SettingFilled />),
     getItem("Locations", "/partner/locations/", <EnvironmentFilled />),
-    getItem("Event Schedule", "/partner/event-schedule/", <CalendarOutlined />),
+    // getItem("Event Schedule", "/partner/event-schedule/", <CalendarOutlined />),
     getItem("View Profile", 'sub1', <ProfileFilled />, [
       getItem('Activity', `/profile/${user_id}/activity`),
       getItem('Shout out', `/profile/${user_id}/shout-outs`),
       getItem('Followers', `/profile/${user_id}/followers`),
       getItem('Locations', `/profile/${user_id}/locations`),
+      getItem('Pinpoint Social', `/profile/${user_id}/social`),
     ]),
 
     additionRole === "Owner" ? "" :
