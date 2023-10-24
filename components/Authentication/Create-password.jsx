@@ -1,10 +1,10 @@
 import { React, useEffect, useState } from "react";
 import Link from "next/link";
-import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./validate.module.css";
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import like from "@/public/images/user/like.png";
+import { Spin, Steps, Button } from 'antd';
+import { LoadingOutlined, ArrowRightOutlined, SolutionOutlined } from '@ant-design/icons';
 import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
@@ -26,6 +26,7 @@ const CreatePassword = () => {
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
+  const [nextstep, setStep] = useState(1);
   const { notify } = useNotify();
   const { token } = router.query;
 
@@ -66,7 +67,8 @@ const CreatePassword = () => {
       .then(async () => {
         await setLoading(false);
         notify("success", "Password has been changed");
-        router.push("/");
+        // router.push("/");
+        await setStep(3);
       })
       .catch(async (error) => {
         await setLoading(false);
@@ -81,16 +83,28 @@ const CreatePassword = () => {
   return (
     <div className="col-lg-6 col-md-12">
       <div className="login-form">
-        <div className="logo-center">
-          <Link href="/">
-            <a className="navbar-brand">
-              <Image src={logo} alt="site logo" />
-            </a>
-          </Link>
-        </div>
-        <form onSubmit={onSubmitForm}>
+        <Steps
+          size="small"
+          current={nextstep}
+          items={[
+            {
+              title: 'Send Link',
+            },
+            {
+              title: 'Create Password',
+            },
+            {
+              title: 'Done',
+            },
+          ]}
+        />
+        <form style={{
+          display: nextstep === 1 ? 'block' : 'none'
+        }} onSubmit={onSubmitForm}>
+
           <div className="auth-space"></div>
-          <p className="text-center">
+          <div className="auth-space"></div>
+          <p className="text-left">
             Please submit your new password.
           </p>
           <div className="form-group">
@@ -128,19 +142,48 @@ const CreatePassword = () => {
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
               <Spin spinning={loading} indicator={antIcon}>
-                <button className="loginsignButton" type="submit">Reset Password</button>
+                <button className="loginsignButton" type="submit">Continue</button>
               </Spin>
             </div>
           </div>
-          <div className="row auth-divider"></div>
+          {/* <div className="row auth-divider"></div>
           <div className="col-12">
             <p className="account-desc">
               <Link href="/">
                 <a>WHO AM I?</a>
               </Link>
             </p>
-          </div>
+          </div> */}
         </form>
+        <div style={{
+          display: nextstep === 3 ? 'block' : 'none'
+        }}>
+          <div className="auth-space desktop"></div>
+          <div className="auth-space"></div>
+          <div className="page-title-content">
+            <h3>All Done here</h3>
+          </div>
+          <p className="text-center">
+            Your password was reset successfully.
+          </p>
+          <div className="logo-center">
+            <Image src={like} alt="like" />
+          </div>
+          <div className="auth-space"></div>
+          <div
+            className="col-lg-12 col-md-12 col-sm-12 remember-me-wrap"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <Link href="/authentication/login">
+              <Button type="link" icon={<ArrowRightOutlined />}>Login</Button>
+
+              {/* <a className="lost-your-password">Login */}
+              {/* </a> */}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

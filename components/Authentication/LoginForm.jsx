@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import logo from "@/public/images/logo.png";
 import { loginUser } from "@/redux/User/actions";
-import Image from "next/image";
 import Link from "next/link";
-import { Spin } from 'antd';
+import { Spin, Radio } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import FormGroup from "./FormGroup";
 import { useLoginFormValidator } from "./hooks/useLoginValidator";
 import useNotify from "@/hooks/useNotify";
+import useMedia from "@/hooks/useMedia";
 
 const antIcon = (
   <LoadingOutlined
@@ -20,9 +19,25 @@ const antIcon = (
   />
 );
 
-const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
+const options = [
+  {
+    label: 'As a User',
+    value: 'user',
+  },
+  {
+    label: 'As a Partner',
+    value: 'partner',
+  },
+  {
+    label: 'As an Assistant',
+    value: 'assistant',
+  },
+];
+
+const LoginForm = ({ onLoginUser, token, loggedInRole, option, onChangeRole }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const isWebDevice = useMedia('(min-width:700px)');
 
   useEffect(() => {
     if (token) {
@@ -56,12 +71,13 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
       });
   };
 
+
   const onSubmitForm = (e) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
     setLoading(true);
-    onLoginUser({ ...form, role }, (res, error) => {
+    onLoginUser({ ...form, option }, (res, error) => {
       setLoading(false);
       if (error) {
         notify(
@@ -71,7 +87,7 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
         return;
       }
 
-      switch (role) {
+      switch (option) {
         case 'partner':
           if (res.user.status !== 'active') {
             notify("error", 'Not Allowed');
@@ -102,15 +118,19 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
   return (
     <div className="col-lg-6 col-md-12">
       <div className="login-form">
-        <div className="logo-center">
-          <Link href="/">
-            <a className="navbar-brand">
-              <Image src={logo} alt="site logo" />
-            </a>
-          </Link>
-        </div>
+        <Radio.Group
+          size={isWebDevice ? 'large' : 'small'}
+          options={options}
+          onChange={(e) => onChangeRole(e)}
+          value={option}
+          optionType="button"
+          buttonStyle="solid"
+          style={{
+            width: '100%',
+            marginBottom: 20
+          }}
+        />
         <form onSubmit={onSubmitForm}>
-          <div className="auth-space"></div>
           <FormGroup
             label="Email"
             value={form?.email}
@@ -119,7 +139,6 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
             name="email"
             errors={errors}
           />
-
           <FormGroup
             label="Password"
             value={form?.password}
@@ -155,28 +174,22 @@ const LoginForm = ({ onLoginUser, role, token, loggedInRole }) => {
               </Spin>
             </div>
           </div>
-          <div className="row auth-divider"></div>
           <div className="col-12">
             <p className="account-desc">
-              No Account Yet? Signup{" "}
-              <Link href={`/authentication/${role}/register`}>
-                <a>HERE</a>
+              Don't have an account?
+              <Link href={`/authentication/signup`}>
+                <a>{"  "}Sign Up{"  "}</a>
               </Link>{" "}
-              for free!
-            </p>
-            <p className="account-desc-custom">
-              <Link href={`/authentication/additionuser/login`}>
-                <a>Are you additional user for partner?</a>
-              </Link>{" "}
+              here for free!
             </p>
           </div>
-          <div className="col-12">
+          {/* <div className="col-12">
             <p className="account-desc">
               <Link href="/login">
                 <a>WHO AM I?</a>
               </Link>
             </p>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

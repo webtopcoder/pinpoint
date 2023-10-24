@@ -54,6 +54,7 @@ const PartnerRegister = ({
     lat: "",
     lng: "",
   });
+  const [terms, setTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -220,180 +221,198 @@ const PartnerRegister = ({
   };
   return (
     <>
-      <div className="col-lg-6 col-md-12">
-        <div className="login-form">
-          <div className="logo-center">
-            <Link href="/">
-              <a className="navbar-brand">
-                <Image src={logo} alt="site logo" />
-              </a>
-            </Link>
+
+      <form onSubmit={onSubmitForm}>
+        <div className="row">
+          <div className="auth-space"></div>
+          <div className="col-lg-12 col-md-12">
+            <FormGroup
+              errors={errors}
+              label="Business Legal Name *"
+              value={form.businessname}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="businessname"
+              type="text"
+            />
           </div>
-          <form onSubmit={onSubmitForm}>
-            <div className="row">
-              <div className="auth-space"></div>
-              <div className="col-lg-12 col-md-12">
-                <FormGroup
-                  errors={errors}
-                  label="Business Legal Name *"
-                  value={form.businessname}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="businessname"
-                  type="text"
-                />
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <FormGroup
-                  errors={errors}
-                  label="Username *"
-                  value={form.username}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="username"
-                  type="text"
-                />
-              </div>
-              <div className="col-lg-6 col-md-6">
-                <FormGroup
-                  errors={errors}
-                  label="Owner First Name *"
-                  value={form.firstName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="firstName"
-                  type="text"
-                />
-              </div>
-              <div className="col-lg-6 col-md-6">
-                <FormGroup
-                  errors={errors}
-                  label="Owner Last Name *"
-                  value={form.lastName}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="lastName"
-                  type="text"
-                />
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <FormGroup
-                  errors={errors}
-                  label="Business Physical Address(Corporate)*"
-                  value={addressForm.address}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="address"
-                  type="text"
-                  ref={inputRef}
-                  placeholder=""
-                />
-              </div>
-              <div className="col-lg-6 col-md-6">
-                <FormGroup
-                  errors={errors}
-                  label="State *"
-                  value={addressForm.state}
-                  onChange={onUpdateField}
-                  name="state"
-                  disabled
-                />
-              </div>
-              <div className="col-lg-6 col-md-6">
-                <FormGroup
-                  errors={errors}
-                  label="City *"
-                  name="city"
-                  value={addressForm.city}
-                  onChange={onUpdateField}
-                  disabled
-                />
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <div className="form-group">
-                  <label className="authen-text-attr">Category *</label>
-                  <select
-                    name="category"
-                    className="form-control"
-                    value={form.category}
-                    onChange={onUpdateField}
-                    onBlur={onBlurField}
-                  >
-                    <option value="0">Select Category</option>
-                    {categories?.map((option, index) => (
-                      <option key={index} value={option._id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.category.dirty && errors.category.error ? (
-                    <p className={styles.formFieldErrorMessage}>
-                      {errors.category.message}
-                    </p>
-                  ) : null}
+          <div className="col-lg-12 col-md-12">
+            <FormGroup
+              errors={errors}
+              label="Username *"
+              value={form.username}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="username"
+              type="text"
+            />
+          </div>
+          <div className="col-lg-6 col-md-6">
+            <FormGroup
+              errors={errors}
+              label="Owner First Name *"
+              value={form.firstName}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="firstName"
+              type="text"
+            />
+          </div>
+          <div className="col-lg-6 col-md-6">
+            <FormGroup
+              errors={errors}
+              label="Owner Last Name *"
+              value={form.lastName}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="lastName"
+              type="text"
+            />
+          </div>
+          <div className="col-lg-12 col-md-12">
+            <FormGroup
+              errors={errors}
+              label="Business Physical Address(Corporate)*"
+              value={addressForm.address}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="address"
+              type="text"
+              ref={inputRef}
+              placeholder=""
+            />
+          </div>
+          <div className="col-lg-6 col-md-6">
+            <FormGroup
+              errors={errors}
+              label="State *"
+              value={addressForm.state}
+              onChange={onUpdateField}
+              name="state"
+              disabled
+            />
+          </div>
+          <div className="col-lg-6 col-md-6">
+            <FormGroup
+              errors={errors}
+              label="City *"
+              name="city"
+              value={addressForm.city}
+              onChange={onUpdateField}
+              disabled
+            />
+          </div>
+          <div className="col-lg-12 col-md-12">
+            <div className="form-group">
+              <label className="authen-text-attr">Category *</label>
+              <select
+                name="category"
+                className="form-control"
+                value={form.category}
+                onChange={onUpdateField}
+                onBlur={onBlurField}
+              >
+                <option value="0">Select Category</option>
+                {categories?.map((option, index) => (
+                  <option key={index} value={option._id}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+              {errors.category.dirty && errors.category.error ? (
+                <p className={styles.formFieldErrorMessage}>
+                  {errors.category.message}
+                </p>
+              ) : null}
+            </div>
+          </div>
+          <div className="col-lg-12 col-md-12">
+            <FormGroup
+              errors={errors}
+              label="Email *"
+              value={form.email}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="email"
+              type="email"
+            />
+          </div>
+          <div className="col-lg-12 col-md-12">
+            <FormGroup
+              errors={errors}
+              label="Password *"
+              value={form.password}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="password"
+              type="password"
+            />
+          </div>
+          <div className="col-lg-12 col-md-12">
+            <FormGroup
+              errors={errors}
+              label="Confirm Password *"
+              value={form.confirmPassword}
+              onChange={onUpdateField}
+              onBlur={onBlurField}
+              name="confirmPassword"
+              type="password"
+            />
+          </div>
+          <div className="col-lg-12 col-md-12 col-sm-12 remember-me-wrap">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                onChange={(e) => {
+                  e.target.checked ? setTerms(true) : setTerms(false);
+                }}
+                id="remember-me"
+              />
+              <label className="form-check-label" htmlFor="remember-me">
+                <div className="lost-your-password-wrap">
+                  <span style={{
+                    color: terms ? '' : '#e11d48',
+                  }}>I agree to</span> {" "}
+                  <Link href="/authentication/lost-password">
+                    <a className="lost-your-password">Pinpoint's terms and conditions</a>
+                  </Link>
+                  <span style={{
+                    visibility: terms ? "hidden" : 'visible',
+                    color: '#e11d48',
+                    fontSize: 13,
+                    marginLeft: 15
+                  }}>Required</span>
                 </div>
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <FormGroup
-                  errors={errors}
-                  label="Email *"
-                  value={form.email}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="email"
-                  type="email"
-                />
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <FormGroup
-                  errors={errors}
-                  label="Password *"
-                  value={form.password}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="password"
-                  type="password"
-                />
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <FormGroup
-                  errors={errors}
-                  label="Confirm Password *"
-                  value={form.confirmPassword}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                  name="confirmPassword"
-                  type="password"
-                />
-              </div>
+              </label>
             </div>
-            <div className="row">
-              <div className="col-lg-12">
-                <Spin spinning={loading} indicator={antIcon}>
-                  <button className="loginsignButton" type="submit">REQUEST ACCESS</button>
-                </Spin>
-              </div>
-            </div>
-            <div className="row auth-divider"></div>
-            <div className="col-12">
-              <p className="account-desc">
-                Already have an account ? Login{" "}
-                <Link href="/authentication/partner/login">
-                  <a>HERE</a>
-                </Link>{" "}
-                for free!
-              </p>
-            </div>
-            <div className="col-12">
-              <p className="account-desc">
-                <Link href="/login">
-                  <a>WHO AM I ? </a>
-                </Link>
-              </p>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <Spin spinning={loading} indicator={antIcon}>
+              <button className="loginsignButton" type="submit">REQUEST ACCESS</button>
+            </Spin>
+          </div>
+        </div>
+        {/* <div className="row auth-divider"></div> */}
+        <div className="col-12">
+          <p className="account-desc">
+            Already have an account?
+            <Link href={`/authentication/login`}>
+              <a>{"  "}Login{"  "}</a>
+            </Link>{" "}
+            here!
+          </p>
+        </div>
+        {/* <div className="col-12">
+          <p className="account-desc">
+            <Link href="/login">
+              <a>WHO AM I ? </a>
+            </Link>
+          </p>
+        </div> */}
+      </form>
     </>
   );
 };

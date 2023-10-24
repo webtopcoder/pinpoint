@@ -2,9 +2,8 @@ import { React, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import csc from "country-state-city";
+import Select from 'react-select';
 import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from "../validate.module.css";
@@ -43,6 +42,9 @@ const UserRegister = ({ token, loggedInRole }) => {
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
+  const [terms, setTerms] = useState(false);
+  const [isClearableState, setIsClearableState] = useState(true);
+  const [isClearableCity, setIsClearableCity] = useState(true);
   const [cityList, setCityList] = useState([]);
   const { notify } = useNotify();
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
@@ -82,6 +84,38 @@ const UserRegister = ({ token, loggedInRole }) => {
         field,
       });
   };
+
+  const onUpdateState = (e) => {
+    const field = 'state';
+    const citiesbystate = csc.getCitiesOfState(countryCode, e?.value);
+    setCityList(citiesbystate);
+    const nextFormState = {
+      ...form,
+      [field]: e?.value,
+    };
+    setForm(nextFormState);
+    if (errors[field]?.dirty)
+      validateForm({
+        form: nextFormState,
+        errors,
+        field,
+      });
+  }
+
+  const onUpdateCity = (e) => {
+    const field = 'city';
+    const nextFormState = {
+      ...form,
+      [field]: e?.value,
+    };
+    setForm(nextFormState);
+    if (errors[field]?.dirty)
+      validateForm({
+        form: nextFormState,
+        errors,
+        field,
+      });
+  }
 
   async function onSubmitForm(e) {
     e.preventDefault();
@@ -136,91 +170,106 @@ const UserRegister = ({ token, loggedInRole }) => {
   };
 
   return (
-    <div className="col-lg-6 col-md-12">
-      <div className="login-form">
-        <div className="logo-center">
-          <Link href="/">
-            <a className="navbar-brand">
-              <Image src={logo} alt="site logo" />
-            </a>
-          </Link>
+    <form onSubmit={onSubmitForm}>
+      <div className="row">
+        <div className="auth-space desktop"></div>
+        <div className="col-lg-6 col-md-6">
+          <FormGroup
+            errors={errors}
+            label="First Name *"
+            value={form.firstName}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="firstName"
+            type="text"
+          />
         </div>
-        <form onSubmit={onSubmitForm}>
-          <div className="row">
-            <div className="auth-space"></div>
-            <div className="col-lg-6 col-md-6">
-              <FormGroup
-                errors={errors}
-                label="First Name *"
-                value={form.firstName}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="firstName"
-                type="text"
-              />
-            </div>
-            <div className="col-lg-6 col-md-6">
-              <FormGroup
-                errors={errors}
-                label="Last Name *"
-                value={form.lastName}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="lastName"
-                type="text"
-              />
-            </div>
-            <div className="col-lg-12 col-md-12">
-              <FormGroup
-                label="Username *"
-                errors={errors}
-                value={form.username}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="username"
-                type="text"
-              />
-            </div>
-            <div className="col-lg-12 col-md-12">
-              <FormGroup
-                label="Birthday *"
-                errors={errors}
-                value={form.dob}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="dob"
-                type="date"
-              />
-            </div>
+        <div className="col-lg-6 col-md-6">
+          <FormGroup
+            errors={errors}
+            label="Last Name *"
+            value={form.lastName}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="lastName"
+            type="text"
+          />
+        </div>
+        <div className="col-lg-12 col-md-12">
+          <FormGroup
+            label="Username *"
+            errors={errors}
+            value={form.username}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="username"
+            type="text"
+          />
+        </div>
+        <div className="col-lg-12 col-md-12">
+          <FormGroup
+            label="Date Of Birth *"
+            errors={errors}
+            value={form.dob}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="dob"
+            type="date"
+          />
+        </div>
 
-            <div className="col-lg-6 col-md-6">
-              <div className="form-group">
-                <label className="authen-text-attr">State *</label>
-                <select
-                  name="state"
-                  className="form-control"
-                  value={form.state}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                >
-                  <option value="0">Select State</option>
-                  {states.map((option, index) => (
-                    <option key={index} value={option.isoCode}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-                {errors.state.dirty && errors.state.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.state.message}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-6">
-              <div className="form-group">
-                <label className="authen-text-attr">City *</label>
-                <select
+        <div className="col-lg-6 col-md-6">
+          <div className="form-group">
+            <label className="authen-text-attr">State *</label>
+            <Select
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  minHeight: 54,
+                  background: '#f9f9f9',
+                }),
+              }}
+              name="state"
+              isClearable={isClearableState}
+              defaultValue={form.state}
+              onChange={onUpdateState}
+              onBlur={onBlurField}
+              options={states?.map(item => ({
+                label: item.name,
+                value: item.isoCode
+              }))}
+            >
+            </Select>
+            {errors.state.dirty && errors.state.error ? (
+              <p className={styles.formFieldErrorMessage}>
+                {errors.state.message}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <div className="col-lg-6 col-md-6">
+          <div className="form-group">
+            <label className="authen-text-attr">City *</label>
+            <Select
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  minHeight: 54,
+                  background: '#f9f9f9',
+                }),
+              }}
+              name="city"
+              defaultValue={form.city}
+              isClearable={isClearableCity}
+              onChange={onUpdateCity}
+              onBlur={onBlurField}
+              options={cityList?.map(item => ({
+                label: item.name,
+                value: item.name
+              }))}
+            >
+            </Select>
+            {/* <select
                   name="city"
                   className="form-control"
                   value={form.city}
@@ -233,75 +282,101 @@ const UserRegister = ({ token, loggedInRole }) => {
                       {option.name}
                     </option>
                   ))}
-                </select>
-                {errors.city.dirty && errors.city.error ? (
-                  <p className={styles.formFieldErrorMessage}>
-                    {errors.city.message}
-                  </p>
-                ) : null}
+                </select> */}
+            {errors.city.dirty && errors.city.error ? (
+              <p className={styles.formFieldErrorMessage}>
+                {errors.city.message}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <div className="col-lg-12 col-md-12">
+          <FormGroup
+            label="Email *"
+            errors={errors}
+            value={form.email}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="email"
+            type="email"
+          />
+        </div>
+        <div className="col-lg-12 col-md-12">
+          <FormGroup
+            label="Password *"
+            errors={errors}
+            value={form.password}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="password"
+            type="password"
+          />
+        </div>
+        <div className="col-lg-12 col-md-12">
+          <FormGroup
+            label="Confirm Password *"
+            errors={errors}
+            value={form.confirmPassword}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            name="confirmPassword"
+            type="password"
+          />
+        </div>
+        <div className="col-lg-12 col-md-12 col-sm-12 remember-me-wrap">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              onChange={(e) => {
+                e.target.checked ? setTerms(true) : setTerms(false);
+              }}
+              id="remember-me"
+            />
+            <label className="form-check-label" htmlFor="remember-me">
+              <div className="lost-your-password-wrap">
+                <span style={{
+                  color: terms ? '' : '#e11d48',
+                }}>I agree to</span> {" "}
+                <Link href="/authentication/lost-password">
+                  <a className="lost-your-password">Pinpoint's terms and conditions</a>
+                </Link>
+                <span style={{
+                  visibility: terms ? "hidden" : 'visible',
+                  color: '#e11d48',
+                  fontSize: 13,
+                  marginLeft: 15
+                }}>Required</span>
               </div>
-            </div>
-            <div className="col-lg-12 col-md-12">
-              <FormGroup
-                label="Email *"
-                errors={errors}
-                value={form.email}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="email"
-                type="email"
-              />
-            </div>
-            <div className="col-lg-12 col-md-12">
-              <FormGroup
-                label="Password *"
-                errors={errors}
-                value={form.password}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="password"
-                type="password"
-              />
-            </div>
-            <div className="col-lg-12 col-md-12">
-              <FormGroup
-                label="Confirm Password *"
-                errors={errors}
-                value={form.confirmPassword}
-                onChange={onUpdateField}
-                onBlur={onBlurField}
-                name="confirmPassword"
-                type="password"
-              />
-            </div>
+            </label>
           </div>
-          <div className="row">
-            <div className="col-lg-12">
-              <Spin spinning={loading} indicator={antIcon}>
-                <button className="loginsignButton" type="submit">CREATE ACCOUNT</button>
-              </Spin>
-            </div>
-          </div>
-          <div className="row auth-divider"></div>
-          <div className="col-12">
-            <p className="account-desc">
-              Already have an account? Login{" "}
-              <Link href="/authentication/user/login">
-                <a>HERE</a>
-              </Link>{" "}
-              for free!
-            </p>
-          </div>
-          <div className="col-12">
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-lg-12">
+          <Spin spinning={loading} indicator={antIcon}>
+            <button className="loginsignButton" type="submit">CREATE ACCOUNT</button>
+          </Spin>
+        </div>
+      </div>
+      {/* <div className="row auth-divider"></div> */}
+      <div className="col-12">
+        <p className="account-desc">
+          Already have an account?
+          <Link href={`/authentication/login`}>
+            <a>{"  "}Login{"  "}</a>
+          </Link>{" "}
+          here!
+        </p>
+      </div>
+      {/* <div className="col-12">
             <p className="account-desc">
               <Link href="/login">
                 <a>WHO AM I?</a>
               </Link>
             </p>
-          </div>
-        </form>
-      </div>
-    </div>
+          </div> */}
+    </form>
   );
 };
 

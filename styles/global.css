@@ -4,7 +4,8 @@ Global CSS
 :root {
   --fontFamily: "Be Vietnam Pro", sans-serif;
   --nunitoFontFamily: "Nunito Sans", sans-serif;
-  --redLightColor: #ec2226;
+  --redLightColor: #c82e31;
+  --redDarkColor: #8D1A1C;
   --blueDarkColor: #473bf0;
   --lightGreenColor: #00b3cc;
   --darkGreenColor: #2e85a1;
@@ -17,6 +18,7 @@ Global CSS
   --purpleColor: #c211a1;
   --paragraphColor: #616b7e;
   --blackColor: #000000;
+  --blueColor: #175594;
   --blueColor: #175594;
   --whiteColor: #ffffff;
   --graylightColor: #d9d9d9b8;
@@ -63,14 +65,14 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--blackColor);
+  color: var(--graydarkColor);
   font-weight: 700;
 }
 
 a {
   -webkit-transition: var(--transition);
   transition: var(--transition);
-  color: var(--paragraphColor);
+  color: var(--blueColor);
   text-decoration: none;
   outline: 0 !important;
 }
@@ -102,7 +104,7 @@ img {
 }
 
 p {
-  color: var(--darkWhiteColor);
+  color: var(--paragraphColor);
   font-size: var(--fontSize);
   margin-bottom: 15px;
   line-height: 1.8;
@@ -117,13 +119,13 @@ p:last-child {
   display: block;
 }
 
-.mtl-45{
+.mtl-45 {
   margin-left: 45px;
 }
 
 .ptb-100 {
   padding-top: 100px;
-  padding-bottom: 150px;
+  padding-bottom: 100px;
 }
 
 .plr-100 {
@@ -179,6 +181,15 @@ p:last-child {
 .bg-f3feff {
   background-color: #f3feff;
 }
+
+.bg-darkblue {
+  background-color: var(--blueColor);
+}
+
+.bg-175594 {
+  background-color: rgba(23, 85, 148, 0.15)
+}
+
 
 .bg-fffbfb {
   background-color: #fffbfb;
@@ -247,7 +258,7 @@ p:last-child {
   position: relative;
   border-radius: 5px;
   display: inline-block;
-  padding: 12px 45px 12px 45px;
+  padding: 12px 25px 12px 25px;
   -webkit-transition: var(--transition);
   transition: var(--transition);
   border: 1px solid var(--blackColor);
@@ -259,7 +270,7 @@ p:last-child {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   position: absolute;
-  right: 25px;
+  /* right: 25px; */
   top: 50%;
   font-size: 23px;
 }
@@ -267,6 +278,12 @@ p:last-child {
 .btn-style-one.red-light-color {
   background-color: var(--redLightColor);
   border-color: var(--redLightColor);
+  color: var(--whiteColor);
+}
+
+.btn-style-one.red-dark-color {
+  background-color: var(--redDarkColor);
+  border-color: var(--redDarkColor);
   color: var(--whiteColor);
 }
 
@@ -301,26 +318,26 @@ p:last-child {
 }
 
 .btn-style-one.blue-dark-color {
-  background-color: var(--blueDarkColor);
-  border-color: var(--blueDarkColor);
+  background-color: var(--blueColor);
+  border-color: var(--blueColor);
   color: var(--whiteColor);
 }
 
 .btn-style-one.blue-dark-color:hover {
-  background-color: var(--redLightColor);
-  border-color: var(--redLightColor);
-  color: var(--whiteColor);
+  background-color: var(--whiteColor);
+  border-color: var(--blueColor);
+  color: var(--graydarkColor);
 }
 
 .btn-style-one.white-color {
   background-color: var(--whiteColor);
-  border-color: var(--whiteColor);
+  border-color: var(--blueColor);
   color: var(--blackColor);
 }
 
 .btn-style-one.white-color:hover {
-  background-color: var(--blackColor);
-  border-color: var(--blackColor);
+  background-color: var(--blueColor);
+  border-color: var(--blueColor);
   color: var(--whiteColor);
 }
 
@@ -611,6 +628,7 @@ p:last-child {
 }
 
 @-webkit-keyframes waviy {
+
   0%,
   40%,
   100% {
@@ -625,6 +643,7 @@ p:last-child {
 }
 
 @keyframes waviy {
+
   0%,
   40%,
   100% {

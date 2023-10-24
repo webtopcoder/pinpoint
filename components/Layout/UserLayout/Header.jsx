@@ -1,28 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useState } from "react";
+import Link from "@/utils/ActiveLink";
 import Image from "next/image";
-import { Badge, Popconfirm, Button, Avatar, Divider, List, Space } from "antd";
-import {
-  ExportOutlined,
-  LoginOutlined,
-  UserAddOutlined,
-  UserOutlined,
-  MailFilled,
-  NotificationFilled,
-  EnvironmentFilled
-} from "@ant-design/icons";
-import { useRouter } from "next/router";
-import mobilelogo from "@/public/images/mobilelogo.png";
+import { Avatar, Badge, Space } from 'antd';
 import logo from "@/public/images/logo.png";
+import courseImg from "@/public/images/navbar.jpg";
 import { connect } from "react-redux";
-import rightToggle from "@/public/images/landing/right-toggle.png";
-import useNotify from "@/hooks/useNotify";
-import { logout } from "@/src/redux/User/actions";
-import { apiBaseUrl } from "@/utils/baseUrl";
-import NotificationDrawer from "@/components/Profile/NotificationDrawer";
-import { mailService, userService } from "@/services/index";
 
-const Header = ({
+const Navbar5 = ({
   toggle,
   onLogout,
   user_id,
@@ -32,121 +16,19 @@ const Header = ({
   newNotification,
   additionRole
 }) => {
-
-  const router = useRouter();
   const [menu, setMenu] = React.useState(true);
   const toggleNavbar = () => {
     setMenu(!menu);
   };
-  const avatarurl = `${apiBaseUrl}/avatar/`;
-
-  const { notify } = useNotify();
-
-  const onLogoutHandler = () => {
-    onLogout(() => {
-      router.push("/");
-    });
-  };
-
-  const SignupOrLogin = (path) => {
-    router.push(path);
-  };
-
-  const handlePageRender = (page) => {
-    if (token) {
-      router.push(page);
-    } else {
-      notify("error", "Please login");
-    }
-  };
-
-  const handleOriginPageRender = (page) => {
-    router.push(page);
-  };
-
-  async function onLoadMore() {
-    setInitLoading(true);
-    const result = await userService.getNotifications({
-      sort: "createdAt:desc",
-      limit: 9999
-    });
-    await setNotifications(result);
-    setInitLoading(false);
-  };
-
-  const [initLoading, setInitLoading] = useState(true);
-  const [notifications, setNotifications] = useState();
-  const [isreadEmails, setisreadEmails] = useState();
-  const [notificationLoading, setNotificationLoading] = useState(false);
-  const [notificationDrawerOpen, setOpen] = useState(false);
-
-  async function initialize() {
-    await mailService.getIsReadEmails().then(async (res) => {
-      await setisreadEmails(res);
-    }).catch((error) => {
-      console.log(error)
-    });
-
-    await userService.getNotifications({
-      sort: "createdAt:desc",
-      limit: 10
-    }).then(async (res) => {
-      await setNotifications(res);
-    }).catch((error) => {
-      console.log(error)
-    });
-  }
-
-  useEffect(() => {
-    setMenu(true);
-    initialize();
-
-  }, [router.pathname]);
-
-  async function showDrawer() {
-    setOpen(true);
-    await setOpen(true);
-    const result = await userService.getNotifications({
-      sort: "createdAt:desc",
-      limit: 10
-    });
-
-    console.log(result)
-    await setNotifications(result);
-    await setInitLoading(false);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
-  const loadMore =
-    !initLoading && !notificationLoading ? (
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: 12,
-          height: 32,
-          lineHeight: "32px",
-        }}
-      >
-        <Button onClick={onLoadMore}>Load More</Button>
-      </div>
-    ) : null;
-
-  const hasWindow = typeof window !== "undefined";
-
   React.useEffect(() => {
     let elementId = document.getElementById("navbar");
-    if (hasWindow) {
-      document.addEventListener("scroll", () => {
-        if (window.scrollY > 170) {
-          elementId.classList.add("is-sticky");
-        } else {
-          elementId.classList.remove("is-sticky");
-        }
-      });
-    }
+    document.addEventListener("scroll", () => {
+      if (window.scrollY > 170) {
+        elementId.classList.add("is-sticky");
+      } else {
+        elementId.classList.remove("is-sticky");
+      }
+    });
   });
 
   const classOne = menu
@@ -156,335 +38,29 @@ const Header = ({
     ? "navbar-toggler navbar-toggler-right collapsed"
     : "navbar-toggler navbar-toggler-right";
 
+  // Search Modal
+  const [isActiveSearchModal, setActiveSearchModal] = useState("false");
+  const handleToggleSearchModal = () => {
+    setActiveSearchModal(!isActiveSearchModal);
+  };
+
+  // Sidebar Modal
+  const [isActiveSidebarModal, setActiveSidebarModal] = useState("false");
+  const handleToggleSidebarModal = () => {
+    setActiveSidebarModal(!isActiveSidebarModal);
+  };
+
   return (
-    <div id="navbar" className="navbar-area">
-      <div className="main-nav">
-        <div className="container">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="col-md-4 desktop"></div>
-            <div className="col-md-4 text-center desktop">
-              <Link href={role == "partner" ? "/partner/dashboard" : role == "eventhost" ? '/eventhost/dashboard' : "/"}>
+    <>
+      <div id="navbar" className="navbar-area navbar-style-two">
+        <div className="main-nav">
+          <div className="container-fluid">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <Link href="/">
                 <a className="navbar-brand">
                   <Image src={logo} alt="site logo" />
                 </a>
               </Link>
-            </div>
-            {role !== "partner" && role !== "eventhost" ? (
-              <div className="col-md-4 text-right desktop">
-                <div className="others-option">
-                  <a onClick={toggle}>
-                    <Image
-                      src={rightToggle}
-                      width={80}
-                      height={80}
-                      alt="site logo"
-                    />
-                  </a>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            <div
-              className="mobile"
-              style={{
-                width: "100%",
-              }}
-            >
-              <Link href="/">
-                <a className="navbar-brand">
-                  <Image src={mobilelogo} alt="site logo" />
-                </a>
-              </Link>
-              <div
-                className={classOne}
-                style={{
-                  textAlign: "center",
-                }}
-                id="navbarSupportedContent"
-              >
-                <ul className="navbar-nav">
-                  <li className="nav-item">
-                    <div className="avatar-panel">
-                      <div className="avatar-left">
-                        {token && (
-                          <div style={{ marginBottom: 20 }}>
-                            {additionRole === "" || additionRole === "Owner" ?
-                              <Link href={role === "partner" ? `/partner/message` : "/user/message"}>
-                                <a>
-                                  <Badge dot={isreadEmails?.length > 0 ? true : false}
-                                    className="mailboxLIcon">
-                                    <MailFilled
-                                      style={{ color: "#686868", fontSize: 40 }}
-                                    />
-                                  </Badge>
-                                </a>
-                              </Link> : ''}
-                          </div>
-                        )}
-                        {token && (
-                          <div>
-                            <Badge
-                              dot={
-                                newNotification || notifications?.results?.length > 0 ? true : false
-                              } className="mailboxIcon"
-                              onClick={showDrawer}
-                            >
-                              <NotificationFilled
-                                style={{ color: "#686868", fontSize: 40 }}
-                              />
-                            </Badge>
-                          </div>
-                        )}
-                      </div>
-                      <div className="avatar-center">
-                        <div className="rightsidebar-avatar">
-                          {avatarImg ? (
-                            <Avatar
-                              style={{
-                                border: "3px solid gray",
-                              }}
-                              size={140}
-                              src={avatarurl + avatarImg}
-                            />
-                          ) : (
-                            <Avatar
-                              style={{
-                                border: "3px solid gray",
-                              }}
-                              size={100}
-                              icon={<UserOutlined />}
-                            />
-                          )}
-                        </div>
-                      </div>
-                      <div className="avatar-left">
-                        {token && (
-                          <div style={{ marginBottom: 20 }}>
-                            <EnvironmentFilled
-                              style={{ color: "#686868", fontSize: 40 }}
-                              onClick={() => handlePageRender("/user/map/interactive-map")}
-                            />
-                          </div>
-                        )}
-                        {token && (
-                          <div style={{ marginBottom: 20 }}>
-                            <ExportOutlined
-                              style={{ color: "#686868", fontSize: 40 }}
-                              onClick={() => onLogoutHandler()}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    {!token && (
-                      <div className="login-btn-panel">
-                        <div className="login-btn">
-                          <Popconfirm
-                            style={{ position: "fixed" }}
-                            title="WHO AM I?"
-                            description="Who are you?"
-                            okText="User"
-                            cancelText="Partner"
-                            onCancel={() =>
-                              SignupOrLogin("/authentication/partner/login")
-                            }
-                            onConfirm={() =>
-                              SignupOrLogin("/authentication/user/login")
-                            }
-                          >
-                            <a href="#">
-                              <Button
-                                shape="round"
-                                style={{ width: 100 }}
-                                icon={<LoginOutlined />}
-                              >
-                                Login
-                              </Button>
-                            </a>
-                          </Popconfirm>
-                        </div>
-                        <div className="signup-btn">
-                          <Popconfirm
-                            title="WHO AM I?"
-                            description="Who are you?"
-                            okText="User"
-                            cancelText="Partner"
-                            onCancel={() =>
-                              SignupOrLogin("/authentication/partner/register")
-                            }
-                            onConfirm={() =>
-                              SignupOrLogin("/authentication/user/register")
-                            }
-                          >
-                            <a href="#">
-                              <Button
-                                shape="round"
-                                style={{ width: 100 }}
-                                icon={<UserAddOutlined />}
-                              >
-                                Sign Up
-                              </Button>
-                            </a>
-                          </Popconfirm>
-                        </div>
-                      </div>
-                    )}
-                    {token && (
-                      <Space className="vst-profile" wrap>
-                        <Button
-                          onClick={() =>
-                            handleOriginPageRender(
-                              `/profile/${user_id}/activity`
-                            )
-                          }
-                          type="primary">View Profile</Button>
-
-                        {additionRole === "" || additionRole === "Owner" ?
-                          <Button
-                            onClick={() =>
-                              handleOriginPageRender(`/profile/${user_id}/edit`)
-                            }
-                          >Edit Profile</Button> : ''}
-
-                      </Space>
-                    )}
-                  </li>
-                  <Divider />
-                  {token && role == "partner" ?
-                    additionRole === "" || additionRole === "Owner" ? <>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender("/partner/dashboard")}
-                        >
-                          Dashboard
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() =>
-                            handlePageRender("/partner/message")
-                          }
-                        >
-                          Message
-                        </a>
-                      </li>
-
-                      <li className="nav-item">
-                        <Link href="#" activeClassName="active">
-                          <a
-                            className="dropdown-toggle nav-link"
-                            onClick={() =>
-                              handleOriginPageRender(`/profile/${user_id}/followers`)
-                            }
-                          >
-                            Followers
-                          </a>
-                        </Link>
-                      </li>
-
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() =>
-                            handleOriginPageRender("/partner/settings")
-                          }
-                        >
-                          Settings
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender(`/partner/locations`)}
-                        >
-                          Locations
-                        </a>
-                      </li>
-                      {additionRole === "Owner" ? '' : <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender(`/partner/partnership`)}
-                        >
-                          Partnership
-                        </a>
-                      </li>}
-                    </> : <>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender("/partner/dashboard")}
-                        >
-                          Dashboard
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender(`/partner/locations`)}
-                        >
-                          Locations
-                        </a>
-                      </li>
-                    </>
-                    : <>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender("/")}
-                        >
-                          Home
-                        </a>
-                      </li>
-
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() =>
-                            handlePageRender("/user/map/interactive-map")
-                          }
-                        >
-                          Interactive Map
-                        </a>
-                      </li>
-
-                      <li className="nav-item">
-                        <Link href="#" activeClassName="active">
-                          <a
-                            className="dropdown-toggle nav-link"
-                            onClick={() =>
-                              handleOriginPageRender("/#pinpoint_location")
-                            }
-                          >
-                            Locations
-                          </a>
-                        </Link>
-                      </li>
-
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() =>
-                            handleOriginPageRender("/#pinpoint_contactus")
-                          }
-                        >
-                          Contact Us
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="dropdown-toggle nav-link"
-                          onClick={() => handleOriginPageRender("/faq")}
-                        >
-                          FAQ
-                        </a>
-                      </li></>}
-                </ul>
-              </div>
-            </div>
-            <div className="others-option">
               <button
                 onClick={toggleNavbar}
                 className={classTwo}
@@ -499,14 +75,265 @@ const Header = ({
                 <span className="icon-bar middle-bar"></span>
                 <span className="icon-bar bottom-bar"></span>
               </button>
-            </div>
-          </nav>
+
+              <div className={classOne} id="navbarSupportedContent">
+
+                <ul className="navbar-nav">
+
+                  <li className="nav-item">
+                    <Link href="/">
+                      <a className="nav-link">Home</a>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link href="#">
+                      <a className="nav-link">Interactive Map</a>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <a href="#" className="nav-link">
+                      Contact Us
+                    </a>
+                  </li>
+
+
+                  <li className="nav-item">
+                    <Link href="/contact" activeClassName="active">
+                      <a className="nav-link">FAQ</a>
+                    </Link>
+                  </li>
+                  <li className="nav-item mobile">
+                    <Space>
+                      <Link href="/authentication/login">
+                        <a className="btn-style-one blue-dark-color">
+                          Log In
+                        </a>
+                      </Link>
+                      <Link href="/authentication/signup">
+                        <a className="btn-style-one white-color">
+                          Sign Up
+                          {/* <i className="bx bx-chevron-right"></i> */}
+                        </a>
+                      </Link>
+                      {/* <div
+                    className="search-icon"
+                    onClick={handleToggleSearchModal}
+                  >
+                    <i className="bx bxs-cart"></i>
+                  </div> */}
+                    </Space>
+                  </li>
+                </ul>
+              </div>
+
+              {token && (
+                <div className="others-option d-flex align-items-center">
+                  {/* <div className="contact-info">
+                             <div>
+                               <i className="flaticon-call"></i>
+                               <a href="tel:+11234567890">+1 (123) 456 7890</a>
+                             </div>
+                             <div>
+                               <i className="flaticon-email"></i>
+                               <a href="mailto:hello@abev.com">hello@abev.com</a>
+                             </div>
+                           </div> */}
+                  <div className="info d-flex align-items-center">
+                    <div
+                      className="search-icon"
+                      onClick={handleToggleSearchModal}
+                    >
+                      <Badge count={5} size="small">
+                        <i className="flaticon-email-1"></i>
+                      </Badge>
+                    </div>
+                    <div
+                      className="search-icon"
+                      onClick={handleToggleSearchModal}
+                    >
+                      <i className="flaticon-bell"></i>
+                    </div>
+                    {/* <div
+                               className="search-icon"
+                               onClick={handleToggleSearchModal}
+                             >
+                               <i className="flaticon-search-interface-symbol"></i>
+                             </div> */}
+                    <div>
+                      <button type="button" onClick={handleToggleSidebarModal}>
+                        <i className="flaticon-menu"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="others-option desktop">
+                <Space>
+                  <Link href="/authentication/login">
+                    <a className="btn-style-one blue-dark-color">
+                      Log In
+                    </a>
+                  </Link>
+                  <Link href="/authentication/signup">
+                    <a className="btn-style-one white-color">
+                      Sign Up
+                      {/* <i className="bx bx-chevron-right"></i> */}
+                    </a>
+                  </Link>
+                  {/* <div
+                    className="search-icon"
+                    onClick={handleToggleSearchModal}
+                  >
+                    <i className="bx bxs-cart"></i>
+                  </div> */}
+                </Space>
+
+              </div>
+            </nav>
+          </div>
         </div>
-        <NotificationDrawer onLoadMore={onLoadMore} initLoading={initLoading} notifications={notifications} onClose={onClose} open={notificationDrawerOpen} placement="right" />
       </div>
-    </div>
+
+      {/* Search Form */}
+      <div
+        className={`search-overlay ${isActiveSearchModal ? "" : "search-overlay-active"
+          }`}
+      >
+        <div className="d-table">
+          <div className="d-table-cell">
+            <div className="search-overlay-layer"></div>
+            <div className="search-overlay-layer"></div>
+            <div className="search-overlay-layer"></div>
+            <div
+              className="search-overlay-close"
+              onClick={handleToggleSearchModal}
+            >
+              <span className="search-overlay-close-line"></span>
+              <span className="search-overlay-close-line"></span>
+            </div>
+
+            <div className="search-overlay-form">
+              <form>
+                <input
+                  type="text"
+                  className="input-search"
+                  placeholder="Enter your keywords..."
+                />
+                <button type="submit">
+                  <i className="flaticon-search-interface-symbol"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar Modal */}
+      <div
+        className={`sidebarModal modal right ${isActiveSidebarModal ? "" : "show"
+          }`}
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <button
+              type="button"
+              className="close"
+              onClick={handleToggleSidebarModal}
+            >
+              <i className="flaticon-cancel"></i>
+            </button>
+
+            <div className="modal-body">
+              <div className="logo">
+                <Link href="/">
+                  <a className="d-inline-block">
+                    <Image src={logo} alt="image" />
+                  </a>
+                </Link>
+              </div>
+
+              <ul className="sidebar-contact-info">
+                <li>
+                  <i className="bx bx-phone-call"></i>
+                  <span>Mon to Fri : 10:00AM - 06:00PM</span>
+                  <a href="tel:1235421457852">+123 54214 578 52</a>
+                </li>
+                <li>
+                  <i className="bx bx-envelope"></i>
+                  <span>Do You Have a Question?</span>
+                  <a href="mailto:hello@abev.com">hello@abev.com</a>
+                </li>
+                <li>
+                  <i className="bx bx-map"></i>
+                  <span>2750 Quadra Street Victoria, Canada</span>
+                  <a href="#" target="_blank" rel="noreferrer">
+                    Find Us on Map
+                  </a>
+                </li>
+              </ul>
+
+              <ul className="social-links">
+                <li>
+                  <a
+                    href="https://www.facebook.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="flaticon-facebook-app-symbol"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.twitter.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="flaticon-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="flaticon-linkedin"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="flaticon-instagram"></i>
+                  </a>
+                </li>
+              </ul>
+
+              <div className="box">
+                <p>Latest resources, sent to your inbox weekly</p>
+                <form className="newsletter-form">
+                  <input
+                    type="text"
+                    className="input-newsletter"
+                    placeholder="Enter your email address"
+                  />
+                  <button type="submit" className="btn-style-one green-color">
+                    Subscribe Now <i className="bx bx-chevron-right"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
+
 
 const mapStateToProps = (state) => {
   return {
@@ -524,4 +351,4 @@ const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar5);

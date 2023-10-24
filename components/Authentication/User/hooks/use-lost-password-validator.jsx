@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { UserInfoValidator } from "../user-validator.jsx";
+import { UserInfoValidator, emailValidator } from "../user-validator.jsx";
 
 const touchErrors = (errors) => {
   return Object.entries(errors).reduce((acc, [field, fieldError]) => {
@@ -35,7 +35,7 @@ export const useLostPasswordFormValidator = (form) => {
     const { userInfo, password } = form;
 
     if (nextErrors.userInfo.dirty && (field ? field === "userInfo" : true)) {
-      const userInfoMessage = UserInfoValidator(userInfo, form);
+      const userInfoMessage = emailValidator(userInfo, form);
       nextErrors.userInfo.error = !!userInfoMessage;
       nextErrors.userInfo.message = userInfoMessage;
       if (!!userInfoMessage) isValid = false;

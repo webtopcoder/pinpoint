@@ -1265,6 +1265,7 @@
 
 .template-footer-six .single-footer-widget {
   margin-bottom: 25px;
+  text-align: center;
 }
 
 .template-footer-six .single-footer-widget .logo {
@@ -1296,7 +1297,7 @@
 }
 
 .template-footer-six .single-footer-widget .footer-contact-info li i {
-  color: var(--greenColor2);
+  color: var(--blueColor);
   position: absolute;
   font-size: 35px;
   left: 0;
@@ -1340,7 +1341,7 @@
   border-radius: 50%;
   text-align: center;
   position: relative;
-  color: var(--greenColor2);
+  color: var(--blueColor);
   background-color: var(--whiteColor);
   -webkit-box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.14);
   box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.14);
@@ -1358,7 +1359,7 @@
 }
 
 .template-footer-six .single-footer-widget .social-links li a:hover {
-  background-color: var(--greenColor2);
+  background-color: var(--blueColor);
   color: var(--whiteColor);
 }
 

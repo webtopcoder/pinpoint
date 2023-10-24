@@ -1,13 +1,13 @@
 import { React, useState } from "react";
 import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
+import { Steps } from 'antd';
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
 import styles from "./validate.module.css";
 import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
 import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
 import useNotify from "@/hooks/useNotify";
 import { authService } from "@/services/index";
+import next from "next";
 
 const antIcon = (
   <LoadingOutlined
@@ -21,6 +21,7 @@ const antIcon = (
 const LostPassword = () => {
   const { notify } = useNotify();
   const [loading, setLoading] = useState(false);
+  const [nextstep, setStep] = useState(false);
   const [form, setForm] = useState({
     userInfo: "",
   });
@@ -69,6 +70,7 @@ const LostPassword = () => {
 
     await authService.recoveryPassword({ emailOrUsername: form.userInfo, })
       .then(() => {
+        setStep(true);
         notify("success", "Email has been sent");
       })
       .catch((error) => {
@@ -83,23 +85,33 @@ const LostPassword = () => {
   return (
     <div className="col-lg-6 col-md-12 col-sm-12">
       <div className="login-form">
-        <div className="logo-center">
-          <Link href="/">
-            <a className="navbar-brand">
-              <Image src={logo} alt="site logo" />
-            </a>
-          </Link>
-        </div>
-        <form onSubmit={onSubmitForm}>
+        <Steps
+          size="small"
+          current={0}
+          items={[
+            {
+              title: 'Send Link',
+            },
+            {
+              title: 'Create Password',
+            },
+            {
+              title: 'Done',
+            },
+          ]}
+        />
+        <form onSubmit={onSubmitForm} style={{
+          display: nextstep ? 'none' : 'block'
+        }}>
           <div className="auth-space"></div>
-          <p className="text-center">
-            Lost your password? <br />Please enter your username or email address. You
-            will receive a link to create a new password via email.
+          <div className="auth-space"></div>
+          <p className="text-left">
+            Enter the email address associated with your account and we will send you a link to create a new password.
           </p>
           <div className="form-group" style={{
             marginBottom: 10,
           }}>
-            <label className="authen-text-attr">Username or email *</label>
+            <label className="authen-text-attr">Email *</label>
             <input
               type="text"
               name="userInfo"
@@ -118,36 +130,7 @@ const LostPassword = () => {
           <div className="form-group" style={{
             marginBottom: 10,
           }}>
-            <div className="row">
-              <div className="col-lg-6 col-md-6 col-sm-9 remember-me-wrap">
-                <a
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    const emailRegex = /[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+$/;
-                    if (form.userInfo && emailRegex.test(form.userInfo)) {
-                      handleResendEmail();
-                      return;
-                    }
-                    notify("error", "Please enter valid email");
-                  }}
-                  className="lost-your-password"
-                >
-                  Resend Email
-                </a>
-              </div>
-              <div
-                className="col-lg-6 col-md-6 col-sm-3 remember-me-wrap"
-                style={{
-                  textAlign: "end",
-                }}
-              >
-                <Link href="/authentication/user/login">
-                  <a className="lost-your-password">Login</a>
-                </Link>
-              </div>
-            </div>
+
           </div>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
@@ -156,13 +139,33 @@ const LostPassword = () => {
               </Spin>
             </div>
           </div>
-          <div className="row auth-divider"></div>
+          {/* <div className="row auth-divider"></div>
           <div className="col-12">
             <p className="account-desc">
               <Link href="/">
-                <a>WHO AM I?</a>
+                <a>Home</a>
               </Link>
             </p>
+          </div> */}
+        </form>
+        <form>
+          <div style={{
+            display: nextstep ? 'block' : 'none'
+          }}>
+            <div className="auth-space desktop"></div>
+            <div className="auth-space"></div>
+            <p className="text-left">
+              An email has been sent to <b>{form?.userInfo}</b>. If this email address is registered to pinpointsocial.com, you'll receive instructions on how to set a new password.
+            </p>
+            <div className="auth-space"></div>
+            <div
+              className="col-lg-12 col-md-12 col-sm-12 lost-your-password-wrap"
+              style={{
+                textAlign: "end",
+              }}
+            >
+              <a onClick={() => setStep(false)} className="lost-your-password">Didn't get an email</a>
+            </div>
           </div>
         </form>
       </div>
