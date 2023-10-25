@@ -1,26 +1,13 @@
 
 import React, { useEffect, useState } from "react";
 import { setCookie, getCookie } from 'cookies-next';
-import LandingContact from "@/components/Landing/LandingContact";
-import PartnerLocations from "@/components/Landing/PartnerLocations";
-// import Testimonial from "@/components/Landing/Testimonial";
 import Banner from "@/components/Landing/Banner";
 import Howtouse from "@/components/Landing/Howtouse";
 import Aboutus from "@/components/Landing/Aboutus";
 import Feature from "@/components/Landing/Feature";
 import Contactus from "@/components/Landing/Contactus";
-import Testimonial from "@/components/Landing/TestimonialThree";
-import Newpartners from "@/components/Landing/Newpartners";
+import Testimonial from "@/components/Landing/Testimonial";
 import PageTitle from "@/components/Layout/PageTitle";
-import christmas from "@/public/images/landing/christmas.png";
-import coffee from "@/public/images/landing/coffee.png";
-import farmers from "@/public/images/landing/farmers.png";
-import fireworks from "@/public/images/landing/fireworks.png";
-import food from "@/public/images/landing/food.png";
-import location from "@/public/images/landing/location.png";
-import mobile from "@/public/images/landing/mobile.png";
-import pumkin from "@/public/images/landing/pumkin.png";
-import Image from "next/image";
 import useNotify from "@/hooks/useNotify";
 import Layout from "../layout";
 import { Button, notification, Space, Typography } from 'antd';

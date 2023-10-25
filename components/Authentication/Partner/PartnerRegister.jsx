@@ -364,6 +364,7 @@ const PartnerRegister = ({
               <input
                 className="form-check-input"
                 type="checkbox"
+                defaultChecked="checked"
                 onChange={(e) => {
                   e.target.checked ? setTerms(true) : setTerms(false);
                 }}

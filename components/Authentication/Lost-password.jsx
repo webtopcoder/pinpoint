@@ -7,7 +7,6 @@ import { Spin } from 'antd';
 import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
 import useNotify from "@/hooks/useNotify";
 import { authService } from "@/services/index";
-import next from "next";
 
 const antIcon = (
   <LoadingOutlined

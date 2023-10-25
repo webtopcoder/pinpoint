@@ -42,7 +42,7 @@ const UserRegister = ({ token, loggedInRole }) => {
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
-  const [terms, setTerms] = useState(false);
+  const [terms, setTerms] = useState(true);
   const [isClearableState, setIsClearableState] = useState(true);
   const [isClearableCity, setIsClearableCity] = useState(true);
   const [cityList, setCityList] = useState([]);
@@ -328,6 +328,7 @@ const UserRegister = ({ token, loggedInRole }) => {
             <input
               className="form-check-input"
               type="checkbox"
+              defaultChecked="checked"
               onChange={(e) => {
                 e.target.checked ? setTerms(true) : setTerms(false);
               }}

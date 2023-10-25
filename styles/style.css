@@ -45,6 +45,24 @@ a.lost-your-password:hover {
   font-weight: 600;
 }
 
+.pass-wrap {
+  position: relative;
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.pass-wrap .pass-eye {
+  font-size: 25px;
+  position: absolute;
+  top: 25%;
+  right: 4%;
+}
+
+.pass-wrap .pass-eye:hover {
+  color: var(--blueColor);
+  cursor: pointer;
+}
+
 .it-startup-banner-area {
   background-color: #f9f9f9;
   position: relative;
