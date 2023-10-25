@@ -82,7 +82,7 @@ const LandingContact = () => {
             <div className="col-lg-6 col-md-6 col-sm-12">
               <FormGroup
                 errors={errors}
-                label="FIrst Name"
+                label="First Name"
                 value={form.firstName}
                 onChange={onUpdateField}
                 onBlur={onBlurField}
