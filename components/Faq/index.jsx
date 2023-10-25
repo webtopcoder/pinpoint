@@ -5,7 +5,7 @@ import { Spin } from "antd";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
-const index = ({ flag, loading, Faqs }) => {
+const index = ({ flag, loading, Faqs, search }) => {
   return (
     <div className="faq-area bg-f1f5fd pb-75">
       <div className="container">
@@ -25,7 +25,7 @@ const index = ({ flag, loading, Faqs }) => {
                   }}
                 />
               )}
-              <Accordion questionsAnswers={Faqs} />
+              <Accordion search={search} questionsAnswers={Faqs} />
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AccordionItem from "./AccordionItem";
 
-const Accordion = ({ questionsAnswers }) => {
+const Accordion = ({ questionsAnswers, search }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const renderedQuestionsAnswers = questionsAnswers.map((item, index) => {
@@ -10,6 +10,7 @@ const Accordion = ({ questionsAnswers }) => {
     const ariaExpanded = index === activeIndex ? "true" : "false";
     return (
       <AccordionItem
+        search={search}
         key={index}
         showDescription={showDescription}
         fontWeightBold={fontWeightBold}

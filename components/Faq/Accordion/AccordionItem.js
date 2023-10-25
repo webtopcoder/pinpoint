@@ -1,6 +1,8 @@
 import React from "react";
+import Highlighter from "react-highlight-words";
 
 const AccordionItem = ({
+  search,
   showDescription,
   ariaExpanded,
   fontWeightBold,
@@ -17,7 +19,12 @@ const AccordionItem = ({
         className={`faq__question-button ${fontWeightBold}`}
         onClick={onClick}
       >
-        {item.question}
+        <Highlighter
+          highlightClassName="YourHighlightClass"
+          searchWords={[search]}
+          autoEscape={true}
+          textToHighlight={item.question}
+        />
       </button>
     </dt>
     <dd>
@@ -26,7 +33,12 @@ const AccordionItem = ({
         data-qa="faq__desc"
         className={`faq__desc ${showDescription}`}
       >
-        {item.answer}
+        <Highlighter
+          highlightClassName="YourHighlightClass"
+          searchWords={[search]}
+          autoEscape={true}
+          textToHighlight={item.answer}
+        />
       </p>
     </dd>
   </div>

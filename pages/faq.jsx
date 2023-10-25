@@ -52,7 +52,7 @@ const Faq = () => {
           </div>
         </div>
       </div>
-      <FaqComponent flag={flag} Faqs={Faqs} loading={loading} />
+      <FaqComponent flag={flag} Faqs={Faqs} search={search} loading={loading} />
     </>
   );
 };
