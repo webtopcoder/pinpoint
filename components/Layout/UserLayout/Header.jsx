@@ -110,7 +110,7 @@ const Navbar5 = ({
 
 
                   <li className="nav-item">
-                    <Link href="/contact" activeClassName="active">
+                    <Link href="/faq" activeClassName="active">
                       <a className="nav-link">FAQ</a>
                     </Link>
                   </li>

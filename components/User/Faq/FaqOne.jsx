@@ -21,7 +21,7 @@ const FaqOne = () => {
     initializeFaq();
   }, []);
   return (
-    <div className="faq-area bg-black pb-75 pin-faq">
+    <div className="faq-area bg-f1f5fd pb-75">
       <div className="container">
         <div className="faq-accordion-content">
           <div className="box">

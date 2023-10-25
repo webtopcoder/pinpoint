@@ -3088,11 +3088,11 @@ FAQ Area CSS
 }
 
 .faq-accordion-content .faq__question {
-  border: 0;
+  border-bottom: 1px solid #00000014;
   border-radius: 0;
-  -webkit-box-shadow: unset;
   box-shadow: unset;
-  margin-bottom: 25px;
+  margin-bottom: 22px;
+  padding-bottom: 13px;
 }
 
 .faq-accordion-content .faq__question:last-child {
@@ -12569,32 +12569,6 @@ h4 {
 
 .profile-location-box-footer .location-star span i {
   font-size: 40px;
-}
-
-.pin-faq .box {
-  background-color: var(--graydarkColor);
-}
-
-.pin-faq .box .faq__question {
-  background-color: var(--graydarkColor);
-}
-
-.pin-faq .faq-accordion-content h3 {
-  color: var(--whiteColor);
-}
-
-.pin-faq .faq-accordion-content .faq__question-button {
-  color: var(--whiteColor) !important;
-}
-
-.pin-faq .faq-accordion-content .faq__question-button::after {
-  right: 0 !important;
-}
-
-.pin-faq .faq-accordion-content .faq__question {
-  border-bottom: 2px solid #484a4c;
-  padding: 30px 0 30px 0;
-  margin-bottom: 0;
 }
 
 .profile-location #span-underline {
