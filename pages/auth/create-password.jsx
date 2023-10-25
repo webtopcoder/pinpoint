@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "@/utils/ActiveLink";
 import PageTitle from "@/components/Layout/PageTitle";
-import PasswordCreate from "@/components/Authentication/Create-password";
+import PasswordCreate from "@/components/Auth/Create-password";
 import logo from "@/public/images/logo.png";
 import passwordGroup from "@/public/images/user/lostpassword-group.png";
 import Layout from "../../layout";
