@@ -1,10 +1,8 @@
 import React from "react";
-import useMedia from "@/hooks/useMedia";
 import Image from "next/image";
 import AboutImg from "@/public/images/landing/iphone.png";
 
 const Feature = () => {
-  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <div className="features-area ptb-100">
       <div className="container">

@@ -1,10 +1,5 @@
 import { React, useState } from "react";
 import contactbanner from "@/public/images/landing/contactbanner.png";
-import bannerHero1Desktop from "@/public/images/landing/hero_1.svg";
-import bannerImgMobile from "@/public/images/landing/map-4-points.png";
-import Link from "next/link";
-import useMedia from "@/hooks/useMedia";
-import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import styles from "./contact-validator/LoginForm.module.css";
 import { ContactFormValidator } from "./contact-validator/validater-hook";
@@ -13,7 +8,6 @@ import { userService } from "@/services/index";
 import FormGroup from "../Authentication/FormGroup";
 
 const Contactus = () => {
-  const isWebDevice = useMedia('(min-width:700px)');
   const { notify } = useNotify();
   const [form, setForm] = useState({
     usertype: "",
@@ -101,7 +95,7 @@ const Contactus = () => {
           <div className="col-lg-1 col-md-12"></div>
           <div className="col-lg-6 col-md-12">
             <div className="request-a-visit-form">
-              <form>
+              <form onSubmit={onSubmitForm}>
                 <div className="row">
                   <div className="auth-space"></div>
                   <div className="col-lg-6 col-md-6 col-sm-12">
@@ -206,7 +200,6 @@ const Contactus = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

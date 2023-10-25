@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./validate.module.css";
 import like from "@/public/images/user/like.png";
 import { Spin, Steps, Button } from 'antd';
-import { LoadingOutlined, ArrowRightOutlined, SolutionOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useCreatePasswordFormValidator } from "./User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
@@ -178,7 +178,6 @@ const CreatePassword = () => {
           >
             <Link href="/authentication/login">
               <Button type="link" icon={<ArrowRightOutlined />}>Login</Button>
-
               {/* <a className="lost-your-password">Login */}
               {/* </a> */}
             </Link>

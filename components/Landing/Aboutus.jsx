@@ -1,13 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import AboutImg from "@/public/images/landing/aboutus.png";
-import bannerHero1Desktop from "@/public/images/landing/hero_1.svg";
-import bannerImgMobile from "@/public/images/landing/map-4-points.png";
-import Link from "next/link";
-import useMedia from "@/hooks/useMedia";
 
 const Aboutus = () => {
-  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <div className="overview-area ptb-100">
       <div className="container">

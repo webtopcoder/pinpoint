@@ -1,8 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import useNotify from "@/hooks/useNotify";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Link from "next/link";
@@ -221,7 +219,6 @@ const PartnerRegister = ({
   };
   return (
     <>
-
       <form onSubmit={onSubmitForm}>
         <div className="row">
           <div className="auth-space"></div>

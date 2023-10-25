@@ -1,7 +1,6 @@
 import { React, useState } from "react";
-import Link from "next/link";
 import { Steps } from 'antd';
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import styles from "./validate.module.css";
 import { Spin } from 'antd';
 import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";

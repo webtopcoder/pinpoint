@@ -1,11 +1,9 @@
 import React from "react";
-import useMedia from "@/hooks/useMedia";
 import Link from "next/link";
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
 const Howtouse = () => {
-  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <div className="features-area bg-175594 ptb-100">
       <div className="container">
@@ -18,9 +16,7 @@ const Howtouse = () => {
           <div className="auth-space"></div>
           <div className="auth-space"></div>
           <span className="ribbona">As a User</span>
-          {/* <span className="sub-title light-green-color">As a User</span> */}
         </div>
-
         <div className="row justify-content-center">
           <div
             className="col-lg-3 col-md-6 col-sm-12"
@@ -166,9 +162,6 @@ const Howtouse = () => {
           <div className="lets-start-box">
             <Link href="/contact">
               <Button type="link" icon={<ArrowRightOutlined />} size="large">Learn more about Pinpoint Partner</Button>
-              {/* <a className="btn-style-one dark-green-color">
-                Get Started Now <i className="bx bx-chevron-right"></i>
-              </a> */}
             </Link>
           </div>
         </div>

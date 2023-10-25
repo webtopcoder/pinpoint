@@ -217,7 +217,6 @@ const UserRegister = ({ token, loggedInRole }) => {
             type="date"
           />
         </div>
-
         <div className="col-lg-6 col-md-6">
           <div className="form-group">
             <label className="authen-text-attr">State *</label>
@@ -269,20 +268,6 @@ const UserRegister = ({ token, loggedInRole }) => {
               }))}
             >
             </Select>
-            {/* <select
-                  name="city"
-                  className="form-control"
-                  value={form.city}
-                  onChange={onUpdateField}
-                  onBlur={onBlurField}
-                >
-                  <option value="0">Select City</option>
-                  {cityList.map((option, index) => (
-                    <option key={index} value={option.name}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select> */}
             {errors.city.dirty && errors.city.error ? (
               <p className={styles.formFieldErrorMessage}>
                 {errors.city.message}

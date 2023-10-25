@@ -2,11 +2,8 @@ import React from "react";
 import Image from "next/image";
 import bannerImgDesktop from "@/public/images/landing/hero_2.svg";
 import bannerHero1Desktop from "@/public/images/landing/hero_1.svg";
-import bannerImgMobile from "@/public/images/landing/map-4-points.png";
-import useMedia from "@/hooks/useMedia";
 
 const Banner = () => {
-  const isWebDevice = useMedia('(min-width:700px)');
   return (
     <div className="property-banner-area">
       <div className="container">

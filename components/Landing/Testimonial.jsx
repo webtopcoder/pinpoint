@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
-// import OwlCarousel from 'react-owl-carousel3';
 import Image from "next/image";
 import manWithLaptop from "@/public/images/landing/man-with-laptop.png";
-import { apiBaseUrl } from "@/utils/baseUrl";
 import { userService } from "@/services/index";
 
 const options = {
@@ -24,11 +22,7 @@ const options = {
 };
 
 const Testimonial = () => {
-
-  const imgurl = `${apiBaseUrl}/avatar/`;
   const [testimonials, setTestimonial] = useState();
-  const [display, setDisplay] = useState(true);
-
   useEffect(async () => {
     await userService.getTestimonials()
       .then((res) => {
@@ -43,13 +37,6 @@ const Testimonial = () => {
       });
   }, []);
 
-  const myLoader = ({ src }) => {
-    return src;
-  };
-
-  React.useEffect(() => {
-    setDisplay(true);
-  }, []);
   return (
     <div className="testimonials-area bg-f3feff ptb-100">
       <div className="container">
@@ -95,7 +82,6 @@ const Testimonial = () => {
                         <span>{testimonial?.occupation}</span>
                       </div>
                     </div>
-
                   ))}
                 </OwlCarousel>
               ) : (
