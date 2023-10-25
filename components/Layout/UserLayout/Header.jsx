@@ -5,6 +5,7 @@ import { Avatar, Badge, Space } from 'antd';
 import logo from "@/public/images/logo.png";
 import courseImg from "@/public/images/navbar.jpg";
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 
 const Navbar5 = ({
   toggle,
@@ -16,10 +17,17 @@ const Navbar5 = ({
   newNotification,
   additionRole
 }) => {
+
+  const router = useRouter();
   const [menu, setMenu] = React.useState(true);
   const toggleNavbar = () => {
     setMenu(!menu);
   };
+
+  const handleOriginPageRender = (page) => {
+    router.push(page);
+  };
+
   React.useEffect(() => {
     let elementId = document.getElementById("navbar");
     document.addEventListener("scroll", () => {
@@ -93,7 +101,9 @@ const Navbar5 = ({
                   </li>
 
                   <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <a role="button" onClick={() =>
+                      handleOriginPageRender("/#pinpoint_contactus")
+                    } className="nav-link">
                       Contact Us
                     </a>
                   </li>

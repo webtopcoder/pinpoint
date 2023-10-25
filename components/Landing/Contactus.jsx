@@ -63,7 +63,7 @@ const Contactus = () => {
       });
   }
   return (
-    <div className="request-a-visit-area ptb-100">
+    <div className="request-a-visit-area ptb-100" id="pinpoint_contactus">
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-5 col-md-12">

@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Register from "@/components/Authentication/Eventhost/EventhostRegister";
+import Register from "@/components/Auth/Eventhost/EventhostRegister";
 
 const eventhostRegister = () => {
   return (

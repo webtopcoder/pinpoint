@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import AdditionUserRegister from "@/components/Authentication/AdditionUser/Register";
+import AdditionUserRegister from "@/components/Auth/AdditionUser/Register";
 
 const additionUserRegister = () => {
   return (
