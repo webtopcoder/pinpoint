@@ -11880,12 +11880,12 @@ Sidebar Modal CSS
 
 .account-desc a,
 .account-desc-custom a {
-  color: var(--redLightColor);
+  color: var(--redLightColor) !important;
 }
 
 .account-desc a:hover,
 .account-desc-custom a:hover {
-  color: var(--blueColor);
+  color: var(--blueColor) !important;
 }
 
 /* .profile-authentication-area {
