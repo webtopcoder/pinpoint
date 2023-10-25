@@ -176,7 +176,7 @@ const CreatePassword = () => {
               textAlign: "center",
             }}
           >
-            <Link href="/authentication/login">
+            <Link href="/auth/login">
               <Button type="link" icon={<ArrowRightOutlined />}>Login</Button>
               {/* <a className="lost-your-password">Login */}
               {/* </a> */}

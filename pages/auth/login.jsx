@@ -1,42 +1,26 @@
 import React, { useState } from "react";
-import PageTitle from "@/components/Layout/PageTitle";
-import UserRegister from "@/components/Authentication/User/UserRegister";
-import PartnerRegister from "@/components/Authentication/Partner/PartnerRegister";
 import Image from "next/image";
+import PageTitle from "@/components/Layout/PageTitle";
+import Login from "@/components/Auth/LoginForm";
 import Layout from "../../layout";
+import logo from "@/public/images/logo.png";
 import userLoginGroup from "@/public/images/user/user-login-group.png";
 import partnerLoginGroup from "@/public/images/partner/partner-login-group.png";
-import logo from "@/public/images/logo.png";
 import Link from "@/utils/ActiveLink";
-import useMedia from "@/hooks/useMedia";
-import { Radio } from 'antd';
 
-const AuthSignup = () => {
+const AuthLogin = () => {
   const [option, setOption] = useState('user');
-  const isWebDevice = useMedia('(min-width:700px)');
   const onChangeRole = ({ target: { value } }) => {
     setOption(value);
   };
-
-  const options = [
-    {
-      label: 'As a User',
-      value: 'user',
-    },
-    {
-      label: 'As a Partner',
-      value: 'partner',
-    },
-  ];
-
   return (
     <>
-      <PageTitle page="Sign Up" />
+      <PageTitle page="LOGIN" />
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Authentication</span>
-            <h1>Sign Up</h1>
+            <h1>Login</h1>
           </div>
         </div>
       </div>
@@ -58,23 +42,7 @@ const AuthSignup = () => {
                 <Image src={option === "user" ? userLoginGroup : partnerLoginGroup} alt="login group" />
               </div>
             </div>
-            <div className="col-lg-6 col-md-12">
-              <div className="login-form">
-                <Radio.Group
-                  size={isWebDevice ? 'large' : 'small'}
-                  options={options}
-                  onChange={(e) => onChangeRole(e)}
-                  value={option}
-                  optionType="button"
-                  buttonStyle="solid"
-                  style={{
-                    width: '100%',
-                    marginBottom: 20
-                  }}
-                />
-                {option === "user" ? <UserRegister /> : <PartnerRegister />}
-              </div>
-            </div>
+            <Login option={option} onChangeRole={onChangeRole} />
           </div>
         </div>
       </div>
@@ -82,9 +50,9 @@ const AuthSignup = () => {
   );
 };
 
-AuthSignup.authenticate = false;
-AuthSignup.getLayout = function getLayout(page) {
+AuthLogin.authenticate = false;
+
+AuthLogin.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
-export default AuthSignup;
-
+export default AuthLogin;

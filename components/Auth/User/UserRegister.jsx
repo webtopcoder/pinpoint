@@ -151,7 +151,7 @@ const UserRegister = ({ token, loggedInRole }) => {
         setLoading(false);
         notify("success", "Register Successfully");
         router.push({
-          pathname: '/authentication/verification',
+          pathname: '/auth/verification',
           query: {
             type: 'user',
             registration_email: formRequest.email
@@ -324,7 +324,7 @@ const UserRegister = ({ token, loggedInRole }) => {
                 <span style={{
                   color: terms ? '' : '#e11d48',
                 }}>I agree to</span> {" "}
-                <Link href="/authentication/lost-password">
+                <Link href="/auth/lost-password">
                   <a className="lost-your-password">Pinpoint's terms and conditions</a>
                 </Link>
                 <span style={{
@@ -349,7 +349,7 @@ const UserRegister = ({ token, loggedInRole }) => {
       <div className="col-12">
         <p className="account-desc">
           Already have an account?
-          <Link href={`/authentication/login`}>
+          <Link href={`/auth/login`}>
             <a>{"  "}Login{"  "}</a>
           </Link>{" "}
           here!

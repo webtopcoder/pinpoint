@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import PageTitle from "@/components/Layout/PageTitle";
-import Login from "@/components/Authentication/LoginForm";
-import Layout from "../../layout";
 import logo from "@/public/images/logo.png";
-import userLoginGroup from "@/public/images/user/user-login-group.png";
-import partnerLoginGroup from "@/public/images/partner/partner-login-group.png";
+import passwordGroup from "@/public/images/user/lostpassword-group.png";
+import PageTitle from "@/components/Layout/PageTitle";
+import LostPassword from "@/components/Auth/Lost-password";
+import Layout from "../../layout";
 import Link from "@/utils/ActiveLink";
 
-const AuthLogin = () => {
-  const [option, setOption] = useState('user');
-  const onChangeRole = ({ target: { value } }) => {
-    setOption(value);
-  };
+const lostPassword = () => {
   return (
     <>
-      <PageTitle page="LOGIN" />
+      <PageTitle page="RESET PASSWORD" />
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Authentication</span>
-            <h1>Login</h1>
+            <h1>RESET PASSWORD</h1>
           </div>
         </div>
       </div>
@@ -37,12 +32,12 @@ const AuthLogin = () => {
                   </Link>
                 </div>
                 <p>
-                  Join Pinpoint!<br /> Changing the game on how customers will experience, locate and socialize with their local favorites!
+                  Forgot Your Password? <br /> Don't worry, we've got you covered. Follow the steps to reset your password. Your security is our priority.
                 </p>
-                <Image src={option === "user" ? userLoginGroup : partnerLoginGroup} alt="login group" />
+                <Image src={passwordGroup} alt="login group" />
               </div>
             </div>
-            <Login option={option} onChangeRole={onChangeRole} />
+            <LostPassword />
           </div>
         </div>
       </div>
@@ -50,9 +45,9 @@ const AuthLogin = () => {
   );
 };
 
-AuthLogin.authenticate = false;
+lostPassword.authenticate = false;
 
-AuthLogin.getLayout = function getLayout(page) {
+lostPassword.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
-export default AuthLogin;
+export default lostPassword;

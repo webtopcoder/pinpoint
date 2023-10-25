@@ -5,7 +5,7 @@ import styles from "./contact-validator/LoginForm.module.css";
 import { ContactFormValidator } from "./contact-validator/validater-hook";
 import useNotify from "@/hooks/useNotify";
 import { userService } from "@/services/index";
-import FormGroup from "../Authentication/FormGroup";
+import FormGroup from "../Auth/FormGroup";
 
 const Contactus = () => {
   const { notify } = useNotify();

@@ -42,21 +42,21 @@ const RightSidebar = ({
     {
       key: '1',
       label: (
-        <Link href="/authentication/user/login">User</Link>
+        <Link href="/auth/user/login">User</Link>
       ),
       icon: <UserOutlined />,
     },
     {
       key: '2',
       label: (
-        <Link href="/authentication/partner/login">Partner</Link>
+        <Link href="/auth/partner/login">Partner</Link>
       ),
       icon: <UserOutlined />,
     },
     // {
     //   key: '3',
     //   label: (
-    //     <Link href="/authentication/eventhost/login">Event Host</Link>
+    //     <Link href="/auth/eventhost/login">Event Host</Link>
     //   ),
     //   icon: <UserOutlined />,
     // },
@@ -66,21 +66,21 @@ const RightSidebar = ({
     {
       key: '1',
       label: (
-        <Link href="/authentication/user/register">User</Link>
+        <Link href="/auth/user/register">User</Link>
       ),
       icon: <UserAddOutlined />,
     },
     {
       key: '2',
       label: (
-        <Link href="/authentication/partner/register">Partner</Link>
+        <Link href="/auth/partner/register">Partner</Link>
       ),
       icon: <UserAddOutlined />,
     },
     // {
     //   key: '3',
     //   label: (
-    //     <Link href="/authentication/eventhost/register">Event Host</Link>
+    //     <Link href="/auth/eventhost/register">Event Host</Link>
     //   ),
     //   icon: <UserAddOutlined />,
     // },

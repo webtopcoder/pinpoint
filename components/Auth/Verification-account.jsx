@@ -111,7 +111,7 @@ const VerificationAccount = () => {
                 textAlign: "center",
               }}
             >
-              <Link href="/authentication/login">
+              <Link href="/auth/login">
                 <a role="button" className="lost-your-password">Login</a>
               </Link>
             </div>

@@ -162,7 +162,7 @@ const LoginForm = ({ onLoginUser, token, loggedInRole, option, onChangeRole }) =
               </div>
             </div>
             <div className="col-lg-6 col-md-6 col-sm-6 lost-your-password-wrap">
-              <Link href="/authentication/lost-password">
+              <Link href="/auth/lost-password">
                 <a className="lost-your-password">forgot password</a>
               </Link>
             </div>
@@ -177,7 +177,7 @@ const LoginForm = ({ onLoginUser, token, loggedInRole, option, onChangeRole }) =
           <div className="col-12">
             <p className="account-desc">
               Don't have an account?
-              <Link href={`/authentication/signup`}>
+              <Link href={`/auth/signup`}>
                 <a>{"  "}Sign Up{"  "}</a>
               </Link>{" "}
               here for free!

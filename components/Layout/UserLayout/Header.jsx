@@ -106,12 +106,12 @@ const Navbar5 = ({
                   </li>
                   <li className="nav-item mobile">
                     <Space>
-                      <Link href="/authentication/login">
+                      <Link href="/auth/login">
                         <a className="btn-style-one blue-dark-color">
                           Log In
                         </a>
                       </Link>
-                      <Link href="/authentication/signup">
+                      <Link href="/auth/signup">
                         <a className="btn-style-one white-color">
                           Sign Up
                           {/* <i className="bx bx-chevron-right"></i> */}
@@ -171,12 +171,12 @@ const Navbar5 = ({
               )}
               <div className="others-option desktop">
                 <Space>
-                  <Link href="/authentication/login">
+                  <Link href="/auth/login">
                     <a className="btn-style-one blue-dark-color">
                       Log In
                     </a>
                   </Link>
-                  <Link href="/authentication/signup">
+                  <Link href="/auth/signup">
                     <a className="btn-style-one white-color">
                       Sign Up
                       {/* <i className="bx bx-chevron-right"></i> */}

@@ -11,7 +11,7 @@ import useNotify from "@/hooks/useNotify";
 import { settingService } from "@/services/index";
 import FormGroup from "../FormGroup";
 import { connect } from "react-redux";
-import PartnerModal from "@/components/Authentication/AdditionUser/partnersModal";
+import PartnerModal from "@/components/Auth/AdditionUser/partnersModal";
 
 const antIcon = (
   <LoadingOutlined

@@ -1,21 +1,21 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import Login from "@/components/Authentication/LoginForm";
+import Register from "@/components/Auth/Partner/PartnerRegister";
 
-const partnerLogin = () => {
+const partnerRegister = () => {
   return (
     <>
-      <PageTitle page="PARTNER LOGIN" />
+      <PageTitle page="PARTNER SIGNUP" />
       <div className="profile-authentication-area ptb-100">
         <div className="container">
           <div className="page-title-content">
-            <span className="sub-title">PARTNER LOGIN</span>
+            <span className="sub-title">PARTNER SIGN UP</span>
           </div>
         </div>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-12"></div>
-            <Login role={"partner"} />
+            <Register />
             <div className="col-lg-3 col-md-12"></div>
           </div>
         </div>
@@ -24,4 +24,6 @@ const partnerLogin = () => {
   );
 };
 
-export default partnerLogin;
+partnerRegister.authenticate = false;
+
+export default partnerRegister;

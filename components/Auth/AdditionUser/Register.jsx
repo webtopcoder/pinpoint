@@ -60,7 +60,7 @@ const AdditionUserRegister = () => {
     })
       .then(() => {
         notify("success", "Added Successfully");
-        router.push("/authentication/additionuser/login");
+        router.push("/auth/additionuser/login");
       })
       .catch((error) => {
         notify(

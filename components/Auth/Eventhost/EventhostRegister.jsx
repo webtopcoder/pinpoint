@@ -191,7 +191,7 @@ const EventhostRegister = ({
         setLoading(false);
         notify("success", "Register successfully");
         router.push({
-          pathname: '/authentication/thank-you',
+          pathname: '/auth/verification',
           query: {
             type: 'eventhost',
             registration_email: form.email
@@ -343,7 +343,7 @@ const EventhostRegister = ({
             <div className="col-12">
               <p className="account-desc">
                 Already have A Event Host ? Login{" "}
-                <Link href="/authentication/eventhost/login">
+                <Link href="/auth/eventhost/login">
                   <a>HERE</a>
                 </Link>{" "}
                 for free!

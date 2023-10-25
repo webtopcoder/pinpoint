@@ -5,7 +5,7 @@ import logo from "@/public/images/logo.png";
 import Layout from "../../layout";
 import PageTitle from "@/components/Layout/PageTitle";
 import passwordGroup from "@/public/images/user/email-verification-code.png";
-import VerificationStep from "@/components/Authentication/Verification-account";
+import VerificationStep from "@/components/Auth/Verification-account";
 
 const Verification = () => {
   return (

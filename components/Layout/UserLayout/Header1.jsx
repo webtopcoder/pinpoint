@@ -286,10 +286,10 @@ const Header = ({
                             okText="User"
                             cancelText="Partner"
                             onCancel={() =>
-                              SignupOrLogin("/authentication/partner/login")
+                              SignupOrLogin("/auth/partner/login")
                             }
                             onConfirm={() =>
-                              SignupOrLogin("/authentication/user/login")
+                              SignupOrLogin("/auth/user/login")
                             }
                           >
                             <a href="#">
@@ -310,10 +310,10 @@ const Header = ({
                             okText="User"
                             cancelText="Partner"
                             onCancel={() =>
-                              SignupOrLogin("/authentication/partner/register")
+                              SignupOrLogin("/auth/partner/register")
                             }
                             onConfirm={() =>
-                              SignupOrLogin("/authentication/user/register")
+                              SignupOrLogin("/auth/user/register")
                             }
                           >
                             <a href="#">

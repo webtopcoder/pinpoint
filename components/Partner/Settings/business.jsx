@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./settings.module.css";
 import useNotify from "@/hooks/useNotify";
-import { useRegisterFormValidator } from "../../Authentication/Partner/hooks/use-partner-register-validator";
+import { useRegisterFormValidator } from "../../Auth/Partner/hooks/use-partner-register-validator";
 import { Col, Row, Layout, Button, Spin } from "antd";
 import {
   DoubleLeftOutlined,
   LoadingOutlined
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import FormGroup from "../../Authentication/FormGroup";
+import FormGroup from "../../Auth/FormGroup";
 import { settingService } from "@/services/index";
 
 const { Content } = Layout;
