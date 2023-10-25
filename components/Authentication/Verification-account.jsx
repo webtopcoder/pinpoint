@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import { Spin, Divider } from 'antd';
 import Image from "next/image";
-import { useLostPasswordFormValidator } from "./User/hooks/use-lost-password-validator";
 import useNotify from "@/hooks/useNotify";
 import { authService } from "@/services/index";
 import AuthCode from "react-auth-code-input";
@@ -14,9 +13,6 @@ const VerificationAccount = () => {
   const { notify } = useNotify();
   const [loading, setLoading] = useState(false);
   const [nextstep, setStep] = useState(false);
-  const [form, setForm] = useState({
-    userInfo: "",
-  });
   const { type, registration_email } = router.query;
 
   async function handleOnChange(res) {
@@ -45,62 +41,6 @@ const VerificationAccount = () => {
   };
 
   async function handleResendEmail() {
-    const data = {
-      email: form.userInfo,
-    };
-    await setLoading(true);
-    await authService.recoveryPassword(data)
-      .then(async () => {
-        await setLoading(false);
-        notify("success", "Email has been resent");
-      })
-      .catch(async error => {
-        await setLoading(false);
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
-
-  const { errors, validateForm, onBlurField } = useLostPasswordFormValidator(form);
-
-  const onUpdateField = (e) => {
-    const field = e.target.name;
-    const nextFormState = {
-      ...form,
-      [field]: e.target.value,
-    };
-    setForm(nextFormState);
-    if (errors[field].dirty)
-      validateForm({
-        form: nextFormState,
-        errors,
-        field,
-      });
-  };
-
-  async function onSubmitForm(e) {
-    e.preventDefault();
-    const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
-    if (!isValid) return;
-
-    await authService.recoveryPassword({ emailOrUsername: form.userInfo, })
-      .then(() => {
-        setStep(true);
-        notify("success", "Email has been sent");
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
-
-  async function handleResendEmail() {
     setLoading(true);
     const data = {
       email: registration_email,
@@ -123,7 +63,7 @@ const VerificationAccount = () => {
   return (
     <div className="col-lg-6 col-md-12 col-sm-12">
       <div className="login-form">
-        <form onSubmit={onSubmitForm} style={{
+        <form style={{
           display: nextstep ? 'none' : 'block'
         }}>
           <div className="auth-space"></div>

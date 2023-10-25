@@ -149,9 +149,9 @@ const UserRegister = ({ token, loggedInRole }) => {
     await authService.RegisterUser(formRequest)
       .then(() => {
         setLoading(false);
-        notify("success", "Register successfully");
+        notify("success", "Register Successfully");
         router.push({
-          pathname: '/authentication/thank-you',
+          pathname: '/authentication/verification',
           query: {
             type: 'user',
             registration_email: formRequest.email

@@ -199,9 +199,9 @@ const PartnerRegister = ({
     await authService.RegisterUser(data)
       .then(() => {
         setLoading(false);
-        notify("success", "Register successfully");
+        notify("success", "Register Successfully");
         router.push({
-          pathname: '/authentication/thank-you',
+          pathname: '/authentication/verification',
           query: {
             type: 'partner',
             registration_email: form.email
