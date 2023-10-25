@@ -47,7 +47,7 @@ const Faq = () => {
                 className="input-search"
                 placeholder="Search a question..."
               />
-              <button type="submit">Search</button>
+              <button type="submit">Searchs</button>
             </form>
           </div>
         </div>
