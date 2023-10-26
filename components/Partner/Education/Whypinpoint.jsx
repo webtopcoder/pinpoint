@@ -1,10 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import whyPartner from "@/public/images/partner/why_partner.png";
-import bannerHero1Desktop from "@/public/images/landing/hero_1.svg";
-import shapeImg10 from "@/public/images/shape/shape14.png";
-import shapeImg11 from "@/public/images/shape/shape15.png";
+import shapeImg14 from "@/public/images/shape/shape14.png";
+import shapeImg15 from "@/public/images/shape/shape15.png";
 
 const Whypinpoint = () => {
   return (
@@ -84,10 +82,10 @@ const Whypinpoint = () => {
         </div>
       </div>
       <div className="shape10">
-        <Image src={shapeImg10} alt="shape" />
+        <Image src={shapeImg14} alt="shape" />
       </div>
       <div className="shape11">
-        <Image src={shapeImg11} alt="shape" />
+        <Image src={shapeImg15} alt="shape" />
       </div>
     </div>
   );

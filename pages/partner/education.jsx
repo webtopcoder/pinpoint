@@ -3,10 +3,7 @@ import React from "react";
 import Whypartner from "@/components/Partner/Education/Whypinpoint";
 import Howtouse from "@/components/Partner/Education/Howtouse";
 import Partners from "@/components/Partner/Education/Partners";
-import Aboutus from "@/components/Landing/Aboutus";
 import Feature from "@/components/Partner/Education/Feature";
-import Contactus from "@/components/Landing/Contactus";
-import Testimonial from "@/components/Landing/Testimonial";
 import PageTitle from "@/components/Layout/PageTitle";
 import Layout from "../../layout";
 
