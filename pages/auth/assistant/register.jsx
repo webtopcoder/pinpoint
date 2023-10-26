@@ -1,0 +1,53 @@
+import React from "react";
+import PageTitle from "@/components/Layout/PageTitle";
+import AssistantRegister from "@/components/Auth/Assistant/Register";
+import Layout from "../../../layout";
+import Link from "@/utils/ActiveLink";
+import Image from "next/image";
+import logo from "@/public/images/logo.png";
+import passwordGroup from "@/public/images/assistant/signup_assistant.png";
+
+const Assistant = () => {
+  return (
+    <>
+      <PageTitle page="ASSISTANT REGISTER | PINPOINT" />
+      <div className="page-title-area">
+        <div className="container">
+          <div className="page-title-content">
+            <span className="sub-title">Authentication</span>
+            <h1>Create Assistant</h1>
+          </div>
+        </div>
+      </div>
+      <div className="profile-authentication-area ptb-100">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6 col-md-12 user-login-image desktop">
+              <div className="login-form">
+                <div className="logo-center">
+                  <Link href="/">
+                    <a className="navbar-brand">
+                      <Image src={logo} alt="site logo" />
+                    </a>
+                  </Link>
+                </div>
+                <p>
+                  Forgot Your Password? <br /> Don't worry, we've got you covered. Follow the steps to reset your password. Your security is our priority.
+                </p>
+                <Image src={passwordGroup} alt="login group" />
+              </div>
+            </div>
+            <AssistantRegister />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+Assistant.authenticate = false;
+
+Assistant.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
+export default Assistant

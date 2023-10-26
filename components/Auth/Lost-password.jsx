@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Steps } from 'antd';
+import { Steps, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from "./validate.module.css";
 import { Spin } from 'antd';
@@ -137,8 +137,8 @@ const LostPassword = () => {
               </Spin>
             </div>
           </div>
-          {/* <div className="row auth-divider"></div>
-          <div className="col-12">
+          <Divider />
+          {/* <div className="col-12">
             <p className="account-desc">
               <Link href="/">
                 <a>Home</a>

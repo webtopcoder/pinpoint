@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import useNotify from "@/hooks/useNotify";
-import { Spin } from 'antd';
+import { Spin, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -52,7 +52,7 @@ const PartnerRegister = ({
     lat: "",
     lng: "",
   });
-  const [terms, setTerms] = useState(false);
+  const [terms, setTerms] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -393,7 +393,7 @@ const PartnerRegister = ({
             </Spin>
           </div>
         </div>
-        {/* <div className="row auth-divider"></div> */}
+        <Divider />
         <div className="col-12">
           <p className="account-desc">
             Already have an account?
@@ -403,13 +403,6 @@ const PartnerRegister = ({
             here!
           </p>
         </div>
-        {/* <div className="col-12">
-          <p className="account-desc">
-            <Link href="/login">
-              <a>WHO AM I ? </a>
-            </Link>
-          </p>
-        </div> */}
       </form>
     </>
   );

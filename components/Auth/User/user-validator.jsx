@@ -65,6 +65,13 @@ export const StateValidator = (state) => {
   return "";
 };
 
+export const PartnerValidator = (partner) => {
+  if (!partner) {
+    return "Partner is required";
+  }
+  return "";
+};
+
 export const passwordValidator = (password) => {
   if (!password) {
     return "Password is required";

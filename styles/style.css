@@ -20,6 +20,7 @@ IT Startup Banner Area CSS
 
 .ant-radio-button-wrapper-checked {
   background: var(--blueColor) !important;
+  border-color: var(--blueColor) !important;
 }
 
 a.lost-your-password:hover {
@@ -51,11 +52,37 @@ a.lost-your-password:hover {
   margin-bottom: 14px;
 }
 
+.verify-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.verify-wrap a {
+  background: var(--blueColor);
+  color: white;
+  font-size: larger !important;
+  padding: 3px 10px;
+  border-left: 3px solid;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+.verify-wrap a:hover {
+  background: var(--redLightColor);
+}
+
 .pass-wrap .pass-eye {
   font-size: 25px;
   position: absolute;
   top: 25%;
   right: 4%;
+}
+
+.verify-wrap .pass-eye {
+  font-size: 25px;
+  position: absolute;
+  top: 12%;
+  right: 2%;
 }
 
 .pass-wrap .pass-eye:hover {
@@ -1624,6 +1651,7 @@ Services Area CSS
 .overview-box .overview-content .overview-list li:last-child {
   margin-bottom: 0;
 }
+
 /* 
 .overview-item {
   padding-bottom: 100px;

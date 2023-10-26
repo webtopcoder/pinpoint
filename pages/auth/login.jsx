@@ -6,6 +6,7 @@ import Layout from "../../layout";
 import logo from "@/public/images/logo.png";
 import userLoginGroup from "@/public/images/user/user-login-group.png";
 import partnerLoginGroup from "@/public/images/partner/partner-login-group.png";
+import assistantLoginGroup from "@/public/images/assistant/signup_assistant.png";
 import Link from "@/utils/ActiveLink";
 
 const AuthLogin = () => {
@@ -39,7 +40,7 @@ const AuthLogin = () => {
                 <p>
                   Join Pinpoint!<br /> Changing the game on how customers will experience, locate and socialize with their local favorites!
                 </p>
-                <Image src={option === "user" ? userLoginGroup : partnerLoginGroup} alt="login group" />
+                <Image src={option === "user" ? userLoginGroup : option === "partner" ? partnerLoginGroup : assistantLoginGroup} alt="login group" />
               </div>
             </div>
             <Login option={option} onChangeRole={onChangeRole} />

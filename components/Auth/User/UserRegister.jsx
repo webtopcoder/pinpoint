@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import csc from "country-state-city";
 import Select from 'react-select';
 import Link from "next/link";
-import { Spin } from 'antd';
+import { Spin, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from "../validate.module.css";
 import { useRegisterFormValidator } from "./hooks/use-user-register-form-validator";
@@ -43,8 +43,6 @@ const UserRegister = ({ token, loggedInRole }) => {
   });
   const [loading, setLoading] = useState(false);
   const [terms, setTerms] = useState(true);
-  const [isClearableState, setIsClearableState] = useState(true);
-  const [isClearableCity, setIsClearableCity] = useState(true);
   const [cityList, setCityList] = useState([]);
   const { notify } = useNotify();
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(form);
@@ -229,7 +227,7 @@ const UserRegister = ({ token, loggedInRole }) => {
                 }),
               }}
               name="state"
-              isClearable={isClearableState}
+              isClearable={true}
               defaultValue={form.state}
               onChange={onUpdateState}
               onBlur={onBlurField}
@@ -259,7 +257,7 @@ const UserRegister = ({ token, loggedInRole }) => {
               }}
               name="city"
               defaultValue={form.city}
-              isClearable={isClearableCity}
+              isClearable={true}
               onChange={onUpdateCity}
               onBlur={onBlurField}
               options={cityList?.map(item => ({
@@ -345,7 +343,7 @@ const UserRegister = ({ token, loggedInRole }) => {
           </Spin>
         </div>
       </div>
-      {/* <div className="row auth-divider"></div> */}
+      <Divider />
       <div className="col-12">
         <p className="account-desc">
           Already have an account?
@@ -355,13 +353,6 @@ const UserRegister = ({ token, loggedInRole }) => {
           here!
         </p>
       </div>
-      {/* <div className="col-12">
-            <p className="account-desc">
-              <Link href="/login">
-                <a>WHO AM I?</a>
-              </Link>
-            </p>
-          </div> */}
     </form>
   );
 };

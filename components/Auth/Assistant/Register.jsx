@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { settingService } from "@/services/index";
 import FormGroup from "../FormGroup";
+import { Divider } from 'antd';
 
 const AdditionUserRegister = () => {
   const router = useRouter();
@@ -74,21 +75,14 @@ const AdditionUserRegister = () => {
   return (
     <div className="col-lg-6 col-md-12">
       <div className="login-form">
-        <div className="logo-center">
-          <Link href="/">
-            <a className="navbar-brand">
-              <Image src={logo} alt="site logo" />
-            </a>
-          </Link>
-        </div>
         <form onSubmit={onSubmitForm}>
           <div className="auth-space"></div>
-          <p className="text-center">
+          <p className="text-left">
             A Partner With Pinpoint has invited you to help manager their page.<br />
-            To access this partners page, please creat a login below
+            To access this partners page, please create a login below
           </p>
           <FormGroup
-            label="Partner"
+            label="Partner *"
             errors={errors}
             value={form.username}
             onChange={onUpdateField}
@@ -98,7 +92,7 @@ const AdditionUserRegister = () => {
             disabled
           />
           <FormGroup
-            label="Email"
+            label="Email *"
             value={form.email}
             onChange={onUpdateField}
             onBlur={onBlurField}
@@ -107,7 +101,7 @@ const AdditionUserRegister = () => {
             disabled
           />
           <FormGroup
-            label="Password"
+            label="Password *"
             value={form?.password}
             onChange={onUpdateField}
             onBlur={onBlurField}
@@ -117,7 +111,7 @@ const AdditionUserRegister = () => {
           />
           <FormGroup
             errors={errors}
-            label="Confirm Password"
+            label="Confirm Password *"
             value={form.confirmPassword}
             onChange={onUpdateField}
             onBlur={onBlurField}
@@ -129,14 +123,7 @@ const AdditionUserRegister = () => {
               <button className="loginsignButton" type="submit">Submit</button>
             </div>
           </div>
-          <div className="row auth-divider"></div>
-          <div className="col-12">
-            <p className="account-desc">
-              <Link href="/">
-                <a>WHO AM I?</a>
-              </Link>
-            </p>
-          </div>
+          <Divider />
         </form>
       </div>
     </div>
