@@ -6,6 +6,7 @@ import { authService } from "@/services/index";
 import AuthCode from "react-auth-code-input";
 import { useRouter } from "next/router";
 import like from "@/public/images/user/like.png";
+import signup_approve_email from "@/public/images/user/signup_approve_email.png";
 import Link from "next/link";
 
 const VerificationAccount = () => {
@@ -98,11 +99,20 @@ const VerificationAccount = () => {
             display: nextstep ? 'block' : 'none'
           }}>
             <div className="auth-space desktop"></div>
-            <h2>Your account is Verified! </h2>
+            <h2>
+              {
+                type === "user" ?
+                  "Your account is Verified!" : "Your account will be verified by admin and you will be notified soon !"
+              }
+            </h2>
             <p className="text-left">
-              Thank you for joining Pinpoint! <br />Please login using the credentials you used during sign up.
+              {
+                type === "user" ?
+                  `Thank you for joining Pinpoint! Please login using the credentials you used during sign up.` : "This will not grant you access to Pinpoint. You info has been sent to an Admin to grant you access. You will receive an email shortly with the status of your approval!"
+              }
+
             </p>
-            <Image src={like} alt="like" />
+            <Image src={type === "user" ? like : signup_approve_email} alt="like" />
             <div className="auth-space"></div>
             <Divider />
             <div
@@ -111,8 +121,8 @@ const VerificationAccount = () => {
                 textAlign: "center",
               }}
             >
-              <Link href="/auth/login">
-                <a role="button" className="lost-your-password">Login</a>
+              <Link href={type === "user" ? "/auth/login" : "/"}>
+                <a role="button" className="lost-your-password">{type === "user" ? "Login" : "Back to Home"}</a>
               </Link>
             </div>
           </div>
