@@ -1,7 +1,4 @@
 import { React, useEffect, useState } from "react";
-import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
 import { useCreatePasswordFormValidator } from "../User/hooks/use-create-password-validator";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
