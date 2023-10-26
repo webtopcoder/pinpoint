@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import AboutImg from "@/public/images/landing/iphone.png";
+import EducationFeature from "@/public/images/partner/education_feature.png";
 
 const Feature = () => {
   return (
@@ -9,7 +9,8 @@ const Feature = () => {
         <div className="section-title">
           <h2 style={{
             color: 'white'
-          }}>Features for Users</h2>
+          }}>Features for Partners</h2>
+          <div className="auth-space desktop"></div>
           <div className="auth-space desktop"></div>
         </div>
 
@@ -25,8 +26,8 @@ const Feature = () => {
                   <ul className="overview-list">
                     <li data-aos="fade-up" data-aos-duration="1200">
                       <span>
-                        <i className="flaticon-menu"></i>
-                        Seamless Navigation
+                        <i className="flaticon-place"></i>
+                        Live Location
                       </span>
                     </li>
                     <li
@@ -35,8 +36,8 @@ const Feature = () => {
                       data-aos-delay="100"
                     >
                       <span>
-                        <i className="flaticon-place"></i>
-                        Open Locations Only
+                        <i className="flaticon-fast-time"></i>
+                        Departure Time Automation
                       </span>
                     </li>
                     <li
@@ -45,8 +46,8 @@ const Feature = () => {
                       data-aos-delay="200"
                     >
                       <span>
-                        <i className="flaticon-consulting"></i>
-                        Review Your Visits
+                        <i className="flaticon-draw-check-mark"></i>
+                        Live Checks-ins
                       </span>
                     </li>
                     <li
@@ -55,8 +56,8 @@ const Feature = () => {
                       data-aos-delay="300"
                     >
                       <span>
-                        <i className="flaticon-people"></i>
-                        Socialize with Friends
+                        <i className="flaticon-satisfaction"></i>
+                        Collect Reviews from Customers
                       </span>
                     </li>
                   </ul>
@@ -73,7 +74,7 @@ const Feature = () => {
             >
               <div className="img">
                 <Image
-                  src={AboutImg}
+                  src={EducationFeature}
                   data-aos="fade-up"
                   data-aos-duration="1200"
                   alt="overview-image"
@@ -93,18 +94,8 @@ const Feature = () => {
                   <ul className="overview-list">
                     <li data-aos="fade-up" data-aos-duration="1200">
                       <span>
-                        <i className="flaticon-life"></i>
-                        FREE to Use!
-                      </span>
-                    </li>
-                    <li
-                      data-aos="fade-up"
-                      data-aos-duration="1200"
-                      data-aos-delay="100"
-                    >
-                      <span>
                         <i className="flaticon-tap"></i>
-                        Book FoodTrucks for Your Event
+                        Receive Bookings
                       </span>
                     </li>
                     <li
@@ -113,8 +104,18 @@ const Feature = () => {
                       data-aos-delay="200"
                     >
                       <span>
-                        <i className="flaticon-facebook-app-symbol"></i>
+                        <i className="flaticon-united"></i>
                         Social Link Sharing
+                      </span>
+                    </li>
+                    <li
+                      data-aos="fade-up"
+                      data-aos-duration="1200"
+                      data-aos-delay="100"
+                    >
+                      <span>
+                        <i className="flaticon-facebook-app-symbol"></i>
+                        Share Location arrival with Facebook
                       </span>
                     </li>
                     <li
@@ -123,8 +124,8 @@ const Feature = () => {
                       data-aos-delay="300"
                     >
                       <span>
-                        <i className="flaticon-online-registration"></i>
-                        Post and View Photos
+                        <i className="flaticon-happy"></i>
+                        Easy to Use
                       </span>
                     </li>
                   </ul>

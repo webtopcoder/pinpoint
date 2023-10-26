@@ -19,7 +19,6 @@ Global CSS
   --paragraphColor: #616b7e;
   --blackColor: #000000;
   --blueColor: #175594;
-  --blueColor: #175594;
   --whiteColor: #ffffff;
   --graylightColor: #d9d9d9b8;
   --graydarkColor: #2f2f2f;
@@ -158,6 +157,10 @@ p:last-child {
   background-color: #f9f9f9;
 }
 
+.bg-redLightColor {
+  background-color: var(--redLightolor);
+}
+
 .bg-dark-gray {
   background-color: #2f2f2f;
 }
@@ -229,6 +232,10 @@ p:last-child {
 
 .bg-711f7f {
   background-color: #711f7f;
+}
+
+.bg-5f7a97 {
+  background-color: #5f7a97;
 }
 
 .mt-minus-40 {

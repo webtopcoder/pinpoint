@@ -63,6 +63,7 @@ a.lost-your-password:hover {
   cursor: pointer;
 }
 
+
 .it-startup-banner-area {
   background-color: #f9f9f9;
   position: relative;
@@ -1623,10 +1624,10 @@ Services Area CSS
 .overview-box .overview-content .overview-list li:last-child {
   margin-bottom: 0;
 }
-
+/* 
 .overview-item {
   padding-bottom: 100px;
-}
+} */
 
 .overview-item .overview-image {
   z-index: 1;
@@ -1727,8 +1728,8 @@ Services Area CSS
       from(rgba(236, 34, 38, 1)),
       to(rgba(236, 34, 38, 0)));
   background: linear-gradient(180deg,
-      rgba(236, 34, 38, 0.6) 0%,
-      rgba(236, 34, 38, 0) 100%);
+      rgb(255 255 255 / 60%) 0%,
+      rgb(255 255 255 / 10%) 100%);
   margin-left: 80px;
   margin-top: 30px;
 }
@@ -5079,6 +5080,12 @@ Funfacts Area CSS
   background-color: var(--blackColor);
 }
 
+.team-member-list .shape15 {
+  bottom: auto;
+  right: -7%;
+  top: -10%;
+}
+
 .shape16 {
   left: -8.5%;
   bottom: -15%;
@@ -5279,7 +5286,7 @@ Team Area CSS
   filter: drop-shadow(0px 4px 21px rgba(0, 0, 0, 0.23));
   -webkit-transition: var(--transition);
   transition: var(--transition);
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 .team-member-list ul li span {
@@ -5292,8 +5299,8 @@ Team Area CSS
 }
 
 .team-member-list ul li:nth-child(1) {
-  top: 40%;
-  left: 40%;
+  top: 22%;
+  left: 60%;
 }
 
 .team-member-list ul li:nth-child(1) img {
@@ -5302,31 +5309,31 @@ Team Area CSS
 }
 
 .team-member-list ul li:nth-child(2) {
-  left: 140px;
+  left: 50px;
   top: 45px;
 }
 
 .team-member-list ul li:nth-child(3) {
-  left: 0;
-  bottom: 180px;
+  left: 127px;
+  bottom: 193px;
 }
 
 .team-member-list ul li:nth-child(4) {
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /* left: 0; */
+  right: 14%;
+  bottom: 18%;
   text-align: center;
   margin-left: -50px;
 }
 
 .team-member-list ul li:nth-child(5) {
-  right: 0;
-  bottom: 80px;
+  right: 83px;
+  bottom: 40%;
 }
 
 .team-member-list ul li:nth-child(6) {
-  right: 40px;
-  top: 80px;
+  right: 57%;
+  top: 47%;
 }
 
 .team-member-list ul li.hover {
@@ -8769,7 +8776,7 @@ Page Title Area CSS
 }
 
 .page-title-content form button:hover {
-  background-color: var(--blueDarkColor);
+  background-color: var(--blueColor);
   color: var(--whiteColor);
 }
 

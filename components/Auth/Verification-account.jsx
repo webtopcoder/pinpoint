@@ -27,7 +27,7 @@ const VerificationAccount = () => {
           setLoading(false);
           notify("success", "Email verified successfully");
           setStep(true);
-          // router.push(`/authentication/${type}/login`);
+          // router.push(`/auth/${type}/login`);
         })
         .catch((error) => {
           setLoading(false);

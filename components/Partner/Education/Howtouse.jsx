@@ -13,74 +13,6 @@ const Howtouse = () => {
           }}>PIN</span><span style={{
             color: '#EC2226'
           }}>POINT</span></h2>
-          <div className="auth-space"></div>
-          <div className="auth-space"></div>
-          <span className="ribbona">As a User</span>
-        </div>
-        <div className="row justify-content-center">
-          <div
-            className="col-lg-3 col-md-6 col-sm-12"
-            data-aos="fade-up"
-            data-aos-duration="1200"
-          >
-            <div className="single-features-box active">
-              <div className="icon">
-                <i className="flaticon-user-1"></i>
-              </div>
-              <h3>Sign up for FREE!</h3>
-              <p>
-                Easily sign upwith <b>Pinpoint</b> to start the adventure today!
-              </p>
-            </div>
-          </div>
-          <div
-            className="col-lg-3 col-md-6 col-sm-12"
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-delay="100"
-          >
-            <div className="single-features-box active">
-              <div className="icon">
-                <i className="flaticon-employee"></i>
-              </div>
-              <h3>Build Your Profile</h3>
-              <p>
-                Setup your <b>profile</b> to leave a great impression!
-              </p>
-            </div>
-          </div>
-          <div
-            className="col-lg-3 col-md-6 col-sm-12"
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-delay="200"
-          >
-            <div className="single-features-box active">
-              <div className="icon">
-                <i className="flaticon-loupe"></i>
-              </div>
-              <h3>Find a Partner</h3>
-              <p>
-                Hop on our <b>Interactive Map</b> to find nearby Food Trucks and Coffee Carts! Favourite a location to be <b>notified</b> when they become active!
-              </p>
-            </div>
-          </div>
-          <div
-            className="col-lg-3 col-md-6 col-sm-12"
-            data-aos="fade-up"
-            data-aos-delay="300"
-            data-aos-duration="1200"
-          >
-            <div className="single-features-box active">
-              <div className="icon">
-                <i className="flaticon-united"></i>
-              </div>
-              <h3>Get Social</h3>
-              <p>
-                After your visit, don't forget to leave feedback! Share photos, reviews etc. to expose this gem with your friends!
-              </p>
-            </div>
-          </div>
         </div>
       </div>
       <div className="container">
@@ -152,15 +84,6 @@ const Howtouse = () => {
                 Collect <b>feedback</b> from your customers and make their experience <b>unforgettable</b>!
               </p>
             </div>
-          </div>
-        </div>
-        <div
-          className="col-lg-12 col-md-12 col-sm-8"
-        >
-          <div className="lets-start-box">
-            <Link href="/partner/education">
-              <Button type="link" icon={<ArrowRightOutlined />} size="large">Learn more about Pinpoint Partner</Button>
-            </Link>
           </div>
         </div>
       </div>

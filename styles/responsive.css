@@ -794,11 +794,11 @@
     padding-right: calc(var(--bs-gutter-x) * 0.5);
   }
 
-  .overview-item {
+  /* .overview-item {
     border-bottom: 1px solid #ebebeb;
     padding-bottom: 60px;
     margin-bottom: 60px;
-  }
+  } */
 
   .overview-item:last-child {
     border-bottom: none;
@@ -8489,9 +8489,9 @@
     padding-right: 270px;
   }
 
-  .shape16 {
+  /* .shape16 {
     display: none;
-  }
+  } */
 
   /*chat-bot-banner-area-css*/
   .chat-bot-banner-area .container-fluid {
