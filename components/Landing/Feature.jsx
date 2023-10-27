@@ -9,7 +9,7 @@ const Feature = () => {
         <div className="section-title">
           <h2 style={{
             color: 'white'
-          }}>Features for Users</h2>
+          }}>User Features</h2>
           <div className="auth-space desktop"></div>
         </div>
 
@@ -64,7 +64,7 @@ const Feature = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-4 col-md-6 col-sm-12 overview-item">
+          <div className="col-lg-4 col-md-6 col-sm-12 overview-item desktop">
             <div
               className="overview-image style-three"
               data-aos="fade-up"
@@ -104,7 +104,7 @@ const Feature = () => {
                     >
                       <span>
                         <i className="flaticon-tap"></i>
-                        Book FoodTrucks for Your Event
+                        Book Food Trucks for Your Event
                       </span>
                     </li>
                     <li
@@ -129,6 +129,23 @@ const Feature = () => {
                     </li>
                   </ul>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-4 col-md-6 col-sm-12 overview-item mobile">
+            <div
+              className="overview-image style-three"
+              data-aos="fade-up"
+              data-aos-duration="1200"
+              data-aos-delay="100"
+            >
+              <div className="img">
+                <Image
+                  src={AboutImg}
+                  data-aos="fade-up"
+                  data-aos-duration="1200"
+                  alt="overview-image"
+                />
               </div>
             </div>
           </div>

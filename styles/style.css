@@ -4444,7 +4444,7 @@ Testimonials Area CSS
 
 .testimonials-item {
   border-radius: 50% 44% 50% 50% / 39% 41% 46% 50%;
-  background-color: var(--whiteColor);
+  background-color: var(--blueColor);
   text-align: center;
   margin-bottom: 75px;
   margin-top: 35px;
@@ -4459,11 +4459,11 @@ Testimonials Area CSS
   font-size: 70px;
   position: relative;
   margin-bottom: -20px;
-  color: var(--purpleColor);
+  color: var(--redLightColor);
 }
 
 .testimonials-item p {
-  color: var(--blackColor);
+  color: var(--whiteColor);
   margin-bottom: 0;
   font-size: 18px;
   font-weight: 500;
@@ -4485,18 +4485,19 @@ Testimonials Area CSS
   width: 25px;
   height: 2px;
   position: absolute;
-  background-color: var(--lightGreenColor);
+  background-color: var(--redLightColor);
 }
 
 .testimonials-item .info h3 {
   font-size: 18px;
   margin-bottom: 8px;
+  color: white !important;
 }
 
 .testimonials-item .info span {
   display: block;
   font-size: 15px;
-  color: var(--paragraphColor);
+  color: var(--graylightColor);
 }
 
 .testimonials-item .img,
@@ -4544,12 +4545,12 @@ Testimonials Area CSS
 
 .testimonials-slides-four.owl-theme .owl-dots .owl-dot:hover span,
 .testimonials-slides-four.owl-theme .owl-dots .owl-dot.active span {
-  border-color: var(--purpleColor);
+  border-color: var(--redLightColor);
 }
 
 .testimonials-slides-four.owl-theme .owl-dots .owl-dot:hover span::before,
 .testimonials-slides-four.owl-theme .owl-dots .owl-dot.active span::before {
-  background-color: var(--purpleColor);
+  background-color: var(--redLightColor);
 }
 
 @-webkit-keyframes movescale {
@@ -12022,26 +12023,6 @@ Sidebar Modal CSS
 
 .section-title.white-color .sub-title {
   color: #e7272d !important;
-}
-
-.testimonials-item {
-  background-color: #2f2f2f !important;
-}
-
-.testimonials-item i {
-  color: #e7272d !important;
-}
-
-.testimonials-item p {
-  color: white !important;
-}
-
-.testimonials-item .info h3 {
-  color: white !important;
-}
-
-.testimonials-item .info::before {
-  background-color: #e7272d !important;
 }
 
 .overview-box .overview-image {

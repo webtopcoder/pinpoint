@@ -27,7 +27,7 @@ const Banner = () => {
                 data-aos-duration="1200"
                 data-aos-delay="200"
               >
-                Skip Google Search - Pinpoint Brings Your Favourites to You!
+                Skip the Google Search - Pinpoint Brings Your Favourites to You!
               </p>
               <div className="desktop">
                 <Image src={bannerHero1Desktop} alt="banner-image" />
@@ -51,7 +51,7 @@ const Banner = () => {
                   <div className="col-lg-8 col-md-4">
                     <div className="form-group">
                       <label>Location</label>
-                      <input type="text" placeholder="FINDNEARBY FOOD TRUCKS" />
+                      <input type="text" placeholder="FIND NEARBY FOOD TRUCKS" />
                     </div>
                   </div>
                   <div className="col-lg-4 col-md-4">
