@@ -51,13 +51,19 @@ const Banner = () => {
                   <div className="col-lg-8 col-md-4">
                     <div className="form-group">
                       <label>Location</label>
-                      <input type="text" placeholder="FIND NEARBY FOOD TRUCKS" />
+                      <input style={{
+                        pointerEvents: 'none',
+
+                      }} type="text" placeholder="FIND NEARBY FOOD TRUCKS" />
                     </div>
                   </div>
-                  <div className="col-lg-4 col-md-4">
-                    <button type="submit" className="btn-style-one red-dark-color">
-                      Search <i className="bx bx-search"></i>
-                    </button>
+                  <div className="col-lg-4 col-md-4 desktop">
+                    <i style={{
+                      fontSize: 50,
+                      color: '#8d1a1c',
+                      marginTop: 10,
+                      float: 'right'
+                    }} className="bx bx-search"></i>
                   </div>
                 </div>
               </form>
