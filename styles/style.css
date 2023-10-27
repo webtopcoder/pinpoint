@@ -3327,7 +3327,7 @@ Our Goal Area CSS
 }
 
 .goal-content .overview-list li:hover i {
-  background-color: var(--darkGreenColor);
+  background-color: var(--blueColor);
   color: var(--whiteColor);
 }
 
