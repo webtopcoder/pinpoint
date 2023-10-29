@@ -77,7 +77,7 @@ const Howtouse = () => {
               </div>
               <h3>Get Social</h3>
               <p>
-                After your visit, don't forget to leave feedback! Share photos, reviews etc. to expose this gem with your friends!
+                After your visit, don't forget to leave feedback! Share photos, reviews etc. to expose this gem to your friends!
               </p>
             </div>
           </div>

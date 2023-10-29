@@ -31,7 +31,7 @@ const Howtouse = () => {
               <div className="icon">
                 <i className="flaticon-user-1"></i>
               </div>
-              <h3>Sign up</h3>
+              <h3>Sign Up</h3>
               <p>
                 Register your business with Pinpoint and <b>Get Started!</b>
               </p>
@@ -47,9 +47,9 @@ const Howtouse = () => {
               <div className="icon">
                 <i className="flaticon-placeholder"></i>
               </div>
-              <h3>Create location</h3>
+              <h3>Create Location</h3>
               <p>
-                If your business has multiple locations , <b>Create</b> a location for each . The physical address can be changed upon arriving on our <b>map</b>!
+                If your business has multiple locations, <b>Create</b> a location for each. The physical address can be changed upon arriving on our <b>map</b>!
               </p>
             </div>
           </div>
@@ -65,7 +65,7 @@ const Howtouse = () => {
               </div>
               <h3>Arrive Location</h3>
               <p>
-                Just arrived to the location. you will be operating at <b>today</b>? Simply quick arrive at this Location on our map for customers to see.
+                Just arrived to the location you will be <b>operating at today</b>? Simply quick arrive at this Location on our map for customers to see.
               </p>
             </div>
           </div>
