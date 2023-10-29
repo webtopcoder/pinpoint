@@ -57,6 +57,7 @@
     "react-spring": "^9.6.0",
     "react-tabs": "^4.0.1",
     "react-toastify": "^9.1.1",
+    "reactstrap": "^9.2.0",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",

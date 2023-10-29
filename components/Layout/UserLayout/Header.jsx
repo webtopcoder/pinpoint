@@ -107,38 +107,36 @@ const Navbar5 = ({
                       Contact Us
                     </a>
                   </li>
-
-
                   <li className="nav-item">
                     <Link href="/faq" activeClassName="active">
                       <a className="nav-link">FAQ</a>
                     </Link>
                   </li>
-                  <li className="nav-item mobile">
-                    <Space>
-                      <Link href="/auth/login">
-                        <a className="btn-style-one blue-dark-color">
-                          Log In
-                        </a>
-                      </Link>
-                      <Link href="/auth/signup">
-                        <a className="btn-style-one white-color">
-                          Sign Up
-                          {/* <i className="bx bx-chevron-right"></i> */}
-                        </a>
-                      </Link>
-                      {/* <div
-                    className="search-icon"
-                    onClick={handleToggleSearchModal}
-                  >
-                    <i className="bx bxs-cart"></i>
-                  </div> */}
-                    </Space>
-                  </li>
+                  {token ? '' :
+                    <li className="nav-item mobile">
+                      <Space>
+                        <Link href="/auth/login">
+                          <a className="btn-style-one blue-dark-color">
+                            Log In
+                          </a>
+                        </Link>
+                        <Link href="/auth/signup">
+                          <a className="btn-style-one white-color">
+                            Sign Up
+                            {/* <i className="bx bx-chevron-right"></i> */}
+                          </a>
+                        </Link>
+                        {/* <div
+                  className="search-icon"
+                  onClick={handleToggleSearchModal}
+                >
+                  <i className="bx bxs-cart"></i>
+                </div> */}
+                      </Space>
+                    </li>}
                 </ul>
               </div>
-
-              {token && (
+              {token ? (
                 <div className="others-option d-flex align-items-center">
                   {/* <div className="contact-info">
                              <div>
@@ -178,29 +176,30 @@ const Navbar5 = ({
                     </div>
                   </div>
                 </div>
-              )}
-              <div className="others-option desktop">
-                <Space>
-                  <Link href="/auth/login">
-                    <a className="btn-style-one blue-dark-color">
-                      Log In
-                    </a>
-                  </Link>
-                  <Link href="/auth/signup">
-                    <a className="btn-style-one white-color">
-                      Sign Up
-                      {/* <i className="bx bx-chevron-right"></i> */}
-                    </a>
-                  </Link>
-                  {/* <div
-                    className="search-icon"
-                    onClick={handleToggleSearchModal}
-                  >
-                    <i className="bx bxs-cart"></i>
-                  </div> */}
-                </Space>
+              ) :
+                <div className="others-option desktop">
+                  <Space>
+                    <Link href="/auth/login">
+                      <a className="btn-style-one blue-dark-color">
+                        Log In
+                      </a>
+                    </Link>
+                    <Link href="/auth/signup">
+                      <a className="btn-style-one white-color">
+                        Sign Up
+                        {/* <i className="bx bx-chevron-right"></i> */}
+                      </a>
+                    </Link>
+                    {/* <div
+                  className="search-icon"
+                  onClick={handleToggleSearchModal}
+                >
+                  <i className="bx bxs-cart"></i>
+                </div> */}
+                  </Space>
 
-              </div>
+                </div>}
+
             </nav>
           </div>
         </div>
