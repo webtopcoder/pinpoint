@@ -59,6 +59,16 @@ const Feature = () => {
                         Socialize with Friends
                       </span>
                     </li>
+                    <li
+                      data-aos="fade-up"
+                      data-aos-duration="1200"
+                      data-aos-delay="300"
+                    >
+                      <span>
+                        <i className="flaticon-online-registration"></i>
+                        Online Ordering
+                      </span>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -104,7 +114,7 @@ const Feature = () => {
                     >
                       <span>
                         <i className="flaticon-tap"></i>
-                        Book Food Trucks for Your Event
+                        Book Partner Locations for Your Event
                       </span>
                     </li>
                     <li

@@ -55,6 +55,14 @@ const Whypinpoint = () => {
                   <i className="flaticon-draw-check-mark"></i>
                   Receive private bookings from customers.
                 </li>
+                <li
+                  data-aos="fade-up"
+                  data-aos-duration="1200"
+                  data-aos-delay="200"
+                >
+                  <i className="flaticon-draw-check-mark"></i>
+                  Receive Orders from customers.
+                </li>
               </ul>
               <div
                 className="btn-box"

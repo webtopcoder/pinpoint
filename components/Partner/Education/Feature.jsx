@@ -60,6 +60,12 @@ const Feature = () => {
                         Collect Reviews from Customers
                       </span>
                     </li>
+                    <li data-aos="fade-up" data-aos-duration="1200">
+                      <span>
+                        <i className="flaticon-online-registration"></i>
+                        Receive Orders
+                      </span>
+                    </li>
                   </ul>
                 </div>
               </div>

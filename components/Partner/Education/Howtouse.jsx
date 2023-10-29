@@ -65,7 +65,7 @@ const Howtouse = () => {
               </div>
               <h3>Arrive Location</h3>
               <p>
-                Just arrived to the location. you will be operating at <b>today</b>? Simply quick arrive at this location on our map for customers to see.
+                Just arrived to the location. you will be operating at <b>today</b>? Simply quick arrive at this Location on our map for customers to see.
               </p>
             </div>
           </div>

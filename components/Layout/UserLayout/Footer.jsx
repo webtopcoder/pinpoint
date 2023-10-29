@@ -58,7 +58,7 @@ const FooterNine = () => {
                     <i className="flaticon-facebook-app-symbol"></i>
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     href="https://www.twitter.com/_PinpointSocial"
                     target="_blank"
@@ -66,7 +66,7 @@ const FooterNine = () => {
                   >
                     <i className="flaticon-twitter"></i>
                   </a>
-                </li>
+                </li> */}
                 <li>
                   <a
                     href="https://www.instagram.com/thepinpointsocial"
@@ -76,7 +76,7 @@ const FooterNine = () => {
                     <i className="flaticon-instagram"></i>
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     href="https://www.snapchat.com/add/pinpointsocial?share_id=lmgsWMD_i3s&locale=en-US"
                     target="_blank"
@@ -84,7 +84,7 @@ const FooterNine = () => {
                   >
                     <i className="flaticon-snapchat"></i>
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
