@@ -22,8 +22,12 @@ function UserService() {
     return api(`notification`, "get", {}, params);
   }
 
-  function UpdatedNotifications(id) {
-    return api(`notification/${id}/mark-as-read`, "post");
+  function UpdatedNotifications(id, flag) {
+    return api(`notification/${id}/${flag}/update`, "post");
+  }
+
+  function notificationUpdateAll(flag) {
+    return api(`notification/${flag}/updateAll`, "post");
   }
 
   function clearNotifications() {
@@ -37,7 +41,8 @@ function UserService() {
     getNewpartners,
     getNotifications,
     UpdatedNotifications,
-    clearNotifications
+    clearNotifications,
+    notificationUpdateAll
   };
 }
 

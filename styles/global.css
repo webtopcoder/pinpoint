@@ -156,6 +156,11 @@ p:last-child {
   background-color: #f9f9f9;
 }
 
+
+.bg-f8fbff {
+  background-color: #f8fbff;
+}
+
 .bg-redLightColor {
   background-color: var(--redLightolor);
 }

@@ -18,7 +18,7 @@ const antIcon = (
   />
 );
 
-const NotificationDropdown = () => {
+const NotificationDropdown = ({ user_id }) => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
   const avatarurl = `${apiBaseUrl}/avatar/`;
@@ -48,7 +48,8 @@ const NotificationDropdown = () => {
     await userService.getNotifications({
       sort: "createdAt:desc",
       limit: 10,
-      page: count
+      page: count,
+      is_read: false
     }).then(async (res) => {
       await setNotifications(res);
       if (count !== 1) {
@@ -99,10 +100,11 @@ const NotificationDropdown = () => {
                 </a>
               </div>
               <div className="col-auto">
-                <a href="#" className="small">
-                  {" "}
-                  View All
-                </a>
+                <Link
+                  href='/auth/notifications'
+                  className="small">
+                  <a>View All</a>
+                </Link>
               </div>
             </Row>
           </div>

@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import ProfileMenu from "./ProfileMenu";
 import NotificationDropdown from "./NotificationDropdown";
 import MessageDropdown from "./MessageDropdown";
+import { logout } from "@/src/redux/User/actions";
 
 const index = ({
   toggle,
@@ -127,7 +128,6 @@ const index = ({
                         <Link href="/auth/signup">
                           <a className="btn-style-one white-color">
                             Sign Up
-                            {/* <i className="bx bx-chevron-right"></i> */}
                           </a>
                         </Link>
                         {/* <div
@@ -177,7 +177,7 @@ const index = ({
                         <i className="flaticon-menu"></i>
                       </button> */}
                     <MessageDropdown />
-                    <NotificationDropdown />
+                    <NotificationDropdown user_id={user_id} />
                     <ProfileMenu fullName={fullName} avatarImg={avatarImg} />
                   </div>
                 </div>
@@ -239,107 +239,6 @@ const index = ({
                   <i className="flaticon-search-interface-symbol"></i>
                 </button>
               </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Sidebar Modal */}
-      <div
-        className={`sidebarModal modal right ${isActiveSidebarModal ? "" : "show"
-          }`}
-      >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <button
-              type="button"
-              className="close"
-              onClick={handleToggleSidebarModal}
-            >
-              <i className="flaticon-cancel"></i>
-            </button>
-
-            <div className="modal-body">
-              <div className="logo">
-                <Link href="/">
-                  <a className="d-inline-block">
-                    <Image src={logo} alt="image" />
-                  </a>
-                </Link>
-              </div>
-
-              <ul className="sidebar-contact-info">
-                <li>
-                  <i className="bx bx-phone-call"></i>
-                  <span>Mon to Fri : 10:00AM - 06:00PM</span>
-                  <a href="tel:1235421457852">+123 54214 578 52</a>
-                </li>
-                <li>
-                  <i className="bx bx-envelope"></i>
-                  <span>Do You Have a Question?</span>
-                  <a href="mailto:hello@abev.com">hello@abev.com</a>
-                </li>
-                <li>
-                  <i className="bx bx-map"></i>
-                  <span>2750 Quadra Street Victoria, Canada</span>
-                  <a href="#" target="_blank" rel="noreferrer">
-                    Find Us on Map
-                  </a>
-                </li>
-              </ul>
-
-              <ul className="social-links">
-                <li>
-                  <a
-                    href="https://www.facebook.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="flaticon-facebook-app-symbol"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.twitter.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="flaticon-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.linkedin.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="flaticon-linkedin"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.instagram.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="flaticon-instagram"></i>
-                  </a>
-                </li>
-              </ul>
-
-              <div className="box">
-                <p>Latest resources, sent to your inbox weekly</p>
-                <form className="newsletter-form">
-                  <input
-                    type="text"
-                    className="input-newsletter"
-                    placeholder="Enter your email address"
-                  />
-                  <button type="submit" className="btn-style-one green-color">
-                    Subscribe Now <i className="bx bx-chevron-right"></i>
-                  </button>
-                </form>
-              </div>
             </div>
           </div>
         </div>

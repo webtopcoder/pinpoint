@@ -10,6 +10,16 @@ export function formatDateEvent(date) {
     return Date;
 }
 
+export function formatDateNoti(inputDate) {
+    // Parse the input date string using moment
+    const date = moment(inputDate);
+  
+    // Use the format function from moment to format the date
+    const formattedDate = date.format("DD MMM, YYYY");
+  
+    return formattedDate;
+  }
+
 export function getDiffToNow(date) {
     return moment(date).fromNow(true);
 }

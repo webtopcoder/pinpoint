@@ -8,7 +8,6 @@ import passwordGroup from "@/public/images/user/email-verification-code.png";
 import VerificationStep from "@/components/Auth/Verification-account";
 
 const Verification = () => {
-
   return (
     <>
       <PageTitle page="VERIFY" />

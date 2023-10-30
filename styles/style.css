@@ -189,6 +189,32 @@ span.ribbona::after {
   top: 0;
 }
 
+
+/*================================================
+Notification page
+=================================================*/
+.page-content {
+  padding: 18px 18px 60px
+}
+
+.pagination-rounded .page-link {
+  border: none;
+  border-radius: 30px !important;
+  height: 32px;
+  line-height: 32px;
+  margin: 0 3px !important;
+  padding: 0;
+  text-align: center;
+  width: 32px;
+}
+
+.page-item.active .page-link{
+  background-color: var(--blueColor);
+}
+/* .page-item .page-link{
+  color: var(--blueColor);
+} */
+
 /*================================================
 Business Banner Area CSS
 =================================================*/
