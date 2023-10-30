@@ -6,9 +6,11 @@ import logo from "@/public/images/logo.png";
 import courseImg from "@/public/images/navbar.jpg";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import ProfileMenu from "/ProfileMenu";
+import ProfileMenu from "./ProfileMenu";
+import NotificationDropdown from "./NotificationDropdown";
+import MessageDropdown from "./MessageDropdown";
 
-const Navbar5 = ({
+const index = ({
   toggle,
   onLogout,
   user_id,
@@ -150,31 +152,32 @@ const Navbar5 = ({
                              </div>
                            </div> */}
                   <div className="info d-flex align-items-center">
-                    <div
+                    {/* <div
                       className="search-icon"
                       onClick={handleToggleSearchModal}
                     >
                       <Badge count={5} size="small">
                         <i className="flaticon-email-1"></i>
                       </Badge>
-                    </div>
-                    <div
+                    </div> */}
+                    {/* <div
                       className="search-icon"
                       onClick={handleToggleSearchModal}
                     >
                       <i className="flaticon-bell"></i>
-                    </div>
+                    </div> */}
                     {/* <div
                                className="search-icon"
                                onClick={handleToggleSearchModal}
                              >
                                <i className="flaticon-search-interface-symbol"></i>
                              </div> */}
-                    <div>
-                      <button type="button" onClick={handleToggleSidebarModal}>
+                    {/* <button type="button" onClick={handleToggleSidebarModal}>
                         <i className="flaticon-menu"></i>
-                      </button>
-                    </div>
+                      </button> */}
+                    <MessageDropdown />
+                    <NotificationDropdown />
+                    <ProfileMenu />
                   </div>
                 </div>
               ) :
@@ -361,4 +364,4 @@ const mapDispatchToProps = (dispatch) => ({
   onLogout: (cb) => dispatch(logout(cb)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar5);
+export default connect(mapStateToProps, mapDispatchToProps)(index);

@@ -1,3 +1,110 @@
+.dropdown-menu {
+  animation-name: DropDownSlide;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  margin: 0;
+  position: absolute;
+  z-index: 1000;
+}
+
+.dropdown-menu.show {
+  top: 100% !important;
+}
+
+.dropdown-menu-end[style] {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.dropdown-menu[data-popper-placement^="right"],
+.dropdown-menu[data-popper-placement^="top"],
+.dropdown-menu[data-popper-placement^="left"] {
+  top: auto !important;
+  animation: none !important;
+}
+
+@keyframes DropDownSlide {
+  100% {
+    transform: translateY(0);
+  }
+
+  0% {
+    transform: translateY(10px);
+  }
+}
+
+@media (min-width: 600px) {
+  .dropdown-menu-lg {
+    width: 380px;
+  }
+
+  .dropdown-menu-md {
+    width: 240px;
+  }
+}
+
+.dropdown-mega {
+  position: static !important;
+}
+
+.dropdown-megamenu[style] {
+  padding: 20px;
+  left: 20px !important;
+  right: 20px !important;
+}
+
+.dropdown-mega-menu-xl {
+  width: 40rem;
+}
+
+.dropdown-mega-menu-lg {
+  width: 26rem;
+}
+
+.dropdown-toggle:after {
+  display: none !important;
+}
+
+.dropstart .dropdown-toggle:before {
+  display: none !important;
+}
+
+.notification-item .d-flex {
+  padding: 0.75rem 1rem !important;
+}
+
+.notification-item .d-flex:hover {
+  background-color: var(--lightWhiteColor)
+}
+
+.avatar-xs {
+  height: 2rem;
+  width: 2rem;
+}
+
+.flex-grow-1 p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.header-profile-user {
+  background-color: #f8f9fa;
+  height: 36px;
+  padding: 3px;
+  width: 36px;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.header-item {
+  background-color: transparent !important;
+  color: var(--blackColor) !important;
+  font-size: 1rem !important;
+  padding: 0;
+}
+
 .navbar-area {
   top: 0;
   left: 0;
@@ -624,8 +731,12 @@
 }
 
 .main-nav .navbar .others-option .info div {
-  display: inline-block;
-  margin-left: 25px;
+  /* display: inline-block; */
+  /* margin-left: 25px; */
+}
+
+.main-nav .navbar .others-option .info div.search-icon {
+  margin-right: 25px;
 }
 
 .main-nav .navbar .others-option .info div.search-icon i {
@@ -645,7 +756,7 @@
 
 .main-nav .navbar .others-option .info div button {
   border: 0;
-  width: 44px;
+  /* width: 44px; */
   height: 44px;
   cursor: pointer;
   font-size: 20px;
@@ -910,6 +1021,20 @@
 
 /* Max width 767px */
 @media only screen and (max-width: 767px) {
+  .navbar-area .dropdown .dropdown-menu {
+    left: -170px !important;
+    right: 10px !important;
+    width: 343px;
+  }
+
+  .navbar-area .dropdown {
+    position: static;
+  }
+
+  .noti-icon:active{
+    border-color: transparent !important;
+  }
+
   .navbar-area {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -1102,6 +1227,7 @@
   .main-nav .navbar .others-option .btn-style-one i {
     display: none;
   }
+
 }
 
 /* Min width 992px to Max width 1199px */
@@ -1201,12 +1327,24 @@
   .main-nav .navbar .others-option .btn-style-one i {
     display: none;
   }
+
+  .d-xl-inline-block {
+    display: inline-block !important;
+    transform: none !important;
+    position: unset !important;
+  }
 }
 
 /* Min width 1200px to Max width 1399px */
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
   .navbar-area.navbar-style-two .main-nav .navbar .navbar-nav {
     margin-left: 0;
+  }
+
+  .d-xl-inline-block {
+    display: inline-block !important;
+    transform: none !important;
+    position: unset !important;
   }
 
   .navbar-area.navbar-style-two .main-nav .navbar .navbar-nav .nav-item {
@@ -1290,6 +1428,12 @@
     margin-left: 30px;
   }
 
+  .d-xl-inline-block {
+    display: inline-block !important;
+    transform: none !important;
+    position: unset !important;
+  }
+
   .navbar-area.navbar-style-two .main-nav .navbar .others-option .contact-info div {
     padding-left: 26px;
     margin-right: 15px;
@@ -1302,11 +1446,17 @@
 }
 
 /* Min width 1600px */
-@media only screen and (min-width: 1600px) {
+@media only screen and (min-width: 1470px) {
   .main-nav .container-fluid {
     max-width: 1900px;
     padding-left: 100px;
     padding-right: 100px;
+  }
+
+  .d-xl-inline-block {
+    display: inline-block !important;
+    transform: none !important;
+    position: unset !important;
   }
 }
 
