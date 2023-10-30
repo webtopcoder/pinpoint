@@ -27,7 +27,6 @@ const UserRegister = ({ token, loggedInRole }) => {
   const country = csc.getCountryByCode(countryCode);
   const states = csc.getStatesOfCountry(country.isoCode);
   const router = useRouter();
-  const [defaultAvatar, setAvatar] = useState();
   const [form, setForm] = useState({
     role: "user",
     firstName: "",
@@ -52,15 +51,6 @@ const UserRegister = ({ token, loggedInRole }) => {
       router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/");
     }
   }, [token]);
-
-  useEffect(() => {
-    ongetDefaultAvatar();
-  }, []);
-
-  async function ongetDefaultAvatar() {
-    const result = await authService.getDefaultAvatar();
-    await setAvatar(result.result);
-  }
 
   const onUpdateField = (e) => {
     const field = e.target.name;
@@ -139,9 +129,6 @@ const UserRegister = ({ token, loggedInRole }) => {
         city: form.city,
         state: form.state,
       },
-      profile: {
-        avatar: defaultAvatar
-      }
     };
 
     await authService.RegisterUser(formRequest)

@@ -27,7 +27,6 @@ const PartnerRegister = ({
 
   let itemLocality = "";
   let itemState = "";
-  const [defaultAvatar, setAvatar] = useState();
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
     role: "partner",
@@ -83,11 +82,6 @@ const PartnerRegister = ({
     await setCategories(result.allcategories);
   }
 
-  async function ongetDefaultAvatar() {
-    const result = await authService.getDefaultAvatar();
-    await setAvatar(result.result);
-  }
-
   useEffect(() => {
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
@@ -114,7 +108,6 @@ const PartnerRegister = ({
     });
 
     ongetCategory();
-    ongetDefaultAvatar();
   }, []);
 
   const { errors, validateForm, onBlurField } = useRegisterFormValidator(
@@ -187,9 +180,6 @@ const PartnerRegister = ({
         state: addressForm.state,
         latitude: addressForm.lat,
         longitude: addressForm.lng,
-      },
-      profile: {
-        avatar: defaultAvatar
       },
       category: form.category,
       email: form.email,

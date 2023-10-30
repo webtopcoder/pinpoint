@@ -15,6 +15,7 @@ const index = ({
   onLogout,
   user_id,
   token,
+  fullName,
   avatarImg,
   role,
   newNotification,
@@ -177,7 +178,7 @@ const index = ({
                       </button> */}
                     <MessageDropdown />
                     <NotificationDropdown />
-                    <ProfileMenu />
+                    <ProfileMenu fullName={fullName} avatarImg={avatarImg} />
                   </div>
                 </div>
               ) :
@@ -355,6 +356,7 @@ const mapStateToProps = (state) => {
     user_id: state.user.user_id,
     role: state.user.role,
     avatarImg: state.user.avatar,
+    fullName: state.profile.userinfo.name,
     newNotification: state.socket.newNotification,
     additionRole: state.user.additionRole,
   };

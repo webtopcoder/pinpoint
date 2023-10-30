@@ -1,15 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import Link from "@/utils/ActiveLink";
-import { Badge } from 'antd';
+import { Badge, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { userService } from "@/services/index";
+import { getDiffToNow } from "@/utils/date";
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
 const NotificationDropdown = () => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
   const avatarurl = `${apiBaseUrl}/avatar/`;
+  const [count, setCount] = useState(1);
+  const [data, setData] = useState();
+  const [notifications, setNotifications] = useState();
+  const [loading, setLoading] = useState(false);
+
+  async function MarkNotifications() {
+    await userService.clearNotifications()
+      .then(() => {
+        initilize();
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
+  };
+
+  async function initilize() {
+
+    setLoading(true);
+    await userService.getNotifications({
+      sort: "createdAt:desc",
+      limit: 10,
+      page: count
+    }).then(async (res) => {
+      await setNotifications(res);
+      if (count !== 1) {
+        await setData(data.concat(res?.results));
+      }
+      else {
+        setData(res?.results);
+      }
+      setLoading(false);
+    }).catch((error) => {
+      console.log(error);
+      setLoading(false);
+    })
+  };
+
+  const onLoadMore = () => {
+    setCount(count + 1);
+    initilize();
+  };
+
+  useEffect(async () => {
+    initilize();
+  }, []);
 
   return (
     <React.Fragment>
@@ -28,18 +86,23 @@ const NotificationDropdown = () => {
             className="search-icon"
           // onClick={handleToggleSearchModal}
           >
-            <Badge count={5} size="small">
+            <Badge count={notifications?.totalResults} size="small">
               <i className="flaticon-bell"></i>
             </Badge>
           </div>
         </DropdownToggle>
-
         <DropdownMenu className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0">
           <div className="p-3">
             <Row className="align-items-center">
               <Col>
                 <h6 className="m-0">Notifications </h6>
               </Col>
+              <div className="col-auto">
+                <a onClick={MarkNotifications} className="small">
+                  {" "}
+                  Mark All
+                </a>
+              </div>
               <div className="col-auto">
                 <a href="#" className="small">
                   {" "}
@@ -50,99 +113,45 @@ const NotificationDropdown = () => {
           </div>
 
           <PerfectScrollbar style={{ height: "260px" }}>
-            <a href="" className="text-reset notification-item">
-              <div className="d-flex">
-                <img
-                  src={avatarurl + '20145331-1688404255867-648c4a84b8ec1739a9319690.png'}
-                  className="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div className="flex-grow-1">
-                  <h6 className="mt-0 mb-1">
-                    Your order is placed
-                  </h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      If several languages coalesce the grammar
-                    </p>
-                    <p className="mb-0">
-                      <i className="bx bx-time-five" />{" "}
-                      3 min ago
-                    </p>
+            {data && data?.map((item, index) => (
+              <a href="" className="text-reset notification-item">
+                <div className="d-flex">
+                  <img
+                    src={avatarurl + item?.actor?.profile?.avatar?.filepath}
+                    className="me-3 rounded-circle avatar-xs"
+                    alt="user-pic"
+                  />
+                  <div className="flex-grow-1">
+                    <Row className="align-items-center">
+                      <Col>
+                        <h6 className="m-0">{item?.actor?.businessname} </h6>
+                      </Col>
+                      {/* <div className="col-auto">
+                        <a onClick={MarkNotifications} className="small">
+                          {" "}
+                          Mark
+                        </a>
+                      </div> */}
+                    </Row>
+                    <div className="font-size-12 text-muted">
+                      <p className="mb-1">
+                        {item?.description}
+                      </p>
+                      <p className="mb-0">
+                        <i className="bx bx-time-five" />{" "}
+                        {getDiffToNow(item?.createdAt)} ago
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
-            <a href="" className="text-reset notification-item">
-              <div className="d-flex">
-                <img
-                  src={avatarurl + '20145331-1688404255867-648c4a84b8ec1739a9319690.png'}
-                  className="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div className="flex-grow-1">
-                  <h6 className="mt-0 mb-1">James Lemire</h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      It will seem like simplified English
-                    </p>
-                    <p className="mb-0">
-                      <i className="bx bx-time-five" />
-                      1 hours ago
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="" className="text-reset notification-item">
-              <div className="d-flex">
-                <div className="avatar-xs me-3">
-                  <span className="avatar-title bg-success rounded-circle font-size-16">
-                    <i className="bx bx-badge-check" />
-                  </span>
-                </div>
-                <div className="flex-grow-1">
-                  <h6 className="mt-0 mb-1">
-                    Your item is shipped
-                  </h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      If several languages coalesce the grammar
-                    </p>
-                    <p className="mb-0">
-                      <i className="bx bx-time-five" />{" "}
-                      3 min ago
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
+              </a>
+            ))}
 
-            <a href="" className="text-reset notification-item">
-              <div className="d-flex">
-                <img
-                  src={avatarurl + '20145331-1688404255867-648c4a84b8ec1739a9319690.png'}
-                  className="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div className="flex-grow-1">
-                  <h6 className="mt-0 mb-1">Salena Layfield</h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      As a skeptical Cambridge friend of mine occidental
-                    </p>
-                    <p className="mb-0">
-                      <i className="bx bx-time-five d-xl-inline-block" />
-                      1 hours ago
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
           </PerfectScrollbar>
+
           <div className="p-2 border-top d-grid">
-            <a className="btn btn-sm btn-link font-size-14 text-center" href="#">
-              <span key="t-view-more"><i className="bx bxs-chevron-right-circle me-1"></i>View More... </span>
+            <a className="btn btn-sm btn-link font-size-14 text-center" onClick={onLoadMore}>
+              <span key="t-view-more"><i className="bx bxs-chevron-right-circle me-1"></i>View More... <Spin spinning={loading} indicator={antIcon}></Spin> </span>
             </a>
           </div>
         </DropdownMenu>

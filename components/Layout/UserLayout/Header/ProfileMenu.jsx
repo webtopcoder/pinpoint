@@ -6,36 +6,25 @@ import {
     DropdownItem,
 } from "reactstrap";
 import { apiBaseUrl } from "@/utils/baseUrl";
+import { logout } from "@/src/redux/User/actions";
+import { connect } from "react-redux";
+import { useRouter } from "next/router";
 
 //i18n
 // Redux
 import Link from "@/utils/ActiveLink";
 
-// users
-
-// import user1 from "../../../assets/images/users/avatar-1.jpg";
-
-const ProfileMenu = () => {
+const ProfileMenu = ({ fullName, avatarImg, onLogout }) => {
     // Declare a new state variable, which we'll call "menu"
+    const router = useRouter();
     const [menu, setMenu] = useState(false);
     const avatarurl = `${apiBaseUrl}/avatar/`;
 
-    const [username, setusername] = useState("Admin");
-
-    // useEffect(() => {
-    //     if (localStorage.getItem("authUser")) {
-    //         if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-    //             const obj = JSON.parse(localStorage.getItem("authUser"));
-    //             setusername(obj.displayName);
-    //         } else if (
-    //             process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-    //             process.env.REACT_APP_DEFAULTAUTH === "jwt"
-    //         ) {
-    //             const obj = JSON.parse(localStorage.getItem("authUser"));
-    //             setusername(obj.username);
-    //         }
-    //     }
-    // }, [props.success]);
+    const onLogoutHandler = () => {
+        onLogout(() => {
+            router.push("/");
+        });
+    };
 
     return (
         <React.Fragment>
@@ -49,10 +38,11 @@ const ProfileMenu = () => {
                     id="page-header-user-dropdown"
                     tag="button"
                 >
-
-                    <img src={avatarurl + '20145331-1688404255867-648c4a84b8ec1739a9319690.png'} className="rounded-circle header-profile-user"
-                        alt="Header Avatar" />
-                    <span className="desktop d-none d-xl-inline-block ms-2 me-1">{username}</span>
+                    {avatarImg ? <img src={avatarurl + avatarImg} className="rounded-circle header-profile-user"
+                        alt="Header Avatar" /> : <i className="bx bxs-user-circle d-xl-inline-block" style={{
+                            fontSize: 32
+                        }}></i>}
+                    <span className="desktop d-none d-xl-inline-block ms-2 me-1">{fullName}</span>
                     <i className="bx bx-chevron-down d-xl-inline-block desktop"></i>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
@@ -72,7 +62,7 @@ const ProfileMenu = () => {
                     <div className="dropdown-divider" style={{
                         marginLeft: 0
                     }} />
-                    <a href="/logout" className="dropdown-item">
+                    <a onClick={() => onLogoutHandler()} className="dropdown-item">
                         <span><i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />Log out</span>
                     </a>
                 </DropdownMenu>
@@ -83,4 +73,8 @@ const ProfileMenu = () => {
 
 
 
-export default ProfileMenu;
+const mapDispatchToProps = (dispatch) => ({
+    onLogout: (cb) => dispatch(logout(cb)),
+});
+
+export default connect(undefined, mapDispatchToProps)(ProfileMenu);

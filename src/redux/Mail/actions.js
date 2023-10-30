@@ -94,7 +94,6 @@ export function downloadFile(filename) {
     api(`media/download/${filename}`, "get")
       .then((res) => {
         console.log(res.blob());
-
         let url = window.URL.createObjectURL(res);
         let a = document.createElement("a");
         a.href = url;

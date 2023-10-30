@@ -23,6 +23,10 @@
   animation: none !important;
 }
 
+.noti-icon:active {
+  border-color: transparent !important;
+}
+
 @keyframes DropDownSlide {
   100% {
     transform: translateY(0);
@@ -751,7 +755,7 @@
 }
 
 .main-nav .navbar .others-option .info div.search-icon i:hover {
-  color: var(--greenColor);
+  color: var(--blueColor);
 }
 
 .main-nav .navbar .others-option .info div button {
@@ -772,7 +776,6 @@
   left: 0;
   right: 0;
   top: 50%;
-  margin-top: 3px;
   position: absolute;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -1029,10 +1032,6 @@
 
   .navbar-area .dropdown {
     position: static;
-  }
-
-  .noti-icon:active{
-    border-color: transparent !important;
   }
 
   .navbar-area {
