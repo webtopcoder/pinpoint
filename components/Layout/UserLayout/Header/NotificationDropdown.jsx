@@ -24,13 +24,14 @@ const NotificationDropdown = () => {
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const [count, setCount] = useState(1);
   const [data, setData] = useState();
-  const [notifications, setNotifications] = useState();
+  const [TotalResults, setTotalResults] = useState();
   const [loading, setLoading] = useState(false);
 
   async function MarkNotifications() {
     await userService.clearNotifications()
-      .then(() => {
-        initilize();
+      .then(async () => {
+        await setCount(0);
+        await setTotalResults('');
       })
       .catch((error) => {
         console.log(error);
@@ -38,8 +39,11 @@ const NotificationDropdown = () => {
       });
   };
 
-  async function initilize() {
+  const onLoadMore = () => {
+    setCount(count + 1);
+  };
 
+  useEffect(async () => {
     setLoading(true);
     await userService.getNotifications({
       sort: "createdAt:desc",
@@ -58,16 +62,7 @@ const NotificationDropdown = () => {
       console.log(error);
       setLoading(false);
     })
-  };
-
-  const onLoadMore = () => {
-    setCount(count + 1);
-    initilize();
-  };
-
-  useEffect(async () => {
-    initilize();
-  }, []);
+  }, [count]);
 
   return (
     <React.Fragment>
@@ -86,8 +81,8 @@ const NotificationDropdown = () => {
             className="search-icon"
           // onClick={handleToggleSearchModal}
           >
-            <Badge count={notifications?.totalResults} size="small">
-              <i className="flaticon-bell"></i>
+            <Badge count={TotalResults} size="small">
+              <i className="flaticon-bell vibrate-bell"></i>
             </Badge>
           </div>
         </DropdownToggle>
@@ -148,7 +143,6 @@ const NotificationDropdown = () => {
             ))}
 
           </PerfectScrollbar>
-
           <div className="p-2 border-top d-grid">
             <a className="btn btn-sm btn-link font-size-14 text-center" onClick={onLoadMore}>
               <span key="t-view-more"><i className="bx bxs-chevron-right-circle me-1"></i>View More... <Spin spinning={loading} indicator={antIcon}></Spin> </span>

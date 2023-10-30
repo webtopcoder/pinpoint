@@ -23,13 +23,14 @@ const MessageDropdown = () => {
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const [count, setCount] = useState(1);
   const [data, setData] = useState();
-  const [Messages, setMessages] = useState();
+  const [TotalResults, setTotalResults] = useState();
   const [loading, setLoading] = useState(false);
 
   async function MarkMessages() {
     await mailService.clearMessages()
-      .then(() => {
-        initilize();
+      .then(async (res) => {
+        await setData(res);
+        await setTotalResults('');
       })
       .catch((error) => {
         console.log(error);
@@ -37,18 +38,23 @@ const MessageDropdown = () => {
       });
   };
 
-  async function initilize() {
+  async function onLoadMore() {
+    await setCount(count + 1);
+  }
+
+  useEffect(async () => {
     setLoading(true);
-    await mailService.getMessages({
+    await mailService.getIsReadEmails({
       sort: "createdAt:desc",
       limit: 10,
       page: count
     }).then(async (res) => {
-      await setMessages(res);
+      await setTotalResults(res?.totalResults);
       if (count !== 1) {
         await setData(data.concat(res?.results));
       }
       else {
+        console.log(res?.results)
         setData(res?.results);
       }
       setLoading(false);
@@ -56,16 +62,7 @@ const MessageDropdown = () => {
       console.log(error);
       setLoading(false);
     })
-  };
-
-  const onLoadMore = () => {
-    setCount(count + 1);
-    initilize();
-  };
-
-  useEffect(async () => {
-    initilize();
-  }, []);
+  }, [count]);
 
   return (
     <React.Fragment>
@@ -82,9 +79,8 @@ const MessageDropdown = () => {
         >
           <div
             className="search-icon"
-          // onClick={handleToggleSearchModal}
           >
-            <Badge count={Messages?.totalResults} size="small">
+            <Badge count={TotalResults} size="small">
               <i className="flaticon-email-1"></i>
             </Badge>
           </div>
@@ -115,14 +111,14 @@ const MessageDropdown = () => {
               <a href="" className="text-reset notification-item">
                 <div className="d-flex">
                   <img
-                    src={avatarurl + item?.actor?.profile?.avatar?.filepath}
+                    src={avatarurl + item?.from?.profile?.avatar?.filepath}
                     className="me-3 rounded-circle avatar-xs"
                     alt="user-pic"
                   />
                   <div className="flex-grow-1">
                     <Row className="align-items-center">
                       <Col>
-                        <h6 className="m-0">{item?.actor?.businessname} </h6>
+                        <h6 className="m-0">{item?.from?.name} </h6>
                       </Col>
                       {/* <div className="col-auto">
                         <a onClick={MarkMessages} className="small">
@@ -133,7 +129,9 @@ const MessageDropdown = () => {
                     </Row>
                     <div className="font-size-12 text-muted">
                       <p className="mb-1">
-                        {item?.description}
+                        {item?.message?.length > 50
+                          ? item?.message.substring(0, 50) + "..."
+                          : item?.message}
                       </p>
                       <p className="mb-0">
                         <i className="bx bx-time-five" />{" "}

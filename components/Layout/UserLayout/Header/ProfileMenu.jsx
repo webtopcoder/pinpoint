@@ -42,7 +42,7 @@ const ProfileMenu = ({ fullName, avatarImg, onLogout }) => {
                         alt="Header Avatar" /> : <i className="bx bxs-user-circle d-xl-inline-block" style={{
                             fontSize: 32
                         }}></i>}
-                    <span className="desktop d-none d-xl-inline-block ms-2 me-1">{fullName}</span>
+                    <span className="desktop d-none d-xl-inline-block ms-2 me-1">{localStorage.getItem('fullname')}</span>
                     <i className="bx bx-chevron-down d-xl-inline-block desktop"></i>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">

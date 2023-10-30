@@ -69,6 +69,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("token", action?.payload?.tokens?.access?.token);
       localStorage.setItem("role", action?.payload?.user?.role);
       localStorage.setItem("username", action?.payload?.user?.username);
+      localStorage.setItem("fullname", action?.payload?.user?.name);
       localStorage.setItem("user_id", action?.payload?.user?._id);
       localStorage.setItem("category", action?.payload?.user?.category);
       localStorage.setItem("businessname", action?.payload?.user?.businessname);
@@ -142,6 +143,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.removeItem("role");
       localStorage.removeItem("username");
       localStorage.removeItem("businessname");
+      localStorage.removeItem("name");
       localStorage.removeItem("avatar");
       localStorage.removeItem("user_id");
       localStorage.removeItem("additionFlag");
