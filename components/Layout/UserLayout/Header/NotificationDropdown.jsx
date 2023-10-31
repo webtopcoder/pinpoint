@@ -3,11 +3,11 @@ import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import Link from "@/utils/ActiveLink";
 import { Badge, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { userService } from "@/services/index";
 import { getDiffToNow } from "@/utils/date";
+import { useRouter } from "next/router";
 
 const antIcon = (
   <LoadingOutlined
@@ -22,6 +22,7 @@ const NotificationDropdown = ({ user_id }) => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
   const avatarurl = `${apiBaseUrl}/avatar/`;
+  const router = useRouter();
   const [count, setCount] = useState(1);
   const [data, setData] = useState();
   const [TotalResults, setTotalResults] = useState();
@@ -51,7 +52,7 @@ const NotificationDropdown = ({ user_id }) => {
       page: count,
       is_read: false
     }).then(async (res) => {
-      await setNotifications(res);
+      await setTotalResults(res?.totalResults);
       if (count !== 1) {
         await setData(data.concat(res?.results));
       }
@@ -100,11 +101,12 @@ const NotificationDropdown = ({ user_id }) => {
                 </a>
               </div>
               <div className="col-auto">
-                <Link
-                  href='/auth/notifications'
+                <a
+                  onClick={() => router.push('/auth/notifications')
+                  }
                   className="small">
                   <a>View All</a>
-                </Link>
+                </a>
               </div>
             </Row>
           </div>
@@ -143,7 +145,6 @@ const NotificationDropdown = ({ user_id }) => {
                 </div>
               </a>
             ))}
-
           </PerfectScrollbar>
           <div className="p-2 border-top d-grid">
             <a className="btn btn-sm btn-link font-size-14 text-center" onClick={onLoadMore}>
@@ -151,8 +152,8 @@ const NotificationDropdown = ({ user_id }) => {
             </a>
           </div>
         </DropdownMenu>
-      </Dropdown>
-    </React.Fragment>
+      </Dropdown >
+    </React.Fragment >
   );
 };
 

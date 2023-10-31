@@ -4,15 +4,12 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-} from "reactstrap";
+} from "reactstrap"; 3
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { logout } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-
-//i18n
-// Redux
-import Link from "@/utils/ActiveLink";
+import Link from "next/link";
 
 const ProfileMenu = ({ fullName, avatarImg, onLogout }) => {
     // Declare a new state variable, which we'll call "menu"
@@ -46,12 +43,12 @@ const ProfileMenu = ({ fullName, avatarImg, onLogout }) => {
                     <i className="bx bx-chevron-down d-xl-inline-block desktop"></i>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
-                    <DropdownItem tag="a" href="/profile">
+                    <DropdownItem tag="a" onClick={() => router.push('/')}>
                         {" "}
                         <i className="bx bx-user font-size-16 align-middle me-1" />
                         View Profile
                     </DropdownItem>
-                    <DropdownItem tag="a" href="/crypto-wallet">
+                    <DropdownItem tag="a" onClick={() => router.push('/profile/edit')} >
                         <i className="bx bx-wallet font-size-16 align-middle me-1" />
                         Edit Profile
                     </DropdownItem>

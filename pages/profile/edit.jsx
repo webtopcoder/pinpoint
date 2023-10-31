@@ -1,15 +1,12 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import BasicLayout from "../../../layout";
-import LeftSidebarPartner from "@/components/Layout/Partner/Sidebar";
-import LeftSidebarEventhost from "@/components/Layout/Eventhost/Sidebar";
-import Edit from "@/components/Profile/Edit";
+import BasicLayout from "../../layout";
+import Edit from "@/components/Profile/profileEdit/Main";
 import { Layout } from "antd";
 import { connect } from "react-redux";
 import useMedia from "@/hooks/useMedia";
 
-const PartnerEdit = ({ role }) => {
-  const isWebDevice = useMedia('(min-width:700px)');
+const EditProfile = () => {
   return (
     <>
       <PageTitle page="PROFILE EDIT" />
@@ -28,15 +25,9 @@ const PartnerEdit = ({ role }) => {
 };
 
 
-PartnerEdit.requireAuth = true;
-PartnerEdit.getLayout = function getLayout(page) {
+EditProfile.requireAuth = true;
+EditProfile.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };
 
-const mapStateToProps = (state) => {
-  return {
-    role: state.user.role,
-  };
-};
-
-export default connect(mapStateToProps)(PartnerEdit);
+export default EditProfile;

@@ -208,9 +208,92 @@ Notification page
   width: 32px;
 }
 
-.page-item.active .page-link{
+.page-item.active .page-link {
   background-color: var(--blueColor);
 }
+
+.checkout-tabs .nav-pills .nav-link {
+  background-color: var(--whiteColor);
+  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
+  margin-bottom: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.checkout-tabs .nav-pills .nav-link.active {
+  background-color: var(--blueColor);
+}
+
+.nav-pills>a,
+.nav-pills>li>a,
+.nav-tabs>li>a {
+  color: #343a40;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  color: var(--blueColor);
+  text-decoration: none;
+}
+
+.nav-pills .nav-link.active p {
+  color: var(--whiteColor) !important;
+}
+
+.checkout-tabs .nav-pills .nav-link .check-nav-icon {
+  font-size: 36px;
+}
+
+/*================================================
+ProfileEdit page
+=================================================*/
+
+.card {
+  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
+  margin-bottom: 24px;
+}
+
+.card-body {
+  color: var(--bs-card-color);
+  flex: 1 1 auto;
+  padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+}
+
+.card-title {
+  color: var(--graydarkColor);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 7px;
+}
+
+.login-form .card-title {
+  font-size: 20px;
+  color: var(--blueColor)
+}
+
+.basic-info .login-form form .form-group {
+  margin-bottom: 15px;
+}
+
+.basic-info .login-form form .form-group label {
+  font-size: 14px;
+}
+
+.ql-toolbar button {
+  margin-top: 0 !important
+}
+
+.social-wrap {
+  position: relative;
+}
+
+.social-wrap .social-icon {
+  font-size: 25px;
+  position: absolute;
+  top: 52%;
+  right: 4%;
+}
+
 /* .page-item .page-link{
   color: var(--blueColor);
 } */

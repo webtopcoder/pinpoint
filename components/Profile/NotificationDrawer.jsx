@@ -24,6 +24,7 @@ function NotificationDrawer({
   const router = useRouter();
 
   async function notificationRead(flag, item) {
+    
     await userService.UpdatedNotifications(item?._id)
       .then((res) => {
         if (res.success) {

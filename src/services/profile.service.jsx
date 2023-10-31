@@ -10,8 +10,12 @@ function ProfileService() {
     return api(`auth/me`, "get");
   }
 
-  function updateInfo(data) {
+  function updateBasicInfo(data) {
     return api(`profile/edit`, "patch", data)
+  }
+
+  function changePassword(data) {
+    return api(`profile/changePassword`, "patch", data)
   }
 
   function uploadAvatar(data) {
@@ -120,7 +124,6 @@ function ProfileService() {
   return {
     getInfo,
     getAllMemebers,
-    updateInfo,
     uploadAvatar,
     updatePoll,
     recommendPost,
@@ -145,7 +148,9 @@ function ProfileService() {
     cancelSubscription,
     Checkout,
     getDashboardInfoEventhost,
-    getSocials
+    getSocials,
+    updateBasicInfo,
+    changePassword
   };
 }
 

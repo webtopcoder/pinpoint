@@ -1,0 +1,160 @@
+import { useState } from "react";
+import {
+  FirstNameValidator,
+  LastNameValidator,
+  UserNameValidator,
+  BirthdayValidator,
+  CityValidator,
+  StateValidator,
+  emailValidator,
+} from "../user-validator.jsx";
+
+const touchErrors = (errors) => {
+  return Object.entries(errors).reduce((acc, [field, fieldError]) => {
+    acc[field] = {
+      ...fieldError,
+      dirty: true,
+    };
+    return acc;
+  }, {});
+};
+
+export const useEditFormValidator = (form) => {
+  const [errors, setErrors] = useState({
+    firstName: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    lastName: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    username: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    dob: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    city: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    state: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+    email: {
+      dirty: false,
+      error: false,
+      message: "",
+    },
+  });
+
+  const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
+    let isValid = true;
+
+    // Create a deep copy of the errors
+    let nextErrors = JSON.parse(JSON.stringify(errors));
+
+    // Force validate all the fields
+    if (forceTouchErrors) {
+      nextErrors = touchErrors(errors);
+    }
+
+    const {
+      firstName,
+      lastName,
+      username,
+      dob,
+      address,
+      email,
+    } = form;
+
+    const {city, state} = address;
+    if (nextErrors.firstName.dirty && (field ? field === "firstName" : true)) {
+      const firstNameMessage = FirstNameValidator(firstName, form);
+      nextErrors.firstName.error = !!firstNameMessage;
+      nextErrors.firstName.message = firstNameMessage;
+      if (!!firstNameMessage) isValid = false;
+    }
+
+    if (nextErrors.lastName.dirty && (field ? field === "lastName" : true)) {
+      const lastNameMessage = LastNameValidator(lastName, form);
+      nextErrors.lastName.error = !!lastNameMessage;
+      nextErrors.lastName.message = lastNameMessage;
+      if (!!lastNameMessage) isValid = false;
+    }
+
+    if (nextErrors.username.dirty && (field ? field === "username" : true)) {
+      const userNameMessage = UserNameValidator(username, form);
+      nextErrors.username.error = !!userNameMessage;
+      nextErrors.username.message = userNameMessage;
+      if (!!userNameMessage) isValid = false;
+    }
+
+    if (nextErrors.email.dirty && (field ? field === "email" : true)) {
+      const emailMessage = emailValidator(email, form);
+      nextErrors.email.error = !!emailMessage;
+      nextErrors.email.message = emailMessage;
+      if (!!emailMessage) isValid = false;
+    }
+
+    if (nextErrors.dob.dirty && (field ? field === "dob" : true)) {
+      const dobMessage = BirthdayValidator(dob, form);
+      nextErrors.dob.error = !!dobMessage;
+      nextErrors.dob.message = dobMessage;
+      if (!!dobMessage) isValid = false;
+    }
+
+    if (nextErrors.city.dirty && (field ? field === "city" : true)) {
+      const cityMessage = CityValidator(city);
+      nextErrors.city.error = !!cityMessage;
+      nextErrors.city.message = cityMessage;
+      if (!!cityMessage) isValid = false;
+    }
+
+    if (nextErrors.state.dirty && (field ? field === "state" : true)) {
+      const stateMessage = StateValidator(state);
+      nextErrors.state.error = !!stateMessage;
+      nextErrors.state.message = stateMessage;
+      if (!!stateMessage) isValid = false;
+    }
+
+    setErrors(nextErrors);
+
+    return {
+      isValid,
+      errors: nextErrors,
+    };
+  };
+
+  const onBlurField = (e) => {
+    const field = e.target.name;
+    const fieldError = errors[field];
+    if (fieldError?.dirty) return;
+
+    const updatedErrors = {
+      ...errors,
+      [field]: {
+        ...errors[field],
+        dirty: true,
+      },
+    };
+
+    validateForm({ form, field, errors: updatedErrors });
+  };
+
+  return {
+    validateForm,
+    onBlurField,
+    errors,
+  };
+};

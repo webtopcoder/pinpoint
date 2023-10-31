@@ -13,16 +13,19 @@ const PartnerEdit = ({ role }) => {
   return (
     <>
       <PageTitle page="PROFILE EDIT" />
-      <div className="page-title-area">
-        <div className="container">
-          <div className="page-title-content">
-            <h1>Edit Profile</h1>
-          </div>
-        </div>
+      <div className="page-partner-area">
+        <Layout
+          style={{
+            minHeight: isWebDevice ? "130vh" : 'auto',
+          }}
+        >
+          {role === "partner" && isWebDevice ?
+            <LeftSidebarPartner /> :
+            role === "eventhost" && isWebDevice ?
+              <LeftSidebarEventhost /> : ""}
+          <Edit />
+        </Layout>
       </div>
-      <div className="profile-authentication-area bg-f8fbff">
-        <Edit />
-      </div >
     </>
   );
 };

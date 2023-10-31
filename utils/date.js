@@ -10,15 +10,20 @@ export function formatDateEvent(date) {
     return Date;
 }
 
+export function formatDateDob(dob) {
+    const date = moment(dob).format('YYYY-MM-DD');
+    return date
+}
+
 export function formatDateNoti(inputDate) {
     // Parse the input date string using moment
     const date = moment(inputDate);
-  
+
     // Use the format function from moment to format the date
     const formattedDate = date.format("DD MMM, YYYY");
-  
+
     return formattedDate;
-  }
+}
 
 export function getDiffToNow(date) {
     return moment(date).fromNow(true);

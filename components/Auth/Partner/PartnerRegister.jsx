@@ -122,15 +122,7 @@ const PartnerRegister = ({
         ...addressForm,
         [field]: e.target.value,
       };
-
       setaddressForm(nextFormState);
-      if (errors[field]?.dirty)
-        validateForm({
-          addressForm: nextFormState,
-          form: form,
-          errors,
-          field,
-        });
     } else {
       const nextFormState = {
         ...form,
@@ -138,14 +130,14 @@ const PartnerRegister = ({
       };
 
       setForm(nextFormState);
-      if (errors[field]?.dirty)
-        validateForm({
-          form: nextFormState,
-          addressForm: addressForm,
-          errors,
-          field,
-        });
     }
+    if (errors[field]?.dirty)
+      validateForm({
+        form: nextFormState,
+        addressForm: addressForm,
+        errors,
+        field,
+      });
   };
 
   async function onSubmitForm(e) {

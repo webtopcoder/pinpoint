@@ -34,7 +34,7 @@ const UserRegister = ({ token, loggedInRole }) => {
     username: "",
     dob: new Date(),
     city: "",
-    state: "",
+    state: {},
     email: "",
     status: "active",
     password: "",

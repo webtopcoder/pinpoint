@@ -337,6 +337,7 @@ p:last-child {
 .btn-style-one.blue-dark-color:hover {
   background-color: var(--whiteColor);
   border-color: var(--blueColor);
+  border: 1px solid;
   color: var(--graydarkColor);
 }
 
