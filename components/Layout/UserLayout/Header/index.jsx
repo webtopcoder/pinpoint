@@ -31,6 +31,7 @@ const index = ({
 
   const handleOriginPageRender = (page) => {
     router.push(page);
+    setMenu(true);
   };
 
   React.useEffect(() => {
