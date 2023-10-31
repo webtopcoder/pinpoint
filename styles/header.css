@@ -81,7 +81,7 @@
   background-color: var(--lightWhiteColor)
 }
 
-.vibrate-bell {
+.vibratebell {
   animation: tada 1.5s ease infinite;
   -webkit-animation: tada 1.5s ease infinite;
 }
@@ -802,7 +802,7 @@
   top: 2px;
   line-height: 1;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 23px;
   position: relative;
   color: var(--blackColor);
   -webkit-transition: var(--transition);

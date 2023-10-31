@@ -8,6 +8,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { userService } from "@/services/index";
 import { getDiffToNow } from "@/utils/date";
 import { useRouter } from "next/router";
+import classNames from "classnames";
 
 const antIcon = (
   <LoadingOutlined
@@ -81,10 +82,9 @@ const NotificationDropdown = ({ user_id }) => {
         >
           <div
             className="search-icon"
-          // onClick={handleToggleSearchModal}
           >
             <Badge count={TotalResults} size="small">
-              <i className="flaticon-bell vibrate-bell"></i>
+              <i className={classNames('bx', 'bxs-bell-ring', { vibratebell: TotalResults > 0 })}></i>
             </Badge>
           </div>
         </DropdownToggle>

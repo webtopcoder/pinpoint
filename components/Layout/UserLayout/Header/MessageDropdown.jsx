@@ -7,6 +7,7 @@ import { Badge, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { mailService } from "@/services/index";
 import { getDiffToNow } from "@/utils/date";
+import classNames from "classnames";
 
 const antIcon = (
   <LoadingOutlined
@@ -54,7 +55,6 @@ const MessageDropdown = () => {
         await setData(data.concat(res?.results));
       }
       else {
-        console.log(res?.results)
         setData(res?.results);
       }
       setLoading(false);
@@ -81,7 +81,7 @@ const MessageDropdown = () => {
             className="search-icon"
           >
             <Badge count={TotalResults} size="small">
-              <i className="flaticon-email-1"></i>
+              <i className={classNames('bx', 'bxs-envelope', { vibratebell: TotalResults > 0 })}></i>
             </Badge>
           </div>
         </DropdownToggle>
