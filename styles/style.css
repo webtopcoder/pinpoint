@@ -294,6 +294,35 @@ ProfileEdit page
   right: 4%;
 }
 
+.form-switch-lg {
+  line-height: 32px;
+  min-height: 28px;
+  padding-left: 2.75rem;
+}
+
+.form-check,
+.form-check-input,
+.form-check-label {
+  cursor: pointer;
+}
+
+.form-check {
+  position: relative;
+  text-align: left;
+}
+
+.form-switch-lg .form-check-input {
+  height: 24px;
+  left: -0.75rem;
+  position: relative;
+  width: 48px;
+}
+
+.form-check-input:checked {
+  background-color: var(--blueColor);
+  border-color: var(--blueColor);
+}
+
 /* .page-item .page-link{
   color: var(--blueColor);
 } */
@@ -8764,7 +8793,7 @@ Page Title Area CSS
 .page-title-area {
   background-color: #f8fbff;
   padding-top: 180px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 
 .page-title-area.bg-black {

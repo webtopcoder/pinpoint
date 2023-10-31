@@ -13,7 +13,7 @@ const EditProfile = () => {
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
-            <h1>Edit Profile</h1>
+            <h1>Setting</h1>
           </div>
         </div>
       </div>

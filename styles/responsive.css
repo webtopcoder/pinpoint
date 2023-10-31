@@ -2432,7 +2432,7 @@
   /*page-title-area-css*/
   .page-title-area {
     padding-top: 125px;
-    padding-bottom: 60px;
+    padding-bottom: 25px;
   }
 
   .page-title-content {
@@ -3721,7 +3721,7 @@
   }
 
   .login-form {
-    padding: 20px !important;
+    padding: 5px !important;
   }
 
   .banner-sub-description {

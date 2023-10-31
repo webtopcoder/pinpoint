@@ -141,7 +141,7 @@ const index = ({
                   <div className="info d-flex align-items-center">
                     <MessageDropdown />
                     <NotificationDropdown user_id={user_id} />
-                    <ProfileMenu fullName={fullName} avatarImg={avatarImg} />
+                    <ProfileMenu role={role} fullName={fullName} avatarImg={avatarImg} />
                   </div>
                 </div>
               ) :

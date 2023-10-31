@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-const ProfileMenu = ({ fullName, avatarImg, onLogout }) => {
+const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
     // Declare a new state variable, which we'll call "menu"
     const router = useRouter();
     const [menu, setMenu] = useState(false);
@@ -43,22 +43,26 @@ const ProfileMenu = ({ fullName, avatarImg, onLogout }) => {
                     <i className="bx bx-chevron-down d-xl-inline-block desktop"></i>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
+                    <div className="mt-4 mt-md-0" style={{
+                        textAlign: 'center'
+                    }}>
+                        <img className="rounded-circle avatar-lg" alt="200x200" src={avatarurl + avatarImg} data-holder-rendered="true" />
+                        <h6 style={{ marginTop: 10, marginBottom: 0 }}>{localStorage.getItem('fullname')}</h6>
+                        <p>{role}</p>
+                    </div>
+                    <div className="dropdown-divider" style={{
+                        marginLeft: 0
+                    }} />
                     <DropdownItem tag="a" onClick={() => router.push('/')}>
                         {" "}
                         <i className="bx bx-user font-size-16 align-middle me-1" />
                         View Profile
                     </DropdownItem>
-                    <DropdownItem tag="a" onClick={() => router.push('/profile/edit')} >
-                        <i className="bx bx-wallet font-size-16 align-middle me-1" />
-                        Edit Profile
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="#">
-                        <i className="bx bx-wrench font-size-16 align-middle me-1" />
+                    <DropdownItem tag="a" onClick={() => router.push('/profile/edit')}>
+                        <i className="bx bx-cog font-size-16 align-middle me-1" />
                         Setting
                     </DropdownItem>
-                    <div className="dropdown-divider" style={{
-                        marginLeft: 0
-                    }} />
+
                     <a onClick={() => onLogoutHandler()} className="dropdown-item">
                         <span><i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />Log out</span>
                     </a>

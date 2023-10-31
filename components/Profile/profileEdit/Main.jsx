@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { uploadAvatar } from "@/redux/User/actions";
 import AvatarUpload from "./AvatarUpload";
 import UserBasicInfo from "./UserBasicInfo";
 import PartnerBasicInfo from "./PartnerBasicInfo";
 import SocialLinks from "./SocialLinks";
 import ChangePassword from "./ChangePassword";
+import NotificationSetting from "./NotificationSetting";
 import { profileService } from "@/services/index";
 import {
     Row,
@@ -46,39 +46,62 @@ const index = ({ userRole }) => {
                         <Row>
                             <Col lg="2">
                                 <Nav className="flex-column" pills>
-                                    <NavItem>
-                                        <NavLink
-                                            className={classnames({ active: activeTab === "1" })}
-                                            onClick={() => {
-                                                setactiveTab("1");
-                                            }}
-                                        >
-                                            <i className="bx bxs-info-circle d-block check-nav-icon mt-4 mb-2" />
-                                            <p className="font-weight-bold mb-4"> Information</p>
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink
-                                            className={classnames({ active: activeTab === "2" })}
-                                            onClick={() => {
-                                                setactiveTab("2");
-                                            }}
-                                        >
-                                            <i className="bx bx-globe d-block check-nav-icon mt-4 mb-2" />
-                                            <p className="font-weight-bold mb-4">Social Links</p>
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink
-                                            className={classnames({ active: activeTab === "3" })}
-                                            onClick={() => {
-                                                setactiveTab("3");
-                                            }}
-                                        >
-                                            <i className="bx bxs-lock d-block check-nav-icon mt-4 mb-2" />
-                                            <p className="font-weight-bold mb-4">Change Password</p>
-                                        </NavLink>
-                                    </NavItem>
+                                    <Row>
+
+                                        <Col lg="12" sm="6">
+                                            <NavItem>
+                                                <NavLink
+                                                    className={classnames({ active: activeTab === "1" })}
+                                                    onClick={() => {
+                                                        setactiveTab("1");
+                                                    }}
+                                                >
+                                                    <i className="bx bxs-info-circle d-block check-nav-icon mt-4 mb-2" />
+                                                    <p className="font-weight-bold mb-4"> Information</p>
+                                                </NavLink>
+                                            </NavItem>
+                                        </Col>
+                                        <Col lg="12" sm="6">
+                                            <NavItem>
+                                                <NavLink
+                                                    className={classnames({ active: activeTab === "2" })}
+                                                    onClick={() => {
+                                                        setactiveTab("2");
+                                                    }}
+                                                >
+                                                    <i className="bx bx-globe d-block check-nav-icon mt-4 mb-2" />
+                                                    <p className="font-weight-bold mb-4">Social Links</p>
+                                                </NavLink>
+                                            </NavItem>
+                                        </Col>
+                                        <Col lg="12" sm="6">
+                                            <NavItem>
+                                                <NavLink
+                                                    className={classnames({ active: activeTab === "3" })}
+                                                    onClick={() => {
+                                                        setactiveTab("3");
+                                                    }}
+                                                >
+                                                    <i className="bx bxs-lock d-block check-nav-icon mt-4 mb-2" />
+                                                    <p className="font-weight-bold mb-4">Change Password</p>
+                                                </NavLink>
+                                            </NavItem>
+                                        </Col>
+                                        <Col lg="12" sm="6">
+                                            <NavItem>
+                                                <NavLink
+                                                    className={classnames({ active: activeTab === "4" })}
+                                                    onClick={() => {
+                                                        setactiveTab("4");
+                                                    }}
+                                                >
+                                                    <i className="bx bxs-bell d-block check-nav-icon mt-4 mb-2" />
+                                                    <p className="font-weight-bold mb-4">Notifications</p>
+                                                </NavLink>
+                                            </NavItem>
+                                        </Col>
+                                    </Row>
+
                                 </Nav>
                             </Col>
                             <Col lg="10">
@@ -105,6 +128,12 @@ const index = ({ userRole }) => {
                                                     <ChangePassword />
                                                 </div>
                                             </TabPane>
+                                            <TabPane tabId="4" className="basic-info">
+                                                <div className="login-form" >
+                                                    <CardTitle className="mb-2">Notifications</CardTitle>
+                                                    <NotificationSetting />
+                                                </div>
+                                            </TabPane>
                                         </TabContent>
                                     </CardBody>
                                 </Card>
@@ -123,8 +152,4 @@ const mapStateToProps = ({ user }) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    onuploadAvatar: (url, cb) => dispatch(uploadAvatar(url, cb)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(index);
+export default connect(mapStateToProps, undefined)(index);
