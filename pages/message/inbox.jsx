@@ -3,7 +3,7 @@ import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 
 import Layout from "../../layout";
-import InboxMain from "@/components/Message/Inbox";
+import InboxMain from "@/components/Message/Inbox/Index";
 
 const inbox = () => {
   return (
