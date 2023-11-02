@@ -4,6 +4,15 @@
     font-size: 14px;
   }
 
+  .email-leftbar {
+    float: none;
+    width: 100%;
+  }
+
+  .email-rightbar {
+    margin: 0;
+  }
+
   p {
     font-size: 14px;
   }
@@ -874,6 +883,7 @@
   .overview-item .overview-image.style-two::before {
     display: none;
   }
+
   .overview-item .overview-image.style-three::before {
     display: none;
   }
@@ -3685,7 +3695,8 @@
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
-  .pin-post-label{
+
+  .pin-post-label {
     flex: 0 0 100%;
     max-width: 96%;
 
@@ -4007,6 +4018,11 @@
   /*business-banner-area-css*/
   .business-banner-area .container-fluid {
     max-width: 540px;
+  }
+
+  .email-leftbar {
+    float: none;
+    width: 100%;
   }
 
   .desktop {
@@ -8545,7 +8561,7 @@
     height: 510px;
   }
 
-  
+
   .overview-item .overview-image.style-three::before {
     width: 476px;
     height: 510px;

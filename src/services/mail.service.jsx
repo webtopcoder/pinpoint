@@ -8,9 +8,14 @@ function MailService() {
   function getIsReadEmails(params) {
     return api(`mail/unreadMessages`, "get", {}, params);
   }
+
+  function getEmailsByID() {
+    return api(`mail/getEmailsByID`, "get");
+  }
   return {
     getIsReadEmails,
-    clearMessages
+    clearMessages,
+    getEmailsByID
   };
 }
 

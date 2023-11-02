@@ -58,7 +58,7 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
                         <i className="bx bx-user font-size-16 align-middle me-1" />
                         View Profile
                     </DropdownItem>
-                    <DropdownItem tag="a" onClick={() => router.push('/')}>
+                    <DropdownItem tag="a" onClick={() => router.push('/message/inbox')}>
                         {" "}
                         <i className="bx bx-envelope font-size-16 align-middle me-1" />
                         Message

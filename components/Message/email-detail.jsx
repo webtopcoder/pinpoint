@@ -1,0 +1,245 @@
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
+import {
+    bulkMailAction,
+    deleteMail,
+    downloadFile,
+    getInbox,
+    updateMail,
+    getIsReadEmails,
+    replyCompose,
+    getReplyByID
+} from "@/redux/Mail/actions";
+import { DownloadOutlined, UploadOutlined, DownOutlined, UpOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Upload, Form, message, List, Skeleton, Avatar, Space, Divider, Input } from "antd";
+import { connect } from "react-redux";
+import Link from "next/link";
+import { getDiffToNow } from "@/utils/date";
+//Import Image
+import { apiBaseUrl } from "@/utils/baseUrl";
+import useNotify from "@/hooks/useNotify";
+import { map } from "lodash";
+
+const avatarurl = `${apiBaseUrl}/avatar/`;
+const { TextArea } = Input;
+const IconText = ({ icon, text }) => (
+    <Space>
+        {React.createElement(icon)}
+        {text}
+    </Space>
+);
+const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose, ondownloadFile, setSaveReply }) => {
+
+    const { notify } = useNotify();
+    const [replymsg, setReply] = useState('');
+    const [replyForm] = Form.useForm();
+    const [expand, setExpand] = useState(true);
+    const [upload_name, setUploadFile] = useState([]);
+    const onMenuClick = (filepath) => {
+        window.open(avatarurl + filepath, "_blank");
+    };
+
+    const onFinish = (values) => {
+        const form_data = new FormData();
+        const myID = localStorage.getItem("user_id");
+        upload_name.map((file) => form_data.append("files", file.originFileObj));
+        form_data.append("from", myID);
+        form_data.append("role", record_detail?.to?.role);
+        form_data.append("to", myID === record_detail?.to?._id ? record_detail?.from?._id : record_detail?.to?._id);
+        form_data.append("reply", record_detail?._id);
+        form_data.append("message", values.message);
+        onreplyCompose(form_data, (res, error) => {
+            if (error) {
+                notify(
+                    "error",
+                    error?.response?.data?.message ?? "Something went wrong"
+                );
+            } else {
+                setExpand(true);
+                setSaveReply(res.result.results);
+                setUploadFile([]);
+                replyForm.resetFields();
+                notify("success", res.msg);
+            }
+        });
+    };
+
+    const props = {
+        name: "upload",
+        onChange(info) {
+            if (info.file.status !== "uploading") {
+                const fileUploadInfo = info.fileList;
+                setUploadFile(fileUploadInfo);
+            }
+
+            if (info.file.status == "removed") {
+                if (info.fileList.length == 0) setUploadFile("");
+                else {
+                    const fileUploadInfo = info.fileList;
+                    setUploadFile(fileUploadInfo);
+                }
+            }
+            if (info.file.status === "done") {
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === "error") {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
+
+    return (
+        <Col xs="12">
+            <Card>
+                <CardBody>
+                    <div className="d-flex mb-4">
+                        <img
+                            className="d-flex me-3 rounded-circle avatar-lg"
+                            src={avatarurl + record_detail?.from?.profile?.avatar?.filepath}
+                            alt="skote"
+                        />
+                        <div className="flex-grow-1">
+                            <h5 className="font-size-14 mt-1">
+                                {record_detail?.from?.name}
+                            </h5>
+                            <small className="text-muted">@{record_detail?.from?.username}</small>
+                        </div>
+                    </div>
+                    {/* <h4 className="mt-0 font-size-16">
+                        {record_detail?.subject}
+                    </h4> */}
+                    <p>{record_detail?.message}</p>
+                    <Row>
+                        {record_detail?.files?.map((item) => (
+                            <Col xl="2" xs="6">
+                                <Card>
+                                    <img
+                                        className="card-img-top img-fluid"
+                                        src={avatarurl + item?.filepath}
+                                        alt="skote"
+                                    />
+                                    <div className="py-2 text-center">
+                                        <a onClick={() => onMenuClick(item?.filepath)} className="fw-medium">
+                                            Download
+                                        </a>
+                                    </div>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                    {reply_detail?.length > 0 ?
+                        <>
+                            {_.map(reply_detail, (item, i) => (
+                                <div>
+                                    <div className="d-flex mb-4">
+                                        <img
+                                            className="d-flex me-3 rounded-circle avatar-sm"
+                                            src={avatarurl + item?.from?.profile?.avatar?.filepath}
+                                            alt="skote"
+                                        />
+                                        <div className="flex-grow-1">
+                                            <h5 className="font-size-14 mt-1">
+                                                {item?.from?.name}
+                                            </h5>
+                                            <small className="text-muted">@{item?.from?.username}</small>
+                                        </div>
+                                    </div>
+                                    <p>{item?.message}</p>
+                                    <Row>
+                                        {item?.files?.map((option) => (
+                                            <Col xl="2" xs="6">
+                                                <Card>
+                                                    <img
+                                                        className="card-img-top img-fluid"
+                                                        src={avatarurl + option?.filepath}
+                                                        alt="skote"
+                                                    />
+                                                    <div className="py-2 text-center">
+                                                        <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
+                                                            Download
+                                                        </a>
+                                                    </div>
+                                                </Card>
+                                            </Col>
+                                        ))}
+                                    </Row>
+                                </div>
+                            ))}
+                        </> : ''}
+                    <Button
+                        style={{
+                            fontSize: 12,
+                        }}
+                        onClick={() => {
+                            setExpand(!expand);
+                        }}
+                        type="link"
+                    >
+                        {expand ? <UpOutlined /> : <DownOutlined />} Reply
+                    </Button>
+                    <Form
+                        form={replyForm}
+                        onFinish={onFinish}
+                        layout="horizontal"
+                        autoComplete="off"
+                    >
+                        <Form.Item
+                            hidden={expand}
+                            name="message"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input Message!",
+                                },
+                                {
+                                    whitespace: true,
+                                    message: "Please input Message!",
+                                },
+                            ]}
+                        >
+                            <TextArea
+                                value={replymsg}
+                                placeholder="Reply message"
+                                autoSize={{
+                                    minRows: 3,
+                                    maxRows: 5,
+                                }}
+                                onChange={(e) => setReply(e.target.value)}
+                            />
+                        </Form.Item>
+                        <Form.Item name="fileupload" hidden={expand}
+                        >
+                            <Upload multiple method="get" className="avatar-uploader" {...props}>
+                                <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
+                                    Upload
+                                </Button>
+                            </Upload>
+                            <Button style={{ float: 'right' }} className="btn-submit" type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                    <a
+                        href="#"
+                        className="btn btn-secondary  mt-4"
+                    >
+                        <i className="mdi mdi-reply"></i> Reply
+                    </a>
+                </CardBody>
+            </Card>
+        </Col>
+
+    );
+};
+
+const mapStateToProps = ({ mail, user }) => ({
+    inbox: mail.inboxlist,
+    user_id: user.user_id
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    ondownloadFile: (filename) => dispatch(downloadFile(filename)),
+    onreplyCompose: (data, cb) => dispatch(replyCompose(data, cb)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmailDetail)

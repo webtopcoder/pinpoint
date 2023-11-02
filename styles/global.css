@@ -103,11 +103,13 @@ img {
 
 p {
   color: var(--paragraphColor);
-  font-size: var(--fontSize);
+  /* font-size: var(--fontSize); */
   margin-bottom: 15px;
   line-height: 1.8;
 }
-
+.font-size-16{
+  font-size: 16px !important;
+}
 p:last-child {
   margin-bottom: 0;
 }

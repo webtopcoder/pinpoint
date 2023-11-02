@@ -251,6 +251,7 @@ ProfileEdit page
 .card {
   box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
   margin-bottom: 24px;
+  border: none;
 }
 
 .card-body {
@@ -323,9 +324,247 @@ ProfileEdit page
   border-color: var(--blueColor);
 }
 
-/* .page-item .page-link{
+/*================================================
+Message page CSS
+=================================================*/
+.email-leftbar {
+  border-radius: 5px;
+  float: left;
+  padding: 20px;
+  width: 236px;
+  border-color: var(--whiteColor)
+}
+
+.message-list {
+  display: block;
+  padding-left: 0;
+}
+
+.message-list li.unread {
+  background-color: #f8f9fa;
+}
+
+.message-list li .col-mail-1 {
+  width: 320px;
+}
+
+.message-list li .col-mail {
+  float: left;
+  position: relative;
+}
+
+.message-list li .col-mail-1 .checkbox-wrapper-mail {
+  margin: 15px 10px 0 20px;
+}
+
+.message-list li .col-mail-1 .checkbox-wrapper-mail,
+.message-list li .col-mail-1 .dot,
+.message-list li .col-mail-1 .star-toggle {
+  display: block;
+  float: left;
+}
+
+.message-list .checkbox-wrapper-mail {
+  background-color: #fff;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1px #ced4da;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  position: relative;
+  width: 20px;
+}
+
+.message-list .checkbox-wrapper-mail input {
+  cursor: pointer;
+  opacity: 0;
+}
+
+.form-check-input[type=checkbox] {
+  border-radius: 0.25em;
+}
+
+.form-check,
+.form-check-input,
+.form-check-label {
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.avatar-sm {
+  height: 3rem !important;
+  width: 3rem!important;
+}
+
+.message-list li .col-mail-1 .star-toggle {
+  margin-left: 5px;
+  margin-top: 18px;
+}
+
+.message-list li .col-mail-2 {
+  bottom: 0;
+  left: 320px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.message-list li .col-mail-1 .title {
+  left: 110px;
+  margin-bottom: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  white-space: nowrap;
+}
+
+.message-list .checkbox-wrapper-mail label:before {
+  color: #495057;
+  content: "\F012C";
+  font-family: 'Material Design Icons';
+  font-size: 13px;
+  height: 20px;
+  left: 4px;
+  margin-top: -16px;
+  position: absolute;
+  top: 0;
+  width: 20px;
+}
+
+.message-list .checkbox-wrapper-mail label {
+  cursor: pointer;
+  height: 20px;
+  left: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition-duration: .05s;
+  width: 20px;
+}
+
+.form-check-input {
+  --bs-form-check-bg: var(--bs-secondary-bg);
+  -webkit-appearance: none;
+  appearance: none;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 1px solid #ced4da;
+  height: 1em;
+  margin-top: 0.25em;
+  print-color-adjust: exact;
+  transition: background-color .15s ease-in-out, background-position .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  vertical-align: top;
+  width: 1em;
+}
+
+.message-list li {
+  cursor: default;
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  transition-duration: .3s;
+}
+
+.message-list li.unread,
+.message-list li.unread a {
+  color: #495057;
+  font-weight: 500;
+}
+
+.email-rightbar {
+  margin-left: 260px;
+}
+
+.page-item .page-link,
+.ant-btn-link {
   color: var(--blueColor);
+}
+
+.ant-btn-primary {
+  background-color: var(--blueColor);
+}
+
+.ant-radio-button-wrapper-checked {
+  color: var(--whiteColor) !important;
+}
+
+.ant-checkbox-wrapper-checked .ant-checkbox-inner {
+  background-color: var(--blueColor) !important;
+}
+
+/* .ant-radio-button-wrapper.ant-radio-button-wrapper-in-form-item:hover {
+  color: var(--blueColor) !important
 } */
+.inbox-table .ant-table-tbody tr {
+  cursor: pointer;
+}
+
+.ant-input:focus,
+.ant-input:hover,
+.ant-select-selector:hover,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-checkbox-inner,
+.ant-checkbox-inner:hover {
+  border-color: var(--blueColor) !important;
+}
+
+.nav-tabs-custom {
+  border-bottom: 2px solid #eff2f7;
+}
+
+.nav-tabs-custom .nav-item {
+  color: #495057;
+  position: relative;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  color: var(--blueColor);
+  text-decoration: none;
+}
+
+.nav-tabs-custom .nav-item .nav-link:after {
+  background: var(--blueColor);
+  bottom: -1px;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  transition: all .25s ease 0s;
+  width: 100%;
+}
+
+.mail-list a {
+  color: #74788d;
+  display: block;
+  line-height: 24px;
+  padding: 8px 5px;
+  cursor: pointer;
+}
+
+.nav-tabs-custom .nav-item .nav-link.active:after {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.nav-tabs-custom .nav-item .nav-link.active {
+  color: var(--blueColor);
+}
+
+.nav-tabs-custom .nav-item .nav-link {
+  border: none;
+  font-size: 15px;
+}
+
+*/
 
 /*================================================
 Business Banner Area CSS
@@ -12351,10 +12590,10 @@ Sidebar Modal CSS
   text-align: center;
 }
 
-.avatar-rightside-box h1,
+/* .avatar-rightside-box h1,
 h4 {
   color: var(--whiteColor);
-}
+} */
 
 .avatar-rightside-box h1 {
   margin-top: 30px;
@@ -12891,9 +13130,9 @@ h4 {
 }
 
 .thread-from .from {
-  color: #14a3fc;
-  font-size: 13px;
-  font-weight: 600;
+  /* color: #14a3fc; */
+  /* font-size: 13px;
+  font-weight: 600; */
 }
 
 .thread-count {
@@ -12915,9 +13154,16 @@ h4 {
   line-height: 20px;
 }
 
-.thread-info p {
-  color: var(--blueColor);
+.thread-info p,
+.thread-info a {
+  color: var(--graydarkColor);
   font-size: 14px;
+}
+
+.thread-info.unread p,
+.thread-info.unread p {
+  color: var(--graydarkColor);
+  font-weight: 600;
 }
 
 .mark-read {
@@ -12933,27 +13179,31 @@ h4 {
 }
 
 .eye-style {
-  font-size: 26px !important;
+  font-size: 23px !important;
   width: 35px !important;
   height: 35px !important;
   text-align: center;
-  color: var(--whiteColor);
-  line-height: 35px;
+  color: var(--blueColor);
+  line-height: 29px;
+}
+
+.eye-style:hover,
+.delete-style:hover {
+  font-size: 25px !important;
 }
 
 .mail-delete {
-  background-color: var(--darkWhiteColor);
   padding: 11px 5px 13px 5px;
   border-radius: 3px;
 }
 
 .delete-style {
-  font-size: 26px !important;
+  font-size: 23px !important;
   width: 35px !important;
   height: 35px !important;
   text-align: center;
-  color: var(--graydarkColor);
-  line-height: 35px;
+  color: var(--redLightColor);
+  line-height: 29px;
 }
 
 /* detail modal */
@@ -13141,11 +13391,6 @@ h4 {
 
 .ant-slider-rail {
   background-color: rgb(255 255 255 / 61%) !important;
-}
-
-.pending_email {
-  color: var(--blueColor);
-  font-weight: bold;
 }
 
 .all-photos {
