@@ -110,6 +110,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
             </a>
             : <span>Administrator</span>}
           {record?.reply ? `, me` : ''}
+          {record?.repliesCount > 0 && ` (${record?.repliesCount})`}
         </div>
       ),
       responsive: isWebDevice ? false : ["xs"]
