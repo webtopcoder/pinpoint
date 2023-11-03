@@ -12,10 +12,16 @@ function MailService() {
   function getEmailsByID() {
     return api(`mail/getEmailsByID`, "get");
   }
+
+  function bulkInvite(data) {
+    return api(`mail/bulkInvite`, "post", data);
+  }
+
   return {
     getIsReadEmails,
     clearMessages,
-    getEmailsByID
+    getEmailsByID,
+    bulkInvite,
   };
 }
 

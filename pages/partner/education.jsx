@@ -14,8 +14,8 @@ const Education = () => {
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
-            <span className="sub-title">Partner</span>
-            <h1>Education</h1>
+            <span className="sub-title">Pinpoint Partner</span>
+            <h1>Benefits</h1>
           </div>
         </div>
       </div>

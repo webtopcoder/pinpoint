@@ -107,6 +107,12 @@ const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose,
                     {/* <h4 className="mt-0 font-size-16">
                         {record_detail?.subject}
                     </h4> */}
+                    <p style={{
+                        fontSize: 12,
+                        color: '#175594'
+                    }}>
+                        <i class="bx bx-time-five"></i>&nbsp;
+                        {getDiffToNow(record_detail?.createdAt)} ago</p>
                     <p>{record_detail?.message}</p>
                     <Row>
                         {record_detail?.files?.map((item) => (
@@ -129,7 +135,7 @@ const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose,
                     {reply_detail?.length > 0 ?
                         <>
                             {_.map(reply_detail, (item, i) => (
-                                <div>
+                                <div className="reply-box">
                                     <div className="d-flex mb-4">
                                         <img
                                             className="d-flex me-3 rounded-circle avatar-sm"
@@ -143,23 +149,36 @@ const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose,
                                             <small className="text-muted">@{item?.from?.username}</small>
                                         </div>
                                     </div>
+                                    <p style={{
+                                        fontSize: 12,
+                                        color: '#175594'
+                                    }}>
+                                        <i class="bx bx-time-five"></i>&nbsp;
+                                        {getDiffToNow(item?.createdAt)} ago
+                                    </p>
                                     <p>{item?.message}</p>
                                     <Row>
                                         {item?.files?.map((option) => (
-                                            <Col xl="2" xs="6">
-                                                <Card>
-                                                    <img
-                                                        className="card-img-top img-fluid"
-                                                        src={avatarurl + option?.filepath}
-                                                        alt="skote"
-                                                    />
-                                                    <div className="py-2 text-center">
-                                                        <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
-                                                            Download
-                                                        </a>
-                                                    </div>
-                                                </Card>
-                                            </Col>
+                                            option?.mimetype === "image/png" || option?.mimetype === "image/jpeg" ?
+                                                <Col xl="2" xs="6" >
+                                                    <Card>
+                                                        <img
+                                                            className="card-img-top img-fluid"
+                                                            src={avatarurl + option?.filepath}
+                                                            alt="skote"
+                                                        />
+                                                        <div className="py-2 text-center">
+                                                            <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
+                                                            <i className="bx bx-download"></i>   Download
+                                                            </a>
+                                                        </div>
+                                                    </Card>
+                                                </Col> :
+                                                <div className="py-2">
+                                                    <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
+                                                        <i className="bx bx-download"></i> {option?.filepath}
+                                                    </a>
+                                                </div>
                                         ))}
                                     </Row>
                                 </div>
@@ -181,6 +200,10 @@ const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose,
                         onFinish={onFinish}
                         layout="horizontal"
                         autoComplete="off"
+                        style={{
+                            maxWidth: 600,
+                            margin: 5
+                        }}
                     >
                         <Form.Item
                             hidden={expand}
@@ -203,6 +226,7 @@ const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose,
                                     minRows: 3,
                                     maxRows: 5,
                                 }}
+
                                 onChange={(e) => setReply(e.target.value)}
                             />
                         </Form.Item>
@@ -218,15 +242,9 @@ const EmailDetail = ({ record_detail, reply_detail, initLoading, onreplyCompose,
                             </Button>
                         </Form.Item>
                     </Form>
-                    <a
-                        href="#"
-                        className="btn btn-secondary  mt-4"
-                    >
-                        <i className="mdi mdi-reply"></i> Reply
-                    </a>
                 </CardBody>
             </Card>
-        </Col>
+        </Col >
 
     );
 };

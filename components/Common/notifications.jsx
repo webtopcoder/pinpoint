@@ -95,7 +95,7 @@ const Notifications = () => {
                                         }}
                                     >
                                         <i className="bx bx-list-check font-size-16 align-middle me-2"></i>{" "}
-                                        Mark All
+                                        Mark All Read
                                     </button>
                                 </div>
                                 <div className="col-auto">
@@ -105,7 +105,7 @@ const Notifications = () => {
                                         className="btn btn-danger "
                                     >
                                         <i className="bx bx-trash font-size-16 align-middle me-2"></i>{" "}
-                                        Clear All
+                                        Delete All
                                     </button>
                                 </div>
                             </Row>
@@ -140,7 +140,7 @@ const Notifications = () => {
                                                                 role="button"
                                                                 onClick={() => notificationUpdate('mark', item?._id)}>
                                                                 {" "}
-                                                                {item?.is_read ? "Marked" : 'Mark'}
+                                                                {item?.is_read ? "Marked Read" : 'Mark Read'}
                                                             </a>
                                                         </div>
                                                         <div className="col-auto">

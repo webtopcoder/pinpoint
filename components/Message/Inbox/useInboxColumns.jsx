@@ -1,69 +1,18 @@
 import useNotify from "@/hooks/useNotify";
-import { apiBaseUrl } from "@/utils/baseUrl";
 import {
   DeleteFilled,
   FolderFilled,
   FolderOpenFilled,
-  EditOutlined
 } from "@ant-design/icons";
-import { Space, Tooltip, Tag, Button, Badge } from "antd";
-import Image from "next/image";
+import { Space } from "antd";
 import React, { useState } from "react";
-import { formatDate } from "@/utils/date";
-import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";
 import classnames from "classnames";
 import { formatDateNoti } from "@/utils/date";
 
-const avatarurl = `${apiBaseUrl}/avatar/`;
-
-const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpdateMail, onDeleteMail, getInbox, ongetIsReadEmails, ongetReply }) => {
-  const [record_detail, setSaveInboxDetail] = useState();
+const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, markAsReadOrUnRead }) => {
   const { notify } = useNotify();
-  const router = useRouter();
   const isWebDevice = useMedia('(min-width:700px)');
-
-  const selectedInboxinfo = (recordInfo) => {
-    ongetReply(recordInfo._id, (res, error) => {
-      if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
-        return;
-      }
-      else {
-        setInitLoading(false)
-        setSaveReply(res.results);
-      }
-    });
-    markAsReadOrUnRead(recordInfo._id, true);
-    setSaveInboxDetail(recordInfo);
-    setOpen(true);
-  };
-
-  const markAsReadOrUnRead = (mailId, is_read) => {
-    onUpdateMail(mailId, { is_read }, (res, error) => {
-      if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
-        return;
-      }
-      // notify("success", res.message);
-      ongetIsReadEmails();
-      getInbox(
-        {
-          pagination: {
-            current: 1,
-            pageSize: 10,
-          },
-        },
-        () => { }
-      );
-    });
-  };
 
   const deleteMail = (mailId) => {
     onDeleteMail(mailId, (res, error) => {
@@ -88,50 +37,185 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
     });
   };
 
+  const Devicecolumns = [
+    {
+      title: "",
+      align: "left",
+      render: (_, record) => {
+        const isUnread = !record?.is_read;
+        const isUserAdmin = record?.from?.role === "admin";
+        const isCurrentUser = record?.from?._id === user_id;
+        const shortenText = (text, maxLength) => {
+          return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+        };
+        const truncatedUsername = (username) =>
+          username?.length > 18 ? (isWebDevice ? username : `${username?.substring(0, 18)}...`) : username;
+        const nameToShow = isCurrentUser
+          ? truncatedUsername(record?.to?.username)
+          : truncatedUsername(record?.from?.username);
+        const isUnreadReply = record?.replies?.some((item) => !item?.is_read && item?.to === user_id);
+        const isMyReply = record?.replies?.reduce((latestReply, item) => {
+          if (item?.to === user_id && item?.createdAt) {
+            if (!latestReply || item.createdAt > latestReply.createdAt) {
+              return item;
+            }
+          }
+          return latestReply;
+        }, null);
+        return (
+          <>
+            <div className={classnames('thread-info', { unread: isUnread || isUnreadReply })}>
+              {isUserAdmin ? (
+                <span>Administrator</span>
+              ) : (
+                <p>
+                  <i className="bx bx-user" style={{
+                    fontSize: 20
+                  }}></i> &nbsp;
+                  {isCurrentUser && record?.reply && <>me, </>}
+                  {nameToShow}
+                  {!isCurrentUser && record?.reply ? ', me' : ''}
+                  {record?.repliesCount > 0 && ` (${record?.repliesCount})`}
+                </p>
+              )}
+            </div>
+
+            <div className={classnames('thread-info', { unread: isUnread || isUnreadReply })}>
+              {isMyReply ?
+                <p>
+                  <i className="bx bx-envelope" style={{
+                    fontSize: 20
+                  }}></i> &nbsp;
+                  Re:&nbsp;&nbsp;
+                  {shortenText(record.subject, 15)}
+                  {" - "}
+                  {shortenText(isMyReply.message, 25)}
+                </p> :
+                <p>
+                  {shortenText(record.subject, 15)}
+                  {" - "}
+                  {shortenText(record.message, 25)}
+                </p>}
+            </div>
+            <div className={classnames('thread-info', { unread: !record?.is_read })}>
+              <p>
+                <i className="bx bx-time" style={{
+                  fontSize: 20
+                }}></i> &nbsp;
+                {formatDateNoti(record?.createdAt)}
+              </p>
+            </div>
+            <Space style={{ marginTop: 10 }} size={isWebDevice ? 5 : "small"}>
+              <button
+                type="button"
+                className="btn btn-primary "
+                style={{ fontSize: 'smaller' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  markAsReadOrUnRead(record._id, !record.is_read)
+                }}
+              >
+                <i className="bx bx-trash-alt font-size-14 align-middle me-2"></i>{" "}
+                {!record.is_read ? "Read" : 'Unread'}
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger "
+                style={{ fontSize: 'smaller' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteMail(record._id)
+                }}
+              >
+                <i className="bx bx-trash-alt font-size-14 align-middle me-2"></i>{" "}
+                Delete
+              </button>
+            </Space>
+          </>
+        );
+      },
+      responsive: isWebDevice ? false : ["xs"],
+    },
+
+  ];
+
   const columns = [
     {
       title: "",
       align: "left",
-      width: isWebDevice ? "20%" : '80%',
+      width: isWebDevice ? "25%" : '80%',
       sorter: true,
-      render: (_, record) => (
-        // <div className="thread-info">
-        <div className={classnames('thread-info', { unread: !record?.is_read })}>
-          {record?.from?.role !== "admin" ?
-            <a
-              onClick={() =>
-                router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}/activity`)
-              }
-            >
-              {user_id === record?.from?._id ?
-                (record?.to?.username?.length > 12 ? isWebDevice ? record?.to?.username : record?.to?.username?.substring(0, 12) + "..." : record?.to?.name) :
-                (record?.from?.username?.length > 12 ? isWebDevice ? record?.from?.username : record?.from?.username?.substring(0, 12) + "..." : record?.from?.name)}
-              <i className="fas fa-check youzify-account-verified youzify-small-verified-icon"></i>
-            </a>
-            : <span>Administrator</span>}
-          {record?.reply ? `, me` : ''}
-          {record?.repliesCount > 0 && ` (${record?.repliesCount})`}
-        </div>
-      ),
-      responsive: isWebDevice ? false : ["xs"]
+      render: (_, record) => {
+        const isUnread = !record?.is_read;
+        const isUserAdmin = record?.from?.role === "admin";
+        const isCurrentUser = record?.from?._id === user_id;
+        // const [star, setStar] = useState(false);
+        const truncatedUsername = (username) =>
+          username?.length > 12 ? (isWebDevice ? username : `${username?.substring(0, 12)}...`) : username;
+        const nameToShow = isCurrentUser
+          ? truncatedUsername(record?.to?.username)
+          : truncatedUsername(record?.from?.username);
+        const isUnreadReply = record?.replies?.some((item) => !item?.is_read && item?.to === user_id);
+
+        return (
+          <div className={classnames('thread-info', { unread: isUnread || isUnreadReply })}>
+            {isUserAdmin ? (
+              <span>Administrator</span>
+            ) : (
+              <p>
+                <i className="bx bx-star" onClick={(e) => {
+                  e.stopPropagation();
+                  // setStar(!star);
+                }} style={{
+                  fontSize: 20
+                }}></i> &nbsp;
+                {isCurrentUser && record?.reply && <>me, </>}
+                {nameToShow}
+                {!isCurrentUser && record?.reply ? ', me' : ''}
+                {record?.repliesCount > 0 && ` (${record?.repliesCount})`}
+              </p>
+            )}
+          </div>
+        );
+      },
+      responsive: isWebDevice ? false : ["xs"],
     },
     {
       title: "Subject",
       align: "left",
-      width: '50%',
-      render: (_, record) => (
-        <div className={classnames('thread-info', { unread: !record?.is_read })}>
-          <p>
-            {record.subject.length > 15
-              ? record.subject.substring(0, 15) + "..."
-              : record.subject}
-            {" - "}
-            {record.message.length > 25
-              ? record.message.substring(0, 25) + "..."
-              : record.message}
-          </p>
-        </div>
-      ),
+      width: '45%',
+      render: (_, record) => {
+        const isUnread = !record?.is_read;
+        const isUnreadReply = record?.replies?.some((item) => !item?.is_read && item?.to === user_id);
+        const isMyReply = record?.replies?.reduce((latestReply, item) => {
+          if (item?.to === user_id && item?.createdAt) {
+            if (!latestReply || item.createdAt > latestReply.createdAt) {
+              return item;
+            }
+          }
+          return latestReply;
+        }, null);
+        const shortenText = (text, maxLength) => {
+          return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+        };
+
+        return (
+          <div className={classnames('thread-info', { unread: isUnread || isUnreadReply })}>
+            {isMyReply ?
+              <p>
+                Re:&nbsp;&nbsp;
+                {shortenText(record.subject, 15)}
+                {" - "}
+                {shortenText(isMyReply.message, 25)}
+              </p> :
+              <p>
+                {shortenText(record.subject, 15)}
+                {" - "}
+                {shortenText(record.message, 25)}
+              </p>}
+          </div>
+        );
+      },
       responsive: isWebDevice ? false : ["sm"]
     },
     {
@@ -153,13 +237,6 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
       align: "right",
       render: (_, record) => (
         <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size={isWebDevice ? 5 : "small"}>
-          <a
-            onClick={() => markAsReadOrUnRead(record._id, !record.is_read)}
-          >
-
-            <EditOutlined className="eye-style" />
-          </a>
-
           <a
             onClick={(e) => {
               e.stopPropagation();
@@ -183,7 +260,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
   ];
   return {
     columns,
-    record_detail,
+    Devicecolumns
   };
 };
 

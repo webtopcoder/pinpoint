@@ -19,7 +19,8 @@ const SocialLink = () => {
                 facebook: '',
                 twitter: '',
                 instagram: '',
-                snapchat: ''
+                snapchat: '',
+                website: ''
             }
         }
         ,
@@ -126,6 +127,19 @@ const SocialLink = () => {
                                 onChange={onUpdateField}
                             />{" "}
                             <i className="bx bxl-snapchat social-icon"></i>
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-12">
+                        <div className="form-group social-wrap">
+                            <label className="authen-text-attr">Website</label>
+                            <input
+                                type='text'
+                                className="form-control"
+                                name='website'
+                                value={form.profile?.social?.website}
+                                onChange={onUpdateField}
+                            />{" "}
+                            <i className="bx bxl-internet-explorer social-icon"></i>
                         </div>
                     </div>
                 </div>

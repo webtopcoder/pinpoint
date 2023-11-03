@@ -11,7 +11,8 @@ import {
   UPDATE_MAIL_SUCCESS,
   DELETE_MAIL_SUCCESS,
   DELETE_MAIL_REQUEST,
-  GET_ISREAD_SUCCESS
+  GET_ISREAD_SUCCESS,
+  DELETE_SENT_MAIL_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -45,6 +46,13 @@ const mailReducer = (state = initialState, action) => {
     }
 
     case GET_SENT_SUCCESS: {
+      return {
+        ...state,
+        sentlist: action.payload.results,
+      };
+    }
+
+    case DELETE_SENT_MAIL_SUCCESS: {
       return {
         ...state,
         sentlist: action.payload.results,

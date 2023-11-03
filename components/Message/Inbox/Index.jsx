@@ -27,16 +27,13 @@ const index = () => {
               <Sidebar activeTab={activeTab} Composemodal={Composemodal} setComposemodal={setComposemodal} Invitemodal={Invitemodal} setInvitemodal={setInvitemodal} setactiveTab={setactiveTab} />
               <Compose modal={Composemodal} setmodal={setComposemodal} />
               <Invite modal={Invitemodal} setmodal={setInvitemodal} />
-              <div className="email-rightbar mb-3">
-                <Card style={{ padding: 20 }}>
-                  {/* Render Email Top Tool Bar */}
+                <Card className="email-rightbar mb-3" style={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}>
                   <TabContent activeTab={activeTab}>
                     <TabPane tabId="1">
                       <InboxRight />
                     </TabPane>
                   </TabContent>
                 </Card>
-              </div>
             </Col>
           </Row>
         </Container>

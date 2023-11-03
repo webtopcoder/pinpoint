@@ -32,7 +32,7 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
       <Card className="email-leftbar">
         <Button
           type="button"
-          color="success"
+          color="danger"
           className="btn waves-effect waves-light"
           onClick={() => {
             setComposemodal(!Composemodal);
@@ -47,7 +47,7 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
         }}></div>
         <Button
           type="button"
-          color="success"
+          color="danger"
           className="btn waves-effect waves-light"
           onClick={() => {
             setInvitemodal(!Invitemodal);
@@ -71,11 +71,26 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
               >
                 <i className="bx bx-envelope me-2"></i> Inbox{" "}
                 {
-                  data?.inbox !== 0 && <span className="ml-1 float-end"> <Badge count={data?.inbox} /></span>
+                  data?.inbox !== 0 && <span className="ml-1 float-end"> <Badge style={{ backgroundColor: '#175594' }} count={data?.inbox} /></span>
                 }
               </NavLink>
             </NavItem>
-
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  active: activeTab === "5",
+                })}
+                onClick={() => {
+                  setactiveTab("5");
+                  router.push('/message/sent')
+                }}
+              >
+                <i className="bx bx-mail-send me-2"></i>Sent
+                {
+                  data?.sent !== 0 && <span className="ml-1 float-end"><Badge style={{ backgroundColor: '#175594' }} count={data?.sent} /></span>
+                }
+              </NavLink>
+            </NavItem>
             <NavItem>
               <NavLink
                 className={classnames({
@@ -92,19 +107,6 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: activeTab === "4",
-                })}
-                onClick={() => {
-                  setactiveTab("4");
-                  router.push('/message/draft')
-                }}
-              >
-                <i className="bx bx-file-blank me-2"></i>Draft
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
                   active: activeTab === "3",
                 })}
                 onClick={() => {
@@ -115,28 +117,10 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
               >
                 <i className="bx bx-collection me-2"></i>Invites
                 {
-                  data?.invite !== 0 && <span className="ml-1 float-end"><Badge count={data?.invite} /></span>
+                  data?.invite !== 0 && <span className="ml-1 float-end"><Badge style={{ backgroundColor: '#175594' }} count={data?.invite} /></span>
                 }
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === "5",
-                })}
-                onClick={() => {
-                  setactiveTab("5");
-                  router.push('/message/sent')
-                }}
-              >
-                <i className="bx bx-mail-send me-2"></i>Sent
-                Mail
-                {
-                  data?.sent !== 0 && <span className="ml-1 float-end"><Badge count={data?.sent} /></span>
-                }
-              </NavLink>
-            </NavItem>
-
             <NavItem>
               <NavLink
                 className={classnames({
@@ -149,7 +133,7 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
               >
                 <i className="bx bx-trash-alt me-2"></i>Trash
                 {
-                  data?.trash !== 0 && <span className="ml-1 float-end"><Badge count={data?.trash} /></span>
+                  data?.trash !== 0 && <span className="ml-1 float-end"><Badge style={{ backgroundColor: '#175594' }} count={data?.trash} /></span>
                 }
               </NavLink>
             </NavItem>

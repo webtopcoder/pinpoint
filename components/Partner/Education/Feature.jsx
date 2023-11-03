@@ -139,7 +139,7 @@ const Feature = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-4 col-md-6 col-sm-12 overview-item mobile">
+          {/* <div className="col-lg-4 col-md-6 col-sm-12 overview-item mobile">
             <div
               className="overview-image style-three"
               data-aos="fade-up"
@@ -155,7 +155,7 @@ const Feature = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

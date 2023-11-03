@@ -94,7 +94,7 @@ const MessageDropdown = () => {
               <div className="col-auto">
                 <a onClick={MarkMessages} className="small">
                   {" "}
-                  Mark All
+                  Mark All Read
                 </a>
               </div>
               <div className="col-auto">

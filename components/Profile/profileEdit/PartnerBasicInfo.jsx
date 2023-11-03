@@ -255,6 +255,7 @@ const PartnerBasicInfo = () => {
                             onBlur={onBlurField}
                             name="firstName"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-6">
@@ -266,6 +267,7 @@ const PartnerBasicInfo = () => {
                             onBlur={onBlurField}
                             name="lastName"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-12">
@@ -277,6 +279,7 @@ const PartnerBasicInfo = () => {
                             onBlur={onBlurField}
                             name="username"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-12">
@@ -299,6 +302,7 @@ const PartnerBasicInfo = () => {
                             onBlur={onBlurField}
                             name="businessname"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-12">
@@ -310,6 +314,7 @@ const PartnerBasicInfo = () => {
                                 value={form.category}
                                 onChange={onUpdateField}
                                 onBlur={onBlurField}
+                                disabled
                             >
                                 <option value="0">Select Category</option>
                                 {categories?.map((option, index) => (

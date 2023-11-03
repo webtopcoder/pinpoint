@@ -242,6 +242,11 @@ Notification page
 
 .checkout-tabs .nav-pills .nav-link .check-nav-icon {
   font-size: 36px;
+  color: var(--blueColor)
+}
+
+.checkout-tabs .nav-pills .active.nav-link .check-nav-icon {
+  color: var(--whiteColor)
 }
 
 /*================================================
@@ -249,8 +254,8 @@ ProfileEdit page
 =================================================*/
 
 .card {
-  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
-  margin-bottom: 24px;
+  /* box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03); */
+  /* margin-bottom: 24px; */
   border: none;
 }
 
@@ -332,7 +337,14 @@ Message page CSS
   float: left;
   padding: 20px;
   width: 236px;
-  border-color: var(--whiteColor)
+  border-color: var(--whiteColor);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.reply-box {
+  margin: 5px;
+  padding: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .message-list {
@@ -393,7 +405,7 @@ Message page CSS
 
 .avatar-sm {
   height: 3rem !important;
-  width: 3rem!important;
+  width: 3rem !important;
 }
 
 .message-list li .col-mail-1 .star-toggle {
@@ -478,6 +490,7 @@ Message page CSS
 
 .email-rightbar {
   margin-left: 260px;
+  padding:20px;
 }
 
 .page-item .page-link,
@@ -13159,7 +13172,7 @@ h4 {
 }
 
 .thread-info.unread p,
-.thread-info.unread p {
+.thread-info.unread a {
   color: var(--graydarkColor);
   font-weight: 600;
 }
@@ -13775,7 +13788,7 @@ h4 {
 .avatar-uploader {
   float: left;
   width: unset;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 .review-divider::before {

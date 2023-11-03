@@ -142,23 +142,6 @@ const Feature = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-4 col-md-6 col-sm-12 overview-item mobile">
-            <div
-              className="overview-image style-three"
-              data-aos="fade-up"
-              data-aos-duration="1200"
-              data-aos-delay="100"
-            >
-              <div className="img">
-                <Image
-                  src={AboutImg}
-                  data-aos="fade-up"
-                  data-aos-duration="1200"
-                  alt="overview-image"
-                />
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

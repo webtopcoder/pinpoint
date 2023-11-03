@@ -179,6 +179,7 @@ const UserBasicInfo = () => {
                             onBlur={onBlurField}
                             name="firstName"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-6">
@@ -190,6 +191,7 @@ const UserBasicInfo = () => {
                             onBlur={onBlurField}
                             name="lastName"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-12">
@@ -201,6 +203,7 @@ const UserBasicInfo = () => {
                             onBlur={onBlurField}
                             name="username"
                             type="text"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-12">
@@ -223,6 +226,7 @@ const UserBasicInfo = () => {
                             onBlur={onBlurField}
                             name="dob"
                             type="date"
+                            disabled
                         />
                     </div>
                     <div className="col-lg-6 col-md-6">

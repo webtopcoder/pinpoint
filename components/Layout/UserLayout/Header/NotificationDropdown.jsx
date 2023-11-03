@@ -97,7 +97,7 @@ const NotificationDropdown = ({ user_id }) => {
               <div className="col-auto">
                 <a onClick={MarkNotifications} className="small">
                   {" "}
-                  Mark All
+                  Mark All Read
                 </a>
               </div>
               <div className="col-auto">

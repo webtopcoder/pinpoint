@@ -23,6 +23,8 @@ import {
   BULK_MAIL_ACTION_SUCCESS,
   GET_ISREAD_REQUEST,
   GET_ISREAD_SUCCESS,
+  DELETE_SENT_MAIL_REQUEST,
+  DELETE_SENT_MAIL_SUCCESS
 } from "./types";
 import api from "@/utils/callApi";
 
@@ -267,6 +269,25 @@ export function deleteMail(mail_id, cb) {
       });
 }
 
+export function deleteSentMail(mail_id, cb) {
+  return (dispatch) =>
+    api(`mail/sent/${mail_id}`, "delete")
+      .then((res) => {
+        dispatch({
+          type: DELETE_SENT_MAIL_REQUEST,
+        });
+
+        dispatch({
+          type: DELETE_SENT_MAIL_SUCCESS,
+          payload: res,
+        });
+
+        cb(res);
+      })
+      .catch((error) => {
+        cb(null, error);
+      });
+}
 export function updateMail(mail_id, form, cb) {
   return (dispatch) =>
     api(`mail/${mail_id}`, "patch", form)

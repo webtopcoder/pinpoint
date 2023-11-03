@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { LeftOutlined } from "@ant-design/icons";
 import {
   bulkMailAction,
-  deleteMail,
+  deleteSentMail,
   downloadFile,
-  getInbox,
+  getSent,
   updateMail,
   getIsReadEmails,
   replyCompose,
@@ -19,11 +19,11 @@ import EmailDetail from "../email-detail";
 import useMedia from "@/hooks/useMedia";
 
 const Main = ({
-  ongetInbox,
+  ongetSent,
   onactionInbox,
-  ondeletemail,
+  ondeleteSentMail,
   onupdatemail,
-  inbox,
+  sent,
   onGetIsReadEmails,
   ongetReplyByID,
   user_id,
@@ -52,7 +52,7 @@ const Main = ({
       }
       // notify("success", res.message);
       onGetIsReadEmails();
-      ongetInbox(
+      ongetSent(
         {
           pagination: {
             current: 1,
@@ -66,8 +66,8 @@ const Main = ({
 
   const { columns, Devicecolumns } = useInboxColumns({
     user_id,
-    getInbox: ongetInbox,
-    onDeleteMail: ondeletemail,
+    getSent: ongetSent,
+    onDeleteSentMail: ondeleteSentMail,
     ongetIsReadEmails: onGetIsReadEmails,
     markAsReadOrUnRead
   });
@@ -86,7 +86,7 @@ const Main = ({
 
   async function search(filter) {
     await setLoading(true);
-    await ongetInbox(filter, (res) => {
+    await ongetSent(filter, (res) => {
       setLoading(false);
       setTableParams({
         ...filter,
@@ -134,7 +134,7 @@ const Main = ({
       } else {
         notify("success", res.message);
         setLoading(true);
-        ongetInbox(tableParams, (res) => {
+        ongetSent(tableParams, (res) => {
           setLoading(false);
           setTableParams({
             ...tableParams,
@@ -165,14 +165,6 @@ const Main = ({
                         value: "bluk",
                         label: "Bluk Action",
                         disabled: true
-                      },
-                      {
-                        value: "read",
-                        label: "Mark Read",
-                      },
-                      {
-                        value: "unread",
-                        label: "Mark Unread",
                       },
                       {
                         value: "delete",
@@ -226,7 +218,7 @@ const Main = ({
               };
             }}
             showHeader={false}
-            dataSource={inbox}
+            dataSource={sent}
             loading={loading}
             rowKey={(rows) => rows._id}
             pagination={tableParams.pagination}
@@ -252,15 +244,15 @@ const Main = ({
 };
 
 const mapStateToProps = ({ mail, user }) => ({
-  inbox: mail.inboxlist,
+  sent: mail.sentlist,
   user_id: user.user_id
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ongetInbox: (tableParams, cb) => dispatch(getInbox(tableParams, cb)),
+  ongetSent: (tableParams, cb) => dispatch(getSent(tableParams, cb)),
   onactionInbox: (data, cb) => dispatch(bulkMailAction(data, cb)),
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
-  ondeletemail: (id, cb) => dispatch(deleteMail(id, cb)),
+  ondeleteSentMail: (id, cb) => dispatch(deleteSentMail(id, cb)),
   onupdatemail: (id, form, cb) => dispatch(updateMail(id, form, cb)),
   onGetIsReadEmails: () => dispatch(getIsReadEmails()),
   onreplyCompose: (data, cb) => dispatch(replyCompose(data, cb)),

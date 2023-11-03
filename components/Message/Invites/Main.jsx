@@ -5,6 +5,9 @@ import { deleteMail } from "@/redux/Mail/actions";
 import { getPending } from "@/redux/Mail/actions";
 import { resendPending } from "@/redux/Mail/actions";
 import usePendingColumns from "./usePendingColumns";
+import { mailService } from "@/services/index";
+import useNotify from "@/hooks/useNotify";
+import useMedia from "@/hooks/useMedia";
 
 const PendingInvite = ({
     pendinglist,
@@ -12,7 +15,10 @@ const PendingInvite = ({
     ongetPending,
     onresendPending,
 }) => {
-    const { columns } = usePendingColumns({
+
+    const isWebDevice = useMedia('(min-width:700px)');
+    const { notify } = useNotify();
+    const { columns, Devicecolumns } = usePendingColumns({
         onDeleteMail: ondeleteSent,
         onResendInvite: onresendPending,
         onGetPending: ongetPending,
@@ -43,28 +49,16 @@ const PendingInvite = ({
         }),
     };
 
-    const bulkaction = () => {
-        // onactionInbox({ action: bulkoptionValue, mailIds: selectedRowkeyslist }, (res, error) => {
-        //   if (error) {
-        //     notify(
-        //       "error",
-        //       error?.response?.data?.message ?? "Something went wrong"
-        //     );
-        //   } else {
-        //     notify("success", res.message);
-        //     setLoading(true);
-        //     ongetInbox(tableParams, (res) => {
-        //       setLoading(false);
-        //       setTableParams({
-        //         ...tableParams,
-        //         pagination: {
-        //           ...tableParams.pagination,
-        //           total: res.totalResults,
-        //         },
-        //       });
-        //     });
-        //   }
-        // });
+    async function bulkaction() {
+        await mailService.bulkInvite({ action: bulkoptionValue, mailIds: selectedRowkeyslist })
+            .then(async (res) => {
+                notify("success", res.message);
+                search(tableParams);
+            })
+            .catch((error) => {
+                console.log(error);
+                return;
+            });
     };
 
     useEffect(() => {
@@ -114,7 +108,7 @@ const PendingInvite = ({
                                                 label: "Resend",
                                             },
                                             {
-                                                value: "delete",
+                                                value: "deleted",
                                                 label: "Delete",
                                             },
                                         ]
@@ -141,7 +135,7 @@ const PendingInvite = ({
                             type: "checkbox",
                             ...rowSelection,
                         }}
-                        columns={columns}
+                        columns={isWebDevice ? columns : Devicecolumns}
                         dataSource={pendinglist}
                         loading={loading}
                         rowKey={(rows) => rows._id}
