@@ -14,7 +14,8 @@ const detail = () => {
                 <div className="page-title-area">
                     <div className="container">
                         <div className="page-title-content">
-                            <h1>Messages</h1>
+                            <span className="sub-title">Messages</span>
+                            <h1>Inbox</h1>
                         </div>
                     </div>
                 </div>

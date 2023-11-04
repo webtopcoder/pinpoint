@@ -159,7 +159,7 @@ const Howtouse = () => {
         >
           <div className="lets-start-box">
             <Link href="/partner/education">
-              <Button type="link" icon={<ArrowRightOutlined />} size="large">Learn more about Pinpoint Partner</Button>
+              <Button type="link" icon={<ArrowRightOutlined />} size="large">Learn more about becoming a Pinpoint Partner</Button>
             </Link>
           </div>
         </div>

@@ -169,14 +169,14 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                             >
                                 <Form.Item name="isNotice" label="">
                                     <Radio.Group disabled={sendToUserId ? true : false} onChange={onChange} defaultValue="custom">
-                                        {role === "partner" ? <Radio.Button value="followers">To Followers(Notice)</Radio.Button> : ''}
+                                        {role === "partner" ? <Radio.Button value="followers">Notification to Followers</Radio.Button> : ''}
                                         <Radio.Button value="admin">To Administrator</Radio.Button>
                                         <Radio.Button value="custom">Custom</Radio.Button>
                                     </Radio.Group>
                                 </Form.Item>
                                 <Form.Item
                                     name="name"
-                                    label="Send To (Username or Friend's Name)"
+                                    label="Send To"
                                     rules={[
                                         {
                                             required: componentDisabled || adminselected ? false : true,
@@ -215,7 +215,7 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                                 <Form.Item name="fileupload">
                                     <Upload method="get" {...props}>
                                         <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
-                                            Click to Upload
+                                             Upload Photo
                                         </Button>
                                     </Upload>
                                 </Form.Item>

@@ -190,7 +190,7 @@ const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, m
                 }}
               >
                 {!record.is_read ? <i className="bx bxs-folder font-size-14 align-middle me-2"></i> : <i className="bx bxs-folder-open font-size-14 align-middle me-2"></i>}
-                {!record.is_read ? "Read" : 'Unread'}
+                {!record.is_read ? "Mark Read" : 'Mark Unread'}
               </button>
               <Popconfirm
                 title="Delete the mail"

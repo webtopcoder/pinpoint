@@ -71,7 +71,7 @@ const EmailInvite = ({ onsentInvite, modal, setmodal }) => {
                     <Row className="mail-inbox">
                         <Col md={24} sm={24} xs={24}>
                             <Alert
-                                message="Informational Notes"
+                                message="Please Note"
                                 description="You can invite friends to join Pinpoint by adding their email below. They will receive an email link to sign up."
                                 type="info"
                                 showIcon
@@ -90,7 +90,7 @@ const EmailInvite = ({ onsentInvite, modal, setmodal }) => {
                             >
                                 <Form.Item
                                     name="email"
-                                    label="Email address of new user"
+                                    label="Email Address"
                                     required
                                     rules={[
                                         {
