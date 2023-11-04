@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, CardBody } from "reactstrap";
+import { connect } from "react-redux";
+import { Row, Col, Card, CardBody } from "reactstrap";
+import { useRouter } from "next/router";
 import {
     downloadFile,
     updateMail,
@@ -7,14 +9,11 @@ import {
     replyCompose,
     getReplyByID
 } from "@/redux/Mail/actions";
-import { UploadOutlined, DownOutlined, UpOutlined, ClockCircleOutlined, LeftOutlined } from "@ant-design/icons";
+import { UploadOutlined, DownOutlined, UpOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Upload, Form, message, Input, Spin } from "antd";
-import { connect } from "react-redux";
 import { getDiffToNow } from "@/utils/date";
-//Import Image
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
-import { useRouter } from "next/router";
 import { mailService } from "@/services/index";
 import { map } from "lodash";
 
@@ -277,8 +276,7 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
                                         onChange={(e) => setReply(e.target.value)}
                                     />
                                 </Form.Item>
-                                <Form.Item name="fileupload" hidden={expand}
-                                >
+                                <Form.Item name="fileupload" hidden={expand}>
                                     <Upload multiple method="get" className="avatar-uploader" {...props}>
                                         <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
                                             Upload
@@ -309,6 +307,5 @@ const mapDispatchToProps = (dispatch) => ({
     onGetIsReadEmails: (param) => dispatch(getIsReadEmail(param)),
     onupdatemail: (id, form, cb) => dispatch(updateMail(id, form, cb)),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailDetail)

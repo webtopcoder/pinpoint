@@ -53,7 +53,6 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
     };
 
     const onFinish = (values) => {
-
         setUpdating(true);
         const form_data = new FormData();
         upload_name.map((file) => form_data.append("files", file.originFileObj));
@@ -76,6 +75,7 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                 }
         }
 
+        form_data.append("to", recipient);
         form_data.append("subject", values.subject);
         form_data.append("message", values.message);
         onmailCompose(form_data, (res, error) => {

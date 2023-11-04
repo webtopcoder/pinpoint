@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Table, Row, Col, Button, Select } from "antd";
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
+import { Table, Row, Col, Button, Select } from "antd";
 import {
   bulkMailAction,
   deleteMail,
@@ -14,7 +15,6 @@ import {
 import useNotify from "@/hooks/useNotify";
 import useInboxColumns from "./useInboxColumns";
 import useMedia from "@/hooks/useMedia";
-import { useRouter } from "next/router";
 
 const Main = ({
   ongetInbox,
