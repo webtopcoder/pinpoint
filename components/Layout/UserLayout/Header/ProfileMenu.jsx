@@ -59,7 +59,9 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
                     <div className="dropdown-divider" style={{
                         marginLeft: 0
                     }} />
-                    <DropdownItem tag="a" onClick={() => router.push('/')}>
+                    <DropdownItem tag="a" onClick={() =>
+                        router.push(`/profile/${localStorage.getItem('user_id')}/activity`)
+                    }>
                         {" "}
                         <i className="bx bx-user font-size-16 align-middle me-1" />
                         View Profile

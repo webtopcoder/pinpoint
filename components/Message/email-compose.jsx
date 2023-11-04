@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import {
     Modal,
     ModalBody,
@@ -23,10 +24,12 @@ import {
     Space
 } from "antd";
 import { useRouter } from "next/router";
-import { connect } from "react-redux";
+import useMedia from "@/hooks/useMedia";
 
 const { TextArea } = Input;
 const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetuserInfoByID, modal, setmodal }) => {
+
+    const isWebDevice = useMedia('(min-width:700px)');
     const [composeForm] = Form.useForm();
     const [upload_name, setUploadFile] = useState([]);
     const [componentDisabled, setComponentDisabled] = useState(false);
@@ -167,9 +170,11 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                             >
                                 <Form.Item name="isNotice" label="">
                                     <Radio.Group disabled={sendToUserId ? true : false} onChange={onChange} defaultValue="custom">
-                                        {role === "partner" ? <Radio.Button value="followers">Notification to Followers</Radio.Button> : ''}
-                                        <Radio.Button value="admin">To Administrator</Radio.Button>
-                                        <Radio.Button value="custom">Custom</Radio.Button>
+                                        <Space direction={isWebDevice ? 'horizontal' : 'vertical'}>
+                                            {role === "partner" ? <Radio.Button value="followers">Notification to Followers</Radio.Button> : ''}
+                                            <Radio.Button value="admin">To Administrator</Radio.Button>
+                                            <Radio.Button value="custom">Custom</Radio.Button>
+                                        </Space>
                                     </Radio.Group>
                                 </Form.Item>
                                 <Form.Item

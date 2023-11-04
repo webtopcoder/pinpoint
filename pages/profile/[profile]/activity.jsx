@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
@@ -6,7 +7,6 @@ import ProfileActivity from "@/components/Profile/ProfileActivity";
 import Layout from "../../../layout";
 import { profileService } from "@/services/index";
 import { useRouter } from "next/router";
-import { connect } from "react-redux";
 
 const Activity = ({ user_id, userRole }) => {
   const router = useRouter();
