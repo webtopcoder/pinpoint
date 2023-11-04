@@ -8,7 +8,7 @@ import {
   downloadFile,
   getInbox,
   updateMail,
-  getIsReadEmails,
+  getIsReadEmail,
   replyCompose,
   getReplyByID
 } from "@/redux/Mail/actions";
@@ -410,7 +410,7 @@ const mapDispatchToProps = (dispatch) => ({
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
   ondeletemail: (id, cb) => dispatch(deleteMail(id, cb)),
   onupdatemail: (id, form, cb) => dispatch(updateMail(id, form, cb)),
-  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
+  onGetIsReadEmails: () => dispatch(getIsReadEmail()),
   onreplyCompose: (data, cb) => dispatch(replyCompose(data, cb)),
   ongetReplyByID: (id, cb) => dispatch(getReplyByID(id, cb)),
 });

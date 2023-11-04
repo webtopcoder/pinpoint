@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Table, Row, Col, Button, Select } from "antd";
 import { connect } from "react-redux";
-import { LeftOutlined } from "@ant-design/icons";
 import {
   bulkMailAction,
   deleteMail,
   downloadFile,
   getInbox,
   updateMail,
-  getIsReadEmails,
+  getIsReadEmail,
   replyCompose,
   getReplyByID
 } from "@/redux/Mail/actions";
-import { CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
 import useInboxColumns from "./useInboxColumns";
-import EmailDetail from "../email-detail";
 import useMedia from "@/hooks/useMedia";
+import { useRouter } from "next/router";
 
 const Main = ({
   ongetInbox,
@@ -25,43 +23,36 @@ const Main = ({
   onupdatemail,
   inbox,
   onGetIsReadEmails,
-  ongetReplyByID,
   user_id,
 }) => {
 
+  const router = useRouter();
   const isWebDevice = useMedia('(min-width:700px)');
-  const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [record_detail, setSaveInboxDetail] = useState();
-  const [reply_detail, setSaveReply] = useState();
-  const [detailEmail, setDetailEmail] = useState(false);
   const { notify } = useNotify();
   const [bulkoptionValue, setBulkoption] = useState([]);
   const bulkoptionChange = (value) => {
     setBulkoption(value);
   };
 
-  const markAsReadOrUnRead = (mailId, is_read) => {
-    onupdatemail(mailId, { is_read }, (res, error) => {
+  const markAsReadOrStar = (mailId, field, status) => {
+    const updateField = field === "is_read" ? "is_read" : "is_star";
+    const updateCallback = (res, error) => {
       if (error) {
-        notify(
-          "error",
-          error?.response?.data?.message ?? "Something went wrong"
-        );
+        notify("error", error?.response?.data?.message ?? "Something went wrong");
         return;
       }
-      // notify("success", res.message);
-      onGetIsReadEmails();
-      ongetInbox(
-        {
-          pagination: {
-            current: 1,
-            pageSize: 10,
-          },
+
+      onGetIsReadEmails({});
+      ongetInbox({
+        pagination: {
+          current: 1,
+          pageSize: 10,
         },
-        () => { }
-      );
-    });
+      }, () => { });
+    };
+
+    onupdatemail(mailId, { [updateField]: status }, updateCallback);
   };
 
   const { columns, Devicecolumns } = useInboxColumns({
@@ -69,7 +60,7 @@ const Main = ({
     getInbox: ongetInbox,
     onDeleteMail: ondeletemail,
     ongetIsReadEmails: onGetIsReadEmails,
-    markAsReadOrUnRead
+    markAsReadOrStar
   });
 
   const [tableParams, setTableParams] = useState({
@@ -150,7 +141,7 @@ const Main = ({
 
   return (
     <>
-      <Row className="mail-inbox" style={{ display: detailEmail ? 'none' : '' }}>
+      <Row className="mail-inbox">
         <Col md={24} sm={24} xs={24}>
           <Row justify="space-around" vgutter={8}>
             <Col span={24}>
@@ -174,6 +165,14 @@ const Main = ({
                         value: "unread",
                         label: "Mark Unread",
                       },
+                      // {
+                      //   value: "star",
+                      //   label: "Mark Star",
+                      // },
+                      // {
+                      //   value: "unstar",
+                      //   label: "Mark Unstar",
+                      // },
                       {
                         value: "delete",
                         label: "Delete",
@@ -206,22 +205,12 @@ const Main = ({
             onRow={(record, rowIndex) => {
               return {
                 onClick: event => {
-                  ongetReplyByID(record._id, (res, error) => {
-                    if (error) {
-                      notify(
-                        "error",
-                        error?.response?.data?.message ?? "Something went wrong"
-                      );
-                      return;
-                    }
-                    else {
-                      setInitLoading(false)
-                      setSaveReply(res.results);
-                      markAsReadOrUnRead(record._id, true)
+                  router.push({
+                    pathname: '/message/inbox/detail',
+                    query: {
+                      id: record?._id
                     }
                   });
-                  setSaveInboxDetail(record);
-                  setDetailEmail(true);
                 }, // click row
               };
             }}
@@ -233,19 +222,6 @@ const Main = ({
             onChange={handleTableChange}
           />
         </Col>
-      </Row>
-      <Row style={{ display: detailEmail ? '' : 'none' }}>
-        <CardBody className="border-bottom">
-          <div className="d-flex align-items-center">
-            <h4 className="mb-0 card-title font-size-16 flex-grow-1">
-              {record_detail?.subject}
-            </h4>
-            <div className="flex-shrink-0">
-              <Button type="link" onClick={() => setDetailEmail(false)} icon={<LeftOutlined />}>Back</Button>
-            </div>
-          </div>
-        </CardBody>
-        <EmailDetail record_detail={record_detail} initLoading={initLoading} setSaveReply={setSaveReply} reply_detail={reply_detail} />
       </Row>
     </>
   );
@@ -262,7 +238,7 @@ const mapDispatchToProps = (dispatch) => ({
   ondownloadFile: (filename) => dispatch(downloadFile(filename)),
   ondeletemail: (id, cb) => dispatch(deleteMail(id, cb)),
   onupdatemail: (id, form, cb) => dispatch(updateMail(id, form, cb)),
-  onGetIsReadEmails: () => dispatch(getIsReadEmails()),
+  onGetIsReadEmails: () => dispatch(getIsReadEmail()),
   onreplyCompose: (data, cb) => dispatch(replyCompose(data, cb)),
   ongetReplyByID: (id, cb) => dispatch(getReplyByID(id, cb)),
 });

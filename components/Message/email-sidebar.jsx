@@ -10,9 +10,9 @@ import { Badge } from "antd";
 import classnames from "classnames";
 import { mailService } from "@/services/index";
 import { useRouter } from "next/router";
+import { connect } from "react-redux";
 
-
-const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Composemodal, setComposemodal }) => {
+const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemodal, Composemodal, setComposemodal }) => {
 
   const [data, setData] = useState();
   const router = useRouter();
@@ -78,10 +78,10 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: activeTab === "5",
+                  active: activeTab === "2",
                 })}
                 onClick={() => {
-                  setactiveTab("5");
+                  setactiveTab("2");
                   router.push('/message/sent')
                 }}
               >
@@ -91,7 +91,7 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
                 }
               </NavLink>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <NavLink
                 className={classnames({
                   active: activeTab === "2",
@@ -103,7 +103,7 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
               >
                 <i className="bx bx-star me-2"></i>Starred
               </NavLink>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <NavLink
                 className={classnames({
@@ -121,22 +121,6 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
                 }
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: activeTab === "6",
-                })}
-                onClick={() => {
-                  setactiveTab("6");
-                  router.push('/message/trash')
-                }}
-              >
-                <i className="bx bx-trash-alt me-2"></i>Trash
-                {
-                  data?.trash !== 0 && <span className="ml-1 float-end"><Badge style={{ backgroundColor: '#175594' }} count={data?.trash} /></span>
-                }
-              </NavLink>
-            </NavItem>
           </Nav>
         </div>
       </Card>
@@ -144,4 +128,9 @@ const EmailSideBar = ({ activeTab, setactiveTab, Invitemodal, setInvitemodal, Co
   )
 }
 
-export default EmailSideBar
+const mapStateToProps = ({ mail, user }) => ({
+  user_id: user.user_id,
+  role: user.role
+});
+
+export default connect(mapStateToProps, undefined)(EmailSideBar);

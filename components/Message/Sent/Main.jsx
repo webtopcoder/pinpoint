@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Row, Col, Button, Select } from "antd";
 import { connect } from "react-redux";
-import { LeftOutlined } from "@ant-design/icons";
 import {
   bulkMailAction,
   deleteSentMail,
@@ -12,11 +11,10 @@ import {
   replyCompose,
   getReplyByID
 } from "@/redux/Mail/actions";
-import { CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
-import useInboxColumns from "./useInboxColumns";
-import EmailDetail from "../email-detail";
+import useSentColumns from "./useSentColumns";
 import useMedia from "@/hooks/useMedia";
+import { useRouter } from "next/router";
 
 const Main = ({
   ongetSent,
@@ -25,16 +23,12 @@ const Main = ({
   onupdatemail,
   sent,
   onGetIsReadEmails,
-  ongetReplyByID,
   user_id,
 }) => {
 
+  const router = useRouter();
   const isWebDevice = useMedia('(min-width:700px)');
-  const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [record_detail, setSaveInboxDetail] = useState();
-  const [reply_detail, setSaveReply] = useState();
-  const [detailEmail, setDetailEmail] = useState(false);
   const { notify } = useNotify();
   const [bulkoptionValue, setBulkoption] = useState([]);
   const bulkoptionChange = (value) => {
@@ -64,7 +58,7 @@ const Main = ({
     });
   };
 
-  const { columns, Devicecolumns } = useInboxColumns({
+  const { columns, Devicecolumns } = useSentColumns({
     user_id,
     getSent: ongetSent,
     onDeleteSentMail: ondeleteSentMail,
@@ -150,7 +144,7 @@ const Main = ({
 
   return (
     <>
-      <Row className="mail-inbox" style={{ display: detailEmail ? 'none' : '' }}>
+      <Row className="mail-inbox">
         <Col md={24} sm={24} xs={24}>
           <Row justify="space-around" vgutter={8}>
             <Col span={24}>
@@ -198,22 +192,12 @@ const Main = ({
             onRow={(record, rowIndex) => {
               return {
                 onClick: event => {
-                  ongetReplyByID(record._id, (res, error) => {
-                    if (error) {
-                      notify(
-                        "error",
-                        error?.response?.data?.message ?? "Something went wrong"
-                      );
-                      return;
-                    }
-                    else {
-                      setInitLoading(false)
-                      setSaveReply(res.results);
-                      markAsReadOrUnRead(record._id, true)
+                  router.push({
+                    pathname: '/message/sent/detail',
+                    query: {
+                      id: record?._id
                     }
                   });
-                  setSaveInboxDetail(record);
-                  setDetailEmail(true);
                 }, // click row
               };
             }}
@@ -225,19 +209,6 @@ const Main = ({
             onChange={handleTableChange}
           />
         </Col>
-      </Row>
-      <Row style={{ display: detailEmail ? '' : 'none' }}>
-        <CardBody className="border-bottom">
-          <div className="d-flex align-items-center">
-            <h4 className="mb-0 card-title font-size-16 flex-grow-1">
-              {record_detail?.subject}
-            </h4>
-            <div className="flex-shrink-0">
-              <Button type="link" onClick={() => setDetailEmail(false)} icon={<LeftOutlined />}>Back</Button>
-            </div>
-          </div>
-        </CardBody>
-        <EmailDetail record_detail={record_detail} initLoading={initLoading} setSaveReply={setSaveReply} reply_detail={reply_detail} />
       </Row>
     </>
   );

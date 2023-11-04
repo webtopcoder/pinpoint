@@ -8,6 +8,11 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { mailService } from "@/services/index";
 import { getDiffToNow } from "@/utils/date";
 import classNames from "classnames";
+import { useRouter } from "next/router";
+import {
+  getIsReadEmail,
+} from "@/redux/Mail/actions";
+import { connect } from "react-redux";
 
 const antIcon = (
   <LoadingOutlined
@@ -18,20 +23,22 @@ const antIcon = (
   />
 );
 
-const MessageDropdown = () => {
+const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const [count, setCount] = useState(1);
-  const [data, setData] = useState();
-  const [TotalResults, setTotalResults] = useState();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function MarkMessages() {
     await mailService.clearMessages()
-      .then(async (res) => {
-        await setData(res);
-        await setTotalResults('');
+      .then(async () => {
+        onGetIsReadEmails({
+          sort: "createdAt:desc",
+          limit: count * 10,
+          page: 1
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -45,23 +52,12 @@ const MessageDropdown = () => {
 
   useEffect(async () => {
     setLoading(true);
-    await mailService.getIsReadEmails({
+    await onGetIsReadEmails({
       sort: "createdAt:desc",
-      limit: 10,
-      page: count
-    }).then(async (res) => {
-      await setTotalResults(res?.totalResults);
-      if (count !== 1) {
-        await setData(data.concat(res?.results));
-      }
-      else {
-        setData(res?.results);
-      }
-      setLoading(false);
-    }).catch((error) => {
-      console.log(error);
-      setLoading(false);
-    })
+      limit: count * 10,
+      page: 1
+    });
+    setLoading(false);
   }, [count]);
 
   return (
@@ -80,8 +76,8 @@ const MessageDropdown = () => {
           <div
             className="search-icon"
           >
-            <Badge count={TotalResults} size="small">
-              <i className={classNames('bx', 'bxs-envelope', { vibratebell: TotalResults > 0 })}></i>
+            <Badge count={unreadCount} size="small">
+              <i className={classNames('bx', 'bxs-envelope', { vibratebell: unreadCount > 0 })}></i>
             </Badge>
           </div>
         </DropdownToggle>
@@ -98,17 +94,24 @@ const MessageDropdown = () => {
                 </a>
               </div>
               <div className="col-auto">
-                <a href="#" className="small">
+                <a className="small"
+                  onClick={() => router.push('/message/inbox')}>
                   {" "}
                   View All
                 </a>
               </div>
             </Row>
           </div>
-
           <PerfectScrollbar style={{ height: "260px" }}>
-            {data && data?.map((item, index) => (
-              <a href="" className="text-reset notification-item">
+            {unreadList && unreadList?.map((item, index) => (
+              <a onClick={() => {
+                router.push({
+                  pathname: '/message/inbox/detail',
+                  query: {
+                    id: item?.id
+                  }
+                });
+              }} className="text-reset notification-item">
                 <div className="d-flex">
                   <img
                     src={avatarurl + item?.from?.profile?.avatar?.filepath}
@@ -154,5 +157,15 @@ const MessageDropdown = () => {
   );
 };
 
-export default MessageDropdown;
 
+const mapStateToProps = ({ mail, user }) => ({
+  user_id: user.user_id,
+  unreadList: mail.isreadlist,
+  unreadCount: mail.unreadCount
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetIsReadEmails: (parms) => dispatch(getIsReadEmail(parms)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageDropdown);

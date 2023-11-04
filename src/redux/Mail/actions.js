@@ -343,8 +343,29 @@ export function getIsReadEmails() {
           type: GET_ISREAD_SUCCESS,
           payload: res,
         });
+
       })
       .catch((error) => {
         console.log(error);
       });
 }
+
+
+export function getIsReadEmail(params) {
+  return (dispatch) =>
+    api(`mail/unreadMessages`, "get", {}, params)
+      .then((res) => {
+        dispatch({
+          type: GET_ISREAD_REQUEST,
+        });
+
+        dispatch({
+          type: GET_ISREAD_SUCCESS,
+          payload: res,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+

@@ -2,10 +2,10 @@ import React from "react";
 
 import PageTitle from "@/components/Layout/PageTitle";
 
-import Layout from "../../layout";
-import SentMain from "@/components/Message/Sent/Index";
+import Layout from "../../../layout";
+import InboxMain from "@/components/Message/Inbox/Index";
 
-const sent = () => {
+const index = () => {
   return (
     <>
       <>
@@ -18,16 +18,16 @@ const sent = () => {
           </div>
         </div>
         <div className="profile-authentication-area bg-f8fbff">
-          <SentMain />
+          <InboxMain />
         </div>
       </>
     </>
   );
 };
 
-sent.requireAuth = true;
-sent.getLayout = function getLayout(page) {
+index.requireAuth = true;
+index.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default sent;
+export default index;

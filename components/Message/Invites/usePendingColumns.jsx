@@ -1,6 +1,6 @@
 import useNotify from "@/hooks/useNotify";
-import { SendOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip, Tag } from "antd";
+import { SendOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Button, Space, Tooltip, Tag, Popconfirm } from "antd";
 import useMedia from "@/hooks/useMedia";
 import { formatDateNoti } from "@/utils/date";
 import classnames from "classnames";
@@ -82,24 +82,38 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
                 {formatDateNoti(record?.createdAt)}
               </p>
             </div>
-            <Space style={{marginTop: 10}} size="middle">
+            <Space style={{ marginTop: 10 }} size="middle">
               {record.is_read ? (
                 <Tag color="success">Accepted</Tag>
               ) : (
                 <Button icon={<SendOutlined />}
                   onClick={() => resendPending(record._id)}
-                   type="primary">
+                  type="primary">
                   {"Resend"}
                 </Button>
               )}
-              <Button
-                icon={<DeleteOutlined />}
-                onClick={() => deleteInvitation(record._id)}
-                type="primary"
-                danger
+              <Popconfirm
+                title="Delete the mail"
+                description="Are you sure to delete this mail?"
+                icon={
+                  <QuestionCircleOutlined
+                    style={{
+                      color: 'red',
+                    }}
+                  />
+                }
+                onConfirm={(e) => {
+                  deleteInvitation(record._id)
+                }}
               >
-                Delete
-              </Button>
+                <Button
+                  icon={<DeleteOutlined />}
+                  type="primary"
+                  danger
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
             </Space>
           </>
         );
@@ -169,14 +183,28 @@ function usePendingColumns({ onResendInvite, onDeleteMail, onGetPending }) {
               {isWebDevice ? "Resend" : ''}
             </Button>
           )}
-          <Button
-            icon={isWebDevice ? <DeleteOutlined /> : ''}
-            onClick={() => deleteInvitation(record._id)}
-            type="link"
-            danger
+          <Popconfirm
+            title="Delete this invitation"
+            description="Are you sure to delete this mail?"
+            icon={
+              <QuestionCircleOutlined
+                style={{
+                  color: 'red',
+                }}
+              />
+            }
+            onConfirm={(e) => {
+              deleteInvitation(record._id)
+            }}
           >
-            {isWebDevice ? "Delete" : ''}
-          </Button>
+            <Button
+              icon={<DeleteOutlined />}
+              danger
+              type="link"
+            >
+              {isWebDevice ? "Delete" : ''}
+            </Button>
+          </Popconfirm>
         </Space>
       ),
       responsive: isWebDevice ? false : ["xs"]

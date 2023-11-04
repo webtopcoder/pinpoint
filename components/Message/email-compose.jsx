@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Modal,
     ModalBody,
-    ModalFooter,
     ModalHeader,
 } from "reactstrap";
 import useMedia from "@/hooks/useMedia";
@@ -237,21 +236,6 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                         </Col>
                     </Row >
                 </ModalBody>
-                {/* <ModalFooter>
-                    <Button
-                        type="button"
-                        color="secondary"
-                        onClick={() => {
-                            setmodal(!modal);
-                        }}
-                    >
-                        Close
-                    </Button>
-                    <Button type="primary" htmlType="submit"
-                        className="btn-submit">
-                        Send <i className="fab fa-telegram-plane ms-1"></i>
-                    </Button>
-                </ModalFooter> */}
             </div>
         </Modal>
 

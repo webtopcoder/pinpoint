@@ -23,6 +23,7 @@ const initialState = {
   noticelist: [],
   pendinglist: [],
   isreadlist: [],
+  unreadCount: 0,
   senttotal: 0,
   pendingtotal: 0,
 };
@@ -94,6 +95,7 @@ const mailReducer = (state = initialState, action) => {
       return {
         ...state,
         isreadlist: action.payload.results,
+        unreadCount: action.payload.totalResults,
         loading: false,
       };
     }

@@ -18,6 +18,8 @@ import {
 import { sentInvite } from "@/redux/Mail/actions";
 import { connect } from "react-redux";
 
+const { TextArea } = Input;
+
 const EmailInvite = ({ onsentInvite, modal, setmodal }) => {
 
     const { notify } = useNotify();
@@ -111,7 +113,7 @@ const EmailInvite = ({ onsentInvite, modal, setmodal }) => {
                                     name="message"
                                     label="Add a personalized message"
                                 >
-                                    <Input.TextArea rows={4} />
+                                    <TextArea rows={4} />
                                 </Form.Item>
                                 <Form.Item >
                                     <Space style={{

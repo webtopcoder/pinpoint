@@ -7,13 +7,13 @@ import {
   TabContent,
   TabPane,
 } from "reactstrap";
-import SentRight from "./Main";
+import DetailRight from "./Main";
 import Sidebar from "../email-sidebar";
 import Compose from "../email-compose";
 import Invite from "../email-invite";
 
-const index = () => {
-  const [activeTab, setactiveTab] = useState("2");
+const index = ({ tab }) => {
+  const [activeTab, setactiveTab] = useState(tab);
   const [Composemodal, setComposemodal] = useState(false);
   const [Invitemodal, setInvitemodal] = useState(false);
 
@@ -28,13 +28,12 @@ const index = () => {
               <Compose modal={Composemodal} setmodal={setComposemodal} />
               <Invite modal={Invitemodal} setmodal={setInvitemodal} />
               <Card className="email-rightbar mb-3" style={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}>
-                  {/* Render Email Top Tool Bar */}
-                  <TabContent activeTab={activeTab}>
-                    <TabPane tabId="2">
-                      <SentRight />
-                    </TabPane>
-                  </TabContent>
-                </Card>
+                <TabContent activeTab={activeTab}>
+                  <TabPane tabId={tab}>
+                    <DetailRight tab={tab} />
+                  </TabPane>
+                </TabContent>
+              </Card>
             </Col>
           </Row>
         </Container>

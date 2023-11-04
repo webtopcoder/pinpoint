@@ -13,6 +13,14 @@ function MailService() {
     return api(`mail/getEmailsByID`, "get");
   }
 
+  function getInboxByID(id) {
+    return api(`mail/getInboxById/${id}`, "get");
+  }
+
+  function getSentByID(id) {
+    return api(`mail/getSentById/${id}`, "get");
+  }
+
   function bulkInvite(data) {
     return api(`mail/bulkInvite`, "post", data);
   }
@@ -22,6 +30,8 @@ function MailService() {
     clearMessages,
     getEmailsByID,
     bulkInvite,
+    getInboxByID,
+    getSentByID
   };
 }
 
