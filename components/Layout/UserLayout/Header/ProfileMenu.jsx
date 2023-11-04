@@ -69,7 +69,7 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
                         <i className="bx bx-envelope font-size-16 align-middle me-1" />
                         Message
                     </DropdownItem>
-                    <DropdownItem tag="a" onClick={() => router.push('/profile/edit')}>
+                    <DropdownItem tag="a" onClick={() => router.push('/profile/setting')}>
                         <i className="bx bx-cog font-size-16 align-middle me-1" />
                         Setting
                     </DropdownItem>

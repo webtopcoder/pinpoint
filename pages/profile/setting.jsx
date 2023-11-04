@@ -6,10 +6,10 @@ import { Layout } from "antd";
 import { connect } from "react-redux";
 import useMedia from "@/hooks/useMedia";
 
-const EditProfile = () => {
+const Setting = () => {
   return (
     <>
-      <PageTitle page="PROFILE EDIT" />
+      <PageTitle page="SETTING" />
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
@@ -25,9 +25,9 @@ const EditProfile = () => {
 };
 
 
-EditProfile.requireAuth = true;
-EditProfile.getLayout = function getLayout(page) {
+Setting.requireAuth = true;
+Setting.getLayout = function getLayout(page) {
   return <BasicLayout>{page}</BasicLayout>;
 };
 
-export default EditProfile;
+export default Setting;

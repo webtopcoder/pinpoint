@@ -1,14 +1,12 @@
 import React from "react";
-
 import PageTitle from "@/components/Layout/PageTitle";
-
 import Layout from "../../../layout";
 import InboxMain from "@/components/Message/Inbox/Index";
 
 const index = () => {
     return (
         <>
-            <PageTitle page="Message" />
+            <PageTitle page="MESSAGE INBOX" />
             <div className="page-title-area">
                 <div className="container">
                     <div className="page-title-content">
