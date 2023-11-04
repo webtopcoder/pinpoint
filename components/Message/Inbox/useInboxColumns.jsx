@@ -258,8 +258,8 @@ const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, m
           ? record?.to?.name
           : record?.from?.name;
         const avatarToShow = isCurrentUser
-          ? record?.from?.profile?.avatar?.filepath
-          : record?.to?.profile?.avatar?.filepath;
+          ? record?.to?.profile?.avatar?.filepath
+          : record?.from?.profile?.avatar?.filepath;
 
         const isUnreadReply = record?.replies?.some((item) => !item?.is_read && item?.to === user_id);
         const toggleStar = () => {
