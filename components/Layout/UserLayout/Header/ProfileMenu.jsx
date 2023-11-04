@@ -9,7 +9,7 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import { logout } from "@/src/redux/User/actions";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import { Tag } from "antd";
 
 const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
     // Declare a new state variable, which we'll call "menu"
@@ -44,11 +44,17 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
                     <div className="mt-4 mt-md-0" style={{
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        padding: 10
                     }}>
                         <img className="rounded-circle avatar-lg" alt="200x200" src={avatarurl + avatarImg} data-holder-rendered="true" />
                         <h6 style={{ marginTop: 10, marginBottom: 0 }}>{localStorage.getItem('fullname')}</h6>
-                        <p>{role}</p>
+                        <span>@{localStorage.getItem('username')}</span>
+                        <p>
+                            <Tag color="#55acee">
+                                {role}
+                            </Tag>
+                        </p>
                     </div>
                     <div className="dropdown-divider" style={{
                         marginLeft: 0
@@ -76,8 +82,6 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
         </React.Fragment>
     );
 };
-
-
 
 const mapDispatchToProps = (dispatch) => ({
     onLogout: (cb) => dispatch(logout(cb)),
