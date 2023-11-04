@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import logo from "@/public/images/logo.png";
-import Image from "next/image";
 import { loginUser } from "@/redux/User/actions";
 import { useLoginFormValidator } from "../hooks/useLoginValidator";
 import { Spin } from 'antd';
@@ -10,7 +8,6 @@ import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { connect } from "react-redux";
 import FormGroup from "../FormGroup";
-import useMedia from "@/hooks/useMedia";
 
 const antIcon = (
   <LoadingOutlined
@@ -25,7 +22,6 @@ const Form = ({ onLoginUser, token, loggedInRole, option }) => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const isWebDevice = useMedia('(min-width:700px)');
 
   useEffect(() => {
     if (token) {
@@ -151,12 +147,6 @@ const Form = ({ onLoginUser, token, loggedInRole, option }) => {
     </form>
   );
 };
-
-// const mapDispatchToProps = (dispatch) => ({
-//   onLoginAdditionUser: (data, cb) => dispatch(loginAdditionUser(data, cb)),
-// });
-
-// export default connect(undefined, mapDispatchToProps)(Form);
 
 const mapStateToProps = ({ user }) => ({
   loginInfo: user.loginInfo,

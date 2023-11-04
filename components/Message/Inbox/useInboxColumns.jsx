@@ -3,10 +3,10 @@ import {
   DeleteFilled,
   FolderFilled,
   FolderOpenFilled,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { Space, Tag, Popconfirm, Popover } from "antd";
-import React from "react";
+import { Space, Tag, Popconfirm, Popover, Spin } from "antd";
+import React, { useState } from "react";
 import useMedia from "@/hooks/useMedia";
 import classnames from "classnames";
 import { formatDateNoti } from "@/utils/date";
@@ -18,6 +18,8 @@ const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, markAsReadOrStar }) => {
   const { notify } = useNotify();
+
+  const [loading, setLoading] = useState(false);
   const isWebDevice = useMedia('(min-width:700px)');
   const router = useRouter();
   const deleteMail = (mailId) => {
@@ -410,14 +412,18 @@ const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, m
 
         return (
           <Space direction={isWebDevice ? 'horizontal' : 'vertical'} size={isWebDevice ? 5 : "small"}>
-            <a
-              onClick={(e) => {
-                e.stopPropagation();
-                markAsReadOrStar(record._id, 'is_read', !record.is_read)
-              }}
-            >
-              {isUnread || isUnreadReply ? <FolderFilled className="eye-style" /> : <FolderOpenFilled className="eye-style" />}
-            </a>
+            <Spin spinning={loading}>
+              <a
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  await setLoading(true);
+                  await markAsReadOrStar(record._id, 'is_read', !record.is_read);
+                  await setLoading(false);
+                }}
+              >
+                {isUnread || isUnreadReply ? <FolderFilled className="eye-style" /> : <FolderOpenFilled className="eye-style" />}
+              </a>
+            </Spin>
             <Popconfirm
               title="Delete the mail"
               description="Are you sure to delete this mail?"

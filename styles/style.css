@@ -351,6 +351,10 @@ Message page CSS
   color: var(--blueColor) !important;
 }
 
+.hover-profile{
+  color: var(--blueColor) !important;
+}
+
 .reply-box {
   margin: 5px;
   padding: 15px;

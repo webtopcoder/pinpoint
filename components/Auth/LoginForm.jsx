@@ -5,7 +5,6 @@ import UserPartnerLoginForm from "./UserPartner/Form";
 import AssistantForm from "./Assistant/Login";
 import useMedia from "@/hooks/useMedia";
 
-
 const options = [
   {
     label: 'As a User',

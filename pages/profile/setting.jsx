@@ -2,9 +2,6 @@ import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import BasicLayout from "../../layout";
 import Edit from "@/components/Profile/profileEdit/Main";
-import { Layout } from "antd";
-import { connect } from "react-redux";
-import useMedia from "@/hooks/useMedia";
 
 const Setting = () => {
   return (
@@ -23,7 +20,6 @@ const Setting = () => {
     </>
   );
 };
-
 
 Setting.requireAuth = true;
 Setting.getLayout = function getLayout(page) {
