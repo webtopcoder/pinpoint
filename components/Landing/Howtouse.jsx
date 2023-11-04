@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { Button } from 'antd';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import {
+  Button
+} from "reactstrap";
 
 const Howtouse = () => {
   return (
@@ -159,7 +160,9 @@ const Howtouse = () => {
         >
           <div className="lets-start-box">
             <Link href="/partner/education">
-              <Button type="link" icon={<ArrowRightOutlined />} size="large">Learn more about becoming a Pinpoint Partner</Button>
+              <Button color="link" className="btn-rounded">
+                <i className="bx bx-right-arrow-alt font-size-16 align-middle me-2"></i>{" "}  Learn more about becoming a Pinpoint Partner
+              </Button>
             </Link>
           </div>
         </div>
