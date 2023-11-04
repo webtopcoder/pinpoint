@@ -4,7 +4,6 @@ import {
     ModalBody,
     ModalHeader,
 } from "reactstrap";
-import useMedia from "@/hooks/useMedia";
 import useNotify from "@/hooks/useNotify";
 import { mailCompose } from "@/redux/Mail/actions";
 import { getmyFollowers } from "@/redux/User/actions";
@@ -35,12 +34,11 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
     const [updating, setUpdating] = useState(false);
     const router = useRouter();
     const { notify } = useNotify();
-    const isWebDevice = useMedia('(min-width:700px)');
     const { user: sendToUserId } = router.query;
 
     const options = myfollowerList?.map((follow) => ({
         value: follow?.follower?.username,
-        label: follow?.follower?.username,
+        label: `@${follow?.follower?.username}`,
     }));
 
     useEffect(() => {
@@ -215,7 +213,7 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                                 <Form.Item name="fileupload">
                                     <Upload method="get" {...props}>
                                         <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
-                                             Upload Photo
+                                            Upload Photo
                                         </Button>
                                     </Upload>
                                 </Form.Item>

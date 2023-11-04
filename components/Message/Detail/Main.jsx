@@ -8,7 +8,7 @@ import {
     getReplyByID
 } from "@/redux/Mail/actions";
 import { UploadOutlined, DownOutlined, UpOutlined, ClockCircleOutlined, LeftOutlined } from "@ant-design/icons";
-import { Button, Upload, Form, message, Input } from "antd";
+import { Button, Upload, Form, message, Input, Spin } from "antd";
 import { connect } from "react-redux";
 import { getDiffToNow } from "@/utils/date";
 //Import Image
@@ -43,6 +43,8 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
     };
 
     useEffect(async () => {
+
+        await setInitLoading(true);
         const result = await mailService.getInboxByID(id);
         await setSaveInboxDetail(result?.results[0]);
         ongetReplyByID(result?.results[0]?._id, (res, error) => {
@@ -54,12 +56,11 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
                 return;
             }
             else {
-                setInitLoading(false)
                 setSaveReply(res.results);
                 markAsReadOrStar(result?.results[0]?._id, 'is_read', true);
-
             }
         });
+        setInitLoading(false)
     }, [id]);
 
     const [replymsg, setReply] = useState('');
@@ -119,180 +120,180 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
     };
 
     return (
-        <Row>
-            <CardBody className="border-bottom">
-                <div className="d-flex align-items-center">
-                    <h4 className="mb-0 card-title font-size-16 flex-grow-1">
-                        {record_detail?.subject}
-                    </h4>
-                    <div className="flex-shrink-0">
-                        <Button type="link" onClick={() => {
-                            const link = tab == 1 ? '/message/inbox' : '/message/sent'
-                            router.push(link);
-                        }} icon={<LeftOutlined />}>Back</Button>
-                    </div>
-                </div>
-            </CardBody>
-            <Col xs="12">
-                <Card>
-                    <CardBody>
-                        <div className="d-flex mb-4">
-                            <img
-                                className="d-flex me-3 rounded-circle avatar-lg"
-                                src={avatarurl + record_detail?.from?.profile?.avatar?.filepath}
-                                alt="skote"
-                            />
-                            <div className="flex-grow-1">
-                                <h5 className="font-size-14 mt-1">
-                                    {record_detail?.from?.name}
-                                </h5>
-                                <small className="text-muted">@{record_detail?.from?.username}</small>
-                            </div>
-                        </div>
-                        <h4 className="mt-0 font-size-16">
+        <Spin spinning={initLoading}>
+            <Row>
+                <CardBody className="border-bottom">
+                    <div className="d-flex align-items-center">
+                        <h4 className="mb-0 card-title font-size-16 flex-grow-1">
                             {record_detail?.subject}
                         </h4>
-                        <p style={{
-                            fontSize: 12,
-                            color: '#175594'
-                        }}>
-                            <i class="bx bx-time-five"></i>&nbsp;
-                            {getDiffToNow(record_detail?.createdAt)} ago</p>
-                        <p>{record_detail?.message}</p>
-                        <Row>
-                            {record_detail?.files?.map((item) => (
-                                <Col xl="2" xs="6">
-                                    <Card>
-                                        <img
-                                            className="card-img-top img-fluid"
-                                            src={avatarurl + item?.filepath}
-                                            alt="skote"
-                                        />
-                                        <div className="py-2 text-center">
-                                            <a onClick={() => onMenuClick(item?.filepath)} className="fw-medium">
-                                                Download
-                                            </a>
-                                        </div>
-                                    </Card>
-                                </Col>
-                            ))}
-                        </Row>
-                        {reply_detail?.length > 0 ?
-                            <>
-                                {_.map(reply_detail, (item, i) => (
-                                    <div className="reply-box">
-                                        <div className="d-flex mb-4">
+                        <div className="flex-shrink-0">
+                            <Button type="link" onClick={() => {
+                                const link = tab == 1 ? '/message/inbox' : '/message/sent'
+                                router.push(link);
+                            }} icon={<LeftOutlined />}>Back</Button>
+                        </div>
+                    </div>
+                </CardBody>
+                <Col xs="12">
+                    <Card>
+                        <CardBody>
+                            <div className="d-flex mb-4">
+                                <img
+                                    className="d-flex me-3 rounded-circle avatar-lg"
+                                    src={avatarurl + record_detail?.from?.profile?.avatar?.filepath}
+                                    alt="skote"
+                                />
+                                <div className="flex-grow-1">
+                                    <h5 className="font-size-14 mt-1">
+                                        {record_detail?.from?.name}
+                                    </h5>
+                                    <small className="text-muted">@{record_detail?.from?.username}</small>
+                                </div>
+                            </div>
+                            <h4 className="mt-0 font-size-16">
+                                {record_detail?.subject}
+                            </h4>
+                            <p style={{
+                                fontSize: 12,
+                                color: '#175594'
+                            }}>
+                                <i class="bx bx-time-five"></i>&nbsp;
+                                {getDiffToNow(record_detail?.createdAt)} ago</p>
+                            <p>{record_detail?.message}</p>
+                            <Row>
+                                {record_detail?.files?.map((item) => (
+                                    <Col xl="2" xs="6">
+                                        <Card>
                                             <img
-                                                className="d-flex me-3 rounded-circle avatar-sm"
-                                                src={avatarurl + item?.from?.profile?.avatar?.filepath}
+                                                className="card-img-top img-fluid"
+                                                src={avatarurl + item?.filepath}
                                                 alt="skote"
                                             />
-                                            <div className="flex-grow-1">
-                                                <h5 className="font-size-14 mt-1">
-                                                    {item?.from?.name}
-                                                </h5>
-                                                <small className="text-muted">@{item?.from?.username}</small>
+                                            <div className="py-2 text-center">
+                                                <a onClick={() => onMenuClick(item?.filepath)} className="fw-medium">
+                                                    Download
+                                                </a>
                                             </div>
-                                        </div>
-                                        <p style={{
-                                            fontSize: 12,
-                                            color: '#175594'
-                                        }}>
-                                            <i class="bx bx-time-five"></i>&nbsp;
-                                            {getDiffToNow(item?.createdAt)} ago
-                                        </p>
-                                        <p>{item?.message}</p>
-                                        <Row>
-                                            {item?.files?.map((option) => (
-                                                option?.mimetype === "image/png" || option?.mimetype === "image/jpeg" ?
-                                                    <Col xl="2" xs="6" >
-                                                        <Card>
-                                                            <img
-                                                                className="card-img-top img-fluid"
-                                                                src={avatarurl + option?.filepath}
-                                                                alt="skote"
-                                                            />
-                                                            <div className="py-2 text-center">
-                                                                <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
-                                                                    <i className="bx bx-download"></i>   Download
-                                                                </a>
-                                                            </div>
-                                                        </Card>
-                                                    </Col> :
-                                                    <div className="py-2">
-                                                        <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
-                                                            <i className="bx bx-download"></i> {option?.filepath}
-                                                        </a>
-                                                    </div>
-                                            ))}
-                                        </Row>
-                                    </div>
+                                        </Card>
+                                    </Col>
                                 ))}
-                            </> : ''}
-                        <Button
-                            style={{
-                                fontSize: 12,
-                            }}
-                            onClick={() => {
-                                setExpand(!expand);
-                            }}
-                            type="link"
-                        >
-                            {expand ? <UpOutlined /> : <DownOutlined />} Reply
-                        </Button>
-                        <Form
-                            form={replyForm}
-                            onFinish={onFinish}
-                            layout="horizontal"
-                            autoComplete="off"
-                            style={{
-                                maxWidth: 600,
-                                margin: 5
-                            }}
-                        >
-                            <Form.Item
-                                hidden={expand}
-                                name="message"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input Message!",
-                                    },
-                                    {
-                                        whitespace: true,
-                                        message: "Please input Message!",
-                                    },
-                                ]}
+                            </Row>
+                            {reply_detail?.length > 0 ?
+                                <>
+                                    {_.map(reply_detail, (item, i) => (
+                                        <div className="reply-box">
+                                            <div className="d-flex mb-4">
+                                                <img
+                                                    className="d-flex me-3 rounded-circle avatar-sm"
+                                                    src={avatarurl + item?.from?.profile?.avatar?.filepath}
+                                                    alt="skote"
+                                                />
+                                                <div className="flex-grow-1">
+                                                    <h5 className="font-size-14 mt-1">
+                                                        {item?.from?.name}
+                                                    </h5>
+                                                    <small className="text-muted">@{item?.from?.username}</small>
+                                                </div>
+                                            </div>
+                                            <p style={{
+                                                fontSize: 12,
+                                                color: '#175594'
+                                            }}>
+                                                <i class="bx bx-time-five"></i>&nbsp;
+                                                {getDiffToNow(item?.createdAt)} ago
+                                            </p>
+                                            <p>{item?.message}</p>
+                                            <Row>
+                                                {item?.files?.map((option) => (
+                                                    option?.mimetype === "image/png" || option?.mimetype === "image/jpeg" ?
+                                                        <Col xl="2" xs="6" >
+                                                            <Card>
+                                                                <img
+                                                                    className="card-img-top img-fluid"
+                                                                    src={avatarurl + option?.filepath}
+                                                                    alt="skote"
+                                                                />
+                                                                <div className="py-2 text-center">
+                                                                    <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
+                                                                        <i className="bx bx-download"></i>   Download
+                                                                    </a>
+                                                                </div>
+                                                            </Card>
+                                                        </Col> :
+                                                        <div className="py-2">
+                                                            <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
+                                                                <i className="bx bx-download"></i> {option?.filepath}
+                                                            </a>
+                                                        </div>
+                                                ))}
+                                            </Row>
+                                        </div>
+                                    ))}
+                                </> : ''}
+                            <Button
+                                style={{
+                                    fontSize: 12,
+                                }}
+                                onClick={() => {
+                                    setExpand(!expand);
+                                }}
+                                type="link"
                             >
-                                <TextArea
-                                    value={replymsg}
-                                    placeholder="Reply message"
-                                    autoSize={{
-                                        minRows: 3,
-                                        maxRows: 5,
-                                    }}
+                                {expand ? <UpOutlined /> : <DownOutlined />} Reply
+                            </Button>
+                            <Form
+                                form={replyForm}
+                                onFinish={onFinish}
+                                layout="horizontal"
+                                autoComplete="off"
+                                style={{
+                                    maxWidth: 600,
+                                    margin: 5
+                                }}
+                            >
+                                <Form.Item
+                                    hidden={expand}
+                                    name="message"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: "Please input Message!",
+                                        },
+                                        {
+                                            whitespace: true,
+                                            message: "Please input Message!",
+                                        },
+                                    ]}
+                                >
+                                    <TextArea
+                                        value={replymsg}
+                                        placeholder="Reply message"
+                                        autoSize={{
+                                            minRows: 3,
+                                            maxRows: 5,
+                                        }}
 
-                                    onChange={(e) => setReply(e.target.value)}
-                                />
-                            </Form.Item>
-                            <Form.Item name="fileupload" hidden={expand}
-                            >
-                                <Upload multiple method="get" className="avatar-uploader" {...props}>
-                                    <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
-                                        Upload
+                                        onChange={(e) => setReply(e.target.value)}
+                                    />
+                                </Form.Item>
+                                <Form.Item name="fileupload" hidden={expand}
+                                >
+                                    <Upload multiple method="get" className="avatar-uploader" {...props}>
+                                        <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
+                                            Upload
+                                        </Button>
+                                    </Upload>
+                                    <Button style={{ float: 'right' }} className="btn-submit" type="primary" htmlType="submit">
+                                        Submit
                                     </Button>
-                                </Upload>
-                                <Button style={{ float: 'right' }} className="btn-submit" type="primary" htmlType="submit">
-                                    Submit
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </CardBody>
-                </Card>
-            </Col >
-        </Row>
-
-
+                                </Form.Item>
+                            </Form>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+        </Spin>
     );
 };
 
