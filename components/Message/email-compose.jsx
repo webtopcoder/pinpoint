@@ -180,7 +180,7 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                                     rules={[
                                         {
                                             required: componentDisabled || adminselected ? false : true,
-                                            message: "Please input your Username!",
+                                            message: "Please Select Username!",
                                         },
                                     ]}
                                 >
