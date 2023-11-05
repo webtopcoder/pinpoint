@@ -23,7 +23,6 @@ import {
 import classnames from "classnames";
 
 const index = ({ userRole }) => {
-
     const [editInfo, setUserInfo] = useState();
     const [activeTab, setactiveTab] = useState("1");
 
@@ -124,7 +123,7 @@ const index = ({ userRole }) => {
                                             </TabPane>
                                             <TabPane tabId="3" className="basic-info">
                                                 <div className="login-form" >
-                                                    <CardTitle className="mb-2">Change Password</CardTitle>
+                                                    <CardTitle className="mb-2">Reset Password</CardTitle>
                                                     <ChangePassword />
                                                 </div>
                                             </TabPane>

@@ -31,12 +31,12 @@ const AuthSignup = () => {
 
   return (
     <>
-      <PageTitle page="Sign Up" />
+      <PageTitle page="SIGN UP" />
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Authentication</span>
-            <h1>Sign Up</h1>
+            <h1>SIGN UP</h1>
           </div>
         </div>
       </div>
@@ -72,7 +72,8 @@ const AuthSignup = () => {
                     marginBottom: 20
                   }}
                 />
-                {option === "user" ? <UserRegister /> : <PartnerRegister />}
+                {option === "user" ?
+                  <UserRegister /> : <PartnerRegister />}
               </div>
             </div>
           </div>

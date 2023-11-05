@@ -11,7 +11,7 @@ const detail = () => {
                 <div className="container">
                     <div className="page-title-content">
                         <span className="sub-title">Message</span>
-                        <h1>Sent</h1>
+                        <h1>SENT</h1>
                     </div>
                 </div>
             </div>

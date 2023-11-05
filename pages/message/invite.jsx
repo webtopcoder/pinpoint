@@ -11,7 +11,7 @@ const invite = () => {
                 <div className="container">
                     <div className="page-title-content">
                         <span className="sub-title">Message</span>
-                        <h1>Invitation</h1>
+                        <h1>INVITATION</h1>
                     </div>
                 </div>
             </div>

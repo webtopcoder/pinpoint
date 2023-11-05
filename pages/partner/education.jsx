@@ -15,7 +15,7 @@ const Education = () => {
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Pinpoint Partner</span>
-            <h1>Benefits</h1>
+            <h1>BENEFITS</h1>
           </div>
         </div>
       </div>

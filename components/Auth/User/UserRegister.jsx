@@ -305,7 +305,9 @@ const UserRegister = ({ token, loggedInRole }) => {
               id="remember-me"
             />
             <label className="form-check-label" htmlFor="remember-me">
-              <div className="lost-your-password-wrap">
+              <div className="lost-your-password-wrap" style={{
+                textAlign: 'left'
+              }}>
                 <span style={{
                   color: terms ? '' : '#e11d48',
                 }}>I agree to</span> {" "}

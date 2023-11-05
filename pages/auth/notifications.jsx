@@ -6,11 +6,11 @@ import Layout from "../../layout";
 const Notifications = () => {
     return (
         <>
-            <PageTitle page="Notifications" />
+            <PageTitle page="NOTIFICATIONS" />
             <div className="page-title-area">
                 <div className="container">
                     <div className="page-title-content">
-                        <h1>Notifications</h1>
+                        <h1>NOTIFICATIONS</h1>
                     </div>
                 </div>
             </div>

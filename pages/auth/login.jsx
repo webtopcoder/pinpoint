@@ -21,7 +21,7 @@ const AuthLogin = () => {
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Authentication</span>
-            <h1>Login</h1>
+            <h1>LOGIN</h1>
           </div>
         </div>
       </div>
