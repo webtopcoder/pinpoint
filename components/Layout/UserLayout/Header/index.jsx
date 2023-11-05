@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useRouter } from "next/router";
 import Link from "@/utils/ActiveLink";
 import Image from "next/image";
-import { Avatar, Badge, Space } from 'antd';
+import { Space } from 'antd';
 import logo from "@/public/images/logo.png";
 import mobilelogo from "@/public/images/logo-mobile.png";
 import useMedia from "@/hooks/useMedia";
-import { connect } from "react-redux";
-import { useRouter } from "next/router";
 import ProfileMenu from "./ProfileMenu";
 import NotificationDropdown from "./NotificationDropdown";
 import MessageDropdown from "./MessageDropdown";
@@ -37,6 +37,7 @@ const index = ({
   React.useEffect(() => {
     let elementId = document.getElementById("navbar");
     document.addEventListener("scroll", () => {
+      setMenu(true);
       if (window.scrollY > 170) {
         elementId.classList.add("is-sticky");
       } else {
@@ -44,6 +45,10 @@ const index = ({
       }
     });
   });
+
+  useEffect(() => {
+    setMenu(true);
+  }, [router.route]);
 
   const classOne = menu
     ? "collapse navbar-collapse mean-menu"
@@ -94,8 +99,8 @@ const index = ({
                       </li>
                       : ''
                   }
-                    {
-                    token && role==="partner"?
+                  {
+                    token && role === "partner" ?
                       <li className="nav-item">
                         <Link href="/">
                           <a className="nav-link">Dashboard</a>
@@ -121,20 +126,26 @@ const index = ({
                     </Link>
                   </li>
                   {token ? '' :
-                    <li className="nav-item mobile">
-                      <Space>
-                        <Link href="/auth/login">
-                          <a className="btn-style-one blue-dark-color">
-                            Log In
-                          </a>
-                        </Link>
-                        <Link href="/auth/signup">
-                          <a className="btn-style-one white-color">
-                            Sign Up
-                          </a>
-                        </Link>
-                      </Space>
-                    </li>}
+                    <>
+                      <li className="nav-item mobile">
+                        <hr style={{
+                          color: '#fff'
+                        }} />
+                        <Space>
+
+                          <Link href="/auth/login">
+                            <a className="btn-style-one white-color">
+                              Log In
+                            </a>
+                          </Link>
+                          <Link href="/auth/signup">
+                            <a className="btn-style-one white-color">
+                              Sign Up
+                            </a>
+                          </Link>
+                        </Space>
+                      </li></>}
+
                 </ul>
               </div>
               {token ? (

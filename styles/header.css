@@ -90,45 +90,66 @@
   from {
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
- }
-  10%, 20% {
+  }
+
+  10%,
+  20% {
     -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
     transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
- }
-  30%, 50%, 70%, 90% {
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
     -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
     transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
- }
-  40%, 60%, 80% {
+  }
+
+  40%,
+  60%,
+  80% {
     -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg);
     transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg);
- }
+  }
+
   to {
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
- }
+  }
 }
+
 @keyframes tada {
   from {
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
- }
-  10%, 20% {
+  }
+
+  10%,
+  20% {
     -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
     transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
- }
-  30%, 50%, 70%, 90% {
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
     -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
     transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
- }
-  40%, 60%, 80% {
+  }
+
+  40%,
+  60%,
+  80% {
     -webkit-transform: rotate3d(0, 0, 1, -10deg);
     transform: rotate3d(0, 0, 1, -10deg);
- }
+  }
+
   to {
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
- }
+  }
 }
 
 .avatar-xs {
@@ -410,7 +431,7 @@
   width: 35px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-  background: #333;
+  background: var(--blueColor);
   height: 4px;
   display: block;
   border-radius: 3px;
@@ -495,7 +516,7 @@
 
 .main-nav .navbar .navbar-nav .nav-item .nav-link {
   position: relative;
-  color: var(--blackColor);
+  color: var(--whiteColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
   font-weight: 600;
@@ -1191,9 +1212,10 @@
   .main-nav .navbar .navbar-nav {
     border-top: 1px solid #eee;
     margin-top: 15px;
-    padding-top: 5px;
+    padding: 15px;
     overflow-y: auto;
-    max-height: 70vh;
+    max-height: 78vh;
+    background: var(--blueColor);
   }
 
   .main-nav .navbar .navbar-nav::-webkit-scrollbar {
