@@ -54,17 +54,23 @@ h2 {
 .h1,
 .h2,
 .h3,
+h1,
+h2,
+h3
+ {
+  color: var(--graydarkColor);
+  font-weight: 700;
+}
+
 .h4,
 .h5,
 .h6,
-h1,
-h2,
-h3,
 h4,
 h5,
-h6 {
-  color: var(--graydarkColor);
-  font-weight: 700;
+h6
+{
+  color: inherit;
+
 }
 
 a {
@@ -107,9 +113,11 @@ p {
   margin-bottom: 15px;
   line-height: 1.8;
 }
-.font-size-16{
+
+.font-size-16 {
   font-size: 16px !important;
 }
+
 p:last-child {
   margin-bottom: 0;
 }
@@ -156,6 +164,11 @@ p:last-child {
 
 .bg-f9f9f9 {
   background-color: #f9f9f9;
+}
+
+.bg-white {
+  background-color: #fff !important;
+  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
 }
 
 

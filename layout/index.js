@@ -1,9 +1,9 @@
 
 import UserLayout from "../components/Layout/UserLayout";
 
-export default function Layout({ variant = "main", children }) {
- 
+export default function Layout({ variant = "main", children, whiteMenu = false }) {
+
   return (
-    <UserLayout>{children}</UserLayout>
+    <UserLayout whiteMenu={whiteMenu}>{children}</UserLayout>
   );
 }

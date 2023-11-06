@@ -11,7 +11,7 @@ const RightSidebar = dynamic(() => import("./RightSidebar"), {
   ssr: false,
 });
 
-const UserLayout = ({ children }) => {
+const UserLayout = ({ children, whiteMenu }) => {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const onToggle = () => {
@@ -35,10 +35,10 @@ const UserLayout = ({ children }) => {
       .addEventListener("click", hideRightbar, true);
   }, [router.pathname]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <>
-      <Header toggle={onToggle} />
+      <Header whiteMenu={whiteMenu} toggle={onToggle} />
       <RightSidebar visible={visible} />
       {children}
       <Footer />

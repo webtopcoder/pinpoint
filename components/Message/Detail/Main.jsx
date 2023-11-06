@@ -10,12 +10,14 @@ import {
     getReplyByID
 } from "@/redux/Mail/actions";
 import { UploadOutlined, DownOutlined, UpOutlined, LeftOutlined } from "@ant-design/icons";
-import { Button, Upload, Form, message, Input, Spin } from "antd";
+import { Button, Upload, Form, message, Input, Spin, Image } from "antd";
 import { getDiffToNow } from "@/utils/date";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
 import { mailService } from "@/services/index";
 import { map } from "lodash";
+import classNames from "classnames";
+import useMedia from "@/hooks/useMedia";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 const { TextArea } = Input;
@@ -27,6 +29,7 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
     const [reply_detail, setSaveReply] = useState();
     const { notify } = useNotify();
     const [initLoading, setInitLoading] = useState(true);
+    const isWebDevice = useMedia('(min-width:700px)');
 
     const markAsReadOrStar = (mailId, field, status) => {
         const updateField = field === "is_read" ? "is_read" : "is_star";
@@ -137,96 +140,75 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
                 <Col xs="12">
                     <Card>
                         <CardBody>
-                            <div className="d-flex mb-4">
-                                <img
-                                    className="d-flex me-3 rounded-circle avatar-lg"
-                                    src={avatarurl + record_detail?.from?.profile?.avatar?.filepath}
-                                    alt="skote"
-                                />
+                            <div className="d-flex py-3">
+                                <div className="avatar-lg me-3">
+                                    <div className={classNames('avatar-title', 'rounded-circle', 'text-primary', { 'avatar-size': !isWebDevice })}>
+                                        <img
+                                            className="d-flex me-3 rounded-circle"
+                                            src={avatarurl + record_detail?.from?.profile?.avatar?.filepath}
+                                            alt="skote"
+                                        />
+                                    </div>
+                                </div>
                                 <div className="flex-grow-1">
-                                    <h5 className="font-size-14 mt-1">
-                                        {record_detail?.from?.name}
+                                    <h5 className="font-size-14 mb-1">
+                                        {record_detail?.from?.name}{" "}
+                                        <small className="text-muted float-end">
+                                            <i class="bx bx-time-five"></i>&nbsp;  {getDiffToNow(record_detail?.createdAt)} ago
+                                        </small>
                                     </h5>
-                                    <small className="text-muted">@{record_detail?.from?.username}</small>
+                                    <p className="text-muted">
+                                        @{record_detail?.from?.username}
+                                    </p>
+                                    <p className="text-muted">
+                                        {record_detail?.message}
+                                    </p>
+                                    <Image.PreviewGroup
+                                    >
+                                        {record_detail?.files?.map((item) => (
+                                            <Image width={200} src={avatarurl + item?.filepath} />
+                                        ))}
+                                    </Image.PreviewGroup>
                                 </div>
                             </div>
-                            <h4 className="mt-0 font-size-16">
-                                {record_detail?.subject}
-                            </h4>
-                            <p style={{
-                                fontSize: 12,
-                                color: '#175594'
-                            }}>
-                                <i class="bx bx-time-five"></i>&nbsp;
-                                {getDiffToNow(record_detail?.createdAt)} ago</p>
-                            <p>{record_detail?.message}</p>
-                            <Row>
-                                {record_detail?.files?.map((item) => (
-                                    <Col xl="2" xs="6">
-                                        <Card>
-                                            <img
-                                                className="card-img-top img-fluid"
-                                                src={avatarurl + item?.filepath}
-                                                alt="skote"
-                                            />
-                                            <div className="py-2 text-center">
-                                                <a onClick={() => onMenuClick(item?.filepath)} className="fw-medium">
-                                                    Download
-                                                </a>
-                                            </div>
-                                        </Card>
-                                    </Col>
-                                ))}
-                            </Row>
+
                             {reply_detail?.length > 0 ?
                                 <>
+                                    <h5 className="font-size-15">
+                                        <i className="bx bx-message-dots text-muted align-middle me-1"></i>{" "}
+                                        Reply Messages :
+                                    </h5>
                                     {_.map(reply_detail, (item, i) => (
-                                        <div className="reply-box">
-                                            <div className="d-flex mb-4">
-                                                <img
-                                                    className="d-flex me-3 rounded-circle avatar-sm"
-                                                    src={avatarurl + item?.from?.profile?.avatar?.filepath}
-                                                    alt="skote"
-                                                />
-                                                <div className="flex-grow-1">
-                                                    <h5 className="font-size-14 mt-1">
-                                                        {item?.from?.name}
-                                                    </h5>
-                                                    <small className="text-muted">@{item?.from?.username}</small>
+                                        <div className="d-flex py-3 border-top">
+                                            <div className="avatar-xs me-3">
+                                                <div className={classNames('avatar-title', 'rounded-circle', 'text-primary', { 'avatar-size': !isWebDevice })}>
+                                                    <img
+                                                        src={avatarurl + item?.from?.profile?.avatar?.filepath}
+                                                        alt=""
+                                                        className="img-fluid d-block rounded-circle"
+                                                    />
                                                 </div>
                                             </div>
-                                            <p style={{
-                                                fontSize: 12,
-                                                color: '#175594'
-                                            }}>
-                                                <i class="bx bx-time-five"></i>&nbsp;
-                                                {getDiffToNow(item?.createdAt)} ago
-                                            </p>
-                                            <p>{item?.message}</p>
-                                            <Row>
-                                                {item?.files?.map((option) => (
-                                                    option?.mimetype === "image/png" || option?.mimetype === "image/jpeg" ?
-                                                        <Col xl="2" xs="6" >
-                                                            <Card>
-                                                                <img
-                                                                    className="card-img-top img-fluid"
-                                                                    src={avatarurl + option?.filepath}
-                                                                    alt="skote"
-                                                                />
-                                                                <div className="py-2 text-center">
-                                                                    <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
-                                                                        <i className="bx bx-download"></i>   Download
-                                                                    </a>
-                                                                </div>
-                                                            </Card>
-                                                        </Col> :
-                                                        <div className="py-2">
-                                                            <a onClick={() => onMenuClick(option?.filepath)} className="fw-medium">
-                                                                <i className="bx bx-download"></i> {option?.filepath}
-                                                            </a>
-                                                        </div>
-                                                ))}
-                                            </Row>
+                                            <div className="flex-grow-1">
+                                                <h5 className="font-size-14 mb-1">
+                                                    {item?.from?.name}{" "}
+                                                    <small className="text-muted float-end">
+                                                        <i class="bx bx-time-five"></i>&nbsp; {getDiffToNow(item?.createdAt)} ago
+                                                    </small>
+                                                </h5>
+                                                <p className="text-muted">
+                                                    @{item?.from?.username}
+                                                </p>
+                                                <p className="text-muted">
+                                                    {item?.message}
+                                                </p>
+                                                <Image.PreviewGroup
+                                                >
+                                                    {item?.files?.map((file) => (
+                                                        <Image width={200} src={avatarurl + file?.filepath} />
+                                                    ))}
+                                                </Image.PreviewGroup>
+                                            </div>
                                         </div>
                                     ))}
                                 </> : ''}

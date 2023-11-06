@@ -28,11 +28,13 @@ const Activity = ({ user_id, userRole }) => {
 
   return (
     <>
-      <PageTitle page="MESSAGE Invitation" />
-      <div className="page-profile-area">
-      </div>
-      <div className="profile-authentication-area bg-f8fbff">
-        <ProfileActivity usertype={headerInfo?.profile?.usertype} />
+      <PageTitle page="PROFILE - ACTIVITY" />
+      <div className="page-pin-area">
+        <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
+        <div className="pin-profile-section">
+          <Submenu headerInfo={headerInfo} own_page={own_page}/>
+          <ProfileActivity usertype={headerInfo?.profile?.usertype} />
+        </div>
       </div>
     </>
   );
@@ -40,7 +42,7 @@ const Activity = ({ user_id, userRole }) => {
 
 Activity.requireAuth = true;
 Activity.getLayout = function getLayout(page) {
-  return <Layout whiteMenu={true}>{page}</Layout>;
+  return <Layout>{page}</Layout>;
 };
 
 const mapStateToProps = ({ user }) => {

@@ -10,6 +10,7 @@ import useMedia from "@/hooks/useMedia";
 import ProfileMenu from "./ProfileMenu";
 import NotificationDropdown from "./NotificationDropdown";
 import MessageDropdown from "./MessageDropdown";
+import classNames from "classnames";
 
 const index = ({
   toggle,
@@ -19,7 +20,8 @@ const index = ({
   avatarImg,
   role,
   newNotification,
-  additionRole
+  additionRole,
+  whiteMenu
 }) => {
 
   const router = useRouter();
@@ -59,7 +61,8 @@ const index = ({
 
   return (
     <>
-      <div id="navbar" className="navbar-area navbar-style-two">
+      <div id="navbar" className={classNames('navbar-area', 'navbar-style-two', { 'bg-white': whiteMenu })}
+      >
         <div className="main-nav">
           <div className="container-fluid">
             <nav className="navbar navbar-expand-lg navbar-light bg-light">

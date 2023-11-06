@@ -78,7 +78,6 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                 }
         }
 
-        form_data.append("to", recipient);
         form_data.append("subject", values.subject);
         form_data.append("message", values.message);
         onmailCompose(form_data, (res, error) => {
@@ -103,7 +102,6 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                 const fileUploadInfo = info.fileList;
                 setUploadFile(fileUploadInfo);
             }
-
             if (info.file.status == "removed") {
                 if (info.fileList.length == 0) setUploadFile("");
                 else {
@@ -215,7 +213,8 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                                 >
                                     <TextArea rows={4} />
                                 </Form.Item>
-                                <Form.Item name="fileupload">
+                                <Form.Item name="fileupload"
+                                    help={`File must smaller than 10MB! Only accept ${process.env.NEXT_PUBLIC_IMAGE_ACCPET}.`}>
                                     <Upload method="get" {...props}>
                                         <Button icon={<UploadOutlined />} style={{ marginRight: 10 }}>
                                             Upload Photo

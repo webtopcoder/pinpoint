@@ -268,7 +268,7 @@ ProfileEdit page
 .card-title {
   color: var(--graydarkColor);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0 0 7px;
 }
 
@@ -337,6 +337,10 @@ Message page CSS
   background-color: aliceblue;
 }
 
+.avatar-size{
+  width: 3em;
+  height: 3em;
+}
 .ant-radio-wrapper .ant-radio-checked .ant-radio-inner{
   background-color: var(--blueColor) !important;
   border-color: var(--blueColor) !important;
@@ -9066,6 +9070,12 @@ Page Title Area CSS
 .page-title-area {
   background-color: #f8fbff;
   padding-top: 180px;
+  padding-bottom: 50px;
+}
+
+.page-profile-area {
+  background-color: #f8fbff;
+  padding-top: 50px;
   padding-bottom: 50px;
 }
 

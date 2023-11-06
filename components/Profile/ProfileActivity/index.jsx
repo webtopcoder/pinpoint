@@ -81,6 +81,13 @@ const index = ({
     <div className="blog-details-area">
       <div className="container">
         <div className="row justify-content-center">
+          <RightSider
+            activityInfo={activityInfo}
+            myallPhotos={myallPhotos}
+            view_user_id={view_user_id}
+            myLoader={myLoader}
+            role={usertype}
+          />
           <div className="col-xl-8 col-lg-7 col-md-12">
             <ComposePost
               view_user_id={view_user_id}
@@ -99,13 +106,7 @@ const index = ({
               LoadMoreAllStatus={LoadMoreAllStatus}
             />
           </div>
-          <RightSider
-            activityInfo={activityInfo}
-            myallPhotos={myallPhotos}
-            view_user_id={view_user_id}
-            myLoader={myLoader}
-            role={usertype}
-          />
+
         </div>
       </div>
     </div>
