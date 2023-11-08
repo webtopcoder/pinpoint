@@ -1,12 +1,14 @@
-import CommentForm from "./CommentForm"
+import CommentForm from "@/components/Common/CommentForm"
 import { useState, useEffect } from "react";
 import { Comment, Icon } from '@ant-design/compatible';
-import { Avatar, List, Space, Tooltip } from 'antd';
+import { Avatar, List, Space, Tooltip, Popover } from 'antd';
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { getDiffToNow } from "@/utils/date";
 import { useRouter } from "next/router";
 import useNotify from "@/hooks/useNotify";
 import { commentService } from "@/services/index";
+import PopUserBox from "@/components/Common/PopUserBox";
+import useMedia from "@/hooks/useMedia";
 
 const CustomComment = (
   {
@@ -22,14 +24,12 @@ const CustomComment = (
     getReplies
   }) => {
   const fiveMinutes = 300000;
+
+  const isWebDevice = useMedia('(min-width:700px)');
   const router = useRouter();
   const [likes, setlikes] = useState(comment.like ? comment?.like?.count : 0);
   const [action, setaction] = useState('liked');
   const { notify } = useNotify();
-  const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
-  const canReply = Boolean(currentUserId);
-  const canEdit = currentUserId === comment.userId.id && !timePassed;
-  const canDelete = currentUserId === comment.userId.id && !timePassed;
   const createdAt = new Date(comment.createdAt).toDateString();
   const isReplying = activeComment && activeComment.type === "replying" && activeComment.id === comment.id;
   const isEditing = activeComment && activeComment.type === "editing" && activeComment.id === comment.id;
@@ -58,24 +58,45 @@ const CustomComment = (
   return (
     <Comment
       actions={[
-        <span key="comment-basic-like">
-          <Tooltip title="Like">
+        <ul className="list-inline mb-0">
+          {/* <Tooltip title="Like">
             <Icon
               type="like"
               theme={action === 'liked' ? 'filled' : 'outlined'}
               onClick={() => like(comment.id)}
             />
-          </Tooltip>
-          <span style={{ paddingLeft: 8, cursor: 'auto' }}>{likes}</span>
-        </span>,
-        canReply && <span key="comment-nested-reply-to" onClick={() => setActiveComment({ id: comment.id, type: 'replying' })}>Reply to</span>,
-        canEdit && <span key="comment-nested-reply-to" onClick={() => setActiveComment({ id: comment.id, type: 'editing' })}>Edit</span>,
-        canDelete && <span key="comment-nested-reply-to" onClick={() => deleteComment(comment.id)}>Delete</span>]}
-      author={<a onClick={() => router.push(`/profile/${comment?.userId?._id}/activity`)}> {comment?.userId?.businessname}</ a>}
+          </Tooltip> */}
+          <li className="list-inline-item me-3"
+            onClick={() => like(comment.id)}
+          >
+            <i className="bx bxs-heart me-1 text-danger fs-5 heart-comment" />
+            <span className="font-size-12 text-danger">{likes}</span>
+          </li>
+          <Popover content={<CommentForm user_id={currentUserId} handleSubmit={(text) => addComment(text, replyId, comment.userId.id)} />} placement="bottom" trigger="click">
+            <li className="list-inline-item me-3">
+              <i className="bx bxs-comment-dots me-1 tcl-darkblue fs-5 heart-comment" />
+              <span className="font-size-12 tcl-darkblue">Reply</span>
+            </li>
+          </Popover>
+          {/* <span style={{ paddingLeft: 8, cursor: 'auto' }}>{likes}</span> */}
+        </ul>,
+        // canReply && <span key="comment-nested-reply-to" onClick={() => setActiveComment({ id: comment.id, type: 'replying' })}>Reply to</span>,
+        // canEdit && <span key="comment-nested-reply-to" onClick={() => setActiveComment({ id: comment.id, type: 'editing' })}>Edit</span>,
+        // canDelete && <span key="comment-nested-reply-to" onClick={() => deleteComment(comment.id)}>Delete</span>
+      ]}
+      author={
+        <PopUserBox
+          id={comment?.userId?._id}
+          avatar={comment?.userId?.profile.avatar?.filepath}
+          name={comment?.userId?.name}
+          username={comment?.userId?.username}
+          role={comment?.userId?.role}
+        />
+      }
       avatar={<Avatar src={avatarUrl +
         comment?.userId.profile?.avatar?.filepath
       } alt={comment?.userId?.username} />}
-      content={< p > {comment?.body}</p >}
+      content={<p className="text-muted font-size-14"> {comment?.body}</p>}
       datetime={
         <Tooltip title={createdAt}>
           <span>{getDiffToNow(comment.createdAt)} ago

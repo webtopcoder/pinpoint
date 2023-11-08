@@ -1,4 +1,5 @@
-import { UploadOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { UploadOutlined, SendOutlined } from "@ant-design/icons";
 import {
     Row,
     Col,
@@ -10,7 +11,6 @@ import {
 } from "antd";
 import Image from "next/image";
 import food from "@/public/images/landing/food.png";
-import React, { useEffect, useState } from "react";
 import useNotify from "@/hooks/useNotify";
 import { profileService } from "@/services/index";
 import useMedia from "@/hooks/useMedia";

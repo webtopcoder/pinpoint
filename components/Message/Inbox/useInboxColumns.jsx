@@ -13,6 +13,7 @@ import { formatDateNoti } from "@/utils/date";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { Row, Col } from "reactstrap";
 import { useRouter } from "next/router";
+import PopUserBox from "@/components/Common/PopUserBox";
 
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
@@ -70,6 +71,18 @@ const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, m
           }
           return latestReply;
         }, null);
+
+        const roleToShow = isCurrentUser
+          ? truncatedUsername(record?.to?.role)
+          : truncatedUsername(record?.from?.role);
+
+        const fullnameToShow = isCurrentUser
+          ? record?.to?.name
+          : record?.from?.name;
+        const avatarToShow = isCurrentUser
+          ? record?.to?.profile?.avatar?.filepath
+          : record?.from?.profile?.avatar?.filepath;
+
         const toggleStar = () => {
           markAsReadOrStar(record._id, 'is_star', !record.is_star);
         };
@@ -86,47 +99,14 @@ const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, m
                   }}
                   ></i> &nbsp;
                   {isCurrentUser && record?.reply && <>me, </>}
-                  <Popover placement="bottom" trigger="click" content={
-                    <a onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(`/profile/${record?.to?._id}/activity`)
-                    }} className="text-reset notification-item">
-                      <div className="d-flex">
-                        <img
-                          src={avatarurl + record?.to?.profile?.avatar?.filepath}
-                          className="me-3 rounded-circle avatar-lg"
-                          alt="user-pic"
-                        />
-                        <div className="flex-grow-1">
-                          <Row className="align-items-center">
-                            <Col>
-                              <h6 className="m-0">{record?.to?.name} </h6>
-                            </Col>
-                            {/* <div className="col-auto">
-                            <a onClick={MarkNotifications} className="small">
-                              {" "}
-                              Mark
-                            </a>
-                          </div> */}
-                          </Row>
-                          <div className="font-size-12 text-muted">
-                            <p className="mb-1">
-                              @{record?.to?.username}
-                            </p>
-                            <p className="mb-0">
-                              <Tag color="#55acee">
-                                {record?.to?.role}
-                              </Tag>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  }>
-                    <a className="hover-profile" onClick={(e) => {
-                      e.stopPropagation();
-                    }}>@{nameToShow}</a>
-                  </Popover>
+                  <PopUserBox
+                    id={isCurrentUser ? record?.to?._id : record?.from?._id}
+                    avatar={avatarToShow}
+                    name={fullnameToShow}
+                    username={nameToShow}
+                    role={roleToShow}
+                    type="mail"
+                  />
                   {!isCurrentUser && record?.reply ? ', me' : ''}
                   {record?.repliesCount > 0 && ` (${record?.repliesCount})`}
                 </p>
@@ -295,45 +275,14 @@ const useInboxColumns = ({ user_id, onDeleteMail, getInbox, ongetIsReadEmails, m
                 )} */}
                 &nbsp;
                 {isCurrentUser && record?.reply && <>me, </>}
-                <Popover placement="bottom" content={
-                  <a onClick={(e) => {
-                    e.stopPropagation();
-                    router.push(`/profile/${isCurrentUser ? record?.to?._id : record?.from?._id}/activity`)
-                  }} className="text-reset notification-item">
-                    <div className="d-flex">
-                      <img
-                        src={avatarurl + avatarToShow}
-                        className="me-3 rounded-circle avatar-lg"
-                        alt="user-pic"
-                      />
-                      <div className="flex-grow-1">
-                        <Row className="align-items-center">
-                          <Col>
-                            <h6 className="m-0">{fullnameToShow} </h6>
-                          </Col>
-                          {/* <div className="col-auto">
-                            <a onClick={MarkNotifications} className="small">
-                              {" "}
-                              Mark
-                            </a>
-                          </div> */}
-                        </Row>
-                        <div className="font-size-12 text-muted">
-                          <p className="mb-1">
-                            @{nameToShow}
-                          </p>
-                          <p className="mb-0">
-                            <Tag color="#55acee">
-                              {roleToShow}
-                            </Tag>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                }>
-                  <a className="hover-profile">@{nameToShow}</a>
-                </Popover>
+                <PopUserBox
+                  id={isCurrentUser ? record?.to?._id : record?.from?._id}
+                  avatar={avatarToShow}
+                  name={fullnameToShow}
+                  username={nameToShow}
+                  role={roleToShow}
+                  type="mail"
+                />
                 {!isCurrentUser && record?.reply ? ', me' : ''}
                 {record?.repliesCount > 0 && ` (${record?.repliesCount})`}
               </p>

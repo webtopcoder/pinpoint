@@ -15,7 +15,6 @@ const CommentForm = ({ handleSubmit, submitLabel, hasCancelButton = false,
     form.resetFields();
   }
   return (
-
     <Form
       form={form}
       hidden={expand}

@@ -56,8 +56,7 @@ h2 {
 .h3,
 h1,
 h2,
-h3
- {
+h3 {
   color: var(--graydarkColor);
   font-weight: 700;
 }
@@ -67,8 +66,7 @@ h3
 .h6,
 h4,
 h5,
-h6
-{
+h6 {
   color: inherit;
 
 }
@@ -118,6 +116,10 @@ p {
   font-size: 16px !important;
 }
 
+.font-size-12{
+  font-size: 12px !important;
+}
+
 p:last-child {
   margin-bottom: 0;
 }
@@ -158,8 +160,20 @@ p:last-child {
   padding-top: 75px;
 }
 
+.pt-38 {
+  padding-top: 38px !important;
+}
+
+.ptlrt-10 {
+  padding: 10px 10px 5px 10px !important;
+}
+
 .pb-75 {
   padding-bottom: 75px;
+}
+
+.tcl-darkblue {
+  color: var(--blueColor) !important;
 }
 
 .bg-f9f9f9 {
@@ -173,11 +187,11 @@ p:last-child {
 
 
 .bg-f8fbff {
-  background-color: #f8fbff;
+  background-color: #F5F5F5;
 }
 
 .bg-redLightColor {
-  background-color: var(--redLightolor);
+  background-color: var(--redLightColor) !important;
 }
 
 .bg-dark-gray {
@@ -186,6 +200,23 @@ p:last-child {
 
 .bg-black {
   background-color: #000000;
+}
+
+.bg-facebook {
+  background-color: #556ee6 !important;
+}
+
+.bg-twitter{
+  background-color: #2977ff !important;
+}
+
+.bg-instagram{
+  background-color: var(--crimsonLightColor) !important;
+}
+
+
+.bg-snapchat{
+  background-color: var(--yellowColor) !important;
 }
 
 .bg-light-gray {

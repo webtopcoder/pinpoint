@@ -1260,7 +1260,7 @@
 
 .template-footer-six {
   position: relative;
-  z-index: 1;
+  z-index: -1;
 }
 
 .template-footer-six .single-footer-widget {

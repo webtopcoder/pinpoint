@@ -28,11 +28,11 @@ const Activity = ({ user_id, userRole }) => {
 
   return (
     <>
-      <PageTitle page="MESSAGE Invitation" />
+      <PageTitle page="PROFILE" />
       <div className="page-profile-area">
       </div>
       <div className="profile-authentication-area bg-f8fbff">
-        <ProfileActivity usertype={headerInfo?.profile?.usertype} />
+        <ProfileActivity headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} usertype={headerInfo?.profile?.usertype} />
       </div>
     </>
   );

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { commentService } from "@/services/index";
 import CustomComment from "./Comment"
-import { List, Divider } from 'antd';
-import CommentForm from "./CommentForm"
+import { List, Divider, Popover, Button } from 'antd';
+import { UpOutlined, DownOutlined } from "@ant-design/icons";
+import CommentForm from "@/components/Common/CommentForm"
+import classnames from "classnames";
 
-const Comments = ({ ownerId, currentUserId, type, id, expand, setCommentCount, expandComments, setExpandComments, path }) => {
+const Comments = ({ ownerId, currentUserId, type, id, setCommentCount, expandComments, setExpandComments, path, commentCount }) => {
   const [backendComments, setBackendcomments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
   const rootComments = backendComments.filter((backendComment) => backendComment.parentId === null);
@@ -49,30 +51,41 @@ const Comments = ({ ownerId, currentUserId, type, id, expand, setCommentCount, e
     })
   }, [])
   return (
+    <>
+      <Popover content={<CommentForm user_id={currentUserId} handleSubmit={(text) => addComment(text, null, ownerId)} />} placement="bottom" trigger="click">
+        <li className="list-inline-item me-3">
+          <i className="bx bxs-comment-dots me-1 tcl-darkblue fs-4 heart-comment" />
+          <span className="fs-6 tcl-darkblue">{commentCount}</span>
+        </li>
+      </Popover>
+      <div className="comments">
+        <Divider className={classnames({ 'd-none': commentCount === 0 })} orientation="left">
+          <Button onClick={() => {
+            setExpandComments(!expandComments);
+          }} icon={expandComments ? <DownOutlined /> : <UpOutlined />} type="link">Comments</Button>
+        </Divider>
+        <div className="comments-container" style={{
+          display: backendComments.length > 0 && expandComments ? 'block' : 'none'
+        }}>
 
-    <div className="comments">
-      <CommentForm submitLabel="write" expand={expand} handleSubmit={(text) => addComment(text, null, ownerId)} />
-      <div className="comments-container" style={{
-        display: backendComments.length > 0 && expandComments ? 'block' : 'none'
-      }}>
-        <Divider orientation="left">Comments</Divider>
-        <List
-          dataSource={rootComments}
-          itemLayout="horizontal"
-          renderItem={(rootComment) => <CustomComment
-            key={rootComment.id}
-            comment={rootComment}
-            replies={getReplies(rootComment.id)}
-            currentUserId={currentUserId}
-            getReplies={getReplies}
-            deleteComment={deleteComment}
-            updateComment={updateComment}
-            activeComment={activeComment}
-            setActiveComment={setActiveComment}
-            addComment={addComment} />}
-        />
+          <List
+            dataSource={rootComments}
+            itemLayout="horizontal"
+            renderItem={(rootComment) => <CustomComment
+              key={rootComment.id}
+              comment={rootComment}
+              replies={getReplies(rootComment.id)}
+              currentUserId={currentUserId}
+              getReplies={getReplies}
+              deleteComment={deleteComment}
+              updateComment={updateComment}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
+              addComment={addComment} />}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

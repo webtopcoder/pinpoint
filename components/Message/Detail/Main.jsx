@@ -124,7 +124,7 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
     return (
         <Spin spinning={initLoading}>
             <Row>
-                <CardBody className="border-bottom">
+                <CardBody className="border-bottom p-2">
                     <div className="d-flex align-items-center">
                         <h4 className="mb-0 card-title font-size-16 flex-grow-1">
                             {record_detail?.subject}
@@ -144,7 +144,7 @@ const EmailDetail = ({ onGetIsReadEmails, ongetReplyByID, onreplyCompose, onupda
                                 <div className="avatar-lg me-3">
                                     <div className={classNames('avatar-title', 'rounded-circle', 'text-primary', { 'avatar-size': !isWebDevice })}>
                                         <img
-                                            className="d-flex me-3 rounded-circle"
+                                            className="d-flex me-0 rounded-circle"
                                             src={avatarurl + record_detail?.from?.profile?.avatar?.filepath}
                                             alt="skote"
                                         />

@@ -19,9 +19,9 @@
     margin-bottom: 24px;
   }
 
-  .card-body {
+  /* .card-body {
     padding: 10px 0 0 0;
-  }
+  } */
 
   p {
     font-size: 14px;
@@ -4147,10 +4147,17 @@
 
 /* Min width 768px to Max width 991px */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .email-leftbar{
+  .email-leftbar {
     top: 100px;
     position: sticky;
   }
+
+  .activity-leftside,
+  .activity-rightside {
+    top: 100px;
+    position: sticky;
+  }
+
   .portfolio-details-desc.pl-15 {
     padding-left: 0;
   }
@@ -6925,10 +6932,17 @@
 
 /* Min width 992px to Max width 1199px */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .email-leftbar{
+  .email-leftbar {
     top: 100px;
     position: sticky;
   }
+  .activity-leftside,
+  .activity-rightside {
+    top: 100px;
+    position: sticky;
+  }
+
+
   body {
     font-size: 16px;
   }
@@ -8369,10 +8383,17 @@
 
 /* Min width 1200px to Max width 1399px */
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
-  .email-leftbar{
+  .email-leftbar {
     top: 100px;
     position: sticky;
   }
+
+  .activity-leftside,
+  .activity-rightside {
+    top: 100px;
+    position: sticky;
+  }
+
   .mt-minus-40 {
     margin-top: 0;
   }
@@ -8708,10 +8729,18 @@
 
 /* Min width 1600px */
 @media only screen and (min-width: 1600px) {
-  .email-leftbar{
+  .email-leftbar {
     top: 100px;
     position: sticky;
   }
+
+  .activity-leftside,
+  .activity-rightside {
+    top: 100px;
+    position: sticky;
+  }
+
+
   /*it-startup-banner-area-css*/
   .shape1 {
     left: 0;
@@ -8883,10 +8912,11 @@
 
 /* Min width 2100px */
 @media only screen and (min-width: 2100px) {
-  .email-leftbar{
+  .email-leftbar {
     top: 100px;
     position: sticky;
   }
+
   /*big-data-banner-area-css*/
   .big-data-banner-area {
     max-width: 1900px;

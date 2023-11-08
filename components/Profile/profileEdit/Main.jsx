@@ -46,17 +46,15 @@ const index = ({ userRole }) => {
                             <Col lg="2">
                                 <Nav className="flex-column" pills>
                                     <Row>
-
                                         <Col lg="12" sm="6">
                                             <NavItem>
                                                 <NavLink
                                                     className={classnames({ active: activeTab === "1" })}
                                                     onClick={() => {
                                                         setactiveTab("1");
-                                                    }}
-                                                >
+                                                    }}>
                                                     <i className="bx bxs-info-circle d-block check-nav-icon mt-4 mb-2" />
-                                                    <p className="font-weight-bold mb-4"> Information</p>
+                                                    <p className="font-weight-bold mb-4">Information</p>
                                                 </NavLink>
                                             </NavItem>
                                         </Col>
