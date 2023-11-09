@@ -617,9 +617,8 @@ Profile Activity page CSS
   margin: 0 10px;
 }
 
-
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
-  background-color: var(--graylightColor) !important;
+  background-color: var(--graylightColor);
   color: var(--blueColor) !important;
 }
 
