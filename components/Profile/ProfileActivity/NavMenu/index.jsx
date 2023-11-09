@@ -1,14 +1,15 @@
 import { Row, Col, Card, CardBody, Nav, NavItem, NavLink, TabPane, CardText, TabContent } from "reactstrap";
 import React, { useState, useEffect } from "react";
 import classnames from "classnames";
-import Activity from "./Activity";
+import PostForm from "./Activity/PostForm";
+import FollowerMain from "./Follower";
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
-import Posts from "./Posts";
+import Posts from "./Activity/Posts";
 import { downloadFile } from "@/redux/Mail/actions";
 import { profileService } from "@/services/index";
 
-function index({ view_user_id, user_id, view_user_role }) {
+function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
     const [customActiveTab, setcustomActiveTab] = useState("1");
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(true);
@@ -68,6 +69,10 @@ function index({ view_user_id, user_id, view_user_role }) {
         initFunc(view_user_id);
     }, [router.isReady, view_user_id]);
 
+    useEffect(() => {
+        setcustomActiveTab('1')
+    }, [router.asPath]);
+
     return (
         <Row>
             <Col className="px-1" lg={12}>
@@ -123,7 +128,7 @@ function index({ view_user_id, user_id, view_user_role }) {
                 >
                     <TabPane tabId="1">
                         <Row>
-                            <Activity view_user_id={view_user_id} allActivities={allActivities} />
+                            <PostForm view_user_id={view_user_id} allActivities={allActivities} />
                         </Row>
                         <div className="auth-space"></div>
                         <Row>
@@ -142,21 +147,9 @@ function index({ view_user_id, user_id, view_user_role }) {
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
-                            <Col sm="12">
-                                <CardText className="mb-0">
-                                    Food truck fixie locavore, accusamus mcsweeney&apos;s
-                                    marfa nulla single-origin coffee squid. Exercitation
-                                    +1 labore velit, blog sartorial PBR leggings next
-                                    level wes anderson artisan four loko farm-to-table
-                                    craft beer twee. Qui photo booth letterpress,
-                                    commodo enim craft beer mlkshk aliquip jean shorts
-                                    ullamco ad vinyl cillum PBR. Homo nostrud organic,
-                                    assumenda labore aesthetic magna delectus mollit.
-                                    Keytar helvetica VHS salvia yr, vero magna velit
-                                    sapiente labore stumptown. Vegan fanny pack odio
-                                    cillum wes anderson 8-bit.
-                                </CardText>
-                            </Col>
+                            {/* <ProfileFollowers getHeader={getHeader} userRole={userRole} user_id={user_id} /> */}
+
+                            <FollowerMain view_user_id={view_user_id} userRole={userRole} getHeader={getHeader} user_id={user_id} />
                         </Row>
                     </TabPane>
                     <TabPane tabId="3">

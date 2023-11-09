@@ -113,7 +113,7 @@ const NotificationDropdown = ({ user_id }) => {
 
           <PerfectScrollbar style={{ height: "260px" }}>
             {data && data?.map((item, index) => (
-              <a href="" className="text-reset notification-item">
+              <a href="" className="text-reset notification-item" key={item?._id}>
                 <div className="d-flex">
                   <img
                     src={avatarurl + item?.actor?.profile?.avatar?.filepath}

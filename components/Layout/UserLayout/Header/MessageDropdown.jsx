@@ -111,7 +111,8 @@ const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
                     id: item?.id
                   }
                 });
-              }} className="text-reset notification-item">
+              }} className="text-reset notification-item"
+                key={item?._id}>
                 <div className="d-flex">
                   <img
                     src={avatarurl + item?.from?.profile?.avatar?.filepath}

@@ -85,6 +85,7 @@ a {
 
 a:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
 :focus {

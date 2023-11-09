@@ -28,20 +28,6 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
         setCount(count + 1);
     };
 
-    const loadMore =
-        !initLoading && !loading ? (
-            <div
-                style={{
-                    textAlign: "center",
-                    marginTop: 12,
-                    height: 32,
-                    lineHeight: "32px",
-                }}
-            >
-                <Button onClick={onLoadMore}>Load More</Button>
-            </div>
-        ) : null;
-
     const onMenuClick = (e) => {
         // ondownloadFile(e.key);
         window.open(attachurl + e.key, "_blank");
@@ -75,7 +61,7 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                 <h4 className="card-title mb-4">Activity Feed</h4>
                 <ul className="verti-timeline list-unstyled">
                     {list?.map((item, index) => (
-                        <li className="event-list">
+                        <li className="event-list" key={item?._id}>
                             <div className="event-timeline-dot">
                                 <i className="bx bx-right-arrow-circle font-size-18"></i>
                             </div>

@@ -4022,12 +4022,22 @@
   }
 }
 
+@media only screen and (max-width: 576px){
+  .text-lg-center{
+    text-align: center !important;
+  }
+
+}
 /* Min width 576px to Max width 767px */
 @media only screen and (min-width: 576px) and (max-width: 767px) {
 
   /*business-banner-area-css*/
   .business-banner-area .container-fluid {
     max-width: 540px;
+  }
+
+  .text-lg-center{
+    text-align: center !important;
   }
 
   .email-leftbar {

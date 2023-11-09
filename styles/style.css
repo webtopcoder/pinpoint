@@ -617,6 +617,15 @@ Profile Activity page CSS
   margin: 0 10px;
 }
 
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  background-color: var(--graylightColor) !important;
+  color: var(--blueColor) !important;
+}
+
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link{
+  font-size: 14px;
+}
 .bottom-activity-menu {
   position: fixed;
   bottom: 0;
