@@ -82,7 +82,7 @@ const FollwersList = ({
   return (
     <>
       {data?.map((item, index) => (
-        <Row key={item?._id}>
+        <Row className="py-2 border-bottom" key={item?._id}>
           <Col lg="6">
             <div className="d-flex">
               <div className="me-3">
@@ -101,7 +101,7 @@ const FollwersList = ({
                   <a className="mb-1 fs-6 fw-semibold"
                     onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}>
                     {item?.follower?.name}{'   '}
-                    <Tag color="#108ee9">{item?.follower?.role}</Tag>
+                    <Tag color="error">{item?.follower?.role}</Tag>
                   </a>
                   <p className="mb-0">@{item?.follower?.username}</p>
                 </div>
@@ -110,14 +110,14 @@ const FollwersList = ({
           </Col>
           <Col lg="6" className="align-self-center">
             <div
-              className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-center ': !isWebDevice })}
+              className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-left ': !isWebDevice })}
             >
               {user_id == profile && item?.status !== "active" ? (
                 item?.status === "pending" ? (<>
                   <button
                     onClick={() => AcceptFollowerRequest(item?._id, "active")}
                     type="button"
-                    className="btn btn-success font-size-12 me-1"
+                    className="btn btn-danger font-size-12 me-1"
                   >
                     <i className="bx bx-check align-middle me-1"></i>{" "}Accept
                   </button>
@@ -142,7 +142,7 @@ const FollwersList = ({
                   <Popover content={<MessageForm username={item?.follower?.username} />} placement="bottom" trigger="click">
                     <button
                       type="button"
-                      className={classnames('btn', 'btn-success', 'me-1', 'font-size-12', { 'd-none': user_id !== profile })}
+                      className={classnames('btn', 'btn-danger', 'me-1', 'font-size-12', { 'd-none': user_id !== profile })}
                     >
                       <i className="bx bx-message-alt-dots align-middle me-1"></i>{" "}Message
                     </button>
@@ -161,7 +161,7 @@ const FollwersList = ({
                 <button
                   onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
                   type="button"
-                  className="btn btn-primary font-size-12 me-1"
+                  className="btn btn-danger font-size-12 me-1"
                 >
                   <i className="bx bx-user align-middle me-1"></i>{" "}View Profile
                 </button> : ''}
@@ -176,7 +176,7 @@ const FollwersList = ({
       </div>
       <div
         className={classnames('text-center', 'mt-4', { 'd-none': total < 10 || data?.length >= total })}
-        >
+      >
         <Button type="link" onClick={onLoadMore}>
           View More
         </Button>

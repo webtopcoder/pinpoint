@@ -6,6 +6,7 @@ import FollowerMain from "./Follower";
 import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
 import Posts from "./Activity/Posts";
+import Shoutouts from "./Shoutout/Main"
 import { downloadFile } from "@/redux/Mail/actions";
 import { profileService } from "@/services/index";
 
@@ -13,17 +14,16 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
     const [customActiveTab, setcustomActiveTab] = useState("1");
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [activityInfo, setactivityInfo] = useState([]);
     const [LoadMoreAllStatus, setLoadMoreAll] = useState(false);
     const [list, setList] = useState([]);
     const [data, setData] = useState([]);
+    const [shoutoutdata, setShoutoutData] = useState([]);
+    const [shoutoutTotal, setShoutoutTotal] = useState();
+    const [activityTotal, setActivityTotal] = useState();
+    const [shoutoutlist, setShoutList] = useState([]);
     const router = useRouter();
 
     const { notify } = useNotify();
-    const myLoader = ({ src }) => {
-        return src;
-    };
-
     const toggleCustom = tab => {
         if (customActiveTab !== tab) {
             setcustomActiveTab(tab);
@@ -38,7 +38,6 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                     res?.posts?.length === 0 ? setLoadMoreAll(true) : ''
                     setInitLoading(false);
                     setLoading(false);
-                    setactivityInfo(res);
                     if (count !== 1) {
                         const newData = data.concat(res.posts);
                         setData(newData);
@@ -49,7 +48,38 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                         setList(res.posts);
                     }
                     window.dispatchEvent(new Event("resize"));
+                    setActivityTotal(res.activityTotal)
                 } else notify("error", res.msg);
+            })
+            .catch((error) => {
+                notify(
+                    "error",
+                    error?.response?.data?.message || "Something went wrong"
+                );
+                return;
+            });
+    }
+
+    async function ShoutoutList(id, count, search) {
+        setInitLoading(true);
+        await profileService.getShoutout(id, count, search)
+            .then((res) => {
+                if (res) {
+                    setInitLoading(false);
+                    setLoading(false);
+                    if (count !== 1) {
+                        const newData = shoutoutdata.concat(res.results);
+                        setShoutoutData(newData);
+                        setShoutList(newData);
+                    }
+                    else {
+                        setShoutoutData(res.results);
+                        setShoutList(res.results);
+                    }
+                    window.dispatchEvent(new Event("resize"));
+                    setShoutoutTotal(res?.totalResults)
+                } else notify("error", res.msg);
+
             })
             .catch((error) => {
                 notify(
@@ -63,6 +93,7 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
     async function initFunc(profileId) {
         await profileService.updateProfileViewsCount(profileId);
         await allActivities(profileId, 1, "");
+        await ShoutoutList(profileId, 1, "");
     }
 
     useEffect(() => {
@@ -100,7 +131,7 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                                 toggleCustom("2");
                             }}
                         >
-                            <span className="d-sm-block fw-semibold">Followers</span>
+                            <span className="d-block fw-semibold">Shoutout</span>
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -111,6 +142,19 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                             })}
                             onClick={() => {
                                 toggleCustom("3");
+                            }}
+                        >
+                            <span className="d-sm-block fw-semibold">Followers</span>
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            style={{ cursor: "pointer" }}
+                            className={classnames({
+                                active: customActiveTab === "4",
+                            })}
+                            onClick={() => {
+                                toggleCustom("4");
                             }}
                         >
                             <span className="d-block d-sm-none">
@@ -142,34 +186,35 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                                 setList={setList}
                                 allActivities={allActivities}
                                 LoadMoreAllStatus={LoadMoreAllStatus}
+                                activityTotal={activityTotal}
                             />
                         </Row>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
-                            {/* <ProfileFollowers getHeader={getHeader} userRole={userRole} user_id={user_id} /> */}
-
-                            <FollowerMain view_user_id={view_user_id} userRole={userRole} getHeader={getHeader} user_id={user_id} />
+                            <Shoutouts
+                                shoutoutTotal={shoutoutTotal}
+                                initLoading={initLoading}
+                                loading={loading}
+                                user_id={user_id}
+                                list={shoutoutlist}
+                                data={shoutoutdata}
+                                setLoading={setLoading}
+                                setList={setShoutList}
+                                ShoutoutList={ShoutoutList}
+                                LoadMoreAllStatus={LoadMoreAllStatus}
+                                view_user_id={view_user_id}
+                            />
                         </Row>
                     </TabPane>
                     <TabPane tabId="3">
                         <Row>
-                            <Col sm="12">
-                                <CardText className="mb-0">
-                                    Etsy mixtape wayfarers, ethical wes anderson tofu
-                                    before they sold out mcsweeney&apos;s organic lomo retro
-                                    fanny pack lo-fi farm-to-table readymade. Messenger
-                                    bag gentrify pitchfork tattooed craft beer, iphone
-                                    skateboard locavore carles etsy salvia banksy hoodie
-                                    helvetica. DIY synth PBR banksy irony. Leggings
-                                    gentrify squid 8-bit cred pitchfork. Williamsburg
-                                    banh mi whatever gluten-free, carles pitchfork
-                                    biodiesel fixie etsy retro mlkshk vice blog.
-                                    Scenester cred you probably haven&apos;t heard of them,
-                                    vinyl craft beer blog stumptown. Pitchfork
-                                    sustainable tofu synth chambray yr.
-                                </CardText>
-                            </Col>
+                            <FollowerMain view_user_id={view_user_id} userRole={userRole} getHeader={getHeader} user_id={user_id} />
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="4">
+                        <Row>
+
                         </Row>
                     </TabPane>
                 </TabContent>

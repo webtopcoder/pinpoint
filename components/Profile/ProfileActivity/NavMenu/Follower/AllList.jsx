@@ -43,24 +43,10 @@ const AllList = ({
     setCount(count + 1);
   };
 
-  const loadMore =
-    !initLoading && !loading ? (
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: 12,
-          height: 32,
-          lineHeight: "32px",
-        }}
-      >
-        <Button onClick={onLoadMore}>Load More</Button>
-      </div>
-    ) : null;
-
   return (
     <>
       {data?.map((item, index) => (
-        <Row className="py-2" key={item?._id}>
+        <Row className="py-2 border-bottom" key={item?._id}>
           <Col lg="6">
             <div className="d-flex">
               <div className="me-3">
@@ -79,7 +65,7 @@ const AllList = ({
                   <a className="mb-1 fs-6 fw-semibold"
                     onClick={() => router.push(`/profile/${item?._id}/activity`)}>
                     {item?.name}{'   '}
-                    <Tag color="#108ee9">{item?.role}</Tag>
+                    <Tag color="error">{item?.role}</Tag>
                   </a>
                   <p className="mb-0">@{item?.username}</p>
                 </div>
@@ -88,7 +74,7 @@ const AllList = ({
           </Col>
           <Col lg="6" className="align-self-center">
             <div
-              className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-center ': !isWebDevice })}
+              className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-end ': !isWebDevice })}
             >
               <button
                 onClick={async () => {
@@ -114,7 +100,7 @@ const AllList = ({
                     });
                 }}
                 type="button"
-                className="btn btn-success font-size-12 me-1"
+                className="btn btn-danger font-size-12 me-1"
               >
                 <i className="bx bx-user-plus align-middle me-1"></i>{" "}Follow
               </button>

@@ -49,7 +49,6 @@ const PostForm = ({ view_user_id, allActivities }) => {
         value: username,
     }));
 
-
     const beforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'application/pdf';
         if (!isJpgOrPng) {

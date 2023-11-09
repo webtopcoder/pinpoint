@@ -5,9 +5,11 @@ import { List, Divider, Popover, Button } from 'antd';
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import CommentForm from "@/components/Common/CommentForm"
 import classnames from "classnames";
+import useNotify from "@/hooks/useNotify";
 
 const Comments = ({ ownerId, currentUserId, type, id, setCommentCount, expandComments, setExpandComments, path, commentCount }) => {
   const [backendComments, setBackendcomments] = useState([]);
+  const { notify } = useNotify();
   const [activeComment, setActiveComment] = useState(null);
   const rootComments = backendComments.filter((backendComment) => backendComment.parentId === null);
   const getReplies = (commentId) => {
@@ -48,7 +50,12 @@ const Comments = ({ ownerId, currentUserId, type, id, setCommentCount, expandCom
   useEffect(() => {
     commentService.getComments(id).then((data) => {
       setBackendcomments(data);
-    })
+    }).catch((error) => {
+      notify(
+        "error",
+        "Something went wrong"
+      );
+    });
   }, [])
   return (
     <>
@@ -67,7 +74,6 @@ const Comments = ({ ownerId, currentUserId, type, id, setCommentCount, expandCom
         <div className="comments-container" style={{
           display: backendComments.length > 0 && expandComments ? 'block' : 'none'
         }}>
-
           <List
             dataSource={rootComments}
             itemLayout="horizontal"

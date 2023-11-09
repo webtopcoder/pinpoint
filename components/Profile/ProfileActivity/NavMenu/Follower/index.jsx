@@ -126,11 +126,7 @@ const index = ({ view_user_id, user_id, userRole, getHeader }) => {
         type === "friend" ?
             ongetFollowers(profile, count, e.target.value) :
             ongetAllMemebers(profile, memeberCount, e.target.value);
-
-        setSearch('');
     };
-
-
     return (
         <Card className="px-1">
             <CardBody className='p-1'>
@@ -149,7 +145,7 @@ const index = ({ view_user_id, user_id, userRole, getHeader }) => {
                                                 toggle("1");
                                             }}
                                         >
-                                            All ({AllTotal})
+                                            All Members ({AllTotal})
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
@@ -166,7 +162,6 @@ const index = ({ view_user_id, user_id, userRole, getHeader }) => {
                                         </NavLink>
                                     </NavItem>
                                 </Nav>
-
                                 <TabContent activeTab={activeTab} className="p-3 text-muted">
                                     <TabPane tabId="1">
                                         <Row>
