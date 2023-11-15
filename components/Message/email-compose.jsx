@@ -21,7 +21,8 @@ import {
     Select,
     Upload,
     Radio,
-    Space
+    Space,
+    Popconfirm
 } from "antd";
 import { useRouter } from "next/router";
 import useMedia from "@/hooks/useMedia";
@@ -232,9 +233,18 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
                                         <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={updating}>
                                             Send
                                         </Button>
-                                        <Button htmlType="button" onClick={onReset}>
-                                            Reset
-                                        </Button>
+                                        <Popconfirm
+                                            title="Reset the message?"
+                                            description="Are you sure to reset?"
+                                            okText="Yes"
+                                            onConfirm={onReset}
+                                            cancelText="No"
+                                        >
+                                            <Button htmlType="button">
+                                                Reset
+                                            </Button>
+                                        </Popconfirm>
+
                                     </Space>
                                 </Form.Item>
                             </Form>

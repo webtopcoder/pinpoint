@@ -300,6 +300,18 @@ p:last-child {
   z-index: 1;
 }
 
+.bg-bluegradient {
+  background: linear-gradient(183deg, rgba(54,159,255,1) 0%, rgba(54,159,255,0.5) 100%);
+}
+
+.bg-redgradient {
+  background: linear-gradient(183deg, rgba(236,34,38,1) 0%, rgba(236,34,38,0.5) 70%);
+}
+
+.bg-postgradient {
+  background: linear-gradient(183deg, rgba(23,85,148,1) 0%, rgba(236,34,38,1) 70%);
+}
+
 .bg-f1f5fd::before {
   top: 0;
   left: 0;

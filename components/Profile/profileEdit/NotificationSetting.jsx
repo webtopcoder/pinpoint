@@ -66,7 +66,7 @@ const NotificationSetting = () => {
                                 className="form-check-label"
                                 htmlFor="friend"
                             >
-                                Notifications about Friend Requests
+                                Friend Requests
                             </label>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ const NotificationSetting = () => {
                                 className="form-check-label"
                                 htmlFor="inbox"
                             >
-                                Notifications about Inbox
+                                Mail Inbox
                             </label>
                         </div>
                     </div>
@@ -112,7 +112,7 @@ const NotificationSetting = () => {
                                 className="form-check-label"
                                 htmlFor="like"
                             >
-                                Notifications about Likes
+                                Likes
                             </label>
                         </div>
                     </div>
@@ -135,7 +135,7 @@ const NotificationSetting = () => {
                                 className="form-check-label"
                                 htmlFor="favorite"
                             >
-                                Notifications about Favorite Location Goes Active
+                                Favorite Location Goes Active
                             </label>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ const NotificationSetting = () => {
                                 className="form-check-label"
                                 htmlFor="comment"
                             >
-                                Notifications about Comments
+                                Comments
                             </label>
                         </div>
                     </div>

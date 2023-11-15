@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import PerfectScrollbar from "react-perfect-scrollbar";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import { Badge, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Badge, Spin, Divider } from 'antd';
 import { userService } from "@/services/index";
 import { getDiffToNow } from "@/utils/date";
 import { useRouter } from "next/router";
 import classNames from "classnames";
+import VirtualList from 'rc-virtual-list';
 
-const antIcon = (
-  <LoadingOutlined
-    style={{
-      fontSize: 24,
-    }}
-    spin
-  />
-);
+const ContainerHeight = 400;
 
 const NotificationDropdown = ({ user_id }) => {
   // Declare a new state variable, which we'll call "menu"
@@ -25,7 +17,7 @@ const NotificationDropdown = ({ user_id }) => {
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
   const [count, setCount] = useState(1);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [TotalResults, setTotalResults] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -41,10 +33,6 @@ const NotificationDropdown = ({ user_id }) => {
       });
   };
 
-  const onLoadMore = () => {
-    setCount(count + 1);
-  };
-
   useEffect(async () => {
     setLoading(true);
     await userService.getNotifications({
@@ -58,14 +46,19 @@ const NotificationDropdown = ({ user_id }) => {
         await setData(data.concat(res?.results));
       }
       else {
-        setData(res?.results);
+        await setData(res?.results);
       }
-      setLoading(false);
+      await setLoading(false);
     }).catch((error) => {
-      console.log(error);
       setLoading(false);
     })
   }, [count]);
+
+  const onScroll = (e) => {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
+      setCount(count + 1);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -110,9 +103,14 @@ const NotificationDropdown = ({ user_id }) => {
               </div>
             </Row>
           </div>
-
-          <PerfectScrollbar style={{ height: "260px" }}>
-            {data && data?.map((item, index) => (
+          <VirtualList
+            data={data}
+            height={ContainerHeight}
+            itemHeight={47}
+            itemKey="_id"
+            onScroll={onScroll}
+          >
+            {(item) => (
               <a href="" className="text-reset notification-item" key={item?._id}>
                 <div className="d-flex">
                   <img
@@ -144,13 +142,8 @@ const NotificationDropdown = ({ user_id }) => {
                   </div>
                 </div>
               </a>
-            ))}
-          </PerfectScrollbar>
-          <div className="p-2 border-top d-grid">
-            <a className="btn btn-sm btn-link font-size-14 text-center" onClick={onLoadMore}>
-              <span key="t-view-more"><i className="bx bxs-chevron-right-circle me-1"></i>View More... <Spin spinning={loading} indicator={antIcon}></Spin> </span>
-            </a>
-          </div>
+            )}
+          </VirtualList>
         </DropdownMenu>
       </Dropdown >
     </React.Fragment >

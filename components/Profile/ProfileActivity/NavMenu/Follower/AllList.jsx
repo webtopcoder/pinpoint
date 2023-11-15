@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, List, Skeleton, Space, Tag, Badge } from "antd";
+import { Avatar, Button, List, Skeleton, Space, Tag, Badge, Divider } from "antd";
 import {
   UserOutlined,
   MessageFilled,
@@ -18,6 +18,7 @@ import { profileService } from "@/services/index";
 import useMedia from "@/hooks/useMedia";
 import binavatar from "@/public/images/landing/avatar.png";
 import classnames from "classnames";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const AllList = ({
   ongetAllMemebers,
@@ -45,81 +46,92 @@ const AllList = ({
 
   return (
     <>
-      {data?.map((item, index) => (
-        <Row className="py-2 border-bottom" key={item?._id}>
-          <Col lg="6">
-            <div className="d-flex">
-              <div className="me-3">
-                <img
-                  src={
-                    item?.profile?.avatar?.filepath
-                      ? avatarurl +
+      <InfiniteScroll
+        dataLength={data.length}
+        next={onLoadMore}
+        hasMore={data?.length < total}
+        style={{  overflow: 'hidden' }} //To put endMessage and loader to the top.
+        loader={
+          <div className={classnames('text-center')}>
+            <Spinner type="grow" className="ms-2" color="primary" />
+            <Spinner type="grow" className="ms-2" color="primary" />
+            <Spinner type="grow" className="ms-2" color="primary" />
+          </div>
+        }
+        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+      >
+        {data?.map((item, index) => (
+          <Row className="py-2 border-bottom" key={item?._id}>
+            <Col lg="6">
+              <div className="d-flex">
+                <div className="me-3">
+                  <img
+                    src={
                       item?.profile?.avatar?.filepath
-                      : binavatar
-                  } alt=""
-                  className="avatar-md rounded-circle img-thumbnail"
-                />
-              </div>
-              <div className="flex-grow-1 align-self-center">
-                <div className="text-muted">
-                  <a className="mb-1 fs-6 fw-semibold"
-                    onClick={() => router.push(`/profile/${item?._id}/activity`)}>
-                    {item?.name}{'   '}
-                    <Tag color="error">{item?.role}</Tag>
-                  </a>
-                  <p className="mb-0">@{item?.username}</p>
+                        ? avatarurl +
+                        item?.profile?.avatar?.filepath
+                        : binavatar
+                    } alt=""
+                    className="avatar-md rounded-circle img-thumbnail"
+                  />
+                </div>
+                <div className="flex-grow-1 align-self-center">
+                  <div className="text-muted">
+                    <a className="mb-1 fs-6 fw-semibold"
+                      onClick={() => router.push(`/profile/${item?._id}/activity`)}>
+                      {item?.name}{'   '}
+                      <Tag color="error">{item?.role}</Tag>
+                    </a>
+                    <p className="mb-0">@{item?.username}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Col>
-          <Col lg="6" className="align-self-center">
-            <div
-              className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-end ': !isWebDevice })}
-            >
-              <button
-                onClick={async () => {
-                  if (!userRole) {
-                    notify(
-                      "error",
-                      "Please login"
-                    );
-                    return;
-                  }
-                  await profileService.postFollower(item?.id)
-                    .then(async (res) => {
-                      notify(res.data.type, res?.data?.message);
-                      await getHeader();
-                      await ongetAllMemebers(profile, count, search);
-                    })
-                    .catch((error) => {
+            </Col>
+            <Col lg="6" className="align-self-center">
+              <div
+                className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-end ': !isWebDevice })}
+              >
+                <button
+                  onClick={async () => {
+                    if (!userRole) {
                       notify(
                         "error",
-                        error?.response?.data?.message || "Something went wrong"
+                        "Please login"
                       );
                       return;
-                    });
-                }}
-                type="button"
-                className="btn btn-danger font-size-12 me-1"
-              >
-                <i className="bx bx-user-plus align-middle me-1"></i>{" "}Follow
-              </button>
-            </div>
-          </Col>
-        </Row>
-      ))}
-      <div className={classnames('text-center', { 'd-none': !initLoading })}>
-        <Spinner type="grow" className="ms-2" color="primary" />
-        <Spinner type="grow" className="ms-2" color="primary" />
-        <Spinner type="grow" className="ms-2" color="primary" />
-      </div>
-      <div
+                    }
+                    await profileService.postFollower(item?.id)
+                      .then(async (res) => {
+                        notify(res.data.type, res?.data?.message);
+                        await getHeader();
+                        await ongetAllMemebers(profile, count, search);
+                      })
+                      .catch((error) => {
+                        notify(
+                          "error",
+                          error?.response?.data?.message || "Something went wrong"
+                        );
+                        return;
+                      });
+                  }}
+                  type="button"
+                  className="btn btn-danger font-size-12 me-1"
+                >
+                  <i className="bx bx-user-plus align-middle me-1"></i>{" "}Follow
+                </button>
+              </div>
+            </Col>
+          </Row>
+        ))}
+      </InfiniteScroll>
+
+      {/* <div
         className={classnames('text-center', 'mt-4', { 'd-none': total < 10 || data?.length >= total })}
       >
         <Button type="link" onClick={onLoadMore}>
           View More
         </Button>
-      </div>
+      </div> */}
     </>
   );
 };

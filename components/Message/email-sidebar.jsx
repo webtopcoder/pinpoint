@@ -12,7 +12,7 @@ import { mailService } from "@/services/index";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 
-const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemodal, Composemodal, setComposemodal }) => {
+const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemodal, Composemodal, setComposemodal, unreadCount }) => {
 
   const [data, setData] = useState();
   const router = useRouter();
@@ -71,8 +71,9 @@ const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemod
               >
                 <i className="bx bx-envelope me-2"></i> Inbox{" "}
                 {
-                  data?.inbox !== 0 && <span className="ml-1 float-end"> <Badge style={{ backgroundColor: '#175594' }} count={data?.inbox} /></span>
+                  unreadCount !== 0 && <span className="ml-1 float-end"> <Badge style={{ backgroundColor: '#175594' }} count={unreadCount} /></span>
                 }
+                
               </NavLink>
             </NavItem>
             <NavItem>
@@ -86,9 +87,9 @@ const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemod
                 }}
               >
                 <i className="bx bx-mail-send me-2"></i>Sent
-                {
+                {/* {
                   data?.sent !== 0 && <span className="ml-1 float-end"><Badge style={{ backgroundColor: '#175594' }} count={data?.sent} /></span>
-                }
+                } */}
               </NavLink>
             </NavItem>
             {/* <NavItem>
@@ -116,9 +117,9 @@ const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemod
                 }}
               >
                 <i className="bx bx-collection me-2"></i>Invites
-                {
+                {/* {
                   data?.invite !== 0 && <span className="ml-1 float-end"><Badge style={{ backgroundColor: '#175594' }} count={data?.invite} /></span>
-                }
+                } */}
               </NavLink>
             </NavItem>
           </Nav>
@@ -130,7 +131,8 @@ const EmailSideBar = ({ role, activeTab, setactiveTab, Invitemodal, setInvitemod
 
 const mapStateToProps = ({ mail, user }) => ({
   user_id: user.user_id,
-  role: user.role
+  role: user.role,
+  unreadCount: mail.unreadCount
 });
 
 export default connect(mapStateToProps, undefined)(EmailSideBar);

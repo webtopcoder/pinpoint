@@ -12,6 +12,7 @@ import CheckoutForm from "./checkoutform";
 import { DeleteOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/date";
 import { profileService } from "@/services/index";
+import Link from "next/link";
 
 const { Text } = Typography;
 
@@ -77,119 +78,81 @@ const PartnerShipPayment = ({
   };
 
   return (
-    <Card
-      className="membership-card-style"
-      title={title}
-      headStyle={{ fontSize: 25, fontWeight: 700 }}
-      bordered={false}
-    >
-      <Space direction="vertical">
-        <Space wrap>
-          <Text
-            style={{
-              fontSize: 50,
-              fontWeight: 700,
-            }}
-          >
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency,
-            }).format(price)}
-          </Text>
-          {applyIn && (
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-              }}
+    // <Card
+    //   className="membership-card-style"
+    //   title={title}
+    //   headStyle={{ fontSize: 25, fontWeight: 700 }}
+    //   bordered={false}
+    // >
+    <div className="single-pricing-box">
+      <h3>{title}</h3>
+      <div className="price">
+        {new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency,
+        }).format(price)}<span>/{applyIn}</span>
+      </div>
+      {isActive ?
+        subscriptionId ?
+          <><p>This plan will be renewed on  {formatDate(renewdate, "MM/DD/YYYY")}</p>
+            <Popconfirm
+              title="Cancel PartnerShip?"
+              description="Are you sure you want to unsubscribe from this plan?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={(e) =>
+                handleCancelSubscription(e, subscriptionId)
+              }
             >
-              / {applyIn}
-            </Text>
-          )}
-        </Space>
-        <Space direction="vertical">
-          {isActive ? (
-            <>
-              <Space>
-                <Text style={{ color: "green" }}>
-                  {formatDate(renewdate, "MM/DD/YYYY")}
-                </Text>
-              </Space>
-              <Space>
-                {subscriptionId ? (
-                  <Popconfirm
-                    title="Cancel PartnerShip?"
-                    description="Are you sure you want to unsubscribe from this plan?"
-                    okText="Yes"
-                    cancelText="No"
-                    onConfirm={(e) =>
-                      handleCancelSubscription(e, subscriptionId)
-                    }
-                  >
-                    <Button
-                      size="large"
-                      shape="round"
-                      icon={<DeleteOutlined />}
-                      danger
-                    >
-                      Cancel Partnership
-                    </Button>
-                  </Popconfirm>
-                ) : (
-                  <Button size="large" shape="round" disabled danger>
-                    Will be cancelled on {formatDate(renewdate, "MM/DD/YYYY")}
-                  </Button>
-                )}
-              </Space>
-            </>
-          ) : (
-            <>
-              <Space>
-                {/* <Text
-                  style={{
-                    color: "green",
-                  }}
-                ></Text> */}
-              </Space>
-              <Button
-                type="primary"
-                size="large"
-                disabled={isActive}
-                onClick={() =>
-                  handleSubscribeClick(stripePriceId).catch(console.error)
-                }
-              >
-                {price == 0 ? "Get Free" : "Buy Now"}
-              </Button>
-              {customer ? (
-                <CheckoutForm
-                  showModal={showModal}
-                  onCancel={handleCancel}
-                  customerId={customer.id}
-                  priceId={priceId}
-                  setShowModal={setShowModal}
-                  getUserDetail={getUserDetail}
-                />
-              ) : (
-                ""
-              )}
-            </>
-          )}
-          <Divider />
-        </Space>
-        {features.map((feature, index) => (
-          <Space key={index}>
-            <Text
-              style={{
-                fontSize: 15,
-              }}
-            >
-              {feature}
-            </Text>
-          </Space>
-        ))}
-      </Space>
-    </Card>
+              <a className="btn-style-one red-light-color">
+                Cancel Partnership
+              </a>
+            </Popconfirm>
+          </> : <p>This plan will be canceled on  {formatDate(renewdate, "MM/DD/YYYY")}</p>
+        :
+        <a
+          onClick={() =>
+            handleSubscribeClick(stripePriceId).catch(console.error)
+          }
+          className="btn-style-one light-green-color">
+          {price == 0 ? "Get Free" : "Buy Now"}
+        </a>
+      }
+      <ul className="features-list">
+        <li>
+          <i className="flaticon-draw-check-mark"></i>
+          Create Unlimited Locations
+        </li>
+        <li>
+          <i className="flaticon-draw-check-mark"></i>
+          Lifetime Free Support
+        </li>
+        <li>
+          <i className="flaticon-draw-check-mark"></i>
+          24/7 Support
+        </li>
+        <li>
+          <i className="flaticon-draw-check-mark"></i>
+          Arrive Or Departure Location
+        </li>
+        <li>
+          <i className="flaticon-draw-check-mark"></i>
+          Live Support
+        </li>
+      </ul>
+      {customer ? (
+        <CheckoutForm
+          showModal={showModal}
+          onCancel={handleCancel}
+          customerId={customer.id}
+          priceId={priceId}
+          setShowModal={setShowModal}
+          getUserDetail={getUserDetail}
+        />
+      ) : (
+        ""
+      )}
+    </div>
   );
 };
 

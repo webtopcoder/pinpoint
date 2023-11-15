@@ -10,7 +10,7 @@ const Setting = () => {
       <div className="page-title-area">
         <div className="container">
           <div className="page-title-content">
-            <h1>SETTING</h1>
+            <h1>SETTINGS</h1>
           </div>
         </div>
       </div>

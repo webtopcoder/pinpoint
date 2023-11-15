@@ -102,15 +102,6 @@ const index = ({
                       </li>
                       : ''
                   }
-                  {
-                    token && role === "partner" ?
-                      <li className="nav-item">
-                        <Link href="/">
-                          <a className="nav-link">Dashboard</a>
-                        </Link>
-                      </li>
-                      : ''
-                  }
                   <li className="nav-item">
                     <Link href="#">
                       <a className="nav-link">Interactive Map</a>

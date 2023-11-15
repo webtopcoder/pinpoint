@@ -19,7 +19,6 @@ function index({
                                     <div className="text-white ptlrt-10">
                                         <h5 className="text-white">Photos</h5>
                                     </div>
-
                                 </Col>
                                 <Col xs="6">
                                     <div className="text-white ptlrt-10 text-end">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, Button, List, Skeleton, Popover, Space, Tag, Modal } from "antd";
+import { Avatar, Button, List, Skeleton, Popover, Space, Tag, Modal, Divider } from "antd";
 import { Card, CardBody, Row, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Dropdown, Spinner } from "reactstrap";
 import { useRouter } from "next/router";
 import { apiBaseUrl } from "@/utils/baseUrl";
@@ -18,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import classnames from "classnames";
 import MessageForm from "../../WelcomeProfile/MessageForm";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const FollwersList = ({
   ongetFollowers,
@@ -81,106 +82,108 @@ const FollwersList = ({
 
   return (
     <>
-      {data?.map((item, index) => (
-        <Row className="py-2 border-bottom" key={item?._id}>
-          <Col lg="6">
-            <div className="d-flex">
-              <div className="me-3">
-                <img
-                  src={
-                    item?.follower?.profile?.avatar?.filepath
-                      ? avatarurl +
+      <InfiniteScroll
+        dataLength={data.length}
+        next={onLoadMore}
+        hasMore={data?.length < total}
+        style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
+        loader={
+          <div className={classnames('text-center')}>
+            <Spinner type="grow" className="ms-2" color="primary" />
+            <Spinner type="grow" className="ms-2" color="primary" />
+            <Spinner type="grow" className="ms-2" color="primary" />
+          </div>
+        }
+      >
+        {data?.map((item, index) => (
+          <Row className="py-2 border-bottom" key={item?._id}>
+            <Col lg="6">
+              <div className="d-flex">
+                <div className="me-3">
+                  <img
+                    src={
                       item?.follower?.profile?.avatar?.filepath
-                      : binavatar
-                  } alt=""
-                  className="avatar-md rounded-circle img-thumbnail"
-                />
-              </div>
-              <div className="flex-grow-1 align-self-center">
-                <div className="text-muted">
-                  <a className="mb-1 fs-6 fw-semibold"
-                    onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}>
-                    {item?.follower?.name}{'   '}
-                    <Tag color="error">{item?.follower?.role}</Tag>
-                  </a>
-                  <p className="mb-0">@{item?.follower?.username}</p>
+                        ? avatarurl +
+                        item?.follower?.profile?.avatar?.filepath
+                        : binavatar
+                    } alt=""
+                    className="avatar-md rounded-circle img-thumbnail"
+                  />
+                </div>
+                <div className="flex-grow-1 align-self-center">
+                  <div className="text-muted">
+                    <a className="mb-1 fs-6 fw-semibold"
+                      onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}>
+                      {item?.follower?.name}{'   '}
+                      <Tag color="error">{item?.follower?.role}</Tag>
+                    </a>
+                    <p className="mb-0">@{item?.follower?.username}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Col>
-          <Col lg="6" className="align-self-center">
-            <div
-              className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-left ': !isWebDevice })}
-            >
-              {user_id == profile && item?.status !== "active" ? (
-                item?.status === "pending" ? (<>
-                  <button
-                    onClick={() => AcceptFollowerRequest(item?._id, "active")}
-                    type="button"
-                    className="btn btn-danger font-size-12 me-1"
-                  >
-                    <i className="bx bx-check align-middle me-1"></i>{" "}Accept
-                  </button>
-                  <button
-                    onClick={() => AcceptFollowerRequest(item?._id, "decline")}
-                    type="button"
-                    className="btn btn-danger font-size-12 me-1"
-                  >
-                    <i className="bx bx-x align-middle me-1"></i>{" "}Decline
-                  </button>
-                </>
-                )
-                  :
-                  (<Space direction="horizontal">
-                    <Tag icon={<SyncOutlined spin />} color="processing">
-                      pending
-                    </Tag>
-                  </Space>)
-
-              ) : (
-                <>
-                  <Popover content={<MessageForm username={item?.follower?.username} />} placement="bottom" trigger="click">
+            </Col>
+            <Col lg="6" className="align-self-center">
+              <div
+                className={classnames('mt-lg-0', 'mt-4', { 'text-lg-end ': isWebDevice }, { 'text-lg-left ': !isWebDevice })}
+              >
+                {user_id == profile && item?.status !== "active" ? (
+                  item?.status === "pending" ? (<>
                     <button
+                      onClick={() => AcceptFollowerRequest(item?._id, "active")}
+                      type="button"
+                      className="btn btn-danger font-size-12 me-1"
+                    >
+                      <i className="bx bx-check align-middle me-1"></i>{" "}Accept
+                    </button>
+                    <button
+                      onClick={() => AcceptFollowerRequest(item?._id, "decline")}
+                      type="button"
+                      className="btn btn-danger font-size-12 me-1"
+                    >
+                      <i className="bx bx-x align-middle me-1"></i>{" "}Decline
+                    </button>
+                  </>
+                  )
+                    :
+                    (<Space direction="horizontal">
+                      <Tag icon={<SyncOutlined spin />} color="processing">
+                        pending
+                      </Tag>
+                    </Space>)
+
+                ) : (
+                  <>
+                    <Popover content={<MessageForm username={item?.follower?.username} />} placement="bottom" trigger="click">
+                      <button
+                        type="button"
+                        className={classnames('btn', 'btn-danger', 'me-1', 'font-size-12', { 'd-none': user_id !== profile })}
+                      >
+                        <i className="bx bx-message-alt-dots align-middle me-1"></i>{" "}Message
+                      </button>
+                    </Popover>
+                    <button
+                      onClick={() => unfriend(item?.follower?._id)}
                       type="button"
                       className={classnames('btn', 'btn-danger', 'me-1', 'font-size-12', { 'd-none': user_id !== profile })}
                     >
-                      <i className="bx bx-message-alt-dots align-middle me-1"></i>{" "}Message
+                      <i className="bx bx-message-alt-dots align-middle me-1"></i>{" "}Unfriend
                     </button>
-                  </Popover>
+                  </>
+                )
+                }
+                {item?.status === "requesting" || item?.status === "pending" ?
                   <button
-                    onClick={() => unfriend(item?.follower?._id)}
+                    onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
                     type="button"
-                    className={classnames('btn', 'btn-danger', 'me-1', 'font-size-12', { 'd-none': user_id !== profile })}
+                    className="btn btn-danger font-size-12 me-1"
                   >
-                    <i className="bx bx-message-alt-dots align-middle me-1"></i>{" "}Unfriend
-                  </button>
-                </>
-              )
-              }
-              {item?.status === "requesting" || item?.status === "pending" ?
-                <button
-                  onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
-                  type="button"
-                  className="btn btn-danger font-size-12 me-1"
-                >
-                  <i className="bx bx-user align-middle me-1"></i>{" "}View Profile
-                </button> : ''}
-            </div>
-          </Col>
-        </Row>
-      ))}
-      <div className={classnames('text-center', { 'd-none': !initLoading })}>
-        <Spinner type="grow" className="ms-2" color="primary" />
-        <Spinner type="grow" className="ms-2" color="primary" />
-        <Spinner type="grow" className="ms-2" color="primary" />
-      </div>
-      <div
-        className={classnames('text-center', 'mt-4', { 'd-none': total < 10 || data?.length >= total })}
-      >
-        <Button type="link" onClick={onLoadMore}>
-          View More
-        </Button>
-      </div>
+                    <i className="bx bx-user align-middle me-1"></i>{" "}View Profile
+                  </button> : ''}
+              </div>
+            </Col>
+          </Row>
+        ))}
+      </InfiniteScroll>
     </>
   );
 };

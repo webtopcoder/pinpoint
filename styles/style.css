@@ -220,6 +220,10 @@ Notification page
   cursor: pointer;
 }
 
+.checkout-tabs .nav-pills .nav-link:hover {
+  background-color: var(--graylightColor);
+}
+
 .checkout-tabs .nav-pills .nav-link.active {
   background-color: var(--blueColor);
 }
@@ -528,6 +532,10 @@ Message page CSS
   color: var(--blueColor);
 }
 
+.page-item.active .page-link{
+  color: var(--whiteColor)
+}
+
 .ant-btn-primary {
   background-color: var(--blueColor);
 }
@@ -692,6 +700,9 @@ Profile Activity page CSS
 
 }
 
+.ant-popover.ant-popconfirm {
+  z-index: 10000 !important;
+}
 .popover-user:hover {
   color: var(--blueColor);
   cursor: pointer;
@@ -740,7 +751,7 @@ Profile Activity page CSS
 }
 
 .avatar-title:hover {
-  background-color: var(--blueColor) !important;
+  /* background-color: var(--blueColor) !important; */
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
@@ -9239,10 +9250,11 @@ Page Title Area CSS
 
 .page-title-content {
   text-align: center;
-  max-width: 600px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
+
 
 .page-title-content .sub-title {
   display: block;
@@ -13690,7 +13702,7 @@ h4 {
 }
 
 .partner-locations-card {
-  background: #2f2f2f;
+  background: var(--blueColor);
 }
 
 .ant-rate-star-zero .anticon-star {

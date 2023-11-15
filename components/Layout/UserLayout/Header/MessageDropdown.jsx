@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import PerfectScrollbar from "react-perfect-scrollbar";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import { Badge, Spin } from 'antd';
+import { Badge, Spin, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { mailService } from "@/services/index";
 import { getDiffToNow } from "@/utils/date";
@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import {
   getIsReadEmail,
 } from "@/redux/Mail/actions";
-import { connect } from "react-redux";
+import VirtualList from 'rc-virtual-list';
 
 const antIcon = (
   <LoadingOutlined
@@ -22,6 +22,8 @@ const antIcon = (
     spin
   />
 );
+
+const ContainerHeight = 400;
 
 const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
   // Declare a new state variable, which we'll call "menu"
@@ -46,10 +48,6 @@ const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
       });
   };
 
-  async function onLoadMore() {
-    await setCount(count + 1);
-  }
-
   useEffect(async () => {
     setLoading(true);
     await onGetIsReadEmails({
@@ -59,6 +57,12 @@ const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
     });
     setLoading(false);
   }, [count]);
+
+  const onScroll = (e) => {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
+      setCount(count + 1);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -102,8 +106,14 @@ const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
               </div>
             </Row>
           </div>
-          <PerfectScrollbar style={{ height: "260px" }}>
-            {unreadList && unreadList?.map((item, index) => (
+          <VirtualList
+            data={unreadList}
+            height={ContainerHeight}
+            itemHeight={47}
+            itemKey="_id"
+            onScroll={onScroll}
+          >
+            {(item) => (
               <a onClick={() => {
                 router.push({
                   pathname: '/message/inbox/detail',
@@ -145,13 +155,8 @@ const MessageDropdown = ({ onGetIsReadEmails, unreadList, unreadCount }) => {
                   </div>
                 </div>
               </a>
-            ))}
-          </PerfectScrollbar>
-          <div className="p-2 border-top d-grid">
-            <a className="btn btn-sm btn-link font-size-14 text-center" onClick={onLoadMore}>
-              <span key="t-view-more"><i className="bx bxs-chevron-right-circle me-1"></i>View More... <Spin spinning={loading} indicator={antIcon}></Spin> </span>
-            </a>
-          </div>
+            )}
+          </VirtualList>
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>

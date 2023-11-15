@@ -59,6 +59,14 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
                     <div className="dropdown-divider" style={{
                         marginLeft: 0
                     }} />
+                    {role === "partner" &&
+                        <DropdownItem tag="a" onClick={() =>
+                            router.push(`/partner/dashboard`)
+                        }>
+                            {" "}
+                            <i className="bx bxs-dashboard font-size-16 align-middle me-1" />
+                            My Dashboard
+                        </DropdownItem>}
                     <DropdownItem tag="a" onClick={() =>
                         router.push(`/profile/${localStorage.getItem('user_id')}/activity`)
                     }>

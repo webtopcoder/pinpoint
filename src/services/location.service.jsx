@@ -12,13 +12,14 @@ function LocationService() {
     return api(apiquery, "get");
   }
 
-  function getLocations({ pagination = false, partner, isActive }) {
+  function getLocations({ pagination = false, partner, isActive }, params) {
     return api(
       `locations?pagination=${pagination}&partner=${partner}${isActive != null ? "&isActive=" + isActive : ""
       }`,
-      "get"
+      "get", {}, params
     )
   }
+
   function getLocationInfo({ id, expand }) {
     return api(`locations/${id}/${expand}`, "get")
   }

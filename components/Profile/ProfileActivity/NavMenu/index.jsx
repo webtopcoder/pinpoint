@@ -44,8 +44,8 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                         setList(newData);
                     }
                     else {
-                        setData(res.posts);
-                        setList(res.posts);
+                        setData(res?.posts);
+                        setList(res?.posts);
                     }
                     window.dispatchEvent(new Event("resize"));
                     setActivityTotal(res.activityTotal)
@@ -97,7 +97,9 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
     }
 
     useEffect(() => {
-        initFunc(view_user_id);
+        if (router.isReady) {
+            initFunc(view_user_id);
+        }
     }, [router.isReady, view_user_id]);
 
     useEffect(() => {
