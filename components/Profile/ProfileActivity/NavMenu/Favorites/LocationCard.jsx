@@ -22,10 +22,8 @@ import {
 } from "antd";
 import { Avatar, Card } from "antd";
 import Link from "next/link";
-import ArrivalModal from "./ArrivalModal";
 import { connect } from "react-redux";
 import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
-import ModifyLocationModal from "./ModifyLocationModal";
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
 import Image from "next/image";
@@ -362,25 +360,6 @@ const LocationCard = ({
           </div>
         </Card >
       </Badge.Ribbon>
-      <ArrivalModal
-        openArrival={arrivalModalOpen}
-        setArrivalModalOpen={setArrivalModalOpen}
-        uploadProps={uploadProps}
-        setLocations={setLocations}
-        locations={locations}
-        locationInfo={location}
-        uploadFile={uploadFile}
-      />
-
-      <ModifyLocationModal
-        modalOpen={modifyModalOpen}
-        setModalOpen={setModifyModalOpen}
-        setLocations={setLocations}
-        additionLocatoins={additionLocatoins}
-        locationInfo={location}
-        uploadProps={uploadProps}
-        uploadFile={uploadFile}
-      />
     </>
   );
 };

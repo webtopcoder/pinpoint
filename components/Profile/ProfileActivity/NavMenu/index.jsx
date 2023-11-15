@@ -7,6 +7,8 @@ import useNotify from "@/hooks/useNotify";
 import { useRouter } from "next/router";
 import Posts from "./Activity/Posts";
 import Shoutouts from "./Shoutout/Main"
+import Locations from "./Locations/Main"
+import Favorites from "./Favorites/Main"
 import { downloadFile } from "@/redux/Mail/actions";
 import { profileService } from "@/services/index";
 
@@ -216,7 +218,8 @@ function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
                     </TabPane>
                     <TabPane tabId="4">
                         <Row>
-
+                            {view_user_role === "partner" ?
+                                <Locations /> : <Favorites />}
                         </Row>
                     </TabPane>
                 </TabContent>

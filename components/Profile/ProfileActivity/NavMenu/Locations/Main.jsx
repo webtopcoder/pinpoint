@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 import {
     Row,
     Card,
     CardBody,
     Col,
-    Spinner,
+    Spinner
 } from "reactstrap";
 import { message, Spin, Divider } from "antd";
 import useNotify from "@/hooks/useNotify";
@@ -20,12 +21,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const index = ({
     user_id, additionLocatoins, userCategoryId
 }) => {
-
+    const router = useRouter();
     const { notify } = useNotify();
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [locations, setLocations] = useState([]);
     const [uploadFile, setUploadFile] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showActions, setShowActions] = useState(true);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState();
     const isWebDevice = useMedia('(min-width:700px)');
@@ -59,7 +61,7 @@ const index = ({
 
     async function initialize() {
         await locationService.getLocations({
-            partner: user_id, isActive: null,
+            partner: router.query.profile, isActive: null,
         }, {
             sort: "createdAt:desc",
             limit: 9,
@@ -86,6 +88,7 @@ const index = ({
     }
 
     useEffect(() => {
+        router.query.profile !== user_id && setShowActions(false);
         initialize();
     }, [page]);
 
@@ -106,30 +109,18 @@ const index = ({
                 endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
             >
                 <CardBody
-                    className={classnames({ 'p-2': !isWebDevice, 'p-5': isWebDevice })}
+                    className={classnames({ 'p-2': !isWebDevice, 'p-2': isWebDevice })}
                 >
                     <Spin spinning={loading}>
                         <Row>
-                            <Col md={12} className="mb-4">
-                                <button
-                                    type="button"
-                                    className="btn btn-danger float-end"
-                                    onClick={() => setAddModalOpen(true)}
-                                >
-                                    <i className="bx bx-plus font-size-16 align-middle me-2"></i>{" "}
-                                    Add Location
-                                </button>
-                            </Col>
                             {map(locations, (item, key) => {
-                                return <Col xl="4" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} showActions={true} /></Col>
+                                return <Col xl="6" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} showActions={showActions} /></Col>
                             }
                             )}
                         </Row>
                     </Spin>
-
                 </CardBody>
             </InfiniteScroll>
-
             <AddLocationModal
                 open={addModalOpen}
                 locations={locations}
@@ -141,7 +132,7 @@ const index = ({
                 userCategoryId={userCategoryId}
                 additionLocatoins={additionLocatoins}
             />
-        </Card>
+        </Card >
     );
 };
 

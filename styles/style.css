@@ -13702,7 +13702,8 @@ h4 {
 }
 
 .partner-locations-card {
-  background: var(--blueColor);
+  background: var(--whiteColor);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .ant-rate-star-zero .anticon-star {

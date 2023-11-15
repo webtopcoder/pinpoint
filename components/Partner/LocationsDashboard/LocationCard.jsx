@@ -47,7 +47,7 @@ const avatarurl = `${apiBaseUrl}/avatar/`;
 const LocationCard = ({
   onDepartureSet,
   location,
-  showActions = false,
+  showActions,
   user_id,
   setLocations,
   locations,
@@ -164,12 +164,13 @@ const LocationCard = ({
         <Card
           hoverable
           style={{
-            color: "white",
+            color: "#175594",
             cursor: "pointer",
           }}
           headStyle={{
             color: "white",
             textAlign: "center",
+            background: "#175594"
           }}
           title={location.title}
           className="partner-locations-card"
@@ -266,8 +267,8 @@ const LocationCard = ({
                   text={
                     <Text
                       style={{
-                        fontSize: 40,
-                        color: "white",
+                        fontSize: 35,
+                        color: "#175594",
                       }}
                     >
                       {location.totalLike ?? 0}
@@ -286,8 +287,8 @@ const LocationCard = ({
                   text={
                     <Text
                       style={{
-                        fontSize: 40,
-                        color: "white",
+                        fontSize: 35,
+                        color: "#175594",
                       }}
                     >
                       {location.reviews.length ?? 0}
@@ -299,7 +300,7 @@ const LocationCard = ({
             </Row>
             <Divider
               style={{
-                borderColor: "white",
+                borderColor: "black",
               }}
               dashed
             >
@@ -318,19 +319,19 @@ const LocationCard = ({
                 <Space>
                   <Text
                     style={{
-                      color: "white",
+                      color: "black",
                     }}
                   >
                     <EnvironmentOutlined className="" />{'  '}
                     {location?.mapLocation?.address ?
-                     location?.mapLocation?.address: "Not Available"
+                      location?.mapLocation?.address : "Not Available"
                     }
                   </Text>
                 </Space>
                 <Space>
                   <Text
                     style={{
-                      color: "white",
+                      color: "black",
                     }}
                     className="align-middle"
                   >
