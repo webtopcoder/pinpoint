@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import useNotify from "@/hooks/useNotify";
-import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Form,
@@ -17,7 +16,6 @@ import {
   Space,
   Popconfirm
 } from "antd";
-import Image from "next/image";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useMedia from "@/hooks/useMedia";
 import { locationService, categoryService } from "@/services/index";
@@ -109,13 +107,12 @@ function ModifyModal({
       footer={null}
     >
       <Row>
-        <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
         <Col
           xs={24}
           sm={24}
-          md={8}
-          lg={22}
-          xl={22}
+          md={24}
+          lg={24}
+          xl={24}
           style={{
             margin: "auto",
             textAlign: "center",
@@ -135,18 +132,7 @@ function ModifyModal({
             multiple locations and this will act as their individual profile.
           </Paragraph>
         </Col>
-        <Col
-          xs={0}
-          sm={0}
-          md={8}
-          lg={2}
-          xl={2}
-          style={{
-            textAlign: "right",
-          }}
-        >
-          <Image src={food} alt="Snow" width={50} height={70} />
-        </Col>
+
       </Row>
       <Divider style={{}} dashed></Divider>
       <Form
@@ -335,4 +321,4 @@ const mapStateToProps = ({ user, profile }) => ({
 });
 
 
-export default connect(mapStateToProps, undefined)(ModifyModal);
+export default connect(mapStateToProps)(ModifyModal);

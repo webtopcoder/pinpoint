@@ -12129,6 +12129,10 @@ Sidebar Modal CSS
   background-color: var(--whiteColor);
 }
 
+.location-detail.modal-body{
+  background-color: var(--lightwhiteolor) !important;
+}
+
 .modal.right .modal-content button.close {
   top: 62px;
   z-index: 2;
@@ -14199,6 +14203,7 @@ display: contents !important;
 
 .ant-popover {
   width: 300px;
+  z-index: 100000;
 }
 
 .event-sechedule .ant-form-item {

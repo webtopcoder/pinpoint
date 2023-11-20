@@ -7,7 +7,7 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import { profileService } from "@/services/index";
 import CommentBodyPost from "./CommentBody";
 import PopUserBox from "@/components/Common/PopUserBox";
-import CommentBodyReview from "@/components/Partner/Locations/PartnerLocation/CommentBody";
+// import CommentBodyReview from "@/components/Partner/LocationsDashboard/PartnerLocation/CommentBody";
 import { useRouter } from "next/router";
 import { getDiffToNow } from "@/utils/date";
 import classnames from "classnames";
@@ -76,7 +76,6 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                     >
                         <ul className="verti-timeline list-unstyled">
-
                             {list?.map((item, index) => (
                                 <li className="event-list" key={item?._id}>
                                     <div className="event-timeline-dot">
@@ -188,14 +187,6 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                         </ul>
                     </InfiniteScroll>
                 </Spin>
-                {/* <div className={classnames('text-center', { 'd-none': !initLoading })}>
-                    <Spinner type="grow" className="ms-2" color="primary" />
-                    <Spinner type="grow" className="ms-2" color="primary" />
-                    <Spinner type="grow" className="ms-2" color="primary" />
-                </div>
-                <div
-                    className={classnames('text-center', 'mt-4', { 'd-none': activityTotal < 10 || data?.length >= activityTotal })}
-                ><a className="btn btn-danger waves-effect waves-light btn-sm" onClick={onLoadMore}>View More <i className="bx bx-plus"></i></a></div> */}
             </CardBody>
         </Card >
     );

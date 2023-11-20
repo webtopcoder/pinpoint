@@ -13,7 +13,6 @@ import {
   Select,
   Space
 } from "antd";
-import food from "@/public/images/landing/food.png";
 import { UploadOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { locationService, categoryService } from "@/services/index";
@@ -61,13 +60,12 @@ function AddLocationModal({
       footer={null}
     >
       <Row>
-        <Col xs={0} sm={0} md={8} lg={0} xl={0}></Col>
         <Col
           xs={24}
           sm={24}
-          md={8}
-          lg={22}
-          xl={22}
+          md={24}
+          lg={24}
+          xl={24}
           style={{
             margin: "auto",
             textAlign: "center",
@@ -87,18 +85,7 @@ function AddLocationModal({
             multiple locations and this will act as their individual profile.
           </Paragraph>
         </Col>
-        <Col
-          xs={0}
-          sm={0}
-          md={8}
-          lg={2}
-          xl={2}
-          style={{
-            textAlign: "right",
-          }}
-        >
-          <Image src={food} alt="Snow" width={50} height={70} />
-        </Col>
+
       </Row>
       <Divider style={{}} dashed></Divider>
       <Form
@@ -220,7 +207,7 @@ function AddLocationModal({
                       icon={<UploadOutlined />}
                       style={{ marginRight: 10 }}
                     >
-                      Location Image
+                      Image
                     </Button>
                   </Upload>
                 </Col>

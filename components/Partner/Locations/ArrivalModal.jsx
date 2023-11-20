@@ -46,7 +46,8 @@ function ArrivalModal({
   uploadFile,
   additionLocatoins,
   setLocations,
-  locations
+  locations,
+  initialize
 }) {
 
   const [arrivalForm] = Form.useForm();
@@ -86,25 +87,6 @@ function ArrivalModal({
     // Disable all dates before today and after tomorrow
     return !current || current.isBefore(todayStart) || current.isAfter(tomorrowStart);
   };
-
-  async function initialize(status) {
-    await locationService.getLocations({ partner: user_id, isActive: status })
-      .then(async (res) => {
-        if (additionLocatoins.length > 0) {
-          const filteredData = res.results.filter(obj => additionLocatoins.includes(obj._id));
-          await setLocations(filteredData);
-        }
-        else
-          await setLocations(res.results);
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
 
   const onUpdateField = (e) => {
     const field = e.target.name;
@@ -166,10 +148,9 @@ function ArrivalModal({
       footer={null}
     >
       <Row>
-        <Col xs={0} sm={0} md={8} lg={8} xl={8}></Col>
         <Col
-          xs={20}
-          sm={20}
+          xs={24}
+          sm={24}
           md={8}
           lg={8}
           xl={8}
@@ -187,18 +168,7 @@ function ArrivalModal({
             Arrival
           </Title>
         </Col>
-        <Col
-          xs={4}
-          sm={4}
-          md={8}
-          lg={8}
-          xl={8}
-          style={{
-            textAlign: "right",
-          }}
-        >
-          <Image src={food} alt="Snow" width={50} height={70} />
-        </Col>
+
       </Row>
       <Form
         initialValues={formInitialValues}
@@ -246,7 +216,7 @@ function ArrivalModal({
                 await setArrivalModalOpen(false);
                 arrivalForm.resetFields();
                 notify("success", "Successfully Arrived");
-                initialize(null);
+                initialize();
               })
               .catch((error) => {
                 setLoading(false);
@@ -428,7 +398,7 @@ function ArrivalModal({
                         marginRight: 10,
                       }}
                     >
-                      Upload a Photo
+                      Photo
                     </Button>
                   </Upload>
                 </Col>

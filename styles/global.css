@@ -25,6 +25,7 @@ Global CSS
   --blacklightColor: #d9d9d9;
   --lightWhiteColor: #f1f1f1;
   --darkWhiteColor: #d8d8d8;
+  --lightwhiteolor: #f9f8f8;
   --transition: 0.5s;
   --fontSizeForLogin: 20px;
   --fontSize: 17px;
@@ -117,7 +118,7 @@ p {
   font-size: 16px !important;
 }
 
-.font-size-12{
+.font-size-12 {
   font-size: 12px !important;
 }
 
@@ -207,16 +208,16 @@ p:last-child {
   background-color: #556ee6 !important;
 }
 
-.bg-twitter{
+.bg-twitter {
   background-color: #2977ff !important;
 }
 
-.bg-instagram{
+.bg-instagram {
   background-color: var(--crimsonLightColor) !important;
 }
 
 
-.bg-snapchat{
+.bg-snapchat {
   background-color: var(--yellowColor) !important;
 }
 
@@ -301,15 +302,15 @@ p:last-child {
 }
 
 .bg-bluegradient {
-  background: linear-gradient(183deg, rgba(54,159,255,1) 0%, rgba(54,159,255,0.5) 100%);
+  background: linear-gradient(183deg, rgba(54, 159, 255, 1) 0%, rgba(54, 159, 255, 0.5) 100%);
 }
 
 .bg-redgradient {
-  background: linear-gradient(183deg, rgba(236,34,38,1) 0%, rgba(236,34,38,0.5) 70%);
+  background: linear-gradient(183deg, rgba(236, 34, 38, 1) 0%, rgba(236, 34, 38, 0.5) 70%);
 }
 
 .bg-postgradient {
-  background: linear-gradient(183deg, rgba(23,85,148,1) 0%, rgba(236,34,38,1) 70%);
+  background: linear-gradient(183deg, rgba(23, 85, 148, 1) 0%, rgba(236, 34, 38, 1) 70%);
 }
 
 .bg-f1f5fd::before {
@@ -545,7 +546,8 @@ p:last-child {
   color: var(--darkGreenColor);
 }
 
-.section-title .sub-title.green-color {
+.section-title .sub-title.green-color,
+.tcl-green {
   color: var(--greenColor);
 }
 
@@ -555,6 +557,14 @@ p:last-child {
 
 .section-title .sub-title.purple-color {
   color: var(--purpleColor);
+}
+
+.tcl-red {
+  color: var(--redLightColor);
+}
+
+.tcl-facebook {
+  color: #3b5998 !important;
 }
 
 .section-title h2 {

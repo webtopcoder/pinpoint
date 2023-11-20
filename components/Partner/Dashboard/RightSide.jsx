@@ -9,6 +9,7 @@ import {
     Card,
     CardTitle,
 } from "reactstrap";
+import { message } from "antd";
 import { useRouter } from "next/router";
 import quickArrive from "@/public/images/quick-arrive.png";
 import quickDeparture from "@/public/images/quick-arrive.png";

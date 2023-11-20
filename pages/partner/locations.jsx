@@ -1,7 +1,7 @@
 import React from "react";
 import PageTitle from "@/components/Layout/PageTitle";
 import BasicLayout from "../../layout";
-import LocationsDashboard from "@/components/Partner/LocationsDashboard/Main";
+import LocationsDashboard from "@/components/Partner/Locations/Main";
 import NavMenu from "@/components/Partner/NavMenu";
 import {
   Row,

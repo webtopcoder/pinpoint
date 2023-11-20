@@ -10,10 +10,9 @@ import {
 } from "reactstrap";
 import { message, Spin, Divider } from "antd";
 import useNotify from "@/hooks/useNotify";
-import AddLocationModal from "./AddLocationModal";
 import { map } from "lodash";
 import { locationService } from "@/services/index";
-import LocationCard from "./LocationCard";
+import LocationCard from "@/components/Partner/Locations/LocationCard";
 import useMedia from "@/hooks/useMedia";
 import classnames from "classnames";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -114,24 +113,15 @@ const index = ({
                     <Spin spinning={loading}>
                         <Row>
                             {map(locations, (item, key) => {
-                                return <Col xl="6" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} showActions={showActions} /></Col>
+                                return <Col xl="6" sm="12" className="py-2" key={key}>
+                                    <LocationCard locations={locations} setLocations={setLocations} location={item} initialize={initialize} showActions={true} />
+                                </Col>
                             }
                             )}
                         </Row>
                     </Spin>
                 </CardBody>
             </InfiniteScroll>
-            <AddLocationModal
-                open={addModalOpen}
-                locations={locations}
-                setLocations={setLocations}
-                setModalOpen={setAddModalOpen}
-                uploadProps={uploadProps}
-                uploadFile={uploadFile}
-                user_id={user_id}
-                userCategoryId={userCategoryId}
-                additionLocatoins={additionLocatoins}
-            />
         </Card >
     );
 };

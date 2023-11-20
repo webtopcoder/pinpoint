@@ -3,6 +3,7 @@ import React from "react";
 import classnames from "classnames";
 
 function Statistic({ headerInfo }) {
+    console.log(headerInfo)
     const isPartner = headerInfo?.profile?.usertype === "partner";
     return (
         <Row>
@@ -66,7 +67,7 @@ function Statistic({ headerInfo }) {
                                 <div className="d-flex">
                                     <div className="flex-grow-1">
                                         <p className="text-muted fw-semibold">Locations</p>
-                                        <h4 className="mb-0">{headerInfo?.profile?.followers}</h4>
+                                        <h4 className="mb-0">{headerInfo?.profile?.location}</h4>
                                     </div>
                                     <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                         <span className="avatar-title rounded-circle bg-redLightColor">

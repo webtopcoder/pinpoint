@@ -121,7 +121,7 @@ const index = ({
                                 </button>
                             </Col>
                             {map(locations, (item, key) => {
-                                return <Col xl="4" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} showActions={true} /></Col>
+                                return <Col xl="4" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} initialize={initialize} showActions={true} /></Col>
                             }
                             )}
                         </Row>
@@ -129,7 +129,6 @@ const index = ({
 
                 </CardBody>
             </InfiniteScroll>
-
             <AddLocationModal
                 open={addModalOpen}
                 locations={locations}
