@@ -6,6 +6,7 @@ import PartnerBasicInfo from "./PartnerBasicInfo";
 import SocialLinks from "./SocialLinks";
 import ChangePassword from "./ChangePassword";
 import NotificationSetting from "./NotificationSetting";
+import AdditionalUsers from "./AdditionalUsers";
 import { profileService } from "@/services/index";
 import {
     Row,
@@ -71,6 +72,19 @@ const index = ({ userRole }) => {
                                                 </NavLink>
                                             </NavItem>
                                         </Col>
+                                        {userRole === "partner" && <Col lg="12" sm="6">
+                                            <NavItem>
+                                                <NavLink
+                                                    className={classnames({ active: activeTab === "5" })}
+                                                    onClick={() => {
+                                                        setactiveTab("5");
+                                                    }}
+                                                >
+                                                    <i className="bx bx-user-plus d-block check-nav-icon mt-4 mb-2" />
+                                                    <p className="font-weight-bold mb-4">Assistant</p>
+                                                </NavLink>
+                                            </NavItem>
+                                        </Col>}
                                         <Col lg="12" sm="6">
                                             <NavItem>
                                                 <NavLink
@@ -129,6 +143,11 @@ const index = ({ userRole }) => {
                                                 <div className="login-form" >
                                                     <CardTitle className="mb-2">Notifications</CardTitle>
                                                     <NotificationSetting />
+                                                </div>
+                                            </TabPane>
+                                            <TabPane tabId="5" className="basic-info">
+                                                <div className="login-form" >
+                                                    <AdditionalUsers />
                                                 </div>
                                             </TabPane>
                                         </TabContent>

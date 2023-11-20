@@ -18,7 +18,7 @@ const LeftSide = ({
     return (
         <Col md={9}>
             <Row className="mb-2">
-                <Col md={4} sm="12" className="px-1">
+                <Col md={4} sm="12" className="px-3">
                     <Card className="mini-stats-wid mb-2  bg-redLightColor shadow-lg">
                         <CardBody>
                             <div className="d-flex">
@@ -37,7 +37,7 @@ const LeftSide = ({
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md="4" sm="12" className="px-1">
+                <Col md="4" sm="12" className="px-3">
                     <Card className="mini-stats-wid mb-2 bg-redLightColor shadow-lg">
                         <CardBody>
                             <div className="d-flex">
@@ -56,7 +56,7 @@ const LeftSide = ({
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md="4" sm="12" className="px-1">
+                <Col md="4" sm="12" className="px-3">
                     <Card className="mini-stats-wid mb-2 bg-redLightColor shadow-lg">
                         <CardBody>
                             <div className="d-flex">
@@ -77,7 +77,7 @@ const LeftSide = ({
                 </Col>
             </Row>
             <Row className="mb-4">
-                <Col md={3} sm="6" className="px-1">
+                <Col md={3} sm="6" className="px-3">
                     <Card className="mini-stats-wid mb-2 shadow-lg">
                         <CardBody>
                             <div className="d-flex">
@@ -96,7 +96,7 @@ const LeftSide = ({
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md="3" sm="6"  className="px-1">
+                <Col md="3" sm="6"  className="px-3">
                     <Card className="mini-stats-wid mb-2 shadow-lg">
                         <CardBody>
                             <div className="d-flex">
@@ -113,7 +113,7 @@ const LeftSide = ({
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md="3" sm="6"  className="px-1">
+                <Col md="3" sm="6"  className="px-3">
                     <Card className="mini-stats-wid mb-2 shadow-lg">
                         <CardBody>
                             <div className="d-flex">
@@ -130,7 +130,7 @@ const LeftSide = ({
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md={3} sm="6" className="px-1">
+                <Col md={3} sm="6" className="px-3">
                     <Card className="mini-stats-wid mb-2 shadow-lg">
                         <CardBody>
                             <div className="d-flex">
