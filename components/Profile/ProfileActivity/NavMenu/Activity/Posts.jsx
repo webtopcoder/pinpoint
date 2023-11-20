@@ -132,7 +132,7 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                                                         username={item?.user?.username}
                                                         role={item?.user?.role}
                                                     />
-                                                    {" "}reviwed{" "}<b>{item?.location?.partner}</b>'s location</>}
+                                                    {" "}reviwed{" "}<b>@{item?.location?.partner}</b>'s location</>}
                                                 <p className={classnames('mb-0', 'text-muted', { 'font-size-12': !isWebDevice })}><i className="bx bxs-time-five align-middle me-1 font-size-14"></i>{getDiffToNow(item?.createdAt)} ago</p>
                                                 {item?.type === "post" || item?.type == "review" ?
                                                     // <p className="mt-2 text-muted font-size-14">{item.content}</p> 
@@ -166,8 +166,7 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                                                     </Antimage.PreviewGroup> : ''}
                                                 <div className="desktop pt-1">
                                                     <ul className="list-inline mb-0">
-                                                        {item?.type === "post" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
-                                                        {item?.type === "review" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
+                                                        {item?.type === "post" || item?.type === "review" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
                                                     </ul>
                                                 </div>
 

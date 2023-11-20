@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Comments from "@/components/Layout/comments/CommentsAll";
+import { Rate } from "antd";
 
 const CommentBody = ({ item, likePost, user_id, path }) => {
     const [commentCount, setCommentCount] = useState(item.comment ? item?.comment : 0);
@@ -8,6 +9,10 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
 
     return (
         <>
+            {item?.rating && item?.rating !== 0 ?
+                <li className="list-inline-item me-3" >
+                    <Rate disabled allowHalf key={item?.rating} defaultValue={item?.rating} />
+                </li> : ''}
             <li className="list-inline-item me-3"
                 onClick={() => {
                     likePost(item?._id, (liked) => {

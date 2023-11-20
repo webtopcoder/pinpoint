@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Comments from "@/components/Layout/comments/CommentsAll";
-import { locationService, commentService } from "@/services/index";
+import { locationService } from "@/services/index";
 import { Rate } from "antd";
 const CommentBody = ({ item, user_id, path }) => {
   const [commentCount, setCommentCount] = useState(item?.comment ? item?.comment : 0);
