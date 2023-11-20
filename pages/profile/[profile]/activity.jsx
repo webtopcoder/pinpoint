@@ -12,14 +12,14 @@ const Activity = ({ user_id, userRole }) => {
   const router = useRouter();
   const view_user_id = router.query.profile;
   const own_page = user_id === view_user_id;
-  const [loading, setLoading] = useState(true);
+  const [Profileloading, setProfileLoading] = useState(true);
   const [headerInfo, setHeaderInfo] = useState();
 
   async function getHeader() {
-    setLoading(true);
+    setProfileLoading(true);
     const result = await profileService.getHeader(view_user_id);
     await setHeaderInfo(result)
-    setLoading(false);
+    setProfileLoading(false);
   }
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Activity = ({ user_id, userRole }) => {
       <div className="page-profile-area">
       </div>
       <div className="profile-authentication-area bg-f8fbff">
-        <ProfileActivity headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} usertype={headerInfo?.profile?.usertype} />
+        <ProfileActivity headerInfo={headerInfo} Profileloading={Profileloading} own_page={own_page} getHeader={getHeader} userRole={userRole} usertype={headerInfo?.profile?.usertype} />
       </div>
     </>
   );

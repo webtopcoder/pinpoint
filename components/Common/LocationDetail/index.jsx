@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-    Space, Form,
-    Input,
-    message,
-    Button, Upload, Divider
-} from 'antd';
 import { connect } from "react-redux";
 import { mailCompose } from "@/redux/Mail/actions";
-import { UploadOutlined, SendOutlined, InboxOutlined, Repl } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
-import { commentService } from "@/services/index";
 import {
     Row,
     Col,
@@ -26,11 +18,9 @@ import Overview from './Overview';
 import DetailsSection from './DetailsSection';
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
-import userReducer from "@/src/redux/User/reducers";
 
-const { TextArea } = Input;
-const index = ({ modal_fullscreen, setmodal_fullscreen, location, role, user_id, setLoading }) => {
-
+const index = ({ modal_fullscreen, setmodal_fullscreen, location, role, user_id }) => {
+    
     function tog_fullscreen() {
         setmodal_fullscreen(!modal_fullscreen);
         removeBodyCss();
@@ -62,7 +52,6 @@ const index = ({ modal_fullscreen, setmodal_fullscreen, location, role, user_id,
     async function initialize() {
         locationService.getLocationInfo({ id: location?._id, expand: expand })
             .then((res) => {
-                console.log(res)
                 setLocationInfo(res)
                 if (res?.location?.reviews) {
                     const activeReviews = res?.location?.reviews ?? res?.location?.reviews.reduce(
@@ -83,8 +72,10 @@ const index = ({ modal_fullscreen, setmodal_fullscreen, location, role, user_id,
             });
     }
     useEffect(() => {
-        initialize();
-    }, [location]);
+        if (router.isReady) {
+            initialize();
+        }
+    }, [router.isReady, expand]);
 
 
     return (
@@ -94,7 +85,7 @@ const index = ({ modal_fullscreen, setmodal_fullscreen, location, role, user_id,
             toggle={() => {
                 tog_fullscreen();
             }}
-        // className="modal-fullscreen"
+            // className="modal-fullscreen"
         >
             <div className="modal-header">
                 <h5
@@ -127,7 +118,7 @@ const index = ({ modal_fullscreen, setmodal_fullscreen, location, role, user_id,
                     </Row>
                 </Container>
             </div>
-
+      
         </Modal>
     );
 };

@@ -13,6 +13,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { Spin } from "antd";
 import classnames from "classnames";
 import useMedia from "@/hooks/useMedia";
 
@@ -23,7 +24,8 @@ const index = ({
   userRole,
   headerInfo,
   own_page,
-  getHeader
+  getHeader,
+  Profileloading
 }) => {
 
   const [myallPhotos, setAllphotos] = useState([]);
@@ -55,42 +57,49 @@ const index = ({
           <Row>
             <Col xl="3">
               <div className={classnames('activity-leftside', { 'd-none': !isWebDevice && (activeMenu === 'main' || activeMenu === 'photo') })}>
-                <WelcomeProfile
-                  headerInfo={headerInfo}
-                  own_page={own_page}
-                  getHeader={getHeader}
-                  userRole={userRole} />
+                <Spin spinning={Profileloading}>
+                  <WelcomeProfile
+                    headerInfo={headerInfo}
+                    own_page={own_page}
+                    getHeader={getHeader}
+                    userRole={userRole} />
+                </Spin>
               </div>
             </Col>
+
             <Col xl="6" className={classnames({ 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'photo') })}>
-              <Statistic
-                headerInfo={headerInfo} />
-              <div className="auth-space"></div>
-              <NavMenu
-                view_user_id={view_user_id}
-                userRole={userRole}
-                view_user_role={headerInfo?.profile?.usertype}
-                getHeader={getHeader}
-                user_id={user_id} />
+              <Spin spinning={Profileloading}>
+                <Statistic
+                  headerInfo={headerInfo} />
+                <div className="auth-space"></div>
+                <NavMenu
+                  view_user_id={view_user_id}
+                  userRole={userRole}
+                  view_user_role={headerInfo?.profile?.usertype}
+                  getHeader={getHeader}
+                  user_id={user_id} />
+              </Spin>
             </Col>
             <Col xl="3">
-              <div className={
-                classnames('activity-rightside',
-                  { 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'main') })}>
-                <PhotoSection
-                  myallPhotos={myallPhotos}
-                  headerInfo={headerInfo}
-                  own_page={own_page}
-                  getHeader={getHeader}
-                  userRole={userRole} />
-                <div className="auth-space"></div>
-                <ViewMapSection
-                  myallPhotos={myallPhotos}
-                  headerInfo={headerInfo}
-                  own_page={own_page}
-                  getHeader={getHeader}
-                  userRole={userRole} />
-              </div>
+              <Spin spinning={Profileloading}>
+                <div className={
+                  classnames('activity-rightside',
+                    { 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'main') })}>
+                  <PhotoSection
+                    myallPhotos={myallPhotos}
+                    headerInfo={headerInfo}
+                    own_page={own_page}
+                    getHeader={getHeader}
+                    userRole={userRole} />
+                  <div className="auth-space"></div>
+                  <ViewMapSection
+                    myallPhotos={myallPhotos}
+                    headerInfo={headerInfo}
+                    own_page={own_page}
+                    getHeader={getHeader}
+                    userRole={userRole} />
+                </div>
+              </Spin>
             </Col>
             <Col xl="12" className="">
             </Col>

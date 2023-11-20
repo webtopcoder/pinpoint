@@ -11,13 +11,16 @@ import useNotify from "@/hooks/useNotify";
 import PostForm from "./PostForm";
 import Reviews from "./Reviews";
 import ArrivalBanner from "./ArrivalBanner";
+import useMedia from "@/hooks/useMedia";
 
 //import images
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const DetailsSection = ({ locationInfo, setLocationInfo, userRole, initialize, user_id, reviews }) => {
 
-    const location = locationInfo?.location;
+    let location = locationInfo?.location;
+    console.log(locationInfo)
+    const isWebDevice = useMedia('(min-width:700px)');
     const { notify } = useNotify();
     async function favoriteLocation(flag) {
         if (!userRole) {
@@ -28,11 +31,13 @@ const DetailsSection = ({ locationInfo, setLocationInfo, userRole, initialize, u
             return;
         }
         await locationService.favoriteLocation(location?._id, flag)
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 setLocationInfo(prevState => ({
                     ...prevState,
                     isFavorite: flag ? true : false
                 }));
+                console.log(location)
             })
             .catch((error) => {
                 notify(
@@ -87,7 +92,7 @@ const DetailsSection = ({ locationInfo, setLocationInfo, userRole, initialize, u
                                     </li>
                                     <li className="list-inline-item me-3">
                                         {userRole !== "partner" ?
-                                            location?.isFavorite ? (
+                                            locationInfo?.isFavorite ? (
                                                 <Button
                                                     type="primary"
                                                     icon={<HeartFilled />}

@@ -26,7 +26,7 @@ const index = ({
     const [locations, setLocations] = useState([]);
     const [uploadFile, setUploadFile] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showActions, setShowActions] = useState(true);
+    const [showActions, setShowActions] = useState(user_id === router.query.profile ? true : false);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState();
     const isWebDevice = useMedia('(min-width:700px)');
@@ -114,7 +114,7 @@ const index = ({
                         <Row>
                             {map(locations, (item, key) => {
                                 return <Col xl="6" sm="12" className="py-2" key={key}>
-                                    <LocationCard locations={locations} setLocations={setLocations} location={item} initialize={initialize} showActions={true} />
+                                    <LocationCard locations={locations} setLocations={setLocations} location={item} initialize={initialize} showActions={showActions} />
                                 </Col>
                             }
                             )}

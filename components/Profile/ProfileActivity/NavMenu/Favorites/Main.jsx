@@ -10,7 +10,7 @@ import { message, Spin } from "antd";
 import useNotify from "@/hooks/useNotify";
 import { map } from "lodash";
 import { locationService } from "@/services/index";
-import LocationCard from "./LocationCard";
+import LocationCard from "@/components/Partner/Locations/LocationCard";
 import useMedia from "@/hooks/useMedia";
 import classnames from "classnames";
 
@@ -24,6 +24,7 @@ const index = () => {
     async function initialize() {
         locationService.getFavoriteLocations(router.query.profile)
             .then((res) => {
+                setLoading(false);
                 setLocations(res);
             })
             .catch((error) => {
