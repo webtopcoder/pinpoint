@@ -14,7 +14,7 @@ import useMedia from "@/hooks/useMedia";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { profileService } from "@/services/index";
 import CommentBodyPost from "@/components/Profile/ProfileActivity/CommentBody";
-import CommentBodyReview from "@/components/Partner/LocationsDashboard/PartnerLocation/CommentBody";
+import CommentBodyReview from "@/components/Common/LocationDetail/CommentBody";
 import { useRouter } from "next/router";
 
 const imgurl = `${apiBaseUrl}/avatar/`;
