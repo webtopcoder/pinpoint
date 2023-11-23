@@ -34,8 +34,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     useEffect(() => {
         setLoading(true);
         if (router.isReady) {
-            const { profile } = router.query;
-            allActivities(profile, count, "");
+            allActivities(user_id, count, "");
         }
     }, [count]);
 
@@ -51,7 +50,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     return (
         <Card>
             <CardBody className="px-1">
-                <h4 className="card-title mb-4">Activity Feed</h4>
+                <h4 className="card-title ms-2 mb-4">Activity Feed</h4>
                 <Spin spinning={loading}>
                     <InfiniteScroll
                         dataLength={data.length}
@@ -171,8 +170,8 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                                     <div className="d-flex">
                                         <div className="py-3 mobile">
                                             <ul className="list-inline mb-0">
-                                                {item?.type === "post" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
-                                                {item?.type === "review" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
+                                                {item?.type === "post" ? <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                {item?.type === "review" ? <CommentBodyReview item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
                                             </ul>
                                         </div>
                                     </div>

@@ -108,7 +108,7 @@ const useInboxColumns = ({ setOpen, user_id, setSaveReply, setInitLoading, onUpd
               {record?.from?.role !== "admin" ? <Tooltip title="View Profile" color={"blue"}>
                 <a
                   onClick={() =>
-                    router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}/activity`)
+                    router.push(`/profile/${user_id === record?.from?._id ? record?.to?._id : record?.from?._id}`)
                   }
                 >
                   @{user_id === record?.from?._id ?

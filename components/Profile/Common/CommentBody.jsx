@@ -27,7 +27,7 @@ const CommentBody = ({ item, likePost, user_id, path }) => {
                 <i className="bx bxs-like me-1 tcl-darkblue fs-4 heart-comment" />
                 <span className="fs-6 tcl-darkblue">{like}</span>
             </li>
-            <Comments currentUserId={user_id} path={path} commentCount={commentCount} ownerId={item.user._id} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
+            <Comments currentUserId={user_id} path={path} commentCount={commentCount} ownerId={item?.user?._id} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="post" id={item._id} />
         </>
     );
 };

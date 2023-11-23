@@ -66,7 +66,7 @@ const Comments = ({ ownerId, currentUserId, type, id, setCommentCount, expandCom
         </li>
       </Popover>
       <div className="comments">
-        <Divider className={classnames({ 'd-none': commentCount === 0 })} orientation="left">
+        <Divider style={{ margin: '4px 0' }} className={classnames({ 'd-none': commentCount === 0 })} orientation="left">
           <Button onClick={() => {
             setExpandComments(!expandComments);
           }} icon={expandComments ? <DownOutlined /> : <UpOutlined />} type="link">Comments</Button>

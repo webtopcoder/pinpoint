@@ -1,40 +1,44 @@
+//optimized
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
-import Profileheader from "@/components/Layout/Profile/Header";
-import Submenu from "@/components/Layout/Profile/Submenu";
-import ProfileSocial from "@/components/Profile/ProfileSocial";
+import ProfileSocials from "@/components/Profile/Social";
 import Layout from "../../layout";
 import { profileService } from "@/services/index";
-import { useRouter } from "next/router";
-import { connect } from "react-redux";
 
 const Social = ({ user_id, userRole }) => {
-  const router = useRouter();
-  const view_user_id = router.query.profile;
-  const own_page = user_id === view_user_id;
-  const [loading, setLoading] = useState(true);
-  const [headerInfo, setHeaderInfo] = useState();
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [headerInfo, setHeaderInfo] = useState(null);
 
-  async function getHeader() {
-    setLoading(true);
-    const result = await profileService.getHeader(view_user_id);
-    await setHeaderInfo(result)
-    setLoading(false);
-  }
+  const getHeader = async () => {
+    setProfileLoading(true);
+    try {
+      const result = await profileService.getHeader(user_id);
+      setHeaderInfo(result);
+    } catch (error) {
+      // Handle error here
+      console.error("Error fetching header:", error);
+    } finally {
+      setProfileLoading(false);
+    }
+  };
 
   useEffect(() => {
     getHeader();
-  }, [view_user_id]);
+  }, []);
 
   return (
     <>
-      <PageTitle page="PROFILE - Social" />
-      <div className="page-pin-area">
-        <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
-        <div className="pin-profile-section">
-          <Submenu headerInfo={headerInfo} own_page={own_page} />
-          <ProfileSocial usertype={headerInfo?.profile?.usertype} />
-        </div>
+      <PageTitle page="PROFILE" />
+      <div className="page-profile-area">
+      </div>
+      <div className="profile-authentication-area bg-f8fbff">
+        <ProfileSocials
+          headerInfo={headerInfo}
+          profileLoading={profileLoading}
+          getHeader={getHeader}
+          userRole={userRole}
+        />
       </div>
     </>
   );
@@ -42,7 +46,7 @@ const Social = ({ user_id, userRole }) => {
 
 Social.requireAuth = true;
 Social.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <Layout whiteMenu={true}>{page}</Layout>;
 };
 
 const mapStateToProps = ({ user }) => {
@@ -53,3 +57,4 @@ const mapStateToProps = ({ user }) => {
 };
 
 export default connect(mapStateToProps)(Social);
+

@@ -8398,12 +8398,6 @@
     position: sticky;
   }
 
-  .activity-leftside,
-  .activity-rightside {
-    top: 100px;
-    position: sticky;
-  }
-
   .mt-minus-40 {
     margin-top: 0;
   }

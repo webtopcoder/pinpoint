@@ -36,8 +36,8 @@ const CommentBody = ({ item, user_id, path }) => {
             });
         }}
       >
-        <i className="bx bxs-heart me-1 text-danger fs-4 heart-comment" />
-        <span className="fs-6 text-danger">{like}</span>
+        <i className="bx bxs-like me-1 tcl-darkblue fs-4 heart-comment" />
+        <span className="fs-6 tcl-darkblue">{like}</span>
       </li>
       {item && <Comments currentUserId={user_id} path={path} commentCount={commentCount} ownerId={item?.user?._id} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="location" id={item?._id} />
       }

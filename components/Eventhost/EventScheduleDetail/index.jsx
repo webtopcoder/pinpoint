@@ -204,7 +204,7 @@ const index = ({ user_id, additionLocatoins, id }) => {
                   {
                     key: '1',
                     label: (
-                      <a target="_blank" rel="noopener noreferrer" href={`${baseUrl}/profile/${record?.id}/activity`}>
+                      <a target="_blank" rel="noopener noreferrer" href={`${baseUrl}/profile/${record?.id}`}>
                         View Profile
                       </a>
                     ),

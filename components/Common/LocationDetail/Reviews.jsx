@@ -82,7 +82,7 @@ function Reviews({ user_id, reviews }) {
                                                             ? item?.text?.match(pattern).map((mention, key) => {
                                                                 const updatedContent = item?.text?.replace(
                                                                     mention,
-                                                                    `<a style="cursor:pointer" href="/profile/${item.text?.shoutlist[key]}/activity">${mention}</a>`
+                                                                    `<a style="cursor:pointer" href="/profile/${item.text?.shoutlist[key]}">${mention}</a>`
                                                                 );
                                                                 if ((item?.text.match(pattern)).length - 1 === key) {
                                                                     return updatedContent;

@@ -13,7 +13,7 @@ function PopUserBox({ id, name, username, avatar, role, type }) {
         <Popover overlayClassName="popoverbox" placement="bottom" content={
             <a onClick={(e) => {
                 e.stopPropagation();
-                router.push(`/profile/${id}/activity`)
+                router.push(`/profile/${id}`)
             }} className="text-reset">
                 <div className="d-flex p-3">
                     <img

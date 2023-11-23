@@ -94,7 +94,7 @@ const Submenu = ({ headerInfo, own_page }) => {
             ? styles.active
             : ""
         }>
-          <Link href={`/profile/${view_user_id}/activity`}>
+          <Link href={`/profile/${view_user_id}`}>
             Activity
           </Link>
         </NavItem>

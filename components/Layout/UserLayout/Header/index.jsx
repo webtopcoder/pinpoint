@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "@/utils/ActiveLink";
 import Image from "next/image";
-import { Space } from 'antd';
+import { Space, Badge } from 'antd';
 import logo from "@/public/images/logo.png";
 import mobilelogo from "@/public/images/logo-mobile.png";
 import useMedia from "@/hooks/useMedia";
@@ -106,8 +106,8 @@ const index = ({
                   {
                     token ?
                       <li className="nav-item">
-                        <Link href="/profile/mysocial">
-                          <a className="nav-link">Pinpoint Social</a>
+                        <Link href="/profile/mysocial" activeClassName="active">
+                          <a className="nav-link"> Pinpoint Social</a>
                         </Link>
                       </li>
                       : ''

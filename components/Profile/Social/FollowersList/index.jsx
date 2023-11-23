@@ -1,24 +1,21 @@
-import {
-    Avatar,
-    Tooltip
-} from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Card, CardTitle, CardBody, Button } from "reactstrap"
+import { Avatar, Tooltip } from "antd";
+import { profileService } from "@/services/index";
 import useNotify from "@/hooks/useNotify";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import { profileService } from "@/services/index";
-import useMedia from "@/hooks/useMedia";
-import { useRouter } from "next/router";
-import styles from "./social.module.css";
 
-function FollowerList({ view_user_id }) {
+const avatarurl = `${apiBaseUrl}/avatar/`;
+
+function index({
+    user_id
+}) {
+
     const { notify } = useNotify();
-    const isWebDevice = useMedia('(min-width:700px)');
     const [data, setData] = useState([]);
-    const avatarurl = `${apiBaseUrl}/avatar/`;
-    const router = useRouter();
 
     useEffect(() => {
-        profileService.getmyFollowers(view_user_id, {}, {})
+        profileService.getmyFollowers(user_id, {}, {})
             .then((res) => {
                 if (res.success) {
                     setData(res.data.results?.filter(obj => obj.status === "active"));
@@ -31,21 +28,28 @@ function FollowerList({ view_user_id }) {
                 );
                 return;
             });
-
     }, []);
 
     return (
-        <div className="avatar-area green-color">
-            <div className="avatar-respond">
-                <div className="pin-post-header-section">
-                    <div className="pin-about-section">
-                        <h4 className="comment-notes">
-                            <span id="email-notes">  My Followers </span>
-                            <p className={styles.followers_count}>
-                                {data?.length} memebers
-                            </p>
-                        </h4>
-                        <div className="ql-snow">
+        <React.Fragment>
+            <Row>
+                <Col xl={12}>
+                    <Card className="overflow-hidden">
+                        <div className="bg-darkblue bg-soft">
+                            <Row>
+                                <Col xs="6">
+                                    <div className="text-white ptlrt-10">
+                                        <h5 className="text-white">My followers</h5>
+                                    </div>
+                                </Col>
+                                <Col xs="6">
+                                    <div className="text-white ptlrt-10 text-end">
+                                        <p className="text-white font-size-14"> {data?.length} memebers</p>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
+                        <CardBody>
                             <Avatar.Group
                                 size="large"
                             >
@@ -63,12 +67,12 @@ function FollowerList({ view_user_id }) {
 
                                 )}
                             </Avatar.Group>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+        </React.Fragment>
     );
 }
 
-export default FollowerList;
+export default index;

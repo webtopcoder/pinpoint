@@ -12,8 +12,7 @@ import Favorites from "./Favorites/Main"
 import { downloadFile } from "@/redux/Mail/actions";
 import { profileService } from "@/services/index";
 
-function index({ view_user_id, user_id, view_user_role, userRole, getHeader }) {
-    const [customActiveTab, setcustomActiveTab] = useState("1");
+function index({ view_user_id, user_id, view_user_role, userRole, getHeader, customActiveTab, setcustomActiveTab }) {
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(true);
     const [LoadMoreAllStatus, setLoadMoreAll] = useState(false);

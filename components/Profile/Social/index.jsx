@@ -4,33 +4,39 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { profileService } from "@/services/index";
 import WelcomeProfile from "@/components/Profile/ProfileActivity/WelcomeProfile";
+import FollowersList from "./FollowersList";
 import PhotoSection from "@/components/Profile/ProfileActivity/PhotoSection";
-import Statistic from "@/components/Profile/ProfileActivity/Statistic";
-import NavMenu from "@/components/Profile/ProfileActivity/NavMenu";
-import ViewMapSection from "@/components/Profile/ProfileActivity/ViewMapSection";
+import Posts from "./Activity/Posts";
 import Breadcrumbs from "@/components/Common/Breadcrumb"
+import ViewMapSection from "@/components/Profile/ProfileActivity/ViewMapSection";
 import { downloadFile } from "@/redux/Mail/actions";
 import { Container, Row, Col } from "reactstrap";
 import { Spin } from "antd";
 import classnames from "classnames";
 import useMedia from "@/hooks/useMedia";
+import useNotify from "@/hooks/useNotify";
 
 const index = ({
   ondownloadFile,
   user_id,
   userRole,
   headerInfo,
-  own_page,
   getHeader,
   profileLoading
 }) => {
 
+  const { notify } = useNotify();
   const [myAllPhotos, setAllphotos] = useState([]);
   const [activeMenu, setActiveMenu] = useState('main');
-  const [customActiveTab, setcustomActiveTab] = useState("1");
+  const [loading, setLoading] = useState(true);
+  const [initLoading, setInitLoading] = useState(true);
+  const [list, setList] = useState([]);
+  const [data, setData] = useState([]);
+  const [LoadMoreAllStatus, setLoadMoreAll] = useState(false);
+  const [activityTotal, setActivityTotal] = useState();
+
   const router = useRouter();
   const isWebDevice = useMedia('(min-width:700px)');
-  const view_user_id = router?.query?.profile;
   const [paginationInfo, setPaginationInfo] = useState({
     pagination: {
       current: 1,
@@ -44,9 +50,40 @@ const index = ({
     await profileService.updateProfileViewsCount(profileId);
   }
 
+  async function allSocials(id, count, search) {
+    await profileService.getSocials(id, count, search)
+      .then((res) => {
+        if (res.success) {
+          res?.posts?.length === 0 ? setLoadMoreAll(true) : ''
+          setInitLoading(false);
+          setLoading(false);
+          if (count !== 1) {
+            const newData = data.concat(res.posts);
+            setData(newData);
+            setList(newData);
+          }
+          else {
+            setData(res.posts);
+            setList(res.posts);
+          }
+          window.dispatchEvent(new Event("resize"));
+          setActivityTotal(res.activityTotal)
+        } else notify("error", res.msg);
+      })
+      .catch((error) => {
+        notify(
+          "error",
+          error?.response?.data?.message || "Something went wrong"
+        );
+        return;
+      });
+  }
+
   useEffect(() => {
-    initializeProfile(view_user_id);
-  }, [router.isReady, view_user_id]);
+    initializeProfile(user_id);
+    allSocials(user_id, 1, "")
+  }, [router.isReady, user_id]);
+
 
   const renderLeftSide = () => (
     <Col xl="3">
@@ -54,9 +91,9 @@ const index = ({
         <Spin spinning={profileLoading}>
           <WelcomeProfile
             headerInfo={headerInfo}
-            own_page={own_page}
             getHeader={getHeader}
             userRole={userRole}
+            own_page={true}
           />
         </Spin>
       </div>
@@ -66,17 +103,27 @@ const index = ({
   const renderMiddleSection = () => (
     <Col xl="6" className={classnames({ 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'photo') })}>
       <Spin spinning={profileLoading}>
-        <Statistic headerInfo={headerInfo} />
+        <FollowersList
+          user_id={user_id}
+        />
         <div className="auth-space"></div>
-        <NavMenu
-          view_user_id={view_user_id}
+        <Posts
+          initLoading={initLoading}
+          loading={loading}
+          user_id={user_id}
+          list={list}
+          data={data}
+          setLoading={setLoading}
+          setList={setList}
+          allActivities={allSocials}
+          LoadMoreAllStatus={LoadMoreAllStatus}
+          activityTotal={activityTotal}
+        />
+        {/* <NavMenu
           userRole={userRole}
-          view_user_role={headerInfo?.profile?.usertype}
           getHeader={getHeader}
           user_id={user_id}
-          customActiveTab={customActiveTab}
-          setcustomActiveTab={setcustomActiveTab}
-        />
+        /> */}
       </Spin>
     </Col>
   );
@@ -88,7 +135,6 @@ const index = ({
           <PhotoSection
             myAllPhotos={myAllPhotos}
             headerInfo={headerInfo}
-            own_page={own_page}
             getHeader={getHeader}
             userRole={userRole}
           />
@@ -98,7 +144,6 @@ const index = ({
           <ViewMapSection
             myAllPhotos={myAllPhotos}
             headerInfo={headerInfo}
-            own_page={own_page}
             getHeader={getHeader}
             userRole={userRole}
           />
@@ -111,7 +156,7 @@ const index = ({
     <React.Fragment>
       <div className={classnames('page-content', { 'pt-1': !isWebDevice },)}>
         <Container fluid>
-        <Breadcrumbs title="Profile" breadcrumbItem={headerInfo?.profile?.fullname} />
+          <Breadcrumbs title="Home" breadcrumbItem="Pinpoint Social" />
           <Row>
             {renderLeftSide()}
             {renderMiddleSection()}

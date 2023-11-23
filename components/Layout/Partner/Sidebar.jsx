@@ -130,7 +130,7 @@ function LeftSidebar({
     getItem("Locations", "/partner/locations/", <EnvironmentFilled />),
     // getItem("Event Schedule", "/partner/event-schedule/", <CalendarOutlined />),
     getItem("View Profile", 'sub1', <ProfileFilled />, [
-      getItem('Activity', `/profile/${user_id}/activity`),
+      getItem('Activity', `/profile/${user_id}`),
       getItem('Shout out', `/profile/${user_id}/shout-outs`),
       getItem('Followers', `/profile/${user_id}/followers`),
       getItem('Locations', `/profile/${user_id}/locations`),

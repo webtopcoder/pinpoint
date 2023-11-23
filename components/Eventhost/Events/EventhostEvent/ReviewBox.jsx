@@ -139,7 +139,7 @@ function ReviewBox({ review, location, router, user_id }) {
             <>
               <Space direction="vertical" size='small'>
                 <a
-                  onClick={() => router.push(`/profile/${review?.user?._id}/activity`)}
+                  onClick={() => router.push(`/profile/${review?.user?._id}`)}
                   className="custom-userName">
                   {review?.user?.businessname}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}

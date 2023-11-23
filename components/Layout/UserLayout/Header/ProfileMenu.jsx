@@ -68,7 +68,7 @@ const ProfileMenu = ({ fullName, role, avatarImg, onLogout }) => {
                             My Dashboard
                         </DropdownItem>}
                     <DropdownItem tag="a" onClick={() =>
-                        router.push(`/profile/${localStorage.getItem('user_id')}/activity`)
+                        router.push(`/profile/${localStorage.getItem('user_id')}`)
                     }>
                         {" "}
                         <i className="bx bx-user font-size-16 align-middle me-1" />

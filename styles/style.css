@@ -9245,7 +9245,7 @@ Page Title Area CSS
 
 .page-profile-area {
   background-color: #F5F5F5;
-  padding-top: 50px;
+  padding-top: 30px;
   padding-bottom: 50px;
 }
 
@@ -12118,7 +12118,7 @@ Go Top CSS
 }
 
 .scroll-to-top i:hover {
-  background-color: var(--blueDarkColor);
+  background-color: var(--blueColor);
   color: #fff;
 }
 

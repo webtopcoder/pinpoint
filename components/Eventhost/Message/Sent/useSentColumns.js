@@ -74,7 +74,7 @@ function useSentColumns({ setOpen, onDeleteSent, getSent, setInitLoading, setSav
             <div className="from">
               <Tooltip title="View Profile" color={"blue"}>
                 <a
-                  onClick={() => router.push(`/profile/${record?.to?._id}/activity`)}
+                  onClick={() => router.push(`/profile/${record?.to?._id}`)}
                 >
                   @{isWebDevice ? record.to?.username : record.to?.username.length > 12 ? record?.to?.username?.substring(0, 12) + "..." : record.to?.username}
 

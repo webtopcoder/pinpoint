@@ -69,8 +69,8 @@ const CustomComment = (
           <li className="list-inline-item me-3"
             onClick={() => like(comment.id)}
           >
-            <i className="bx bxs-heart me-1 text-danger fs-5 heart-comment" />
-            <span className="font-size-12 text-danger">{likes}</span>
+            <i className="bx bxs-like me-1 tcl-darkblue fs-5 heart-comment" />
+            <span className="font-size-12 tcl-darkblue">{likes}</span>
           </li>
           <Popover content={<CommentForm user_id={currentUserId} handleSubmit={(text) => addComment(text, replyId, comment.userId.id)} />} placement="bottom" trigger="click">
             <li className="list-inline-item me-3">

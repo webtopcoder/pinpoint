@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
 import ProfileActivity from "@/components/Profile/ProfileActivity";
-import Layout from "../../../layout";
+import Layout from "../../layout";
 import { profileService } from "@/services/index";
 import { useRouter } from "next/router";
 
