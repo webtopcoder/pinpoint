@@ -42,7 +42,7 @@ const Activity = ({ user_id, userRole }) => {
         <ProfileActivity
           headerInfo={headerInfo}
           profileLoading={profileLoading}
-          ownPage={ownPage}
+          own_page={ownPage}
           getHeader={getHeader}
           userRole={userRole}
         />

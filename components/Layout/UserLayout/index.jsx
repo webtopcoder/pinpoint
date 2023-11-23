@@ -12,6 +12,7 @@ const RightSidebar = dynamic(() => import("./RightSidebar"), {
 });
 
 const UserLayout = ({ children, whiteMenu }) => {
+
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const onToggle = () => {
@@ -41,7 +42,9 @@ const UserLayout = ({ children, whiteMenu }) => {
       <Header whiteMenu={whiteMenu} toggle={onToggle} />
       <RightSidebar visible={visible} />
       {children}
-      <Footer />
+      {router.route !== "/interactive-map" ?
+        <Footer /> : ''
+      }
     </>
   );
 };

@@ -67,7 +67,6 @@ const index = ({
     <Col xl="6" className={classnames({ 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'photo') })}>
       <Spin spinning={profileLoading}>
         <Statistic headerInfo={headerInfo} />
-        <div className="auth-space"></div>
         <NavMenu
           view_user_id={view_user_id}
           userRole={userRole}

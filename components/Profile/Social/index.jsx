@@ -119,11 +119,6 @@ const index = ({
           LoadMoreAllStatus={LoadMoreAllStatus}
           activityTotal={activityTotal}
         />
-        {/* <NavMenu
-          userRole={userRole}
-          getHeader={getHeader}
-          user_id={user_id}
-        /> */}
       </Spin>
     </Col>
   );

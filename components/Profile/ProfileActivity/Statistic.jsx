@@ -7,7 +7,7 @@ function Statistic({ headerInfo }) {
     const isPartner = headerInfo?.profile?.usertype === "partner";
     return (
         <Row>
-            <Col md={isPartner ? 3 : 6} sm="6" className={classnames({ 'px-1': isPartner })}>
+            <Col md={isPartner ? 3 : 6} sm="6" className="px-1">
                 <Card className="mini-stats-wid mb-2">
                     <CardBody>
                         <div className="d-flex">
