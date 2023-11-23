@@ -62,7 +62,7 @@ const index = ({
         await locationService.getLocations({
             partner: router.query.profile, isActive: null,
         }, {
-            sort: "createdAt:desc",
+            // sort: "createdAt:asc",
             limit: 9,
             page: page,
         })

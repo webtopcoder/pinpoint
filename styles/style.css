@@ -620,6 +620,24 @@ Message page CSS
 /*================================================
 Profile Activity page CSS
 =================================================*/
+
+.dynamic-delete-button {
+  position: relative;
+  top: 0px;
+  margin: 0 8px;
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dynamic-delete-button:hover {
+  color: #777;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .verti-timeline {
   border-left: 3px dashed #eff2f7;
   margin: 0 10px;
@@ -13719,6 +13737,7 @@ h4 {
   float: right;
   font-weight: 400;
   font-style: italic;
+  font-size: 16px;
 }
 
 .partner-poll-question {
@@ -13726,7 +13745,7 @@ h4 {
 }
 
 .partner-poll-options {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .partner-poll-options .ant-progress {

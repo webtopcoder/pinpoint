@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "@/utils/ActiveLink";
@@ -27,6 +27,9 @@ const index = ({
   const router = useRouter();
   const [menu, setMenu] = React.useState(true);
   const isWebDevice = useMedia('(min-width:700px)');
+  const [isSticky, setIsSticky] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+
   const toggleNavbar = () => {
     setMenu(!menu);
   };
@@ -36,21 +39,28 @@ const index = ({
     setMenu(true);
   };
 
-  React.useEffect(() => {
-    let elementId = document.getElementById("navbar");
-    document.addEventListener("scroll", () => {
-      setMenu(true);
-      if (window.scrollY > 170) {
-        elementId.classList.add("is-sticky");
-      } else {
-        elementId.classList.remove("is-sticky");
-      }
-    });
-  });
-
   useEffect(() => {
     setMenu(true);
   }, [router.route]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+
+      if (currentScrollPos > 170 && currentScrollPos < prevScrollPos) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
 
   const classOne = menu
     ? "collapse navbar-collapse mean-menu"
@@ -61,7 +71,7 @@ const index = ({
 
   return (
     <>
-      <div id="navbar" className={classNames('navbar-area', 'navbar-style-two', { 'bg-white': whiteMenu })}
+      <div id="navbar" className={classNames('navbar-area', 'navbar-style-two', { 'is-sticky': isSticky }, { 'bg-white': whiteMenu })}
       >
         <div className="main-nav">
           <div className="container-fluid">
@@ -96,7 +106,7 @@ const index = ({
                   {
                     token ?
                       <li className="nav-item">
-                        <Link href="/">
+                        <Link href="/profile/mysocial">
                           <a className="nav-link">Pinpoint Social</a>
                         </Link>
                       </li>
@@ -172,7 +182,6 @@ const index = ({
     </>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return {

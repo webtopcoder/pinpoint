@@ -166,6 +166,11 @@ p:last-child {
   padding-top: 38px !important;
 }
 
+.pt-70 {
+  padding-top: 70px;
+}
+
+
 .ptlrt-10 {
   padding: 10px 10px 5px 10px !important;
 }

@@ -22,6 +22,7 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand, user_id }
     <>
       {arrivals?.arrivalData.map((arrival, index) => (
         <Card outline color="danger" className="border mb-2 bg-f8fbff">
+         
           <CardHeader className="bg-transparent">
             <ul className="list-inline mb-0">
               <li className="list-inline-item me-3" >
@@ -57,7 +58,7 @@ function ArrivalBannerExpired({ location, arrivals, expand, setExpand, user_id }
                 {
                   <Antimage
                     src={imgurl + arrival?.images[0]?.filepath}
-                    height="200px"	
+                    height="200px"
                     alt="img"
                   />
                 }

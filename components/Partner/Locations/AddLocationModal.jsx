@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import {
   Upload,
   Col,
@@ -11,15 +10,47 @@ import {
   Form,
   Input,
   Select,
-  Space
+  Space,
+  Checkbox
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import useNotify from "@/hooks/useNotify";
 import { locationService, categoryService } from "@/services/index";
-import useMedia from "@/hooks/useMedia";
+import classnames from "classnames";
 
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
+
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 4,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 24,
+    },
+  },
+};
+const formItemLayoutWithOutLabel = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 24,
+      offset: 0,
+    },
+  },
+};
 
 function AddLocationModal({
   open,
@@ -35,6 +66,10 @@ function AddLocationModal({
   const { notify } = useNotify();
   const [subCategories, setsubCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [checkNick, setCheckNick] = useState(false);
+  const onCheckboxChange = (e) => {
+    setCheckNick(e.target.checked);
+  };
 
   useEffect(() => {
     GetSubCategories();
@@ -54,7 +89,7 @@ function AddLocationModal({
       className="dashboard-modal"
       centered
       open={open}
-      width={700}
+      width={600}
       closable={false}
       onCancel={() => setModalOpen(false)}
       footer={null}
@@ -90,6 +125,7 @@ function AddLocationModal({
       <Divider style={{}} dashed></Divider>
       <Form
         form={form}
+        {...formItemLayoutWithOutLabel}
         onFinish={async (values) => {
           setLoading(true);
           const formData = new FormData();
@@ -99,11 +135,15 @@ function AddLocationModal({
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("subCategories", values.subCategories);
+          if (values?.PollQuestion || values?.polls) {
+            formData.append("question", values?.PollQuestion);
+            formData.append("options", values?.polls);
+          }
           await locationService.AddLocation(formData)
             .then(async () => {
               await setLoading(false);
               notify("success", "Location added successfully");
-              form.resetFields();
+              // form.resetFields();
 
               await locationService.getLocations({ partner: user_id, isActive: null })
                 .then(async (res) => {
@@ -190,6 +230,76 @@ function AddLocationModal({
                 rows={4}
               />
             </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} >
+            <Form.Item>
+              <Checkbox checked={checkNick} onChange={onCheckboxChange}>
+                You have any Poll for this location?
+              </Checkbox>
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className={classnames({'d-none': !checkNick})}>
+            <Form.Item
+              label="Poll Question"
+              name="PollQuestion"
+            >
+              <Input placeholder="Poll Question" />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className={classnames({'d-none': !checkNick})}>
+            <Form.List
+              name="polls"
+            >
+              {(fields, { add, remove }, { errors }) => (
+                <>
+                  {fields.map((field, index) => (
+                    <Form.Item
+                      label={index === 0 ? 'Poll Options' : ''}
+                      required={false}
+                      key={field.key}
+                    >
+                      <Form.Item
+                        {...field}
+                        validateTrigger={['onChange', 'onBlur']}
+                        rules={[
+                          {
+                            whitespace: true,
+                            message: "Please input poll's title or delete this field.",
+                          },
+                        ]}
+                        noStyle
+                      >
+                        <Input
+                          placeholder="Poll Title"
+                          style={{
+                            width: '60%',
+                          }}
+                        />
+                      </Form.Item>
+                      {fields.length > 1 ? (
+                        <MinusCircleOutlined
+                          className="dynamic-delete-button"
+                          onClick={() => remove(field.name)}
+                        />
+                      ) : null}
+                    </Form.Item>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      style={{
+                        width: '60%',
+                      }}
+                      icon={<PlusOutlined />}
+                    >
+                      Add Poll
+                    </Button>
+                    <Form.ErrorList errors={errors} />
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Form.Item

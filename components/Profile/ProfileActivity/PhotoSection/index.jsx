@@ -5,7 +5,7 @@ import Slide from "./slide";
 function index({
     userRole,
     getHeader,
-    myallPhotos
+    myAllPhotos
 }) {
 
     return (
@@ -29,7 +29,7 @@ function index({
                             </Row>
                         </div>
                         <CardBody className="p-0">
-                            <Slide myallPhotos={myallPhotos} />
+                            <Slide myallPhotos={myAllPhotos} />
                         </CardBody>
                     </Card>
                 </Col>

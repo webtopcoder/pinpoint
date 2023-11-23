@@ -68,6 +68,10 @@ function LocationService() {
     return api(`locations/${locationId}/review`, "post", form)
   }
 
+  function votePoll(profileId, locationId, option) {
+    return api(`locations/${profileId}/${locationId}/poll`, "post", { option })
+  }
+
   return {
     getAllLocations,
     getLocations,
@@ -82,7 +86,8 @@ function LocationService() {
     getFavoriteLocations,
     likeArrival,
     likeReview,
-    PostReview
+    PostReview,
+    votePoll
   };
 }
 

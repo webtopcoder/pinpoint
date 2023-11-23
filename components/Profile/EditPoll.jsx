@@ -41,7 +41,6 @@ function EditPoll() {
   useEffect(() => {
     profileService.getInfo()
       .then((res) => {
-        console.log(res)
         setUserPoll(res?.data?.poll)
       })
       .catch((error) => {

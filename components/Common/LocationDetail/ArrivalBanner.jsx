@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Comments from "@/components/Layout/comments/CommentsAll";
 import LikeArrival from "./LikeArrvial";
 import CheckInArrivalActive from "./CheckInArrivalActive";
-import { locationService, commentService } from "@/services/index";
 import { Rate, Image as Antimage } from "antd";
 import {
     Card, CardBody, CardHeader, CardText, CardTitle, Col, Row, UncontrolledDropdown, DropdownItem,
@@ -31,7 +29,6 @@ const ArrivalBanner = ({ user_id, location }) => {
     const arrivalImage = location?.location?.isArrival?.images[0]?.filepath;
     const arrivalID = location?.location?.isArrival?.id;
     const date = location?.location?.updatedAt;
-    const isWebDevice = useMedia('(min-width:700px)');
     const [checkIncounts, setCheckIncounts] = useState(location?.location?.isArrival?.checkIn?.length);
 
     useEffect(() => {

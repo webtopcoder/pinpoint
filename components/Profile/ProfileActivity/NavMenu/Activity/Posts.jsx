@@ -1,13 +1,14 @@
+//optimized
 import React, { useEffect, useState } from "react";
-import { Image as Antimage, Spin, Divider } from "antd"
-import { Card, CardBody, Button, Spinner } from "reactstrap";
+import { Image as Antimage, Spin, Divider } from "antd";
+import { Card, CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { profileService } from "@/services/index";
 import CommentBodyPost from "./CommentBody";
 import PopUserBox from "@/components/Common/PopUserBox";
-// import CommentBodyReview from "@/components/Partner/LocationsDashboard/PartnerLocation/CommentBody";
+import LoadingSpinner from "@/components/Common/Spinner";
 import { useRouter } from "next/router";
 import { getDiffToNow } from "@/utils/date";
 import classnames from "classnames";
@@ -15,7 +16,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
-function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, setLoading, setList, allActivities, activityTotal, ondownloadFile }) {
+function Posts({ loading, user_id, list, data, setLoading, setList, allActivities, activityTotal, ondownloadFile }) {
     const pattern = /@\w+/g;
     const router = useRouter();
     const { notify } = useNotify();
@@ -29,25 +30,6 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
         setCount(count + 1);
     };
 
-    const onMenuClick = (e) => {
-        // ondownloadFile(e.key);
-        window.open(attachurl + e.key, "_blank");
-    };
-
-    async function likePost(id, callback) {
-        await profileService.recommendPost(id)
-            .then((res) => {
-                callback(res.liked);
-            })
-            .catch((error) => {
-                notify(
-                    "error",
-                    error?.response?.data?.message || "Something went wrong"
-                );
-                return;
-            });
-    }
-
     useEffect(() => {
         setLoading(true);
         if (router.isReady) {
@@ -55,6 +37,15 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
             allActivities(profile, count, "");
         }
     }, [count]);
+
+    const likePost = async (id, callback) => {
+        try {
+            const res = await profileService.recommendPost(id);
+            callback(res.liked);
+        } catch (error) {
+            notify("error", error?.response?.data?.message || "Something went wrong");
+        }
+    };
 
     return (
         <Card>
@@ -66,13 +57,7 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                         next={onLoadMore}
                         hasMore={data?.length < activityTotal}
                         style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
-                        loader={
-                            <div className={classnames('text-center')}>
-                                <Spinner type="grow" className="ms-2" color="primary" />
-                                <Spinner type="grow" className="ms-2" color="primary" />
-                                <Spinner type="grow" className="ms-2" color="primary" />
-                            </div>
-                        }
+                        loader={<LoadingSpinner />}
                         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                     >
                         <ul className="verti-timeline list-unstyled">
@@ -132,7 +117,15 @@ function Posts({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, s
                                                         username={item?.user?.username}
                                                         role={item?.user?.role}
                                                     />
-                                                    {" "}reviwed{" "}<b>@{item?.location?.partner}</b>'s location</>}
+                                                    {" "}reviwed{" "}
+                                                    <PopUserBox
+                                                        id={item?.location?.partner_id}
+                                                        avatar={item?.location?.partner_avatar?.filepath}
+                                                        name={item?.location?.partner_firstname + " " + item?.location?.partner_lastname}
+                                                        username={item?.location?.partner}
+                                                        role="partner"
+                                                    />
+                                                    's location</>}
                                                 <p className={classnames('mb-0', 'text-muted', { 'font-size-12': !isWebDevice })}><i className="bx bxs-time-five align-middle me-1 font-size-14"></i>{getDiffToNow(item?.createdAt)} ago</p>
                                                 {item?.type === "post" || item?.type == "review" ?
                                                     // <p className="mt-2 text-muted font-size-14">{item.content}</p> 

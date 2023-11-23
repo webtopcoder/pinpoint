@@ -1,3 +1,4 @@
+//optimized
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -8,11 +9,7 @@ import Statistic from "@/components/Profile/ProfileActivity/Statistic";
 import NavMenu from "@/components/Profile/ProfileActivity/NavMenu";
 import ViewMapSection from "@/components/Profile/ProfileActivity/ViewMapSection";
 import { downloadFile } from "@/redux/Mail/actions";
-import {
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import { Spin } from "antd";
 import classnames from "classnames";
 import useMedia from "@/hooks/useMedia";
@@ -20,89 +17,100 @@ import useMedia from "@/hooks/useMedia";
 const index = ({
   ondownloadFile,
   user_id,
-  usertype,
   userRole,
   headerInfo,
   own_page,
   getHeader,
-  Profileloading
+  profileLoading
 }) => {
 
-  const [myallPhotos, setAllphotos] = useState([]);
+  const [myAllPhotos, setAllphotos] = useState([]);
   const [activeMenu, setActiveMenu] = useState('main');
   const router = useRouter();
   const isWebDevice = useMedia('(min-width:700px)');
   const view_user_id = router?.query?.profile;
-  const [paginationInfo, setPageInfo] = useState({
+  const [paginationInfo, setPaginationInfo] = useState({
     pagination: {
       current: 1,
       pageSize: 20,
     },
   });
 
-  async function initFunc(profileId) {
-    const allphotos = await profileService.getAllphotos(profileId, false, paginationInfo);
-    await setAllphotos(allphotos?.image);
+  async function initializeProfile(profileId) {
+    const allPhotos = await profileService.getAllphotos(profileId, false, paginationInfo);
+    await setAllphotos(allPhotos?.image);
     await profileService.updateProfileViewsCount(profileId);
   }
 
   useEffect(() => {
-    initFunc(view_user_id);
+    initializeProfile(view_user_id);
   }, [router.isReady, view_user_id]);
+
+  const renderLeftSide = () => (
+    <Col xl="3">
+      <div className={classnames('activity-leftside', { 'd-none': !isWebDevice && (activeMenu === 'main' || activeMenu === 'photo') })}>
+        <Spin spinning={profileLoading}>
+          <WelcomeProfile
+            headerInfo={headerInfo}
+            own_page={own_page}
+            getHeader={getHeader}
+            userRole={userRole}
+          />
+        </Spin>
+      </div>
+    </Col>
+  );
+
+  const renderMiddleSection = () => (
+    <Col xl="6" className={classnames({ 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'photo') })}>
+      <Spin spinning={profileLoading}>
+        <Statistic headerInfo={headerInfo} />
+        <div className="auth-space"></div>
+        <NavMenu
+          view_user_id={view_user_id}
+          userRole={userRole}
+          view_user_role={headerInfo?.profile?.usertype}
+          getHeader={getHeader}
+          user_id={user_id}
+        />
+      </Spin>
+    </Col>
+  );
+
+  const renderRightSide = () => (
+    <Col xl="3">
+      <div className={classnames('activity-rightside', { 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'main') })}>
+        <Spin spinning={profileLoading}>
+          <PhotoSection
+            myAllPhotos={myAllPhotos}
+            headerInfo={headerInfo}
+            own_page={own_page}
+            getHeader={getHeader}
+            userRole={userRole}
+          />
+        </Spin>
+        <div className="auth-space"></div>
+        <Spin spinning={profileLoading}>
+          <ViewMapSection
+            myAllPhotos={myAllPhotos}
+            headerInfo={headerInfo}
+            own_page={own_page}
+            getHeader={getHeader}
+            userRole={userRole}
+          />
+        </Spin>
+      </div>
+    </Col>
+  );
 
   return (
     <React.Fragment>
-      <div className={classnames('page-content', { 'pt-1': !isWebDevice, 'pt-38': isWebDevice },)}>
+      <div className={classnames('page-content', { 'pt-1': !isWebDevice },)}>
         <Container fluid>
           <Row>
-            <Col xl="3">
-              <div className={classnames('activity-leftside', { 'd-none': !isWebDevice && (activeMenu === 'main' || activeMenu === 'photo') })}>
-                <Spin spinning={Profileloading}>
-                  <WelcomeProfile
-                    headerInfo={headerInfo}
-                    own_page={own_page}
-                    getHeader={getHeader}
-                    userRole={userRole} />
-                </Spin>
-              </div>
-            </Col>
-
-            <Col xl="6" className={classnames({ 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'photo') })}>
-              <Spin spinning={Profileloading}>
-                <Statistic
-                  headerInfo={headerInfo} />
-                <div className="auth-space"></div>
-                <NavMenu
-                  view_user_id={view_user_id}
-                  userRole={userRole}
-                  view_user_role={headerInfo?.profile?.usertype}
-                  getHeader={getHeader}
-                  user_id={user_id} />
-              </Spin>
-            </Col>
-            <Col xl="3">
-              <Spin spinning={Profileloading}>
-                <div className={
-                  classnames('activity-rightside',
-                    { 'd-none': !isWebDevice && (activeMenu === 'info' || activeMenu === 'main') })}>
-                  <PhotoSection
-                    myallPhotos={myallPhotos}
-                    headerInfo={headerInfo}
-                    own_page={own_page}
-                    getHeader={getHeader}
-                    userRole={userRole} />
-                  <div className="auth-space"></div>
-                  <ViewMapSection
-                    myallPhotos={myallPhotos}
-                    headerInfo={headerInfo}
-                    own_page={own_page}
-                    getHeader={getHeader}
-                    userRole={userRole} />
-                </div>
-              </Spin>
-            </Col>
-            <Col xl="12" className="">
-            </Col>
+            {renderLeftSide()}
+            {renderMiddleSection()}
+            {renderRightSide()}
           </Row>
         </Container>
       </div>

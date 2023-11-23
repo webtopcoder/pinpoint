@@ -19,7 +19,7 @@ import { locationService } from "@/services/index";
 
 const { Text } = Typography;
 
-function PostForm({ location, initialize, user_id }) {
+function PostForm({ location, init, user_id }) {
   const [rating, setRating] = useState(0);
   const [postForm] = Form.useForm();
   const isWebDevice = useMedia('(min-width:700px)');
@@ -81,7 +81,7 @@ function PostForm({ location, initialize, user_id }) {
                   setRating(0);
                   setUploadFile([]);
                   notify("success", "Review posted successfully");
-                  await initialize();
+                  await init();
                 })
                 .catch((error) => {
                   console.log(error);

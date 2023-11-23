@@ -1,8 +1,7 @@
+//optimized
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PageTitle from "@/components/Layout/PageTitle";
-import Profileheader from "@/components/Layout/Profile/Header";
-import Submenu from "@/components/Layout/Profile/Submenu";
 import ProfileActivity from "@/components/Profile/ProfileActivity";
 import Layout from "../../../layout";
 import { profileService } from "@/services/index";
@@ -10,21 +9,29 @@ import { useRouter } from "next/router";
 
 const Activity = ({ user_id, userRole }) => {
   const router = useRouter();
-  const view_user_id = router.query.profile;
-  const own_page = user_id === view_user_id;
-  const [Profileloading, setProfileLoading] = useState(true);
-  const [headerInfo, setHeaderInfo] = useState();
+  const viewUserId = router.query.profile;
+  const ownPage = user_id === viewUserId;
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [headerInfo, setHeaderInfo] = useState(null);
 
-  async function getHeader() {
+  const getHeader = async () => {
     setProfileLoading(true);
-    const result = await profileService.getHeader(view_user_id);
-    await setHeaderInfo(result)
-    setProfileLoading(false);
-  }
+    try {
+      const result = await profileService.getHeader(viewUserId);
+      setHeaderInfo(result);
+    } catch (error) {
+      // Handle error here
+      console.error("Error fetching header:", error);
+    } finally {
+      setProfileLoading(false);
+    }
+  };
 
   useEffect(() => {
-    getHeader();
-  }, [view_user_id]);
+    if (viewUserId) {
+      getHeader();
+    }
+  }, [viewUserId]);
 
   return (
     <>
@@ -32,7 +39,13 @@ const Activity = ({ user_id, userRole }) => {
       <div className="page-profile-area">
       </div>
       <div className="profile-authentication-area bg-f8fbff">
-        <ProfileActivity headerInfo={headerInfo} Profileloading={Profileloading} own_page={own_page} getHeader={getHeader} userRole={userRole} usertype={headerInfo?.profile?.usertype} />
+        <ProfileActivity
+          headerInfo={headerInfo}
+          profileLoading={profileLoading}
+          ownPage={ownPage}
+          getHeader={getHeader}
+          userRole={userRole}
+        />
       </div>
     </>
   );
@@ -51,3 +64,4 @@ const mapStateToProps = ({ user }) => {
 };
 
 export default connect(mapStateToProps)(Activity);
+

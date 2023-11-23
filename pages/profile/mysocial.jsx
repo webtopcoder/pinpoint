@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/Layout/PageTitle";
-import PartnerLocations from "@/components/Partner/Locations/Main";
 import Profileheader from "@/components/Layout/Profile/Header";
 import Submenu from "@/components/Layout/Profile/Submenu";
-import Layout from "../../../../layout";
+import ProfileSocial from "@/components/Profile/ProfileSocial";
+import Layout from "../../layout";
 import { profileService } from "@/services/index";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 
-const Locations = ({ user_id, userRole }) => {
+const Social = ({ user_id, userRole }) => {
   const router = useRouter();
   const view_user_id = router.query.profile;
   const own_page = user_id === view_user_id;
@@ -28,20 +28,20 @@ const Locations = ({ user_id, userRole }) => {
 
   return (
     <>
-      <PageTitle page="PROFILE - LOCATIONS" />
+      <PageTitle page="PROFILE - Social" />
       <div className="page-pin-area">
         <Profileheader headerInfo={headerInfo} loading={loading} own_page={own_page} getHeader={getHeader} userRole={userRole} />
         <div className="pin-profile-section">
           <Submenu headerInfo={headerInfo} own_page={own_page} />
-          <PartnerLocations />
+          <ProfileSocial usertype={headerInfo?.profile?.usertype} />
         </div>
       </div>
     </>
   );
 };
 
-Locations.requireAuth = true;
-Locations.getLayout = function getLayout(page) {
+Social.requireAuth = true;
+Social.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
@@ -52,4 +52,4 @@ const mapStateToProps = ({ user }) => {
   };
 };
 
-export default connect(mapStateToProps)(Locations);
+export default connect(mapStateToProps)(Social);

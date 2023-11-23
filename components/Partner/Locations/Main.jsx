@@ -61,7 +61,7 @@ const index = ({
         await locationService.getLocations({
             partner: user_id, isActive: null,
         }, {
-            sort: "createdAt:desc",
+            // sort: { createdAt: -1 },
             limit: 9,
             page: page,
         })
@@ -120,10 +120,9 @@ const index = ({
                                     Add Location
                                 </button>
                             </Col>
-                            {map(locations, (item, key) => {
-                                return <Col xl="4" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} initialize={initialize} showActions={true} /></Col>
-                            }
-                            )}
+                            {locations?.map((item, key) => (
+                                <Col xl="4" sm="12" className="py-2" key={key}><LocationCard locations={locations} setLocations={setLocations} location={item} initialize={initialize} showActions={true} /></Col>
+                            ))}
                         </Row>
                     </Spin>
 

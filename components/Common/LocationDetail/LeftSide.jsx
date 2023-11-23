@@ -16,10 +16,9 @@ import useMedia from "@/hooks/useMedia";
 //import images
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
-const DetailsSection = ({ locationInfo, setLocationInfo, userRole, initialize, user_id, reviews }) => {
+const LeftSide = ({ locationInfo, setLocationInfo, userRole, init, user_id, reviews }) => {
 
     let location = locationInfo?.location;
-    console.log(locationInfo)
     const isWebDevice = useMedia('(min-width:700px)');
     const { notify } = useNotify();
     async function favoriteLocation(flag) {
@@ -125,20 +124,12 @@ const DetailsSection = ({ locationInfo, setLocationInfo, userRole, initialize, u
                     <CardBody>
                         <Row className='py-4'>
                             <Col md="12">
-                                {location?.isActive ? <ArrivalBanner location={locationInfo} user_id={user_id} /> : (
-                                    <Card color="success" className="text-white-50 mb-3">
-                                        <CardBody>
-                                            <CardTitle className="mb-4 text-white">
-                                                <i className="bx bx-error-circle me-3" />No Active Arrival
-                                            </CardTitle>
-                                        </CardBody>
-                                    </Card>
-                                )}
+                                {location?.isActive ? <ArrivalBanner location={locationInfo} user_id={user_id} /> : ""}
                             </Col>
                             <Col md="12">
                                 <PostForm
                                     location={locationInfo}
-                                    initialize={initialize}
+                                    init={init}
                                     user_id={user_id}
                                 />
                             </Col>
@@ -161,4 +152,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps)(DetailsSection);
+export default connect(mapStateToProps)(LeftSide);

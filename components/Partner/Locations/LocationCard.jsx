@@ -1,42 +1,18 @@
+//optimized
 import React, { useEffect, useState } from "react";
-import useNotify from "@/hooks/useNotify";
-import {
-  MessageFilled,
-  LikeFilled,
-  FieldTimeOutlined,
-  EllipsisOutlined,
-  EnvironmentOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  Divider,
-  Dropdown,
-  Rate,
-  Row,
-  Space,
-  Tag,
-  Typography,
-  message,
-  Badge,
-  Spin
-} from "antd";
-import { Avatar, Card } from "antd";
-import Link from "next/link";
-import ArrivalModal from "./ArrivalModal";
 import { connect } from "react-redux";
-import baseUrl, { apiBaseUrl } from "@/utils/baseUrl";
+import { Badge, Spin, Card, Avatar, Button, Col, Divider, Rate, Row, Space, Tag, Typography, message } from "antd";
+import { MessageFilled, LikeFilled, FieldTimeOutlined, EnvironmentOutlined, EditOutlined } from "@ant-design/icons";
+import Image from "next/image";
+import ArrivalModal from "./ArrivalModal";
 import ModifyLocationModal from "./ModifyLocationModal";
 import LocationDetailModal from "@/components/Common/LocationDetail";
-import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
-import Image from "next/image";
-import {
-  getUserInfo,
-} from "@/redux/Profile/actions";
+import { getUserInfo } from "@/redux/Profile/actions";
+import { apiBaseUrl } from "@/utils/baseUrl";
+import useNotify from "@/hooks/useNotify";
 
 const { Text } = Typography;
-
 const IconText = ({ icon, text }) => (
   <Space>
     {icon}
@@ -47,10 +23,8 @@ const IconText = ({ icon, text }) => (
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 const LocationCard = ({
-  onDepartureSet,
   location,
   showActions,
-  user_id,
   setLocations,
   locations,
   additionLocatoins,
@@ -63,12 +37,8 @@ const LocationCard = ({
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [modal_fullscreen, setmodal_fullscreen] = useState(false);
-
-  let count = 0;
-
+  const [modalFullscreen, setModalFullscreen] = useState(false);
   const { notify } = useNotify();
-  const router = useRouter();
 
   const uploadProps = {
     name: "upload",
@@ -93,42 +63,57 @@ const LocationCard = ({
     },
   };
 
-  const items = [
-    {
-      label: (
-        <Link
-          href={`${baseUrl}/profile/${location.partner._id ?? location.partner}/locations/${location._id}`}
-        >
-          View Location Profile
-        </Link>
-      ),
-      key: "0",
-    },
-    {
-      label: <a onClick={() => setModifyModalOpen(true)}>Modify Location</a>,
-      key: "1",
-    },
-  ];
+  const handleArrivalClick = () => {
+    if (userInfo?.activePartnership && userInfo?.activeSubscription && new Date(userInfo?.partnershipPriceRenewalDate) > new Date()) {
+      setArrivalModalOpen(true);
+    } else {
+      notify("error", "You're not subscribed to this service");
+    }
+  };
 
-  const [rating, setRating] = useState(location.reviews.length > 0 ? (location.reviews.reduce((acc, review) => {
-    if (review.rating !== 0) count++
-    return acc + review.rating;
-  }, 0)) / count : 0);
+  const handleDepartureClick = async () => {
+    if (location.isActive) {
+      try {
+        await locationService.quickDeparture({ locationId: location._id });
+        notify("success", "Successfully departed");
+        await initialize();
+      } catch (error) {
+        notify("error", error?.response?.data?.message || "Something went wrong");
+      }
+    }
+  };
 
+  const handleCardClick = async () => {
+    await setLoading(true);
+    setTimeout(async () => {
+      await setModalFullscreen(true);
+      await setLoading(false);
+    }, 1000);
+  };
 
-  useEffect(async () => {
-    await ongetUser((res, error) => {
+  const calculateRating = () => {
+    let count = 0;
+    const totalRating = location.reviews.reduce((acc, review) => {
+      if (review.rating !== 0) count++;
+      return acc + review.rating;
+    }, 0);
+    return count > 0 ? totalRating / count : 0;
+  };
+
+  const rating = calculateRating();
+
+  useEffect(() => {
+    ongetUser((res, error) => {
       if (error) {
         console.log(error);
         notify("error", "Fail");
       }
     });
-  }, []);
+  }, [ongetUser]);
 
   return (
     <>
-      <Badge.Ribbon text={location?.isActive ? "Active" : "Inactive"} color={location.isActive ? "green" : "red"}
-      >
+      <Badge.Ribbon text={location?.isActive ? "Active" : "Inactive"} color={location?.isActive ? "green" : "red"}>
         <Spin spinning={loading}>
           <Card
             hoverable
@@ -150,33 +135,12 @@ const LocationCard = ({
                     Arrival
                   </Button>
                 ) : (
-                  <Button type="link" onClick={() => {
-                    if (userInfo?.activePartnership && userInfo?.activeSubscription && new Date(userInfo?.partnershipPriceRenewalDate) > new Date())
-                      setArrivalModalOpen(true)
-                    else
-                      notify(
-                        "error",
-                        "You're not subscribed to this service"
-                      );
-                  }}>
+                  <Button type="link" onClick={handleArrivalClick}>
                     Arrival
                   </Button>
                 ),
                 location.isActive ? (
-                  <Button type="link" onClick={async () => {
-                    await locationService.quickDeparture({ locationId: location._id })
-                      .then(async () => {
-                        notify("success", "Successfully departed");
-                        await initialize();
-                      })
-                      .catch((error) => {
-                        notify(
-                          "error",
-                          error?.response?.data?.message || "Something went wrong"
-                        );
-                        return;
-                      });
-                  }}>
+                  <Button type="link" onClick={handleDepartureClick}>
                     Departure
                   </Button>
                 ) : (
@@ -184,24 +148,13 @@ const LocationCard = ({
                     Departure
                   </Button>
                 ),
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  trigger={["click"]}
-                >
-                  <EllipsisOutlined />
-                </Dropdown>,
+                <Button icon={<EditOutlined />} onClick={() => setModifyModalOpen(true)}>
+                  Edit
+                </Button>
               ]
             }
           >
-            <div onClick={async () => {
-              await setLoading(true);
-              setTimeout(async () => {
-                await setmodal_fullscreen(true);
-                await setLoading(false);
-              }, 1000);
-            }}>
+            <div onClick={handleCardClick}>
               <Row
                 gutter={16}
                 style={{
@@ -346,14 +299,15 @@ const LocationCard = ({
         uploadFile={uploadFile}
       />
       <LocationDetailModal
-        modal_fullscreen={modal_fullscreen}
+        modal_fullscreen={modalFullscreen}
         location={location}
-        setmodal_fullscreen={setmodal_fullscreen}
+        setmodal_fullscreen={setModalFullscreen}
       />
       <ModifyLocationModal
         modalOpen={modifyModalOpen}
         setModalOpen={setModifyModalOpen}
         setLocations={setLocations}
+        initialize={initialize}
         additionLocatoins={additionLocatoins}
         locationInfo={location}
         uploadProps={uploadProps}
