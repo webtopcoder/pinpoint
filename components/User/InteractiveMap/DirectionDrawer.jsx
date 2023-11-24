@@ -1,5 +1,5 @@
 import { Drawer, Button, Space, Avatar, Segmented, Spin } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useMedia from "@/hooks/useMedia";
 
@@ -30,13 +30,22 @@ function DirectionDrawer({
       placement={isWebDevice ? "right" : "bottom"}
       onClose={onClose}
       open={open}
-      width={400}
+      width={500}
+      zIndex="2"
       extra={
         <Space>
           <Button onClick={onClose}>Cancel</Button>
         </Space>
       }
     >
+      <div className="d-flex flex-wrap mt-4">
+        <div className="me-2">
+          <h3 className="mb-3">Instruction</h3>
+        </div>
+        <p className="ms-auto">
+          <CloseOutlined onClick={onClose} style={{ fontSize: 35, cursor: 'pointer' }} />
+        </p>
+      </div>
       <Spin spinning={loading} indicator={antIcon}>
         <Segmented
           onChange={handleSeg}
