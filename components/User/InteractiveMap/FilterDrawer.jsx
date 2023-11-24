@@ -4,6 +4,7 @@ import { LoadingOutlined, CloseOutlined, AimOutlined } from '@ant-design/icons';
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useMedia from "@/hooks/useMedia";
 import { categoryService } from "@/services/index";
+import classnames from "classnames";
 
 const antIcon = (
   <LoadingOutlined
@@ -114,7 +115,7 @@ function FilterDrawer({
           </p>
         </div>
         <Divider />
-        <div className="page-title-content" style={{textAlign: 'left'}}>
+        <div className="page-title-content" style={{ textAlign: 'left' }}>
           <form action="javascript:void(0);">
             <label>
               <i className="bx bx-search"></i>
@@ -126,7 +127,7 @@ function FilterDrawer({
               className="input-search search-field"
               placeholder="Enter Address or Share Location"
             />
-            <Tooltip placement="top" title={"My Location"}>
+            <Tooltip placement="top" title={"My Location"} className={classnames({ 'd-none': !isWebDevice })}>
               <Button style={{ top: 6.5 }} size="large" icon={<AimOutlined />} onClick={getCurrentLocation}>
               </Button>
             </Tooltip>

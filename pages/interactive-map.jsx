@@ -257,6 +257,7 @@ const InteractiveMap = () => {
 
   async function onFinish(Form) {
     await setfilterForm(Form);
+    !isWebDevice && setFilterOpen(false);
     const result = await locationService.getAllLocations(false, true, Form);
     await setActiveLocations(result?.results);
   }
@@ -433,6 +434,9 @@ const InteractiveMap = () => {
                   >
                     {isOpen && infoWindowData?.id === item?._id && (
                       <InfoWindow
+                        options={{
+                          maxWidth: 300
+                        }}
                         onMouseOut={() => {
                           setIsOpen(false);
                         }}
