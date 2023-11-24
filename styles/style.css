@@ -532,7 +532,7 @@ Message page CSS
   color: var(--blueColor);
 }
 
-.page-item.active .page-link{
+.page-item.active .page-link {
   color: var(--whiteColor)
 }
 
@@ -630,9 +630,11 @@ Profile Activity page CSS
   cursor: pointer;
   transition: all 0.3s;
 }
+
 .dynamic-delete-button:hover {
   color: #777;
 }
+
 .dynamic-delete-button[disabled] {
   cursor: not-allowed;
   opacity: 0.5;
@@ -643,14 +645,17 @@ Profile Activity page CSS
   margin: 0 10px;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
   background-color: var(--graylightColor);
   color: var(--blueColor) !important;
 }
 
-.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link{
+.nav-fill .nav-item .nav-link,
+.nav-justified .nav-item .nav-link {
   font-size: 14px;
 }
+
 .bottom-activity-menu {
   position: fixed;
   bottom: 0;
@@ -721,6 +726,7 @@ Profile Activity page CSS
 .ant-popover.ant-popconfirm {
   z-index: 10000 !important;
 }
+
 .popover-user:hover {
   color: var(--blueColor);
   cursor: pointer;
@@ -9317,7 +9323,7 @@ Page Title Area CSS
 }
 
 .page-title-content form label {
-  top: 15px;
+  top: 12px;
   left: 20px;
   font-size: 20px;
   margin-bottom: 0;
@@ -12147,7 +12153,7 @@ Sidebar Modal CSS
   background-color: var(--whiteColor);
 }
 
-.location-detail.modal-body{
+.location-detail.modal-body {
   background-color: var(--lightwhiteolor) !important;
 }
 
@@ -13624,7 +13630,7 @@ h4 {
 }
 
 .ant-slider-rail {
-  background-color: rgb(255 255 255 / 61%) !important;
+  background-color: rgb(100 100 100 / 24%) !important
 }
 
 .all-photos {
@@ -14044,6 +14050,7 @@ h4 {
 
 .ant-card .ant-card-meta-title {
   white-space: normal;
+  margin-bottom: 0px !important
 }
 
 .pin-post-label .ant-card .ant-card-body {

@@ -8,6 +8,7 @@ import { Button, Space, notification, Typography, Row, Col, Popover, Tooltip } f
 import ToolBanner from "@/components/User/InteractiveMap/ToolBanner";
 import { EyeFilled, LoadingOutlined, FilterOutlined } from "@ant-design/icons";
 import DirectionDrawer from "@/components/User/InteractiveMap/DirectionDrawer";
+import FilterDrawer from "@/components/User/InteractiveMap/FilterDrawer";
 import ListViewModal from "@/components/User/InteractiveMap/ListView";
 import MarkCard from "@/components/User/InteractiveMap/MarkCard";
 import MarkCardArea from "@/components/User/InteractiveMap/MarkCardArea";
@@ -57,6 +58,7 @@ const InteractiveMap = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [filter, setFilter] = useState({
     time: '',
     position: {},
@@ -143,6 +145,7 @@ const InteractiveMap = () => {
 
   const onClose = () => {
     setOpen(false);
+    setFilterOpen(false)
     setDirections(null);
   }
 
@@ -404,7 +407,11 @@ const InteractiveMap = () => {
             center={position}
             options={options}
           />
-          <Marker position={position} />
+          <Popover
+            trigger="hover"
+            content={"sdfsdf"} title="Title">
+            <Marker position={position} />
+          </Popover>
           <MarkerClusterer options={clusterOptions}>
             {(clusterer) => (
               <div>
@@ -416,17 +423,27 @@ const InteractiveMap = () => {
                       origin: new google.maps.Point(0, 0), // origin
                       anchor: new google.maps.Point(15, 46), // anchor
                     }}
+                    style={{ width: 0, height: 0 }}
                     clusterer={clusterer}
                     onMouseOver={() => {
                       setIsOpen(true);
                       handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
                     }}
-                  // onMouseOut={() => {
-                  //   setIsOpen(false);
-                  // }}
+
                   >
                     {isOpen && infoWindowData?.id === item?._id && (
-                    <Button>234234234</Button>
+                      <InfoWindow
+                        onMouseOut={() => {
+                          setIsOpen(false);
+                        }}
+                        position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
+                        placement="right"
+                        onCloseClick={() => {
+                          setIsOpen(false);
+                        }}
+                      >
+                        <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
+                      </InfoWindow>
                     )}
                   </Marker>
                 )) : null}
@@ -495,27 +512,22 @@ const InteractiveMap = () => {
             />
           )}
           <Row>
-            <Col span="24">
+            <Col span="8">
               <Button style={{ marginTop: 80, float: 'left' }} onClick={async () => {
-                await setFlag(!flag);
-                if (flag) {
-                  await onFinish(filterForm);
-                }
-                else await filteredAcitveLocation();
+                await setFilterOpen(true);
               }} icon={<FilterOutlined />} size="middle" danger>Filter
               </Button>
             </Col>
-            <Col span="24">
-              <Button onClick={async () => {
+            <Col span="8">
+              <Button style={{ marginTop: 80 }} onClick={async () => {
                 await setFlag(!flag);
                 if (flag) {
                   await onFinish(filterForm);
                 }
                 else await filteredAcitveLocation();
-              }} icon={<EyeFilled />} size={'middle'} danger>{!flag ? "Hide All Active" : "Show All Active"}
+              }} icon={<EyeFilled />} size={'middle'}>{!flag ? "Hide All Active" : "Show All Active"}
               </Button>
             </Col>
-
           </Row>
         </GoogleMap>
         <ListViewModal
@@ -525,6 +537,7 @@ const InteractiveMap = () => {
           alllocations={activeLocations}
         />
         <DirectionDrawer handleSeg={handleSeg} loading={loading} onClose={onClose} open={open} />
+        <FilterDrawer onFinish={onFinish} inputValue={inputValue} onChange={onChange} getCurrentLocation={getCurrentLocation} setPosition={setPosition} loading={loading} onClose={onClose} open={filterOpen} />
       </div>
     </>
   );
