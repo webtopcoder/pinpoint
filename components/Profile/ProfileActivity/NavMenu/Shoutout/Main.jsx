@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image as Antimage, Spin, Divider } from "antd"
+import { Image as Antimage, Spin, Divider, Checkbox } from "antd"
 import { Card, CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
@@ -21,6 +21,7 @@ function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutout
     const { notify } = useNotify();
     const isWebDevice = useMedia('(min-width:700px)');
     const [count, setCount] = useState(1);
+    const [checked, setChecked] = useState(false);
 
     const myLoader = ({ src }) => {
         return src;
@@ -29,6 +30,12 @@ function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutout
     const onLoadMore = () => {
         setCount(count + 1);
     };
+
+    const handleCheck = (e) => {
+        setChecked(e.target.checked);
+    };
+
+    const label = `${checked ? 'Comments Hide' : 'Comments Show'}`;
 
     async function likePost(id, callback) {
         await profileService.recommendPost(id)
@@ -55,7 +62,17 @@ function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutout
     return (
         <Card>
             <CardBody className="px-1">
-                <h4 className="card-title mb-4">Shoutout Feed</h4>
+                <div className="d-flex flex-wrap mt-2">
+                    <div className="me-2">
+                        <h4 className="card-title mb-0">Shoutout Feed</h4>
+                    </div>
+                    <div className="ms-auto">
+                        <Checkbox checked={checked} onChange={handleCheck}>
+                            {label}
+                        </Checkbox>
+                    </div>
+                </div>
+                <Divider />
                 <Spin spinning={loading}>
                     <InfiniteScroll
                         dataLength={data.length}
@@ -63,7 +80,7 @@ function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutout
                         hasMore={data?.length < shoutoutTotal}
                         style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
                         loader={<LoadingSpinner />}
-                        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                        endMessage={data?.length !== 0 && <Divider plain>It is all, nothing more 🤐</Divider>}
                     >
                         <ul className="verti-timeline list-unstyled">
                             {list && list?.map((item, index) => (
@@ -129,7 +146,7 @@ function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutout
                                                 </Antimage.PreviewGroup>
                                                 <div className="desktop pt-1">
                                                     <ul className="list-inline mb-0">
-                                                        <CommentBodyPost item={item?.post} path={router.asPath} likePost={likePost} user_id={user_id} />
+                                                        <CommentBodyPost checked={checked} item={item?.post} path={router.asPath} likePost={likePost} user_id={user_id} />
                                                     </ul>
                                                 </div>
 
@@ -139,7 +156,7 @@ function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutout
                                     <div className="d-flex">
                                         <div className="py-3 mobile">
                                             <ul className="list-inline mb-0">
-                                                <CommentBodyPost item={item?.post} path={router.asPath} likePost={likePost} user_id={user_id} />
+                                                <CommentBodyPost checked={checked} item={item?.post} path={router.asPath} likePost={likePost} user_id={user_id} />
                                             </ul>
                                         </div>
                                     </div>

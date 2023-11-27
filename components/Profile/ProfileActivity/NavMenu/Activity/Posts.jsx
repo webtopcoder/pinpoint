@@ -23,7 +23,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     const { notify } = useNotify();
     const isWebDevice = useMedia('(min-width:700px)');
     const [count, setCount] = useState(1);
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(false);
     const myLoader = ({ src }) => {
         return src;
     };
@@ -36,7 +36,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
         setChecked(e.target.checked);
     };
 
-    const label = `${checked ? 'Comments Show' : 'Comments Hide'}`;
+    const label = `${checked ? 'Comments Hide' : 'Comments Show'}`;
 
     useEffect(() => {
         setLoading(true);
@@ -58,9 +58,9 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     return (
         <Card>
             <CardBody className="px-1">
-                <div className="d-flex flex-wrap">
+                <div className="d-flex flex-wrap mt-2">
                     <div className="me-2">
-                        <h4 className="card-title mb-4">Activity Feed</h4>
+                        <h4 className="card-title mb-0">Activity Feed</h4>
                     </div>
                     <div className="ms-auto">
                         <Checkbox checked={checked} onChange={handleCheck}>
@@ -68,6 +68,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                         </Checkbox>
                     </div>
                 </div>
+                <Divider />
                 <Spin spinning={loading}>
                     <InfiniteScroll
                         dataLength={data.length}
@@ -75,7 +76,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                         hasMore={data?.length < activityTotal}
                         style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
                         loader={<LoadingSpinner />}
-                        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                        endMessage={data?.length !== 0 && <Divider plain>It is all, nothing more 🤐</Divider>}
                     >
                         <ul className="verti-timeline list-unstyled">
                             {list?.map((item, index) => (
@@ -188,7 +189,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                                         <div className="py-3 mobile">
                                             <ul className="list-inline mb-0">
                                                 {item?.type === "post" && <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
-                                                {item?.type === "review" && <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
+                                                {item?.type === "review" && <CommentBodyReview checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
                                             </ul>
                                         </div>
                                     </div>

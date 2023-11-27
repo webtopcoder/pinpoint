@@ -19,7 +19,7 @@ function Comments({ user_id, item }) {
     return (
         <Popover content={<CommentForm handleSubmit={(text) => addComment(text, null, ownerId)} user_id={user_id} />} placement="bottom" trigger="click">
             <li className="list-inline-item me-3">
-                <i className="bx bxs-comment-dots me-1 tcl-darkblue fs-4 heart-comment" />
+                <i className="bx bxs-comment-dots me-1 text-danger fs-4 heart-comment" />
                 <span className="fs-6 tcl-darkblue">{comment}</span>
             </li>
         </Popover>

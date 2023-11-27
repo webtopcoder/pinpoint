@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import Comments from "@/components/Layout/comments/CommentsAll";
 import { locationService } from "@/services/index";
 import { Rate } from "antd";
-const CommentBody = ({ item, user_id, path }) => {
+const CommentBody = ({ checked, item, user_id, path }) => {
   const [commentCount, setCommentCount] = useState(item?.comment ? item?.comment : 0);
-  const [expandComments, setExpandComments] = useState(true);
+  const [expandComments, setExpandComments] = useState(checked);
   const [like, setLike] = useState(item?.like ? item?.like?.count : 0);
+
+  useEffect(async () => {
+    await setExpandComments(checked)
+  }, [checked]);
 
   return (
     <>
@@ -36,8 +40,8 @@ const CommentBody = ({ item, user_id, path }) => {
             });
         }}
       >
-        <i className="bx bxs-like me-1 tcl-darkblue fs-4 heart-comment" />
-        <span className="fs-6 tcl-darkblue">{like}</span>
+        <i className="bx bxs-like me-1 text-danger fs-4 heart-comment" />
+        <span className="fs-6 text-danger">{like}</span>
       </li>
       {item && <Comments currentUserId={user_id} path={path} commentCount={commentCount} ownerId={item?.user?._id} setExpandComments={setExpandComments} expandComments={expandComments} setCommentCount={setCommentCount} type="location" id={item?._id} />
       }

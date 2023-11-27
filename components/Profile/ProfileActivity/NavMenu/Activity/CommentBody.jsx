@@ -4,12 +4,11 @@ import { Rate } from "antd";
 
 const CommentBody = ({ checked, item, likePost, user_id, path }) => {
     const [commentCount, setCommentCount] = useState(item.comment ? item?.comment : 0);
-    const [expandComments, setExpandComments] = useState(true);
+    const [expandComments, setExpandComments] = useState(checked);
     const [like, setLike] = useState(item.like ? item?.like?.count : 0);
 
-    useEffect(() => {
-        console.log(checked)
-        setExpandComments(checked);
+    useEffect(async () => {
+        await setExpandComments(checked)
     }, [checked]);
 
     return (
