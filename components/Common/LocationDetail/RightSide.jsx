@@ -75,7 +75,7 @@ const RightSide = ({ location, expand, setExpand, user_id }) => {
                                                                 description="Are you voting this option?"
                                                                 okText="Yes"
                                                                 cancelText="No"
-                                                                onConfirm={handleVote}
+                                                                onConfirm={() => handleVote(item?.content)}
                                                             >
                                                                 <a className='m-0 p-0'>{item?.content}</a>
                                                             </Popconfirm>

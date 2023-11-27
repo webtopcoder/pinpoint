@@ -20,6 +20,7 @@ function ViewMapSection() {
                                     <div className="p-4">
                                         <h5 style={{ fontWeight: 700 }}>Where are the goods at Find on map?</h5>
                                         <button
+                                            onClick={() => router.push('/interactivemap')}
                                             style={{
                                                 fontSize: 13
                                             }}

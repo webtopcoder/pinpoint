@@ -142,7 +142,7 @@ function index({
                         {headerInfo?.profile?.socials?.facebook &&
                             <Col className="col-2">
                                 <div className="social-source text-center ">
-                                    <div className="avatar-xs mx-auto mb-3">
+                                    <div className="avatar-mxs mx-auto mb-3">
                                         <a href={`https://${headerInfo?.profile?.socials?.facebook}`} target="_blank">
                                             <span className="avatar-title rounded-circle bg-redLightColor font-size-20">
                                                 <i className="bx bxl-facebook text-white"></i>
@@ -155,7 +155,7 @@ function index({
                         {headerInfo?.profile?.socials?.twitter &&
                             <Col className="col-2">
                                 <div className="social-source text-center ">
-                                    <div className="avatar-xs mx-auto mb-3">
+                                    <div className="avatar-mxs mx-auto mb-3">
                                         <a href={`https://${headerInfo?.profile?.socials?.twitter}`} target="_blank">
                                             <span className="avatar-title rounded-circle bg-redLightColor font-size-20">
                                                 <i className="bx bxl-twitter text-white"></i>
@@ -168,7 +168,7 @@ function index({
                         {headerInfo?.profile?.socials?.snapchat &&
                             <Col className="col-2">
                                 <div className="social-source text-center ">
-                                    <div className="avatar-xs mx-auto mb-3">
+                                    <div className="avatar-mxs mx-auto mb-3">
                                         <a href={`https://${headerInfo?.profile?.socials?.snapchat}`} target="_blank">
                                             <span className="avatar-title rounded-circle bg-redLightColor font-size-20">
                                                 <i className="bx bxl-snapchat text-white"></i>
@@ -181,7 +181,7 @@ function index({
                         {headerInfo?.profile?.socials?.instagram &&
                             <Col className="col-2">
                                 <div className="social-source text-center ">
-                                    <div className="avatar-xs mx-auto mb-3">
+                                    <div className="avatar-mxs mx-auto mb-3">
                                         <a href={`https://${headerInfo?.profile?.socials?.instagram}`} target="_blank">
                                             <span className="avatar-title rounded-circle bg-redLightColor font-size-20">
                                                 <i className="bx bxl-instagram-alt text-white"></i>
@@ -194,7 +194,7 @@ function index({
                         {headerInfo?.profile?.socials?.website !== "" &&
                             <Col className="col-2">
                                 <div className="social-source text-center ">
-                                    <div className="avatar-xs mx-auto mb-3">
+                                    <div className="avatar-mxs mx-auto mb-3">
                                         <a href={`https://${headerInfo?.profile?.socials?.website}`} target="_blank">
                                             <span className="avatar-title rounded-circle bg-redLightColor font-size-20">
                                                 <i className="bx bxl-internet-explorer text-white"></i>

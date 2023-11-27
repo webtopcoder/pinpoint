@@ -13,7 +13,7 @@ const NavMenu = ({ menu }) => {
 
     const router = useRouter();
     return (
-        <Nav className="flex-column" pills>
+        <Nav className="flex-column activity-leftside" pills>
             <Row>
                 <Col lg="12" sm="6">
                     <NavItem>
@@ -22,8 +22,8 @@ const NavMenu = ({ menu }) => {
                             onClick={() => {
                                 router.push('/partner/dashboard')
                             }}>
-                            <i className="bx bxs-home-circle d-block check-nav-icon mt-2 mb-2" />
-                            <p className="font-weight-bold mb-2">Dashboard</p>
+                            <i className="bx bxs-home-circle d-block check-nav-icon mt-4 mb-2" />
+                            <p className="font-weight-bold mb-4">Dashboard</p>
                         </NavLink>
                     </NavItem>
                 </Col>
@@ -34,8 +34,8 @@ const NavMenu = ({ menu }) => {
                             onClick={() => {
                             }}
                         >
-                            <i className="bx bx-cart-alt d-block check-nav-icon mt-2 mb-2" />
-                            <p className="font-weight-bold mb-2">Orders</p>
+                            <i className="bx bx-cart-alt d-block check-nav-icon mt-4 mb-2" />
+                            <p className="font-weight-bold mb-4">Orders</p>
                         </NavLink>
                     </NavItem>
                 </Col>
@@ -46,8 +46,8 @@ const NavMenu = ({ menu }) => {
                             onClick={() => {
                             }}
                         >
-                            <i className="bx bx-detail d-block check-nav-icon mt-2 mb-2" />
-                            <p className="font-weight-bold mb-2">Bookings</p>
+                            <i className="bx bx-detail d-block check-nav-icon mt-4 mb-2" />
+                            <p className="font-weight-bold mb-4">Bookings</p>
                         </NavLink>
                     </NavItem>
                 </Col>
@@ -59,8 +59,8 @@ const NavMenu = ({ menu }) => {
                                 router.push('/partner/locations')
                             }}
                         >
-                            <i className="bx bx-map-pin d-block check-nav-icon mt-2 mb-2" />
-                            <p className="font-weight-bold mb-2">Locations</p>
+                            <i className="bx bx-map-pin d-block check-nav-icon mt-4 mb-2" />
+                            <p className="font-weight-bold mb-4">Locations</p>
                         </NavLink>
                     </NavItem>
                 </Col>
@@ -72,8 +72,8 @@ const NavMenu = ({ menu }) => {
                                 router.push('/partner/partnership')
                             }}
                         >
-                            <i className="bx bx-group d-block check-nav-icon mt-2 mb-2" />
-                            <p className="font-weight-bold mb-2">PartnerShip</p>
+                            <i className="bx bx-group d-block check-nav-icon mt-4 mb-2" />
+                            <p className="font-weight-bold mb-4">PartnerShip</p>
                         </NavLink>
                     </NavItem>
                 </Col>

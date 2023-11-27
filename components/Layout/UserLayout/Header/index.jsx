@@ -113,7 +113,7 @@ const index = ({
                       : ''
                   }
                   <li className="nav-item">
-                    <Link href="/interactive-map" activeClassName="active">
+                    <Link href="/interactivemap" activeClassName="active">
                       <a className="nav-link">Interactive Map</a>
                     </Link>
                   </li>

@@ -1,6 +1,6 @@
 //optimized
 import React, { useEffect, useState } from "react";
-import { Image as Antimage, Spin, Divider } from "antd";
+import { Image as Antimage, Spin, Divider, Checkbox } from "antd";
 import { Card, CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
@@ -23,6 +23,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     const { notify } = useNotify();
     const isWebDevice = useMedia('(min-width:700px)');
     const [count, setCount] = useState(1);
+    const [checked, setChecked] = useState(true);
     const myLoader = ({ src }) => {
         return src;
     };
@@ -30,6 +31,12 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     const onLoadMore = () => {
         setCount(count + 1);
     };
+
+    const handleCheck = (e) => {
+        setChecked(e.target.checked);
+    };
+
+    const label = `${checked ? 'Comments Show' : 'Comments Hide'}`;
 
     useEffect(() => {
         setLoading(true);
@@ -51,7 +58,16 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     return (
         <Card>
             <CardBody className="px-1">
-                <h4 className="card-title mb-4">Activity Feed</h4>
+                <div className="d-flex flex-wrap">
+                    <div className="me-2">
+                        <h4 className="card-title mb-4">Activity Feed</h4>
+                    </div>
+                    <div className="ms-auto">
+                        <Checkbox checked={checked} onChange={handleCheck}>
+                            {label}
+                        </Checkbox>
+                    </div>
+                </div>
                 <Spin spinning={loading}>
                     <InfiniteScroll
                         dataLength={data.length}
@@ -160,8 +176,8 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                                                     </Antimage.PreviewGroup> : ''}
                                                 <div className="desktop pt-1">
                                                     <ul className="list-inline mb-0">
-                                                        {item?.type === "post" ? <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
-                                                        {item?.type === "review" ? <CommentBodyReview item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                        {item?.type === "post" ? <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                        {item?.type === "review" ? <CommentBodyReview checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
                                                     </ul>
                                                 </div>
 
@@ -171,8 +187,8 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                                     <div className="d-flex">
                                         <div className="py-3 mobile">
                                             <ul className="list-inline mb-0">
-                                                {item?.type === "post" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
-                                                {item?.type === "review" && <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
+                                                {item?.type === "post" && <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
+                                                {item?.type === "review" && <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} />}
                                             </ul>
                                         </div>
                                     </div>

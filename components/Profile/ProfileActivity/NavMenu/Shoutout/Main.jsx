@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image as Antimage, Spin, Divider } from "antd"
-import { Card, CardBody, Button, Spinner } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
 import { apiBaseUrl } from "@/utils/baseUrl";
@@ -11,10 +11,11 @@ import { useRouter } from "next/router";
 import { getDiffToNow } from "@/utils/date";
 import classnames from "classnames";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingSpinner from "@/components/Common/Spinner";
 
 const imgurl = `${apiBaseUrl}/avatar/`;
 const avatarurl = `${apiBaseUrl}/avatar/`;
-function Main({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, setLoading, setList, ShoutoutList, ondownloadFile, shoutoutTotal }) {
+function Main({ loading, user_id, list, data, setLoading, ShoutoutList, shoutoutTotal }) {
     const pattern = /@\w+/g;
     const router = useRouter();
     const { notify } = useNotify();
@@ -27,11 +28,6 @@ function Main({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, se
 
     const onLoadMore = () => {
         setCount(count + 1);
-    };
-
-    const onMenuClick = (e) => {
-        // ondownloadFile(e.key);
-        window.open(attachurl + e.key, "_blank");
     };
 
     async function likePost(id, callback) {
@@ -66,13 +62,7 @@ function Main({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, se
                         next={onLoadMore}
                         hasMore={data?.length < shoutoutTotal}
                         style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
-                        loader={
-                            <div className={classnames('text-center')}>
-                                <Spinner type="grow" className="ms-2" color="primary" />
-                                <Spinner type="grow" className="ms-2" color="primary" />
-                                <Spinner type="grow" className="ms-2" color="primary" />
-                            </div>
-                        }
+                        loader={<LoadingSpinner />}
                         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                     >
                         <ul className="verti-timeline list-unstyled">
@@ -158,14 +148,6 @@ function Main({ loading, initLoading, user_id, list, data, LoadMoreAllStatus, se
                         </ul>
                     </InfiniteScroll>
                 </Spin>
-                {/* <div className={classnames('text-center', { 'd-none': !initLoading })}>
-                    <Spinner type="grow" className="ms-2" color="primary" />
-                    <Spinner type="grow" className="ms-2" color="primary" />
-                    <Spinner type="grow" className="ms-2" color="primary" />
-                </div>
-                <div
-                    className={classnames('text-center', 'mt-4', { 'd-none': shoutoutTotal < 10 || data?.length >= shoutoutTotal })}
-                ><a className="btn btn-danger waves-effect waves-light btn-sm" onClick={onLoadMore}>View More <i className="bx bx-plus"></i></a></div> */}
             </CardBody>
         </Card>
     );

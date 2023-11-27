@@ -1,40 +1,29 @@
-import React, { useState } from "react";
-import { Avatar, Button, List, Skeleton, Popover, Space, Tag, Modal, Divider } from "antd";
-import { Card, CardBody, Row, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Dropdown, Spinner } from "reactstrap";
+//optimized
+import React from "react";
+import { Popover, Space, Tag } from "antd";
+import { Row, Col } from "reactstrap";
 import { useRouter } from "next/router";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
-import Link from "next/link";
 import { profileService } from "@/services/index";
 import useMedia from "@/hooks/useMedia";
 import binavatar from "@/public/images/landing/avatar.png";
-import {
-  UserOutlined,
-  MessageFilled,
-  UserDeleteOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  SyncOutlined
-} from "@ant-design/icons";
+import { SyncOutlined } from "@ant-design/icons";
 import classnames from "classnames";
 import MessageForm from "../../WelcomeProfile/MessageForm";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingSpinner from "@/components/Common/Spinner";
 
 const FollwersList = ({
   ongetFollowers,
-  initLoading,
   data,
   getHeader,
-  loading,
   setLoading,
   count,
   profile,
   setCount,
   search,
-  userRole,
   user_id,
-  loadStatus,
-  LoadMoreRemain,
   total
 }) => {
   const { notify } = useNotify();
@@ -42,39 +31,32 @@ const FollwersList = ({
   const avatarurl = `${apiBaseUrl}/avatar/`;
   const router = useRouter();
 
-  async function unfriend(id) {
-    await profileService.onunFriend(id)
-      .then(() => {
-        setLoading(true);
-        notify("success", "Unfriend successfully");
-        ongetFollowers(profile, count, search);
-        getHeader(profile);
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
+  const unfriend = async (id) => {
+    try {
+      await profileService.onunFriend(id);
+      setLoading(true);
+      notify("success", "Unfriend successfully");
+      ongetFollowers(profile, count, search);
+      getHeader(profile);
+    } catch (error) {
+      notify("error", error?.response?.data?.message || "Something went wrong");
+    }
+  };
 
-  async function AcceptFollowerRequest(id, type) {
-    await profileService.acceptFollowerRequest(id, type)
-      .then(() => {
-        setLoading(true);
-        notify("success", type === "active" ? "Accepted successfully" : 'Declined successfully');
-        ongetFollowers(profile, count, search);
-        getHeader(profile);
-      })
-      .catch((error) => {
-        notify(
-          "error",
-          error?.response?.data?.message || "Something went wrong"
-        );
-        return;
-      });
-  }
+
+  const AcceptFollowerRequest = async (id, type) => {
+    try {
+      await profileService.acceptFollowerRequest(id, type);
+      setLoading(true);
+      const message =
+        type === "active" ? "Accepted successfully" : "Declined successfully";
+      notify("success", message);
+      ongetFollowers(profile, count, search);
+      getHeader(profile);
+    } catch (error) {
+      notify("error", error?.response?.data?.message || "Something went wrong");
+    }
+  };
 
   const onLoadMore = () => {
     setCount(count + 1);
@@ -87,13 +69,7 @@ const FollwersList = ({
         next={onLoadMore}
         hasMore={data?.length < total}
         style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
-        loader={
-          <div className={classnames('text-center')}>
-            <Spinner type="grow" className="ms-2" color="primary" />
-            <Spinner type="grow" className="ms-2" color="primary" />
-            <Spinner type="grow" className="ms-2" color="primary" />
-          </div>
-        }
+        loader={<LoadingSpinner />}
       >
         {data?.map((item, index) => (
           <Row className="py-2 border-bottom" key={item?._id}>
@@ -113,7 +89,7 @@ const FollwersList = ({
                 <div className="flex-grow-1 align-self-center">
                   <div className="text-muted">
                     <a className="mb-1 fs-6 fw-semibold"
-                      onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}>
+                      onClick={() => router.push(`/profile/${item?.follower?._id}`)}>
                       {item?.follower?.name}{'   '}
                       <Tag color="error">{item?.follower?.role}</Tag>
                     </a>

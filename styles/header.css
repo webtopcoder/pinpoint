@@ -157,6 +157,11 @@
   width: 2rem;
 }
 
+.avatar-mxs {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
 .avatar-lg {
   height: 4rem;
   width: 4rem;
