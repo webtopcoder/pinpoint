@@ -1,6 +1,6 @@
 //optimized
 import React, { useEffect, useState } from "react";
-import { Image as Antimage, Spin, Divider } from "antd";
+import { Image as Antimage, Spin, Divider, Checkbox } from "antd";
 import { Card, CardBody } from "reactstrap";
 import useNotify from "@/hooks/useNotify";
 import useMedia from "@/hooks/useMedia";
@@ -22,6 +22,7 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     const router = useRouter();
     const { notify } = useNotify();
     const isWebDevice = useMedia('(min-width:700px)');
+    const [checked, setChecked] = useState(false);
     const [count, setCount] = useState(1);
     const myLoader = ({ src }) => {
         return src;
@@ -30,6 +31,12 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
     const onLoadMore = () => {
         setCount(count + 1);
     };
+
+    const handleCheck = (e) => {
+        setChecked(e.target.checked);
+    };
+
+    const label = `${checked ? 'Comments Hide' : 'Comments Show'}`;
 
     useEffect(() => {
         setLoading(true);
@@ -49,8 +56,18 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
 
     return (
         <Card>
-            <CardBody className="px-1">
-                <h4 className="card-title ms-2 mb-4">Activity Feed</h4>
+            <CardBody className="px-3">
+                <div className="d-flex flex-wrap mt-2">
+                    <div className="me-2">
+                        <h4 className="card-title mb-0">Activity Feed</h4>
+                    </div>
+                    <div className="ms-auto">
+                        <Checkbox checked={checked} onChange={handleCheck}>
+                            {label}
+                        </Checkbox>
+                    </div>
+                </div>
+                <Divider />
                 <Spin spinning={loading}>
                     <InfiniteScroll
                         dataLength={data.length}
@@ -58,9 +75,9 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                         hasMore={data?.length < activityTotal}
                         style={{ overflow: 'hidden' }} //To put endMessage and loader to the top.
                         loader={<LoadingSpinner />}
-                        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                        endMessage={data?.length !== 0 && <Divider plain>It is all, nothing more 🤐</Divider>}
                     >
-                        <ul className="verti-timeline list-unstyled">
+                        <ul className="verti-timeline list-unstyled text-muted">
                             {list?.map((item, index) => (
                                 <li className="event-list" key={item?._id}>
                                     <div className="event-timeline-dot">
@@ -159,8 +176,8 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                                                     </Antimage.PreviewGroup> : ''}
                                                 <div className="desktop pt-1">
                                                     <ul className="list-inline mb-0">
-                                                        {item?.type === "post" ? <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
-                                                        {item?.type === "review" ? <CommentBodyReview item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                        {item?.type === "post" ? <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                        {item?.type === "review" ? <CommentBodyReview checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
                                                     </ul>
                                                 </div>
 
@@ -170,8 +187,8 @@ function Posts({ loading, user_id, list, data, setLoading, setList, allActivitie
                                     <div className="d-flex">
                                         <div className="py-3 mobile">
                                             <ul className="list-inline mb-0">
-                                                {item?.type === "post" ? <CommentBodyPost item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
-                                                {item?.type === "review" ? <CommentBodyReview item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                {item?.type === "post" ? <CommentBodyPost checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
+                                                {item?.type === "review" ? <CommentBodyReview checked={checked} item={item} path={router.asPath} likePost={likePost} user_id={user_id} /> : ''}
                                             </ul>
                                         </div>
                                     </div>

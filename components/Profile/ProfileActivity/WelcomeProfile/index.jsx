@@ -88,7 +88,7 @@ function index({
                                 </div>
                                 <div className="flex-grow-1 align-self-center">
                                     <div className="text-muted">
-                                        <h6 className="mb-1"><b>{headerInfo?.profile?.fullname}</b></h6>
+                                        <h5 className="mb-1"><b>{headerInfo?.profile?.fullname}</b></h5>
                                         <p className="mb-0">@{headerInfo?.profile?.username}</p>
                                     </div>
                                 </div>

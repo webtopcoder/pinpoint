@@ -9,7 +9,6 @@ import useNotify from "@/hooks/useNotify";
 
 const Comments = ({ ownerId, currentUserId, type, id, setCommentCount, expandComments, setExpandComments, path, commentCount }) => {
 
-  console.log(expandComments)
   const [backendComments, setBackendcomments] = useState([]);
   const { notify } = useNotify();
   const [activeComment, setActiveComment] = useState(null);
