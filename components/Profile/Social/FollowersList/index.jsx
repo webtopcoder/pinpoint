@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { Row, Col, Card, CardTitle, CardBody, Button } from "reactstrap"
 import { Avatar, Tooltip } from "antd";
 import { profileService } from "@/services/index";
@@ -13,6 +14,7 @@ function index({
 
     const { notify } = useNotify();
     const [data, setData] = useState([]);
+    const router = useRouter();
 
     useEffect(() => {
         profileService.getmyFollowers(user_id, {}, {})
@@ -56,7 +58,7 @@ function index({
                                 {data?.map((item) =>
                                     <Tooltip title={item?.follower?.name} placement="top">
                                         <a
-                                            onClick={() => router.push(`/profile/${item?.follower?._id}/activity`)}
+                                            onClick={() => router.push(`/profile/${item?.follower?._id}`)}
                                         >
                                             <Avatar
                                                 src={avatarurl + "/" + item?.follower?.profile?.avatar.filepath}
