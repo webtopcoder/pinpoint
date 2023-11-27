@@ -85,24 +85,7 @@ const Index = () => {
             {partnerShipPlans?.map((plan, index) => (
               <div className="container">
                 <div className="row justify-content-center">
-                  <div
-                    className="col-lg-5 col-md-6"
-                    data-aos="fade-up"
-                    data-aos-duration="1200"
-                  >
-                    <Alert color="info" role="alert">
-                      <h4 className="alert-heading">Pinpoint PartnerShip</h4>
-                      <p>Being a Pinpoint Partner will give you
-                        access to our interactive map feature.<br />This will allow you to
-                        post your active locations for Pinpoint Users to see. </p>
-                      <hr />
-                      <p className="mb-0">Your
-                        Partnership will be billed monthly (30 days following your
-                        payment) and is able to be cancelled at any point. If
-                        cancelled, the cancellation will go into affect at the end of
-                        your current Partnership period.</p>
-                    </Alert>
-                  </div>
+
                   <div
                     className="col-lg-5 col-md-6"
                     data-aos="fade-up"
@@ -123,6 +106,24 @@ const Index = () => {
                         {...plan}
                       />
                     )}
+                  </div>
+                  <div
+                    className="col-lg-7 col-md-6"
+                    data-aos="fade-up"
+                    data-aos-duration="1200"
+                  >
+                    <Alert color="red" role="alert">
+                      <h4 className="alert-heading tcl-darkblue">Pinpoint PartnerShip</h4>
+                      <p>Being a Pinpoint Partner will give you
+                        access to our interactive map feature.<br />This will allow you to
+                        post your active locations for Pinpoint Users to see. </p>
+                      <hr />
+                      <p className="mb-0">Your
+                        Partnership will be billed monthly (30 days following your
+                        payment) and is able to be cancelled at any point. If
+                        cancelled, the cancellation will go into affect at the end of
+                        your current Partnership period.</p>
+                    </Alert>
                   </div>
                 </div>
               </div>

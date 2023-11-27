@@ -388,8 +388,8 @@ p:last-child {
 }
 
 .btn-style-one.red-light-color:hover {
-  background-color: var(--blueDarkColor);
-  border-color: var(--blueDarkColor);
+  background-color: var(--blueColor);
+  border-color: var(--blueColor);
   color: var(--whiteColor);
 }
 

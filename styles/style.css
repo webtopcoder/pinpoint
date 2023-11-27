@@ -7700,7 +7700,7 @@ Pricing Area CSS
   margin-bottom: 25px;
   border-radius: 10px;
   background-color: var(--whiteColor);
-  border: 1px solid var(--lightGreenColor);
+  border: 1px solid var(--blueColor);
 }
 
 .single-pricing-box h3 {
@@ -7745,7 +7745,7 @@ Pricing Area CSS
 }
 
 .single-pricing-box .features-list li i {
-  background-color: var(--lightGreenColor);
+  background-color: var(--blueColor);
   -webkit-transition: var(--transition);
   transition: var(--transition);
   -webkit-transform: translateY(-50%);
