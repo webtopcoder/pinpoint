@@ -31,12 +31,10 @@ const LeftSide = ({ locationInfo, setLocationInfo, userRole, init, user_id, revi
         }
         await locationService.favoriteLocation(location?._id, flag)
             .then((res) => {
-                console.log(res)
                 setLocationInfo(prevState => ({
                     ...prevState,
                     isFavorite: flag ? true : false
                 }));
-                console.log(location)
             })
             .catch((error) => {
                 notify(

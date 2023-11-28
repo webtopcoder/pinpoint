@@ -36,10 +36,8 @@ const Index = () => {
   const [partnerShipPlans, setPartnerShipPlans] = useState();
 
   async function initializeGetUser() {
-    console.log(234234)
     await profileService.getUserInfo()
       .then((res) => {
-        console.log(res)
         setUserInfo(res?.user);
       })
       .catch((error) => {

@@ -3,7 +3,6 @@ import React from "react";
 import classnames from "classnames";
 
 function Statistic({ headerInfo }) {
-    console.log(headerInfo)
     const isPartner = headerInfo?.profile?.usertype === "partner";
     return (
         <Row>

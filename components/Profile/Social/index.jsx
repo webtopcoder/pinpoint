@@ -89,12 +89,13 @@ const index = ({
     <Col xl="3">
       <div className={classnames('activity-leftside', { 'd-none': !isWebDevice && (activeMenu === 'main' || activeMenu === 'photo') })}>
         <Spin spinning={profileLoading}>
-          <WelcomeProfile
-            headerInfo={headerInfo}
-            getHeader={getHeader}
-            userRole={userRole}
-            own_page={true}
-          />
+          {headerInfo ?
+            <WelcomeProfile
+              headerInfo={headerInfo}
+              getHeader={getHeader}
+              userRole={userRole}
+              own_page={true}
+            /> : ''}
         </Spin>
       </div>
     </Col>

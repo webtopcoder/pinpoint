@@ -26,7 +26,6 @@ function ArrivalBanner({ event }) {
     lat: 30.3321838,
     lng: -81.65565099999999,
   });
-  console.log(event.event)
   const arrivalText = event?.event?.isArrival?.arrivalText;
   const arrivalImage = event?.event?.isArrival?.images[0]?.filepath;
   const arrivalID = event?.event?.isArrival?.id;

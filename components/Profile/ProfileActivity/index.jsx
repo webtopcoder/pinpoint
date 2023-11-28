@@ -52,12 +52,14 @@ const index = ({
     <Col xl="3">
       <div className={classnames('activity-leftside', { 'd-none': !isWebDevice && (activeMenu === 'main' || activeMenu === 'photo') })}>
         <Spin spinning={profileLoading}>
-          <WelcomeProfile
-            headerInfo={headerInfo}
-            own_page={own_page}
-            getHeader={getHeader}
-            userRole={userRole}
-          />
+          {headerInfo ?
+            <WelcomeProfile
+              headerInfo={headerInfo}
+              own_page={own_page}
+              getHeader={getHeader}
+              userRole={userRole}
+            />
+            : ''}
         </Spin>
       </div>
     </Col>
@@ -87,20 +89,11 @@ const index = ({
           <PhotoSection
             myAllPhotos={myAllPhotos}
             headerInfo={headerInfo}
-            own_page={own_page}
-            getHeader={getHeader}
-            userRole={userRole}
           />
         </Spin>
         <div className="auth-space"></div>
         <Spin spinning={profileLoading}>
-          <ViewMapSection
-            myAllPhotos={myAllPhotos}
-            headerInfo={headerInfo}
-            own_page={own_page}
-            getHeader={getHeader}
-            userRole={userRole}
-          />
+          <ViewMapSection />
         </Spin>
       </div>
     </Col>
@@ -110,7 +103,7 @@ const index = ({
     <React.Fragment>
       <div className={classnames('page-content', { 'pt-1': !isWebDevice },)}>
         <Container fluid>
-        <Breadcrumbs title="Profile" breadcrumbItem={headerInfo?.profile?.fullname} />
+          <Breadcrumbs title="Profile" breadcrumbItem={headerInfo?.profile?.fullname} />
           <Row>
             {renderLeftSide()}
             {renderMiddleSection()}

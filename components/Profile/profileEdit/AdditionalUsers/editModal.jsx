@@ -34,7 +34,6 @@ const EditUserModal = ({
   const { notify } = useNotify();
 
   async function changeEditType(value) {
-    console.log(value)
     await setEditType(value);
   };
 

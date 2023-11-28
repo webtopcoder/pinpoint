@@ -56,7 +56,7 @@ function index({
                                 size="large"
                             >
                                 {data?.map((item) =>
-                                    <Tooltip title={item?.follower?.name} placement="top">
+                                    <Tooltip title={item?.follower?.name} key={item?._id} placement="top">
                                         <a
                                             onClick={() => router.push(`/profile/${item?.follower?._id}`)}
                                         >

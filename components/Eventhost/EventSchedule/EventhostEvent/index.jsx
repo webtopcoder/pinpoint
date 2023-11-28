@@ -40,7 +40,6 @@ const index = ({
     const eventId = router.query.event;
     eventService.getEventInfo({ id: eventId, expand: expand })
       .then((res) => {
-        console.log(res)
         setEventInfo(res);
         if (res.event.reviews) {
           const activeReviews = res.event.reviews.reduce(

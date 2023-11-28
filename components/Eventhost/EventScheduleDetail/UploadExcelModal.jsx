@@ -44,7 +44,6 @@ function UploadExcelModal({
         const image_data = new FormData();
         image_data.append("xisx", info.file.originFileObj);
         await eventService.uploadExcel(scheduleId, image_data).then((res) => {
-          console.log(res);
           setSchedule(res);
         }).catch((error) => {
           error?.response?.data?.message || "Something went wrong"

@@ -71,14 +71,11 @@ const EmailCompose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, o
             default:
                 if (!sendToUserId) {
                     form_data.append("to", values.name);
-                    console.log(values.name)
-
                 }
                 else {
                     const followingUser = Array();
                     followingUser.push(values.name[0].value)
                     form_data.append("to", followingUser);
-                    console.log(followingUser)
                 }
         }
 

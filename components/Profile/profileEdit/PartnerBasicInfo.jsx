@@ -208,7 +208,6 @@ const PartnerBasicInfo = () => {
     useEffect(() => {
         profileService.getInfo()
             .then(async (res) => {
-                console.log(res.data)
                 setForm({
                     ...form,
                     firstName: res.data.firstName,

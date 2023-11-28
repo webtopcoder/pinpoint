@@ -70,7 +70,6 @@ const AdditionUserLogin = ({ onLoginAdditionUser }) => {
   async function onVerifyAssistant() {
     await settingService.getPartners(form.email)
       .then(async (res) => {
-        console.log(res)
         await setPartners(res);
         await setVerify(true);
         await setAddModalOpen(true);

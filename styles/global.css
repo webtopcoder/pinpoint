@@ -111,7 +111,7 @@ p {
   color: var(--paragraphColor);
   /* font-size: var(--fontSize); */
   margin-bottom: 15px;
-  line-height: 1.5;
+  line-height: 1.8;
 }
 
 .font-size-16 {

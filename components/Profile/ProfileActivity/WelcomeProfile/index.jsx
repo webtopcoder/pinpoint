@@ -81,7 +81,7 @@ function index({
                             <div className="d-flex">
                                 <div className="me-3 profile-user-wid">
                                     <img
-                                        src={avatarurl + "/" + headerInfo?.profile?.avatar.filepath}
+                                        src={avatarurl + "/" + headerInfo?.profile?.avatar?.filepath}
                                         alt=""
                                         className="avatar-xlg rounded-circle img-thumbnail"
                                     />

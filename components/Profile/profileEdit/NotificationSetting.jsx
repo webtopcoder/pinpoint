@@ -17,11 +17,9 @@ const NotificationSetting = () => {
                 {}
             )
         );
-        console.log(result)
     }
 
     async function optionToggle(option, keyName) {
-        console.log(option.target.checked)
         const data = {
             key: `user:${keyName}`,
             value: option.target.checked,

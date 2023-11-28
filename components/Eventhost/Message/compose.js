@@ -31,7 +31,6 @@ const Compose = ({ ongetmyFollowers, onmailCompose, myfollowerList, role, ongetu
   const router = useRouter();
   const { notify } = useNotify();
   const isWebDevice = useMedia('(min-width:700px)');
-  console.log(sendToUserId)
   const { user: sendToUserId } = router.query;
 
   const options = myfollowerList?.map((follow) => ({
