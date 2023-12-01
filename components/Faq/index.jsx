@@ -7,7 +7,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 44 }} spin />;
 
 const index = ({ flag, loading, Faqs, search }) => {
   return (
-    <div className="faq-area bg-f1f5fd pb-75">
+    <div className="faq-area bg-f8fbff pb-75">
       <div className="container">
         <div className="faq-accordion-content">
           <div className="box">

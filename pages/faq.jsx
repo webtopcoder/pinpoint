@@ -34,7 +34,7 @@ const Faq = () => {
         <div className="container">
           <div className="page-title-content">
             <span className="sub-title">Frequently Asked Question</span>
-            <h1>Let’s see if we can read your mind.</h1>
+            <h1 className="tcl-darkblue">Let’s see if we can read your mind.</h1>
             <form onSubmit={onSubmitForm}>
               <label>
                 <i className="bx bx-search"></i>

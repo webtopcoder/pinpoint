@@ -326,7 +326,7 @@ p:last-child {
   content: "";
   height: 200px;
   position: absolute;
-  background-color: #f8fbff;
+  /* background-color: #f8fbff; */
 }
 
 /*btn*/
