@@ -20,7 +20,11 @@ function LocationService() {
     )
   }
 
-  function getLocationInfo({ id, expand }) {
+  function getLocationInfo({ title, expand }) {
+    return api(`locations/Bytitle/${title}/${expand}`, "get")
+  }
+
+  function getLocationInfoById({ id, expand }) {
     return api(`locations/${id}/${expand}`, "get")
   }
 
@@ -87,7 +91,8 @@ function LocationService() {
     likeArrival,
     likeReview,
     PostReview,
-    votePoll
+    votePoll,
+    getLocationInfoById
   };
 }
 

@@ -306,7 +306,7 @@ function ArrivalModal({
                     width: "100%",
                   }}
                   onChange={async (e) => {
-                    await locationService.getLocationInfo({ id: e, expand: false })
+                    await locationService.getLocationInfoById({ id: e, expand: false })
                       .then(async (res) => {
                         await setAddressHistory(res?.location?.history)
                       })

@@ -3,38 +3,22 @@ import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { mailCompose } from "@/redux/Mail/actions";
 import useNotify from "@/hooks/useNotify";
-import {
-    Row,
-    Modal,
-    Container,
-} from "reactstrap";
+import { Row, Container } from "reactstrap";
 import RightSide from './RightSide';
 import LeftSide from './LeftSide';
 import { useRouter } from "next/router";
 import { locationService } from "@/services/index";
 
 const Index = ({
-    modal_fullscreen,
-    setmodal_fullscreen,
-    location,
+    locationName,
     role,
-    user_id,
+    user_id
 }) => {
     const { notify } = useNotify();
     const router = useRouter();
     const [reviews, setReviews] = useState([]);
     const [expand, setExpand] = useState(false);
     const [locationInfo, setLocationInfo] = useState();
-
-    const tog_fullscreen = () => {
-        setmodal_fullscreen(!modal_fullscreen);
-        removeBodyCss();
-    };
-
-    const removeBodyCss = () => {
-        document.body.classList.add("no_padding");
-    };
-
     const temporarySwapHalf = (array) => {
         const length = array.length;
         for (let left = 0; left < length / 2; left += 1) {
@@ -49,7 +33,7 @@ const Index = ({
     const init = useCallback(async () => {
         try {
             const res = await locationService.getLocationInfo({
-                id: location?._id,
+                title: locationName,
                 expand: expand,
             });
             if (res?.location?.reviews) {
@@ -68,54 +52,30 @@ const Index = ({
                 error?.response?.data?.message || "Something went wrong"
             );
         }
-    }, [location, expand, notify]);
+    }, [expand, notify]);
 
     useEffect(() => {
         init();
-    }, [router.isReady, expand, modal_fullscreen]);
+    }, [router.isReady, expand]);
 
     return (
-        <Modal
-            size="xl"
-            isOpen={modal_fullscreen}
-            toggle={tog_fullscreen}
-        >
-            <div className="modal-header">
-                <h5 className="modal-title mt-0" id="exampleModalFullscreenLabel">
-                    Location Detail
-                </h5>
-                <button
-                    onClick={() => {
-                        setmodal_fullscreen(false);
-                    }}
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div className="location-detail modal-body">
-                <Container fluid>
-                    <Row>
-                        <LeftSide
-                            locationInfo={locationInfo}
-                            setLocationInfo={setLocationInfo}
-                            userRole={role}
-                            init={init}
-                            reviews={reviews}
-                        />
-                        <RightSide
-                            location={locationInfo}
-                            expand={expand}
-                            setExpand={setExpand}
-                            user_id={user_id}
-                        />
-                    </Row>
-                </Container>
-            </div>
-        </Modal>
+        <Container fluid>
+            <Row>
+                <LeftSide
+                    locationInfo={locationInfo}
+                    setLocationInfo={setLocationInfo}
+                    userRole={role}
+                    init={init}
+                    reviews={reviews}
+                />
+                <RightSide
+                    location={locationInfo}
+                    expand={expand}
+                    setExpand={setExpand}
+                    user_id={user_id}
+                />
+            </Row>
+        </Container>
     );
 };
 

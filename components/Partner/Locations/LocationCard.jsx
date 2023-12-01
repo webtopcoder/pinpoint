@@ -1,12 +1,13 @@
 //optimized
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 import { Badge, Spin, Card, Avatar, Button, Col, Divider, Rate, Row, Space, Tag, Typography, message } from "antd";
 import { MessageFilled, LikeFilled, FieldTimeOutlined, EnvironmentOutlined, EditOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import ArrivalModal from "./ArrivalModal";
 import ModifyLocationModal from "./ModifyLocationModal";
-import LocationDetailModal from "@/components/Common/LocationDetail";
+// import LocationDetailModal from "@/components/Common/LocationDetail";
 import { locationService } from "@/services/index";
 import { getUserInfo } from "@/redux/Profile/actions";
 import { apiBaseUrl } from "@/utils/baseUrl";
@@ -33,6 +34,7 @@ const LocationCard = ({
   initialize
 }) => {
 
+  const router = useRouter();
   const [arrivalModalOpen, setArrivalModalOpen] = useState(false);
   const [modifyModalOpen, setModifyModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState([]);
@@ -85,10 +87,8 @@ const LocationCard = ({
 
   const handleCardClick = async () => {
     await setLoading(true);
-    setTimeout(async () => {
-      await setModalFullscreen(true);
-      await setLoading(false);
-    }, 1000);
+    const formattedLocationName = location?.title?.replace(/\s+/g, '-');
+    router.push(`/profile/${userInfo?.id}/locations/${formattedLocationName}`);
   };
 
   const calculateRating = () => {
@@ -298,11 +298,11 @@ const LocationCard = ({
         locationInfo={location}
         uploadFile={uploadFile}
       />
-      <LocationDetailModal
+      {/* <LocationDetailModal
         modal_fullscreen={modalFullscreen}
         location={location}
         setmodal_fullscreen={setModalFullscreen}
-      />
+      /> */}
       <ModifyLocationModal
         modalOpen={modifyModalOpen}
         setModalOpen={setModifyModalOpen}

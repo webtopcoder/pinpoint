@@ -42,7 +42,7 @@ const UserLayout = ({ children, whiteMenu }) => {
       <Header whiteMenu={whiteMenu} toggle={onToggle} />
       <RightSidebar visible={visible} />
       {children}
-      {router.route !== "/interactive-map" ?
+      {router.route !== "/interactivemap" ?
         <Footer /> : ''
       }
     </>
