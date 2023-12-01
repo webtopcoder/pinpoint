@@ -7,7 +7,7 @@ import useMedia from "@/hooks/useMedia";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import { profileService } from "@/services/index";
 import CommentBodyPost from "./CommentBody";
-import CommentBodyReview from "@/components/Common/LocationDetail/CommentBody";
+import CommentBodyReview from "@/components/Common/IndividualLocation/CommentBody";
 import PopUserBox from "@/components/Common/PopUserBox";
 import LoadingSpinner from "@/components/Common/Spinner";
 import { useRouter } from "next/router";
