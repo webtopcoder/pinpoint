@@ -1,10 +1,10 @@
 import React from "react";
-import Link from "next/link";
-import {
-  Button
-} from "reactstrap";
+import { Button } from "reactstrap";
+import { useRouter } from "next/router";
 
 const Howtouse = () => {
+
+  const router = useRouter();
   return (
     <div className="features-area bg-175594 ptb-100">
       <div className="container">
@@ -155,15 +155,11 @@ const Howtouse = () => {
             </div>
           </div>
         </div>
-        <div
-          className="col-lg-12 col-md-12 col-sm-8"
-        >
+        <div className="col-lg-12 col-md-12 col-sm-8">
           <div className="lets-start-box">
-            <Link href="/partner/education">
-              <Button color="link" className="btn-rounded">
-                <i className="bx bx-right-arrow-alt font-size-16 align-middle me-2"></i>{" "}  Learn more about becoming a Pinpoint Partner
-              </Button>
-            </Link>
+            <Button onClick={() => router.push({ pathname: '/partner/education' })} color="link" className="btn-rounded">
+              <i className="bx bx-right-arrow-alt font-size-16 align-middle me-2"></i>{" "}  Learn more about becoming a Pinpoint Partner
+            </Button>
           </div>
         </div>
       </div>

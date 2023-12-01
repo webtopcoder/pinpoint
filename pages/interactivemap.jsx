@@ -5,7 +5,6 @@ import { apiBaseUrl } from "@/utils/baseUrl";
 import { locationService, eventService } from "@/services/index";
 import { DrawingManager, GoogleMap, Polygon, Marker, InfoWindow, Circle, DirectionsService, DirectionsRenderer, MarkerClusterer } from '@react-google-maps/api';
 import { Button, Space, notification, Typography, Row, Col, Popover, Tooltip } from "antd";
-import ToolBanner from "@/components/User/InteractiveMap/ToolBanner";
 import { EyeFilled, LoadingOutlined, FilterOutlined } from "@ant-design/icons";
 import DirectionDrawer from "@/components/User/InteractiveMap/DirectionDrawer";
 import FilterDrawer from "@/components/User/InteractiveMap/FilterDrawer";
@@ -213,48 +212,6 @@ const InteractiveMap = () => {
     await setTravelMode(value);
   };
 
-  const fullScreen = () => {
-    const elementToSendFullscreen = mapRef.getDiv().firstChild;
-    if (isFullscreen(elementToSendFullscreen)) {
-      exitFullscreen();
-    } else {
-      requestFullscreen(elementToSendFullscreen);
-    }
-  };
-
-  function isFullscreen(element) {
-    return (
-      (document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement ||
-        document.msFullscreenElement) == element
-    );
-  }
-
-  function requestFullscreen(element) {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.webkitRequestFullScreen) {
-      element.webkitRequestFullScreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.msRequestFullScreen) {
-      element.msRequestFullScreen();
-    }
-  }
-
-  function exitFullscreen() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  }
-
   async function onFinish(Form) {
     await setfilterForm(Form);
     !isWebDevice && setFilterOpen(false);
@@ -430,7 +387,6 @@ const InteractiveMap = () => {
                       setIsOpen(true);
                       handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
                     }}
-
                   >
                     {isOpen && infoWindowData?.id === item?._id && (
                       <InfoWindow
@@ -451,56 +407,62 @@ const InteractiveMap = () => {
                     )}
                   </Marker>
                 )) : null}
+                {radiusLocations?.map((item) => (
+                  <Marker key={item?._id} position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
+                    icon={{
+                      url: `${faviconUrl}/avatar/${item?.partner?.category?.image?.filepath}`,
+                      scaledSize: new google.maps.Size(30, 50), // scaled size
+                      origin: new google.maps.Point(0, 0), // origin
+                      anchor: new google.maps.Point(15, 46), // anchor
+                    }}
+                    style={{ width: 0, height: 0 }}
+                    clusterer={clusterer}
+                    onMouseOver={() => {
+                      setIsOpen(true);
+                      handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
+                    }}
+                  >
+                    {isOpen && infoWindowData?.id === item?._id && (
+                      <InfoWindow
+                        position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
+                        onCloseClick={() => {
+                          setIsOpen(false);
+                        }}
+                        >
+                        <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
+                      </InfoWindow>
+                    )}
+                  </Marker>
+                ))}
+                {eventSchedules?.map((item) => (
+                  <Marker key={item?._id} position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
+                    icon={{
+                      url: `${faviconUrl}/event.png`,
+                      scaledSize: new google.maps.Size(25, 40), // scaled size
+                      origin: new google.maps.Point(0, 0), // origin
+                      anchor: new google.maps.Point(15, 46), // anchor
+                    }}
+                    style={{ width: 0, height: 0 }}
+                    clusterer={clusterer}
+                    onMouseOver={() => {
+                      setIsOpen(true);
+                      handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
+                    }}
+                  >
+                    {isOpen && infoWindowData?.id === item?._id && (
+                      <InfoWindow
+                        position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
+                        onCloseClick={() => {
+                          setIsOpen(false);
+                        }}>
+                        <MarkCardArea item={item} router={router} handleDirections={handleDirections} loading={loading} />
+                      </InfoWindow>
+                    )}
+                  </Marker>
+                ))}
               </div>
             )}
           </MarkerClusterer>
-
-          {radiusLocations?.map((item) => (
-            <Marker key={item?._id} position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
-              icon={{
-                url: `${faviconUrl}/avatar/${item?.partner?.category?.image?.filepath}`,
-                scaledSize: new google.maps.Size(30, 50), // scaled size
-                origin: new google.maps.Point(0, 0), // origin
-                anchor: new google.maps.Point(15, 46), // anchor
-              }}
-              onClick={() => {
-                handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
-              }}
-            >
-              {isOpen && infoWindowData?.id === item?._id && (
-                <InfoWindow
-                  position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
-                  onCloseClick={() => {
-                    setIsOpen(false);
-                  }}>
-                  <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
-                </InfoWindow>
-              )}
-            </Marker>
-          ))}
-          {eventSchedules?.map((item) => (
-            <Marker key={item?._id} position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
-              icon={{
-                url: `${faviconUrl}/event.png`,
-                scaledSize: new google.maps.Size(25, 40), // scaled size
-                origin: new google.maps.Point(0, 0), // origin
-                anchor: new google.maps.Point(15, 46), // anchor
-              }}
-              onClick={() => {
-                handleMarkerClick(item?._id, item?.centerAddress?.latitude, item?.centerAddress?.longitude, item?.centerAddress?.address);
-              }}
-            >
-              {isOpen && infoWindowData?.id === item?._id && (
-                <InfoWindow
-                  position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
-                  onCloseClick={() => {
-                    setIsOpen(false);
-                  }}>
-                  <MarkCardArea item={item} router={router} handleDirections={handleDirections} loading={loading} />
-                </InfoWindow>
-              )}
-            </Marker>
-          ))}
           {directions && (
             <DirectionsRenderer
               panel={document.getElementById('sidebar')}
@@ -534,12 +496,12 @@ const InteractiveMap = () => {
             </Col>
           </Row>
         </GoogleMap>
-        <ListViewModal
+        {/* <ListViewModal
           open={addModalOpen}
           locations={radiusLocations}
           setModalOpen={setAddModalOpen}
           alllocations={activeLocations}
-        />
+        /> */}
         <DirectionDrawer handleSeg={handleSeg} loading={loading} onClose={onClose} open={open} />
         <FilterDrawer onFinish={onFinish} inputValue={inputValue} onChange={onChange} getCurrentLocation={getCurrentLocation} setPosition={setPosition} loading={loading} onClose={onClose} open={filterOpen} />
       </div>

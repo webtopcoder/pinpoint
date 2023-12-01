@@ -90,7 +90,7 @@ function ToolBanner({
       </div>
       <Divider />
       <div className="page-title-content" style={{ textAlign: 'left' }}>
-        <form action="javascript:void(0);">
+        <form>
           <label>
             <i className="bx bx-search"></i>
           </label>

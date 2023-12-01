@@ -95,10 +95,9 @@ const NotificationDropdown = ({ user_id }) => {
               </div>
               <div className="col-auto">
                 <a
-                  onClick={() => router.push('/auth/notifications')
-                  }
+                  onClick={() => router.push('/auth/notifications')}
                   className="small">
-                  <a>View All</a>
+                  View All
                 </a>
               </div>
             </Row>

@@ -8847,7 +8847,7 @@ Join Our Community Area CSS
 Request A Visit Area CSS
 =================================================*/
 .request-a-visit-area {
-  background-image: url(/images/request-a-visit-bg.jpg);
+  /* background-image: url(/images/request-a-visit-bg.jpg); */
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 const avatarurl = `${apiBaseUrl}/avatar/`;
 
 function PopUserBox({ id, name, username, avatar, role, type }) {
-
     const router = useRouter();
     return (
         <Popover overlayClassName="popoverbox" placement="bottom" content={

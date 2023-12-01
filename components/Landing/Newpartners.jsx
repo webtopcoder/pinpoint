@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { apiBaseUrl } from "@/utils/baseUrl";
-import React, { useEffect, useState } from "react";
 import { userService } from "@/services/index";
 
 const Newpartners = () => {

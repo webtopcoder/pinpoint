@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import Image from "next/image";
-import manWithLaptop from "@/public/images/landing/man-with-laptop.png";
 import { userService } from "@/services/index";
 import { apiBaseUrl } from "@/utils/baseUrl";
 import useNotify from "@/hooks/useNotify";
@@ -87,7 +86,7 @@ const Testimonial = () => {
             {...options}
           >
             {testimonials?.map((testimonial, index) => (
-              <div className="testimonials-item">
+              <div className="testimonials-item" key={index}>
                 <i className="flaticon-left-quotes-sign"></i>
                 <p>
                   {testimonial?.content}

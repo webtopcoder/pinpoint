@@ -13,7 +13,6 @@ import MessageDropdown from "./MessageDropdown";
 import classNames from "classnames";
 
 const index = ({
-  toggle,
   user_id,
   token,
   fullName,
