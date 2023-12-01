@@ -186,7 +186,7 @@ const InteractiveMap = () => {
   }
 
   function getCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.watchPosition(position => {
       const { latitude, longitude } = position.coords;
       setPosition({
         lat: latitude,
@@ -253,6 +253,31 @@ const InteractiveMap = () => {
     setSelectedDestination(activeLocations.find((item) => item._id === id));
   };
 
+  const updateRoute = (currentLocation) => {
+    const directionsService = new google.maps.DirectionsService();
+    if (currentLocation && selectedDestination) {
+      const origin = new google.maps.LatLng(currentLocation.lat, currentLocation.lng);
+      const destination = new google.maps.LatLng(selectedDestination.mapLocation.latitude, selectedDestination.mapLocation.longitude);
+
+      directionsService.route(
+        {
+          origin,
+          destination,
+          travelMode: travelMode === "DRIVING" ? google.maps.TravelMode.DRIVING : travelMode === "BICYCLING"
+            ? google.maps.TravelMode.BICYCLING : travelMode === "WALKING"
+              ? google.maps.TravelMode.WALKING : google.maps.TravelMode.TRANSIT
+        },
+        (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            setDirections(result);
+          } else {
+            console.error('Directions request failed due to ' + status);
+          }
+        }
+      );
+    }
+  };
+
   async function handleDirections() {
     const directionsService = new google.maps.DirectionsService();
     if (selectedDestination) {
@@ -302,15 +327,21 @@ const InteractiveMap = () => {
         );
         return;
       });
-    await navigator.geolocation.getCurrentPosition(
+
+    const watchId = await navigator.geolocation.watchPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
         await setPosition({ lat: latitude, lng: longitude });
+        updateRoute({ lat: latitude, lng: longitude });
       },
       (error) => {
-        console.log(error);
+        console.error('Error getting user location:', error);
       }
     );
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
   }, []);
 
   useEffect(async () => {
@@ -428,7 +459,7 @@ const InteractiveMap = () => {
                         onCloseClick={() => {
                           setIsOpen(false);
                         }}
-                        >
+                      >
                         <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
                       </InfoWindow>
                     )}

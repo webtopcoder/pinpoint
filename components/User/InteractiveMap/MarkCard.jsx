@@ -44,11 +44,11 @@ const MarkCard = ({ item, router, handleDirections, loading }) => {
       ]}
     >
       <Meta
-        style={{ textAlign: 'left', marginBottom: 0 }}
+        style={{ textAlign: 'left' }}
         avatar={<Image width={70} src={`${faviconUrl}/avatar/${item?.arrivalImages[0]?.filepath}`} />}
         title={<p className="fs-4 text-dark">{item?.title}</p>}
         description={
-          <Space size="0" direction="vertical">
+          <Space size="small" direction="vertical">
             <p className="text-dark font-size-16">{item?.description}</p>
             <p>{getDiffToNow(item?.departureAt)} ago</p>
           </Space>
