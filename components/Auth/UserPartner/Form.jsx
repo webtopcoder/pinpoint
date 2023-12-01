@@ -1,3 +1,4 @@
+//optimized
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { loginUser } from "@/redux/User/actions";
@@ -22,18 +23,31 @@ const Form = ({ onLoginUser, token, loggedInRole, option }) => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotify();
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    isRemembered: false
+  });
+
+  useEffect(() => {
+
+    const rememberEmail = localStorage.getItem("email");
+    const rememberCheckbox = localStorage.getItem("checkbox");
+    if (rememberEmail && rememberCheckbox) {
+      setForm({
+        email: rememberEmail,
+        password: localStorage.getItem("password") || "",
+        isRemembered: true,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
       router.push(loggedInRole == "partner" ? "/partner/dashboard" : "/");
     }
   }, [token]);
-  const { notify } = useNotify();
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
 
   const { errors, validateForm, onBlurField } = useLoginFormValidator(
     form
@@ -55,13 +69,27 @@ const Form = ({ onLoginUser, token, loggedInRole, option }) => {
       });
   };
 
+  const rememberMeHandler = (e) => {
+    const isRemembered = e.target.checked;
+    setForm({
+      ...form, isRemembered: isRemembered
+    })
+  };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
     const { isValid } = validateForm({ form, errors, forceTouchErrors: true });
     if (!isValid) return;
     setLoading(true);
-    onLoginUser({ ...form, role: option }, (res, error) => {
+
+    if (form.isRemembered && form.email !== "") {
+      localStorage.setItem("email", form.email);
+      localStorage.setItem("password", form.password);
+      localStorage.setItem("checkbox", form.isRemembered);
+    }
+
+    const { isRemembered, ...newFormData } = form;
+    onLoginUser({ ...newFormData, role: option }, (res, error) => {
       setLoading(false);
       if (error) {
         notify(
@@ -124,6 +152,7 @@ const Form = ({ onLoginUser, token, loggedInRole, option }) => {
             <input
               className="form-check-input"
               type="checkbox"
+              onChange={rememberMeHandler}
               id="remember-me"
             />
             <label className="form-check-label" htmlFor="remember-me">
