@@ -186,7 +186,7 @@ const InteractiveMap = () => {
   }
 
   function getCurrentLocation() {
-    navigator.geolocation.watchPosition(position => {
+    navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       setPosition({
         lat: latitude,
@@ -356,10 +356,12 @@ const InteractiveMap = () => {
     <>
       {contextHolder}
       <PageTitle page="INTERACTIVE MAP" />
-
       <div
-        className="profile-authentication-area bg-f8fbff">
+        className="profile-authentication-area bg-f8fbff" >
         <GoogleMap
+          style={{
+            backdropFilter: 'blur(40px)'
+          }}
           zoom={mapzoom}
           onZoomChanged={handleZoom}
           center={position}
@@ -404,93 +406,39 @@ const InteractiveMap = () => {
           <MarkerClusterer options={clusterOptions}>
             {(clusterer) => (
               <div>
-                {!flag ? activeLocations?.map((item) => (
-                  <Marker key={item?._id} position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
-                    icon={{
-                      url: `${faviconUrl}/avatar/${item?.partner?.category?.image?.filepath}`,
-                      scaledSize: new google.maps.Size(25, 40), // scaled size
-                      origin: new google.maps.Point(0, 0), // origin
-                      anchor: new google.maps.Point(15, 46), // anchor
-                    }}
-                    style={{ width: 0, height: 0 }}
-                    clusterer={clusterer}
-                    onMouseOver={() => {
-                      setIsOpen(true);
-                      handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
-                    }}
-                  >
-                    {isOpen && infoWindowData?.id === item?._id && (
-                      <InfoWindow
-                        options={{
-                          maxWidth: 300
-                        }}
-                        onMouseOut={() => {
-                          setIsOpen(false);
-                        }}
-                        position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
-                        placement="right"
-                        onCloseClick={() => {
-                          setIsOpen(false);
-                        }}
-                      >
-                        <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
-                      </InfoWindow>
-                    )}
-                  </Marker>
-                )) : null}
-                {radiusLocations?.map((item) => (
-                  <Marker key={item?._id} position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
-                    icon={{
-                      url: `${faviconUrl}/avatar/${item?.partner?.category?.image?.filepath}`,
-                      scaledSize: new google.maps.Size(30, 50), // scaled size
-                      origin: new google.maps.Point(0, 0), // origin
-                      anchor: new google.maps.Point(15, 46), // anchor
-                    }}
-                    style={{ width: 0, height: 0 }}
-                    clusterer={clusterer}
-                    onMouseOver={() => {
-                      setIsOpen(true);
-                      handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
-                    }}
-                  >
-                    {isOpen && infoWindowData?.id === item?._id && (
-                      <InfoWindow
-                        position={{ lat: item?.mapLocation?.latitude, lng: item?.mapLocation?.longitude }}
-                        onCloseClick={() => {
-                          setIsOpen(false);
-                        }}
-                      >
-                        <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
-                      </InfoWindow>
-                    )}
-                  </Marker>
-                ))}
-                {eventSchedules?.map((item) => (
-                  <Marker key={item?._id} position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
-                    icon={{
-                      url: `${faviconUrl}/event.png`,
-                      scaledSize: new google.maps.Size(25, 40), // scaled size
-                      origin: new google.maps.Point(0, 0), // origin
-                      anchor: new google.maps.Point(15, 46), // anchor
-                    }}
-                    style={{ width: 0, height: 0 }}
-                    clusterer={clusterer}
-                    onMouseOver={() => {
-                      setIsOpen(true);
-                      handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address);
-                    }}
-                  >
-                    {isOpen && infoWindowData?.id === item?._id && (
-                      <InfoWindow
-                        position={{ lat: item?.centerAddress?.latitude, lng: item?.centerAddress?.longitude }}
-                        onCloseClick={() => {
-                          setIsOpen(false);
-                        }}>
-                        <MarkCardArea item={item} router={router} handleDirections={handleDirections} loading={loading} />
-                      </InfoWindow>
-                    )}
-                  </Marker>
-                ))}
+                {[...activeLocations, ...radiusLocations, ...eventSchedules].map((item) => {
+                  const isEvent = item && item.hasOwnProperty('centerAddress');
+                  const markerProperties = {
+                    key: item?._id,
+                    position: { lat: isEvent ? item?.centerAddress?.latitude : item?.mapLocation?.latitude, lng: isEvent ? item?.centerAddress?.longitude : item?.mapLocation?.longitude },
+                    icon: {
+                      url: isEvent ? `${faviconUrl}/event.png` : `${faviconUrl}/avatar/${item?.partner?.category?.image?.filepath}`,
+                      scaledSize: new google.maps.Size(25, 40),
+                      origin: new google.maps.Point(0, 0),
+                      anchor: new google.maps.Point(15, 46),
+                    },
+                    style: { width: 0, height: 0 },
+                    clusterer: clusterer,
+                    onMouseOver: () => handleMarkerClick(item?._id, item?.mapLocation?.latitude, item?.mapLocation?.longitude, item?.mapLocation?.address),
+                  };
+
+                  return (
+                    <Marker {...markerProperties}>
+                      {isOpen && infoWindowData?.id === item?._id && (
+                        <InfoWindow
+                          position={{ lat: isEvent ? item?.centerAddress?.latitude : item?.mapLocation?.latitude, lng: isEvent ? item?.centerAddress?.longitude : item?.mapLocation?.longitude }}
+                          onCloseClick={() => setIsOpen(false)}
+                        >
+                          {isEvent ? (
+                            <MarkCardArea item={item} router={router} handleDirections={handleDirections} loading={loading} />
+                          ) : (
+                            <MarkCard item={item} router={router} handleDirections={handleDirections} loading={loading} />
+                          )}
+                        </InfoWindow>
+                      )}
+                    </Marker>
+                  );
+                })}
               </div>
             )}
           </MarkerClusterer>
