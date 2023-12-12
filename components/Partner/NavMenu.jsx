@@ -44,6 +44,7 @@ const NavMenu = ({ menu }) => {
                         <NavLink
                             className={classnames({ active: menu === "3" })}
                             onClick={() => {
+                                router.push('/eventhost/event-schedule')
                             }}
                         >
                             <i className="bx bx-detail d-block check-nav-icon mt-4 mb-2" />
