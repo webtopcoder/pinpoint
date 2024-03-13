@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
+      - run: npm install --force
       - run: npm run build
       # Use rsync to deploy only build files
       - name: rsync deployments
